@@ -286,6 +286,7 @@ section.success a.active {
 }
 
 .floating-label-form-group input,
+.floating-label-form-group span,
 .floating-label-form-group textarea {
     z-index: 1;
     position: relative;
