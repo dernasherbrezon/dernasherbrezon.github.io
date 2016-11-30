@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html lang="en" class="ie8"><![endif]-->
+<!--[if IE 9]><html lang="en" class="ie9"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<title>Новости 2.0</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- CSS Global Compulsory -->
+<link rel="stylesheet" href="/css/bootstrap-3.3.4.css">
+<script src="/js/jquery-1.11.1.js"></script>
+<script src="/js/bootstrap-3.3.4.js"></script>
+<style>
+.panel-shadow {
+	box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+}
+
+.panel-white {
+	border: 1px solid #dddddd;
+}
+
+.panel-white  .panel-heading {
+	color: #333;
+	background-color: #fff;
+	border-color: #ddd;
+}
+
+.panel-white  .panel-footer {
+	background-color: #fff;
+	border-color: #ddd;
+}
+
+.post .post-heading {
+	height: 95px;
+	padding: 20px 15px;
+}
+
+.post .post-heading .avatar {
+	width: 60px;
+	height: 60px;
+	display: block;
+	margin-right: 15px;
+}
+
+.post .post-heading .meta .title {
+	margin-bottom: 0;
+}
+
+.post .post-heading .meta .time {
+	margin-top: 8px;
+	color: #999;
+}
+
+.post .post-image .image {
+	width: 100%;
+	height: auto;
+}
+
+.post .post-description {
+	padding: 15px;
+}
+
+.post .post-description p {
+	font-size: 14px;
+}
+
+.post .post-description .stats {
+	margin-top: 20px;
+}
+
+.post .post-description .stats .stat-item {
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.post .post-description .stats .stat-item .icon {
+	margin-right: 8px;
+}
+
+.post .post-footer {
+	border-top: 1px solid #ddd;
+	padding: 15px;
+}
+
+.post .post-footer .input-group-addon a {
+	color: #454545;
+}
+
+.post .post-footer .comments-list {
+	padding: 0;
+	margin-top: 20px;
+	list-style-type: none;
+}
+
+.post .post-footer .comments-list .comment {
+	display: block;
+	width: 100%;
+	margin: 20px 0;
+}
+
+.post .post-footer .comments-list .comment .avatar {
+	width: 35px;
+	height: 35px;
+}
+
+.post .post-footer .comments-list .comment .comment-heading {
+	display: block;
+	width: 100%;
+}
+
+.post .post-footer .comments-list .comment .comment-heading .user {
+	font-size: 14px;
+	font-weight: bold;
+	display: inline;
+	margin-top: 0;
+	margin-right: 10px;
+}
+
+.post .post-footer .comments-list .comment .comment-heading .time {
+	font-size: 12px;
+	color: #aaa;
+	margin-top: 0;
+	display: inline;
+}
+
+.post .post-footer .comments-list .comment .comment-body {
+	margin-left: 50px;
+}
+
+.post .post-footer .comments-list .comment>.comments-list {
+	margin-left: 50px;
+}
+</style>
+</head>
+<body class="header-fixed">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/test.html">События</a></li>
+					<li><a href="/project.html">Проекты</a></li>
+				</ul>
+				<form class="navbar-form navbar-left">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder=""> <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="row">
+					<div class="col-md-12">
+						<img class="img-responsive" height="512" width="512" src="/img/default.jpg">
+					</div>
+					<div class="col-md-12">
+						<table class="table table-condensed table-hover">
+							<tr>
+								<td>Вес</td>
+								<td>12 кг</td>
+							</tr>
+							<tr>
+								<td>Стоимость</td>
+								<td>12 млрд руб</td>
+							</tr>
+							<tr>
+								<td>Размер</td>
+								<td>1200 человек</td>
+							</tr>
+							<tr>
+								<td>Время жизни</td>
+								<td>5 лет</td>
+							</tr>
+							<tr>
+								<td>Начало эксплуатации</td>
+								<td>12-12-2012</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#event" aria-controls="home" role="tab" data-toggle="tab">События</a></li>
+					<li role="presentation"><a href="#plan" aria-controls="profile" role="tab" data-toggle="tab">План разработки</a></li>
+					<li role="presentation"><a href="#comments" aria-controls="profile" role="tab" data-toggle="tab">Комментарии</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="event">
+						<table id="events" class="table table-hover">
+							<thead>
+								<tr>
+									<th style="width: 15%"></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>8 минут назад</td>
+									<td><a href="/details.html">Протон-М</a> запущен <a href="/details.html">Байконур</a></td>
+								</tr>
+								<tr>
+									<td>8 минут назад</td>
+									<td><a href="/details.html">функционально-грузового блока «Заря»</a> выведен <a href="/details.html">космос</a></td>
+								</tr>
+								<tr>
+									<td>8 минут назад</td>
+									<td><a href="/details.html">Союз-2.1а</a> запущен <a href="/details.html">Байконур</a></td>
+								</tr>
+								<tr>
+									<td>8 минут назад</td>
+									<td><a href="/details.html">Восточный</a> стоимость <a href="/details.html">84 млрд рублей</a></td>
+								</tr>
+								<tr>
+									<td>8 минут назад</td>
+									<td><a href="/details.html">военные строители</a> начало постройки <a href="/details.html">Байконур</a></td>
+								</tr>
+								<tr>
+									<td>8 минут назад</td>
+									<td><a href="/details.html">телескоп Hubble</a> окончание эксплуатации <a href="/details.html">2021-06-30</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="plan">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th style="width: 10%;"></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td>2015</td>
+									<td>2016</td>
+									<td>2017</td>
+									<td>2018</td>
+								</tr>
+								<tr>
+									<td><a href="/details.html"><strong>Ракетоноситель ДВ15-С</strong></a><br> <small class="text-muted">by <a href="/details.html">Энергия</a></small></td>
+									<td></td>
+									<td colspan="2">
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+										</div>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="/details.html"><strong>Лунная база</strong></a><br> <small class="text-muted">by <a href="/details.html">Роскосмос</a></small></td>
+									<td colspan="4">
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><a href="/details.html"><strong>Супер робот</strong></a><br> <small class="text-muted">by <a href="/details.html">Роснано</a></small></td>
+									<td></td>
+									<td></td>
+									<td colspan="2">
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div role="tabpanel" class="tab-pane" id="comments">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="panel post">
+									<div class="post-heading">
+										<div class="pull-left image">
+											<img src="/img/avatar_2x.png" class="img-circle avatar" alt="user profile image">
+										</div>
+										<div class="pull-left meta">
+											<div class="title h5">
+												<a href="#"><b>Рогозин</b></a>
+											</div>
+											<h6 class="text-muted time">
+												<span class="glyphicon glyphicon-share-alt"></span>&nbsp;<a href="">5 дней назад</a>
+											</h6>
+										</div>
+									</div>
+									<div class="post-description">
+										<p>Это лучшее что мы можем себе позволить</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="panel post">
+									<div class="post-heading">
+										<div class="pull-left image">
+											<img src="/img/avatar_2x.png" class="img-circle avatar" alt="user profile image">
+										</div>
+										<div class="pull-left meta">
+											<div class="title h5">
+												<a href="#"><b>Песков</b></a>
+											</div>
+											<h6 class="text-muted time">
+												<span class="glyphicon glyphicon-share-alt"></span>&nbsp;<a href="">2 дня назад</a>
+											</h6>
+										</div>
+									</div>
+									<div class="post-description">
+										<p>Вот и хорошо! Какие мы молодцы</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
