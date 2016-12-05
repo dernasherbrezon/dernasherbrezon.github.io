@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html lang="en" class="ie8"><![endif]-->
+<!--[if IE 9]><html lang="en" class="ie9"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<title>Новости 2.0</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- CSS Global Compulsory -->
+<link rel="stylesheet" href="/css/bootstrap-3.3.4.css">
+<link rel="stylesheet" href="/css/font-awesome-4.5.0.css">
+<link rel="stylesheet" href="/css/metricsgraphics.css">
+<script src="/js/jquery-1.11.1.js"></script>
+<script src="/js/bootstrap-3.3.4.js"></script>
+<style>
+.panel-shadow {
+	box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+}
+
+.panel-white {
+	border: 1px solid #dddddd;
+}
+
+.panel-white  .panel-heading {
+	color: #333;
+	background-color: #fff;
+	border-color: #ddd;
+}
+
+.panel-white  .panel-footer {
+	background-color: #fff;
+	border-color: #ddd;
+}
+
+.post .post-heading {
+	height: 95px;
+	padding: 20px 15px;
+}
+
+.post .post-heading .avatar {
+	width: 60px;
+	height: 60px;
+	display: block;
+	margin-right: 15px;
+}
+
+.post .post-heading .meta .title {
+	margin-bottom: 0;
+}
+
+.post .post-heading .meta .time {
+	margin-top: 8px;
+	color: #999;
+}
+
+.post .post-image .image {
+	width: 100%;
+	height: auto;
+}
+
+.post .post-description {
+	padding: 15px;
+}
+
+.post .post-description p {
+	font-size: 14px;
+}
+
+.post .post-description .stats {
+	margin-top: 20px;
+}
+
+.post .post-description .stats .stat-item {
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.post .post-description .stats .stat-item .icon {
+	margin-right: 8px;
+}
+
+.post .post-footer {
+	border-top: 1px solid #ddd;
+	padding: 15px;
+}
+
+.post .post-footer .input-group-addon a {
+	color: #454545;
+}
+
+.post .post-footer .comments-list {
+	padding: 0;
+	margin-top: 20px;
+	list-style-type: none;
+}
+
+.post .post-footer .comments-list .comment {
+	display: block;
+	width: 100%;
+	margin: 20px 0;
+}
+
+.post .post-footer .comments-list .comment .avatar {
+	width: 35px;
+	height: 35px;
+}
+
+.post .post-footer .comments-list .comment .comment-heading {
+	display: block;
+	width: 100%;
+}
+
+.post .post-footer .comments-list .comment .comment-heading .user {
+	font-size: 14px;
+	font-weight: bold;
+	display: inline;
+	margin-top: 0;
+	margin-right: 10px;
+}
+
+.post .post-footer .comments-list .comment .comment-heading .time {
+	font-size: 12px;
+	color: #aaa;
+	margin-top: 0;
+	display: inline;
+}
+
+.post .post-footer .comments-list .comment .comment-body {
+	margin-left: 50px;
+}
+
+.post .post-footer .comments-list .comment>.comments-list {
+	margin-left: 50px;
+}
+</style>
+</head>
+<body class="header-fixed">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/test.html">События</a></li>
+					<li><a href="/project.html">Проекты</a></li>
+				</ul>
+				<form class="navbar-form navbar-left">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder=""> <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Союз-ФГ&rarr;Длина</h1>
+				<div id="myChart" class="row" style="height: 400px;"></div>				
+			</div>
+		</div>
+	</div>
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="/js/metricsgraphics.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	d3.json('data/small-range.json', function(data) {
+	    data = MG.convert.date(data, 'date');
+	    MG.data_graphic({
+	        data: data,
+	        interpolate: d3.curveLinear,
+	        full_width: true,
+	        height: 400,
+	        right: 40,
+	        mouseover: function(d, i) {
+	            d3.select('#myChart svg .mg-active-datapoint')
+	                .html("<tspan x=\"0\" dy=\"1.2em\">Дата: " + d.date.toLocaleString("ru") + "</tspan><tspan x=\"0\" dy=\"1.2em\">Длина: " + d.value + " м</tspan><tspan x=\"0\" dy=\"1.2em\">Событие: " + d.event + "</tspan>");
+	        },
+	        target: '#myChart'
+	    });
+	});
+});
+</script>
+</body>
+</html>
