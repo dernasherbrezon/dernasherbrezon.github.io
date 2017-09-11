@@ -1,0 +1,52 @@
+baseURL = "/"
+title = "Blog"
+copyright = ""
+
+theme = "minimo"
+
+disqusShortname = ""
+googleAnalytics = ""
+Paginate = 5
+
+preserveTaxonomyNames = true
+
+[params]
+  dateFormat = "2 Jan 2006"
+  copyrightOwner = ""
+  copyrightStartYear = ""
+  favicon = "favicon.ico"
+  hideEntryNavigation = false
+  hideSocialMenu = false
+  showReadTime = true
+
+[params.seo]
+  # Title Separator: - – — · • * ⋆ | ~ « » < >
+  titleSeparator = "•"
+
+[params.opengraph]
+  [params.opengraph.facebook]
+    admins = ""
+    appid = ""
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[social]
+  facebook = ""
+
+[author]
+  name = ""
+
+[permalinks]
+  page = "/:slug/"
+
+# Language Configuration
+defaultContentLanguage = "ru"
+
+[languages]
+  # edit this block for your own language
+  [languages.en]
+    lang = "ru"
+    languageName = "Russian"
+    weight = 1
