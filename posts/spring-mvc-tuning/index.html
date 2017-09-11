@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
+ ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.'>
+
+<meta property='og:title' content='Оптимизация spring-mvc • Blog'>
+<meta property='og:description' content='Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
+ ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.'>
+<meta property='og:url' content='/posts/spring-mvc-tuning/'>
+<meta property='og:site_name' content='Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2011-11-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2011-11-11T13:14:18&#43;01:00'/>
+
+<meta name="generator" content="Hugo 0.27" />
+
+  <title>Оптимизация spring-mvc • Blog</title>
+  <link rel='canonical' href='/posts/spring-mvc-tuning/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&subset=latin'>
+<link rel='stylesheet' href='/css/main.67a788c9.css'>
+
+
+
+</head>
+
+
+<body class='page'>
+  <div class='site'>
+    <header id='header' class='header-container'>
+      <div class='site-header'>
+        <nav id='navmenu' aria-label='Main Menu'>
+  <ul class='main-menu'>
+    
+  </ul>
+</nav>
+
+        <div class='site-info'>
+          
+          <p class='site-title title'>Blog</p>
+          
+          <p class='site-description'></p>
+        </div>
+      </div>
+    </header>
+
+
+<main class='main'>
+  <article lang='en' class='entry'>
+    <header class='entry-header'>
+  <div class='entry-info'>
+    <h1 class='entry-title title'>Оптимизация spring-mvc</h1>
+    
+  </div>
+  
+<div class='meta'>
+  <span class='posted-on'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+
+    <span class='screen-reader'>Posted on </span>
+    <time class='date' datetime='2011-11-11T13:14:18&#43;01:00'>11 Nov 2011</time>
+  </span>
+  
+  
+  <span class='reading-time'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/> 
+  
+</svg>
+
+    5 mins read
+  </span>
+  
+</div>
+
+
+</header>
+
+    <div class='entry-content'>
+  <p>Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:</p>
+
+<ul>
+<li>ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память?</li>
+<li>Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов. При оптимизации выполненной ниже и использовании Jetty результат такой же. Возможно это актуально для других контейнеров.</li>
+<li>Не использовать jstl. Достаточно спорное предположение, однако кто то может не использовать jstl и писать на обычных JSP. Я не знаю jstl. И пишу &lt;% %&gt;.
+<br /></li>
+</ul>
+
+<p>Итак первая достаточно безболезненная оптимизация не требующая никаких жертв: выключить publishEvent в DispatcherServlet. По умолчанию он отправляет в ApplicationContext сообщение о времени обработки запроса. В production зачастую уже поздно что то мерить. Делается это в web.xml:</p>
+
+<pre><code>&lt;init-param&gt;  
+ &lt;param-name&gt;publishEvents&lt;/param-name&gt;  
+ &lt;param-value&gt;false&lt;/param-value&gt;  
+&lt;/init-param&gt;
+</code></pre>
+
+<p>Избавиться от @RequestMapping. Это очень удобно передавать @Param напрямую в метод. Однако реализация AnnotationMethodHandlerAdapter в spring-mvc достаточно требовательна к ресурсам и генерирует кучу мусора на каждый запрос. Логичнее было бы сделать найденные методы кешируемыми, но согласно <a href="https://jira.springsource.org/browse/SPR-6151">https://jira.springsource.org/browse/SPR-6151</a> разработчики считают сложным пофиксить. Поэтому для простоты и небольшого увеличения скорости сделаем новый контроллёр:</p>
+
+<pre><code>public interface FastController {  
+
+    String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception;  
+
+    String getRequestMappingURL();  
+}
+</code></pre>
+
+<p>Чем он лучше чем org.springframework.web.servlet.mvc.Controller? Он позволяет задавать url в том же месте где и содержится его реализация. Не нужно делать лишних движений чтобы добавить его в spring.xml. Соответственно необходимо определить классы которые будут его использовать:</p>
+
+<pre><code>public class FastUrlDetector extends AbstractDetectingUrlHandlerMapping {  
+
+
+    public FastUrlDetector() {  
+        setAlwaysUseFullPath(true);  
+        setUrlDecode(false);  
+    }  
+
+    @Override  
+    protected String[] determineUrlsForHandler(String beanName) {  
+        ApplicationContext context = getApplicationContext();  
+        Class&lt;?&gt; handlerType = context.getType(beanName);  
+        if (FastController.class.isAssignableFrom(handlerType)) {  
+            FastController controller = (FastController) context.getBean(beanName);  
+            String result = controller.getRequestMappingURL();  
+            if (result == null) {  
+                throw new IllegalArgumentException(&quot;controller doesnt have url mapping: &quot; + beanName);  
+            }  
+            if( result.isEmpty() ) {  
+                throw new IllegalArgumentException(&quot;controller doesnt have url mapping: &quot; + beanName);  
+            }  
+            if( !result.startsWith(&quot;/&quot;) ) {  
+                throw new IllegalArgumentException(&quot;only absolute urls are required. Beanname: &quot; + beanName + &quot; Url: &quot; + result);  
+            }  
+            return new String[]{result};  
+        }  
+        return null;  
+    }  
+
+}  
+
+public class FastMethodHandlerAdapter implements HandlerAdapter {  
+
+    public boolean supports(Object handler) {  
+        return (handler instanceof FastController);  
+    }  
+
+    public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {  
+        return new ModelAndView(((FastController) handler).handleRequest(request, response));  
+    }  
+
+    public long getLastModified(HttpServletRequest request, Object handler) {  
+ if (handler instanceof LastModified) {  
+  return ((LastModified) handler).getLastModified(request);  
+ }  
+        return -1;  
+    }  
+
+}
+</code></pre>
+
+<p>Они практически не генерируют мусора. Убрать new ModelAndView не получится не переписав DispatcherServlet. Тем более генерация ModelAndView занимает небольшой процент мусора генерируемого при каждом запросе. После этого необходимо добавить Adapter и Decoder в spring.xml чтобы они автоматически подцеплялись DispatcherServlet при поиске контроллёров.</p>
+
+<pre><code>&lt;bean class=&quot;FastMethodHandlerAdapter&quot;/&gt;  
+&lt;bean class=&quot;FastUrlDetector&quot; /&gt;  
+</code></pre>
+
+<p>Далее. Следующим большим местом которое генерирует много мусора является Renderer. Я не знаю как работает jstl и почему spring-mvc делает множество приседаний для его работы. Поэтому я просто выкинул JstlView (которое используется по умолчанию для .jsp) и заменил его на:</p>
+
+<pre><code>public class FastJSPView extends AbstractUrlBasedView {  
+
+    @Override  
+    protected void renderMergedOutputModel(Map&lt;String, Object&gt; model, HttpServletRequest request, HttpServletResponse response) throws Exception {  
+        RequestDispatcher rd = request.getRequestDispatcher(getUrl());  
+        if (useInclude(request, response)) {  
+            response.setContentType(getContentType());  
+            if (logger.isDebugEnabled()) {  
+                logger.debug(&quot;Including resource [&quot; + getUrl() + &quot;] in InternalResourceView '&quot; + getBeanName() + &quot;'&quot;);  
+            }  
+            rd.include(request, response);  
+        }  
+
+        else {  
+            if (logger.isDebugEnabled()) {  
+                logger.debug(&quot;Forwarding to resource [&quot; + getUrl() + &quot;] in InternalResourceView '&quot; + getBeanName() + &quot;'&quot;);  
+            }  
+            rd.forward(request, response);  
+        }          
+    }  
+
+    protected boolean useInclude(HttpServletRequest request, HttpServletResponse response) {  
+        return (WebUtils.isIncludeRequest(request) || response.isCommitted());  
+    }  
+
+}  
+
+public class FastJSPViewResolver extends UrlBasedViewResolver {  
+
+    public FastJSPViewResolver() {  
+        setViewClass(FastJSPView.class);  
+    }  
+
+}  
+</code></pre>
+
+<p>Часть кода в FastJSPView скопирована с JstlView. И соответственно необходимо добавить в spring.xml:</p>
+
+<pre><code>&lt;bean id=&quot;viewResolver&quot;  
+ class=&quot;com.st.FastJSPViewResolver&quot;&gt;  
+ &lt;property name=&quot;prefix&quot;&gt;  
+  &lt;value&gt;/WEB-INF/pages/&lt;/value&gt;  
+ &lt;/property&gt;  
+ &lt;property name=&quot;suffix&quot;&gt;  
+  &lt;value&gt;.jsp&lt;/value&gt;  
+ &lt;/property&gt;  
+&lt;/bean&gt; 
+</code></pre>
+
+<p>Чтобы проверить что есть некоторые улучшения ниже приведён тестовый контроллер который перенаправляет запрос в jsp:</p>
+
+<pre><code>@Controller  
+public class FastServlet implements FastController {  
+
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {  
+        return &quot;index2&quot;;  
+    }  
+
+    public String getRequestMappingURL() {  
+        return &quot;/test2&quot;;  
+    }  
+
+} 
+</code></pre>
+
+<p>Аннотация @Controller используется для автоматического поиска контроллёра в classpath при старте приложения. В результате под нагрузкой jmeter (50 пользователей) получаются следующие показатели:</p>
+
+<ul>
+<li>Настройки GC по умолчанию. Оптимизированная версия ~3 коллекции в секунду, неоптимизированная ~6 коллекций</li>
+<li>Latency &amp; throughtput одинаковые для обоих версий.</li>
+<li>Время работы HandlerAdapter.handle (от общего времени обработки запроса): для оптимизированной версии 0%, неоптимизированной 31%. Результат впечатляющий. Очевидно это связано с тем что вызов метода напрямую быстрее поиска метода по аанотации и вызова через Reflection</li>
+<li>Время работы для DispatcherServlet.getLastModified: для оптимизированной версии 0%, неоптимизированной 11%. Связано с тем что AbstractHandlerMapping.getHandler использует абсолютные пути и не использует DefaultAnnotationHandlerMapping.</li>
+<li>Среднее количество генерируемых объектов в минуту: для оптимизированной версии 4к-5к, неоптимизированной 9к-14к. Уменьшение в 2 раза!
+<br /></li>
+</ul>
+
+<p>Дополнительные находки:</p>
+
+<ul>
+<li>ServletRequestAttributes. Не очень удачная абстракция. На каждый запрос создаётся этот объект. Не совсем понятно зачем он нужен когда обычный HTTPServletRequest предоставляет методы setAttribute и getAttribute и пр.</li>
+<li>Не очень удачная имплементация некоторых объектов в Jetty: Response.setLocale, Request.getRequestDispatcher, Dispatcher.forward. После оптимизации они стали теми местами которые генерируют наибольшее количество мусора. Не совсем понятно зачем им генерировать много объектов, также непонятно почему они не кешируют результаты вычислений.</li>
+<li>при использовании for each генерируется итератор, который превращается в мусор. Настольные microbenchmark&rsquo;и показали что итерация по ArrayList при использовании простых индексов быстрее в два раза.
+<br /></li>
+</ul>
+
+<p>Выводы:</p>
+
+<ul>
+<li>чем больше слоёв абстракции и &ldquo;упрощений&rdquo;, тем медленнее обработка.</li>
+<li>текущие технологии есть куда оптимизировать.</li>
+<li>нужно хорошо понимать что можно оптимизировать а что нет
+<br /></li>
+</ul>
+
+</div>
+
+    
+<footer class='entry-footer'>
+  
+    
+  
+    
+  
+</footer>
+
+
+  </article>
+
+  
+    
+<nav class='entry-nav'>
+  <div class='entry-nav-links'><div class='prev-entry'>
+      <a href='/posts/jetty-embedded-maven/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader'>Previous post: </span>Jetty Embedded Maven</a>
+    </div><div class='next-entry'>
+      <a href='/posts/spring-jmx-tuning/'>
+        <span class='screen-reader'>Next post: </span>Оптимизация spring jmx<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+  
+
+  
+    <div class='comments-container'>
+  
+</div>
+
+  
+</main>
+
+    <footer id='footer' class='footer-container'>
+      <div class='footer'>
+        <div class='social'>
+  <nav aria-label='Social Menu'>
+    <ul class='social-menu'></ul>
+  </nav>
+</div>
+
+        <div class='copyright'>
+          <p>
+  &copy; 2017 Blog</p>
+
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src='/js/main.af838dd5.js'></script>
+  
+
+</body>
+
+</html>
+

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности. Тестовый POJO:
+public class BusinessObject { @NotBlank private String name; @CustomNotNull(groups = { APIValidationGroup.class }) private String uuid; public String getName() { return name; } public void setName(String name) { this.name = name; } public String getUuid() { return uuid; } public void setUuid(String uuid) { this.uuid = uuid; } }  Для чистоты эксперимента и приближения к реальному сценарию я сделал кастомную валидацию, которая просто проверяет на null:'>
+
+<meta property='og:title' content='Производительность Hibernate Validator • Blog'>
+<meta property='og:description' content='Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности. Тестовый POJO:
+public class BusinessObject { @NotBlank private String name; @CustomNotNull(groups = { APIValidationGroup.class }) private String uuid; public String getName() { return name; } public void setName(String name) { this.name = name; } public String getUuid() { return uuid; } public void setUuid(String uuid) { this.uuid = uuid; } }  Для чистоты эксперимента и приближения к реальному сценарию я сделал кастомную валидацию, которая просто проверяет на null:'>
+<meta property='og:url' content='/posts/hibernate-perf/'>
+<meta property='og:site_name' content='Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2012-04-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2012-04-11T13:14:18&#43;01:00'/>
+
+<meta name="generator" content="Hugo 0.27" />
+
+  <title>Производительность Hibernate Validator • Blog</title>
+  <link rel='canonical' href='/posts/hibernate-perf/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&subset=latin'>
+<link rel='stylesheet' href='/css/main.67a788c9.css'>
+
+
+
+</head>
+
+
+<body class='page'>
+  <div class='site'>
+    <header id='header' class='header-container'>
+      <div class='site-header'>
+        <nav id='navmenu' aria-label='Main Menu'>
+  <ul class='main-menu'>
+    
+  </ul>
+</nav>
+
+        <div class='site-info'>
+          
+          <p class='site-title title'>Blog</p>
+          
+          <p class='site-description'></p>
+        </div>
+      </div>
+    </header>
+
+
+<main class='main'>
+  <article lang='en' class='entry'>
+    <header class='entry-header'>
+  <div class='entry-info'>
+    <h1 class='entry-title title'>Производительность Hibernate Validator</h1>
+    
+  </div>
+  
+<div class='meta'>
+  <span class='posted-on'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+
+    <span class='screen-reader'>Posted on </span>
+    <time class='date' datetime='2012-04-11T13:14:18&#43;01:00'>11 Apr 2012</time>
+  </span>
+  
+  
+  <span class='reading-time'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/> 
+  
+</svg>
+
+    3 mins read
+  </span>
+  
+</div>
+
+
+</header>
+
+    <div class='entry-content'>
+  <p>Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности.
+Тестовый POJO:</p>
+
+<pre><code>public class BusinessObject {  
+
+    @NotBlank  
+    private String name;  
+    @CustomNotNull(groups = { APIValidationGroup.class })  
+    private String uuid;  
+
+    public String getName() {  
+        return name;  
+    }  
+
+    public void setName(String name) {  
+        this.name = name;  
+    }  
+
+    public String getUuid() {  
+        return uuid;  
+    }  
+
+    public void setUuid(String uuid) {  
+        this.uuid = uuid;  
+    }  
+
+}  
+</code></pre>
+
+<p>Для чистоты эксперимента и приближения к реальному сценарию я сделал кастомную валидацию, которая просто проверяет на null:</p>
+
+<pre><code>public class CustomNotNullValidator implements ConstraintValidator&lt;CustomNotNull, String&gt; {  
+
+    public void initialize(CustomNotNull constraintAnnotation) {  
+    }  
+
+    public boolean isValid(String value, ConstraintValidatorContext context) {  
+        if( value == null ) {  
+            return false;  
+        }  
+        return true;  
+    }  
+}
+</code></pre>
+
+<p>Собственно сам тест:</p>
+
+<pre><code>public static void main(String[] args) {  
+
+    int heatCount = 10000;  
+    int count = 1000000;  
+
+    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();  
+
+    BusinessObject validObject = new BusinessObject();  
+     validObject.setName(&quot;123&quot;);  
+     validObject.setUuid(&quot;123&quot;);  
+
+     for (int i = 0; i &lt; heatCount; i++) {  
+      validator.validate(validObject, Default.class);  
+     }  
+
+     long start = System.currentTimeMillis();  
+     for (int i = 0; i &lt; count; i++) {  
+      validator.validate(validObject, Default.class);  
+     }  
+     long diff = (System.currentTimeMillis() - start);  
+     System.out.println(&quot;hibernate validation absolute: &quot; + diff + &quot; avg: &quot; + ((double)diff / count));  
+
+     for (int i = 0; i &lt; heatCount; i++) {  
+      validate(validObject);  
+     }  
+
+     start = System.currentTimeMillis();  
+     for (int i = 0; i &lt; count; i++) {  
+      validate(validObject);  
+     }  
+     diff = (System.currentTimeMillis() - start);  
+     System.out.println(&quot;static validation absolute: &quot; + diff + &quot; avg: &quot; + ((double)diff / count));  
+
+     start = System.currentTimeMillis();  
+     for (int i = 0; i &lt; count; i++) {  
+      validator.validate(validObject, APIValidationGroup.class);  
+     }  
+     diff = (System.currentTimeMillis() - start);  
+     System.out.println(&quot;hibernate custom validation absolute: &quot; + diff + &quot; avg: &quot; + ((double)diff / count));  
+
+     start = System.currentTimeMillis();  
+     for (int i = 0; i &lt; count; i++) {  
+      validateCustom(validObject);  
+     }  
+     diff = (System.currentTimeMillis() - start);  
+     System.out.println(&quot;static custom validation absolute: &quot; + diff + &quot; avg: &quot; + ((double)diff / count));  
+    }  
+
+    private static boolean validate(BusinessObject obj) {  
+     if (StringUtils.isBlank(obj.getName())) {  
+      return false;  
+     }  
+     return true;  
+    }  
+
+    private static boolean validateCustom(BusinessObject obj) {  
+     if (!validate(obj)) {  
+      return false;  
+     }  
+     if (obj.getUuid() == null) {  
+      return false;  
+     }  
+     return true;  
+}
+</code></pre>
+
+<p>Результаты выполнения следующие (hibernate validator 4.2.0.Final):</p>
+
+<ul>
+<li>hibernate validation absolute: 2410 avg: 0.00241</li>
+<li>static validation absolute: 17 avg: 1.7E-5</li>
+<li>hibernate custom validation absolute: 3407 avg: 0.003407</li>
+<li>static custom validation absolute: 16 avg: 1.6E-5
+<br /></li>
+</ul>
+
+<p>Выводы:</p>
+
+<ol>
+<li>Hibernate валидация на ровном месте даёт падение производительности в ~150 раз. Поэтому если Ваше приложение это low-latency система, то, возможно, стоит подумать сколько объектов нужно проверять и как много полей. Возможно (но не гарантированно) стоит делать проверки через static методы.</li>
+<li>Однако если посмотреть абсолютные величины, то заметно, что удобство и гибкость в настройки валидации стоит всего 0.002 миллисекунды. Если у Вас CRUD интернет приложение, то Hibernate validator будет гораздо лучшим выбором.</li>
+</ol>
+
+</div>
+
+    
+<footer class='entry-footer'>
+  
+    
+  
+    
+  
+</footer>
+
+
+  </article>
+
+  
+    
+<nav class='entry-nav'>
+  <div class='entry-nav-links'><div class='prev-entry'>
+      <a href='/posts/spring-jmx-tuning/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader'>Previous post: </span>Оптимизация spring jmx</a>
+    </div><div class='next-entry'>
+      <a href='/posts/substring/'>
+        <span class='screen-reader'>Next post: </span>Pattern vs indexOf &#43; substring<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+  
+
+  
+    <div class='comments-container'>
+  
+</div>
+
+  
+</main>
+
+    <footer id='footer' class='footer-container'>
+      <div class='footer'>
+        <div class='social'>
+  <nav aria-label='Social Menu'>
+    <ul class='social-menu'></ul>
+  </nav>
+</div>
+
+        <div class='copyright'>
+          <p>
+  &copy; 2017 Blog</p>
+
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src='/js/main.af838dd5.js'></script>
+  
+
+</body>
+
+</html>
+

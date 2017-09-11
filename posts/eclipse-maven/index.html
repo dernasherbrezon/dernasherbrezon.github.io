@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Maven в Eclipse - это очень удобно.
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
+
+<meta property='og:title' content='Eclipse Maven Integration 0.9.6 • Blog'>
+<meta property='og:description' content='Maven в Eclipse - это очень удобно.
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
+<meta property='og:url' content='/posts/eclipse-maven/'>
+<meta property='og:site_name' content='Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2009-01-10T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2009-01-10T13:14:18&#43;01:00'/>
+
+<meta name="generator" content="Hugo 0.27" />
+
+  <title>Eclipse Maven Integration 0.9.6 • Blog</title>
+  <link rel='canonical' href='/posts/eclipse-maven/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&subset=latin'>
+<link rel='stylesheet' href='/css/main.67a788c9.css'>
+
+
+
+</head>
+
+
+<body class='page'>
+  <div class='site'>
+    <header id='header' class='header-container'>
+      <div class='site-header'>
+        <nav id='navmenu' aria-label='Main Menu'>
+  <ul class='main-menu'>
+    
+  </ul>
+</nav>
+
+        <div class='site-info'>
+          
+          <p class='site-title title'>Blog</p>
+          
+          <p class='site-description'></p>
+        </div>
+      </div>
+    </header>
+
+
+<main class='main'>
+  <article lang='en' class='entry'>
+    <header class='entry-header'>
+  <div class='entry-info'>
+    <h1 class='entry-title title'>Eclipse Maven Integration 0.9.6</h1>
+    
+  </div>
+  
+<div class='meta'>
+  <span class='posted-on'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+
+    <span class='screen-reader'>Posted on </span>
+    <time class='date' datetime='2009-01-10T13:14:18&#43;01:00'>10 Jan 2009</time>
+  </span>
+  
+  
+  <span class='reading-time'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/> 
+  
+</svg>
+
+    2 mins read
+  </span>
+  
+</div>
+
+
+</header>
+
+    <div class='entry-content'>
+  <p>Maven в Eclipse - это очень удобно.</p>
+
+<p>Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант:
+Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).</p>
+
+<p>Вот тут то и возникает проблема. Вернее маленькое неудобство. Хочется выполнять тесты с помощью JUnit&rsquo;a встроенного в Eclipse. Потому что удобно. Однако он как то странно съинтегрирован с maven&rsquo;ом и похоже видит только классы скомпилированные JDT. Поэтому если нажать Run -&gt; JUnit Test то можно увидеть сообщение: NoClassDefFoundError: /my/test/Class</p>
+
+<p>Решение проблемы два:</p>
+
+<ol>
+<li>Выполнять компиляцию тестов с помощью maven&rsquo;а а затем выполнять запуск junit тестов. Но это же слишком неудобно? Каждый раз при изменении класса запускать компиляцию maven&rsquo;ом, поэтому есть ещё один путь.</li>
+<li>Написать нехитрые настройки.
+<br /></li>
+</ol>
+
+<p>У каждого maven-проекта есть родительским pom. Поэтому в родительском pom&rsquo;е нужно:</p>
+
+<pre><code>&lt;build&gt;  
+    &lt;outputdirectory&gt;${output.dir}&lt;/outputdirectory&gt;  
+    &lt;testoutputdirectory&gt;${testoutput.dir}&lt;/testoutputdirectory&gt;  
+    ...  
+&lt;/build&gt;  
+
+&lt;properties&gt;  
+    &lt;output.dir&gt;${basedir}/target/classes&lt;/output.dir&gt;  
+    &lt;testoutput.dir&gt;${basedir}/target/test-classes&lt;/testoutput.dir&gt;  
+&lt;/properties&gt;  
+
+&lt;profiles&gt;  
+    &lt;profile&gt;  
+        &lt;id&gt;eclipse-folders&lt;/id&gt;  
+        &lt;properties&gt;  
+            &lt;output.dir&gt;${basedir}/target/eclipse&lt;/output.dir&gt;  
+            &lt;testoutput.dir&gt;${basedir}/target/eclipse&lt;/testoutput.dir&gt;  
+        &lt;/properties&gt;  
+    &lt;/profile&gt;  
+&lt;/profiles&gt;
+</code></pre>
+
+<p>В настройках проекта:</p>
+
+<ul>
+<li>Maven -&gt; Active Maven Profiles написать &ldquo;eclipse-folders&rdquo;</li>
+<li>Java build Path -&gt; Default Output Folder написать &ldquo;target/eclipse&rdquo; и в настройках папок ресурсов (типа &ldquo;/src/test/resources&rdquo;) удалить Excluded чтобы ресурсы подцеплялись при запуске тестов (например log4j.properties)
+<br /></li>
+</ul>
+
+<p>Я ещё отключил Maven Builder. Но думаю это необязательно.</p>
+
+</div>
+
+    
+<footer class='entry-footer'>
+  
+    
+  
+    
+  
+</footer>
+
+
+  </article>
+
+  
+    
+<nav class='entry-nav'>
+  <div class='entry-nav-links'><div class='next-entry'>
+      <a href='/posts/imq-connection-glassfish/'>
+        <span class='screen-reader'>Next post: </span>IMQ Connection Concurrent Glassfish<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+  
+
+  
+    <div class='comments-container'>
+  
+</div>
+
+  
+</main>
+
+    <footer id='footer' class='footer-container'>
+      <div class='footer'>
+        <div class='social'>
+  <nav aria-label='Social Menu'>
+    <ul class='social-menu'></ul>
+  </nav>
+</div>
+
+        <div class='copyright'>
+          <p>
+  &copy; 2017 Blog</p>
+
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src='/js/main.af838dd5.js'></script>
+  
+
+</body>
+
+</html>
+

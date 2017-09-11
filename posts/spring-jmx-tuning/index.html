@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
+ spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast &#43; старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.'>
+
+<meta property='og:title' content='Оптимизация spring jmx • Blog'>
+<meta property='og:description' content='Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
+ spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast &#43; старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.'>
+<meta property='og:url' content='/posts/spring-jmx-tuning/'>
+<meta property='og:site_name' content='Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2011-12-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2011-12-11T13:14:18&#43;01:00'/>
+
+<meta name="generator" content="Hugo 0.27" />
+
+  <title>Оптимизация spring jmx • Blog</title>
+  <link rel='canonical' href='/posts/spring-jmx-tuning/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&subset=latin'>
+<link rel='stylesheet' href='/css/main.67a788c9.css'>
+
+
+
+</head>
+
+
+<body class='page'>
+  <div class='site'>
+    <header id='header' class='header-container'>
+      <div class='site-header'>
+        <nav id='navmenu' aria-label='Main Menu'>
+  <ul class='main-menu'>
+    
+  </ul>
+</nav>
+
+        <div class='site-info'>
+          
+          <p class='site-title title'>Blog</p>
+          
+          <p class='site-description'></p>
+        </div>
+      </div>
+    </header>
+
+
+<main class='main'>
+  <article lang='en' class='entry'>
+    <header class='entry-header'>
+  <div class='entry-info'>
+    <h1 class='entry-title title'>Оптимизация spring jmx</h1>
+    
+  </div>
+  
+<div class='meta'>
+  <span class='posted-on'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+
+    <span class='screen-reader'>Posted on </span>
+    <time class='date' datetime='2011-12-11T13:14:18&#43;01:00'>11 Dec 2011</time>
+  </span>
+  
+  
+  <span class='reading-time'>
+    <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/> 
+  
+</svg>
+
+    2 mins read
+  </span>
+  
+</div>
+
+
+</header>
+
+    <div class='entry-content'>
+  <p>Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:</p>
+
+<ul>
+<li>spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast + старт только необходимого.</li>
+<li>org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов. Как это происходит: если spring бин - лениво инициализируется, то создаётся proxy через cglib который и будет jmx бином. При первом обращении к его методам/аттрибутам происходит инициализация spring бина.
+<br /></li>
+</ul>
+
+<p>Проблема:</p>
+
+<ul>
+<li>возможна инициализация ненужных соединений. Список бинов содержит все возможные jmx бины.
+<br /></li>
+</ul>
+
+<p>Решение:</p>
+
+<ul>
+<li>Необходимо создать BeanPostProcessor для контроля уже проинициализированных бинов.
+<br /></li>
+</ul>
+
+<p>Например:</p>
+
+<pre><code>import java.util.ArrayList;  
+import java.util.List;  
+
+import org.springframework.beans.BeansException;  
+import org.springframework.beans.factory.config.BeanPostProcessor;  
+
+public class StartedBeansAwarePostProcessor implements BeanPostProcessor {  
+
+ private final List&lt;String&gt; beanNames = new ArrayList&lt;String&gt;();  
+
+ @Override  
+ public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {  
+  return bean;  
+ }  
+
+ @Override  
+ public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {  
+  beanNames.add(beanName);  
+  return bean;  
+ }  
+
+ public boolean isStarted(String beanName) {  
+  return beanNames.contains(beanName);  
+ }  
+
+} 
+</code></pre>
+
+<p>После этого необходимо создать свой Assembler. Например:</p>
+
+<pre><code>import org.springframework.beans.factory.annotation.Required;  
+import org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler;  
+import org.springframework.jmx.support.JmxUtils;  
+
+public class LazyAssembler extends MetadataMBeanInfoAssembler {  
+
+ private StartedBeansAwarePostProcessor startedBeans;  
+
+ @Override  
+ public boolean includeBean(Class beanClass, String beanName) {  
+  if (startedBeans.isStarted(beanName)) {  
+   if (isMBean(beanClass)) {  
+    return true;  
+   }  
+   return super.includeBean(beanClass, beanName);  
+  }  
+  return false;  
+ }  
+
+ @Required  
+ public void setStartedBeans(StartedBeansAwarePostProcessor startedBeans) {  
+  this.startedBeans = startedBeans;  
+ }  
+
+ private boolean isMBean(Class beanClass) {  
+  return JmxUtils.isMBean(beanClass);  
+ }  
+
+} 
+</code></pre>
+
+<p>И сконфигурировать spring контекст:</p>
+
+<pre><code>&lt;bean id=&quot;lazyAssembler&quot; class=&quot;LazyAssembler&quot; p:attributeSource-ref=&quot;jmxAttributeSource&quot;&gt;  
+ &lt;property name=&quot;startedBeans&quot; ref=&quot;startedBeanAwarePostProcessor&quot; /&gt;  
+&lt;/bean&gt;  
+&lt;bean id=&quot;startedBeanAwarePostProcessor&quot; class=&quot;StartedBeansAwarePostProcessor&quot; /&gt;  
+&lt;bean name=&quot;mbeanServer&quot; class=&quot;org.springframework.jmx.support.MBeanServerFactoryBean&quot; p:locateExistingServerIfPossible=&quot;true&quot; /&gt;  
+&lt;bean id=&quot;jmxAttributeSource&quot; class=&quot;org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource&quot; /&gt;  
+&lt;bean id=&quot;mbeanExporter&quot; class=&quot;org.springframework.jmx.export.MBeanExporter&quot;  
+ p:server-ref=&quot;mbeanServer&quot;&gt;  
+ &lt;property name=&quot;assembler&quot; ref=&quot;lazyAssembler&quot; /&gt;  
+ &lt;property name=&quot;autodetectMode&quot; value=&quot;2&quot; /&gt;  
+ &lt;property name=&quot;namingStrategy&quot;&gt;  
+  &lt;bean class=&quot;org.springframework.jmx.export.naming.MetadataNamingStrategy&quot;&gt;  
+   &lt;property name=&quot;attributeSource&quot; ref=&quot;jmxAttributeSource&quot; /&gt;  
+   &lt;property name=&quot;defaultDomain&quot; value=&quot;domain&quot; /&gt;  
+  &lt;/bean&gt;  
+ &lt;/property&gt;  
+&lt;/bean&gt; 
+</code></pre>
+
+<p>Особое внимание на параметр: autodetectMode. Он должен обязательно быть равен 2, иначе MBeanExporter будет игнорировать Assembler при принятии решении о том включать бин или нет. Теперь можно инициализировать контекст. Например:</p>
+
+<pre><code>ctx.getBean(SomeBean.class); //инициализация корневого бина. По зависимостям должна инициализировать все бины необходимые для работы приложения. StartedBeansAwarePostProcessor запоминает все проинициализированные бины.  
+ctx.getBean(&quot;mbeanExporter&quot;); //инициализация jmx бинов. Выполнять строго после инициализации всех бинов приложения.
+</code></pre>
+
+</div>
+
+    
+<footer class='entry-footer'>
+  
+    
+  
+    
+  
+</footer>
+
+
+  </article>
+
+  
+    
+<nav class='entry-nav'>
+  <div class='entry-nav-links'><div class='prev-entry'>
+      <a href='/posts/spring-mvc-tuning/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader'>Previous post: </span>Оптимизация spring-mvc</a>
+    </div><div class='next-entry'>
+      <a href='/posts/hibernate-perf/'>
+        <span class='screen-reader'>Next post: </span>Производительность Hibernate Validator<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+  
+
+  
+    <div class='comments-container'>
+  
+</div>
+
+  
+</main>
+
+    <footer id='footer' class='footer-container'>
+      <div class='footer'>
+        <div class='social'>
+  <nav aria-label='Social Menu'>
+    <ul class='social-menu'></ul>
+  </nav>
+</div>
+
+        <div class='copyright'>
+          <p>
+  &copy; 2017 Blog</p>
+
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src='/js/main.af838dd5.js'></script>
+  
+
+</body>
+
+</html>
+
