@@ -1,7 +1,12 @@
 ---
-title: "Refactoring legacy System"
+title: "Рефакторинг старых систем"
 date: 2009-05-11T13:14:18+01:00
 draft: false
+tags:
+  - идеи
+  - java
+  - refactoring
+  
 ---
 Навеяно http://www.amazon.com/Working-Effectively-Legacy-Robert-Martin/dp/0131177052
 
@@ -11,7 +16,7 @@ draft: false
     * Добавить комментарий.
     * Более предпочтительный. Использовать @deprecated. Например смысл переменной price изменился. По всей системе она используется как amount. Как будет выглядеть рефакторинг:
 
-Before
+До
     
 	public class Pojo {  
 	    private Integer price;  
@@ -23,7 +28,7 @@ Before
 	    }  
 	}
 
-After:
+После:
     
 	public class Pojo {  
 	    private Integer amount;  
@@ -65,7 +70,7 @@ After:
   * Писать интеграционные тесты с базами данных другими сервисами и пр. Но это неудобно если нужно протестировать небольшую часть системы. 
   * Немного отрефакторить синглетон
   
-Before
+До
 
 	public class Aplication {  
 	     private static Application instance;  
@@ -81,7 +86,7 @@ Before
 	     }  
 	} 
 
-After
+После
 
 	public class Aplication {  
 	     protected static final String APPLICATION_CLASS_NAME = "application";  

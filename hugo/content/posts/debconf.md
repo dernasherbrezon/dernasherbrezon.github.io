@@ -1,5 +1,5 @@
 ---
-title: "debconf tutorial"
+title: "Сборка пакета с помощью debconf"
 date: 2012-08-11T13:14:18+01:00
 draft: false
 description: сборка .deb пакета с помощью debconf

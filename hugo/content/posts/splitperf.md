@@ -1,7 +1,11 @@
 ---
-title: "Split Performance"
+title: "Производительность функции split"
 date: 2012-08-11T15:14:18+01:00
 draft: false
+tags:
+  - java
+  - производительность
+  - String
 ---
 В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.
 
@@ -27,12 +31,13 @@ draft: false
 
   - Стабильно плохой результат показывает Pattern.split. Он генерирует множество объектов, да и слишком общий для решения такой частной задачи. Использования паттерна это достаточно большой overhead.
   - для не lazy тестов google guava показывает достаточно плохой результат. Видимо это связано с количеством мусора который генерирует библиотека. В исходных кодах можно найти следующие конструкции:
-  
-	> String description = new StringBuilder("CharMatcher.is(")  
-    >     .append(Integer.toHexString(match))  
-    >     .append(")")  
-    >     .toString();  
-    > return new CharMatcher(description) {...}; 
+
+		String description = new StringBuilder("CharMatcher.is(")  
+		    .append(Integer.toHexString(match))  
+		    .append(")")  
+		    .toString();  
+		return new CharMatcher(description) {...}; 
+
   - Заметное отставание даёт commons-lang на lazy итерациях. Наверное потому, что они не поддерживаются.
   - Как всегда победителем становится собственная реализация.
   

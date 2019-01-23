@@ -1,7 +1,11 @@
 ---
-title: "Eclipse Maven Integration 0.9.6"
+title: "Интеграция Eclipse и Maven"
 date: 2009-01-10T13:14:18+01:00
 draft: false
+tags:
+  - java
+  - maven
+  - eclipse
 ---
 Maven в Eclipse - это очень удобно.
 

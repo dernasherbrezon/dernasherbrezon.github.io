@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on dernasherbrezon</title>
+    <link>https://dernasherbrezon.github.io/tags/java/</link>
+    <description>Recent content in java on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 11 Oct 2012 15:14:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Log4j DOMConfigurator</title>
+      <link>https://dernasherbrezon.github.io/posts/dom4jconfigurator/</link>
+      <pubDate>Thu, 11 Oct 2012 15:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/dom4jconfigurator/</guid>
+      <description>DOMConfigurator не поддерживает подстановку свойств при реконфигурации. Будьте бдительны!
+Use case:
+ Конфигурация по умолчанию с использованием log4j.configuration параметра Получение свойств и проставление через System.setProperty() DOMConfigurator.configure(System.getProperty(&amp;quot;log4j.configuration&amp;quot;))  </description>
+    </item>
+    
+    <item>
+      <title>Производительность функции split</title>
+      <link>https://dernasherbrezon.github.io/posts/splitperf/</link>
+      <pubDate>Sat, 11 Aug 2012 15:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/splitperf/</guid>
+      <description>В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.
+Для тестирования выбраны следующие кандидаты:
+ JDK Guava Apache commons-lang Custom   Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.
+Поскольку Guava поддерживает lazy вычисление, то была добавлена ещё одна комбинация: отложенная итерация по результатам и непосредственная итерация.</description>
+    </item>
+    
+    <item>
+      <title>Выбор быстрого алгоритма поиска подстроки</title>
+      <link>https://dernasherbrezon.github.io/posts/substring/</link>
+      <pubDate>Mon, 11 Jun 2012 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/substring/</guid>
+      <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
+ ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;ldquo;$1&amp;rdquo; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring   Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
+У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
+    </item>
+    
+    <item>
+      <title>Производительность Hibernate Validator</title>
+      <link>https://dernasherbrezon.github.io/posts/hibernate-perf/</link>
+      <pubDate>Wed, 11 Apr 2012 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/hibernate-perf/</guid>
+      <description>Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности. Тестовый POJO:
+public class BusinessObject { @NotBlank private String name; @CustomNotNull(groups = { APIValidationGroup.class }) private String uuid; public String getName() { return name; } public void setName(String name) { this.name = name; } public String getUuid() { return uuid; } public void setUuid(String uuid) { this.uuid = uuid; } }  Для чистоты эксперимента и приближения к реальному сценарию я сделал кастомную валидацию, которая просто проверяет на null:</description>
+    </item>
+    
+    <item>
+      <title>Оптимизация spring jmx</title>
+      <link>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</link>
+      <pubDate>Sun, 11 Dec 2011 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</guid>
+      <description>Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
+ spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast + старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.</description>
+    </item>
+    
+    <item>
+      <title>Оптимизация spring-mvc</title>
+      <link>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</link>
+      <pubDate>Fri, 11 Nov 2011 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</guid>
+      <description>Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
+ ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.</description>
+    </item>
+    
+    <item>
+      <title>Запуск Jetty Embedded через spring</title>
+      <link>https://dernasherbrezon.github.io/posts/jetty-embedded-maven/</link>
+      <pubDate>Thu, 11 Nov 2010 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/jetty-embedded-maven/</guid>
+      <description>Для начала необходимо добавить зависимости в pom.xml:
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-server&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;exclusions&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jndi-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-annotation-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jaas-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;example-async-rest-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;/exclusions&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-servlet&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-jsp-2.1&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-context&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-webmvc&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;  Затем в main-class указать:</description>
+    </item>
+    
+    <item>
+      <title>Рефакторинг старых систем</title>
+      <link>https://dernasherbrezon.github.io/posts/refactoring-legacy/</link>
+      <pubDate>Mon, 11 May 2009 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/refactoring-legacy/</guid>
+      <description>Навеяно http://www.amazon.com/Working-Effectively-Legacy-Robert-Martin/dp/0131177052
+Мне достаточно часто приходилось работать с наследными системами. Поэтому выработал некоторые свои собственные интересные практики при работе с такими системами.
+ Зачастую имена классов, методов и переменных не отражают сути. В таких случаях обычно переименовывают их. Однако в наследных системах такого делать не рекомендуется. Даже при использовании мощных инструментов в современных IDE. Это связано с тем что в конечном итоге подобные системы собираются своими скриптами сборки, зачастую такими же запутанными и очень confuse&amp;rsquo;ными как и сам код.</description>
+    </item>
+    
+    <item>
+      <title>Glassfish Async JMS JCA</title>
+      <link>https://dernasherbrezon.github.io/posts/glassfish-async-jms-jca/</link>
+      <pubDate>Sat, 11 Apr 2009 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/glassfish-async-jms-jca/</guid>
+      <description>Достаточно интересное и недокументированное поведение Glassfish v.2.0.
+Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&amp;rsquo;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
+Решение:
+ Создать инициализацию message listener&amp;rsquo;a в отдельном потоке через WorkManager.  </description>
+    </item>
+    
+    <item>
+      <title>IMQ Connection Concurrent Glassfish</title>
+      <link>https://dernasherbrezon.github.io/posts/imq-connection-glassfish/</link>
+      <pubDate>Sun, 11 Jan 2009 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/imq-connection-glassfish/</guid>
+      <description>Наблюдается следующая проблема:
+thread1:
+javax.jms.Connection conn = connFactory.createConnection(); Work connectionHandler = new MyWorker(conn); WorkManager.scheduleWork(connectionHandler);  thread2 (MyWorker):
+Session s = conn.createSession(...); Consumer c = s.createConsumer(someDestination); Message m = c.receive();  При receive JMSException и пишет что consumer closed. Однако если:
+thread1:
+Work connectionHandler = new MyWorker(connFactory); WorkManager.scheduleWork(connectionHandler);  thread2 (MyWorker):
+javax.jms.Connection conn = connFactory.createConnection(); Session s = conn.createSession(...); Consumer c = s.createConsumer(someDestination); Message m = c.receive();  То всё работает. Happy holidays</description>
+    </item>
+    
+    <item>
+      <title>Интеграция Eclipse и Maven</title>
+      <link>https://dernasherbrezon.github.io/posts/eclipse-maven/</link>
+      <pubDate>Sat, 10 Jan 2009 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/eclipse-maven/</guid>
+      <description>Maven в Eclipse - это очень удобно.
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&amp;rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&amp;rsquo;шный стандартно в output folder для Eclipse&amp;rsquo;a, а maven&amp;rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
+    </item>
+    
+  </channel>
+</rss>

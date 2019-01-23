@@ -2,6 +2,10 @@
 title: "Производительность Hibernate Validator"
 date: 2012-04-11T13:14:18+01:00
 draft: false
+tags:
+  - java
+  - hibernate
+  - validator
 ---
 Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности. 
 Тестовый POJO:

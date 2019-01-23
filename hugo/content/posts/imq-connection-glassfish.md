@@ -2,6 +2,10 @@
 title: "IMQ Connection Concurrent Glassfish"
 date: 2009-01-11T13:14:18+01:00
 draft: false
+tags:
+  - java
+  - j2ee
+  - glassfish
 ---
 Наблюдается следующая проблема:
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>j2ee on dernasherbrezon</title>
+    <link>https://dernasherbrezon.github.io/tags/j2ee/</link>
+    <description>Recent content in j2ee on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 11 Apr 2009 13:14:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.github.io/tags/j2ee/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Glassfish Async JMS JCA</title>
+      <link>https://dernasherbrezon.github.io/posts/glassfish-async-jms-jca/</link>
+      <pubDate>Sat, 11 Apr 2009 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/glassfish-async-jms-jca/</guid>
+      <description>Достаточно интересное и недокументированное поведение Glassfish v.2.0.
+Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&amp;rsquo;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
+Решение:
+ Создать инициализацию message listener&amp;rsquo;a в отдельном потоке через WorkManager.  </description>
+    </item>
+    
+    <item>
+      <title>IMQ Connection Concurrent Glassfish</title>
+      <link>https://dernasherbrezon.github.io/posts/imq-connection-glassfish/</link>
+      <pubDate>Sun, 11 Jan 2009 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/imq-connection-glassfish/</guid>
+      <description>Наблюдается следующая проблема:
+thread1:
+javax.jms.Connection conn = connFactory.createConnection(); Work connectionHandler = new MyWorker(conn); WorkManager.scheduleWork(connectionHandler);  thread2 (MyWorker):
+Session s = conn.createSession(...); Consumer c = s.createConsumer(someDestination); Message m = c.receive();  При receive JMSException и пишет что consumer closed. Однако если:
+thread1:
+Work connectionHandler = new MyWorker(connFactory); WorkManager.scheduleWork(connectionHandler);  thread2 (MyWorker):
+javax.jms.Connection conn = connFactory.createConnection(); Session s = conn.createSession(...); Consumer c = s.createConsumer(someDestination); Message m = c.receive();  То всё работает. Happy holidays</description>
+    </item>
+    
+  </channel>
+</rss>

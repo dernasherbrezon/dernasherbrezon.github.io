@@ -1,9 +1,14 @@
 ---
-title: "Jetty Embedded Maven"
+title: "Запуск Jetty Embedded через spring"
 date: 2010-11-11T13:14:18+01:00
 draft: false
+tags:
+  - java
+  - maven
+  - jetty
+  - spring
 ---
-First of all, dependencies:
+Для начала необходимо добавить зависимости в pom.xml:
 
 	<dependency>  
 	 <groupId>org.eclipse.jetty</groupId>  
@@ -64,7 +69,7 @@ First of all, dependencies:
 	 <version>3.0.1.RELEASE</version>  
 	</dependency>
 
-Then main class itself:
+Затем в ```main-class``` указать:
 
 	Server server = new Server(9090);  
 	ServletHolder holder = new ServletHolder(new DispatcherServlet());  
@@ -75,7 +80,7 @@ Then main class itself:
 	server.start();  
 	server.join();
 
-Also WEB-INF/root-servlet.xml should exist:
+После этого создать WEB-INF/root-servlet.xml:
 
 	<?xml version="1.0" encoding="UTF-8"?>  
 	<beans  xmlns="http://www.springframework.org/schema/beans"   

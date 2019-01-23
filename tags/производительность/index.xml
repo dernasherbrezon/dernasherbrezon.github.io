@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>производительность on dernasherbrezon</title>
+    <link>https://dernasherbrezon.github.io/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
+    <description>Recent content in производительность on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 11 Aug 2012 15:14:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.github.io/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Производительность функции split</title>
+      <link>https://dernasherbrezon.github.io/posts/splitperf/</link>
+      <pubDate>Sat, 11 Aug 2012 15:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/splitperf/</guid>
+      <description>В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.
+Для тестирования выбраны следующие кандидаты:
+ JDK Guava Apache commons-lang Custom   Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.
+Поскольку Guava поддерживает lazy вычисление, то была добавлена ещё одна комбинация: отложенная итерация по результатам и непосредственная итерация.</description>
+    </item>
+    
+    <item>
+      <title>Выбор быстрого алгоритма поиска подстроки</title>
+      <link>https://dernasherbrezon.github.io/posts/substring/</link>
+      <pubDate>Mon, 11 Jun 2012 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/substring/</guid>
+      <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
+ ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;ldquo;$1&amp;rdquo; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring   Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
+У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
+    </item>
+    
+    <item>
+      <title>Оптимизация spring jmx</title>
+      <link>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</link>
+      <pubDate>Sun, 11 Dec 2011 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</guid>
+      <description>Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
+ spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast + старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.</description>
+    </item>
+    
+    <item>
+      <title>Оптимизация spring-mvc</title>
+      <link>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</link>
+      <pubDate>Fri, 11 Nov 2011 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</guid>
+      <description>Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
+ ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.</description>
+    </item>
+    
+  </channel>
+</rss>

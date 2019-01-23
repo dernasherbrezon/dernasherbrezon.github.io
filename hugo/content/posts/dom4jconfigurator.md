@@ -2,6 +2,9 @@
 title: "Log4j DOMConfigurator"
 date: 2012-10-11T15:14:18+01:00
 draft: false
+tags:
+  - java
+  - log4j
 ---
 DOMConfigurator не поддерживает подстановку свойств при реконфигурации. Будьте бдительны!
 
