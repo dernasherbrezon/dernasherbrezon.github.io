@@ -25,7 +25,7 @@ tags:
 Какие же есть альтернативы?
 
 Самой известной считается [Openstack Swift](https://docs.openstack.org/swift/latest/). Swift (OpenStack Object Storage) — это полностью распределенное «безграничное» хранилище, которое характеризуется отказоустойчивостью и высокой надежностью. Создано как конкурент Amazon S3. Его преимущества:
-- В России как минимум 2 провайдера предоставляют Swift как сервис: [Clodo](http://lib.clodo.ru/cloud-storage/cloudstorage.html) и [Selectel](https://habr.com/company/selectel/blog/304032/)
+- В России как минимум 2 провайдера предоставляют Swift как сервис: [Clodo](http://lib.clodo.ru/cloud-storage/cloudstorage.html) и [Selectel](https://selectel.ru/services/cloud/storage/)
 - Данные находятся в России
 - Если Вы достаточно большие, то можете поднять его у себя
 - Все плюсы облачного хранилища: оплата за непосредственно используемые ресурсы, распределенное хранение, отказоустойчивость, 24/7.
