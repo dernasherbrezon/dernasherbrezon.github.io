@@ -1,12 +1,12 @@
 ---
-title: "Спецификация конструкции CubeSat (CubeSat Design Specification (CDS))"
+title: "Спецификация конструкции CubeSat"
 date: 2013-09-24T13:14:18+01:00
 draft: false
+tags:
+  - кубсат
+  - спецификация
+  - перевод
 ---
-
-<div class="pull-right">
-	<a href="cubesat-revision.html">История изменений</a>
-</div>
 
 ## 1. Введение.
 
