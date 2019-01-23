@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C&#43;&#43;. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с Метеор-М №2.
+Предисловие Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='DSP на Java • dernasherbrezon'>
+<meta property='og:description' content='Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C&#43;&#43;. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с Метеор-М №2.
+Предисловие Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад.'>
+<meta property='og:url' content='https://dernasherbrezon.github.io/posts/dsp-java/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='dsp'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2018-03-08T17:22:18&#43;01:00'/><meta property='article:modified_time' content='2018-03-08T17:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>DSP на Java • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.github.io/posts/dsp-java/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0588235294117647em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0588235294117647em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0588235294117647em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0588235294117647em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1em'>jetty</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1764705882352942em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberry-pi/' style='font-size:1.0588235294117647em'>raspberry pi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0588235294117647em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.1764705882352942em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'></p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>DSP на Java</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2018-03-08T17:22:18&#43;01:00'>08-03-2018</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<p>Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C++. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с <a href="https://ru.wikipedia.org/wiki/Метеор-М_№2" target="_blank">Метеор-М №2</a>.</p>
+
+<p><img src="evf0t2iu5xcammoaobfgopwewai.png" alt="DSP in Java" /></p>
+
+<h1 id="предисловие">Предисловие</h1>
+
+<p>Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад. Каждый пишет, что хочет, в каком хочет формате и совершенно не заботится о результатах. Яркий тому пример - декодирование сигнала с Метеор-М. <a href="https://www.rtl-sdr.com/rtl-sdr-tutorial-receiving-meteor-m-n2-lrpt-weather-satellite-images-rtl-sdr/" target="_blank">Обычно</a> алгоритм получения картинки выглядит следующим образом:
+1. Записать сигнал
+2. Запустить SDR# с определёнными плагинами и настройками и демодулировать сигнал. На выходе получается бинарный файл.
+3. Запустить LRPToffLineDecoder и на вход передать бинарный файл, полученный ранее.
+4. Из LRPToffLineDecoder сохранить картинку куда-нибудь.</p>
+
+<p>Видимо, всех радиолюбителей такой подход устраивал, если за 9 лет существования спутника на орбите, ничего лучше не было придумано. Но для <a href="https://github.com/dernasherbrezon/r2cloud" target="_blank">автоматического</a> получения картинки такой подход не работает:
+1. Весь софт работает под Windows
+2. Нельзя запускать в headless режиме. Софт - это формочки с кнопочками.
+3. Невозможно получить обратную связь по приёму сигнала. Нет никаких метрик, по которым можно было бы оценить хорошо или плохо была принята картинка.</p>
+
+<p>Из-за этого я забросил вэб формочки кровавого энтепрайза и начал долгое погружение в гремучий мир DSP. На полное декодирование сигнала у меня ушло 2 месяца свободного времени.</p>
+
+<p>Разбор сигнала логически можно представить как две фазы:
+1. Демодуляция. Преобразование аудио-сигнала в информацию.
+2. Декодирование. Преобразование информации в понятный пользователю вид.</p>
+
+<h1 id="демодуляция">Демодуляция</h1>
+
+<p>Согласно <a href="http://meteor.robonuka.ru/wp-content/uploads/2014/08/pdf_spe_95413_eps_hrpt-lrpt.pdf" target="_blank">официальной документации</a> сигнал модулирован с помощью <a href="https://ru.wikipedia.org/wiki/Фазовая_манипуляция" target="_blank">QPSK</a>. Если в кратце, то для передачи двух бит информации используется одно положение фазы.</p>
+
+<p>Итак, нужно демодулировать QPSK сигнал на Java. То ли никому это неинтересно, то ли Java медленная, но я не нашёл ни одной библиотеки, которые бы это делали. Поэтому я взял <a href="https://github.com/otti-soft/meteor-m2-lrpt" target="_blank">существующий</a> проект демодуляции QPSK сигнала для GNURadio и начал переписывать блоки на Java.</p>
+
+<p><img src="jcsaroyobfqo11zvh3jino1qq7i.png" alt="QPSK demodulation" /></p>
+
+<h2 id="блоки-демодуляции">Блоки демодуляции</h2>
+
+<p><strong>WavFile source</strong> и <strong>Float to Complex</strong>. Чтение из .wav файла <a href="https://ru.wikipedia.org/wiki/Синфазная_и_квадратурная_составляющие_сигнала" target="_blank">IQ</a> сигнала. Значения записаны в файле последовательно. Сначала реальная часть, потом мнимая, потом реальная и так далее. В GNURadio есть свои типы данных и каждый блок рассчин для работы только с определёнными. Так как у нас QPSK модуляция, то нам нужно использовать комплексные числа. Здесь ничего сложного, так как в Java есть поддержка .wav файлов - AudioSystem.getAudioInputStream(inputStream).</p>
+
+<p><strong>Low Pass Filter</strong>. Это первый фильтр, который предназначен для фильтрации низких частот. Так как наш сигнал занимает 130Mhz, то нам надо отфильтровать лишние частоты.</p>
+
+<p><img src="yp4g51xrjxss0v9ho9sqt8rdd4y.png" alt="lowpass" /></p>
+
+<p>На картинке выше, частоты нашего сигнала обведены зелёным. Остальные частоты справа должны быть отфильтрованы. Это делается с помощью <a href="https://ru.wikipedia.org/wiki/Фильтр_с_конечной_импульсной_характеристикой" target="_blank">КИХ-фильтра</a>. Для программиста это выглядит как:
+1. Взять последние N значений, текущее и положить в массив
+2. Перемножить получившийся массив с заранее заданным (вычисляется из ЛАФЧХ фильтра). По сути, перемножение одного вектора на другой.
+3. Все значения результирующего массива сложить.
+4. Это и будет результат.</p>
+
+<p><strong><a href="https://ru.wikipedia.org/wiki/Автоматическая_регулировка_усиления" target="_blank">AGC</a></strong>. Автоматическая регулировка усиления.</p>
+
+<p><img src="hcpmhaclhse8f7-ye05iml_sjvi.png" alt="agc" /></p>
+
+<p>С точки зрения реализации - перемножение входного сигнала на некий уровень и вычисление следующего уровня в зависимости от текущего.</p>
+
+<p><strong><a href="https://en.wikipedia.org/wiki/Root-raised-cosine_filter" target="_blank">Root Raised Cosine Filter</a></strong>. Используется для уменьшения <a href="https://en.wikipedia.org/wiki/Intersymbol_interference" target="_blank">Intersymbol interference</a>. Если вкратце, то при получении сигнала одни уровни переданного сигнала могут накладываться на последующие. Чтобы выделить максимальный уровень сигнала между символами, применяют этот фильтр. Работает так же как и Low Pass Filter, но использует другую <a href="https://ru.wikipedia.org/wiki/Логарифмическая_амплитудно-фазовая_частотная_характеристика#ЛАЧХ_2" target="_blank">ЛАФЧХ</a></p>
+
+<p><img src="42kvsx8xtrx3k14qehe1jziunde.png" alt="rrcf" /></p>
+
+<p><strong><a href="https://ru.wikipedia.org/wiki/Фазовая_автоподстройка_частоты" target="_blank">Costas Loop</a></strong> - это алгоритм фазовой подстройки частоты. Для чего он нужен? Например, для того, чтобы корректировать доплеровское смещение частоты. Так как, мы точно знаем, что фаза у нас скачет по четырём уровням, то можно сравнивать значение двух разных фаз. Если оно отличается на дельта, то корректировать частоту. Это ярче всего видно на картинках внизу.</p>
+
+<p><img src="it-g9hju18tmhnqq0twuj2qizja.png" alt="before costas loop" /></p>
+
+<p>До коррекции частоты, у нас круг (почти). Это значит, что частота немного меняется каждый раз, и точки фазы не попадают в одно и то же место.</p>
+
+<p><img src="um77gdjsnwyirvj1joikwgb8qk4.png" alt="after costas loop" /></p>
+
+<p>Здесь уже значительно лучше - видны 4 отчётливые точки фазы.</p>
+
+<p><strong><a href="https://www.tablix.org/~avian/blog/archives/2015/03/notes_on_m_m_clock_recovery/" target="_blank">Clock recovery MM</a></strong>. Этот блок пытается восстановить шаг часов передатчика и отбрасывает все сэмплы, которые не относятся к изменению уровня. Примерная схема работы изображена ниже:</p>
+
+<p><img src="n1i8mli4sagj4lh-qc_6wif7kjw.jpg" alt="clock recovery in a nutshell" /></p>
+
+<p>После того, как все лишние сэмплы выкинуты, получается хорошее QPSK созвездие.</p>
+
+<p><img src="cxrwwpey0e-solb-mig03ua1dvs.png" alt="clock recovery" /></p>
+
+<p><strong>Constellation Soft Decoder</strong>. Этот блок преобразует координаты в вероятность битов. Тут надо остановится поподробнее, так это очень важно в дальнейшем. Допустим все точки у которых координаты положительные будут отображаться в пару &ldquo;00&rdquo;.</p>
+
+<p><img src="s3bddzcvb9z7te0u7y2hjhyt6ua.png" alt="initial" /></p>
+
+<p>Теперь допустим, что мы получили значение в красной точке.</p>
+
+<p><img src="nerub3aklfpmzkksbtdbyo0ik90.png" alt="hard decision" /></p>
+
+<p>Если мы будем делать жёсткое решение, то координаты красной точки мы преобразуем в пару &ldquo;00&rdquo;. При этом мы потеряем информацию о том, что точка-то почти &ldquo;01&rdquo; (в нижним квадранте). А эта информация на самом деле может помочь в декодировании. Есть алгоритмы, которые дают лучшие результаты, если передать эту информацию. Поэтому вместо того, чтобы принимать жёсткое решение, надо посчитать вероятность 0 и вероятность 1. Например 100% вероятность нахождения в правом верхнем квадранте будет 255,255. Использование мягких решений увеличивает поток данных в 8 раз, зато даёт более лучшие результаты при декодировании сигнала. Для того, чтобы посчитать мягкое решение, необходимо рассчитать расстояние между текущей точкой и каждой из точек созвездия.</p>
+
+<p><strong>Rail</strong>, <strong>Float to char</strong>, <strong>File sink</strong>. Эти блоки немного преобразуют результаты и записывают их в файл. Для моего декодера записывать результаты в промежуточный файл не надо. Но в целях отладки было крайне полезно сначала демодулировать сигнал из Java, а затем посмотреть может ли LRPToffLineDecoder извлечь картинку.</p>
+
+<h1 id="декодирование">Декодирование</h1>
+
+<p>Итак, у нас есть поток 0 и 1 из которого нужно получить картинку. Для начала необходимо открыть <a href="http://planet.iitp.ru/spacecraft/meteor_m_n2_structure_2.pdf" target="_blank">официальную документацию</a>, где неплохо описана структура пакетов. Некоторые моменты там были опущены, поэтому я открыл еще <a href="http://meteor.robonuka.ru/wp-content/uploads/2014/08/pdf_spe_95413_eps_hrpt-lrpt.pdf" target="_blank">более официальную документацию</a>.</p>
+
+<p>Декодирование состоит из следующих этапов:
+- поиск в потоке бит синхромаркера. Каждый пакет начинается с него.
+- после того, как синхромаркер был найден, декодировать следующие 16384 бита алгоритмом Витерби
+- результат подвергнуть скрэмблированию, после чего
+- применить коды рида соломона и извлечь данные транспортного кадра
+- из последовательности транспортных кадров извлечь последовательность парциальных пакетов. Для тех, кто изучал <a href="https://ru.wikipedia.org/wiki/Сетевая_модель_OSI" target="_blank">модель OSI</a> вопросов быть не должно.
+- из парциальных пакетов извлечь MCU формата JPEG
+- декодировать пикселы JPEG, используя коды Хаффмана и Run-length coding
+- правильно заполнить пикселами картинку с учётом пропущенных пакетов
+- наложить 3 канала друг на друга с учётом пропущенных пакетов</p>
+
+<p>Пожалуй я не буду здесь рассказывать про каждый из алгоритмов. Они сами по себе потянут на отдельную статью. Хочу лишь выложить результаты работы <a href="https://github.com/dernasherbrezon/jradio" target="_blank">моей программы</a>, <a href="http://meteor.robonuka.ru/for-experts/soft/" target="_blank">официальной</a> и <a href="https://github.com/artlav/meteor_decoder" target="_blank">на паскале</a>.</p>
+
+<p><img src="gjnitpweqxobjmifktc5mli_ehu.jpg" alt="compare" /></p>
+
+<p>К сожалению общая картина занимает 4500x2800px, поэтому я привожу сильно пожатую версию.</p>
+
+<h1 id="оптимизации">Оптимизации</h1>
+
+<p>А при чём тут Java? - скажут самые стойкие, кто смог дочитать до сюда.</p>
+
+<p>Сейчас будет немного Java. Дело в том, что оптимизацию имеет смысл для корректно работающей программы. После каждого шага оптимизации можно запустить тесты и убедиться, что всё по прежнему работает корректно.</p>
+
+<p>Итак, я начну с декодирования. При запуске <a href="https://www.yourkit.com/java/profiler/features/" target="_blank">профайлера</a>, ничего странного не обнаружилось:
+- одно ядро работает на полную мощность
+- самый горячий метод - это <a href="https://ru.wikipedia.org/wiki/Алгоритм_Витерби" target="_blank">декодирование Витерби</a>. Сложность этого алгоритма О(T*S), где T - это длина массива данных, S - пространство состояний. В нашем случае у нас 8 (бит) * 4 (00,01,10,11) = 32.</p>
+
+<p>Помимо CPU, я запустил еще анализ аллокаций объектов. Оказывается, этот метод создаёт миллионы короткоживущих объектов. Они создают лишнюю нагрузку на GC и процессор. Посмотрим, можно ли это оптимизировать. Наивная реализация создаёт связный список для хранения решений каждого входящего бита:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	LinkedList<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span><span style="color:#f92672">[]&gt;</span> decisions <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span><span style="color:#f92672">[]&gt;();</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i <span style="color:#f92672">+=</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> d <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>2<span style="color:#f92672">];</span> <span style="color:#75715e">//decision
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> b <span style="color:#f92672">&lt;</span> 32<span style="color:#f92672">;</span> b<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+			d<span style="color:#f92672">[</span>b <span style="color:#f92672">/</span> 16<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">...;</span>
+		<span style="color:#f92672">}</span>
+		<span style="color:#f92672">...</span>
+		decisions<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>d<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p>Это можно попробовать развернуть в одномерный массив и обращаться к результатам хитро вычисляя индекс. Например так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> decisions <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">];</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i <span style="color:#f92672">+=</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		decisions<span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> b <span style="color:#f92672">/</span> 16<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">...;</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p>В итоге, на одно декодирование создаётся один объект - массив decisions. ViterbiSoft можно ещё дальше оптимизировать. Например, зная то, что размер массива всегда одинаковый, создать long[] decisions в конструкторе и переиспользовать.</p>
+
+<p>Ещё одним проблемным местом оказался класс FixedLengthTagger. Этот класс содержит скользящее окно. Оно работает следующим образом:
+- новый байт читается из источника
+- записывается в конец окна
+- если размер окна больше размера пакета, то удалить байт из начала окна</p>
+
+<p>Наивная реализация использовала LinkedList<Byte> и алгоритм движения окна был такой:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	window<span style="color:#f92672">.</span><span style="color:#a6e22e">offerLast</span><span style="color:#f92672">(</span>curByte<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>window<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> packet_len<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		window<span style="color:#f92672">.</span><span style="color:#a6e22e">removeFirst</span><span style="color:#f92672">();</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p>На самом деле это очень накладная операция, так как на каждую операцию offerLast внутри LinkedList создаётся объект Node. Он будет содержать наш байт и иметь ссылки на следующий элемент списка и предыдущий. Однако, зная, что размер нашего окна фиксированный, его можно заменить на циклический массив:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	window<span style="color:#f92672">[</span>windowIndex<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> curByte<span style="color:#f92672">;</span>
+	windowIndex<span style="color:#f92672">++;</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>windowIndex <span style="color:#f92672">&gt;=</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		windowIndex <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p>Для того, чтобы правильно взять его содержимое надо скопировать данные до текущего указателя первыми и после текущего указателя последними. Как то так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> packet<span style="color:#f92672">;</span>
+	System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>window<span style="color:#f92672">,</span> windowIndex<span style="color:#f92672">,</span> packet<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> windowIndex<span style="color:#f92672">);</span>
+	System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>window<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> packet<span style="color:#f92672">,</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> windowIndex<span style="color:#f92672">,</span> windowIndex<span style="color:#f92672">);</span></code></pre></div>
+<p>Эти две оптимизации позволили уменьшить время декодирования файла с 4 минут до 20 секунд. Для сравнения LRPToffLineDecoder делает это за 40 секунд.</p>
+
+<p>Декодирование можно ещё немного оптимизировать, но в ущерб читаемости. Вместо этого можно попробовать ускорить демодуляцию.</p>
+
+<p>Алгоритмы демодуляции на входе получают большой поток данных, а на выходе выдают сравнительно небольшой. Поэтому эти алгоритмы очень чувствительны к различным оптимизациям. При запуске профайлера, видно, что большая часть приходится именно на математические операции внутри блоков.</p>
+
+<p><img src="aeenpwb8z_nfkpg8w8pfl6iqsuo.png" alt="profiling demodulation" /></p>
+
+<p>Тут мало что можно сделать: память не выделяется, безумных циклов нет. Единственное что интересно проверить это компилирует ли Java JIT код в <a href="https://ru.wikipedia.org/wiki/SIMD" target="_blank">SIMD</a> инструкции. Если вкратце, то это специальные инструкции процессора, которые работают с 128битными регистрами и обрабатывают их одной командой. Схематично это выглядит так:</p>
+
+<p><img src="l7ng0x8bwn8-z4fe1001iwsj9gq.png" alt="simd" /></p>
+
+<p>Как видно, такие инструкции идеально ложаться на КИХ-фильтры. GNURadio использует библиотеку VOLK, которая в зависимости от поддерживаемой архитектуры, может использовать SIMD инструкции. В Java скорей всего вызывать JNI обёртку будет значительно затратнее, чем выигрыш от использования таких инструкций. Одна надежда на JIT, который может съоптимизировать перемножение одного массива на другой. Чтобы это проверить, необходимо запустить JVM с опцией &ldquo;-XX:CompileCommand=print,*FIRFilter.filterComplex&rdquo;. Она заставит JVM выводить ассемблерный код для метода filterComplex из класса FIRFilter.</p>
+
+<p>Вот что у меня получилось при запуске с Oracle JDK 1.8.0_161 на MacBook Air:</p>
+
+<blockquote>
+<p>0x0000000115994750: vmovss 0x10(%r10,%r11,4),%xmm1
+  0x0000000115994757: vmulss 0x10(%rcx,%r11,4),%xmm1,%xmm4
+  0x000000011599475e: vmulss 0x10(%r8,%r11,4),%xmm1,%xmm1
+  0x0000000115994765: vaddss %xmm2,%xmm4,%xmm3
+  0x0000000115994769: vaddss %xmm0,%xmm1,%xmm0
+  0x000000011599476d: movslq %r11d,%r9
+  0x0000000115994770: vmovss 0x1c(%r10,%r9,4),%xmm2
+  0x0000000115994777: vmulss 0x1c(%rcx,%r9,4),%xmm2,%xmm8
+  0x000000011599477e: vmulss 0x1c(%r8,%r9,4),%xmm2,%xmm1
+  0x0000000115994785: vmovss 0x14(%r10,%r9,4),%xmm4
+  0x000000011599478c: vmulss 0x14(%rcx,%r9,4),%xmm4,%xmm2
+  0x0000000115994793: vmulss 0x14(%r8,%r9,4),%xmm4,%xmm5
+  0x000000011599479a: vmovss 0x18(%r10,%r9,4),%xmm4  ;*faload
+                                                ; - ru.r2cloud.jradio.blocks.FIRFilter::filterComplex@24 (line 26)</p>
+</blockquote>
+
+<p>Судя по всему SIMD инструкции не используются.</p>
+
+<p>Ещё одним интересным местом стало вычисление sincos. Блок Costasloop вычисляет значение синуса и косинуса для одного и того же угла (фазы) для каждого входящего значения. В CPU есть специальная команда - fsincos. Она вычисляет одновременно синус и косинус угла. Однако, в Java такой функции нет. Да и реализовывать её непонятно как: надо либо возвращать double[] (а это сильно ударит по GC), либо возвращать одно значение как результат работы функции, а другое через изменяемый параметр (double в функцию Java передаётся копированием, а Double опять же ударит по GC). Наивная же имплементация выглядит так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">float</span> sinImg <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(-</span>d_phase<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">float</span> cosReal <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">cos</span><span style="color:#f92672">(-</span>d_phase<span style="color:#f92672">);</span></code></pre></div>
+<p>Можно попробовать вспомнить тригонометрию и заменить на:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">float</span> sinImg <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(-</span>d_phase<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">float</span> cosReal <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sqrt</span><span style="color:#f92672">(</span>1 <span style="color:#f92672">-</span> sinImg <span style="color:#f92672">*</span> sinImg<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> calculate sign<span style="color:#f92672">;</span></code></pre></div>
+<p>Переход с Math.cos на Math.sqrt позволил сократить время демодуляции с 6 минут до 5 минут и 30 секунд. Тригонометрические операции можно ещё больше ускорить, если использовать <a href="https://ru.wikipedia.org/wiki/Таблица_поиска" target="_blank">таблицы поиска</a>. Однако, я пока не готов исследовать зависимость результатов декодирования от точности таблиц. Может быть кто-нибудь поможет с этим?</p>
+
+<h1 id="заключение">Заключение</h1>
+
+<p>Поскольку я использовал одни и те же блоки для демодуляции сигнала, то можно сравнить время работы Java программы и GNURadio. Как и ожидалось, GNURadio быстрее: ~2 минуты против 5.5 минут. Да, Java почти в 2 раза медленее. Но, если учесть, что файл записывался в течении 15 минут, то производительности Java вполне хватит, чтобы в реальном времени демодулировать сигнал.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/dsp/'>dsp</a>, <a class='tag' href='/tags/rtlsdr/'>rtlsdr</a>, <a class='tag' href='/tags/gnuradio/'>gnuradio</a>, <a class='tag' href='/tags/radio/'>radio</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/test-deb-travis/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Тестирование debian пакетов в Travis-CI</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/ubuntu-private-repo/'>
+        <span class='screen-reader-text'>: </span>Приватный репозиторий в Ubuntu<span aria-hidden='true'> <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+

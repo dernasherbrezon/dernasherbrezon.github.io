@@ -5,10 +5,84 @@
     <link>https://dernasherbrezon.github.io/posts/</link>
     <description>Recent content in Все записи on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 18 Aug 2015 13:55:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 07 Jun 2018 10:07:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Приватный репозиторий в Ubuntu</title>
+      <link>https://dernasherbrezon.github.io/posts/ubuntu-private-repo/</link>
+      <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/ubuntu-private-repo/</guid>
+      <description>В Ubuntu репозитории – это специальные сервера-хранилища для приложений. Если Вы разрабатываете коммерческое приложение и запускаете его в Ubuntu, то логично положить его в репозиторий. А потом управлять этим приложением так же, как и обычными системными приложениями. Для этого нужно поднять в локальной сети или облаке apache, настроить логин и пароль, не забывать его обновлять&amp;hellip;Но что если есть другой способ?
+Облачные хранилища С помощью apt-transport-s3 можно превратить bucket в приватный apt репозиторий.</description>
+    </item>
+    
+    <item>
+      <title>DSP на Java</title>
+      <link>https://dernasherbrezon.github.io/posts/dsp-java/</link>
+      <pubDate>Thu, 08 Mar 2018 17:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/dsp-java/</guid>
+      <description>Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C++. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с Метеор-М №2.
+Предисловие Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад.</description>
+    </item>
+    
+    <item>
+      <title>Тестирование debian пакетов в Travis-CI</title>
+      <link>https://dernasherbrezon.github.io/posts/test-deb-travis/</link>
+      <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/test-deb-travis/</guid>
+      <description>Возникла передо мной такая задача: тестирование debian пакета. И требования:
+ пакет устанавливает и стартует systemd сервис. используются native armhf библиотеки  Тестирование должно включать в себя:
+ установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации  Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов.</description>
+    </item>
+    
+    <item>
+      <title>Управление сертификатами с помощью протокола ACME</title>
+      <link>https://dernasherbrezon.github.io/posts/java-acme/</link>
+      <pubDate>Sun, 10 Sep 2017 16:45:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/java-acme/</guid>
+      <description>Возникла передо мной такая задача: автоматический выпуск сертификатов для Web приложения. И требования: - CA должны доверять все браузеры т.е. самоподписанные сертификаты не подходят; - желательно бесплатно; - Выпуск надо делать программно с помощью Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.
+Наверное многие уже слышали про бесплатные сертификаты от LetsEncrypt и certbot. А можно ли certbot заменить Java?
+ACME Многие, конечно, любят LetsEncrypt за бесплатные сертификаты, которые, фактически, позволят перевести весь вэб на https.</description>
+    </item>
+    
+    <item>
+      <title>Мониторинг Raspberry PI</title>
+      <link>https://dernasherbrezon.github.io/posts/raspberrypi-monitoring/</link>
+      <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/raspberrypi-monitoring/</guid>
+      <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:
+ самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.
+Самодостаточность автоматически означает, что данные надо хранить локально.</description>
+    </item>
+    
+    <item>
+      <title>Java и без 16Gb памяти?</title>
+      <link>https://dernasherbrezon.github.io/posts/java-small-heap/</link>
+      <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/java-small-heap/</guid>
+      <description>Однажды меня посетила мысль о том, что надо закодить что-нибудь на Java для RaspberryPI. Предыстория того, как я дошёл до жизни такой, сама по себе потянет на отдельный пост. Но вот сочные технические подробности, трудности и счастливый конец ниже под катом.
+Постановка задачи Немного разочаровавшись в движении проекта satnogs, я решил попробовать сам написать базовую станцию для приёма радио сигналов на raspberry pi. Проанализировав текущую функциональность satnogs и сложив с собственным заскорузлым enterprise пониманием того, что такое стабильная платформа, я придумал следующие требования:</description>
+    </item>
+    
+    <item>
+      <title>Enterprise Java на страже космоса</title>
+      <link>https://dernasherbrezon.github.io/posts/enterprise-java-space/</link>
+      <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/enterprise-java-space/</guid>
+      <description>Научно технический прогресс постепенный по своей природе. Никто не берет горсть песка с пляжа и делает из нее компьютер. Мы берем грубые инструменты и создаем с помощью них более качественные. Затем с помощью последних еще более точные и так далее. Каждое малое усовершенствование - это ступенька прогресса и все они должны быть пройдены.
+Председатель Шенчжи Ян.
+ В сознании каждого человека есть одна простая мысль: космические технологии - это сложно.</description>
+    </item>
     
     <item>
       <title>Дистрибьюция Java приложений</title>

@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.github.io/tags/deb/</link>
     <description>Recent content in deb on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 18 Aug 2015 13:55:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 04 Nov 2017 13:51:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.github.io/tags/deb/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Тестирование debian пакетов в Travis-CI</title>
+      <link>https://dernasherbrezon.github.io/posts/test-deb-travis/</link>
+      <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/test-deb-travis/</guid>
+      <description>Возникла передо мной такая задача: тестирование debian пакета. И требования:
+ пакет устанавливает и стартует systemd сервис. используются native armhf библиотеки  Тестирование должно включать в себя:
+ установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации  Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов.</description>
+    </item>
     
     <item>
       <title>Дистрибьюция Java приложений</title>

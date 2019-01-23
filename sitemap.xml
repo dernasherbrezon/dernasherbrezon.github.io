@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/posts/</loc>
-    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
   </url>
   
   <url>
@@ -13,6 +13,41 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</loc>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/ubuntu-private-repo/</loc>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/dsp-java/</loc>
+    <lastmod>2018-03-08T17:22:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/test-deb-travis/</loc>
+    <lastmod>2017-11-04T13:51:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/java-acme/</loc>
+    <lastmod>2017-09-10T16:45:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/raspberrypi-monitoring/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/java-small-heap/</loc>
+    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/enterprise-java-space/</loc>
+    <lastmod>2017-04-08T12:48:18+01:00</lastmod>
   </url>
   
   <url>
@@ -136,8 +171,32 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/acme/</loc>
+    <lastmod>2017-09-10T16:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/ads-b/</loc>
+    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/apt/</loc>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/c/</loc>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/deb/</loc>
-    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <lastmod>2017-11-04T13:51:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -149,7 +208,19 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/</loc>
-    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/docker/</loc>
+    <lastmod>2017-11-04T13:51:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/dsp/</loc>
+    <lastmod>2018-03-08T17:22:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -160,8 +231,32 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/embedded/</loc>
+    <lastmod>2017-09-10T16:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/flot/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/glassfish/</loc>
     <lastmod>2009-04-11T13:14:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/gnuradio/</loc>
+    <lastmod>2018-03-08T17:22:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/heap/</loc>
+    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -179,13 +274,25 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/tags/java/</loc>
-    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://dernasherbrezon.github.io/tags/jetty/</loc>
     <lastmod>2010-11-11T13:14:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/jquery-plugins/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/letsencrypt/</loc>
+    <lastmod>2017-09-10T16:45:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -197,7 +304,55 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/tags/maven/</loc>
-    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/memory/</loc>
+    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/metrics/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/monitoring/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/open-source/</loc>
+    <lastmod>2017-04-08T12:48:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/openstack/</loc>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/openstack-swift/</loc>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/radio/</loc>
+    <lastmod>2018-03-08T17:22:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/raspberry-pi/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -208,8 +363,44 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/rrd/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/rrdtool/</loc>
+    <lastmod>2017-07-31T12:45:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/rtlsdr/</loc>
+    <lastmod>2018-03-08T17:22:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/s3/</loc>
     <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/satellite/</loc>
+    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/satnogs/</loc>
+    <lastmod>2017-04-08T12:48:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/selectel/</loc>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -220,8 +411,26 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/systemd/</loc>
+    <lastmod>2017-11-04T13:51:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/travis-ci/</loc>
+    <lastmod>2017-11-04T13:51:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/ubuntu/</loc>
-    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/valgrind/</loc>
+    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -244,6 +453,18 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</loc>
+    <lastmod>2017-04-08T12:48:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/</loc>
+    <lastmod>2017-04-08T12:48:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
     <priority>0</priority>
@@ -262,8 +483,26 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</loc>
+    <lastmod>2017-04-08T12:48:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</loc>
+    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
+    <lastmod>2017-11-04T13:51:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
