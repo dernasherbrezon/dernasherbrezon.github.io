@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>*nix on dernasherbrezon</title>
+    <link>https://dernasherbrezon.github.io/tags/nix/</link>
+    <description>Recent content in *nix on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 11 Aug 2012 13:14:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.github.io/tags/nix/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>debconf tutorial</title>
+      <link>https://dernasherbrezon.github.io/posts/debconf/</link>
+      <pubDate>Sat, 11 Aug 2012 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/debconf/</guid>
+      <description>Недавно столкнулся с задачей создания .deb пакета. Поскольку информация в сети разбросана и само описание команд debhelper несколько сумбурно, ниже привожу список действий помогающих собрать архив с нуля:
+Создание исходников.
+#: mkdir package-1.0 #: echo &amp;quot;Sample file in package&amp;quot; &amp;gt; package-1.0/file  Создание специального архива с исходниками
+#: tar czf package-1.0.tar.gz package-1.0/ #: dh_make -c apache -f ../package-1.0.tar.gz  Редактирование параметров пакета.
+#: nano debian/control  Создание конфигураций:
+#: nano debain/package.</description>
+    </item>
+    
+  </channel>
+</rss>
