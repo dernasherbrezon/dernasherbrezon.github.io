@@ -1,52 +1,129 @@
-baseURL = "/"
-title = "Blog"
+baseURL = "https://dernasherbrezon.github.io"
+title = "dernasherbrezon"
+# for smart copyright line, leave this blank and check [params.copyright]
 copyright = ""
 
 theme = "minimo"
 
 disqusShortname = ""
 googleAnalytics = ""
-Paginate = 5
 
+Paginate = 5
 preserveTaxonomyNames = true
 
-[params]
-  dateFormat = "2 Jan 2006"
-  copyrightOwner = ""
-  copyrightStartYear = ""
-  favicon = "favicon.ico"
-  hideEntryNavigation = false
-  hideSocialMenu = false
-  showReadTime = true
+enableRobotsTXT = true # generate robots.txt
 
-[params.seo]
-  # Title Separator: - – — · • * ⋆ | ~ « » < >
-  titleSeparator = "•"
+# Syntax Highlighting ( https://gohugo.io/content-management/syntax-highlighting/ )
+pygmentsCodefences = true
 
-[params.opengraph]
-  [params.opengraph.facebook]
-    admins = ""
-    appid = ""
+enableEmoji = true
 
-[taxonomies]
-  category = "categories"
-  tag = "tags"
-
-[social]
-  facebook = ""
-
-[author]
-  name = ""
-
-[permalinks]
-  page = "/:slug/"
-
-# Language Configuration
+# Missing translations will default to this content language
 defaultContentLanguage = "ru"
 
+[params.info]
+description = ""
+title404 = "Ничего не найдено"
+
+[params.assets]
+favicon = "favicon.ico"
+customCSS = ["css/custom.css"]
+customJS = ["js/custom.js"]
+gopher = "" # used in 404 template ( Generator: https://gopherize.me )
+
+[params.copyright]
+prefix = ""
+holder = "dernasherbrezon"
+startYear = "2017"
+suffix = ""
+
+[params.settings]
+# date & time format: https://golang.org/pkg/time/
+dateFormat = "02-01-2006"
+listDateFormat = "02-01-2006"
+archiveDateFormat = "01-02"
+hideEntryNavigation = ["page"] # boolean / array of sections
+hideEntryMeta = ["page"] # boolean / array of sections
+showReadingTime = false
+showLastmod = true
+taxonomyCloudShuffle = true
+accentColor = "#ffcd00"
+hideMainMenu = false
+
+[params.sidebar]
+enable = true
+
+[params.widgets]
+homepage = ["recent_posts"]
+sidebar = ["about","sidebar_menu","taxonomy_cloud"]
+footer = ["social_menu"]
+
+[params.opengraph.facebook]
+admins = [] # array of Facebook IDs
+appID = ""
+pageID = ""
+
+[params.opengraph.twitter]
+page = "dernasherbrezon" # Twitter page username
+
+[params.seo]
+# Title Separator: - – — · • * ⋆ | ~ « » < >
+titleSeparator = "•"
+
+[params.social]
+email = "dernasherbrezon@gmail.com"
+github = "dernasherbrezon"
+twitter = "dernasherbrezon"
+
+[params.comments]
+enable = false
+
+# Isso: https://posativ.org/isso/
+[params.comments.isso]
+enable = false
+scriptSrc = "" # "https://isso.example.com/js/embed.min.js"
+dataAttrs = "" # "data-isso='https://isso.example.com' data-isso-require-author='true'"
+
+[params.comments.staticman]
+enable = true
+apiEndpoint = "https://api.staticman.net/v2/entry"
+maxDepth = 2
+username = "MunifTanjim"
+repository = "minimo"
+branch = "master"
+
+# Utterances: https://utteranc.es
+[params.comments.utterances]
+enable = false
+issueTerm = "pathname" # pathname / url / title
+
+[params.comments.utterances.github]
+username = "MunifTanjim"
+repository = "minimo"
+
+[params.search]
+client = "fuse" # algolia / fuse / lunr
+
+[params.search.algolia]
+appId = ""
+indexName = ""
+searchApiKey = ""
+
+[taxonomies]
+author = "authors"
+category = "categories"
+series = "series"
+tag = "tags"
+
+[permalinks]
+page = "/:slug/"
+
+[blackfriday]
+hrefTargetBlank = true
+
 [languages]
-  # edit this block for your own language
-  [languages.en]
-    lang = "ru"
-    languageName = "Russian"
-    weight = 1
+# edit this block for your own language
+[languages.ru]
+lang = "ru"
+languageName = "Русский"
+weight = 1
