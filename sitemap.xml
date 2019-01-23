@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/posts/</loc>
-    <lastmod>2013-09-24T13:14:18+01:00</lastmod>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
   </url>
   
   <url>
@@ -13,6 +13,11 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</loc>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/posts/java-dist/</loc>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
   </url>
   
   <url>
@@ -131,6 +136,12 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/deb/</loc>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/debian/</loc>
     <lastmod>2012-08-11T13:14:18+01:00</lastmod>
     <priority>0</priority>
@@ -138,7 +149,7 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/</loc>
-    <lastmod>2013-09-24T13:14:18+01:00</lastmod>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -168,7 +179,7 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/tags/java/</loc>
-    <lastmod>2012-10-11T15:14:18+01:00</lastmod>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -186,7 +197,7 @@
   
   <url>
     <loc>https://dernasherbrezon.github.io/tags/maven/</loc>
-    <lastmod>2010-11-11T13:14:18+01:00</lastmod>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -197,14 +208,32 @@
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/s3/</loc>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/spring/</loc>
     <lastmod>2010-11-11T13:14:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://dernasherbrezon.github.io/tags/ubuntu/</loc>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://dernasherbrezon.github.io/tags/validator/</loc>
     <lastmod>2012-04-11T13:14:18+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.github.io/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
+    <lastmod>2015-08-18T13:55:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Удивительно, но факт - дистрибьюция Java приложений в 21 веке по прежнему огромный костыль. Разработчики до сих пор придумывают способы вроде rsync/copy-paste/wget для установки java приложений на сервер. И только монструозные enterprise production ready платформы иногда позволяют сделать чуть больше - откатить приложение на предыдущую версию. В этой статье я хотел бы рассказать о доступном и простом способе организации дистрибьюции.
+deb и apt В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Дистрибьюция Java приложений • dernasherbrezon'>
+<meta property='og:description' content='Удивительно, но факт - дистрибьюция Java приложений в 21 веке по прежнему огромный костыль. Разработчики до сих пор придумывают способы вроде rsync/copy-paste/wget для установки java приложений на сервер. И только монструозные enterprise production ready платформы иногда позволяют сделать чуть больше - откатить приложение на предыдущую версию. В этой статье я хотел бы рассказать о доступном и простом способе организации дистрибьюции.
+deb и apt В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции.'>
+<meta property='og:url' content='https://dernasherbrezon.github.io/posts/java-dist/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='deb'><meta property='article:tag' content='администрирование'><meta property='article:tag' content='s3'><meta property='article:tag' content='maven'><meta property='article:published_time' content='2015-08-18T13:55:18&#43;01:00'/><meta property='article:modified_time' content='2015-08-18T13:55:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Дистрибьюция Java приложений • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.github.io/posts/java-dist/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0909090909090908em'>String</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0909090909090908em'>glassfish</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0909090909090908em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1em'>jetty</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1818181818181819em'>maven</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2727272727272727em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'></p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Дистрибьюция Java приложений</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2015-08-18T13:55:18&#43;01:00'>18-08-2015</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<p><img src="75bbd9f6074d4cb8a46ad705051aa8e0.png" alt="" /></p>
+
+<p>Удивительно, но факт - дистрибьюция Java приложений в 21 веке по прежнему огромный костыль. Разработчики до сих пор придумывают способы вроде rsync/copy-paste/wget для установки java приложений на сервер. И только монструозные enterprise production ready платформы иногда позволяют сделать чуть больше - откатить приложение на предыдущую версию. В этой статье я хотел бы рассказать о доступном и простом способе организации дистрибьюции.</p>
+
+<h2 id="deb-и-apt">deb и apt</h2>
+
+<p>В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции. Самые большие, по ощущениям, - это AppStore, Google Play, Debian/Ubuntu репозитории и CentOS/Fedora YUM репозитории. Например в Ubuntu репозитории для версии 15.04 содержится около 90000 приложений (без учета различных версий). Почему бы не воспользоваться провернной временем системой и для дистрибьюции Java приложений? Тем более, что:</p>
+
+<ul>
+<li><a href="http://w3techs.com/technologies/details/os-linux/all/all" target="_blank">большинство</a> серверов и так используют Debian/Ubuntu</li>
+<li>проверенный временем инструмент: первый релиз был <a href="https://en.wikipedia.org/wiki/Advanced_Packaging_Tool" target="_blank">16 лет</a> назад</li>
+<li>нативная поддержка в операционной системе</li>
+</ul>
+
+<p>Для начала немного о системе дистрибьюции приложений в Debian/Ubuntu. Она состоит из двух основных частей:</p>
+
+<ul>
+<li>deb пакеты</li>
+<li>apt (Advanced Package Tool) инструменты</li>
+</ul>
+
+<h2 id="deb-пакеты">deb пакеты</h2>
+
+<p>deb это бинарный дистрибутив приложения. Он состоит из 3 основных частей:</p>
+
+<ul>
+<li>метаинформация. Производитель, версия, зависимости на другие пакеты (очень похоже на maven), описание и пр.</li>
+<li>непосредственно приложение. .tar.gz архив</li>
+<li>(опционально) скрипты, которые будут выполняться во время установки</li>
+</ul>
+
+<p>Структура .tar.gz архива может быть абсолютно произвольной. Однако, чтобы Ваше приложение было похоже на все остальные приложения системы, оно должно следовать структуре каталогов Debian/Ubuntu:</p>
+
+<ul>
+<li>/etc - конфиги</li>
+<li>/etc/init.d/ - скрипты запуска демонов</li>
+<li>/usr/bin - исполняемые файлы</li>
+<li>/usr/lib - библиотеки</li>
+<li>/var/log - логи</li>
+</ul>
+
+<p>В зависимости от Вашего приложения каталоги могут немного отличаться, но общая структура надеюсь понятна.</p>
+
+<p>Еще одной важной особенностью deb пакетов является возможность запускать скрипты во время установки. Эти скрипты тоже хранятся в deb пакете и имеют стандартное именование. Каждый скрипт может выполняться в определенную фазу установки. Установка пакета делится на несколько фаз:</p>
+
+<ul>
+<li>preinst</li>
+<li>inst</li>
+<li>postinst</li>
+<li>prerm</li>
+<li>rm</li>
+<li>postrm</li>
+</ul>
+
+<p>Существует множество различных промежуточных фаз и различные комбинации состояния инсталляции. Нас они мало интересуют, но тем кто хочет разобраться можно почитать <a href="https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html">официальную документацию</a>. Обычно эти скрипты настраивают ротацию и архивирование логов, задают начальные значения конфигураций (например, root-пароль для mysql). Если же у вас конечное бизнес-приложение, то лучше взять какое-нибудь нормальное средство автоматизации вроде <a href="http://www.ansible.com/home">Ansible</a>, <a href="https://www.chef.io/chef/">Chief</a>, <a href="https://puppetlabs.com">Puppet</a>.</p>
+
+<h2 id="apt">apt</h2>
+
+<p>apt - это набор инструментов для работы с deb пакетами. Он позволяет:</p>
+
+<ul>
+<li>конфигурировать репозитории и работать с ними: добавлять, удалять, менять, обновлять индекс</li>
+<li>управлять пакетами: устанавливать, удалять, обновлять, искать</li>
+</ul>
+
+<p>apt репозиторий в упрощенном виде - это HTTP сервер, который раздает deb пакеты. У него есть индекс (файл), который доступен по стандартному пути и непосредственно бинарники, путь к которым находится в индексе.</p>
+
+<h2 id="связывая-все-воедино">Связывая все воедино</h2>
+
+<p>После того, как стала понятна примерная схема работы связки deb + apt, можно попробовать их съинтегрировать. Примерная схема такая:</p>
+
+<ul>
+<li>создания deb пакета в фазе package</li>
+<li>публикация получившегося пакета в фазе deploy</li>
+</ul>
+
+<p>Для этого есть несколько maven плагинов.</p>
+
+<h2 id="a-href-https-github-com-tcurdt-jdeb-jdeb-a"><a href="https://github.com/tcurdt/jdeb">jdeb</a></h2>
+
+<p>Схема его работы достаточно <a href="https://github.com/tcurdt/jdeb/blob/master/src/examples/maven/pom.xml">проста</a>:</p>
+
+<ul>
+<li>перечислить файлы и директории, которые попадут в результирующий .tar.gz архив</li>
+<li>указать пермиссии</li>
+</ul>
+
+<p>Более полная документация о возможностях плагина можно узнать на официальной <a href="https://github.com/tcurdt/jdeb/blob/master/docs/maven.md">странице</a>.</p>
+
+<h2 id="a-href-https-github-com-dernasherbrezon-apt-maven-plugin-apt-maven-plugin-a"><a href="https://github.com/dernasherbrezon/apt-maven-plugin">apt-maven-plugin</a></h2>
+
+<p>Работает с репозиторием заданным в distributionManagement как с apt репозиторием, а не maven репозиторием. Хотя ничего не мешает их использовать одновременно под одним url. Их layout&rsquo;ы совместимы между собой.</p>
+
+<p>Пример конфигурации выглядит следующим образом:</p>
+
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;com.aerse.maven&lt;/groupId&gt;
+    &lt;artifactId&gt;apt-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.5&lt;/version&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;deploy&lt;/id&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;deploy&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+    &lt;configuration&gt;
+        &lt;component&gt;main&lt;/component&gt;
+        &lt;codename&gt;strepo&lt;/codename&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre>
+
+<p>И секция distributionManagement (ничего <a href="https://maven.apache.org/plugins/maven-deploy-plugin/usage.html">необычного</a>):</p>
+
+<pre><code>&lt;distributionManagement&gt;
+    &lt;repository&gt;
+        &lt;id&gt;maven-release-repo&lt;/id&gt;
+        &lt;url&gt;http://example.com/maven&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+
+<p>После выполнения фазы deploy, <a href="http://example.com/maven" target="_blank">http://example.com/maven</a> станет еще и apt репозиторием. И можно смело писать:</p>
+
+<pre><code>sudo add-apt-repository &quot;deb http://example.com/maven strepo main&quot;
+sudo apt-get update
+sudo apt-get install &lt;artifactId&gt;
+</code></pre>
+
+<h2 id="немного-любимого-enterprise">Немного любимого enterprise</h2>
+
+<p>Манца любого java-enterprise разработчика звучит следующим образом:</p>
+
+<ul>
+<li>security</li>
+<li>stability</li>
+<li>high availability production ready platform</li>
+</ul>
+
+<p>Все это отлично решается, если устроить apt репозиторий из самого популярного хостинга для разработчиков: <a href="https://aws.amazon.com/s3/">s3</a>. Вкупе с cloudfront, он даёт гарантию <a href="https://aws.amazon.com/s3/sla/">99.9%</a> надёжности и географическую <a href="https://www.google.com/maps/d/viewer?mid=zq41xmfbtRfA.kUKJZcl-4O7k&hl=en">распределённость</a>.</p>
+
+<p>Делается это опять же достаточно просто. Надо подключить плагин для работы с s3:</p>
+
+<pre><code>&lt;build&gt;
+    &lt;extensions&gt;
+        &lt;extension&gt;
+            &lt;groupId&gt;org.springframework.build&lt;/groupId&gt;
+            &lt;artifactId&gt;aws-maven&lt;/artifactId&gt;
+            &lt;version&gt;5.0.0.RELEASE&lt;/version&gt;
+        &lt;/extension&gt;
+    &lt;/extensions&gt;
+    ...
+&lt;/build&gt;
+</code></pre>
+
+<p>Поменять url в секции distributionManagement на имя bucket&rsquo;a:</p>
+
+<pre><code>&lt;distributionManagement&gt;
+    &lt;repository&gt;
+        &lt;id&gt;maven-release-repo&lt;/id&gt;
+        &lt;url&gt;s3://example.bucket&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+
+<p>И настроить доступ к вашему bucket&rsquo;у:</p>
+
+<pre><code>&lt;servers&gt;
+    &lt;server&gt;  
+        &lt;id&gt;maven-release-repo&lt;/id&gt;  
+        &lt;username&gt;apikey&lt;/username&gt;  
+        &lt;password&gt;apisecret&lt;/password&gt;  
+    &lt;/server&gt;
+    ...
+&lt;/servers&gt;
+</code></pre>
+
+<p>На конечных серверах для доступа к такому репозиторию существует специальный плагин: <a href="https://launchpad.net/~leonard-ehrenfried/+archive/ubuntu/apt-transport-s3">apt-transport-s3</a>. К сожалению его еще нет в официальных репозиториях, поэтому необходимо добавить вручную один из репозиториев, где он содержится:</p>
+
+<pre><code>sudo add-apt-repository ppa:leonard-ehrenfried/apt-transport-s3
+sudo apt-get install apt-transport-s3
+</code></pre>
+
+<p>После чего можно уже указывать наш s3 репозиторий:</p>
+
+<pre><code>sudo add-apt-repository &quot;deb s3://apikey:apisecret@s3.amazonaws.com/example.bucket strepo main&quot;
+</code></pre>
+
+<h2 id="итого">Итого</h2>
+
+<p>В результате всех манипуляций установка приложения:</p>
+
+<ul>
+<li>mvn clean deploy</li>
+</ul>
+
+<p>На любом Debian/Ubuntu сервере в любой точке мира:</p>
+
+<ul>
+<li>apt-get update</li>
+<li>apt-get install artifactId</li>
+</ul>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/ubuntu/'>ubuntu</a>, <a class='tag' href='/tags/deb/'>deb</a>, <a class='tag' href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/'>администрирование</a>, <a class='tag' href='/tags/s3/'>s3</a>, <a class='tag' href='/tags/maven/'>maven</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/cubespec/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Спецификация конструкции CubeSat</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
