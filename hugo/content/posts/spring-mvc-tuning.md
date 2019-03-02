@@ -15,141 +15,155 @@ tags:
   
 Итак первая достаточно безболезненная оптимизация не требующая никаких жертв: выключить publishEvent в DispatcherServlet. По умолчанию он отправляет в ApplicationContext сообщение о времени обработки запроса. В production зачастую уже поздно что то мерить. Делается это в web.xml:
 
-	<init-param>  
-	 <param-name>publishEvents</param-name>  
-	 <param-value>false</param-value>  
-	</init-param>
+```xml
+<init-param>  
+	<param-name>publishEvents</param-name>  
+	<param-value>false</param-value>  
+</init-param>
+```
 
 Избавиться от @RequestMapping. Это очень удобно передавать @Param напрямую в метод. Однако реализация AnnotationMethodHandlerAdapter в spring-mvc достаточно требовательна к ресурсам и генерирует кучу мусора на каждый запрос. Логичнее было бы сделать найденные методы кешируемыми, но согласно https://jira.springsource.org/browse/SPR-6151 разработчики считают сложным пофиксить. Поэтому для простоты и небольшого увеличения скорости сделаем новый контроллёр:
 
-	public interface FastController {  
-	  
-	    String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception;  
-	      
-	    String getRequestMappingURL();  
-	}
+```java
+public interface FastController {  
+  
+    String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception;  
+      
+    String getRequestMappingURL();  
+
+}
+```
 
 Чем он лучше чем org.springframework.web.servlet.mvc.Controller? Он позволяет задавать url в том же месте где и содержится его реализация. Не нужно делать лишних движений чтобы добавить его в spring.xml. Соответственно необходимо определить классы которые будут его использовать:
 
-	public class FastUrlDetector extends AbstractDetectingUrlHandlerMapping {  
-	  
-	      
-	    public FastUrlDetector() {  
-	        setAlwaysUseFullPath(true);  
-	        setUrlDecode(false);  
-	    }  
-	      
-	    @Override  
-	    protected String[] determineUrlsForHandler(String beanName) {  
-	        ApplicationContext context = getApplicationContext();  
-	        Class<?> handlerType = context.getType(beanName);  
-	        if (FastController.class.isAssignableFrom(handlerType)) {  
-	            FastController controller = (FastController) context.getBean(beanName);  
-	            String result = controller.getRequestMappingURL();  
-	            if (result == null) {  
-	                throw new IllegalArgumentException("controller doesnt have url mapping: " + beanName);  
-	            }  
-	            if( result.isEmpty() ) {  
-	                throw new IllegalArgumentException("controller doesnt have url mapping: " + beanName);  
-	            }  
-	            if( !result.startsWith("/") ) {  
-	                throw new IllegalArgumentException("only absolute urls are required. Beanname: " + beanName + " Url: " + result);  
-	            }  
-	            return new String[]{result};  
-	        }  
-	        return null;  
-	    }  
-	  
-	}  
-	  
-	public class FastMethodHandlerAdapter implements HandlerAdapter {  
-	  
-	    public boolean supports(Object handler) {  
-	        return (handler instanceof FastController);  
-	    }  
-	  
-	    public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {  
-	        return new ModelAndView(((FastController) handler).handleRequest(request, response));  
-	    }  
-	  
-	    public long getLastModified(HttpServletRequest request, Object handler) {  
-	 if (handler instanceof LastModified) {  
-	  return ((LastModified) handler).getLastModified(request);  
-	 }  
-	        return -1;  
-	    }  
-	  
-	}
-
+```java
+public class FastUrlDetector extends AbstractDetectingUrlHandlerMapping {  
+  
+      
+    public FastUrlDetector() {  
+        setAlwaysUseFullPath(true);  
+        setUrlDecode(false);  
+    }  
+      
+    @Override  
+    protected String[] determineUrlsForHandler(String beanName) {  
+        ApplicationContext context = getApplicationContext();  
+        Class<?> handlerType = context.getType(beanName);  
+        if (FastController.class.isAssignableFrom(handlerType)) {  
+            FastController controller = (FastController) context.getBean(beanName);  
+            String result = controller.getRequestMappingURL();  
+            if (result == null) {  
+                throw new IllegalArgumentException("controller doesnt have url mapping: " + beanName);  
+            }  
+            if( result.isEmpty() ) {  
+                throw new IllegalArgumentException("controller doesnt have url mapping: " + beanName);  
+            }  
+            if( !result.startsWith("/") ) {  
+                throw new IllegalArgumentException("only absolute urls are required. Beanname: " + beanName + " Url: " + result);  
+            }  
+            return new String[]{result};  
+        }  
+        return null;  
+    }  
+  
+}  
+  
+public class FastMethodHandlerAdapter implements HandlerAdapter {  
+  
+    public boolean supports(Object handler) {  
+        return (handler instanceof FastController);  
+    }  
+  
+    public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {  
+        return new ModelAndView(((FastController) handler).handleRequest(request, response));  
+    }  
+  
+    public long getLastModified(HttpServletRequest request, Object handler) {  
+ if (handler instanceof LastModified) {  
+  return ((LastModified) handler).getLastModified(request);  
+ }  
+        return -1;  
+    }  
+  
+}
+```
 
 Они практически не генерируют мусора. Убрать new ModelAndView не получится не переписав DispatcherServlet. Тем более генерация ModelAndView занимает небольшой процент мусора генерируемого при каждом запросе. После этого необходимо добавить Adapter и Decoder в spring.xml чтобы они автоматически подцеплялись DispatcherServlet при поиске контроллёров.
 
-	<bean class="FastMethodHandlerAdapter"/>  
-	<bean class="FastUrlDetector" />  
+```xml
+<bean class="FastMethodHandlerAdapter"/>  
+<bean class="FastUrlDetector" />  
+```
 
 Далее. Следующим большим местом которое генерирует много мусора является Renderer. Я не знаю как работает jstl и почему spring-mvc делает множество приседаний для его работы. Поэтому я просто выкинул JstlView (которое используется по умолчанию для .jsp) и заменил его на:
 
-	public class FastJSPView extends AbstractUrlBasedView {  
-	  
-	    @Override  
-	    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {  
-	        RequestDispatcher rd = request.getRequestDispatcher(getUrl());  
-	        if (useInclude(request, response)) {  
-	            response.setContentType(getContentType());  
-	            if (logger.isDebugEnabled()) {  
-	                logger.debug("Including resource [" + getUrl() + "] in InternalResourceView '" + getBeanName() + "'");  
-	            }  
-	            rd.include(request, response);  
-	        }  
-	  
-	        else {  
-	            if (logger.isDebugEnabled()) {  
-	                logger.debug("Forwarding to resource [" + getUrl() + "] in InternalResourceView '" + getBeanName() + "'");  
-	            }  
-	            rd.forward(request, response);  
-	        }          
-	    }  
-	      
-	    protected boolean useInclude(HttpServletRequest request, HttpServletResponse response) {  
-	        return (WebUtils.isIncludeRequest(request) || response.isCommitted());  
-	    }  
-	  
-	}  
-	  
-	public class FastJSPViewResolver extends UrlBasedViewResolver {  
-	  
-	    public FastJSPViewResolver() {  
-	        setViewClass(FastJSPView.class);  
-	    }  
-	      
-	}  
+```java
+public class FastJSPView extends AbstractUrlBasedView {  
+  
+    @Override  
+    protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {  
+        RequestDispatcher rd = request.getRequestDispatcher(getUrl());  
+        if (useInclude(request, response)) {  
+            response.setContentType(getContentType());  
+            if (logger.isDebugEnabled()) {  
+                logger.debug("Including resource [" + getUrl() + "] in InternalResourceView '" + getBeanName() + "'");  
+            }  
+            rd.include(request, response);  
+        }  
+  
+        else {  
+            if (logger.isDebugEnabled()) {  
+                logger.debug("Forwarding to resource [" + getUrl() + "] in InternalResourceView '" + getBeanName() + "'");  
+            }  
+            rd.forward(request, response);  
+        }          
+    }  
+      
+    protected boolean useInclude(HttpServletRequest request, HttpServletResponse response) {  
+        return (WebUtils.isIncludeRequest(request) || response.isCommitted());  
+    }  
+  
+}  
+  
+public class FastJSPViewResolver extends UrlBasedViewResolver {  
+  
+    public FastJSPViewResolver() {  
+        setViewClass(FastJSPView.class);  
+    }  
+      
+}  
+```
 
 Часть кода в FastJSPView скопирована с JstlView. И соответственно необходимо добавить в spring.xml:
 
-	<bean id="viewResolver"  
-	 class="com.st.FastJSPViewResolver">  
-	 <property name="prefix">  
-	  <value>/WEB-INF/pages/</value>  
-	 </property>  
-	 <property name="suffix">  
-	  <value>.jsp</value>  
-	 </property>  
-	</bean> 
+```xml
+<bean id="viewResolver"  
+ class="com.st.FastJSPViewResolver">  
+ <property name="prefix">  
+  <value>/WEB-INF/pages/</value>  
+ </property>  
+ <property name="suffix">  
+  <value>.jsp</value>  
+ </property>  
+</bean> 
+```
 
 Чтобы проверить что есть некоторые улучшения ниже приведён тестовый контроллер который перенаправляет запрос в jsp:
 
-	@Controller  
-	public class FastServlet implements FastController {  
-	  
-	    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {  
-	        return "index2";  
-	    }  
-	      
-	    public String getRequestMappingURL() {  
-	        return "/test2";  
-	    }  
-	      
-	} 
+```java
+@Controller  
+public class FastServlet implements FastController {  
+  
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {  
+        return "index2";  
+    }  
+      
+    public String getRequestMappingURL() {  
+        return "/test2";  
+    }  
+      
+} 
+```
 
 Аннотация @Controller используется для автоматического поиска контроллёра в classpath при старте приложения. В результате под нагрузкой jmeter (50 пользователей) получаются следующие показатели:
 

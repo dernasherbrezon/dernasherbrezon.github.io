@@ -17,53 +17,59 @@ tags:
     * Более предпочтительный. Использовать @deprecated. Например смысл переменной price изменился. По всей системе она используется как amount. Как будет выглядеть рефакторинг:
 
 До
-    
-	public class Pojo {  
-	    private Integer price;  
-	    public Integer getPrice() {  
-	         return price;  
-	    }  
-	    public void setPrice(Integer price) {  
-	         this.price = price;  
-	    }  
-	}
+
+```java
+public class Pojo {  
+    private Integer price;  
+    public Integer getPrice() {  
+         return price;  
+    }  
+    public void setPrice(Integer price) {  
+         this.price = price;  
+    }  
+}
+```
 
 После:
     
-	public class Pojo {  
-	    private Integer amount;  
-	    /** 
-	    * @deprecated use getAmount() 
-	    **/  
-	    @deprecated  
-	    public Integer getPrice() {  
-	         return amount;  
-	    }  
-	    /** 
-	    * @deprecated use setAmount(amount) 
-	    **/  
-	    public void setPrice(Integer amount) {  
-	         this.amount = amount;  
-	    }  
-	    public Integer getAmount() {  
-	         return amount;  
-	    }  
-	    public void setAmount(Integer amount) {  
-	         this.amount = amount;  
-	    }  
-	} 
+```java
+public class Pojo {  
+    private Integer amount;  
+    /** 
+    * @deprecated use getAmount() 
+    **/  
+    @deprecated  
+    public Integer getPrice() {  
+         return amount;  
+    }  
+    /** 
+    * @deprecated use setAmount(amount) 
+    **/  
+    public void setPrice(Integer amount) {  
+         this.amount = amount;  
+    }  
+    public Integer getAmount() {  
+         return amount;  
+    }  
+    public void setAmount(Integer amount) {  
+         this.amount = amount;  
+    }  
+} 
+```
 	
   2. Использование синглетона вида: Application.getInstance(). В общем случае использование синглетонов ведёт к спагетти коду. Например в двух совершенно разных системах я обнаружил не только наличие подобных синглетонов но их их использование вида.
   
 Использование:
   
-	public class Pojo {  
-		private Integer amount;  
-		public Integer getCalculatedAmount() {  
-	         Integer someDiff = Application.getInstance().getDAO().queryDBByKey(amount);  
-	         return amount - someDiff;  
-	    }  
-	}
+```java
+public class Pojo {  
+	private Integer amount;  
+	public Integer getCalculatedAmount() {  
+         Integer someDiff = Application.getInstance().getDAO().queryDBByKey(amount);  
+         return amount - someDiff;  
+    }  
+}
+```
 
 Разумеется поддерживать подобные вещи достаточно сложно. Зачастую эти синглетоны содержат соединения с базами данных, читают из файлов какую то информацию и делают прочие вещи. Единственным возможным эффективным образом работать с наследными системами - написание тестов перед внесением новой функциональности, для того чтобы проверить работоспособность системы после внесения изменений. С подобным использованием синглетонов модульные тесты практически невозможно написать. Однако опять же существует два способа:
 
@@ -72,41 +78,45 @@ tags:
   
 До
 
-	public class Aplication {  
-	     private static Application instance;  
-	  
-	     private Application() {  
-	     }  
-	  
-	     public static synchronized Application getInstace() {  
-	           if(instance == null ) {  
-	                  instance = new Application();  
-	           }  
-	           return instance;  
-	     }  
-	} 
+```java
+public class Aplication {  
+     private static Application instance;  
+  
+     private Application() {  
+     }  
+  
+     public static synchronized Application getInstace() {  
+           if(instance == null ) {  
+                  instance = new Application();  
+           }  
+           return instance;  
+     }  
+} 
+```
 
 После
 
-	public class Aplication {  
-	     protected static final String APPLICATION_CLASS_NAME = "application";  
-	     private static Application instance;  
-	  
-	     private Application() {  
-	     }  
-	  
-	     public static synchronized Application getInstace() {  
-	           if(instance == null ) {  
-	                  Class clazz = Class.forName(System.getProperty(APPLICATION_CLASS_NAME));  
-	                  instance = (Application)clazz.newInstance();  
-	           }  
-	           return instance;  
-	     }  
-	}  
-	public class ApplicationMock extends Application {  
-	  
-	     public void configure() {  
-	          System.setProperty(APPLICATION_CLASS_NAME,ApplicationMock.class.getName());  
-	     }  
-	  
-	}
+```java
+public class Aplication {  
+     protected static final String APPLICATION_CLASS_NAME = "application";  
+     private static Application instance;  
+  
+     private Application() {  
+     }  
+  
+     public static synchronized Application getInstace() {  
+           if(instance == null ) {  
+                  Class clazz = Class.forName(System.getProperty(APPLICATION_CLASS_NAME));  
+                  instance = (Application)clazz.newInstance();  
+           }  
+           return instance;  
+     }  
+}  
+public class ApplicationMock extends Application {  
+  
+     public void configure() {  
+          System.setProperty(APPLICATION_CLASS_NAME,ApplicationMock.class.getName());  
+     }  
+  
+}
+```
