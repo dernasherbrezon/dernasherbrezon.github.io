@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.github.io/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 07 Jun 2018 10:07:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 02 Mar 2019 12:48:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -30,6 +30,18 @@
 Правда иногда приходится покупать различные лицензии или железо для исследований, а также оплачивать хостинг хобби проектов.
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
  </description>
+    </item>
+    
+    <item>
+      <title>Тестирование JSP тэгов</title>
+      <link>https://dernasherbrezon.github.io/posts/jsp-tag-testing/</link>
+      <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/jsp-tag-testing/</guid>
+      <description>Недавно для себя открыл совершенно бесплатный для open source проектов sonarcloud. Я верю, что статичный анализ кода - это очень полезная штука, поэтому сразу же решил перевести свои наиболее популярные проекты туда.
+Среди них был достаточно маленький проект jtimeago. Это небольшая библиотека jsp тэгов для вывода дат.
+После добавления проекта через travis, я увидел, что jtimeago полностью зеленый.
+Если зайти на страницу проекта в sonarcloud, то видно что все показатели хорошие за исключением нескольких мелких code smells.</description>
     </item>
     
     <item>
