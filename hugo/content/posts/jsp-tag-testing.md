@@ -9,6 +9,7 @@ tags:
   - sonarcube
   - java
   - jstl
+  - тестирование
 ---
 Недавно для себя открыл совершенно бесплатный для open source проектов [sonarcloud](https://sonarcloud.io/organizations/dernasherbrezon-github/projects). Я верю, что статичный анализ кода - это очень полезная штука, поэтому сразу же решил перевести свои наиболее популярные проекты туда.  
 

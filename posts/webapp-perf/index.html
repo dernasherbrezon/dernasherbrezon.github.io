@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Постановка задачи  web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на http://wiki.eclipse.org/Jetty/Howto/Spring IoC - spring 3.0.5 Servlet - собственный сервлет для роутинга запросов к обработчикам. Mysql 5.5, jdbc driver 5.1.21 view - JSP &#43; JSTL YourKit 11 JMeter 2.8  Приложение:
+ две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Оптимизация web приложения с помощью YourKit и JMeter • dernasherbrezon'>
+<meta property='og:description' content='Постановка задачи  web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на http://wiki.eclipse.org/Jetty/Howto/Spring IoC - spring 3.0.5 Servlet - собственный сервлет для роутинга запросов к обработчикам. Mysql 5.5, jdbc driver 5.1.21 view - JSP &#43; JSTL YourKit 11 JMeter 2.8  Приложение:
+ две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.'>
+<meta property='og:url' content='https://dernasherbrezon.github.io/posts/webapp-perf/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='gc'><meta property='article:tag' content='jetty'><meta property='article:tag' content='jmeter'><meta property='article:tag' content='производительность'><meta property='article:tag' content='yourkit'><meta property='article:published_time' content='2012-12-28T14:58:18&#43;01:00'/><meta property='article:modified_time' content='2012-12-28T14:58:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Оптимизация web приложения с помощью YourKit и JMeter • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.github.io/posts/webapp-perf/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.05em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1em'>bash</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.05em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.05em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.05em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.1em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.15em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberry-pi/' style='font-size:1.05em'>raspberry pi</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.05em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.05em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.25em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.05em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'></p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Оптимизация web приложения с помощью YourKit и JMeter</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2012-12-28T14:58:18&#43;01:00'>28-12-2012</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h2 id="постановка-задачи">Постановка задачи</h2>
+
+<ul>
+<li>web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на <a href="http://wiki.eclipse.org/Jetty/Howto/Spring" target="_blank">http://wiki.eclipse.org/Jetty/Howto/Spring</a></li>
+<li>IoC - spring 3.0.5</li>
+<li>Servlet - собственный сервлет для роутинга запросов к обработчикам.</li>
+<li>Mysql 5.5, jdbc driver 5.1.21</li>
+<li>view - JSP + JSTL</li>
+<li>YourKit 11</li>
+<li>JMeter 2.8</li>
+</ul>
+
+<p>Приложение:</p>
+
+<ul>
+<li>две страницы требующие локализации.</li>
+<li>первая - статичная страница (главная). Собирается из разных кусочков jsp</li>
+<li>вторая - динамичная. Отображает некоторую сущность. Например товар и его свойства.</li>
+</ul>
+
+<p>Итак, для начала будем оптимизировать первую страницу. Перед тем, как начать что-то оптимизировать, необходимо померить текущее состояние, найти узкие места. Для этого необходимо сконфигурировать JMeter. Он будет симулировать пользователей, которые кликают ссылки.</p>
+
+<ol>
+<li>Скачать JMeter можно тут: <a href="http://jmeter.apache.org/" target="_blank">http://jmeter.apache.org/</a></li>
+<li>Запустить jmeter.sh и настроить тест:</li>
+<li>Количество пользователей: 500
+<img src="1.png" alt="" /></li>
+<li>Настроить запрос: сервер находится по адресу localhost:8080 путь: / (главная). Так же нужно добавить http cache manager и http cookie manager, чтобы съэмулировать поведение реальных браузеров
+<img src="2.png" alt="" /></li>
+</ol>
+
+<p>После этого, необходимо запустить jetty из под YourKit. Это очень удобно можно сделать, если использовать интеграцию с IDE. Например, Eclipse: <a href="http://www.yourkit.com/docs/12/help/eclipse.jsp" target="_blank">http://www.yourkit.com/docs/12/help/eclipse.jsp</a>. После запуска приложения, необходимо запустить JMeter на выполнение.</p>
+
+<h2 id="анализ-данных">Анализ данных</h2>
+
+<p>Первые вещи, которые бросаются в глаза это:</p>
+
+<ul>
+<li>278 потоков приложения
+<img src="3.png" alt="" /></li>
+<li>большой затуп всех этих ~200 потоков в самом начале
+<img src="4.png" alt="" /></li>
+</ul>
+
+<p>Что говорят эти графики:</p>
+
+<ul>
+<li>Jetty сконфигурирован с использованием NIO. На каждый входящий запрос, NIO коннектор получает запрос и адресует его внутреннему threadpool&rsquo;у, который и обрабатывает этот запрос (потоки с именем qtp******). Поскольку пользователей больше 200, то создаются все потоки из внутреннего пула и новые пользователи ждут пока отработает запрос предыдущих пользователей. Такая схема обработки запросов достаточно правильная, однако тут есть тонкость: не в каждой машине есть ~250 ядер. А следовательно операционная система будет тратить больше времени на переключение между этими потоками. Поэтому максимальный размер пула необходимо изменить. Хорошая формула размера пула приведена здесь: <a href="http://www.ibm.com/developerworks/library/j-jtp0730/index.html#heading6" target="_blank">http://www.ibm.com/developerworks/library/j-jtp0730/index.html#heading6</a>. Настроить пул можно передав в JettyServer новый <code>org.eclipse.jetty.util.thread.QueuedThreadPool</code> c указанным свойством maxThreads.</li>
+<li>Затуп вначале связан с первичной компиляцией jsp страницы. В development среде это очень полезная вещь: можно менять jsp страницы и сервер будет автоматически показывать новую версию. В production среде, это необходимо отключить. Это можно сделать в файле webdefault.xml в Jetty. Или переопределить параметры org.apache.jasper.servlet.JspServlet в web.xml приложения. Необходимо настроить параметры: scratchdir - в эту директорию необходимо поместить скопилированные jsp и параметр development = false - jsp сервлет не будет проверять новую версию файла, из-за этого сильно увеличится быстродействие, так как не будут использоваться локи внутри сервлета.</li>
+</ul>
+
+<p>После произведённых начальных оптимизаций можно посмотреть на потребляемые ресурсы.</p>
+
+<p>На рисунке ниже приведён stacktrace узкого места (performance snapshot, CPU profiling: sampling):
+<img src="5.png" alt="" /></p>
+
+<p>В YourKit есть специальный инструмент, который называется &ldquo;Hot spots&rdquo;, но он выдаёт простым списком все узкие места и методы и не учитывает то, что одни узкие места вложены в другие (находятся в одном стеке вызовов). На картинке видно, что узкое место находится в index.jsp. Однако, на этой картинке не видно сколько раз вызывался этот метод и сколько времени (в среднем хотя бы) занимает обработка одного запроса. Для этого необходимо получить snapshot с использованием CPU profiling: Tracing:</p>
+
+<p><img src="6.png" alt="" /></p>
+
+<p>После этого можно получить snapshot с абсолютными значениями</p>
+
+<p><img src="7.png" alt="" /></p>
+
+<p>Как видно, обработка jsp страницы занимает <strong>34ms</strong>.</p>
+
+<p>Зачем же нужны абсолютные значения? В режиме sampling YourKit выдаёт информацию об узких местах, это оптимальный способ узнать где приложение работает медленно и при этом профайлер даёт низкий overhead. Однако для итерационной оптимизации, этот метод не очень подходит, так как необходимо понимать на сколько увеличилось или уменьшилось быстродействие после каждой оптимизации.</p>
+
+<p>Как видно из картинки, всё время занимает отрисовка страницы. Как это можно оптимизировать?</p>
+
+<ol>
+<li>Если приглядется к тому, что происходит при отрисовке, то видно что очень много времени занимает выполнение <a href="http://www.tutorialspoint.com/jsp/jstl_format_message_tag.htm" target="_blank">fmt:message</a>. Этот тэг используется для локализации страницы. Если посмотреть код <code>org.apache.taglibs.standard.tag.common.fmt.MessageSupport.doEndTag()</code> то видно, что там происходит слишком много общей логики, от которой можно отказаться. Для этого необходимо сделать следующие допущения (ввести ограничения): локализация приложения не зависит от параметров запроса пользователя - это позволяет закэшировать ResourceBundle на старте приложения, используется один и тот же ResourceBundle для всех типов сообщений. После оптимизации время отрисовки страницы на сервере стало занимать: <strong>7ms</strong>. <strong>Оптимизация 80%</strong>!</li>
+<li>Кэширование. Бывает на разных уровнях. Для данной статичной страницы, можно сделать два уровня кэширования: 1. На уровне сервера - при старте страница полностью отрисовывается и помещается в кэш. При обращении пользователей, она отдаётся из кэша. 2. На уровне клиента - если пользователь запросил страницу, то браузер кэширует её и при последующем обращении отображает страницу из кэша. Поскольку наша страница статична, то её можно попробовать закэшировать. В протоколе HTTP предусмотрено множество способов кэширования данных. Очень хорошая статья про типы кэширования: <a href="http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/" target="_blank">http://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/</a>. Для кэширования страницы мы будем использовать lastModifiedTime. По умолчанию в <code>javax.servlet.http.HttpServlet.getLastModified()</code> возвращает -1 (не использует lastModified). Какое же время необходимо возвращать на нашей странице? Поскольку у нас выключена перекомпиляция jsp на production, то новые изменения могут появится не раньше рестарта сервера. А значит lastModifiedTime можно вычислить следующим способом: на старте обработчика (сервлета) запомнить время System.currentTimeMillis()/1000 * 1000 и возвращать всегда его. После оптимизации время ответа стало занимать: <strong>3ms</strong>. Т.е. для пользователя, который посещает страницу второй и более раз <strong>оптимизация 91%</strong>.</li>
+</ol>
+
+<p>Настало время посмотреть на вторую страницу, тут несколько сложнее, так как есть больше логики приложения.</p>
+
+<p>Для этого необходимо указать другой путь сервлета/обработчика запроса в JMeter. Например path: &ldquo;/servlet&rdquo;</p>
+
+<p>Изначально отрисовка страницы занимает <strong>7ms</strong>, так как же и для первой страницы, выполнение бизнес логики занимает <strong>21ms</strong>. Бизнес логика заключается в получении из базы сущности. Сущность - иерархическая, т.е. состоит из нескольких простых сущностей, каждая из которой хранится в отдельной таблице. После запуска JMeter:</p>
+
+<p><img src="8.png" alt="" /></p>
+
+<p>Из этой картины видно, что потоки блокируются при получении <code>java.sql.Connection</code> из <code>org.apache.commons.dbcp.BasicDataSource</code>. Это происходит из-за того, что для обработки одного запроса несколько раз вызывается <code>datasource.getConnection</code> и <code>conn.close()</code> - т.е. соединение берётся и кладётся в пул. Это можно оптимизировать, если использовать ThreadBoundDatasource. Как он работает?</p>
+
+<ol>
+<li>Он реализует интерфейс <code>java.sql.Datasource</code> и работает поверх <code>org.apache.commons.dbcp.BasicDataSource</code></li>
+<li>При получении запроса, в методе doGet он получает соединение и кэширует его для этого потока. Например, с помощью ThreadLocal.</li>
+<li>При любом обращении datasource.getConnection() он возвращает это соединение.</li>
+<li>Бизнес логика не закрывает соединение, оно закрывается на выходе из doGet.</li>
+</ol>
+
+<p>Алгоритм достаточно простой, но для большого приложения, где есть очень много сервлетов, контроллеров и простых потоков, реализовать и поддерживать его достаточно сложно: нужно не забывать получать и возвращать соединение в пул.</p>
+
+<p>Реализовать этот алгоритм можно двумя способами:</p>
+
+<ol>
+<li>С использованием aop (aspect oriented programming) и aspectj. Для этого необходимо создать аннотацию, например, <code>@ThreadBoundDatasource(readOnly=false)</code> и пометить ею метод сервлета. Создать аспект, который будет создавайть соединение перед методом с этой аннотацией, а затем возвращать соединение после выполнения метода. У этого подхода есть недостатки: aspectj генерирует очень много мусора и как оказалось выигрыш в производительности не даёт (увеличивает время выполнения на ~1ms), создание Proxy объекта не позволяет посмотреть stacktrace в YourKit.</li>
+<li>Ручное добавление логики к каждому из сервлетов. Из недостатков можно отметить рутинность операции и большую вероятность ошибок для большого проекта.</li>
+</ol>
+
+<p>После реализации алгоритма, график стал выглядеть следующим образом:</p>
+
+<p><img src="9.png" alt="" /></p>
+
+<p>Время обработки запроса стало <strong>16ms. Оптимизация 20%</strong></p>
+
+<p>Как видно потоки больше не ждут соединения, или ждут но очень мало времени, так что YourKit не успевает это отобразить. Из блокировок остались блокировки на пуле тэгов. Небольшое исследование показало, что есть пул PerThreadTagHandlerPool, но в нём есть утечки памяти и его использование не рекомендовано: <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=43790" target="_blank">https://issues.apache.org/bugzilla/show_bug.cgi?id=43790</a></p>
+
+<p>На следующим этапе оптимизации встала задача внедрения кэширования результатов запросов к базе данных. Performance snapshot показал, что узкое место приложения - это запрос к базе данных. Так же исходя из графика потребления памяти видно, что генерируется очень много мусора (~600Mb), который можно сократить если переиспользовать объекты:</p>
+
+<p><img src="10.png" alt="" /></p>
+
+<p>YourKit имеет замечательный UI на котором можно посмотреть сколько времени потрачено на сборку мусора и как при этом работали потоки:</p>
+
+<p><img src="11.png" alt="" /></p>
+
+<p>Белая область в работе потоков означает stop-the-world, когда останавливаются все потоки приложения и выполняется сборка мусора. Как видно, со временем сборка мусора начинает занимать больше времени.</p>
+
+<p>Для кэширования использовалась библиотека <a href="http://ehcache.org/" target="_blank">Ehcache</a>.</p>
+
+<p>После введения кэширования для некоторых объектов, время обработки бизнес логики стало составлять <strong>9ms</strong>. Что в сумме даёт <strong>оптимизацию 57%</strong>.</p>
+
+<p>В YourKit есть замечательная метрика: количество и типы Exception&rsquo;ов и stacktrace мест, где они были вызваны. Генерация Exception - это очень ресурсоёмкая операция. Поэтому генерацию обычно стараются избегать в высоконагруженных приложениях. При запуске performance теста, данная метрика выдала следующую картину:</p>
+
+<p><img src="12.png" alt="" /></p>
+
+<p>Оказывается драйвер кидает SQLException при закрытии курсора, и проглатывает (не обрабатывает) его. На каждый запрос к базе кидается несколько SQLException. Это баг самого драйвера: <a href="http://bugs.mysql.com/bug.php?id=67318" target="_blank">http://bugs.mysql.com/bug.php?id=67318</a>. После того, как этот баг пофиксят, ожидается серьёзный прирост в производительности.</p>
+
+<h2 id="выводы">Выводы</h2>
+
+<ol>
+<li>Современные фреймворки позволяют быстро разрабатывать приложения, но есть место для их оптимизации.</li>
+<li>Настройки по умолчанию не всегда оптимальны для нагруженных проектов.</li>
+<li>Даже проекты проверенные временем, не всегда оптимизированы под быстродействие.</li>
+<li>Многоуровневое кэширование очень сильно разгружает сервер и увеличивает быстродействие.</li>
+<li>Кэширование сократило объём генерируемого мусора, но серьёзных изменений не произошло, кривая роста мусора в памяти лишь немного стала пологой. Видимо есть ещё места, в которых генерируется мусор.</li>
+</ol>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/gc/'>gc</a>, <a class='tag' href='/tags/jetty/'>jetty</a>, <a class='tag' href='/tags/jmeter/'>jmeter</a>, <a class='tag' href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/'>производительность</a>, <a class='tag' href='/tags/yourkit/'>yourkit</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/dom4jconfigurator/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Log4j DOMConfigurator</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/cubespec/'>
+        <span class='screen-reader-text'>: </span>Спецификация конструкции CubeSat<span aria-hidden='true'> <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+

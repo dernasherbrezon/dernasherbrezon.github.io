@@ -20,6 +20,16 @@
     </item>
     
     <item>
+      <title>Оптимизация web приложения с помощью YourKit и JMeter</title>
+      <link>https://dernasherbrezon.github.io/posts/webapp-perf/</link>
+      <pubDate>Fri, 28 Dec 2012 14:58:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/webapp-perf/</guid>
+      <description>Постановка задачи  web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на http://wiki.eclipse.org/Jetty/Howto/Spring IoC - spring 3.0.5 Servlet - собственный сервлет для роутинга запросов к обработчикам. Mysql 5.5, jdbc driver 5.1.21 view - JSP + JSTL YourKit 11 JMeter 2.8  Приложение:
+ две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.</description>
+    </item>
+    
+    <item>
       <title>Производительность функции split</title>
       <link>https://dernasherbrezon.github.io/posts/splitperf/</link>
       <pubDate>Sat, 11 Aug 2012 15:14:18 +0100</pubDate>
