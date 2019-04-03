@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.github.io/tags/rtlsdr/</link>
     <description>Recent content in rtlsdr on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 02 Mar 2019 18:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 04 Mar 2019 17:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.github.io/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Сжимание I/Q потока на raspberrypi</title>
+      <link>https://dernasherbrezon.github.io/posts/rtlsdr-gzip/</link>
+      <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/rtlsdr-gzip/</guid>
+      <description>Недавно я добавил поддержку более 20 спутников в r2cloud. Из-за этого принимаемых данных стало значительно больше и диск переполнился. Чтобы как-то решить эту проблему, я уменьшил количество сохраняемых наблюдений. Теперь сохраняются последние 3 наблюдения для каждого спутника. Это не сильно помогло:
+Дело в том, что при пролёте спутника, я сохраняю данные в raw I/Q с частотой пример 240 000 сэмплов в секунду. Это создаёт файл:
+240 000 байт/сек * 2 (канала) * 12 минут = 288000000 байт = ~288мб Почему такая большая частота?</description>
+    </item>
     
     <item>
       <title>Производительность rtl_sdr на raspberrypi</title>
