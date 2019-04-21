@@ -33,6 +33,17 @@
     </item>
     
     <item>
+      <title>Тестирование ошибок файловой системы</title>
+      <link>https://dernasherbrezon.github.io/posts/test-fs-failures/</link>
+      <pubDate>Sat, 20 Apr 2019 21:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/test-fs-failures/</guid>
+      <description>Большинство статей в моём блоге посвящены интересным вещам, с которыми я периодически сталкиваюсь. Эта статья не исключение. В одном из моих проектов - r2cloud я столкнулся с одной интересной ошибкой.
+Вот, что мне удалось восстановить глядя на логи и исходный код:
+ Диск полностью заполнился В какой-то момент времени обновилась конфигурация. Например, обновилось текущее значение PPM При попытке записать в файл, происходит ошибка IOException &amp;ldquo;no disk space&amp;rdquo; Файл пользовательских настроек полностью портится.</description>
+    </item>
+    
+    <item>
       <title>Сжимание I/Q потока на raspberrypi</title>
       <link>https://dernasherbrezon.github.io/posts/rtlsdr-gzip/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>

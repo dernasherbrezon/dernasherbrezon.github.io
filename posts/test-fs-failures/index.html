@@ -2,23 +2,23 @@
 <html lang='ru'><head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
- ReplaceAll. String.replaceAll(&ldquo;pattern&rdquo;,&ldquo;$1&rdquo; &#43; 1); Pattern. Pattern p = Pattern.compile(&ldquo;pattern&rdquo;); and etc. Ручной способ через indexOf и substring   Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
-У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.'>
+<meta name='description' content='Большинство статей в моём блоге посвящены интересным вещам, с которыми я периодически сталкиваюсь. Эта статья не исключение. В одном из моих проектов - r2cloud я столкнулся с одной интересной ошибкой.
+Вот, что мне удалось восстановить глядя на логи и исходный код:
+ Диск полностью заполнился В какой-то момент времени обновилась конфигурация. Например, обновилось текущее значение PPM При попытке записать в файл, происходит ошибка IOException &ldquo;no disk space&rdquo; Файл пользовательских настроек полностью портится.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='Выбор быстрого алгоритма поиска подстроки • dernasherbrezon'>
-<meta property='og:description' content='Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
- ReplaceAll. String.replaceAll(&ldquo;pattern&rdquo;,&ldquo;$1&rdquo; &#43; 1); Pattern. Pattern p = Pattern.compile(&ldquo;pattern&rdquo;); and etc. Ручной способ через indexOf и substring   Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
-У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.'>
-<meta property='og:url' content='https://dernasherbrezon.github.io/posts/substring/'>
+<meta property='og:title' content='Тестирование ошибок файловой системы • dernasherbrezon'>
+<meta property='og:description' content='Большинство статей в моём блоге посвящены интересным вещам, с которыми я периодически сталкиваюсь. Эта статья не исключение. В одном из моих проектов - r2cloud я столкнулся с одной интересной ошибкой.
+Вот, что мне удалось восстановить глядя на логи и исходный код:
+ Диск полностью заполнился В какой-то момент времени обновилась конфигурация. Например, обновилось текущее значение PPM При попытке записать в файл, происходит ошибка IOException &ldquo;no disk space&rdquo; Файл пользовательских настроек полностью портится.'>
+<meta property='og:url' content='https://dernasherbrezon.github.io/posts/test-fs-failures/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='String'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2012-06-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2012-06-11T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-04-20T21:50:18&#43;01:00'/><meta property='article:modified_time' content='2019-04-20T21:50:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.53" />
 
-  <title>Выбор быстрого алгоритма поиска подстроки • dernasherbrezon</title>
-  <link rel='canonical' href='https://dernasherbrezon.github.io/posts/substring/'>
+  <title>Тестирование ошибок файловой системы • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.github.io/posts/test-fs-failures/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -261,7 +261,7 @@
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>Выбор быстрого алгоритма поиска подстроки</h1>
+      <h1 class='title'>Тестирование ошибок файловой системы</h1>
       
 
     </div>
@@ -275,7 +275,7 @@
   
 </svg>
 <span class='screen-reader-text'> </span>
-  <time class='entry-date' datetime='2012-06-11T13:14:18&#43;01:00'>11-06-2012</time>
+  <time class='entry-date' datetime='2019-04-20T21:50:18&#43;01:00'>20-04-2019</time>
 </span>
 
   
@@ -291,30 +291,82 @@
   
 
   <div class='container entry-content'>
-  <p>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:</p>
+  
 
+<p>Большинство статей в моём блоге посвящены интересным вещам, с которыми я периодически сталкиваюсь. Эта статья не исключение. В одном из моих проектов - <a href="http://github.com/dernasherbrezon/r2cloud" target="_blank">r2cloud</a> я столкнулся с одной интересной ошибкой.</p>
+
+<p>Вот, что мне удалось восстановить глядя на логи и исходный код:</p>
+
+<ol>
+<li>Диск полностью заполнился</li>
+<li>В какой-то момент времени обновилась конфигурация. Например, обновилось текущее значение <a href="https://davidnelson.me/?p=371" target="_blank">PPM</a></li>
+<li>При попытке записать в файл, происходит ошибка IOException &ldquo;no disk space&rdquo;</li>
+<li>Файл пользовательских настроек полностью портится. В зависимости от того, сколько диска было свободно, он становится либо частично записанным, либо пустым.</li>
+</ol>
+
+<p>Эта ошибка достаточно критичная. Дело в том, что с появлением большого количества спутников, диск будет периодически заполнятся. То есть, &ldquo;no disk space&rdquo; будет достаточно часто возникать. При этом пользовательские настройки не должны пропадать! Даже если диск полностью заполнен, приложение должно работать и отправлять в <a href="https://r2server.com" target="_blank">r2server</a> данные.</p>
+
+<p>Исправить эту ошибку достаточно просто, однако, возникает немаловажный вопрос: а как вообще тестировать отказ файловой системы? И &ldquo;no disk space&rdquo; в частности?</p>
+
+<h2 id="теория">Теория</h2>
+
+<p>До JDK7 необходимо было бы создавать ещё один слой абстракции над файловой системой и делать его mock во время тестирования. В JDK7 появился специальный слой, абстрагирующий файловую систему: <code>java.nio.file.FileSystem</code>. Изначально <a href="http://github.com/dernasherbrezon/r2cloud" target="_blank">r2cloud</a> был написан на основе старого <code>java.io.File</code>, поэтому его необходимо переписать на новый API:</p>
+
+<p><img src="api.png" alt="" /></p>
+
+<h2 id="mockfilesystem">MockFileSystem</h2>
+
+<p>Во время тестирования FileSystem необходимо заменить на MockFileSystem, которая генерирует IOException по заранее сконфигурированному сценарию. К сожалению, я не нашёл такую файловую систему, поэтому написал свою <a href="http://github.com/dernasherbrezon/mockfs" target="_blank">mockfs</a>.</p>
+
+<p>Она позволяет проксировать запросы к файловой системе по-умолчанию и генерировать IOException при доступе к определённым файлам.</p>
+
+<p>Тест при этом выглядит следующим образом.</p>
+
+<p>Инициалиация. Чтобы MockFileSystem использовалась, необходимо её передавать компонентам извне.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a6e22e">@Before</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+		fs <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MockFileSystem<span style="color:#f92672">(</span>FileSystems<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">());</span>
+		config <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestConfiguration<span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">,</span> fs<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p>Сам тест при этом выглядит следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a6e22e">@Test</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testCorruptedAfterFailedWrite</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+		String lat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;53.40&#34;</span><span style="color:#f92672">;</span>
+		config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">,</span> lat<span style="color:#f92672">);</span>
+		config<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">();</span>
+
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">mock</span><span style="color:#f92672">(</span>config<span style="color:#f92672">.</span><span style="color:#a6e22e">getTempDirectoryPath</span><span style="color:#f92672">(),</span> <span style="color:#66d9ef">new</span> FailingByteChannelCallback<span style="color:#f92672">(</span>3<span style="color:#f92672">));</span>
+		Path userParentPath <span style="color:#f92672">=</span> fs<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">(</span>TestConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">getUserSettingsLocation</span><span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">)).</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">mock</span><span style="color:#f92672">(</span>userParentPath<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> FailingByteChannelCallback<span style="color:#f92672">(</span>3<span style="color:#f92672">));</span>
+
+		String newLat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;23.40&#34;</span><span style="color:#f92672">;</span>
+		config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">,</span> newLat<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+			config<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">();</span>
+			fail<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;config should not be updated&#34;</span><span style="color:#f92672">);</span>
+		<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			<span style="color:#75715e">// expected
+</span><span style="color:#75715e"></span>		<span style="color:#f92672">}</span>
+		
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">removeMock</span><span style="color:#f92672">(</span>config<span style="color:#f92672">.</span><span style="color:#a6e22e">getTempDirectoryPath</span><span style="color:#f92672">());</span>
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">removeMock</span><span style="color:#f92672">(</span>userParentPath<span style="color:#f92672">);</span>
+
+		config <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestConfiguration<span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">,</span> fs<span style="color:#f92672">);</span>
+		assertEquals<span style="color:#f92672">(</span>lat<span style="color:#f92672">,</span> config<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">));</span>
+	<span style="color:#f92672">}</span></code></pre></div>
 <ul>
-<li>ReplaceAll. String.replaceAll(&ldquo;pattern&rdquo;,&ldquo;$1&rdquo; + 1);</li>
-<li>Pattern. Pattern p = Pattern.compile(&ldquo;pattern&rdquo;); and etc.</li>
-<li>Ручной способ через indexOf и substring
-<br /></li>
+<li>В самом начале происходит запись в файл.</li>
+<li>Потом идёт установка поведения файловой системы. В данной случае MockFileSystem будет выбрасывать IOException после записи 3 байт.</li>
+<li>Очистка mock объектов.</li>
+<li>Загрузка данных из файла и проверка того, что предыдущее значение успешно было загружено.</li>
 </ul>
 
-<p>Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.</p>
+<p>После того, как тест был написан, исправление ошибки достаточно простое:</p>
 
-<p>У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее. Результат графически изображён ниже:</p>
-
-<p><img src="1.png" alt="" /></p>
-
-<p>Тест запускал фильтрацию одного и того же файла 10к раз. Размер файла - 4286 символов. Время выполнения абсолютное и указано в миллисекундах.</p>
-
-<p>Столбец А: время выполнения фильтрации с помощью ручного способа</p>
-
-<p>Столбец В: время выполнения фильтрации с помощью pattern&rsquo;а</p>
-
-<p><strong>Вывод 1</strong>: ручная фильтрация на порядок быстрее фильтрации с помощью pattern. Если не нужно производить более сложных подстановок, то ручной способ значительно лучше.</p>
-
-<p><strong>Вывод 2</strong>: при линейном увеличении размера файла, время фильтрации возрастает линейно для обоих способов.</p>
+<ul>
+<li>делать запись во временный файл</li>
+<li>атомарно перезаписывать временный файл в результирующий</li>
+</ul>
 
 </div>
 
@@ -326,7 +378,7 @@
   <line x1="7" y1="7" x2="7" y2="7"/>
   
 </svg>
-<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/string/'>String</a>, <a class='tag' href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/'>производительность</a></div>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/'>тестирование</a></div>
 
   </div>
 </footer>
@@ -336,7 +388,7 @@
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/posts/hibernate-perf/'>
+      <a href='/posts/rtlsdr-gzip/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -344,17 +396,7 @@
   
 </svg>
  </span>
-        <span class='screen-reader-text'>: </span>Производительность Hibernate Validator</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/posts/debconf/'>
-        <span class='screen-reader-text'>: </span>Сборка пакета с помощью debconf<span aria-hidden='true'> <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-  
-</svg>
-</span>
-      </a>
+        <span class='screen-reader-text'>: </span>Сжимание I/Q потока на raspberrypi</a>
     </div></div>
 </nav>
 

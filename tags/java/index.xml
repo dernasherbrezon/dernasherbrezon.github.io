@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.github.io/tags/java/</link>
     <description>Recent content in java on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 02 Mar 2019 18:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 20 Apr 2019 21:50:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Тестирование ошибок файловой системы</title>
+      <link>https://dernasherbrezon.github.io/posts/test-fs-failures/</link>
+      <pubDate>Sat, 20 Apr 2019 21:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.github.io/posts/test-fs-failures/</guid>
+      <description>Большинство статей в моём блоге посвящены интересным вещам, с которыми я периодически сталкиваюсь. Эта статья не исключение. В одном из моих проектов - r2cloud я столкнулся с одной интересной ошибкой.
+Вот, что мне удалось восстановить глядя на логи и исходный код:
+ Диск полностью заполнился В какой-то момент времени обновилась конфигурация. Например, обновилось текущее значение PPM При попытке записать в файл, происходит ошибка IOException &amp;ldquo;no disk space&amp;rdquo; Файл пользовательских настроек полностью портится.</description>
+    </item>
     
     <item>
       <title>Производительность rtl_sdr на raspberrypi</title>
