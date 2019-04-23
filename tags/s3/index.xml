@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>s3 on dernasherbrezon</title>
-    <link>https://dernasherbrezon.github.io/tags/s3/</link>
+    <link>http://dernasherbrezon.com/tags/s3/</link>
     <description>Recent content in s3 on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Tue, 18 Aug 2015 13:55:18 +0100</lastBuildDate>
     
-	<atom:link href="https://dernasherbrezon.github.io/tags/s3/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dernasherbrezon.com/tags/s3/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Дистрибьюция Java приложений</title>
-      <link>https://dernasherbrezon.github.io/posts/java-dist/</link>
+      <link>http://dernasherbrezon.com/posts/java-dist/</link>
       <pubDate>Tue, 18 Aug 2015 13:55:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/java-dist/</guid>
+      <guid>http://dernasherbrezon.com/posts/java-dist/</guid>
       <description>Удивительно, но факт - дистрибьюция Java приложений в 21 веке по прежнему огромный костыль. Разработчики до сих пор придумывают способы вроде rsync/copy-paste/wget для установки java приложений на сервер. И только монструозные enterprise production ready платформы иногда позволяют сделать чуть больше - откатить приложение на предыдущую версию. В этой статье я хотел бы рассказать о доступном и простом способе организации дистрибьюции.
 deb и apt В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции.</description>
     </item>

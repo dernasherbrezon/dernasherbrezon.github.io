@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>производительность on dernasherbrezon</title>
-    <link>https://dernasherbrezon.github.io/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
+    <link>http://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
     <description>Recent content in производительность on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 04 Mar 2019 17:22:18 +0100</lastBuildDate>
     
-	<atom:link href="https://dernasherbrezon.github.io/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Сжимание I/Q потока на raspberrypi</title>
-      <link>https://dernasherbrezon.github.io/posts/rtlsdr-gzip/</link>
+      <link>http://dernasherbrezon.com/posts/rtlsdr-gzip/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/rtlsdr-gzip/</guid>
+      <guid>http://dernasherbrezon.com/posts/rtlsdr-gzip/</guid>
       <description>Недавно я добавил поддержку более 20 спутников в r2cloud. Из-за этого принимаемых данных стало значительно больше и диск переполнился. Чтобы как-то решить эту проблему, я уменьшил количество сохраняемых наблюдений. Теперь сохраняются последние 3 наблюдения для каждого спутника. Это не сильно помогло:
 Дело в том, что при пролёте спутника, я сохраняю данные в raw I/Q с частотой пример 240 000 сэмплов в секунду. Это создаёт файл:
 240 000 байт/сек * 2 (канала) * 12 минут = 288000000 байт = ~288мб Почему такая большая частота?</description>
@@ -23,29 +23,29 @@
     
     <item>
       <title>Производительность rtl_sdr на raspberrypi</title>
-      <link>https://dernasherbrezon.github.io/posts/rtlsdr-perf/</link>
+      <link>http://dernasherbrezon.com/posts/rtlsdr-perf/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/rtlsdr-perf/</guid>
+      <guid>http://dernasherbrezon.com/posts/rtlsdr-perf/</guid>
       <description>Очень часто в сети можно встретить гиды по быстрой сборке на коленке анализатора радио с помощью rtl_sdr и raspberrypi. Большинство таких гидов ограничивается достаточно простым описанием: &amp;ldquo;возьмите одно вставьте другое, потом немного питоновских скриптов и у вас всё получится&amp;rdquo;. Для новичков и просто любителей DIY - это прекрасный подход. Можно достаточно быстро познакомится с технологией и увидеть результат. Но что делать если нужно собрать что-то более продвинутое? Что если важна производительность?</description>
     </item>
     
     <item>
       <title>Оптимизация web приложения с помощью YourKit и JMeter</title>
-      <link>https://dernasherbrezon.github.io/posts/webapp-perf/</link>
+      <link>http://dernasherbrezon.com/posts/webapp-perf/</link>
       <pubDate>Fri, 28 Dec 2012 14:58:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/webapp-perf/</guid>
+      <guid>http://dernasherbrezon.com/posts/webapp-perf/</guid>
       <description>Постановка задачи  web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на http://wiki.eclipse.org/Jetty/Howto/Spring IoC - spring 3.0.5 Servlet - собственный сервлет для роутинга запросов к обработчикам. Mysql 5.5, jdbc driver 5.1.21 view - JSP + JSTL YourKit 11 JMeter 2.8  Приложение:
  две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.</description>
     </item>
     
     <item>
       <title>Производительность функции split</title>
-      <link>https://dernasherbrezon.github.io/posts/splitperf/</link>
+      <link>http://dernasherbrezon.com/posts/splitperf/</link>
       <pubDate>Sat, 11 Aug 2012 15:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/splitperf/</guid>
+      <guid>http://dernasherbrezon.com/posts/splitperf/</guid>
       <description>В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.
 Для тестирования выбраны следующие кандидаты:
  JDK Guava Apache commons-lang Custom   Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.
@@ -54,10 +54,10 @@
     
     <item>
       <title>Выбор быстрого алгоритма поиска подстроки</title>
-      <link>https://dernasherbrezon.github.io/posts/substring/</link>
+      <link>http://dernasherbrezon.com/posts/substring/</link>
       <pubDate>Mon, 11 Jun 2012 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/substring/</guid>
+      <guid>http://dernasherbrezon.com/posts/substring/</guid>
       <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
  ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;ldquo;$1&amp;rdquo; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring   Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
 У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
@@ -65,20 +65,20 @@
     
     <item>
       <title>Оптимизация spring jmx</title>
-      <link>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</link>
+      <link>http://dernasherbrezon.com/posts/spring-jmx-tuning/</link>
       <pubDate>Sun, 11 Dec 2011 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</guid>
+      <guid>http://dernasherbrezon.com/posts/spring-jmx-tuning/</guid>
       <description>Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
  spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast + старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.</description>
     </item>
     
     <item>
       <title>Оптимизация spring-mvc</title>
-      <link>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</link>
+      <link>http://dernasherbrezon.com/posts/spring-mvc-tuning/</link>
       <pubDate>Fri, 11 Nov 2011 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</guid>
+      <guid>http://dernasherbrezon.com/posts/spring-mvc-tuning/</guid>
       <description>Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
  ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.</description>
     </item>

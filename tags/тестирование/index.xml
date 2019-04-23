@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>тестирование on dernasherbrezon</title>
-    <link>https://dernasherbrezon.github.io/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
+    <link>http://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
     <description>Recent content in тестирование on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 20 Apr 2019 21:50:18 +0100</lastBuildDate>
     
-	<atom:link href="https://dernasherbrezon.github.io/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Тестирование ошибок файловой системы</title>
-      <link>https://dernasherbrezon.github.io/posts/test-fs-failures/</link>
+      <link>http://dernasherbrezon.com/posts/test-fs-failures/</link>
       <pubDate>Sat, 20 Apr 2019 21:50:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/test-fs-failures/</guid>
+      <guid>http://dernasherbrezon.com/posts/test-fs-failures/</guid>
       <description>Большинство статей в моём блоге посвящены интересным вещам, с которыми я периодически сталкиваюсь. Эта статья не исключение. В одном из моих проектов - r2cloud я столкнулся с одной интересной ошибкой.
 Вот, что мне удалось восстановить глядя на логи и исходный код:
  Диск полностью заполнился В какой-то момент времени обновилась конфигурация. Например, обновилось текущее значение PPM При попытке записать в файл, происходит ошибка IOException &amp;ldquo;no disk space&amp;rdquo; Файл пользовательских настроек полностью портится.</description>
@@ -23,10 +23,10 @@
     
     <item>
       <title>Тестирование JSP тэгов</title>
-      <link>https://dernasherbrezon.github.io/posts/jsp-tag-testing/</link>
+      <link>http://dernasherbrezon.com/posts/jsp-tag-testing/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/jsp-tag-testing/</guid>
+      <guid>http://dernasherbrezon.com/posts/jsp-tag-testing/</guid>
       <description>Недавно для себя открыл совершенно бесплатный для open source проектов sonarcloud. Я верю, что статичный анализ кода - это очень полезная штука, поэтому сразу же решил перевести свои наиболее популярные проекты туда.
 Среди них был достаточно маленький проект jtimeago. Это небольшая библиотека jsp тэгов для вывода дат.
 После добавления проекта через travis, я увидел, что jtimeago полностью зеленый.
@@ -35,10 +35,10 @@
     
     <item>
       <title>Тестирование debian пакетов в Travis-CI</title>
-      <link>https://dernasherbrezon.github.io/posts/test-deb-travis/</link>
+      <link>http://dernasherbrezon.com/posts/test-deb-travis/</link>
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/test-deb-travis/</guid>
+      <guid>http://dernasherbrezon.com/posts/test-deb-travis/</guid>
       <description>Возникла передо мной такая задача: тестирование debian пакета. И требования:
  пакет устанавливает и стартует systemd сервис. используются native armhf библиотеки  Тестирование должно включать в себя:
  установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации  Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов.</description>

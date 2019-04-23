@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>heap on dernasherbrezon</title>
-    <link>https://dernasherbrezon.github.io/tags/heap/</link>
+    <link>http://dernasherbrezon.com/tags/heap/</link>
     <description>Recent content in heap on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 16 Jul 2017 15:11:18 +0100</lastBuildDate>
     
-	<atom:link href="https://dernasherbrezon.github.io/tags/heap/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dernasherbrezon.com/tags/heap/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Java и без 16Gb памяти?</title>
-      <link>https://dernasherbrezon.github.io/posts/java-small-heap/</link>
+      <link>http://dernasherbrezon.com/posts/java-small-heap/</link>
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/java-small-heap/</guid>
+      <guid>http://dernasherbrezon.com/posts/java-small-heap/</guid>
       <description>Однажды меня посетила мысль о том, что надо закодить что-нибудь на Java для RaspberryPI. Предыстория того, как я дошёл до жизни такой, сама по себе потянет на отдельный пост. Но вот сочные технические подробности, трудности и счастливый конец ниже под катом.
 Постановка задачи Немного разочаровавшись в движении проекта satnogs, я решил попробовать сам написать базовую станцию для приёма радио сигналов на raspberry pi. Проанализировав текущую функциональность satnogs и сложив с собственным заскорузлым enterprise пониманием того, что такое стабильная платформа, я придумал следующие требования:</description>
     </item>

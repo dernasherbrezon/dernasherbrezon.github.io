@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>java on dernasherbrezon</title>
-    <link>https://dernasherbrezon.github.io/tags/java/</link>
+    <link>http://dernasherbrezon.com/tags/java/</link>
     <description>Recent content in java on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 20 Apr 2019 21:50:18 +0100</lastBuildDate>
     
-	<atom:link href="https://dernasherbrezon.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dernasherbrezon.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Тестирование ошибок файловой системы</title>
-      <link>https://dernasherbrezon.github.io/posts/test-fs-failures/</link>
+      <link>http://dernasherbrezon.com/posts/test-fs-failures/</link>
       <pubDate>Sat, 20 Apr 2019 21:50:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/test-fs-failures/</guid>
+      <guid>http://dernasherbrezon.com/posts/test-fs-failures/</guid>
       <description>Большинство статей в моём блоге посвящены интересным вещам, с которыми я периодически сталкиваюсь. Эта статья не исключение. В одном из моих проектов - r2cloud я столкнулся с одной интересной ошибкой.
 Вот, что мне удалось восстановить глядя на логи и исходный код:
  Диск полностью заполнился В какой-то момент времени обновилась конфигурация. Например, обновилось текущее значение PPM При попытке записать в файл, происходит ошибка IOException &amp;ldquo;no disk space&amp;rdquo; Файл пользовательских настроек полностью портится.</description>
@@ -23,19 +23,19 @@
     
     <item>
       <title>Производительность rtl_sdr на raspberrypi</title>
-      <link>https://dernasherbrezon.github.io/posts/rtlsdr-perf/</link>
+      <link>http://dernasherbrezon.com/posts/rtlsdr-perf/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/rtlsdr-perf/</guid>
+      <guid>http://dernasherbrezon.com/posts/rtlsdr-perf/</guid>
       <description>Очень часто в сети можно встретить гиды по быстрой сборке на коленке анализатора радио с помощью rtl_sdr и raspberrypi. Большинство таких гидов ограничивается достаточно простым описанием: &amp;ldquo;возьмите одно вставьте другое, потом немного питоновских скриптов и у вас всё получится&amp;rdquo;. Для новичков и просто любителей DIY - это прекрасный подход. Можно достаточно быстро познакомится с технологией и увидеть результат. Но что делать если нужно собрать что-то более продвинутое? Что если важна производительность?</description>
     </item>
     
     <item>
       <title>Тестирование JSP тэгов</title>
-      <link>https://dernasherbrezon.github.io/posts/jsp-tag-testing/</link>
+      <link>http://dernasherbrezon.com/posts/jsp-tag-testing/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/jsp-tag-testing/</guid>
+      <guid>http://dernasherbrezon.com/posts/jsp-tag-testing/</guid>
       <description>Недавно для себя открыл совершенно бесплатный для open source проектов sonarcloud. Я верю, что статичный анализ кода - это очень полезная штука, поэтому сразу же решил перевести свои наиболее популярные проекты туда.
 Среди них был достаточно маленький проект jtimeago. Это небольшая библиотека jsp тэгов для вывода дат.
 После добавления проекта через travis, я увидел, что jtimeago полностью зеленый.
@@ -44,30 +44,30 @@
     
     <item>
       <title>Приватный репозиторий в Ubuntu</title>
-      <link>https://dernasherbrezon.github.io/posts/ubuntu-private-repo/</link>
+      <link>http://dernasherbrezon.com/posts/ubuntu-private-repo/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/ubuntu-private-repo/</guid>
+      <guid>http://dernasherbrezon.com/posts/ubuntu-private-repo/</guid>
       <description>В Ubuntu репозитории – это специальные сервера-хранилища для приложений. Если Вы разрабатываете коммерческое приложение и запускаете его в Ubuntu, то логично положить его в репозиторий. А потом управлять этим приложением так же, как и обычными системными приложениями. Для этого нужно поднять в локальной сети или облаке apache, настроить логин и пароль, не забывать его обновлять&amp;hellip;Но что если есть другой способ?
 Облачные хранилища С помощью apt-transport-s3 можно превратить bucket в приватный apt репозиторий.</description>
     </item>
     
     <item>
       <title>DSP на Java</title>
-      <link>https://dernasherbrezon.github.io/posts/dsp-java/</link>
+      <link>http://dernasherbrezon.com/posts/dsp-java/</link>
       <pubDate>Thu, 08 Mar 2018 17:22:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/dsp-java/</guid>
+      <guid>http://dernasherbrezon.com/posts/dsp-java/</guid>
       <description>Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C++. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с Метеор-М №2.
 Предисловие Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад.</description>
     </item>
     
     <item>
       <title>Управление сертификатами с помощью протокола ACME</title>
-      <link>https://dernasherbrezon.github.io/posts/java-acme/</link>
+      <link>http://dernasherbrezon.com/posts/java-acme/</link>
       <pubDate>Sun, 10 Sep 2017 16:45:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/java-acme/</guid>
+      <guid>http://dernasherbrezon.com/posts/java-acme/</guid>
       <description>Возникла передо мной такая задача: автоматический выпуск сертификатов для Web приложения. И требования: - CA должны доверять все браузеры т.е. самоподписанные сертификаты не подходят; - желательно бесплатно; - Выпуск надо делать программно с помощью Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.
 Наверное многие уже слышали про бесплатные сертификаты от LetsEncrypt и certbot. А можно ли certbot заменить Java?
 ACME Многие, конечно, любят LetsEncrypt за бесплатные сертификаты, которые, фактически, позволят перевести весь вэб на https.</description>
@@ -75,10 +75,10 @@ ACME Многие, конечно, любят LetsEncrypt за бесплатн�
     
     <item>
       <title>Мониторинг Raspberry PI</title>
-      <link>https://dernasherbrezon.github.io/posts/raspberrypi-monitoring/</link>
+      <link>http://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/raspberrypi-monitoring/</guid>
+      <guid>http://dernasherbrezon.com/posts/raspberrypi-monitoring/</guid>
       <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:
  самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.
 Самодостаточность автоматически означает, что данные надо хранить локально.</description>
@@ -86,20 +86,20 @@ ACME Многие, конечно, любят LetsEncrypt за бесплатн�
     
     <item>
       <title>Java и без 16Gb памяти?</title>
-      <link>https://dernasherbrezon.github.io/posts/java-small-heap/</link>
+      <link>http://dernasherbrezon.com/posts/java-small-heap/</link>
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/java-small-heap/</guid>
+      <guid>http://dernasherbrezon.com/posts/java-small-heap/</guid>
       <description>Однажды меня посетила мысль о том, что надо закодить что-нибудь на Java для RaspberryPI. Предыстория того, как я дошёл до жизни такой, сама по себе потянет на отдельный пост. Но вот сочные технические подробности, трудности и счастливый конец ниже под катом.
 Постановка задачи Немного разочаровавшись в движении проекта satnogs, я решил попробовать сам написать базовую станцию для приёма радио сигналов на raspberry pi. Проанализировав текущую функциональность satnogs и сложив с собственным заскорузлым enterprise пониманием того, что такое стабильная платформа, я придумал следующие требования:</description>
     </item>
     
     <item>
       <title>Enterprise Java на страже космоса</title>
-      <link>https://dernasherbrezon.github.io/posts/enterprise-java-space/</link>
+      <link>http://dernasherbrezon.com/posts/enterprise-java-space/</link>
       <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/enterprise-java-space/</guid>
+      <guid>http://dernasherbrezon.com/posts/enterprise-java-space/</guid>
       <description>Научно технический прогресс постепенный по своей природе. Никто не берет горсть песка с пляжа и делает из нее компьютер. Мы берем грубые инструменты и создаем с помощью них более качественные. Затем с помощью последних еще более точные и так далее. Каждое малое усовершенствование - это ступенька прогресса и все они должны быть пройдены.
 Председатель Шенчжи Ян.
  В сознании каждого человека есть одна простая мысль: космические технологии - это сложно.</description>
@@ -107,30 +107,30 @@ ACME Многие, конечно, любят LetsEncrypt за бесплатн�
     
     <item>
       <title>Дистрибьюция Java приложений</title>
-      <link>https://dernasherbrezon.github.io/posts/java-dist/</link>
+      <link>http://dernasherbrezon.com/posts/java-dist/</link>
       <pubDate>Tue, 18 Aug 2015 13:55:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/java-dist/</guid>
+      <guid>http://dernasherbrezon.com/posts/java-dist/</guid>
       <description>Удивительно, но факт - дистрибьюция Java приложений в 21 веке по прежнему огромный костыль. Разработчики до сих пор придумывают способы вроде rsync/copy-paste/wget для установки java приложений на сервер. И только монструозные enterprise production ready платформы иногда позволяют сделать чуть больше - откатить приложение на предыдущую версию. В этой статье я хотел бы рассказать о доступном и простом способе организации дистрибьюции.
 deb и apt В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции.</description>
     </item>
     
     <item>
       <title>Оптимизация web приложения с помощью YourKit и JMeter</title>
-      <link>https://dernasherbrezon.github.io/posts/webapp-perf/</link>
+      <link>http://dernasherbrezon.com/posts/webapp-perf/</link>
       <pubDate>Fri, 28 Dec 2012 14:58:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/webapp-perf/</guid>
+      <guid>http://dernasherbrezon.com/posts/webapp-perf/</guid>
       <description>Постановка задачи  web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на http://wiki.eclipse.org/Jetty/Howto/Spring IoC - spring 3.0.5 Servlet - собственный сервлет для роутинга запросов к обработчикам. Mysql 5.5, jdbc driver 5.1.21 view - JSP + JSTL YourKit 11 JMeter 2.8  Приложение:
  две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.</description>
     </item>
     
     <item>
       <title>Log4j DOMConfigurator</title>
-      <link>https://dernasherbrezon.github.io/posts/dom4jconfigurator/</link>
+      <link>http://dernasherbrezon.com/posts/dom4jconfigurator/</link>
       <pubDate>Thu, 11 Oct 2012 15:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/dom4jconfigurator/</guid>
+      <guid>http://dernasherbrezon.com/posts/dom4jconfigurator/</guid>
       <description>DOMConfigurator не поддерживает подстановку свойств при реконфигурации. Будьте бдительны!
 Use case:
  Конфигурация по умолчанию с использованием log4j.configuration параметра Получение свойств и проставление через System.setProperty() DOMConfigurator.configure(System.getProperty(&amp;quot;log4j.configuration&amp;quot;))  </description>
@@ -138,10 +138,10 @@ Use case:
     
     <item>
       <title>Производительность функции split</title>
-      <link>https://dernasherbrezon.github.io/posts/splitperf/</link>
+      <link>http://dernasherbrezon.com/posts/splitperf/</link>
       <pubDate>Sat, 11 Aug 2012 15:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/splitperf/</guid>
+      <guid>http://dernasherbrezon.com/posts/splitperf/</guid>
       <description>В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.
 Для тестирования выбраны следующие кандидаты:
  JDK Guava Apache commons-lang Custom   Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.
@@ -150,10 +150,10 @@ Use case:
     
     <item>
       <title>Выбор быстрого алгоритма поиска подстроки</title>
-      <link>https://dernasherbrezon.github.io/posts/substring/</link>
+      <link>http://dernasherbrezon.com/posts/substring/</link>
       <pubDate>Mon, 11 Jun 2012 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/substring/</guid>
+      <guid>http://dernasherbrezon.com/posts/substring/</guid>
       <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
  ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;ldquo;$1&amp;rdquo; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring   Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
 У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
@@ -161,40 +161,40 @@ Use case:
     
     <item>
       <title>Производительность Hibernate Validator</title>
-      <link>https://dernasherbrezon.github.io/posts/hibernate-perf/</link>
+      <link>http://dernasherbrezon.com/posts/hibernate-perf/</link>
       <pubDate>Wed, 11 Apr 2012 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/hibernate-perf/</guid>
+      <guid>http://dernasherbrezon.com/posts/hibernate-perf/</guid>
       <description>Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности. Тестовый POJO:
 public class BusinessObject { @NotBlank private String name; @CustomNotNull(groups = { APIValidationGroup.class }) private String uuid; public String getName() { return name; } public void setName(String name) { this.name = name; } public String getUuid() { return uuid; } public void setUuid(String uuid) { this.uuid = uuid; } }  Для чистоты эксперимента и приближения к реальному сценарию я сделал кастомную валидацию, которая просто проверяет на null:</description>
     </item>
     
     <item>
       <title>Оптимизация spring jmx</title>
-      <link>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</link>
+      <link>http://dernasherbrezon.com/posts/spring-jmx-tuning/</link>
       <pubDate>Sun, 11 Dec 2011 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/spring-jmx-tuning/</guid>
+      <guid>http://dernasherbrezon.com/posts/spring-jmx-tuning/</guid>
       <description>Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
  spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast + старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.</description>
     </item>
     
     <item>
       <title>Оптимизация spring-mvc</title>
-      <link>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</link>
+      <link>http://dernasherbrezon.com/posts/spring-mvc-tuning/</link>
       <pubDate>Fri, 11 Nov 2011 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/spring-mvc-tuning/</guid>
+      <guid>http://dernasherbrezon.com/posts/spring-mvc-tuning/</guid>
       <description>Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
  ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.</description>
     </item>
     
     <item>
       <title>Запуск Jetty Embedded через spring</title>
-      <link>https://dernasherbrezon.github.io/posts/jetty-embedded-maven/</link>
+      <link>http://dernasherbrezon.com/posts/jetty-embedded-maven/</link>
       <pubDate>Thu, 11 Nov 2010 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/jetty-embedded-maven/</guid>
+      <guid>http://dernasherbrezon.com/posts/jetty-embedded-maven/</guid>
       <description>Для начала необходимо добавить зависимости в pom.xml:
 &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-server&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;exclusions&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jndi-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-annotation-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jaas-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;example-async-rest-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;/exclusions&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-servlet&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-jsp-2.1&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-context&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-webmvc&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; Затем в main-class указать:
 Server server = new Server(9090); ServletHolder holder = new ServletHolder(new DispatcherServlet()); holder.</description>
@@ -202,10 +202,10 @@ Server server = new Server(9090); ServletHolder holder = new ServletHolder(new D
     
     <item>
       <title>Рефакторинг старых систем</title>
-      <link>https://dernasherbrezon.github.io/posts/refactoring-legacy/</link>
+      <link>http://dernasherbrezon.com/posts/refactoring-legacy/</link>
       <pubDate>Mon, 11 May 2009 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/refactoring-legacy/</guid>
+      <guid>http://dernasherbrezon.com/posts/refactoring-legacy/</guid>
       <description>Навеяно http://www.amazon.com/Working-Effectively-Legacy-Robert-Martin/dp/0131177052
 Мне достаточно часто приходилось работать с наследными системами. Поэтому выработал некоторые свои собственные интересные практики при работе с такими системами.
  Зачастую имена классов, методов и переменных не отражают сути. В таких случаях обычно переименовывают их. Однако в наследных системах такого делать не рекомендуется. Даже при использовании мощных инструментов в современных IDE. Это связано с тем что в конечном итоге подобные системы собираются своими скриптами сборки, зачастую такими же запутанными и очень confuse&amp;rsquo;ными как и сам код.</description>
@@ -213,10 +213,10 @@ Server server = new Server(9090); ServletHolder holder = new ServletHolder(new D
     
     <item>
       <title>Glassfish Async JMS JCA</title>
-      <link>https://dernasherbrezon.github.io/posts/glassfish-async-jms-jca/</link>
+      <link>http://dernasherbrezon.com/posts/glassfish-async-jms-jca/</link>
       <pubDate>Sat, 11 Apr 2009 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/glassfish-async-jms-jca/</guid>
+      <guid>http://dernasherbrezon.com/posts/glassfish-async-jms-jca/</guid>
       <description>Достаточно интересное и недокументированное поведение Glassfish v.2.0.
 Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&amp;rsquo;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
 Решение:
@@ -225,10 +225,10 @@ Server server = new Server(9090); ServletHolder holder = new ServletHolder(new D
     
     <item>
       <title>IMQ Connection Concurrent Glassfish</title>
-      <link>https://dernasherbrezon.github.io/posts/imq-connection-glassfish/</link>
+      <link>http://dernasherbrezon.com/posts/imq-connection-glassfish/</link>
       <pubDate>Sun, 11 Jan 2009 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/imq-connection-glassfish/</guid>
+      <guid>http://dernasherbrezon.com/posts/imq-connection-glassfish/</guid>
       <description>Наблюдается следующая проблема:
 thread1:
 javax.jms.Connection conn = connFactory.createConnection(); Work connectionHandler = new MyWorker(conn); WorkManager.scheduleWork(connectionHandler);  thread2 (MyWorker):
@@ -240,10 +240,10 @@ javax.jms.Connection conn = connFactory.createConnection(); Session s = conn.cre
     
     <item>
       <title>Интеграция Eclipse и Maven</title>
-      <link>https://dernasherbrezon.github.io/posts/eclipse-maven/</link>
+      <link>http://dernasherbrezon.com/posts/eclipse-maven/</link>
       <pubDate>Sat, 10 Jan 2009 13:14:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/eclipse-maven/</guid>
+      <guid>http://dernasherbrezon.com/posts/eclipse-maven/</guid>
       <description>Maven в Eclipse - это очень удобно.
 Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&amp;rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&amp;rsquo;шный стандартно в output folder для Eclipse&amp;rsquo;a, а maven&amp;rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
     </item>

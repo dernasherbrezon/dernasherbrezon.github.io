@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>разработка on dernasherbrezon</title>
-    <link>https://dernasherbrezon.github.io/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
+    <link>http://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
     <description>Recent content in разработка on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 08 Apr 2017 12:48:18 +0100</lastBuildDate>
     
-	<atom:link href="https://dernasherbrezon.github.io/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Enterprise Java на страже космоса</title>
-      <link>https://dernasherbrezon.github.io/posts/enterprise-java-space/</link>
+      <link>http://dernasherbrezon.com/posts/enterprise-java-space/</link>
       <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/enterprise-java-space/</guid>
+      <guid>http://dernasherbrezon.com/posts/enterprise-java-space/</guid>
       <description>Научно технический прогресс постепенный по своей природе. Никто не берет горсть песка с пляжа и делает из нее компьютер. Мы берем грубые инструменты и создаем с помощью них более качественные. Затем с помощью последних еще более точные и так далее. Каждое малое усовершенствование - это ступенька прогресса и все они должны быть пройдены.
 Председатель Шенчжи Ян.
  В сознании каждого человека есть одна простая мысль: космические технологии - это сложно.</description>

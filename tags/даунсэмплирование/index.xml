@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>даунсэмплирование on dernasherbrezon</title>
-    <link>https://dernasherbrezon.github.io/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
+    <link>http://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
     <description>Recent content in даунсэмплирование on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 04 Mar 2019 17:22:18 +0100</lastBuildDate>
     
-	<atom:link href="https://dernasherbrezon.github.io/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Сжимание I/Q потока на raspberrypi</title>
-      <link>https://dernasherbrezon.github.io/posts/rtlsdr-gzip/</link>
+      <link>http://dernasherbrezon.com/posts/rtlsdr-gzip/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.github.io/posts/rtlsdr-gzip/</guid>
+      <guid>http://dernasherbrezon.com/posts/rtlsdr-gzip/</guid>
       <description>Недавно я добавил поддержку более 20 спутников в r2cloud. Из-за этого принимаемых данных стало значительно больше и диск переполнился. Чтобы как-то решить эту проблему, я уменьшил количество сохраняемых наблюдений. Теперь сохраняются последние 3 наблюдения для каждого спутника. Это не сильно помогло:
 Дело в том, что при пролёте спутника, я сохраняю данные в raw I/Q с частотой пример 240 000 сэмплов в секунду. Это создаёт файл:
 240 000 байт/сек * 2 (канала) * 12 минут = 288000000 байт = ~288мб Почему такая большая частота?</description>
