@@ -21,26 +21,28 @@ Maven в Eclipse - это очень удобно.
   
 У каждого maven-проекта есть родительским pom. Поэтому в родительском pom'е нужно:
   
-	<build>  
-	    <outputdirectory>${output.dir}</outputdirectory>  
-	    <testoutputdirectory>${testoutput.dir}</testoutputdirectory>  
-	    ...  
-	</build>  
-	  
-	<properties>  
-	    <output.dir>${basedir}/target/classes</output.dir>  
-	    <testoutput.dir>${basedir}/target/test-classes</testoutput.dir>  
-	</properties>  
-	   
-	<profiles>  
-	    <profile>  
-	        <id>eclipse-folders</id>  
-	        <properties>  
-	            <output.dir>${basedir}/target/eclipse</output.dir>  
-	            <testoutput.dir>${basedir}/target/eclipse</testoutput.dir>  
-	        </properties>  
-	    </profile>  
-	</profiles>
+```xml
+<build>  
+    <outputdirectory>${output.dir}</outputdirectory>  
+    <testoutputdirectory>${testoutput.dir}</testoutputdirectory>  
+    ...  
+</build>  
+  
+<properties>  
+    <output.dir>${basedir}/target/classes</output.dir>  
+    <testoutput.dir>${basedir}/target/test-classes</testoutput.dir>  
+</properties>  
+   
+<profiles>  
+    <profile>  
+        <id>eclipse-folders</id>  
+        <properties>  
+            <output.dir>${basedir}/target/eclipse</output.dir>  
+            <testoutput.dir>${basedir}/target/eclipse</testoutput.dir>  
+        </properties>  
+    </profile>  
+</profiles>
+```
 
 В настройках проекта:
 

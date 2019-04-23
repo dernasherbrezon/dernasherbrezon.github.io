@@ -95,38 +95,44 @@ apt репозиторий в упрощенном виде - это HTTP сер
 
 Пример конфигурации выглядит следующим образом:
 
-	<plugin>
-		<groupId>com.aerse.maven</groupId>
-		<artifactId>apt-maven-plugin</artifactId>
-		<version>1.5</version>
-		<executions>
-			<execution>
-				<id>deploy</id>
-				<goals>
-					<goal>deploy</goal>
-				</goals>
-			</execution>
-		</executions>
-		<configuration>
-			<component>main</component>
-			<codename>strepo</codename>
-		</configuration>
-	</plugin>
+```xml
+<plugin>
+	<groupId>com.aerse.maven</groupId>
+	<artifactId>apt-maven-plugin</artifactId>
+	<version>1.5</version>
+	<executions>
+		<execution>
+			<id>deploy</id>
+			<goals>
+				<goal>deploy</goal>
+			</goals>
+		</execution>
+	</executions>
+	<configuration>
+		<component>main</component>
+		<codename>strepo</codename>
+	</configuration>
+</plugin>
+```
 	
 И секция distributionManagement (ничего <a href="https://maven.apache.org/plugins/maven-deploy-plugin/usage.html">необычного</a>):
 
-	<distributionManagement>
-		<repository>
-			<id>maven-release-repo</id>
-			<url>http://example.com/maven</url>
-		</repository>
-	</distributionManagement>
+```xml
+<distributionManagement>
+	<repository>
+		<id>maven-release-repo</id>
+		<url>http://example.com/maven</url>
+	</repository>
+</distributionManagement>
+```
 
 После выполнения фазы deploy, http://example.com/maven станет еще и apt репозиторием. И можно смело писать:
 
-	sudo add-apt-repository "deb http://example.com/maven strepo main"
-	sudo apt-get update
-	sudo apt-get install <artifactId>
+```bash
+sudo add-apt-repository "deb http://example.com/maven strepo main"
+sudo apt-get update
+sudo apt-get install <artifactId>
+```
 
 Немного любимого enterprise
 --------------------------
@@ -141,45 +147,53 @@ apt репозиторий в упрощенном виде - это HTTP сер
 
 Делается это опять же достаточно просто. Надо подключить плагин для работы с s3:
 
-	<build>
-		<extensions>
-			<extension>
-				<groupId>org.springframework.build</groupId>
-				<artifactId>aws-maven</artifactId>
-				<version>5.0.0.RELEASE</version>
-			</extension>
-		</extensions>
-		...
-	</build>
+```xml
+<build>
+	<extensions>
+		<extension>
+			<groupId>org.springframework.build</groupId>
+			<artifactId>aws-maven</artifactId>
+			<version>5.0.0.RELEASE</version>
+		</extension>
+	</extensions>
+</build>
+```
 
 Поменять url в секции distributionManagement на имя bucket'a:
 
-	<distributionManagement>
-		<repository>
-			<id>maven-release-repo</id>
-			<url>s3://example.bucket</url>
-		</repository>
-	</distributionManagement>
+```xml
+<distributionManagement>
+	<repository>
+		<id>maven-release-repo</id>
+		<url>s3://example.bucket</url>
+	</repository>
+</distributionManagement>
+```
 
 И настроить доступ к вашему bucket'у:
 
-	<servers>
-		<server>  
-			<id>maven-release-repo</id>  
-			<username>apikey</username>  
-			<password>apisecret</password>  
-		</server>
-		...
-	</servers>
+```xml
+<servers>
+	<server>  
+		<id>maven-release-repo</id>  
+		<username>apikey</username>  
+		<password>apisecret</password>  
+	</server>
+</servers>
+```
 
 На конечных серверах для доступа к такому репозиторию существует специальный плагин: <a href="https://launchpad.net/~leonard-ehrenfried/+archive/ubuntu/apt-transport-s3">apt-transport-s3</a>. К сожалению его еще нет в официальных репозиториях, поэтому необходимо добавить вручную один из репозиториев, где он содержится:
 
-	sudo add-apt-repository ppa:leonard-ehrenfried/apt-transport-s3
-	sudo apt-get install apt-transport-s3
+```bash
+sudo add-apt-repository ppa:leonard-ehrenfried/apt-transport-s3
+sudo apt-get install apt-transport-s3
+```
 
 После чего можно уже указывать наш s3 репозиторий:
 
-	sudo add-apt-repository "deb s3://apikey:apisecret@s3.amazonaws.com/example.bucket strepo main"
+```bash
+sudo add-apt-repository "deb s3://apikey:apisecret@s3.amazonaws.com/example.bucket strepo main"
+```
 
 Итого
 ------------

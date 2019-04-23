@@ -20,7 +20,7 @@
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><link rel='stylesheet' href='/css/custom.css'><style>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -273,7 +273,7 @@
   
 </svg>
 <span class='screen-reader-text'> </span>
-  <time class='entry-date' datetime='2009-01-10T13:14:18&#43;01:00'>10-01-2009</time>
+  <time class='entry-date' datetime='2009-01-10T13:14:18&#43;01:00'>10 Jan 2009</time>
 </span>
 
   
@@ -305,29 +305,26 @@
 </ol>
 
 <p>У каждого maven-проекта есть родительским pom. Поэтому в родительском pom&rsquo;е нужно:</p>
-
-<pre><code>&lt;build&gt;  
-    &lt;outputdirectory&gt;${output.dir}&lt;/outputdirectory&gt;  
-    &lt;testoutputdirectory&gt;${testoutput.dir}&lt;/testoutputdirectory&gt;  
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;build&gt;</span>  
+    <span style="color:#f92672">&lt;outputdirectory&gt;</span>${output.dir}<span style="color:#f92672">&lt;/outputdirectory&gt;</span>  
+    <span style="color:#f92672">&lt;testoutputdirectory&gt;</span>${testoutput.dir}<span style="color:#f92672">&lt;/testoutputdirectory&gt;</span>  
     ...  
-&lt;/build&gt;  
-
-&lt;properties&gt;  
-    &lt;output.dir&gt;${basedir}/target/classes&lt;/output.dir&gt;  
-    &lt;testoutput.dir&gt;${basedir}/target/test-classes&lt;/testoutput.dir&gt;  
-&lt;/properties&gt;  
-
-&lt;profiles&gt;  
-    &lt;profile&gt;  
-        &lt;id&gt;eclipse-folders&lt;/id&gt;  
-        &lt;properties&gt;  
-            &lt;output.dir&gt;${basedir}/target/eclipse&lt;/output.dir&gt;  
-            &lt;testoutput.dir&gt;${basedir}/target/eclipse&lt;/testoutput.dir&gt;  
-        &lt;/properties&gt;  
-    &lt;/profile&gt;  
-&lt;/profiles&gt;
-</code></pre>
-
+<span style="color:#f92672">&lt;/build&gt;</span>  
+  
+<span style="color:#f92672">&lt;properties&gt;</span>  
+    <span style="color:#f92672">&lt;output.dir&gt;</span>${basedir}/target/classes<span style="color:#f92672">&lt;/output.dir&gt;</span>  
+    <span style="color:#f92672">&lt;testoutput.dir&gt;</span>${basedir}/target/test-classes<span style="color:#f92672">&lt;/testoutput.dir&gt;</span>  
+<span style="color:#f92672">&lt;/properties&gt;</span>  
+   
+<span style="color:#f92672">&lt;profiles&gt;</span>  
+    <span style="color:#f92672">&lt;profile&gt;</span>  
+        <span style="color:#f92672">&lt;id&gt;</span>eclipse-folders<span style="color:#f92672">&lt;/id&gt;</span>  
+        <span style="color:#f92672">&lt;properties&gt;</span>  
+            <span style="color:#f92672">&lt;output.dir&gt;</span>${basedir}/target/eclipse<span style="color:#f92672">&lt;/output.dir&gt;</span>  
+            <span style="color:#f92672">&lt;testoutput.dir&gt;</span>${basedir}/target/eclipse<span style="color:#f92672">&lt;/testoutput.dir&gt;</span>  
+        <span style="color:#f92672">&lt;/properties&gt;</span>  
+    <span style="color:#f92672">&lt;/profile&gt;</span>  
+<span style="color:#f92672">&lt;/profiles&gt;</span></code></pre></div>
 <p>В настройках проекта:</p>
 
 <ul>
@@ -414,7 +411,7 @@
     </div>
   </div><script>window.__public_path__='\/assets\/js\/'</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script><script src='/js/custom.js'></script>
+<script src='/assets/js/main.fae8ed32.js'></script>
 
 </body>
 
