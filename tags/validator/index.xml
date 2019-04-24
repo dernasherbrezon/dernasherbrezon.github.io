@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>validator on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/validator/</link>
+    <link>https://dernasherbrezon.com/tags/validator/</link>
     <description>Recent content in validator on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Wed, 11 Apr 2012 13:14:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/validator/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/validator/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Производительность Hibernate Validator</title>
-      <link>http://dernasherbrezon.com/posts/hibernate-perf/</link>
+      <link>https://dernasherbrezon.com/posts/hibernate-perf/</link>
       <pubDate>Wed, 11 Apr 2012 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/hibernate-perf/</guid>
+      <guid>https://dernasherbrezon.com/posts/hibernate-perf/</guid>
       <description>Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности. Тестовый POJO:
 public class BusinessObject { @NotBlank private String name; @CustomNotNull(groups = { APIValidationGroup.class }) private String uuid; public String getName() { return name; } public void setName(String name) { this.name = name; } public String getUuid() { return uuid; } public void setUuid(String uuid) { this.uuid = uuid; } }  Для чистоты эксперимента и приближения к реальному сценарию я сделал кастомную валидацию, которая просто проверяет на null:</description>
     </item>

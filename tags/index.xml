@@ -2,632 +2,632 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/</link>
+    <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 11 Aug 2012 13:14:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>*nix</title>
-      <link>http://dernasherbrezon.com/tags/nix/</link>
+      <link>https://dernasherbrezon.com/tags/nix/</link>
       <pubDate>Sat, 11 Aug 2012 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/nix/</guid>
+      <guid>https://dernasherbrezon.com/tags/nix/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Spring</title>
-      <link>http://dernasherbrezon.com/tags/spring/</link>
+      <link>https://dernasherbrezon.com/tags/spring/</link>
       <pubDate>Sun, 11 Dec 2011 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/spring/</guid>
+      <guid>https://dernasherbrezon.com/tags/spring/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Spring-mvc</title>
-      <link>http://dernasherbrezon.com/tags/spring-mvc/</link>
+      <link>https://dernasherbrezon.com/tags/spring-mvc/</link>
       <pubDate>Fri, 11 Nov 2011 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/spring-mvc/</guid>
+      <guid>https://dernasherbrezon.com/tags/spring-mvc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>String</title>
-      <link>http://dernasherbrezon.com/tags/string/</link>
+      <link>https://dernasherbrezon.com/tags/string/</link>
       <pubDate>Sat, 11 Aug 2012 15:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/string/</guid>
+      <guid>https://dernasherbrezon.com/tags/string/</guid>
       <description></description>
     </item>
     
     <item>
       <title>acme</title>
-      <link>http://dernasherbrezon.com/tags/acme/</link>
+      <link>https://dernasherbrezon.com/tags/acme/</link>
       <pubDate>Sun, 10 Sep 2017 16:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/acme/</guid>
+      <guid>https://dernasherbrezon.com/tags/acme/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ads-b</title>
-      <link>http://dernasherbrezon.com/tags/ads-b/</link>
+      <link>https://dernasherbrezon.com/tags/ads-b/</link>
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/ads-b/</guid>
+      <guid>https://dernasherbrezon.com/tags/ads-b/</guid>
       <description></description>
     </item>
     
     <item>
       <title>apt</title>
-      <link>http://dernasherbrezon.com/tags/apt/</link>
+      <link>https://dernasherbrezon.com/tags/apt/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/apt/</guid>
+      <guid>https://dernasherbrezon.com/tags/apt/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bash</title>
-      <link>http://dernasherbrezon.com/tags/bash/</link>
+      <link>https://dernasherbrezon.com/tags/bash/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/bash/</guid>
+      <guid>https://dernasherbrezon.com/tags/bash/</guid>
       <description></description>
     </item>
     
     <item>
       <title>c</title>
-      <link>http://dernasherbrezon.com/tags/c/</link>
+      <link>https://dernasherbrezon.com/tags/c/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/c/</guid>
+      <guid>https://dernasherbrezon.com/tags/c/</guid>
       <description></description>
     </item>
     
     <item>
       <title>deb</title>
-      <link>http://dernasherbrezon.com/tags/deb/</link>
+      <link>https://dernasherbrezon.com/tags/deb/</link>
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/deb/</guid>
+      <guid>https://dernasherbrezon.com/tags/deb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>debian</title>
-      <link>http://dernasherbrezon.com/tags/debian/</link>
+      <link>https://dernasherbrezon.com/tags/debian/</link>
       <pubDate>Sat, 11 Aug 2012 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/debian/</guid>
+      <guid>https://dernasherbrezon.com/tags/debian/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker</title>
-      <link>http://dernasherbrezon.com/tags/docker/</link>
+      <link>https://dernasherbrezon.com/tags/docker/</link>
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/docker/</guid>
+      <guid>https://dernasherbrezon.com/tags/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dsp</title>
-      <link>http://dernasherbrezon.com/tags/dsp/</link>
+      <link>https://dernasherbrezon.com/tags/dsp/</link>
       <pubDate>Thu, 08 Mar 2018 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/dsp/</guid>
+      <guid>https://dernasherbrezon.com/tags/dsp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>eclipse</title>
-      <link>http://dernasherbrezon.com/tags/eclipse/</link>
+      <link>https://dernasherbrezon.com/tags/eclipse/</link>
       <pubDate>Sat, 10 Jan 2009 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/eclipse/</guid>
+      <guid>https://dernasherbrezon.com/tags/eclipse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>embedded</title>
-      <link>http://dernasherbrezon.com/tags/embedded/</link>
+      <link>https://dernasherbrezon.com/tags/embedded/</link>
       <pubDate>Sun, 10 Sep 2017 16:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/embedded/</guid>
+      <guid>https://dernasherbrezon.com/tags/embedded/</guid>
       <description></description>
     </item>
     
     <item>
       <title>flot</title>
-      <link>http://dernasherbrezon.com/tags/flot/</link>
+      <link>https://dernasherbrezon.com/tags/flot/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/flot/</guid>
+      <guid>https://dernasherbrezon.com/tags/flot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>gc</title>
-      <link>http://dernasherbrezon.com/tags/gc/</link>
+      <link>https://dernasherbrezon.com/tags/gc/</link>
       <pubDate>Fri, 28 Dec 2012 14:58:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/gc/</guid>
+      <guid>https://dernasherbrezon.com/tags/gc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>glassfish</title>
-      <link>http://dernasherbrezon.com/tags/glassfish/</link>
+      <link>https://dernasherbrezon.com/tags/glassfish/</link>
       <pubDate>Sat, 11 Apr 2009 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/glassfish/</guid>
+      <guid>https://dernasherbrezon.com/tags/glassfish/</guid>
       <description></description>
     </item>
     
     <item>
       <title>gnuradio</title>
-      <link>http://dernasherbrezon.com/tags/gnuradio/</link>
+      <link>https://dernasherbrezon.com/tags/gnuradio/</link>
       <pubDate>Thu, 08 Mar 2018 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/gnuradio/</guid>
+      <guid>https://dernasherbrezon.com/tags/gnuradio/</guid>
       <description></description>
     </item>
     
     <item>
       <title>heap</title>
-      <link>http://dernasherbrezon.com/tags/heap/</link>
+      <link>https://dernasherbrezon.com/tags/heap/</link>
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/heap/</guid>
+      <guid>https://dernasherbrezon.com/tags/heap/</guid>
       <description></description>
     </item>
     
     <item>
       <title>hibernate</title>
-      <link>http://dernasherbrezon.com/tags/hibernate/</link>
+      <link>https://dernasherbrezon.com/tags/hibernate/</link>
       <pubDate>Wed, 11 Apr 2012 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/hibernate/</guid>
+      <guid>https://dernasherbrezon.com/tags/hibernate/</guid>
       <description></description>
     </item>
     
     <item>
       <title>j2ee</title>
-      <link>http://dernasherbrezon.com/tags/j2ee/</link>
+      <link>https://dernasherbrezon.com/tags/j2ee/</link>
       <pubDate>Sat, 11 Apr 2009 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/j2ee/</guid>
+      <guid>https://dernasherbrezon.com/tags/j2ee/</guid>
       <description></description>
     </item>
     
     <item>
       <title>java</title>
-      <link>http://dernasherbrezon.com/tags/java/</link>
+      <link>https://dernasherbrezon.com/tags/java/</link>
       <pubDate>Sat, 20 Apr 2019 21:50:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/java/</guid>
+      <guid>https://dernasherbrezon.com/tags/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jetty</title>
-      <link>http://dernasherbrezon.com/tags/jetty/</link>
+      <link>https://dernasherbrezon.com/tags/jetty/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/jetty/</guid>
+      <guid>https://dernasherbrezon.com/tags/jetty/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jmeter</title>
-      <link>http://dernasherbrezon.com/tags/jmeter/</link>
+      <link>https://dernasherbrezon.com/tags/jmeter/</link>
       <pubDate>Fri, 28 Dec 2012 14:58:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/jmeter/</guid>
+      <guid>https://dernasherbrezon.com/tags/jmeter/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jquery plugins</title>
-      <link>http://dernasherbrezon.com/tags/jquery-plugins/</link>
+      <link>https://dernasherbrezon.com/tags/jquery-plugins/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/jquery-plugins/</guid>
+      <guid>https://dernasherbrezon.com/tags/jquery-plugins/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jsp</title>
-      <link>http://dernasherbrezon.com/tags/jsp/</link>
+      <link>https://dernasherbrezon.com/tags/jsp/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/jsp/</guid>
+      <guid>https://dernasherbrezon.com/tags/jsp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jstl</title>
-      <link>http://dernasherbrezon.com/tags/jstl/</link>
+      <link>https://dernasherbrezon.com/tags/jstl/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/jstl/</guid>
+      <guid>https://dernasherbrezon.com/tags/jstl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>junit</title>
-      <link>http://dernasherbrezon.com/tags/junit/</link>
+      <link>https://dernasherbrezon.com/tags/junit/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/junit/</guid>
+      <guid>https://dernasherbrezon.com/tags/junit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>letsencrypt</title>
-      <link>http://dernasherbrezon.com/tags/letsencrypt/</link>
+      <link>https://dernasherbrezon.com/tags/letsencrypt/</link>
       <pubDate>Sun, 10 Sep 2017 16:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/letsencrypt/</guid>
+      <guid>https://dernasherbrezon.com/tags/letsencrypt/</guid>
       <description></description>
     </item>
     
     <item>
       <title>log4j</title>
-      <link>http://dernasherbrezon.com/tags/log4j/</link>
+      <link>https://dernasherbrezon.com/tags/log4j/</link>
       <pubDate>Thu, 11 Oct 2012 15:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/log4j/</guid>
+      <guid>https://dernasherbrezon.com/tags/log4j/</guid>
       <description></description>
     </item>
     
     <item>
       <title>maven</title>
-      <link>http://dernasherbrezon.com/tags/maven/</link>
+      <link>https://dernasherbrezon.com/tags/maven/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/maven/</guid>
+      <guid>https://dernasherbrezon.com/tags/maven/</guid>
       <description></description>
     </item>
     
     <item>
       <title>memory</title>
-      <link>http://dernasherbrezon.com/tags/memory/</link>
+      <link>https://dernasherbrezon.com/tags/memory/</link>
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/memory/</guid>
+      <guid>https://dernasherbrezon.com/tags/memory/</guid>
       <description></description>
     </item>
     
     <item>
       <title>metrics</title>
-      <link>http://dernasherbrezon.com/tags/metrics/</link>
+      <link>https://dernasherbrezon.com/tags/metrics/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/metrics/</guid>
+      <guid>https://dernasherbrezon.com/tags/metrics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>monitoring</title>
-      <link>http://dernasherbrezon.com/tags/monitoring/</link>
+      <link>https://dernasherbrezon.com/tags/monitoring/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/monitoring/</guid>
+      <guid>https://dernasherbrezon.com/tags/monitoring/</guid>
       <description></description>
     </item>
     
     <item>
       <title>open source</title>
-      <link>http://dernasherbrezon.com/tags/open-source/</link>
+      <link>https://dernasherbrezon.com/tags/open-source/</link>
       <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/open-source/</guid>
+      <guid>https://dernasherbrezon.com/tags/open-source/</guid>
       <description></description>
     </item>
     
     <item>
       <title>openstack</title>
-      <link>http://dernasherbrezon.com/tags/openstack/</link>
+      <link>https://dernasherbrezon.com/tags/openstack/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/openstack/</guid>
+      <guid>https://dernasherbrezon.com/tags/openstack/</guid>
       <description></description>
     </item>
     
     <item>
       <title>openstack swift</title>
-      <link>http://dernasherbrezon.com/tags/openstack-swift/</link>
+      <link>https://dernasherbrezon.com/tags/openstack-swift/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/openstack-swift/</guid>
+      <guid>https://dernasherbrezon.com/tags/openstack-swift/</guid>
       <description></description>
     </item>
     
     <item>
       <title>radio</title>
-      <link>http://dernasherbrezon.com/tags/radio/</link>
+      <link>https://dernasherbrezon.com/tags/radio/</link>
       <pubDate>Thu, 08 Mar 2018 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/radio/</guid>
+      <guid>https://dernasherbrezon.com/tags/radio/</guid>
       <description></description>
     </item>
     
     <item>
       <title>raspberry pi</title>
-      <link>http://dernasherbrezon.com/tags/raspberry-pi/</link>
+      <link>https://dernasherbrezon.com/tags/raspberry-pi/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/raspberry-pi/</guid>
+      <guid>https://dernasherbrezon.com/tags/raspberry-pi/</guid>
       <description></description>
     </item>
     
     <item>
       <title>raspberrypi</title>
-      <link>http://dernasherbrezon.com/tags/raspberrypi/</link>
+      <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/raspberrypi/</guid>
+      <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
       <description></description>
     </item>
     
     <item>
       <title>refactoring</title>
-      <link>http://dernasherbrezon.com/tags/refactoring/</link>
+      <link>https://dernasherbrezon.com/tags/refactoring/</link>
       <pubDate>Mon, 11 May 2009 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/refactoring/</guid>
+      <guid>https://dernasherbrezon.com/tags/refactoring/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rrd</title>
-      <link>http://dernasherbrezon.com/tags/rrd/</link>
+      <link>https://dernasherbrezon.com/tags/rrd/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/rrd/</guid>
+      <guid>https://dernasherbrezon.com/tags/rrd/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rrdtool</title>
-      <link>http://dernasherbrezon.com/tags/rrdtool/</link>
+      <link>https://dernasherbrezon.com/tags/rrdtool/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/rrdtool/</guid>
+      <guid>https://dernasherbrezon.com/tags/rrdtool/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rtlsdr</title>
-      <link>http://dernasherbrezon.com/tags/rtlsdr/</link>
+      <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/rtlsdr/</guid>
+      <guid>https://dernasherbrezon.com/tags/rtlsdr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>s3</title>
-      <link>http://dernasherbrezon.com/tags/s3/</link>
+      <link>https://dernasherbrezon.com/tags/s3/</link>
       <pubDate>Tue, 18 Aug 2015 13:55:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/s3/</guid>
+      <guid>https://dernasherbrezon.com/tags/s3/</guid>
       <description></description>
     </item>
     
     <item>
       <title>satellite</title>
-      <link>http://dernasherbrezon.com/tags/satellite/</link>
+      <link>https://dernasherbrezon.com/tags/satellite/</link>
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/satellite/</guid>
+      <guid>https://dernasherbrezon.com/tags/satellite/</guid>
       <description></description>
     </item>
     
     <item>
       <title>satnogs</title>
-      <link>http://dernasherbrezon.com/tags/satnogs/</link>
+      <link>https://dernasherbrezon.com/tags/satnogs/</link>
       <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/satnogs/</guid>
+      <guid>https://dernasherbrezon.com/tags/satnogs/</guid>
       <description></description>
     </item>
     
     <item>
       <title>selectel</title>
-      <link>http://dernasherbrezon.com/tags/selectel/</link>
+      <link>https://dernasherbrezon.com/tags/selectel/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/selectel/</guid>
+      <guid>https://dernasherbrezon.com/tags/selectel/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sonarcube</title>
-      <link>http://dernasherbrezon.com/tags/sonarcube/</link>
+      <link>https://dernasherbrezon.com/tags/sonarcube/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/sonarcube/</guid>
+      <guid>https://dernasherbrezon.com/tags/sonarcube/</guid>
       <description></description>
     </item>
     
     <item>
       <title>spring</title>
-      <link>http://dernasherbrezon.com/tags/spring/</link>
+      <link>https://dernasherbrezon.com/tags/spring/</link>
       <pubDate>Thu, 11 Nov 2010 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/spring/</guid>
+      <guid>https://dernasherbrezon.com/tags/spring/</guid>
       <description></description>
     </item>
     
     <item>
       <title>systemd</title>
-      <link>http://dernasherbrezon.com/tags/systemd/</link>
+      <link>https://dernasherbrezon.com/tags/systemd/</link>
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/systemd/</guid>
+      <guid>https://dernasherbrezon.com/tags/systemd/</guid>
       <description></description>
     </item>
     
     <item>
       <title>travis-ci</title>
-      <link>http://dernasherbrezon.com/tags/travis-ci/</link>
+      <link>https://dernasherbrezon.com/tags/travis-ci/</link>
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/travis-ci/</guid>
+      <guid>https://dernasherbrezon.com/tags/travis-ci/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ubuntu</title>
-      <link>http://dernasherbrezon.com/tags/ubuntu/</link>
+      <link>https://dernasherbrezon.com/tags/ubuntu/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/ubuntu/</guid>
+      <guid>https://dernasherbrezon.com/tags/ubuntu/</guid>
       <description></description>
     </item>
     
     <item>
       <title>valgrind</title>
-      <link>http://dernasherbrezon.com/tags/valgrind/</link>
+      <link>https://dernasherbrezon.com/tags/valgrind/</link>
       <pubDate>Thu, 07 Jun 2018 10:07:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/valgrind/</guid>
+      <guid>https://dernasherbrezon.com/tags/valgrind/</guid>
       <description></description>
     </item>
     
     <item>
       <title>validator</title>
-      <link>http://dernasherbrezon.com/tags/validator/</link>
+      <link>https://dernasherbrezon.com/tags/validator/</link>
       <pubDate>Wed, 11 Apr 2012 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/validator/</guid>
+      <guid>https://dernasherbrezon.com/tags/validator/</guid>
       <description></description>
     </item>
     
     <item>
       <title>yourkit</title>
-      <link>http://dernasherbrezon.com/tags/yourkit/</link>
+      <link>https://dernasherbrezon.com/tags/yourkit/</link>
       <pubDate>Fri, 28 Dec 2012 14:58:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/yourkit/</guid>
+      <guid>https://dernasherbrezon.com/tags/yourkit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>администрирование</title>
-      <link>http://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
       <pubDate>Tue, 18 Aug 2015 13:55:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
       <description></description>
     </item>
     
     <item>
       <title>даунсэмплирование</title>
-      <link>http://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
       <description></description>
     </item>
     
     <item>
       <title>идеи</title>
-      <link>http://dernasherbrezon.com/tags/%D0%B8%D0%B4%D0%B5%D0%B8/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%B8%D0%B4%D0%B5%D0%B8/</link>
       <pubDate>Mon, 11 May 2009 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%B8%D0%B4%D0%B5%D0%B8/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%B8%D0%B4%D0%B5%D0%B8/</guid>
       <description></description>
     </item>
     
     <item>
       <title>космонавтика</title>
-      <link>http://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</link>
       <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</guid>
       <description></description>
     </item>
     
     <item>
       <title>космос</title>
-      <link>http://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/</link>
       <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/</guid>
       <description></description>
     </item>
     
     <item>
       <title>кубсат</title>
-      <link>http://dernasherbrezon.com/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/</link>
       <pubDate>Tue, 24 Sep 2013 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/</guid>
       <description></description>
     </item>
     
     <item>
       <title>перевод</title>
-      <link>http://dernasherbrezon.com/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/</link>
       <pubDate>Tue, 24 Sep 2013 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/</guid>
       <description></description>
     </item>
     
     <item>
       <title>производительность</title>
-      <link>http://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
+      <link>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</guid>
       <description></description>
     </item>
     
     <item>
       <title>разработка</title>
-      <link>http://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
+      <link>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
       <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</guid>
       <description></description>
     </item>
     
     <item>
       <title>спецификация</title>
-      <link>http://dernasherbrezon.com/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/</link>
+      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/</link>
       <pubDate>Tue, 24 Sep 2013 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/</guid>
       <description></description>
     </item>
     
     <item>
       <title>спутники</title>
-      <link>http://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
+      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
       <description></description>
     </item>
     
     <item>
       <title>тестирование</title>
-      <link>http://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
+      <link>https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
       <pubDate>Sat, 20 Apr 2019 21:50:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
+      <guid>https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
       <description></description>
     </item>
     

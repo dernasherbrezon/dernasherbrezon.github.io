@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Spring-mvc on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/spring-mvc/</link>
+    <link>https://dernasherbrezon.com/tags/spring-mvc/</link>
     <description>Recent content in Spring-mvc on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Fri, 11 Nov 2011 13:14:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/spring-mvc/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/spring-mvc/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Оптимизация spring-mvc</title>
-      <link>http://dernasherbrezon.com/posts/spring-mvc-tuning/</link>
+      <link>https://dernasherbrezon.com/posts/spring-mvc-tuning/</link>
       <pubDate>Fri, 11 Nov 2011 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/spring-mvc-tuning/</guid>
+      <guid>https://dernasherbrezon.com/posts/spring-mvc-tuning/</guid>
       <description>Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
  ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.</description>
     </item>

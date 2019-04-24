@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bash on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/bash/</link>
+    <link>https://dernasherbrezon.com/tags/bash/</link>
     <description>Recent content in bash on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 02 Mar 2019 18:22:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/bash/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Производительность rtl_sdr на raspberrypi</title>
-      <link>http://dernasherbrezon.com/posts/rtlsdr-perf/</link>
+      <link>https://dernasherbrezon.com/posts/rtlsdr-perf/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/rtlsdr-perf/</guid>
+      <guid>https://dernasherbrezon.com/posts/rtlsdr-perf/</guid>
       <description>Очень часто в сети можно встретить гиды по быстрой сборке на коленке анализатора радио с помощью rtl_sdr и raspberrypi. Большинство таких гидов ограничивается достаточно простым описанием: &amp;ldquo;возьмите одно вставьте другое, потом немного питоновских скриптов и у вас всё получится&amp;rdquo;. Для новичков и просто любителей DIY - это прекрасный подход. Можно достаточно быстро познакомится с технологией и увидеть результат. Но что делать если нужно собрать что-то более продвинутое? Что если важна производительность?</description>
     </item>
     

@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>raspberrypi on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/raspberrypi/</link>
+    <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 04 Mar 2019 17:22:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Сжимание I/Q потока на raspberrypi</title>
-      <link>http://dernasherbrezon.com/posts/rtlsdr-gzip/</link>
+      <link>https://dernasherbrezon.com/posts/rtlsdr-gzip/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/rtlsdr-gzip/</guid>
+      <guid>https://dernasherbrezon.com/posts/rtlsdr-gzip/</guid>
       <description>Недавно я добавил поддержку более 20 спутников в r2cloud. Из-за этого принимаемых данных стало значительно больше и диск переполнился. Чтобы как-то решить эту проблему, я уменьшил количество сохраняемых наблюдений. Теперь сохраняются последние 3 наблюдения для каждого спутника. Это не сильно помогло:
 Дело в том, что при пролёте спутника, я сохраняю данные в raw I/Q с частотой пример 240 000 сэмплов в секунду. Это создаёт файл:
 240 000 байт/сек * 2 (канала) * 12 минут = 288000000 байт = ~288мб Почему такая большая частота?</description>
@@ -23,10 +23,10 @@
     
     <item>
       <title>Производительность rtl_sdr на raspberrypi</title>
-      <link>http://dernasherbrezon.com/posts/rtlsdr-perf/</link>
+      <link>https://dernasherbrezon.com/posts/rtlsdr-perf/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/rtlsdr-perf/</guid>
+      <guid>https://dernasherbrezon.com/posts/rtlsdr-perf/</guid>
       <description>Очень часто в сети можно встретить гиды по быстрой сборке на коленке анализатора радио с помощью rtl_sdr и raspberrypi. Большинство таких гидов ограничивается достаточно простым описанием: &amp;ldquo;возьмите одно вставьте другое, потом немного питоновских скриптов и у вас всё получится&amp;rdquo;. Для новичков и просто любителей DIY - это прекрасный подход. Можно достаточно быстро познакомится с технологией и увидеть результат. Но что делать если нужно собрать что-то более продвинутое? Что если важна производительность?</description>
     </item>
     

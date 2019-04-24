@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>flot on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/flot/</link>
+    <link>https://dernasherbrezon.com/tags/flot/</link>
     <description>Recent content in flot on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 31 Jul 2017 12:45:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/flot/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/flot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Мониторинг Raspberry PI</title>
-      <link>http://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
+      <link>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/raspberrypi-monitoring/</guid>
+      <guid>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</guid>
       <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:
  самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.
 Самодостаточность автоматически означает, что данные надо хранить локально.</description>

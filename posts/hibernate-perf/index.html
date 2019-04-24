@@ -9,14 +9,14 @@ public class BusinessObject { @NotBlank private String name; @CustomNotNull(grou
 <meta property='og:title' content='Производительность Hibernate Validator • dernasherbrezon'>
 <meta property='og:description' content='Недавно столкнулся с библиотекой Hibernate Validator и jsr 303 в частности. Ниже привожу небольшой микро-бенчмарк тестирования производительности. Тестовый POJO:
 public class BusinessObject { @NotBlank private String name; @CustomNotNull(groups = { APIValidationGroup.class }) private String uuid; public String getName() { return name; } public void setName(String name) { this.name = name; } public String getUuid() { return uuid; } public void setUuid(String uuid) { this.uuid = uuid; } }  Для чистоты эксперимента и приближения к реальному сценарию я сделал кастомную валидацию, которая просто проверяет на null:'>
-<meta property='og:url' content='http://dernasherbrezon.com/posts/hibernate-perf/'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/hibernate-perf/'>
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='hibernate'><meta property='article:tag' content='validator'><meta property='article:published_time' content='2012-04-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2012-04-11T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.53" />
 
   <title>Производительность Hibernate Validator • dernasherbrezon</title>
-  <link rel='canonical' href='http://dernasherbrezon.com/posts/hibernate-perf/'>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/hibernate-perf/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -45,7 +45,7 @@ public class BusinessObject { @NotBlank private String name; @CustomNotNull(grou
     dernasherbrezon
     </h2>
     <div class='desc'>
-    
+    Блог о программировании на Java
     </div>
   </header>
 
@@ -247,7 +247,7 @@ public class BusinessObject { @NotBlank private String name; @CustomNotNull(grou
 
       <header id='header' class='header site-header'>
         <div class='container sep-after'>
-          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'></p>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
           </div>
         </div>
       </header>

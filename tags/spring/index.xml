@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>spring on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/spring/</link>
+    <link>https://dernasherbrezon.com/tags/spring/</link>
     <description>Recent content in spring on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Thu, 11 Nov 2010 13:14:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Запуск Jetty Embedded через spring</title>
-      <link>http://dernasherbrezon.com/posts/jetty-embedded-maven/</link>
+      <link>https://dernasherbrezon.com/posts/jetty-embedded-maven/</link>
       <pubDate>Thu, 11 Nov 2010 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/jetty-embedded-maven/</guid>
+      <guid>https://dernasherbrezon.com/posts/jetty-embedded-maven/</guid>
       <description>Для начала необходимо добавить зависимости в pom.xml:
 &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-server&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;exclusions&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jndi-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-annotation-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jaas-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;example-async-rest-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;/exclusions&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-servlet&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-jsp-2.1&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-context&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-webmvc&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; Затем в main-class указать:
 Server server = new Server(9090); ServletHolder holder = new ServletHolder(new DispatcherServlet()); holder.</description>

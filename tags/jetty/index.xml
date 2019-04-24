@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>jetty on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/jetty/</link>
+    <link>https://dernasherbrezon.com/tags/jetty/</link>
     <description>Recent content in jetty on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sat, 02 Mar 2019 12:48:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/jetty/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/jetty/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Тестирование JSP тэгов</title>
-      <link>http://dernasherbrezon.com/posts/jsp-tag-testing/</link>
+      <link>https://dernasherbrezon.com/posts/jsp-tag-testing/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/jsp-tag-testing/</guid>
+      <guid>https://dernasherbrezon.com/posts/jsp-tag-testing/</guid>
       <description>Недавно для себя открыл совершенно бесплатный для open source проектов sonarcloud. Я верю, что статичный анализ кода - это очень полезная штука, поэтому сразу же решил перевести свои наиболее популярные проекты туда.
 Среди них был достаточно маленький проект jtimeago. Это небольшая библиотека jsp тэгов для вывода дат.
 После добавления проекта через travis, я увидел, что jtimeago полностью зеленый.
@@ -24,20 +24,20 @@
     
     <item>
       <title>Оптимизация web приложения с помощью YourKit и JMeter</title>
-      <link>http://dernasherbrezon.com/posts/webapp-perf/</link>
+      <link>https://dernasherbrezon.com/posts/webapp-perf/</link>
       <pubDate>Fri, 28 Dec 2012 14:58:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/webapp-perf/</guid>
+      <guid>https://dernasherbrezon.com/posts/webapp-perf/</guid>
       <description>Постановка задачи  web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на http://wiki.eclipse.org/Jetty/Howto/Spring IoC - spring 3.0.5 Servlet - собственный сервлет для роутинга запросов к обработчикам. Mysql 5.5, jdbc driver 5.1.21 view - JSP + JSTL YourKit 11 JMeter 2.8  Приложение:
  две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.</description>
     </item>
     
     <item>
       <title>Запуск Jetty Embedded через spring</title>
-      <link>http://dernasherbrezon.com/posts/jetty-embedded-maven/</link>
+      <link>https://dernasherbrezon.com/posts/jetty-embedded-maven/</link>
       <pubDate>Thu, 11 Nov 2010 13:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/jetty-embedded-maven/</guid>
+      <guid>https://dernasherbrezon.com/posts/jetty-embedded-maven/</guid>
       <description>Для начала необходимо добавить зависимости в pom.xml:
 &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-server&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;exclusions&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jndi-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-annotation-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;test-jaas-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;org.mortbay.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;example-async-rest-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;/exclusions&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-servlet&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-jsp-2.1&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.eclipse.jetty&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;jetty-webapp&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;7.2.0.RC0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-core&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-context&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-webmvc&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.1.RELEASE&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; Затем в main-class указать:
 Server server = new Server(9090); ServletHolder holder = new ServletHolder(new DispatcherServlet()); holder.</description>

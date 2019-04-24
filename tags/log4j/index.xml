@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>log4j on dernasherbrezon</title>
-    <link>http://dernasherbrezon.com/tags/log4j/</link>
+    <link>https://dernasherbrezon.com/tags/log4j/</link>
     <description>Recent content in log4j on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Thu, 11 Oct 2012 15:14:18 +0100</lastBuildDate>
     
-	<atom:link href="http://dernasherbrezon.com/tags/log4j/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://dernasherbrezon.com/tags/log4j/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Log4j DOMConfigurator</title>
-      <link>http://dernasherbrezon.com/posts/dom4jconfigurator/</link>
+      <link>https://dernasherbrezon.com/posts/dom4jconfigurator/</link>
       <pubDate>Thu, 11 Oct 2012 15:14:18 +0100</pubDate>
       
-      <guid>http://dernasherbrezon.com/posts/dom4jconfigurator/</guid>
+      <guid>https://dernasherbrezon.com/posts/dom4jconfigurator/</guid>
       <description>DOMConfigurator не поддерживает подстановку свойств при реконфигурации. Будьте бдительны!
 Use case:
  Конфигурация по умолчанию с использованием log4j.configuration параметра Получение свойств и проставление через System.setProperty() DOMConfigurator.configure(System.getProperty(&amp;quot;log4j.configuration&amp;quot;))  </description>
