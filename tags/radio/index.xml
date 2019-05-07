@@ -5,10 +5,19 @@
     <link>https://dernasherbrezon.com/tags/radio/</link>
     <description>Recent content in radio on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 08 Mar 2018 17:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 05 May 2019 18:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/radio/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Расчёт вероятности ошибки для BPSK</title>
+      <link>https://dernasherbrezon.com/posts/ber-bpsk/</link>
+      <pubDate>Sun, 05 May 2019 18:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/ber-bpsk/</guid>
+      <description>Введение Моя сеть приёма сигналов со спутников r2cloud постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого.</description>
+    </item>
     
     <item>
       <title>DSP на Java</title>

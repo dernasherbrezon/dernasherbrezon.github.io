@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Введение Моя сеть приёма сигналов со спутников r2cloud постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Расчёт вероятности ошибки для BPSK • dernasherbrezon'>
+<meta property='og:description' content='Введение Моя сеть приёма сигналов со спутников r2cloud постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/ber-bpsk/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='awgn'><meta property='article:tag' content='matlab'><meta property='article:published_time' content='2019-05-05T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-05-05T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Расчёт вероятности ошибки для BPSK • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/ber-bpsk/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0454545454545454em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0454545454545454em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0454545454545454em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0454545454545454em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0909090909090908em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1363636363636362em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.0454545454545454em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberry-pi/' style='font-size:1.0454545454545454em'>raspberry pi</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.0454545454545454em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.0909090909090908em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0454545454545454em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2727272727272727em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0909090909090908em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Расчёт вероятности ошибки для BPSK</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-05-05T18:22:18&#43;01:00'>05 May 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h2 id="введение">Введение</h2>
+
+<p>Моя сеть приёма сигналов со спутников <a href="https://github.com/dernasherbrezon/r2cloud" target="_blank">r2cloud</a> постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого. И стал ли новый код лучше, если я добавлю какой-нибудь другой блок в обработку.</p>
+
+<p>Всё это привело меня к \( E_b / N_0 \). Эта метрика показывает отношение энергии сигнала, приходящейся на 1 бит принимаемого сообщения (\( E_b \)), к энергетической спектральной плотности шума (\( N_0 \)). Почему она так важна? Дело в том, что она не зависит от способа модуляции сигнала и пропускной способности канала. Из-за этого её можно использовать, чтобы сравнивать различные модуляции между собой. Обычно строят график отношения \( E_b / N_0 \) к вероятности ошибки (BER). Вот <a href="https://ru.wikipedia.org/wiki/Eb/N0" target="_blank">пример</a> графика сравнения BPSK/QPSK/8-PSK/16-PSK:</p>
+
+<p><img src="PSK_BER_curves.svg" alt="" /></p>
+
+<p>Что из этого графика можно понять?</p>
+
+<ol>
+<li>Если увеличивать энергию передаваемого бита, то уменьшается вероятность возникновения ошибки.</li>
+<li>В BPSK/QPSK ошибка возникает значительно реже, чем в 8-PSK и 16-PSK при одинаковых значениях энергии передаваемого бита.</li>
+<li>График, например, читается следующим образом: при \( E_b / N_0 \) равным 4 децибелла и BPSK модуляции можно получить 1 ошибочный бит на каждые 100 полученных.</li>
+</ol>
+
+<p>Мне же график прежде всего нужен:</p>
+
+<ol>
+<li>Сравнивать теоретические значения с практической реализацией демодулятора. Прямо сейчас я точно знаю, что различия есть из-за ограниченной точности АЦП. Дело в том, что rtl-sdr имеет разрешающую способность 8 бит. А в теории числа могут быть бесконечной точности. Именно эта разница и должна давать ошибку.</li>
+<li>Анализировать улучшится ли демодулятор, если добавить какой-то определённый блок. Как минимум я хочу попробовать различные алгоритмы получения несущего сигнала и компенсации <a href="https://ru.wikipedia.org/wiki/Многолучевое_распространение" target="_blank">многолучевого распространения</a>.</li>
+</ol>
+
+<p>Ну и для того, чтобы понять математику, я решил проделать выводы сам. Ниже я буду рассчитывать вероятности ошибки для BPSK (см. синий график выше). Вдохновение я черпал у <a href="http://www.dsplog.com/2007/08/05/bit-error-probability-for-bpsk-modulation/" target="_blank">dsplog</a> плюс добавлял свои мысли.</p>
+
+<h2 id="дано">Дано</h2>
+
+<p>Прежде всего необходимо описать физику процесса. Схема процесса показана ниже:</p>
+
+<p><img src="bpsk.png" alt="" /></p>
+
+<ol>
+<li>Изначальное сообщение кодируется в аналоговый сигнал. &ldquo;1&rdquo; кодируется в \(+\sqrt{E_b}\), &ldquo;0&rdquo; кодируется в \(-\sqrt{E_b}\). Почему именно как корень из \(E_b\)? Не знаю. Это единственное место, где я не разобрался.</li>
+<li>После этого сигнал складывается с <a href="https://ru.wikipedia.org/wiki/Аддитивный_белый_гауссовский_шум" target="_blank">аддитивным белым гауссовским шумом</a>.</li>
+<li>Далее сигнал демодулируется.</li>
+</ol>
+
+<p>Модулированный BPSK сигнал выглядит следующим образом:</p>
+
+<p><a href="bpsk-constellation.m" target="_blank"><img src="bpsk-constellation.png" alt="" /></a></p>
+
+<p>Красными точками обозначается сигнал без шума. Синими - сигнал с добавлением белого гауссовского шума. Как демодулируется этот сигнал? Все точки, которые больше &ldquo;0&rdquo; становятся &ldquo;1&rdquo;, а те, что меньше &ldquo;0&rdquo; становятся &ldquo;0&rdquo;. На рисунке выше все синие точки достаточно далеко от &ldquo;0&rdquo;, поэтому информацию можно однозначно восстановить. Но что если шум будет сильнее?</p>
+
+<p><a href="ber-awgn.m" target="_blank"><img src="ber-awgn.png" alt="" /></a></p>
+
+<p>Тут уже не всё так однозначно. Видно, что некоторые точки закодированные как &ldquo;1&rdquo; на самом деле оказались меньше &ldquo;0&rdquo;. И если бы я попытался их демодулировать, то получил бы неправильную информацию.</p>
+
+<h2 id="решение">Решение</h2>
+
+<p>Теперь, когда стало понятно влияние шума на результат демодуляции, можно переходить к графику зависимости вероятности от энергии сигнала. Этот график поможет посчитать вероятность ошибок для различных входных значений. Для начала возьмём сигнал без шума. Вероятность получения &ldquo;0&rdquo; или &ldquo;1&rdquo; всегда 1.</p>
+
+<p><a href="no-error-bpsk.m" target="_blank"><img src="no-error-bpsk.png" alt="" /></a></p>
+
+<p>Частота получения ошибочных битов (Bit error rate) будет 0. Т.е. 0 ошибочных битов на бесконечное количество принятых. В случае наличия гауссовского шума, вероятность получения определяется гауссовской функцией вероятности:</p>
+
+<p><a href="awgn-bpsk.m" target="_blank"><img src="awgn-bpsk.png" alt="" /></a></p>
+
+<p>Гауссовский шум определяется следующей формулой:</p>
+
+<p>$$
+p(x) = \dfrac{1}{\sqrt{2\pi\sigma^2}}e^\dfrac{-(x-\mu)^2}{2\sigma^2}
+$$</p>
+
+<p>Где:</p>
+
+<ul>
+<li>\(\mu=0\),</li>
+<li>\(\sigma^2=N_0/2\)</li>
+</ul>
+
+<p>При передаче &ldquo;1&rdquo; \(\mu=+\sqrt{E_b}\), при &ldquo;0&rdquo; \(\mu=-\sqrt{E_b}\). Подставляя это в формулу:</p>
+
+<p>$$
+\begin{align}
+P(x|s_0)=\dfrac{1}{\sqrt{\pi N_0}}e^\dfrac{-(x+\sqrt{E_b})^2}{N_0} \newline
+P(x|s_1)=\dfrac{1}{\sqrt{\pi N_0}}e^\dfrac{-(x-\sqrt{E_b})^2}{N_0}
+\end{align}
+$$</p>
+
+<p>Теперь самое интересное.</p>
+
+<p><img src="awgn-bpsk-error.png" alt="" /></p>
+
+<p>На этом рисунке показаны области возникновения ошибки. Зелёная область - это место где возникает ошибка при передаче &ldquo;1&rdquo;, красная - при передаче &ldquo;0&rdquo;. Общую вероятность ошибки можно записать с помощью формулы полной вероятности:</p>
+
+<p>$$
+P(error)=\dfrac{1}{2}P(error|s_0) + \dfrac{1}{2}P(error|s_1)
+$$</p>
+
+<p>После этого необходимо найти каждую из вероятностей:</p>
+
+<p>$$
+\begin{align}
+P(error|s_0) = \int_{0}^{\infty}P(x|s_0)dx = \dfrac{1}{\sqrt{\pi N_0}}\int_{0}^{\infty}e^\dfrac{-(x+\sqrt{E_b})^2}{N_0}dx \newline
+P(error|s_1) = \int_{-\infty}^{0}P(x|s_1)dx = \dfrac{1}{\sqrt{\pi N_0}}\int_{-\infty}^{0}e^\dfrac{-(x-\sqrt{E_b})^2}{N_0}dx
+\end{align}
+$$</p>
+
+<p>Обычно вероятность ошибки записывают с помощью <a href="https://ru.wikipedia.org/wiki/Функция_ошибок" target="_blank">функции ошибок</a>:</p>
+
+<p>$$
+erfc(x)=\dfrac{2}{\sqrt\pi}\int_{0}^{x}e^{-t^2}dt
+$$</p>
+
+<p>Для этого необходимо сделать следующее:</p>
+
+<p>$$
+z=\dfrac{y+\sqrt{E_b}}{\sqrt{N_0}} =&gt; z\sqrt{N_0} = y + \sqrt{E_b}
+$$</p>
+
+<p>Заменить пределы интегрирования:</p>
+
+<p>$$
+\begin{align}
+y=0 =&gt; z = \dfrac{\sqrt{E_b}}{\sqrt{N_0}} \newline
+y=\infty =&gt; z = \infty
+\end{align}
+$$</p>
+
+<p>Получившаяся ошибка записывается как:</p>
+
+<p>$$
+\begin{align}
+P(error|s_0)=\dfrac{1}{\sqrt{\pi N_0}}\int_\limits{\sqrt{\dfrac{E_b}{N_0}}}^{\infty}e^{-z^2}\sqrt{N_0}dz
+=\dfrac{1}{\sqrt{\pi}}\int_\limits{\sqrt{\dfrac{E_b}{N_0}}}^{\infty}e^{-z^2}dz
+=\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})
+\end{align}
+$$</p>
+
+<p>Аналогично можно найти ошибку при передачи &ldquo;1&rdquo;:</p>
+
+<p>$$
+\begin{align}
+P(error|s_1)=1-P(s_1)=1-\dfrac{1}{2}erfc(-\sqrt{\dfrac{E_b}{N_0}})
+\end{align}
+$$</p>
+
+<p>Можно воспользоваться свойством функции ошибок:</p>
+
+<p>$$
+\begin{align}
+erfc(-x)=2-erfc(x) =&gt; P(error|s_1) = \dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})
+\end{align}
+$$</p>
+
+<p>Если подставить в формулу полной вероятности:</p>
+
+<p>$$
+P(error)=\dfrac{1}{2}(\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})) + \dfrac{1}{2}(\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}}))=\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})
+$$</p>
+
+<h2 id="ответ">Ответ</h2>
+
+<p>Получившийся график:</p>
+
+<p><a href="ber-bpsk.m" target="_blank"><img src="ber-bpsk.png" alt="" /></a></p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/radio/'>radio</a>, <a class='tag' href='/tags/bpsk/'>bpsk</a>, <a class='tag' href='/tags/ber/'>ber</a>, <a class='tag' href='/tags/awgn/'>awgn</a>, <a class='tag' href='/tags/matlab/'>matlab</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/signed-urls/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Подписанные ссылки</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script><script type='text/x-mathjax-config'>
+  MathJax.Hub.Config({})
+</script>
+
+<script type='text/javascript' async src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+
+</html>
+
