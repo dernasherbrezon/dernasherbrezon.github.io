@@ -3,6 +3,7 @@ title: "Расчёт вероятности ошибки для BPSK"
 date: 2019-05-05T18:22:18+01:00
 draft: false
 mathjax: true
+images: [/img/ber-bpsk.png]
 tags:
   - radio
   - bpsk
@@ -158,4 +159,4 @@ $$
 
 Получившийся график:
 
-[![](ber-bpsk.png)](ber-bpsk.m)
+[![](/img/ber-bpsk.png)](ber-bpsk.m)
