@@ -2,9 +2,9 @@
   xmlns:media="http://search.yahoo.com/mrss/"
   xmlns:turbo="http://turbo.yandex.ru" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>dernasherbrezon</title>
+    <title>{{ .Site.Title }}</title>
     <link>{{ .Permalink }}</link>
-    <description>Блог о программировании на Java</description>
+    <description>{{ .Site.Params.info.description }}</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>{{ with .Site.Author.email }}
     <managingEditor>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</managingEditor>{{end}}{{ with .Site.Author.email }}
