@@ -2,6 +2,7 @@
 title: "DSP на Java"
 date: 2018-03-08T17:22:18+01:00
 draft: false
+images: [/img/evf0t2iu5xcammoaobfgopwewai.png]
 tags:
   - java
   - dsp
@@ -11,7 +12,7 @@ tags:
 ---
 Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C++. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с [Метеор-М №2](https://ru.wikipedia.org/wiki/Метеор-М_№2).
 
-![DSP in Java](evf0t2iu5xcammoaobfgopwewai.png)
+![DSP in Java](/img/evf0t2iu5xcammoaobfgopwewai.png)
 
 # Предисловие
 

@@ -1,0 +1,43 @@
+<rss version="2.0" xmlns:yandex="http://news.yandex.ru"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:turbo="http://turbo.yandex.ru" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dernasherbrezon</title>
+    <link>{{ .Permalink }}</link>
+    <description>Блог о программировании на Java</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru</language>{{ with .Site.Author.email }}
+    <managingEditor>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</managingEditor>{{end}}{{ with .Site.Author.email }}
+    <webMaster>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</webMaster>{{end}}{{ with .Site.Copyright }}
+    <copyright>{{.}}</copyright>{{end}}{{ if not .Date.IsZero }}
+    <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
+    {{ with .OutputFormats.Get "RSS" }}
+        {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
+    {{ end }}
+    {{ range .Pages }}
+    <item turbo="true">
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      {{ with .Site.Author.email }}<author>{{.}}{{ with $.Site.Author.name }} ({{.}}){{end}}</author>{{end}}
+      <guid>{{ .Permalink }}</guid>
+      <description>{{ .Summary | html }}</description>
+      <turbo:content>
+      	{{ `<![CDATA[` | safeHTML }}
+      		<header>
+      			<h1>{{ .Title }}</h1>
+				{{- with .Params.images -}}
+				  {{- range first 1 . -}}
+				    <figure>
+				    	<img src="{{ . | absURL }}"/>
+				    </figure>
+				  {{- end -}}
+				{{- end -}}
+      		</header>
+      		{{ partial "entry/content" . }}
+      	{{ `]]>` | safeHTML }}
+      </turbo:content>
+    </item>
+    {{ end }}
+  </channel>
+</rss>
