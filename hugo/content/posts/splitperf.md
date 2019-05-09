@@ -22,21 +22,23 @@ tags:
 
 В результате получились следующие значения:
 
-![](1.png)
-![](2.png)
-![](3.png)
-![](4.png)
+![](/img/splitperf/1.png)
+![](/img/splitperf/2.png)
+![](/img/splitperf/3.png)
+![](/img/splitperf/4.png)
 
 Выводы:
 
   - Стабильно плохой результат показывает Pattern.split. Он генерирует множество объектов, да и слишком общий для решения такой частной задачи. Использования паттерна это достаточно большой overhead.
   - для не lazy тестов google guava показывает достаточно плохой результат. Видимо это связано с количеством мусора который генерирует библиотека. В исходных кодах можно найти следующие конструкции:
 
-		String description = new StringBuilder("CharMatcher.is(")  
-		    .append(Integer.toHexString(match))  
-		    .append(")")  
-		    .toString();  
-		return new CharMatcher(description) {...}; 
+```java
+String description = new StringBuilder("CharMatcher.is(")  
+    .append(Integer.toHexString(match))  
+    .append(")")  
+    .toString();  
+return new CharMatcher(description) {...}; 
+```
 
   - Заметное отставание даёт commons-lang на lazy итерациях. Наверное потому, что они не поддерживаются.
   - Как всегда победителем становится собственная реализация.

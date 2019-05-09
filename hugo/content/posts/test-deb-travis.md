@@ -2,6 +2,7 @@
 title: "Тестирование debian пакетов в Travis-CI"
 date: 2017-11-04T13:51:18+01:00
 draft: false
+images: [/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png]
 tags:
   - deb
   - travis-ci
@@ -20,14 +21,14 @@ tags:
 - запуск: проверка зависимостей в рантайме
 - тестирование запущенного приложения: проверка prod конфигурации
 
-![](1tonmhzpsbqtt5yqf6sxnpumnk8.png)
+![](/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png)
 
 Введение
 -----------
 
 Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов. Поэтому я провел небольшое исследование экосистемы и получил следующее:
 
-![](rw9hiwy9lgzw4oxcgijh85_qvnw.png)
+![](/img/test-deb-travis/rw9hiwy9lgzw4oxcgijh85_qvnw.png)
 
 autopkgtest
 -----------
@@ -37,7 +38,7 @@ autopkgtest
 debci
 -----------
 
-![](soiwyhiobqzphzpiagvplg9ryfo.png)
+![](/img/test-deb-travis/soiwyhiobqzphzpiagvplg9ryfo.png)
 
 [debci](https://github.com/terceiro/debci)  - это [официальная](https://ci.debian.net) система для тестирования пакетов. Используется самим сообществом debian для continuous integration релизов. Представляет собой набор сервисов, которые общаются между собой через rabbitmq:
 

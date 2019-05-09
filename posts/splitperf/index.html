@@ -325,28 +325,26 @@
 
 <p>В результате получились следующие значения:</p>
 
-<p><img src="1.png" alt="" />
-<img src="2.png" alt="" />
-<img src="3.png" alt="" />
-<img src="4.png" alt="" /></p>
+<p><img src="/img/splitperf/1.png" alt="" />
+<img src="/img/splitperf/2.png" alt="" />
+<img src="/img/splitperf/3.png" alt="" />
+<img src="/img/splitperf/4.png" alt="" /></p>
 
 <p>Выводы:</p>
 
 <ul>
 <li>Стабильно плохой результат показывает Pattern.split. Он генерирует множество объектов, да и слишком общий для решения такой частной задачи. Использования паттерна это достаточно большой overhead.</li>
-
-<li><p>для не lazy тестов google guava показывает достаточно плохой результат. Видимо это связано с количеством мусора который генерирует библиотека. В исходных кодах можно найти следующие конструкции:</p>
-
-<pre><code>String description = new StringBuilder(&quot;CharMatcher.is(&quot;)  
-    .append(Integer.toHexString(match))  
-    .append(&quot;)&quot;)  
-    .toString();  
-return new CharMatcher(description) {...}; 
-</code></pre></li>
-
-<li><p>Заметное отставание даёт commons-lang на lazy итерациях. Наверное потому, что они не поддерживаются.</p></li>
-
-<li><p>Как всегда победителем становится собственная реализация.</p></li>
+<li>для не lazy тестов google guava показывает достаточно плохой результат. Видимо это связано с количеством мусора который генерирует библиотека. В исходных кодах можно найти следующие конструкции:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String description <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuilder<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;CharMatcher.is(&#34;</span><span style="color:#f92672">)</span>  
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">toHexString</span><span style="color:#f92672">(</span>match<span style="color:#f92672">))</span>  
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;)&#34;</span><span style="color:#f92672">)</span>  
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>  
+<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CharMatcher<span style="color:#f92672">(</span>description<span style="color:#f92672">)</span> <span style="color:#f92672">{...};</span> </code></pre></div>
+<ul>
+<li>Заметное отставание даёт commons-lang на lazy итерациях. Наверное потому, что они не поддерживаются.</li>
+<li>Как всегда победителем становится собственная реализация.
+<br /></li>
 </ul>
 
 <p>Выводы 2:</p>

@@ -13,7 +13,7 @@
  В сознании каждого человека есть одна простая мысль: космические технологии - это сложно.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/enterprise-java-space/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='космос'><meta property='article:tag' content='космонавтика'><meta property='article:tag' content='разработка'><meta property='article:tag' content='open source'><meta property='article:tag' content='java'><meta property='article:tag' content='satnogs'><meta property='article:published_time' content='2017-04-08T12:48:18&#43;01:00'/><meta property='article:modified_time' content='2017-04-08T12:48:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/enterprise-java-space/24dbbef6d38b4de59fef6b67a0308e40.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='космос'><meta property='article:tag' content='космонавтика'><meta property='article:tag' content='разработка'><meta property='article:tag' content='open source'><meta property='article:tag' content='java'><meta property='article:tag' content='satnogs'><meta property='article:published_time' content='2017-04-08T12:48:18&#43;01:00'/><meta property='article:modified_time' content='2017-04-08T12:48:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.53" />
 
@@ -311,7 +311,7 @@
 <p>Председатель Шенчжи Ян.</p>
 </blockquote>
 
-<p><img src="24dbbef6d38b4de59fef6b67a0308e40.jpg" alt="" /></p>
+<p><img src="/img/enterprise-java-space/24dbbef6d38b4de59fef6b67a0308e40.jpg" alt="" /></p>
 
 <p>В сознании каждого человека есть одна простая мысль: космические технологии - это сложно. На самом деле это не так. Не все технологии, применимые в космической отрасли - это Rocket science. И последние успехи в космонавтике, ренессанс космической тематики сподвигли меня на поиск проблемных областей, которые простой Enterprise Java разработчик может улучшить.
 <cut />
@@ -336,7 +336,7 @@
 
 <p>Поскольку я прежде всего программист, меня заинтересовала именно программная часть, а в особенности digital signal processing. Как из .wav файла можно получить данные. Но прежде чем расчехлять прибор и начать кодить необходимо проанализировать существующие решения. Если вкратце, то эта область застряла где-то в 60х. Энтузиасты пересылают данные в виде <a href="http://www.dk3wn.info/p/?cat=8">скриншотов</a> к windows программам.</p>
 
-<p><img src="192591f0007246fc8cc434b47e76ef4f.jpg" alt="" /></p>
+<p><img src="/img/enterprise-java-space/192591f0007246fc8cc434b47e76ef4f.jpg" alt="" /></p>
 
 <p>Хотелось бы что-то более современное. Например, облачный сервис, который на вход получает .wav файл, а на выходе возвращает json. Почему именно такая архитектура?</p>
 
@@ -347,7 +347,7 @@
 </ol>
 Следующим этапом был выбор технологий. Поскольку специализированные железки для декодирования радио сигналов ну совсем никак не поставить в обычные датацентры, то необходимо программное декодирование. Тут все просто: <a href="http://gnuradio.org">gnuradio</a>. Это стандарт де-факто для программного декодирования - достаточно мощный и бесплатный инструмент, который поддерживает множество режимов и способов работы. Как раз то, что нужно для того, чтобы работать с зоопарком различных способов кодирования сигнала. Daniel Estévez <a href="https://github.com/daniestevez/gr-satellites">написал</a> замечательные скрипты по декодированию сигналов различных спутников и приложил рабочие примеры.</p>
 
-<p><img src="e9ddc3c4bc8e448f8ca1d6f7e0b99e79.png" alt="" /></p>
+<p><img src="/img/enterprise-java-space/e9ddc3c4bc8e448f8ca1d6f7e0b99e79.png" alt="" /></p>
 
 <p>Казалось бы вот оно, счастье. Однако, и тут есть несколько ложек дегтя:</p>
 

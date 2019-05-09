@@ -11,7 +11,7 @@
  две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/webapp-perf/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='gc'><meta property='article:tag' content='jetty'><meta property='article:tag' content='jmeter'><meta property='article:tag' content='производительность'><meta property='article:tag' content='yourkit'><meta property='article:published_time' content='2012-12-28T14:58:18&#43;01:00'/><meta property='article:modified_time' content='2012-12-28T14:58:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/webapp-perf/9.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='gc'><meta property='article:tag' content='jetty'><meta property='article:tag' content='jmeter'><meta property='article:tag' content='производительность'><meta property='article:tag' content='yourkit'><meta property='article:published_time' content='2012-12-28T14:58:18&#43;01:00'/><meta property='article:modified_time' content='2012-12-28T14:58:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.53" />
 
@@ -331,9 +331,9 @@
 <li>Скачать JMeter можно тут: <a href="http://jmeter.apache.org/" target="_blank">http://jmeter.apache.org/</a></li>
 <li>Запустить jmeter.sh и настроить тест:</li>
 <li>Количество пользователей: 500
-<img src="1.png" alt="" /></li>
+<img src="/img/webapp-perf/1.png" alt="" /></li>
 <li>Настроить запрос: сервер находится по адресу localhost:8080 путь: / (главная). Так же нужно добавить http cache manager и http cookie manager, чтобы съэмулировать поведение реальных браузеров
-<img src="2.png" alt="" /></li>
+<img src="/img/webapp-perf/2.png" alt="" /></li>
 </ol>
 
 <p>После этого, необходимо запустить jetty из под YourKit. Это очень удобно можно сделать, если использовать интеграцию с IDE. Например, Eclipse: <a href="http://www.yourkit.com/docs/12/help/eclipse.jsp" target="_blank">http://www.yourkit.com/docs/12/help/eclipse.jsp</a>. После запуска приложения, необходимо запустить JMeter на выполнение.</p>
@@ -344,9 +344,9 @@
 
 <ul>
 <li>278 потоков приложения
-<img src="3.png" alt="" /></li>
+<img src="/img/webapp-perf/3.png" alt="" /></li>
 <li>большой затуп всех этих ~200 потоков в самом начале
-<img src="4.png" alt="" /></li>
+<img src="/img/webapp-perf/4.png" alt="" /></li>
 </ul>
 
 <p>Что говорят эти графики:</p>
@@ -359,15 +359,15 @@
 <p>После произведённых начальных оптимизаций можно посмотреть на потребляемые ресурсы.</p>
 
 <p>На рисунке ниже приведён stacktrace узкого места (performance snapshot, CPU profiling: sampling):
-<img src="5.png" alt="" /></p>
+<img src="/img/webapp-perf/5.png" alt="" /></p>
 
 <p>В YourKit есть специальный инструмент, который называется &ldquo;Hot spots&rdquo;, но он выдаёт простым списком все узкие места и методы и не учитывает то, что одни узкие места вложены в другие (находятся в одном стеке вызовов). На картинке видно, что узкое место находится в index.jsp. Однако, на этой картинке не видно сколько раз вызывался этот метод и сколько времени (в среднем хотя бы) занимает обработка одного запроса. Для этого необходимо получить snapshot с использованием CPU profiling: Tracing:</p>
 
-<p><img src="6.png" alt="" /></p>
+<p><img src="/img/webapp-perf/6.png" alt="" /></p>
 
 <p>После этого можно получить snapshot с абсолютными значениями</p>
 
-<p><img src="7.png" alt="" /></p>
+<p><img src="/img/webapp-perf/7.png" alt="" /></p>
 
 <p>Как видно, обработка jsp страницы занимает <strong>34ms</strong>.</p>
 
@@ -386,7 +386,7 @@
 
 <p>Изначально отрисовка страницы занимает <strong>7ms</strong>, так как же и для первой страницы, выполнение бизнес логики занимает <strong>21ms</strong>. Бизнес логика заключается в получении из базы сущности. Сущность - иерархическая, т.е. состоит из нескольких простых сущностей, каждая из которой хранится в отдельной таблице. После запуска JMeter:</p>
 
-<p><img src="8.png" alt="" /></p>
+<p><img src="/img/webapp-perf/8.png" alt="" /></p>
 
 <p>Из этой картины видно, что потоки блокируются при получении <code>java.sql.Connection</code> из <code>org.apache.commons.dbcp.BasicDataSource</code>. Это происходит из-за того, что для обработки одного запроса несколько раз вызывается <code>datasource.getConnection</code> и <code>conn.close()</code> - т.е. соединение берётся и кладётся в пул. Это можно оптимизировать, если использовать ThreadBoundDatasource. Как он работает?</p>
 
@@ -408,7 +408,7 @@
 
 <p>После реализации алгоритма, график стал выглядеть следующим образом:</p>
 
-<p><img src="9.png" alt="" /></p>
+<p><img src="/img/webapp-perf/9.png" alt="" /></p>
 
 <p>Время обработки запроса стало <strong>16ms. Оптимизация 20%</strong></p>
 
@@ -416,11 +416,11 @@
 
 <p>На следующим этапе оптимизации встала задача внедрения кэширования результатов запросов к базе данных. Performance snapshot показал, что узкое место приложения - это запрос к базе данных. Так же исходя из графика потребления памяти видно, что генерируется очень много мусора (~600Mb), который можно сократить если переиспользовать объекты:</p>
 
-<p><img src="10.png" alt="" /></p>
+<p><img src="/img/webapp-perf/10.png" alt="" /></p>
 
 <p>YourKit имеет замечательный UI на котором можно посмотреть сколько времени потрачено на сборку мусора и как при этом работали потоки:</p>
 
-<p><img src="11.png" alt="" /></p>
+<p><img src="/img/webapp-perf/11.png" alt="" /></p>
 
 <p>Белая область в работе потоков означает stop-the-world, когда останавливаются все потоки приложения и выполняется сборка мусора. Как видно, со временем сборка мусора начинает занимать больше времени.</p>
 
@@ -430,7 +430,7 @@
 
 <p>В YourKit есть замечательная метрика: количество и типы Exception&rsquo;ов и stacktrace мест, где они были вызваны. Генерация Exception - это очень ресурсоёмкая операция. Поэтому генерацию обычно стараются избегать в высоконагруженных приложениях. При запуске performance теста, данная метрика выдала следующую картину:</p>
 
-<p><img src="12.png" alt="" /></p>
+<p><img src="/img/webapp-perf/12.png" alt="" /></p>
 
 <p>Оказывается драйвер кидает SQLException при закрытии курсора, и проглатывает (не обрабатывает) его. На каждый запрос к базе кидается несколько SQLException. Это баг самого драйвера: <a href="http://bugs.mysql.com/bug.php?id=67318" target="_blank">http://bugs.mysql.com/bug.php?id=67318</a>. После того, как этот баг пофиксят, ожидается серьёзный прирост в производительности.</p>
 

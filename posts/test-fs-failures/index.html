@@ -326,7 +326,7 @@
 
 <p>До JDK7 необходимо было бы создавать ещё один слой абстракции над файловой системой и делать его mock во время тестирования. В JDK7 появился специальный слой, абстрагирующий файловую систему: <code>java.nio.file.FileSystem</code>. Изначально <a href="http://github.com/dernasherbrezon/r2cloud" target="_blank">r2cloud</a> был написан на основе старого <code>java.io.File</code>, поэтому его необходимо переписать на новый API:</p>
 
-<p><img src="api.png" alt="" /></p>
+<p><img src="/img/test-fs-failures/api.png" alt="" /></p>
 
 <h2 id="mockfilesystem">MockFileSystem</h2>
 

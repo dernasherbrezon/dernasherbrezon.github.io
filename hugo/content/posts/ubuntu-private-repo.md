@@ -2,6 +2,7 @@
 title: "Приватный репозиторий в Ubuntu"
 date: 2018-06-07T10:07:18+01:00
 draft: false
+images: [/img/ubuntu-private-repo/xxiubje3ios6bvc16lre6dl-vlq.png]
 tags:
   - java
   - ubuntu
@@ -81,7 +82,7 @@ Last-Modified: Wed, 23 May 2018 14:13:16 GMT
 
 В результате я получил следующую схему для Java проектов:
 
-![](xxiubje3ios6bvc16lre6dl-vlq.png)
+![](/img/ubuntu-private-repo/xxiubje3ios6bvc16lre6dl-vlq.png)
 
 1. Сброка .deb артефакта с помощью [deb-maven-plugin](https://github.com/dernasherbrezon/deb-maven-plugin). pom.xml:
 ```xml

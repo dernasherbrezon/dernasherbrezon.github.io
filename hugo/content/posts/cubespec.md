@@ -20,7 +20,7 @@ CubeSat (Cube Satellite - кубический спутник, КубСат) - �
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<img src="img/cubesat-figure1.jpg" width="500" height="333" alt="кубсаты и P-POD">
+		<img src="/img/cubespec/cubesat-figure1.jpg" width="500" height="333" alt="кубсаты и P-POD">
 	</div>
 </div>
 
@@ -37,7 +37,7 @@ CubeSat (Cube Satellite - кубический спутник, КубСат) - �
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<object width="369.004" height="567.429" data="img/cubesat-figure2.svg" type="image/svg+xml"></object>
+		<object width="369.004" height="567.429" data="/img/cubespec/cubesat-figure2.svg" type="image/svg+xml"></object>
 	</div>
 </div>
 
@@ -50,7 +50,7 @@ P-POD - это стандартизированная система для вы
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<img src="img/cubesat-figure3.png" width="1015" height="443" alt="P-POD">
+		<img src="/img/cubespec/cubesat-figure3.png" width="1015" height="443" alt="P-POD">
 	</div>
 </div>
 
@@ -80,7 +80,7 @@ P-POD - это стандартизированная система для вы
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<img src="img/cubesat-figure4.png" width="577" height="437" alt="Координатная система PPOD">
+		<img src="/img/cubespec/cubesat-figure4.png" width="577" height="437" alt="Координатная система PPOD">
 	</div>
 </div>
 
@@ -147,7 +147,7 @@ P-POD - это стандартизированная система для вы
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<img src="img/cubesat-figure5.jpg" width="632" height="440" alt="Разделительная пружина">
+		<img src="/img/cubespec/cubesat-figure5.jpg" width="632" height="440" alt="Разделительная пружина">
 	</div>
 </div>
 
@@ -155,7 +155,7 @@ P-POD - это стандартизированная система для вы
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<img src="img/cubesat-figure6.jpg" width="976" height="368" alt="дополнительный объем для 3U+">
+		<img src="/img/cubespec/cubesat-figure6.jpg" width="976" height="368" alt="дополнительный объем для 3U+">
 	</div>
 </div>
 
@@ -163,7 +163,7 @@ P-POD - это стандартизированная система для вы
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<img src="img/cubesat-figure7.jpg" width="1040" height="680" alt="Местоположение разделительных упругих элементов и выключателей развертывания">
+		<img src="/img/cubespec/cubesat-figure7.jpg" width="1040" height="680" alt="Местоположение разделительных упругих элементов и выключателей развертывания">
 	</div>
 </div>
 
@@ -244,6 +244,6 @@ CubeSat подвергается либо квалификационным ис�
 
 <div class="row pagination-centered">
 	<div class="span12">
-		<object width="611.389" height="410.502" data="img/cubesat-figure8.svg" type="image/svg+xml"></object>
+		<object width="611.389" height="410.502" data="/img/cubespec/cubesat-figure8.svg" type="image/svg+xml"></object>
 	</div>
 </div>

@@ -15,7 +15,7 @@
 Если зайти на страницу проекта в sonarcloud, то видно что все показатели хорошие за исключением нескольких мелких code smells.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/jsp-tag-testing/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='jsp'><meta property='article:tag' content='junit'><meta property='article:tag' content='jetty'><meta property='article:tag' content='sonarcube'><meta property='article:tag' content='java'><meta property='article:tag' content='jstl'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-03-02T12:48:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-02T12:48:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/jsp-tag-testing/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='jsp'><meta property='article:tag' content='junit'><meta property='article:tag' content='jetty'><meta property='article:tag' content='sonarcube'><meta property='article:tag' content='java'><meta property='article:tag' content='jstl'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-03-02T12:48:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-02T12:48:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.53" />
 
@@ -315,13 +315,13 @@
 
 <p>После добавления проекта через travis, я увидел, что jtimeago полностью зеленый.</p>
 
-<p><img src="1.png" alt="" /></p>
+<p><img src="/img/jsp-tag-testing/1.png" alt="" /></p>
 
 <p>Если зайти на страницу проекта в sonarcloud, то видно что все показатели хорошие за исключением нескольких мелких code smells. Пофиксить их можно было достаточно тривиально, что я и решил сделать.</p>
 
 <p>Однако, после моего коммита sonarcloud начал выдавать статус &ldquo;Failed&rdquo;.</p>
 
-<p><img src="2.png" alt="" /></p>
+<p><img src="/img/jsp-tag-testing/2.png" alt="" /></p>
 
 <p>Оказывается в нём есть несколько метрик, которые влияют на финальный статус проекта:</p>
 
@@ -379,7 +379,7 @@ ${outputCommentDate}
 
 <p>После всех исправлений покрытие тестами улучшилось и проект снова стал зелёным:</p>
 
-<p><img src="3.png" alt="" /></p>
+<p><img src="/img/jsp-tag-testing/3.png" alt="" /></p>
 
 <p>Несмотря на то, что sonar считает проект зелёным и тэг отрабатывает в настоящем web контейнере как надо, мне не хватает тестов соответствия спецификации. J2EE стандарт достаточно большой с множеством хитрых требований, которые не все полностью реализуют. Например, тэги могут создаваться и кэшироваться на диск. Для этого <code>javax.servlet.jsp.tagext.TagSupport</code> реализует интерфейс <code>java.io.Serializable</code>. J2EE ожидает, что после сериализации кэша тэгов на диск, его можно восстановить и он будет работать. На практике необходимо, чтобы каждый тэг правильно реализовывал <code>java.io.Serializable</code>. Я пока не придумал, как это можно сделать.</p>
 
