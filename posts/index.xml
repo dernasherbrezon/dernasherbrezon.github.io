@@ -8,10 +8,59 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 05 May 2019 18:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 29 May 2019 07:48:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Расчёт мощности радиосигнала</title>
+      <link>https://dernasherbrezon.com/posts/power-in-radio-channel/</link>
+      <pubDate>Wed, 29 May 2019 07:48:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/power-in-radio-channel/</guid>
+      <description>Нашёл в Интернете совершенно потрясающую визуализацию изменения мощности при передаче радио сигнала:
+
+Это картинка описывает как изменяется мощность от передатчика к приёмнику. Формула следующая:
+$$ P_r = P_t - L_{tc} + G_{ta} - L_{all} + G_{ra} - L_{rc} $$
+Где,
+ \( P_r \) - результирующая мощность полученного сигнала \( P_t \) - мощность передачи сигнала \(L_{tc}\) - потери в кабеле при передаче сигнала от передатчика на его антенну \(G_{ta}\) - усиление антенны \(L_{all}\) - потери в среде \(G_{ra}\) - усиление принимающей антенны \(L_{rc}\) - потери в кабеле приёмника  Большинство параметров достаточно очевидны, но собранные все вместе они дают хорошую картину изменения мощности.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Расчёт мощности радиосигнала</h1><figure>
+				    	<img src="https://dernasherbrezon.com/img/power-in-radio-channel/level2-2.gif"/>
+				    </figure></header>
+      		<div class='container entry-content'>
+  <p>Нашёл в Интернете совершенно потрясающую визуализацию изменения мощности при передаче радио сигнала:</p>
+
+<p><a href="https://www.cdt21.com/resources/TechnicalArticle/article9.asp" target="_blank"><img src="/img/power-in-radio-channel/level2-2.gif" alt="" /></a></p>
+
+<p>Это картинка описывает как изменяется мощность от передатчика к приёмнику. Формула следующая:</p>
+
+<p>$$
+P_r = P_t - L_{tc} + G_{ta} - L_{all} + G_{ra} - L_{rc}
+$$</p>
+
+<p>Где,</p>
+
+<ul>
+<li>\( P_r \) - результирующая мощность полученного сигнала</li>
+<li>\( P_t \) - мощность передачи сигнала</li>
+<li>\(L_{tc}\) - потери в кабеле при передаче сигнала от передатчика на его антенну</li>
+<li>\(G_{ta}\) - усиление антенны</li>
+<li>\(L_{all}\) - потери в среде</li>
+<li>\(G_{ra}\) - усиление принимающей антенны</li>
+<li>\(L_{rc}\) - потери в кабеле приёмника</li>
+</ul>
+
+<p>Большинство параметров достаточно очевидны, но собранные все вместе они дают хорошую картину изменения мощности. Так, например, чтобы увеличить мощность принимаемого сигнала, надо уменьшить потери на различных участках и/или увеличить усиление антенн.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Расчёт вероятности ошибки для BPSK</title>

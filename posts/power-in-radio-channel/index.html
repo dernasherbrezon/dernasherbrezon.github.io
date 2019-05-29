@@ -2,21 +2,29 @@
 <html lang='ru'><head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Блог о программировании на Java'>
+<meta name='description' content='Нашёл в Интернете совершенно потрясающую визуализацию изменения мощности при передаче радио сигнала:
+
+Это картинка описывает как изменяется мощность от передатчика к приёмнику. Формула следующая:
+$$ P_r = P_t - L_{tc} &#43; G_{ta} - L_{all} &#43; G_{ra} - L_{rc} $$
+Где,
+ \( P_r \) - результирующая мощность полученного сигнала \( P_t \) - мощность передачи сигнала \(L_{tc}\) - потери в кабеле при передаче сигнала от передатчика на его антенну \(G_{ta}\) - усиление антенны \(L_{all}\) - потери в среде \(G_{ra}\) - усиление принимающей антенны \(L_{rc}\) - потери в кабеле приёмника  Большинство параметров достаточно очевидны, но собранные все вместе они дают хорошую картину изменения мощности.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='dernasherbrezon'>
-<meta property='og:description' content='Блог о программировании на Java'>
-<meta property='og:url' content='https://dernasherbrezon.com/'>
+<meta property='og:title' content='Расчёт мощности радиосигнала • dernasherbrezon'>
+<meta property='og:description' content='Нашёл в Интернете совершенно потрясающую визуализацию изменения мощности при передаче радио сигнала:
+
+Это картинка описывает как изменяется мощность от передатчика к приёмнику. Формула следующая:
+$$ P_r = P_t - L_{tc} &#43; G_{ta} - L_{all} &#43; G_{ra} - L_{rc} $$
+Где,
+ \( P_r \) - результирующая мощность полученного сигнала \( P_t \) - мощность передачи сигнала \(L_{tc}\) - потери в кабеле при передаче сигнала от передатчика на его антенну \(G_{ta}\) - усиление антенны \(L_{all}\) - потери в среде \(G_{ra}\) - усиление принимающей антенны \(L_{rc}\) - потери в кабеле приёмника  Большинство параметров достаточно очевидны, но собранные все вместе они дают хорошую картину изменения мощности.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/power-in-radio-channel/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content='2019-05-29T07:48:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/power-in-radio-channel/level2-2.gif'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2019-05-29T07:48:18&#43;01:00'/><meta property='article:modified_time' content='2019-05-29T07:48:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.53" />
 
-  <title>dernasherbrezon</title>
-  <link rel='canonical' href='https://dernasherbrezon.com/'>
-  
-    <link href="https://dernasherbrezon.com/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  <title>Расчёт мощности радиосигнала • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/power-in-radio-channel/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -27,7 +35,7 @@
   
 
 </head>
-<body class='home type-page has-sidebar'>
+<body class='page type-posts has-sidebar'>
 
   <div class='site'><div id='sidebar' class='sidebar'>
   <a class='screen-reader-text' href='#main-menu'></a>
@@ -261,7 +269,7 @@
 
       <header id='header' class='header site-header'>
         <div class='container sep-after'>
-          <div class='header-info'><h1 class='site-title title'>dernasherbrezon</h1><p class='desc site-desc'>Блог о программировании на Java</p>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
           </div>
         </div>
       </header>
@@ -269,82 +277,100 @@
       <main id='content'>
 
 
-<div class='home-widgets'>
-  <div class='container sep-before'><section class='widget widget-recent_posts sep-after'>
-  <header>
-    <h4 class='title widget-title'></h4>
-  </header>
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Расчёт мощности радиосигнала</h1>
+      
 
-  <ul class='list'>
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
-    <li class='item'>
-  <div class='meta'>
-    <span>
-  <span class='screen-reader-text'> </span>
-  <time datetime='2019-05-29T07:48:18&#43;01:00'>29 May 2019</time>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-05-29T07:48:18&#43;01:00'>29 May 2019</time>
 </span>
 
-  </div>
-  <header class='item-header'>
-    <h3 class='item-title'>
-      <a href='/posts/power-in-radio-channel/'>Расчёт мощности радиосигнала</a>
-    </h3>
-  </header>
-</li>
-
   
-    <li class='item'>
-  <div class='meta'>
-    <span>
-  <span class='screen-reader-text'> </span>
-  <time datetime='2019-05-05T18:22:18&#43;01:00'>05 May 2019</time>
-</span>
-
-  </div>
-  <header class='item-header'>
-    <h3 class='item-title'>
-      <a href='/posts/ber-bpsk/'>Расчёт вероятности ошибки для BPSK</a>
-    </h3>
-  </header>
-</li>
-
   
-    <li class='item'>
-  <div class='meta'>
-    <span>
-  <span class='screen-reader-text'> </span>
-  <time datetime='2019-05-01T18:22:18&#43;01:00'>01 May 2019</time>
-</span>
 
-  </div>
-  <header class='item-header'>
-    <h3 class='item-title'>
-      <a href='/posts/signed-urls/'>Подписанные ссылки</a>
-    </h3>
-  </header>
-</li>
-
-  
-    <li class='item'>
-  <div class='meta'>
-    <span>
-  <span class='screen-reader-text'> </span>
-  <time datetime='2019-04-20T21:50:18&#43;01:00'>20 Apr 2019</time>
-</span>
-
-  </div>
-  <header class='item-header'>
-    <h3 class='item-title'>
-      <a href='/posts/test-fs-failures/'>Тестирование ошибок файловой системы</a>
-    </h3>
-  </header>
-</li>
-
-  
-  </ul>
-</section>
 </div>
-</div>      </main>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Нашёл в Интернете совершенно потрясающую визуализацию изменения мощности при передаче радио сигнала:</p>
+
+<p><a href="https://www.cdt21.com/resources/TechnicalArticle/article9.asp" target="_blank"><img src="/img/power-in-radio-channel/level2-2.gif" alt="" /></a></p>
+
+<p>Это картинка описывает как изменяется мощность от передатчика к приёмнику. Формула следующая:</p>
+
+<p>$$
+P_r = P_t - L_{tc} + G_{ta} - L_{all} + G_{ra} - L_{rc}
+$$</p>
+
+<p>Где,</p>
+
+<ul>
+<li>\( P_r \) - результирующая мощность полученного сигнала</li>
+<li>\( P_t \) - мощность передачи сигнала</li>
+<li>\(L_{tc}\) - потери в кабеле при передаче сигнала от передатчика на его антенну</li>
+<li>\(G_{ta}\) - усиление антенны</li>
+<li>\(L_{all}\) - потери в среде</li>
+<li>\(G_{ra}\) - усиление принимающей антенны</li>
+<li>\(L_{rc}\) - потери в кабеле приёмника</li>
+</ul>
+
+<p>Большинство параметров достаточно очевидны, но собранные все вместе они дают хорошую картину изменения мощности. Так, например, чтобы увеличить мощность принимаемого сигнала, надо уменьшить потери на различных участках и/или увеличить усиление антенн.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/radio/'>radio</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/ber-bpsk/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Расчёт вероятности ошибки для BPSK</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
 
       <footer id='footer' class='footer'>
         <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
@@ -385,7 +411,11 @@
     </div>
   </div><script>window.__public_path__='\/assets\/js\/'</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script>
+<script src='/assets/js/main.fae8ed32.js'></script><script type='text/x-mathjax-config'>
+  MathJax.Hub.Config({})
+</script>
+
+<script type='text/javascript' async src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 
 </body>
 
