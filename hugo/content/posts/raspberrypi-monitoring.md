@@ -7,7 +7,7 @@ tags:
   - rrdtool
   - rrd
   - java
-  - raspberry pi
+  - raspberrypi
   - monitoring
   - metrics
   - flot
