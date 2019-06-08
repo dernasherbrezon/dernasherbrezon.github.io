@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 04 Mar 2019 17:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 08 Jun 2019 14:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Время в Raspberrypi</title>
+      <link>https://dernasherbrezon.com/posts/time-raspberrypi/</link>
+      <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/time-raspberrypi/</guid>
+      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
+Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.</description>
+    </item>
     
     <item>
       <title>Сжимание I/Q потока на raspberrypi</title>
@@ -28,6 +38,27 @@
       
       <guid>https://dernasherbrezon.com/posts/rtlsdr-perf/</guid>
       <description>Очень часто в сети можно встретить гиды по быстрой сборке на коленке анализатора радио с помощью rtl_sdr и raspberrypi. Большинство таких гидов ограничивается достаточно простым описанием: &amp;ldquo;возьмите одно вставьте другое, потом немного питоновских скриптов и у вас всё получится&amp;rdquo;. Для новичков и просто любителей DIY - это прекрасный подход. Можно достаточно быстро познакомится с технологией и увидеть результат. Но что делать если нужно собрать что-то более продвинутое? Что если важна производительность?</description>
+    </item>
+    
+    <item>
+      <title>Мониторинг Raspberry PI</title>
+      <link>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
+      <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</guid>
+      <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:
+ самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.
+Самодостаточность автоматически означает, что данные надо хранить локально.</description>
+    </item>
+    
+    <item>
+      <title>Java и без 16Gb памяти?</title>
+      <link>https://dernasherbrezon.com/posts/java-small-heap/</link>
+      <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/java-small-heap/</guid>
+      <description>Однажды меня посетила мысль о том, что надо закодить что-нибудь на Java для RaspberryPI. Предыстория того, как я дошёл до жизни такой, сама по себе потянет на отдельный пост. Но вот сочные технические подробности, трудности и счастливый конец ниже под катом.
+Постановка задачи Немного разочаровавшись в движении проекта satnogs, я решил попробовать сам написать базовую станцию для приёма радио сигналов на raspberry pi. Проанализировав текущую функциональность satnogs и сложив с собственным заскорузлым enterprise пониманием того, что такое стабильная платформа, я придумал следующие требования:</description>
     </item>
     
   </channel>

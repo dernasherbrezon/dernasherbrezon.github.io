@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/rrd/</link>
     <description>Recent content in rrd on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 31 Jul 2017 12:45:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 08 Jun 2019 14:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/rrd/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Время в Raspberrypi</title>
+      <link>https://dernasherbrezon.com/posts/time-raspberrypi/</link>
+      <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/time-raspberrypi/</guid>
+      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
+Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.</description>
+    </item>
     
     <item>
       <title>Мониторинг Raspberry PI</title>

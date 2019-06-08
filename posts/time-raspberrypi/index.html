@@ -2,21 +2,21 @@
 <html lang='ru'><head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
- spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast &#43; старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.'>
+<meta name='description' content='Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
+Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='Оптимизация spring jmx • dernasherbrezon'>
-<meta property='og:description' content='Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:
- spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast &#43; старт только необходимого. org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов.'>
-<meta property='og:url' content='https://dernasherbrezon.com/posts/spring-jmx-tuning/'>
+<meta property='og:title' content='Время в Raspberrypi • dernasherbrezon'>
+<meta property='og:description' content='Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
+Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/time-raspberrypi/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='Spring'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2011-12-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2011-12-11T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/time-raspberrypi/rtc.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='rrd'><meta property='article:tag' content='администрирование'><meta property='article:tag' content='embedded'><meta property='article:published_time' content='2019-06-08T14:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-08T14:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.53" />
 
-  <title>Оптимизация spring jmx • dernasherbrezon</title>
-  <link rel='canonical' href='https://dernasherbrezon.com/posts/spring-jmx-tuning/'>
+  <title>Время в Raspberrypi • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/time-raspberrypi/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -271,7 +271,7 @@
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>Оптимизация spring jmx</h1>
+      <h1 class='title'>Время в Raspberrypi</h1>
       
 
     </div>
@@ -285,7 +285,7 @@
   
 </svg>
 <span class='screen-reader-text'> </span>
-  <time class='entry-date' datetime='2011-12-11T13:14:18&#43;01:00'>11 Dec 2011</time>
+  <time class='entry-date' datetime='2019-06-08T14:22:18&#43;01:00'>08 Jun 2019</time>
 </span>
 
   
@@ -301,117 +301,85 @@
   
 
   <div class='container entry-content'>
-  <p>Spring по умолчанию позволяет настроить экспорт бинов в jmx. Сделано это через удобные аннотации @ManagedResource. Однако существует сценарий при котором поведение по умолчанию не совсем подходит. Рассмотрим этот случай:</p>
+  
 
-<ul>
-<li>spring context лениво инициализируется. Очень удобно если есть некоторый db-context.xml в котором описаны все Datasource. Соответственно инициализируются только те которые используются. Также очень удобно при ограниченных ресурсах. fail-fast + старт только необходимого.</li>
-<li>org.springframework.jmx.export.MBeanExporter умеет инициализировать JMX бины для ленивых spring бинов. Как это происходит: если spring бин - лениво инициализируется, то создаётся proxy через cglib который и будет jmx бином. При первом обращении к его методам/аттрибутам происходит инициализация spring бина.
-<br /></li>
-</ul>
+<p>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:</p>
 
-<p>Проблема:</p>
-
-<ul>
-<li>возможна инициализация ненужных соединений. Список бинов содержит все возможные jmx бины.
-<br /></li>
-</ul>
-
-<p>Решение:</p>
-
-<ul>
-<li>Необходимо создать BeanPostProcessor для контроля уже проинициализированных бинов.
-<br /></li>
-</ul>
-
-<p>Например:</p>
-
-<pre><code>import java.util.ArrayList;  
-import java.util.List;  
-
-import org.springframework.beans.BeansException;  
-import org.springframework.beans.factory.config.BeanPostProcessor;  
-
-public class StartedBeansAwarePostProcessor implements BeanPostProcessor {  
-
- private final List&lt;String&gt; beanNames = new ArrayList&lt;String&gt;();  
-
- @Override  
- public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {  
-  return bean;  
- }  
-
- @Override  
- public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {  
-  beanNames.add(beanName);  
-  return bean;  
- }  
-
- public boolean isStarted(String beanName) {  
-  return beanNames.contains(beanName);  
- }  
-
-} 
+<pre><code>Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required
+Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.RrdDb.store(RrdDb.java:799)
+Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.Sample.update(Sample.java:194)
 </code></pre>
 
-<p>После этого необходимо создать свой Assembler. Например:</p>
+<p>Что же это означает? Тут нужно сделать небольшой экскурс в rrd. RRD расшифровывается как round robin database - <a href="https://ru.wikipedia.org/wiki/Циклическая_база_данных" target="_blank">циклическая база данных</a>. Новые метрики перезаписывают старые. У каждой метрики есть время и значение. Важным требованием является то, что метрики должны идти по возрастанию времени. Нельзя записать метрику 5 недель назад, так как данные 5 недель назад могли быть уже перезаписаны 1 неделю назад. Соответственно, при попытке записи метрики с некорректным временем возникает ошибка.</p>
 
-<pre><code>import org.springframework.beans.factory.annotation.Required;  
-import org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler;  
-import org.springframework.jmx.support.JmxUtils;  
+<p>При создании метрики я беру текущее время:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">createSample</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">...</span>
+<span style="color:#66d9ef">public</span> Sample <span style="color:#a6e22e">createSample</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">return</span> createSample<span style="color:#f92672">(</span>Util<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">());</span>
+<span style="color:#f92672">}</span>
+<span style="color:#f92672">...</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getTime</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> 500L<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 1000L<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<p>Получается, в базе хранится метрика в будущем. Всё это указывает на явные проблемы с системным временем.</p>
 
-public class LazyAssembler extends MetadataMBeanInfoAssembler {  
+<h2 id="так-как-же-работает-время-в-raspberrypi">Так как же работает время в Raspberrypi?</h2>
 
- private StartedBeansAwarePostProcessor startedBeans;  
+<p>В RPi, а так же в различных embedded системах время работает не так, как в обычных компьютерах. В обычных компьютерах используется так называемые <a href="https://ru.wikipedia.org/wiki/Часы_реального_времени" target="_blank">часы реального времени</a> (RTC). Это специальный чип с независимым источником питания, который постоянно увеличивает счётчик времени. Даже если отключить компьютер, эта схема будет работать и увеличивать счётчик времени.</p>
 
- @Override  
- public boolean includeBean(Class beanClass, String beanName) {  
-  if (startedBeans.isStarted(beanName)) {  
-   if (isMBean(beanClass)) {  
-    return true;  
-   }  
-   return super.includeBean(beanClass, beanName);  
-  }  
-  return false;  
- }  
+<p><img src="/img/time-raspberrypi/rtc.jpg" alt="" /></p>
 
- @Required  
- public void setStartedBeans(StartedBeansAwarePostProcessor startedBeans) {  
-  this.startedBeans = startedBeans;  
- }  
+<p>Вот действия при включении питания компьютера:</p>
 
- private boolean isMBean(Class beanClass) {  
-  return JmxUtils.isMBean(beanClass);  
- }  
+<ol>
+<li>компьютер загружается</li>
+<li>ядро линукса получает время от RTC</li>
+<li>стартуют сетевые службы и поднимаются сетевые интерфейсы</li>
+<li>стартует NTPD, который получает текущее время из интернета по протоколу <a href="https://ru.wikipedia.org/wiki/NTP" target="_blank">NTP</a></li>
+<li>он корректирует системное время и время RTC.</li>
+<li>стартуют остальные службы и процессы</li>
+</ol>
 
-} 
-</code></pre>
+<p>Важно понимать, что RTC не является очень точным источником времени. Из-за этого на шаге 5 системные часы могут быть скорректированы. Обычно это совсем небольшая разница - секунды, редко - минуты.</p>
 
-<p>И сконфигурировать spring контекст:</p>
+<p>В современных дистрибутивах NTPD обычно заменяют на <a href="https://wiki.archlinux.org/index.php/Systemd-timesyncd_(Русский)" target="_blank">systemd-timesyncd</a>. Эта более легковесная служба времени:</p>
 
-<pre><code>&lt;bean id=&quot;lazyAssembler&quot; class=&quot;LazyAssembler&quot; p:attributeSource-ref=&quot;jmxAttributeSource&quot;&gt;  
- &lt;property name=&quot;startedBeans&quot; ref=&quot;startedBeanAwarePostProcessor&quot; /&gt;  
-&lt;/bean&gt;  
-&lt;bean id=&quot;startedBeanAwarePostProcessor&quot; class=&quot;StartedBeansAwarePostProcessor&quot; /&gt;  
-&lt;bean name=&quot;mbeanServer&quot; class=&quot;org.springframework.jmx.support.MBeanServerFactoryBean&quot; p:locateExistingServerIfPossible=&quot;true&quot; /&gt;  
-&lt;bean id=&quot;jmxAttributeSource&quot; class=&quot;org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource&quot; /&gt;  
-&lt;bean id=&quot;mbeanExporter&quot; class=&quot;org.springframework.jmx.export.MBeanExporter&quot;  
- p:server-ref=&quot;mbeanServer&quot;&gt;  
- &lt;property name=&quot;assembler&quot; ref=&quot;lazyAssembler&quot; /&gt;  
- &lt;property name=&quot;autodetectMode&quot; value=&quot;2&quot; /&gt;  
- &lt;property name=&quot;namingStrategy&quot;&gt;  
-  &lt;bean class=&quot;org.springframework.jmx.export.naming.MetadataNamingStrategy&quot;&gt;  
-   &lt;property name=&quot;attributeSource&quot; ref=&quot;jmxAttributeSource&quot; /&gt;  
-   &lt;property name=&quot;defaultDomain&quot; value=&quot;domain&quot; /&gt;  
-  &lt;/bean&gt;  
- &lt;/property&gt;  
-&lt;/bean&gt; 
-</code></pre>
+<ol>
+<li>содержит в себе легковесный NTP-клиент</li>
+<li>получает список NTP серверов по протоколу DHCP от маршрутизатора</li>
+</ol>
 
-<p>Особое внимание на параметр: autodetectMode. Он должен обязательно быть равен 2, иначе MBeanExporter будет игнорировать Assembler при принятии решении о том включать бин или нет. Теперь можно инициализировать контекст. Например:</p>
+<p>Как же это работает в RPi? Совсем по-другому. Дело в том, что в RPi нет RTC чипа. В результате загрузка системы выглядит следующим образом:</p>
 
-<pre><code>ctx.getBean(SomeBean.class); //инициализация корневого бина. По зависимостям должна инициализировать все бины необходимые для работы приложения. StartedBeansAwarePostProcessor запоминает все проинициализированные бины.  
-ctx.getBean(&quot;mbeanExporter&quot;); //инициализация jmx бинов. Выполнять строго после инициализации всех бинов приложения.
-</code></pre>
+<ol>
+<li>RPi загружается</li>
+<li>стартует служба <a href="https://manpages.debian.org/jessie/fake-hwclock/fake-hwclock.8.en.html" target="_blank">fake-hwclock</a>. Она читает текущее время из файла <code>/etc/fake-hwclock.data</code></li>
+<li>стартуют сетевые службы и поднимаются сетевые интерфейсы</li>
+<li>стартует NTPD</li>
+<li>он корректирует системное время, а fake-hwclock сохраняет текущее правильное время в файл</li>
+<li>стартуют остальные службы и процессы</li>
+</ol>
+
+<h2 id="что-же-тут-может-пойти-не-так">Что же тут может пойти не так?</h2>
+
+<ol>
+<li>При самой первой загрузке в файле <code>/etc/fake-hwclock.data</code> лежит время сборки операционной системы</li>
+<li>Если в RPi не настроена сеть, то время надо будет конфигурировать вручную</li>
+<li>Если в RPi не настроена сеть и его выключить, то при следующем старте время продолжит увеличиваться с момента выключения. И если RPI будет выключен на час, значит время будет отличаться на час. Если на день, то на день.</li>
+</ol>
+
+<p>Но не это всё стало причиной бага. Если внимательно присмотреться, то и в случае с rtc, и в случае с fake-hwclock между шагом 5 и 6 существует race condition. NTPD или systemd-timesyncd обновят время асинхронно от старта операционной системы. А это значит, приложение может получить сначала время в будущем, а потом в прошлом.</p>
+
+<h2 id="выводы">Выводы</h2>
+
+<p>У этого исследования есть два вывода:</p>
+
+<ol>
+<li>я знаю причину возникновения ошибки</li>
+<li>мне придётся обновить документацию. Теперь я не могу утверждать, что моя базовая станция может работать без интернета. Даже если вручную сохранить последние TLE спутников, без интернета текущее время может скакать очень сильно. А это значит, нельзя будет запланировать наблюдение.</li>
+<li>возможно, хорошим выходом из ситации может стать <a href="https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi" target="_blank">RTC для RPi</a></li>
+</ol>
 
 </div>
 
@@ -423,7 +391,7 @@ ctx.getBean(&quot;mbeanExporter&quot;); //инициализация jmx бин�
   <line x1="7" y1="7" x2="7" y2="7"/>
   
 </svg>
-<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/spring/'>Spring</a>, <a class='tag' href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/'>производительность</a></div>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/raspberrypi/'>raspberrypi</a>, <a class='tag' href='/tags/rrd/'>rrd</a>, <a class='tag' href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/'>администрирование</a>, <a class='tag' href='/tags/embedded/'>embedded</a></div>
 
   </div>
 </footer>
@@ -433,7 +401,7 @@ ctx.getBean(&quot;mbeanExporter&quot;); //инициализация jmx бин�
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/posts/spring-mvc-tuning/'>
+      <a href='/posts/power-in-radio-channel/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -441,17 +409,7 @@ ctx.getBean(&quot;mbeanExporter&quot;); //инициализация jmx бин�
   
 </svg>
  </span>
-        <span class='screen-reader-text'>: </span>Оптимизация spring-mvc</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/posts/hibernate-perf/'>
-        <span class='screen-reader-text'>: </span>Производительность Hibernate Validator<span aria-hidden='true'> <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-  
-</svg>
-</span>
-      </a>
+        <span class='screen-reader-text'>: </span>Расчёт мощности радиосигнала</a>
     </div></div>
 </nav>
 
