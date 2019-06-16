@@ -33,6 +33,16 @@
     </item>
     
     <item>
+      <title>JavaFX в 2019</title>
+      <link>https://dernasherbrezon.com/posts/javafx-in-2019/</link>
+      <pubDate>Sun, 16 Jun 2019 10:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/javafx-in-2019/</guid>
+      <description>Зачем? Зачем вообще кому-то писать толстый клиент в 2019 году? Web и atom уже победили. Можно поставить браузер или еще 8Гб оперативной памяти и получить переливающееся приложение. К сожалению, не все задачи можно решать через web. Для измерения АЧХ фильтров, мне необходимо было достаточно простое приложение:
+ запуск rtl_power и вывод результатов в виде графика чтение .csv файла и вывод в виде графика график должен реагировать на мышь и показывать текущее значение по X и Y  Понятно, что для такого простого приложения использовать web + web server или atom - это слишком.</description>
+    </item>
+    
+    <item>
       <title>Время в Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/time-raspberrypi/</link>
       <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
