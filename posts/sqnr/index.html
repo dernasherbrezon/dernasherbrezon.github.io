@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Введение Если открыть спецификацию на любой rtl-sdr приемник, то можно увидеть следующую характеристику: АЦП - 8 бит. Почему эта характеристика важна? Почему о ней пишут и что она значит? Я решил разобраться и провёл небольшое расследование.
+SQNR АЦП преоразует сигнал из аналогового вида в цифровой. Это преобразование по своей сути всегда неточное. Дело в том, что аналоговый сигнал непрерывный, а цифровой - набор отсчетов. Процесс преобразования сигнала называется квантированием. При этом часть информации теряется, а значит, в терминах обработки сигнала появляется шум.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Расчёт SQNR • dernasherbrezon'>
+<meta property='og:description' content='Введение Если открыть спецификацию на любой rtl-sdr приемник, то можно увидеть следующую характеристику: АЦП - 8 бит. Почему эта характеристика важна? Почему о ней пишут и что она значит? Я решил разобраться и провёл небольшое расследование.
+SQNR АЦП преоразует сигнал из аналогового вида в цифровой. Это преобразование по своей сути всегда неточное. Дело в том, что аналоговый сигнал непрерывный, а цифровой - набор отсчетов. Процесс преобразования сигнала называется квантированием. При этом часть информации теряется, а значит, в терминах обработки сигнала появляется шум.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/sqnr/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/sqnr/sqnr.png'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='sqnr'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='matlab'><meta property='article:published_time' content='2019-06-27T21:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-27T21:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Расчёт SQNR • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/sqnr/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0434782608695652em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0434782608695652em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.0434782608695652em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0434782608695652em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0434782608695652em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0869565217391304em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0434782608695652em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1304347826086956em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1304347826086956em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.1739130434782608em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0434782608695652em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.1739130434782608em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0434782608695652em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0434782608695652em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2608695652173914em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0869565217391304em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Расчёт SQNR</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-06-27T21:22:18&#43;01:00'>27 Jun 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h1 id="введение">Введение</h1>
+
+<p>Если открыть спецификацию на любой rtl-sdr приемник, то можно увидеть следующую характеристику: АЦП - 8 бит. Почему эта характеристика важна? Почему о ней пишут и что она значит? Я решил разобраться и провёл небольшое расследование.</p>
+
+<h1 id="sqnr">SQNR</h1>
+
+<p>АЦП преоразует сигнал из аналогового вида в цифровой. Это преобразование по своей сути всегда неточное. Дело в том, что аналоговый сигнал непрерывный, а цифровой - набор отсчетов. Процесс преобразования сигнала называется квантированием. При этом часть информации теряется, а значит, в терминах обработки сигнала появляется шум. Этот шум называется шумом квантования. Обычно правда используют другой параметр - отношение сигнала к шуму квантирования (SQNR).</p>
+
+<p>$$
+SQNR = 20\log_{10}(\dfrac{V_{rms}}{V_{e}})
+$$</p>
+
+<p>где \(V_{rms}\) - это средне квадратичное сигнала (синусоиды),
+\(V_{e}\) - это средне квадратичное ошибки квантирования.</p>
+
+<p>В общем случае среднее квадратичное (RMS) это:</p>
+
+<p>$$
+V_{rms} = {\sqrt{{\dfrac{V_1^2 + V_2^2 &hellip; V_N^2 }{N}}}}
+$$</p>
+
+<p>Средне квадратичное синусоиды лучше представить графически:</p>
+
+<p><a href="/img/sqnr/rms_sinusoid.m"><img src="/img/sqnr/rms_sinusoid.png" alt="" /></a></p>
+
+<p>Поскольку верхняя часть равна нижней, то значение RMS не зависит от того, как много половинок проинтегрировано. Поэтому достаточно проинтегрировать только зеленую часть. RMS синусоиды вычисляется следущим образом:</p>
+
+<p>$$
+V_{rms} = {\sqrt{\dfrac{1}{T}\int_{0}^{T}x^2(t)dt}}
+$$</p>
+
+<p>Где \(x^2(t)\) - это уравнение синусоиды.</p>
+
+<p>Уравнение в данном случае лучше записать в следующем виде:</p>
+
+<p>$$
+\begin{align}
+x(t) = x_{peak}sin(t\dfrac{2\pi}{T}), \newline
+V_{rms} = {\sqrt{\dfrac{x_{peak}^2}{T}\int_{0}^{T}\dfrac{1}{2}(1-cos(2\dfrac{2\pi}{T}t)dt}} \newline
+= {\sqrt{\dfrac{x_{peak}^2}{2T}(T - sin(\dfrac{4\pi}{T}t)\dfrac{T}{4\pi}\Big|_0^T)}} \newline
+= {\sqrt{\dfrac{x_{peak}^2}{2T}(T - \dfrac{T}{4\pi}(sin(4\pi) - sin(0))}} \newline
+= \dfrac{x_{peak}}{\sqrt{2}}
+\end{align}
+$$</p>
+
+<p>Теперь нужно найти \(x_{peak}\). Его можно выразить следующим образом:</p>
+
+<p>$$
+x_{peak} = \dfrac{q2^n}{2}
+$$</p>
+
+<p>Где n - это количество битов АЦП, q - разница уровеня между двумя соседними битами. Если подставить в формулу, то получится следующее:</p>
+
+<p>$$
+V_{rms} = \dfrac{q2^n}{2\sqrt{2}}
+$$</p>
+
+<p>Теперь необходимо найти \(V_{e}\). Как доказал <a href="http://oldweb.mit.bme.hu/books/quantization/papers/Bennett.pdf" target="_blank">Bennett</a>, ошибка описывается пилообразной волной. Она получается из следующего графика:</p>
+
+<p><a href="/img/sqnr/rms_error.m"><img src="/img/sqnr/rms_error.png" alt="" /></a></p>
+
+<p>Где синий график - это аналоговый сигнал, а красный - это цифровой.</p>
+
+<p>Если вычесть один из другого, то как раз получится пилообразная волна:</p>
+
+<p><a href="/img/sqnr/rms_sawtooth.m"><img src="/img/sqnr/rms_sawtooth.png" alt="" /></a></p>
+
+<p>Этот график описывается формулой:</p>
+
+<p>$$
+e(t) = st, \dfrac{-q}{2s} &lt; t &lt; \dfrac{q}{2s}
+$$</p>
+
+<p>Для линейного графика RMS будет выглядеть следующим образом:</p>
+
+<p>$$
+\begin{align}
+V_{e} = \sqrt{\dfrac{s}{q}\int_{-q/2s}^{q/2s}(st)^2dt} \newline
+= \dfrac{q}{\sqrt{12}}
+\end{align}
+$$</p>
+
+<p>Теперь если подставить все значения в формулу:</p>
+
+<p>$$
+\begin{align}
+SQNR = 20\log_{10}(\dfrac{V_{rms}}{V_{e}}) \newline
+= 20\log_{10}(\dfrac{q2^n / 2\sqrt{2}}{q / \sqrt{12}}) \newline
+= 20\log_{10}(2^n\sqrt{\dfrac{3}{2}})
+\end{align}
+$$</p>
+
+<p>После этого можно построить график зависимости SQNR от числа битов:</p>
+
+<p><a href="/img/sqnr/sqnr.m"><img src="/img/sqnr/sqnr.png" alt="" /></a></p>
+
+<h1 id="выводы">Выводы</h1>
+
+<p>Из этого графика можно сделать интересные выводы. Например, динамический диапазон rtl-sdr не может быть больше 50db. Это очень важно применительно к измерению качества фильтров. Например, большинство FM фильтров имеют коэффициент ослабления около 60db. А это значит что с помощью rtl-sdr нельзя будет измерить такие фильтры.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/radio/'>radio</a>, <a class='tag' href='/tags/sqnr/'>sqnr</a>, <a class='tag' href='/tags/rtlsdr/'>rtlsdr</a>, <a class='tag' href='/tags/matlab/'>matlab</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/javafx-in-2019/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>JavaFX в 2019</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script><script type='text/x-mathjax-config'>
+  MathJax.Hub.Config({})
+</script>
+
+<script type='text/javascript' async src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+
+</html>
+

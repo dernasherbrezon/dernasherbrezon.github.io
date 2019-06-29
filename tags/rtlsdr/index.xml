@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
     <description>Recent content in rtlsdr on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 16 Jun 2019 10:20:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 27 Jun 2019 21:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Расчёт SQNR</title>
+      <link>https://dernasherbrezon.com/posts/sqnr/</link>
+      <pubDate>Thu, 27 Jun 2019 21:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sqnr/</guid>
+      <description>Введение Если открыть спецификацию на любой rtl-sdr приемник, то можно увидеть следующую характеристику: АЦП - 8 бит. Почему эта характеристика важна? Почему о ней пишут и что она значит? Я решил разобраться и провёл небольшое расследование.
+SQNR АЦП преоразует сигнал из аналогового вида в цифровой. Это преобразование по своей сути всегда неточное. Дело в том, что аналоговый сигнал непрерывный, а цифровой - набор отсчетов. Процесс преобразования сигнала называется квантированием. При этом часть информации теряется, а значит, в терминах обработки сигнала появляется шум.</description>
+    </item>
     
     <item>
       <title>JavaFX в 2019</title>
