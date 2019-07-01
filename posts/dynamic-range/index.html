@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Ниже я сделал перевод одной замечательной заметки Mile Kokotov о динамическом диапазоне rtl-sdr. Это очень важный показатель, которым я заинтересовался и решил разобраться. Возможно кому-нибудь это тоже будет полезно.
+ Большинство людей думает, что наиболее важной характеристикой радиоприёмника является чувствительность, но это не совсем так. Вообще, спроектировать и произвести приёмник с высокой чувствительностью не проблема. Гораздо сложнее для инженеров спроектировать приёмник с большим динамическим диапазоном, который смог бы принимать как очень слабые сигналы, так и очень сильные одновременно.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Динамический диапазон rtl-sdr • dernasherbrezon'>
+<meta property='og:description' content='Ниже я сделал перевод одной замечательной заметки Mile Kokotov о динамическом диапазоне rtl-sdr. Это очень важный показатель, которым я заинтересовался и решил разобраться. Возможно кому-нибудь это тоже будет полезно.
+ Большинство людей думает, что наиболее важной характеристикой радиоприёмника является чувствительность, но это не совсем так. Вообще, спроектировать и произвести приёмник с высокой чувствительностью не проблема. Гораздо сложнее для инженеров спроектировать приёмник с большим динамическим диапазоном, который смог бы принимать как очень слабые сигналы, так и очень сильные одновременно.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/dynamic-range/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/dynamic-range/1.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='перевод'><meta property='article:tag' content='rtlsdr'><meta property='article:published_time' content='2019-06-30T22:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-30T22:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Динамический диапазон rtl-sdr • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/dynamic-range/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0434782608695652em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0434782608695652em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.0434782608695652em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0434782608695652em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0434782608695652em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0869565217391304em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0434782608695652em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1304347826086956em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1304347826086956em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.1739130434782608em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0434782608695652em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2173913043478262em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0434782608695652em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0434782608695652em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0434782608695652em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2608695652173914em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0869565217391304em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Динамический диапазон rtl-sdr</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-06-30T22:22:18&#43;01:00'>30 Jun 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<blockquote>
+<p>Ниже я сделал перевод одной замечательной <a href="https://www.qsl.net/z33t/dynamic_range_eng.html" target="_blank">заметки Mile Kokotov</a> о динамическом диапазоне rtl-sdr. Это очень важный показатель, которым я заинтересовался и решил разобраться. Возможно кому-нибудь это тоже будет полезно.</p>
+</blockquote>
+
+<p>Большинство людей думает, что наиболее важной характеристикой радиоприёмника является чувствительность, но это не совсем так. Вообще, спроектировать и произвести приёмник с высокой чувствительностью не проблема. Гораздо сложнее для инженеров спроектировать приёмник с большим динамическим диапазоном, который смог бы принимать как очень слабые сигналы, так и очень сильные одновременно.</p>
+
+<p>Перегрузка приёмника означает то, что он больше не является линейным и сам по себе начинает генерировать сигналы, добавляя шум. Очень сильные сигналы на входе приёмника делают его менее чувствительным, таким образом он больше не может принимать слабые сигналы до тех пор, пока существует сильный сигнал рядом. Не стоит забывать, что на вход приёмнику приходят все сигналы, несмотря на то, что нам нужен только один конкретный. Соответственно, чем шире полоса приёма, тем больше нужен динамический диапазон для того, чтобы избержать перегрузки.</p>
+
+<p>Качество sdr приёмника зависит от множества факторов. И одним из наиболее важных параметров, которые напрямую влияют на качество sdr приёмника, является его динамический диапозон.</p>
+
+<h1 id="что-же-такое-динамический-диапазон">Что же такое &ldquo;динамический диапазон&rdquo;?</h1>
+
+<p>В общем случае, динамический диапазон - это отношение самого сильного сигнала, который можно принять, к самому слабому.</p>
+
+<p>Для цифровых сигналов динамический диапазон определяется количеством битов в сэмпле: самый сильный сигнал использует все возможные биты, самый слабый - только один бит.</p>
+
+<p>В sdr уровень аналогового сигнала, поступающего в АЦП, может быть отрегулирован (вручную или с помощью АРУ) для того, чтобы максимально эффективно использовать доступный динамический диапазон.</p>
+
+<p>Если аналоговый сигнал слишком сильный, то его нельзя представить соответствующими значениями битов. В таком случае АЦП подставляет максимальное или минимальное значение. Это называется отсечение и с точки зрения обработки сигналов представляет собой форму нелинейного сигнала. При этом появляются фантомные сигналы, которые копируют оригинальный на различных частотах.</p>
+
+<p>Если аналоговый сигнал слишком слабый, то его присутствие не сможет дать даже одного бита выходного цифрового сигнала. На практике же, более грубое представление цифрового сигнала приводит к потере информации. Эту ситуацию называют шумом квантования.</p>
+
+<p>Динамический диапазон АЦП - это отношение между самым сильным и самым слабым сигналом, которое может быть переведено в цифровой вид без искажений.</p>
+
+<p>Самый сильный сигнал представляет собой максимальный входящий сигнал. Обычно 0dBFS (dBFS означает децибел по отношению к максимальному уровню) - это максимально возможный цифровой сигнал. При этом более слабые сигналы становятся отрицательными. Например, минимальный уровень шума может быть -60dBFS, -80dBFS, -100 dBFS в зависимости от качества sdr приёмника и соотношения сигнал/шум.</p>
+
+<p><img src="/img/dynamic-range/1.jpg" alt="" /></p>
+
+<p>Динамический диапазон SDR зависит от количества бит <a href="https://dernasherbrezon.com/posts/sqnr/" target="_blank">согласно формуле</a>:</p>
+
+<p>$$
+SQNR = 20\log_{10}(2^n\sqrt{\dfrac{3}{2}})
+$$</p>
+
+<p>Где n - количество бит, SQNR - динамический диапазон.</p>
+
+<p>Согласно формуле динамический диапазон АЦП 8 бит равен ~50dB, 12 бит 74dB и 16 бит 98dB.</p>
+
+<p>Почему же динамический диапазон важен для SDR?</p>
+
+<p>Кто-то может подумать, что достаточно иметь АРУ (автоматическая регулировка усиления), которая поддерживает входной сигнал на необоходимом уровне и, поэтому не нужен большой динамический диапазон. Это может сработать, но не стоит забывать что sdr приёмник получает сигнал на АЦП гораздо большей ширины, нежели необходимо. Дополнительная ширина сигнала позволяет получить спектограмму всей доступной полосы частот, но это так же значит, что на АЦП попадает множество энергии в том числе и от нежелательных частот. Эти частоты могут быть достаточно сильными по сравнению с сигналом, который необходимо получить.</p>
+
+<p>В таком случае, уровень усиления должен быть равен суммарной мощности всего радио сигнала поступающего на АЦП. Это решит проблему &ldquo;слишком сильного&rdquo; сигнала, при этом самый слабый сигнал будет определяться динамическим диапазоном. Тем не менее, при большом динамическом диапазоне шум квантирования уменьшается, позволяя принимать слабые узкополосные сигналы.</p>
+
+<p>Улучшить качество сигнала можно еще одним способом - используя более узкий аналоговый фильтр. Это позволит сократить входную мощность и позволит усилить сигнал без отсечения. Однако, это работает если sdr имеет встроенный настраевыемый фильтр.</p>
+
+<p>В крайнем случае можно использовать фильтр, равный полосе принимаемого сигнала. Недостатком этого метода является то, что нельзя будет увидеть полный спектр.</p>
+
+<h1 id="ограничения-динамического-диапазона">Ограничения динамического диапазона</h1>
+
+<p>Помимо количества бит АЦП, динамический диапазон может зависеть от шума и фантомных сигналов.</p>
+
+<p>Если в приёмнике нет предусилителя, то его динамический диапазон ограничен динамическим диапазоном АЦП. Но если он есть, то динамический диапазон ограничен либо АЦП, либо предусилителем. При этом шум усилителя задаёт минимальный сигнал, который может быть оцифрован.</p>
+
+<p>Динамический диапазон системы должен быть больше соотношения сигнал/шум. Если же он меньше, то входящий сигнал будет искажён приёмником и узким местом такой системы будет мощность усилителя.</p>
+
+<p>Фантомные сигналы намного более опасны, чем шум. Они имеют гораздо большую амплитуду нежели шум и она не зависит от выбранной полосы пропускания. Эти сигналы появляются в результате нелинейности АЦП. SFDR для АЦП определяется как отношение RMS амлитуды сигнала к RMS амлитуды самого большего фантомного сигнала. SFDR представлен на картинке ниже:</p>
+
+<p><img src="/img/dynamic-range/sfdr.jpg" alt="SFDR" /></p>
+
+<h1 id="использование-децимации">Использование децимации</h1>
+
+<p>Есть некоторое заблуждение связанное с динамическим диапазоном широкополосных АЦП. Оно заключается в том, что АЦП работающее на 20МГц с динамическим диапазоном 74dB не может быть лучше радиоприёмника с динамическим диапазоном 85dB. Проблема в том, что сравнивается белое с пушистым. Нельзя говорить о динамическом диапазоне не упоминая ширину канала. Для радиолюбительского радио - это ширина приёмника. Она может быть 2400Гц для SSB или 500Гц для морзе.</p>
+
+<p>На самом деле в некоторых sdr приёмниках используется децимация. Процесс децимации заключается в том, что цифровой сигнал, полученный с гораздо большей частотой дискретизации, уменьшается до интересующей частоты дискретизации. В результате динамический диапазон увеличивается за счёт &ldquo;усиления обработки&rdquo;. Усиление достигается за счёт того, что удаляется шум вне интересующей полосы частот, тем самым увеличивая соотношение сигнал/шум.</p>
+
+<p>Например, Если взять 12-битный АЦП, работающий с частотой дискретизации 10МГц, то с помощью децимации можно увеличивать динамический диапазон на 3dB при каждом увеличении децимации в 2 раза:</p>
+
+<table>
+<thead>
+    <tr>
+        <th>Децимация</th>
+        <th>alias-free bandwidth (Mhz)</th>
+        <th>Увеличение (dB)</th>
+        <th>Динамический диапазон (dB)</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>0</td>
+        <td>8</td>
+        <td>0</td>
+        <td>74</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>4</td>
+        <td>3</td>
+        <td>77</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>2</td>
+        <td>6</td>
+        <td>80</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>1</td>
+        <td>9</td>
+        <td>83</td>
+    </tr>
+    <tr>
+        <td>16</td>
+        <td>0.5</td>
+        <td>12</td>
+        <td>86</td>
+    </tr>
+    <tr>
+        <td>32</td>
+        <td>0.25</td>
+        <td>15</td>
+        <td>89</td>
+    </tr>
+    <tr>
+        <td>64</td>
+        <td>0.125</td>
+        <td>18</td>
+        <td>92</td>
+    </tr>
+</tbody>
+</table>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/'>перевод</a>, <a class='tag' href='/tags/rtlsdr/'>rtlsdr</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/sqnr/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Расчёт SQNR</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script><script type='text/x-mathjax-config'>
+  MathJax.Hub.Config({})
+</script>
+
+<script type='text/javascript' async src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+
+</html>
+
