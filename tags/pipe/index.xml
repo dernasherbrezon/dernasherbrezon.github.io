@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pipe on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/pipe/</link>
+    <description>Recent content in pipe on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 09 Jul 2019 20:50:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/pipe/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Работа с bash pipe из java</title>
+      <link>https://dernasherbrezon.com/posts/bash-pipe-in-java/</link>
+      <pubDate>Tue, 09 Jul 2019 20:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/bash-pipe-in-java/</guid>
+      <description>Постановка задачи Не так давно передо мной встала задача работать с нативным приложением из java. Это приложение - rtl_sdr. Суть его работы достаточно простая: оно подключается к USB, читает данные и пишет их в файл или в stdout.
+А дальше Обычно нативные приложения не рекомендуется запускать из JVM. Дело в том, что как только управление передаётся из JVM вовне, то все предоставленные гарантии JVM теряются. Но если хочется, то вызвать приложение можно так:</description>
+    </item>
+    
+  </channel>
+</rss>

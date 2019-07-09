@@ -8,10 +8,108 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 30 Jun 2019 22:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jul 2019 20:50:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Работа с bash pipe из java</title>
+      <link>https://dernasherbrezon.com/posts/bash-pipe-in-java/</link>
+      <pubDate>Tue, 09 Jul 2019 20:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/bash-pipe-in-java/</guid>
+      <description>Постановка задачи Не так давно передо мной встала задача работать с нативным приложением из java. Это приложение - rtl_sdr. Суть его работы достаточно простая: оно подключается к USB, читает данные и пишет их в файл или в stdout.
+А дальше Обычно нативные приложения не рекомендуется запускать из JVM. Дело в том, что как только управление передаётся из JVM вовне, то все предоставленные гарантии JVM теряются. Но если хочется, то вызвать приложение можно так:</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Работа с bash pipe из java</h1><figure>
+				    	<img src="https://dernasherbrezon.com/img/bash-pipe-in-java/1.png"/>
+				    </figure></header>
+      		<div class='container entry-content'>
+  
+
+<h2 id="постановка-задачи">Постановка задачи</h2>
+
+<p>Не так давно передо мной встала задача работать с нативным приложением из java. Это приложение - rtl_sdr. Суть его работы достаточно простая: оно подключается к USB, читает данные и пишет их в файл или в stdout.</p>
+
+<h2 id="а-дальше">А дальше</h2>
+
+<p>Обычно нативные приложения не рекомендуется запускать из JVM. Дело в том, что как только управление передаётся из JVM вовне, то все предоставленные гарантии JVM теряются. Но если хочется, то вызвать приложение можно так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Process process <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">command</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rtl_sdr&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;-arg1&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;value1&#34;</span><span style="color:#f92672">,</span> <span style="color:#f92672">...).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">int</span> exitCode <span style="color:#f92672">=</span> process<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">();</span></code></pre></div>
+<p>Здесь все достаточно просто:</p>
+
+<ul>
+<li>запускается процесс</li>
+<li>Java поток ожидает пока приложение завершится
+<br /></li>
+</ul>
+
+<p>Однако, тут сразу же возникает проблема: rtl_sdr будет работать пока не получит команду от пользователя остановиться. Поэтому этот метод никогда не завершится. Значит для этого необходимо сделать отдельный метод, который бы вызывался с другого потока:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">complete</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+	process<span style="color:#f92672">.</span><span style="color:#a6e22e">destroy</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<h2 id="новые-требования">Новые требования</h2>
+
+<p>Итак код работает в проде уже несколько месяцев. Но тут выясняется, что raspberry pi не успевает записывать на флэшку. Я <a href="https://dernasherbrezon.com/posts/rtlsdr-gzip/" target="_blank">провел тесты</a> и убедился, что сжатие входящих данных сильно ускоряет систему и делает её более стабильной.</p>
+
+<p>Самый простой способ сделать сжатие можно следующим способом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buf <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>BUF_SIZE<span style="color:#f92672">];</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">isInterrupted</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> process<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">().</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buf<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>r <span style="color:#f92672">==</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+	gzipOutputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>buf<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> r<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+gzipOutputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span></code></pre></div>
+<p>Но такой способ оказался достаточно медленным. Дело в том, что данные копировались в память JVM, а потом уже в gzip. Но если не писать через JVM, то остаётся только способ каким-нибудь образом использовать bash pipe. Немного повозившись с реализацией, у меня получилось следующее:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Process process <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">command</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rtl_sdr_wrapper.sh&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">int</span> exitCode <span style="color:#f92672">=</span> process<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">();</span></code></pre></div>
+<p>И код враппера:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rtl_sdr -arg1 value1 ... | gzip &gt; output.gz</code></pre></div>
+<p>Почти сразу после релиза стало понятно, что сломалась остановка процесса. Дело в том, что этот bash скрипт создаёт 2 подпроцесса. При вызове <code>process.destroy();</code> завершается сам скрипт и gzip. rtl_sdr при этом остаётся работать. Пришлось повозится с bash-магией и получилось следующее:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">_term<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> 
+  kill -TERM <span style="color:#e6db74">&#34;</span>$rtl<span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">2</span>&gt;/dev/null
+<span style="color:#f92672">}</span>
+
+rtl_sdr -arg1 value1 ... | gzip &gt; output.gz &amp;
+
+rtl<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>jobs -p<span style="color:#66d9ef">)</span>
+child<span style="color:#f92672">=</span>$! 
+wait <span style="color:#e6db74">&#34;</span>$child<span style="color:#e6db74">&#34;</span></code></pre></div>
+<p>Что же здесь происходит?</p>
+
+<ul>
+<li>устанавливается обработчик сигнала TERM. Этот сигнал посылает JVM при вызове метода destroy</li>
+<li>запускается pipe и переходит в фоновый режим</li>
+<li>получается pid первого процесса - rtl_sdr</li>
+<li>скрипт начинает ожидать, когда завершиться процесс rtl_sdr</li>
+</ul>
+
+<p>Последним штрихом необходимо правильно передать код возврата. Есть две ситуации завершения работы:</p>
+
+<ul>
+<li>Нормальная работа. При нормальной работе rtl_sdr всегда должна завершаться через kill. И тогда статус должен быть 143. Однако, если завершать pipe с помощью <code>kill -TERM</code>, то pipe вернёт код возврата последней команды - gzip. И тогда этот код передастся команде wait и она пробросит его выше. Этот код будет 0.</li>
+<li>Завершение с ошибкой. Код возврата в таком случае 0. Он должен опять же проброситься в команду wait и дальше в Java.
+<br /></li>
+</ul>
+
+<p>Решается эта проблема следующей командой:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">set -o pipefail</code></pre></div>
+<p>Она заставляет pipe вернуть код первой команды, которая завершилась не статусом 0.</p>
+
+<h2 id="выводы">Выводы</h2>
+
+<p>Если необходимо оптимизировать обработку данных на уровне операционной системы, то можно использовать bash pipe. И да, его можно вызывать из Java. Надо только делать это очень осторожно.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Динамический диапазон rtl-sdr</title>
