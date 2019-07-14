@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fm фильтры on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/</link>
+    <description>Recent content in fm фильтры on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 14 Jul 2019 14:20:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Тестирование FM фильтров с помощью RTL-SDR</title>
+      <link>https://dernasherbrezon.com/posts/test-fm-filter/</link>
+      <pubDate>Sun, 14 Jul 2019 14:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/test-fm-filter/</guid>
+      <description>TL;TR; Фильтры тестировать можно, но выводы нужно делать аккуратно.
+Постановка задачи Архитектура rtl sdr требует специального фильтра на входе. Поскольку сильнешими источниками сигнала являются фм станции, то я решил поставить фм фильтры на входе приёмника. Но прежде, чем устанавливать их, мне хотелось измерить частотные характеристики фильтров и пощупать их в деле. Для этого я купил несколько фм фильтров и собрал стэнд для их тестирования.
+Описание стэнда Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра.</description>
+    </item>
+    
+  </channel>
+</rss>

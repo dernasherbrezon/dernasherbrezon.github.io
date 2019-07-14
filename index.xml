@@ -35,6 +35,17 @@ Become a Patron!
     </item>
     
     <item>
+      <title>Тестирование FM фильтров с помощью RTL-SDR</title>
+      <link>https://dernasherbrezon.com/posts/test-fm-filter/</link>
+      <pubDate>Sun, 14 Jul 2019 14:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/test-fm-filter/</guid>
+      <description>TL;TR; Фильтры тестировать можно, но выводы нужно делать аккуратно.
+Постановка задачи Архитектура rtl sdr требует специального фильтра на входе. Поскольку сильнешими источниками сигнала являются фм станции, то я решил поставить фм фильтры на входе приёмника. Но прежде, чем устанавливать их, мне хотелось измерить частотные характеристики фильтров и пощупать их в деле. Для этого я купил несколько фм фильтров и собрал стэнд для их тестирования.
+Описание стэнда Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра.</description>
+    </item>
+    
+    <item>
       <title>Работа с bash pipe из java</title>
       <link>https://dernasherbrezon.com/posts/bash-pipe-in-java/</link>
       <pubDate>Tue, 09 Jul 2019 20:50:18 +0100</pubDate>
