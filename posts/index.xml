@@ -8,10 +8,60 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 14 Jul 2019 14:20:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 08 Aug 2019 19:20:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Тестирование SDR Filter v1.1</title>
+      <link>https://dernasherbrezon.com/posts/test-sdr-filter/</link>
+      <pubDate>Thu, 08 Aug 2019 19:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/test-sdr-filter/</guid>
+      <description>Одна из моих базовых станций принимает очень много помех. Из-за низкой чувствительности rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.
+  Процесс тестирования Самое интересное началось сразу же после распаковки устройства. Дело в том, что входящий USB порт формата Type B.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Тестирование SDR Filter v1.1</h1><figure>
+				    	<img src="https://dernasherbrezon.com/img/test-sdr-filter/testing.jpg"/>
+				    </figure></header>
+      		<div class='container entry-content'>
+  
+
+<p>Одна из моих базовых станций принимает очень много помех. Из-за <a href="https://dernasherbrezon.com/posts/dynamic-range/" target="_blank">низкой чувствительности</a> rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.</p>
+
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="//www.youtube.com/embed/7n8nLey6yYo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+
+<h2 id="процесс-тестирования">Процесс тестирования</h2>
+
+<p>Самое интересное началось сразу же после распаковки устройства. Дело в том, что входящий USB порт формата Type B. Поэтому просто подключить последовательно фильтр и rtl-sdr к компьютеру не получится. В комплекте устройства USB переходника нет, поэтому пришлось идти в ближайший магазин и покупать дополнительный кабель.</p>
+
+<p>После подключения выясняется, что устройство не работает.</p>
+
+<p>Я измерил напряжение на входящем и исходящем USB портах. На входе 4.7В, а на выходе 3.2В. Видимо стандартного напряжения компьютера недостаточно. Но на всякий случай я спросил у авторов, в чём же может быть проблема. Оказывается, надо покупать более короткий шнур. Это первое USB устройство на моей памяти, которое работает в зависимости от длины шнура. На сайте производителя об этом не сказано.</p>
+
+<p><img src="/img/test-sdr-filter/description.png" alt="" /></p>
+
+<p>Мне пришлось заказать ещё один шнур, на этот раз покороче. После подключения, загорелась лампочка, но rtl-sdr по-прежнему не определялся. На этот раз напряжение на выходном USB порту было 3.5В. По-прежнему недостаточно. Я связался с автором ещё раз и попросил помощи. Автор посоветовал закоротить диод D1. У меня дома нет паяльника, поэтому я не могу проверить это решение.</p>
+
+<h2 id="выводы">Выводы</h2>
+
+<ol>
+<li>SDR Filter явно имеет проблемы с питанием. Непонятно как авторы тестировали его.</li>
+<li>Мне не удалось заставить его работать, поэтому он теперь просто валяется в коробке.</li>
+</ol>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Тестирование FM фильтров с помощью RTL-SDR</title>

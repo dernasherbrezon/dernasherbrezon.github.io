@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
     <description>Recent content in rtlsdr on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 14 Jul 2019 14:20:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 08 Aug 2019 19:20:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Тестирование SDR Filter v1.1</title>
+      <link>https://dernasherbrezon.com/posts/test-sdr-filter/</link>
+      <pubDate>Thu, 08 Aug 2019 19:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/test-sdr-filter/</guid>
+      <description>Одна из моих базовых станций принимает очень много помех. Из-за низкой чувствительности rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.
+  Процесс тестирования Самое интересное началось сразу же после распаковки устройства. Дело в том, что входящий USB порт формата Type B.</description>
+    </item>
     
     <item>
       <title>Тестирование FM фильтров с помощью RTL-SDR</title>
