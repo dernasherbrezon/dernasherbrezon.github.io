@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2019-08-08T19:20:18+01:00</lastmod>
+    <lastmod>2019-08-16T10:22:18+01:00</lastmod>
   </url>
   
   <url>
@@ -15,6 +15,11 @@
   <url>
     <loc>https://dernasherbrezon.com/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/posts/jradio-ber-bpsk/</loc>
+    <lastmod>2019-08-16T10:22:18+01:00</lastmod>
   </url>
   
   <url>
@@ -286,13 +291,13 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/ber/</loc>
-    <lastmod>2019-05-05T18:22:18+01:00</lastmod>
+    <lastmod>2019-08-16T10:22:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://dernasherbrezon.com/tags/bpsk/</loc>
-    <lastmod>2019-05-05T18:22:18+01:00</lastmod>
+    <lastmod>2019-08-16T10:22:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -370,7 +375,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/gnuradio/</loc>
-    <lastmod>2018-03-08T17:22:18+01:00</lastmod>
+    <lastmod>2019-08-16T10:22:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -508,7 +513,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/radio/</loc>
-    <lastmod>2019-06-27T21:22:18+01:00</lastmod>
+    <lastmod>2019-08-16T10:22:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   

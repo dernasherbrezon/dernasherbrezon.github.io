@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Введение Спустя несколько недель я наконец-то закончил одну очень важную задачу - расчёт вероятности ошибки в BSPK демодуляторе. Почему это важно? Демодулятор работает с сигналом, который проходит через физическую среду. В этой среде возможны сильные или слабые возмущения, которые непосредственно влияют на сигнал. И принимаемый сигнал может меняться со временем от хорошего до плохого и обратно. Из-за этого нельзя однозначно сказать демодулятор &ldquo;работает&rdquo; или &ldquo;не работает&rdquo;. Чтобы оценить его эффективность, необходимо симулировать среду передачи данных и сказать сколько ошибок он выдаёт при разных возмущениях среды.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Расчёт вероятности ошибки для BPSK демодулятора • dernasherbrezon'>
+<meta property='og:description' content='Введение Спустя несколько недель я наконец-то закончил одну очень важную задачу - расчёт вероятности ошибки в BSPK демодуляторе. Почему это важно? Демодулятор работает с сигналом, который проходит через физическую среду. В этой среде возможны сильные или слабые возмущения, которые непосредственно влияют на сигнал. И принимаемый сигнал может меняться со временем от хорошего до плохого и обратно. Из-за этого нельзя однозначно сказать демодулятор &ldquo;работает&rdquo; или &ldquo;не работает&rdquo;. Чтобы оценить его эффективность, необходимо симулировать среду передачи данных и сказать сколько ошибок он выдаёт при разных возмущениях среды.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/jradio-ber-bpsk/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/jradio-ber-bpsk/ber-bpsk-demodulator.png'><meta property='article:section' content='posts'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2019-08-16T10:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-16T10:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Расчёт вероятности ошибки для BPSK демодулятора • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/jradio-ber-bpsk/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0416666666666667em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0416666666666667em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.0416666666666667em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0416666666666667em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0416666666666667em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.0416666666666667em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1em'>fm фильтры</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0416666666666667em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0416666666666667em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0416666666666667em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0833333333333333em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0416666666666667em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.125em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1666666666666667em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.1666666666666667em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0416666666666667em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.3333333333333333em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0416666666666667em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0416666666666667em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0416666666666667em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.25em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1666666666666667em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Расчёт вероятности ошибки для BPSK демодулятора</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-08-16T10:22:18&#43;01:00'>16 Aug 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h2 id="введение">Введение</h2>
+
+<p>Спустя несколько недель я наконец-то закончил одну очень важную задачу - расчёт вероятности ошибки в BSPK демодуляторе. Почему это важно? Демодулятор работает с сигналом, который проходит через физическую среду. В этой среде возможны сильные или слабые возмущения, которые непосредственно влияют на сигнал. И принимаемый сигнал может меняться со временем от хорошего до плохого и обратно. Из-за этого нельзя однозначно сказать демодулятор &ldquo;работает&rdquo; или &ldquo;не работает&rdquo;. Чтобы оценить его эффективность, необходимо симулировать среду передачи данных и сказать сколько ошибок он выдаёт при разных возмущениях среды. После этого уже можно сравнивать с теоретическими значениями и делать выводы.</p>
+
+<h2 id="описание-теста">Описание теста</h2>
+
+<p>Для того, чтобы симулировать поведение демодулятора, я написал специальный тест. За основу я взял идею <a href="https://destevez.net/2017/07/ber-simulation-in-gnu-radio/" target="_blank">Daniel Estevez</a> и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/demod/BpskDemodulatorTest.java" target="_blank">реализовал её</a> на java.</p>
+
+<p>Идея заключается в том, что подавая на вход BSPK модулятора множество &ldquo;1&rdquo;, необходимо получить множество &ldquo;1&rdquo; на выходе демодулятора. Если в результате получается &ldquo;0&rdquo;, то это значит ошибка. Если подсчитать количество &ldquo;0&rdquo; на выходе и поделить на общее количество полученных битов, то получится вероятность ошибки (BER).</p>
+
+<p>К сожалению, просто передавать &ldquo;1&rdquo; и получать &ldquo;1&rdquo; не получится. Необходимо сделать несколько шагов:</p>
+
+<ul>
+<li>сначала все генерируемые биты необходимо скрэмблировать. Это делается для того, чтобы в передаваемом сигнале было примерно одинаковое количество &ldquo;0&rdquo; и &ldquo;1&rdquo;. Почему это важно? Дело в том, что демодулятор должен выполнить синхронизацию символов. Если в передаваемом сигнале будут только &ldquo;1&rdquo;, то ему будет сложно принять решение сколько символов пришло &ldquo;1111&rdquo; или &ldquo;11111&rdquo;. Если же в принимаемом сигнале будет вперемешку &ldquo;0&rdquo; и &ldquo;1&rdquo;, то сигнал будет достаточно сильно меняться по фазе. И это сильно поможет при синхронизации символов.</li>
+<li>далее биты необходимо дифференциально закодировать. Это значит, что необходимо передавать &ldquo;1&rdquo;, только если сигнал сменился с &ldquo;0&rdquo; на &ldquo;1&rdquo; или с &ldquo;1&rdquo; на &ldquo;0&rdquo;. Для чего? Приёмник может начать принимать сигнал в противофазе. В итоге все полученные биты будут инвертированы относительно оригинального сигнала. Однако, если передавать информацию через изменение битов, то после дифференциального декодирования информация восстановится без ошибок.</li>
+<li>генерация BPSK сигнала. Для генерации сигнала и приёма используется согласующий Root Raised Cosine фильтр.</li>
+<li>симуляция физического канала передачи данных. Здесь происходит самое интересное. По сути, эта симуляция - математическая модель, описывающая возмущения физической среды. С помощью неё можно симулировать фазовые, частотные и амлитудные колебания, добавить белый гауссовский шум, добавить различные начальные смещения. В моей симуляции я использовал только белый гауссовский шум, чтобы можно было сравнить с <a href="https://dernasherbrezon.com/posts/ber-bpsk/" target="_blank">теоретическим рассчётом</a>.</li>
+<li>демодуляция BPSK сигнала. Собственно, блок, который я собираюсь тестировать.</li>
+<li>дифференциальное декодирование и дескрэмблирование.</li>
+</ul>
+
+<p>На выходе я должен получить поток битов, на основе которых можно посчитать вероятность ошибки. Тут, правда, есть ещё несколько интересных моментов, которые стоит упомянуть. Во-первых, необходимо отбросить какое-то количество бит в самом начале. Они могут быть заведомо ошибочными, из-за начальной синхронизации демодулятора и дескремблера. Во-вторых, количество действительно неправильных бит должно быть поделено на 6. Это прежде всего связано с дифференциальным кодированием и скрэмблированием.</p>
+
+<p>Если была принята ошибка, то дифференциальное декодирование добавит ещё одну. Это значит необходимо поделить на 2. Для скремблирования я использую полином <code>0b00000000000100001</code>. А это значит, что на любую ошибку на входе, будет сгенерировано 3 ошибки на выходе. Итого получается 2*3=6.</p>
+
+<h2 id="результаты">Результаты</h2>
+
+<p>Прежде чем получить финальный результат, я провёл несколько измерений для различных конфигураций демодулятора. Изначально демодулятор содержал блок эквалайзера. Он был нужен прежде всего для того, чтобы бороться с <a href="https://ru.wikipedia.org/wiki/Многолучевое_распространение" target="_blank">многолучевым распространением</a>. Однако, на практике характеристики демодулятора сильно хуже теоретических:</p>
+
+<p><a href="/img/jradio-ber-bpsk/lmsdd.m"><img src="/img/jradio-ber-bpsk/lmsdd.png" alt="" /></a></p>
+
+<p>Синей линией обозначается теоретическое значение, красной - практическое измерение.</p>
+
+<p>Ещё одним фактором влияющим на результат является количество данных. Вот пример расчёта для 100000 переданных битов:</p>
+
+<p><a href="/img/jradio-ber-bpsk/100000bit.m"><img src="/img/jradio-ber-bpsk/100000bit.png" alt="" /></a></p>
+
+<p>А вот тот же расчёт, но для 1000000 бит:</p>
+
+<p><a href="/img/jradio-ber-bpsk/ber-bpsk-demodulator.m"><img src="/img/jradio-ber-bpsk/ber-bpsk-demodulator.png" alt="bpsk demodulator" /></a></p>
+
+<p>Как видно на картинке, практическая реализация BPSK демодулятора почти совпадает с <a href="https://dernasherbrezon.com/posts/ber-bpsk/" target="_blank">теоретическими рассчётами</a>. Это даёт уверенности в текущей реализации и позволяет начать оптимизировать другие показатели демодулятора. Также я могу в любой момент запустить тест и проверить изменились ли характеристики. Это очень мощный инструмент отладки.</p>
+
+<h2 id="что-дальше">Что дальше?</h2>
+
+<p>Можно добавить различные искажения среды и измерить реакцию демодулятора на них. Из того, что доступно:</p>
+
+<ol>
+<li>Симуляция многолучевого распространения.</li>
+<li>Симуляция частотных и фазовых колебаний.</li>
+</ol>
+
+<p>Ещё одной важной характеристикой является скорость захвата несущей. Допустим изначально сигнал смещён на некоторую частоту. Это может возникнуть из-за неточного генератора сигнала в rtl-sdr или генератора сигнала самого спутника. В таком случае демодулятор должен уметь подстраиваться и компенсировать разницу частот. На эту подстройку должно уходить время. Было бы неплохо измерить его, и, возможно, улучшить.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/bpsk/'>bpsk</a>, <a class='tag' href='/tags/ber/'>ber</a>, <a class='tag' href='/tags/gnuradio/'>gnuradio</a>, <a class='tag' href='/tags/radio/'>radio</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/test-sdr-filter/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Тестирование SDR Filter v1.1</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script>
+
+</body>
+
+</html>
+

@@ -5,10 +5,19 @@
     <link>https://dernasherbrezon.com/tags/radio/</link>
     <description>Recent content in radio on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 27 Jun 2019 21:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 16 Aug 2019 10:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/radio/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Расчёт вероятности ошибки для BPSK демодулятора</title>
+      <link>https://dernasherbrezon.com/posts/jradio-ber-bpsk/</link>
+      <pubDate>Fri, 16 Aug 2019 10:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/jradio-ber-bpsk/</guid>
+      <description>Введение Спустя несколько недель я наконец-то закончил одну очень важную задачу - расчёт вероятности ошибки в BSPK демодуляторе. Почему это важно? Демодулятор работает с сигналом, который проходит через физическую среду. В этой среде возможны сильные или слабые возмущения, которые непосредственно влияют на сигнал. И принимаемый сигнал может меняться со временем от хорошего до плохого и обратно. Из-за этого нельзя однозначно сказать демодулятор &amp;ldquo;работает&amp;rdquo; или &amp;ldquo;не работает&amp;rdquo;. Чтобы оценить его эффективность, необходимо симулировать среду передачи данных и сказать сколько ошибок он выдаёт при разных возмущениях среды.</description>
+    </item>
     
     <item>
       <title>Расчёт SQNR</title>
