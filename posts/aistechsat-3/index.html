@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Вступление Наступило лето, а это значит начался отпускной сезон. Самое время немного расслабиться и добавить декодирование телеметрии для новых спутников. С января Daniel добавил десяток новых спутников. Я начал с Aistechsat-3.
+Декодирование Как и в других случаях я взял готовый демодулятор и реализовал его на Java. Daniel написал, что формат телеметрии задокументирован, но он не успел задекодировать телеметрию.
+Казалось бы, что может пойти не так? Документация есть, данные есть. Надо просто написать код.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Декодирование телеметрии Aistechsat-3 • dernasherbrezon'>
+<meta property='og:description' content='Вступление Наступило лето, а это значит начался отпускной сезон. Самое время немного расслабиться и добавить декодирование телеметрии для новых спутников. С января Daniel добавил десяток новых спутников. Я начал с Aistechsat-3.
+Декодирование Как и в других случаях я взял готовый демодулятор и реализовал его на Java. Daniel написал, что формат телеметрии задокументирован, но он не успел задекодировать телеметрию.
+Казалось бы, что может пойти не так? Документация есть, данные есть. Надо просто написать код.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/aistechsat-3/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2019-08-21T14:40:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-21T14:40:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Декодирование телеметрии Aistechsat-3 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/aistechsat-3/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.04em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.04em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.04em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.04em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.04em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.04em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1em'>fm фильтры</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.04em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.04em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.04em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.08em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.04em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.12em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.16em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.04em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.32em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.04em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.04em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.04em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.24em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.16em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Декодирование телеметрии Aistechsat-3</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-08-21T14:40:18&#43;01:00'>21 Aug 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h2 id="вступление">Вступление</h2>
+
+<p>Наступило лето, а это значит начался отпускной сезон. Самое время немного расслабиться и добавить декодирование телеметрии для новых спутников. С января <a href="https://github.com/daniestevez/gr-satellites" target="_blank">Daniel</a> добавил десяток новых спутников. Я начал с Aistechsat-3.</p>
+
+<h2 id="декодирование">Декодирование</h2>
+
+<p>Как и в <a href="https://github.com/dernasherbrezon/jradio" target="_blank">других случаях</a> я взял готовый демодулятор и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/aistechsat3/Aistechsat3Test.java" target="_blank">реализовал</a> его на Java. Daniel написал, что формат телеметрии <a href="https://www.amsat-ea.org/app/download/11302778/Aistechsat-3+TLM+codes%2C+modulation+and+format+v1.0_AMSAT_EA.pdf" target="_blank">задокументирован</a>, но он не успел задекодировать телеметрию.</p>
+
+<p>Казалось бы, что может пойти не так? Документация есть, данные есть. Надо просто написать код.</p>
+
+<p>На практике оказалось всё не так просто.</p>
+
+<p>Каждый пакет начинается с <a href="https://github.com/libcsp/libcsp" target="_blank">CSP</a> заголовка. Тут всё понятно. Это не первый спутник, который использует этот протокол. Даже в таком урезанном виде как здесь.</p>
+
+<p>Далее идёт небольшой заголовок и данные.</p>
+
+<p><img src="/img/aistechsat-3/1.png" alt="" /></p>
+
+<p>Вот тут прекрасно всё. Во-первых, A3200 manual - это платная документация. Та ссылка, которая есть в спецификации ведёт на описание A3200 в интернет магазине. Во-вторых, непонятно сколько всего дата элементов может быть. Вот пример описания одного из типов радиомаяка:</p>
+
+<p><img src="/img/aistechsat-3/2.png" alt="" /></p>
+
+<p>Как видно, никакого разделения на дата элементы тут нет. Изначально я сделал чтение дата элемента после каждой строчки. Это логично, так как каждая строчка имеет номер &ldquo;Elements&rdquo;, который хоть как то похож на &ldquo;Data element&rdquo;. Получилось что-то вроде следующего:</p>
+
+<pre><code>DataFieldMeta
+extmag
+DataFieldMeta
+gyro
+DataFieldMeta
+torquer_duty
+...
+</code></pre>
+
+<p>Не сработало. Количество байт в сообщении значительно меньше.</p>
+
+<p>Тогда я начал смотреть непосредственно в байты. Каждый радиомаяк всегда начинается на метадата. Например, после отбрасывания всех заголовков:</p>
+
+<pre><code>2E1E5CA265820004C1150000432DB7B0C28CD4DE43CEEF8642F8DACDC281BDAA43B15FB900000000433600000000000043A8000000000000000000000706070600000706070607063F54A3DBDC3F094D823D9929D0BA8347B838A85029B9C6108FDBDC08CF360000000000000000000000000000000000800000008000000080000000AA925CA265820004000000000002003A003A3D8DFC993D956E1DBCA30789BC5E8BBB3C9D734B01020201010000B40851B8C0
+</code></pre>
+
+<p>Метадата занимает 8 байт. Последний из них - это некий Source. Если предположить, что он всегда одинаковый в рамках одного маяка, то можно попытаться найти его и таким образом найти все места, где должна быть метадата.</p>
+
+<p>В данном примере можно поискать <code>20004</code>. Эти байты включают в себя секунды из временной метки. Получается ещё одно место, где записана метадата: <code>AA925CA265820004</code>. Осталось отсчитать количество байт от первой метки и вставить чтение метадаты. И как раз для типа 20 у меня не получился этот трюк. Если отсчитать с конца количество байт и вставить чтение метадаты, то она будет неправильной.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="color:#f92672">&#34;checksum&#34;</span>:		<span style="color:#ae81ff">0</span>,	
+	<span style="color:#f92672">&#34;source&#34;</span>:		<span style="color:#ae81ff">25986</span>,	
+	<span style="color:#f92672">&#34;timestamp&#34;</span>:	<span style="color:#ae81ff">2861718690</span>	
+}</code></pre></div>
+<p>Это значит только одно: количество байт между первой метадатой и второй неправильное. Я остановился в дебаге посмотреть, что же получается. suns_temp хоть и выглядит странно, но вполне логично: <code>[1798, 1798, 0, 1798, 1798, 1798]</code>. А вот уже следующее поле gyro выглядит неправильно: <code>[0.83062524, -2.15087787E17, -1.3929482E-37]</code>. Как правило, данные со спутника вряд ли могут содержать E17 и E-37. Я ещё раз проверил спецификацию, но не нашёл расхождения. Видимо в спецификации есть ошибки. А пересчитав количество байт между первой и второй метадатой я нашёл расхождение в 2 байта с тем, что указано в спецификации. Если добавить <code>dis.skip(2);</code>, то метадата отлично считывается и дальнейшие данные выглядят логично.</p>
+
+<p>К счастью, это был единственный тип радиомаяка с ошибками в документации. Остальные мне удалось достаточно быстро декодировать.</p>
+
+<p>Я использовал <a href="https://db.satnogs.org/api/telemetry/?page=38&amp;satellite=44103" target="_blank">открытые данные</a> Satnogs, чтобы найти всевозможные типы маяков. И не нашёл. Например, в спецификации сказано, что тип 30 будет отправляться каждые 60 секунд. По факту же, я ни разу его не встретил.</p>
+
+<p>Зато я встретил множество недокументированных типов сообщений. 0x40:</p>
+
+<pre><code>0180D78301400100012E1E5D1057690004000000000000000000000000000000000000000000000000000000000000412A6717
+</code></pre>
+
+<p>Или 0x3f:</p>
+
+<pre><code>0180D783013F0100013B1A5D10576900044142C2115A2205B0CA63E6B5CA8989494A5B046B44CC6065456BB17045C8C1370000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CFBA95A751FB7C4A515A09C946C9497046C99111439D28A59B855D10576900043F42686A3EDC03153EE9BC70BE32157BBF202419BF286A303EA4DAEE3E8997F4BD4F205B3B4880E83AB47643C26D172442C80000B8F27416D7BBC179
+</code></pre>
+
+<p>Получается, спецификация не содержит все типы сообщений.</p>
+
+<p>Ещё одна интересная вещь, которая меня заинтересовала - размер сообщения. После того, как я полностью прочитываю из <code>DataInputStream</code> данные, там всё ещё остаётся 4 байта. Это очень похоже на CRC32. Обычно контрольная сумма берётся от всех данных, поэтому я написал следующий код:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">long</span> expectedCrc32 <span style="color:#f92672">=</span> Crc32c<span style="color:#f92672">.</span><span style="color:#a6e22e">calculate</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">);</span>
+<span style="color:#66d9ef">long</span> actualCrc32 <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 24<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 3<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 2<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">);</span></code></pre></div>
+<p>Контрольная сумма при этом не совпадала. Я решил попробовать взять контрольную сумму от данных без учёта CSP заголовка:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">long</span> expectedCrc32 <span style="color:#f92672">=</span> Crc32c<span style="color:#f92672">.</span><span style="color:#a6e22e">calculate</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> Header<span style="color:#f92672">.</span><span style="color:#a6e22e">LENGTH</span><span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4 <span style="color:#f92672">-</span> Header<span style="color:#f92672">.</span><span style="color:#a6e22e">LENGTH</span><span style="color:#f92672">);</span>
+<span style="color:#66d9ef">long</span> actualCrc32 <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 24<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 3<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 2<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">);</span></code></pre></div>
+<p>И это на удивление сработало. Опять же, в документации ни слова про контрольную сумму. А ведь это очень мощный инструмент определения корректности данных.</p>
+
+<h2 id="выводы">Выводы</h2>
+
+<p>Мне удалось декодировать большинство радиомаяков, хотя и с некоторыми трудностями. В целом это было очень увлекательно и чем-то похоже на детективную историю с поиском улик.</p>
+
+<p>С другой стороны, документация от <a href="http://www.aistechspace.com" target="_blank">Aistech</a> вызывает больше вопросов, чем ответов. Из-за того, что они используют радиолюбительский диапазон, им необходимо раскрыть протоколы. Однако, из-за того, что это коммерческая компания, им необходимо скрыть свои эксперименты на орбите и технологию работы спутников. Получается такая двоякая непростая ситуация для компании. Мне же кажется, что доступ к нелицензируемым радиочастотам сильно ускорит разработку коммерческих спутников и в целом положительно скажется на освоении космоса. Главное, чтобы этим не злоупотребляли. А вот тут сложно.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/radio/'>radio</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/jradio-ber-bpsk/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Расчёт вероятности ошибки для BPSK демодулятора</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script>
+
+</body>
+
+</html>
+

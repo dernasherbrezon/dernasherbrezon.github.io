@@ -35,6 +35,17 @@ Become a Patron!
     </item>
     
     <item>
+      <title>Декодирование телеметрии Aistechsat-3</title>
+      <link>https://dernasherbrezon.com/posts/aistechsat-3/</link>
+      <pubDate>Wed, 21 Aug 2019 14:40:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/aistechsat-3/</guid>
+      <description>Вступление Наступило лето, а это значит начался отпускной сезон. Самое время немного расслабиться и добавить декодирование телеметрии для новых спутников. С января Daniel добавил десяток новых спутников. Я начал с Aistechsat-3.
+Декодирование Как и в других случаях я взял готовый демодулятор и реализовал его на Java. Daniel написал, что формат телеметрии задокументирован, но он не успел задекодировать телеметрию.
+Казалось бы, что может пойти не так? Документация есть, данные есть. Надо просто написать код.</description>
+    </item>
+    
+    <item>
       <title>Расчёт вероятности ошибки для BPSK демодулятора</title>
       <link>https://dernasherbrezon.com/posts/jradio-ber-bpsk/</link>
       <pubDate>Fri, 16 Aug 2019 10:22:18 +0100</pubDate>
