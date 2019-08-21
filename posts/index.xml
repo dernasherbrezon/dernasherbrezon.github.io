@@ -25,7 +25,9 @@
       <turbo:content>
       	<![CDATA[
       		<header>
-      			<h1>Декодирование телеметрии Aistechsat-3</h1></header>
+      			<h1>Декодирование телеметрии Aistechsat-3</h1><figure>
+				    	<img src="https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg"/>
+				    </figure></header>
       		<div class='container entry-content'>
   
 

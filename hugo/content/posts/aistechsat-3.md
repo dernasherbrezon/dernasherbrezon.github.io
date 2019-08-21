@@ -2,6 +2,7 @@
 title: "Декодирование телеметрии Aistechsat-3"
 date: 2019-08-21T14:40:18+01:00
 draft: false
+images: [/img/aistechsat-3/aistechsat-3.jpg]
 tags:
   - java
   - radio
