@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lrpt on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/lrpt/</link>
+    <description>Recent content in lrpt on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 26 Aug 2019 08:31:17 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/lrpt/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>История одной картинки</title>
+      <link>https://dernasherbrezon.com/posts/decoding-meteor-m/</link>
+      <pubDate>Mon, 26 Aug 2019 08:31:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/decoding-meteor-m/</guid>
+      <description>Введение В ноябре 2018 года команда конференции JPoint объявила о конкурсе докладов для будущей конференции. Я очень воодушевился и решил подать свою заявку. В своём докладе я хотел рассказать о том, как я декодировал сигнал со спутника Meteor-M 2. В декабре мне позвонили организаторы и мы немножко поговорили про меня и мой доклад. Он им показался интересным и они попросили меня набросать презентацию и текст.
+На январских праздниках я засел за презентацию и сделал, как мне кажется, неплохой доклад.</description>
+    </item>
+    
+  </channel>
+</rss>
