@@ -35,6 +35,17 @@ Become a Patron!
     </item>
     
     <item>
+      <title>Логирование из Java в Journald</title>
+      <link>https://dernasherbrezon.com/posts/journald-java/</link>
+      <pubDate>Tue, 03 Sep 2019 21:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/journald-java/</guid>
+      <description>Недавно обнаружил одну интересную особенность journald, которую сразу же решил использовать в r2cloud.
+Для начала немного о том, как вообще работает логирование. Большинство Linux дистрибутивов перешли на systemd. Эта система имеет множество различных фич, в том числе поддержку логирования - journald. Чем же это логирование лучше syslog:
+ Структурированные логи. Каждая запись в логе имеет некоторую мета информацию. Например, уровень (INFO, DEBUG, ERROR), дату, сообщение и пр. В syslog же, запись в логе это строка текста, которую нужно правильно парсить.</description>
+    </item>
+    
+    <item>
       <title>История одной картинки</title>
       <link>https://dernasherbrezon.com/posts/decoding-meteor-m/</link>
       <pubDate>Mon, 26 Aug 2019 08:31:17 +0100</pubDate>
