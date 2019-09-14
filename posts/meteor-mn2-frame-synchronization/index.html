@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Введение Спутник Метеор-М №2 передаёт информацию согласно протоколу LRPT. Этот протокол определяет физический, канальный и сетевой уровни модели OSI. На физическом уровне используется QPSK модуляция. На канальном уровне LRPT подразумевает использование кадров фиксированного размера с интерливингом и несколькими методами коррекции ошибок. Однако, на практике Метеор-М №2 не использует часть алгоритмов из стандарта. В этой статье я хотел бы описать как необходимо синхронизировать и получать кадры Метеор-М №2.
+Генерация кадров Прежде, чем делать получение кадров, необходимо понять как они создаются на спутнике.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Синхронизация кадров в Метеор-М №2 • dernasherbrezon'>
+<meta property='og:description' content='Введение Спутник Метеор-М №2 передаёт информацию согласно протоколу LRPT. Этот протокол определяет физический, канальный и сетевой уровни модели OSI. На физическом уровне используется QPSK модуляция. На канальном уровне LRPT подразумевает использование кадров фиксированного размера с интерливингом и несколькими методами коррекции ошибок. Однако, на практике Метеор-М №2 не использует часть алгоритмов из стандарта. В этой статье я хотел бы описать как необходимо синхронизировать и получать кадры Метеор-М №2.
+Генерация кадров Прежде, чем делать получение кадров, необходимо понять как они создаются на спутнике.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/meteor-mn2-frame-synchronization/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='lrpt'><meta property='article:tag' content='dsp'><meta property='article:published_time' content='2019-09-13T22:30:18&#43;01:00'/><meta property='article:modified_time' content='2019-09-13T22:30:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Синхронизация кадров в Метеор-М №2 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/meteor-mn2-frame-synchronization/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.037037037037037em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.037037037037037em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.037037037037037em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.037037037037037em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.037037037037037em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.074074074074074em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.037037037037037em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1em'>fm фильтры</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.037037037037037em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.037037037037037em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.037037037037037em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.074074074074074em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.037037037037037em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.037037037037037em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1111111111111112em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.037037037037037em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.037037037037037em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1851851851851851em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.1481481481481481em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.037037037037037em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.3333333333333333em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.037037037037037em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.037037037037037em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D1%81/' style='font-size:1em'>космос</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.037037037037037em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2222222222222223em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1481481481481481em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Синхронизация кадров в Метеор-М №2</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-09-13T22:30:18&#43;01:00'>13 Sep 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h2 id="введение">Введение</h2>
+
+<p>Спутник Метеор-М №2 передаёт информацию согласно протоколу <a href="https://en.wikipedia.org/wiki/Low-rate_picture_transmission" target="_blank">LRPT</a>. Этот протокол определяет физический, канальный и сетевой уровни модели <a href="https://ru.wikipedia.org/wiki/Сетевая_модель_OSI" target="_blank">OSI</a>. На физическом уровне используется QPSK модуляция. На канальном уровне LRPT подразумевает использование кадров фиксированного размера с интерливингом и несколькими методами коррекции ошибок. Однако, на практике Метеор-М №2 не использует часть алгоритмов из стандарта. В этой статье я хотел бы описать как необходимо синхронизировать и получать кадры Метеор-М №2.</p>
+
+<h2 id="генерация-кадров">Генерация кадров</h2>
+
+<p>Прежде, чем делать получение кадров, необходимо понять как они создаются на спутнике. Алгоритм частично описан в стандарте LRPT и частично в интернете. Итак, первым шагом данные, которые необходимо отправить, разбиваются на кадры фиксированной длины. После этого, к каждому кадру добавляется синхро-маркер <code>1ACFFC1D</code></p>
+
+<p><img src="/img/meteor-mn2-frame-synchronization/framing.png" alt="" /></p>
+
+<p>После этого данные кодируются свёрточным алгоритмом со скоростью <sup>1</sup>&frasl;<sub>2</sub>. Из этого следуют две важные вещи:</p>
+
+<ul>
+<li>количество выходных данных увеличивается вдвое</li>
+<li>синхро-маркер становится другим. Это очень важно понимать для правильной синхронизации кадров, о которой я напишу чуть позже</li>
+</ul>
+
+<p><img src="/img/meteor-mn2-frame-synchronization/convolutional.png" alt="" /></p>
+
+<p>И&hellip; На этом всё. Несмотря на то, что стандарт предписывает ещё дополнительные преобразования данных (спойлер: Метеор-М №2-2 их всё-таки реализует), Метеор-М №2 получившийся поток данных сразу отправляет QPSK модулятору.</p>
+
+<p><img src="/img/meteor-mn2-frame-synchronization/qpskmod.png" alt="" /></p>
+
+<h2 id="синхронизация-кадров">Синхронизация кадров</h2>
+
+<p>В общем виде, для того, чтобы синхронизировать кадры, необходимо найти синхро-маркер и прочитать фиксированное количество байт кадра. На практике же, такой подход будет находить крайне малое количество кадров. Прежде всего из-за помех в принимаемом сигнале. Поэтому все алгоритмы по синхронизации кадров сильно отличаются от алгоритмов генерации кадров.</p>
+
+<p>Забегая вперёд скажу, что для декодирования свёрточного кода применяется <a href="https://ru.wikipedia.org/wiki/Алгоритм_Витерби" target="_blank">алгоритм Витерби</a>. При этом алгоритм работающий с мягкими решениями демодулятора в среднем на 2дб эффективнее, чем с жёсткими решениями. Это значит, что каждый входящий бит будет передаваться в виде байта.</p>
+
+<p><img src="/img/meteor-mn2-frame-synchronization/softdecisions.png" alt="" /></p>
+
+<p>В самом простом виде, алгоритм синхронизации имеет некий регистр жёстких решений демодулятора, который он постоянно сравнивает с искомым синхро-маркером <code>035D49C24FF2686B</code>. Каждый последующий байт конвертируется в бит и добавляется в регистр.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">byte</span> bitToCheck<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>inputByte <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	bitToCheck <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+	bitToCheck <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+dataRegister <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>dataRegister <span style="color:#f92672">&lt;&lt;</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>bitToCheck <span style="color:#f92672">&amp;</span> 0x1<span style="color:#f92672">);</span></code></pre></div>
+<p>Если регистр совпал с необходимым синхро-маркером, то из потока читается кадр фиксированного размера и декодируется с помощью алгоритма Витерби.</p>
+
+<p>Этот алгоритм можно улучшить. Дело в том, что в синхро-маркере <code>035D49C24FF2686B</code> могут быть ошибочные биты. Алгоритм Витерби может скорректировать ошибочные биты как в самом синхро-маркере, так и в данных, идущих за ним. Зная это, можно искать синхромаркер с некоторой точностью. Например, для Метеор-М №2 на основе экспериментов я допускаю до 17 ошибочных бит в регистре или 26%. Тут важно понимать, что небольшой порог не позволит находить пакеты в шумном сигнале, а слишком большой порог даст много ложно-положительных срабатываний.</p>
+
+<p>Чтобы сделать ещё одно улучшение, надо понимать устройство QPSK демодулятора. Любой некогерентный PSK демодулятор подвержден так называемой ошибке неоднозначности фазы.</p>
+
+<p><img src="/img/meteor-mn2-frame-synchronization/phase_ambiguity.png" alt="" /></p>
+
+<p>Для алгоритма это значит, что нужно искать не <code>035D49C24FF2686B</code>, а 8 различных вариантов синхро-маркера. Для этого я создал класс <a href="https://github.com/dernasherbrezon/jradio/blob/314552e7f90e800e201b0af2fca43ebbb82fc8b5/src/main/java/ru/r2cloud/jradio/PhaseAmbiguityResolver.java" target="_blank">PhaseAmbiguityResolver</a>, который на вход принимает значение синхро-маркера, а на выходе выдаёт все возможные синхро-маркеры в зависимости от ошибки фазы.</p>
+
+<p>Далее алгоритм меняется следующим образом. В потоке бит ищется 8 различных вариантов синхро-маркера. Как только синхро-маркер найден, читается кадр фиксированного размера. Далее, в зависимости от найденного синхро-маркера, каждые 2 бита данных вращаются по часовой стрелке или против. Это необходимо для того, чтобы устранить ошибку неоднозначности фазы в самом кадре.</p>
+
+<h2 id="выводы">Выводы</h2>
+
+<p>Несмотря на то, что алгоритмы формирования кадров достаточно простые, алгоритмы поиска уже значительно сложнее. Зачастую они ставят перед выбором: количество успешно найденных кадров или увеличенное время (CPU/память) на поиск. Текущий алгоритм синхронизации кадров даёт <a href="https://dernasherbrezon.com/posts/dsp-java/" target="_blank">вполне неплохие результаты</a>.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/meteor-m/'>meteor-m</a>, <a class='tag' href='/tags/lrpt/'>lrpt</a>, <a class='tag' href='/tags/dsp/'>dsp</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/journald-java/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Логирование из Java в Journald</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script>
+
+</body>
+
+</html>
+
