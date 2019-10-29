@@ -4,7 +4,6 @@ date: 2017-04-08T12:48:18+01:00
 draft: false
 images: [/img/enterprise-java-space/24dbbef6d38b4de59fef6b67a0308e40.jpg]
 tags:
-  - космос
   - космонавтика
   - разработка
   - open source
