@@ -606,7 +606,7 @@ torquer_duty
 
 <h2 id="описание-теста">Описание теста</h2>
 
-<p>Для того, чтобы симулировать поведение демодулятора, я написал специальный тест. За основу я взял идею <a href="https://destevez.net/2017/07/ber-simulation-in-gnu-radio/" target="_blank">Daniel Estevez</a> и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/demod/BpskDemodulatorTest.java" target="_blank">реализовал её</a> на java.</p>
+<p>Для того, чтобы симулировать поведение демодулятора, я написал специальный тест. За основу я взял идею <a href="https://destevez.net/2017/07/ber-simulation-in-gnu-radio/" target="_blank">Daniel Estevez</a> и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/demod/BpskDemodulatorBer.java" target="_blank">реализовал её</a> на java.</p>
 
 <p>Идея заключается в том, что подавая на вход BSPK модулятора множество &ldquo;1&rdquo;, необходимо получить множество &ldquo;1&rdquo; на выходе демодулятора. Если в результате получается &ldquo;0&rdquo;, то это значит ошибка. Если подсчитать количество &ldquo;0&rdquo; на выходе и поделить на общее количество полученных битов, то получится вероятность ошибки (BER).</p>
 

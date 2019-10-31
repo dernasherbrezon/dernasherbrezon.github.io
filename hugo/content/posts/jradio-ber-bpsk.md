@@ -16,7 +16,7 @@ tags:
 
 ## Описание теста
 
-Для того, чтобы симулировать поведение демодулятора, я написал специальный тест. За основу я взял идею [Daniel Estevez](https://destevez.net/2017/07/ber-simulation-in-gnu-radio/) и [реализовал её](https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/demod/BpskDemodulatorTest.java) на java.
+Для того, чтобы симулировать поведение демодулятора, я написал специальный тест. За основу я взял идею [Daniel Estevez](https://destevez.net/2017/07/ber-simulation-in-gnu-radio/) и [реализовал её](https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/demod/BpskDemodulatorBer.java) на java.
 
 Идея заключается в том, что подавая на вход BSPK модулятора множество "1", необходимо получить множество "1" на выходе демодулятора. Если в результате получается "0", то это значит ошибка. Если подсчитать количество "0" на выходе и поделить на общее количество полученных битов, то получится вероятность ошибки (BER).
 
