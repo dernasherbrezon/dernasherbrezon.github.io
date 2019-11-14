@@ -5,10 +5,19 @@
     <link>https://dernasherbrezon.com/tags/sonarcube/</link>
     <description>Recent content in sonarcube on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 02 Mar 2019 12:48:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 14 Nov 2019 18:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/sonarcube/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>В поисках хорошего кода</title>
+      <link>https://dernasherbrezon.com/posts/code-smells/</link>
+      <pubDate>Thu, 14 Nov 2019 18:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/code-smells/</guid>
+      <description>В январе 2019 года я поставил себе задачу добавить поддержку спутников из gr-satellites в свой проект r2cloud. На тот момент их было около 70. Это достаточно большое количество, добавление которых, по моим оценкам, может занять до конца года. Однако, как показал опыт, я справился где-то за месяц. Некоторые спутники уже сгорели в атмосфере, поэтому их нет смысла добавлять. Некоторые спутники не предоставляют формат своей телеметрии, поэтому полученные биты данных, так и остаются битами данных.</description>
+    </item>
     
     <item>
       <title>Тестирование JSP тэгов</title>
