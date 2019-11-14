@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='В январе 2019 года я поставил себе задачу добавить поддержку спутников из gr-satellites в свой проект r2cloud. На тот момент их было около 70. Это достаточно большое количество, добавление которых, по моим оценкам, может занять до конца года. Однако, как показал опыт, я справился где-то за месяц. Некоторые спутники уже сгорели в атмосфере, поэтому их нет смысла добавлять. Некоторые спутники не предоставляют формат своей телеметрии, поэтому полученные биты данных, так и остаются битами данных.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='В поисках хорошего кода • dernasherbrezon'>
+<meta property='og:description' content='В январе 2019 года я поставил себе задачу добавить поддержку спутников из gr-satellites в свой проект r2cloud. На тот момент их было около 70. Это достаточно большое количество, добавление которых, по моим оценкам, может занять до конца года. Однако, как показал опыт, я справился где-то за месяц. Некоторые спутники уже сгорели в атмосфере, поэтому их нет смысла добавлять. Некоторые спутники не предоставляют формат своей телеметрии, поэтому полученные биты данных, так и остаются битами данных.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/code-smells/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/code-smells/github.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:published_time' content='2019-11-14T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-11-14T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>В поисках хорошего кода • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/code-smells/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0357142857142858em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0357142857142858em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.0357142857142858em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0357142857142858em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0357142857142858em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.0714285714285714em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.0357142857142858em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1em'>fm фильтры</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0357142857142858em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0357142857142858em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0357142857142858em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0714285714285714em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0357142857142858em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0357142857142858em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1071428571428572em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0357142857142858em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.0357142857142858em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1785714285714286em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.1428571428571428em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0357142857142858em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.3214285714285714em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1.0357142857142858em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0357142857142858em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0357142857142858em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0357142857142858em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0357142857142858em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0357142857142858em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2142857142857142em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.0357142857142858em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1428571428571428em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>В поисках хорошего кода</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-11-14T18:22:18&#43;01:00'>14 Nov 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<p>В январе 2019 года я поставил себе задачу добавить поддержку спутников из <a href="https://github.com/daniestevez/gr-satellites" target="_blank">gr-satellites</a> в свой проект <a href="https://github.com/dernasherbrezon/r2cloud" target="_blank">r2cloud</a>. На тот момент их было около 70. Это достаточно большое количество, добавление которых, по моим оценкам, может занять до конца года. Однако, как показал опыт, я справился где-то за месяц. Некоторые спутники уже сгорели в атмосфере, поэтому их нет смысла добавлять. Некоторые спутники не предоставляют формат своей телеметрии, поэтому полученные биты данных, так и остаются битами данных. Их я тоже не стал добавлять, так как лучше уж сделать поддержку спутников с открытым форматом данных. В итоге я добавил поддержку 23 спутников.</p>
+
+<p>Здесь важно отметить, что разные спутники передают разную информацию. Некоторые передают <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/main/java/ru/r2cloud/jradio/astrocast/NMEA0183.java" target="_blank">небольшое количество данных</a>, некоторые десятки и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/main/java/ru/r2cloud/jradio/eseo/Type1.java" target="_blank">сотни полей</a>.</p>
+
+<p>Сделав задачу, я обнаружил, что названия полей зачастую не согласуются с правилами java. Большинство полей я просто взял из оригинальных спецификаций, которые ничего не знают про Java. Из-за этого <a href="https://sonarcloud.io/project/activity?custom_metrics=code_smells&amp;graph=custom&amp;id=ru.r2cloud%3Ajradio" target="_blank">sonarcloud</a> начал показывать более 6000 code smells (sic!).</p>
+
+<p>Я никогда не встречал проекты с таким большим количеством плохо пахнущего кода. По оценкам sonarcloud, на исправление этого мне бы потребовалось около 40 дней. Сам по себе такой код не является ошибочным. Просто его неудобно читать, поддерживать и он плохо согласуется с остальным кодом на Java. С другой стороны, 40 дней подряд сидеть и делать код ещё чуть-чуть более лучшим, мне тоже не хотелось. Всё-таки это хобби-проект, а не каторга. Поэтому, чтобы хоть как-то исправить ситуацию, я решил каждый день делать золотой commit. Золотой commit - это исправление плохо пахнущего кода в отдельно взятом файле.</p>
+
+<p><img src="/img/code-smells/sonarcloud.png" alt="" /></p>
+
+<p>С февраля по ноябрь я исправил почти все 6000. При этом моя гит история стала выглядеть следующим образом:</p>
+
+<p><img src="/img/code-smells/github.png" alt="" /></p>
+
+<p>В итоге, сейчас в проекте около 150 случаев дурно пахнущего кода. Большинство из них - это дубликация кода. В настройках по умолчанию sonarcloud создаёт новую проблему, если есть дублирующий код. Я не большой сторонник полностью переиспользуемого кода. В каких то случаях - это хорошо. Например, при описании бизнес-логики. В других случаях - это может сильно мешать читаемости и делает код сильно связанным. Например, при описании структур данных.</p>
+
+<p>Ещё одна достаточно частая проблема, на которую sonarcloud ругается - это <a href="https://sonarcloud.io/organizations/dernasherbrezon-github/rules?open=squid%3AS3776&amp;rule_key=squid%3AS3776" target="_blank">сложность кода</a>. К сожалению, да. Мой проект действительно сложный, тут сложно что-либо поделать.</p>
+
+<p><img src="/img/code-smells/complex.png" alt="" /></p>
+
+<h2 id="выводы">Выводы</h2>
+
+<p>Какие можно сделать выводы из всего этого? Терпенье и труд всё перетрут.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/satellite-telemetry/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Я слежу за спутниками</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script>
+
+</body>
+
+</html>
+
