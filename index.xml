@@ -35,6 +35,15 @@ Become a Patron!
     </item>
     
     <item>
+      <title>Тестирование maven плагинов</title>
+      <link>https://dernasherbrezon.com/posts/testing-maven-plugins/</link>
+      <pubDate>Fri, 15 Nov 2019 19:49:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/testing-maven-plugins/</guid>
+      <description>Часть моей хобби инфраструктуры завязана на .deb пакеты и apt репозитории. Чтобы со всем этим работать из java, я написал несколько maven плагинов и выложил в открытый доступ. Один из этих плагинов - deb-maven-plugin. Он позволяет собирать из java проекта .deb пакет. Этот формат пакетов имеет достаточно сложную структуру и большое историческое наследие. Я очень тщательно разобрался с тем, как собирать такой пакет для java проектов и создал плагин, который сильно облегчает сборку.</description>
+    </item>
+    
+    <item>
       <title>В поисках хорошего кода</title>
       <link>https://dernasherbrezon.com/posts/code-smells/</link>
       <pubDate>Thu, 14 Nov 2019 18:22:18 +0100</pubDate>
