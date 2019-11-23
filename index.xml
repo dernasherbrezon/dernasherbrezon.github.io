@@ -35,6 +35,15 @@ Become a Patron!
     </item>
     
     <item>
+      <title>Создание VueJS компонента</title>
+      <link>https://dernasherbrezon.com/posts/creating-vuejs-component/</link>
+      <pubDate>Sat, 23 Nov 2019 17:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/creating-vuejs-component/</guid>
+      <description>Введение Мне очень нравится идея маленьких переиспользуемых компонент. Если передо мной встаёт задача добавить какой-нибудь функционал, я прежде всего трачу некоторое время на поиск уже существующего решения. Так и в этот раз. Немногие знают, что r2cloud - это полноценный REST сервер. А значит им можно управлять программно. Сейчас существует только один клиент для него - r2cloud-ui. Это приложение VueJS, которое предоставляет UI для управления. Однако, вся мощь REST сервисов заключается в том, что с ними можно взаимодействовать программно с помощью различных языков программирования.</description>
+    </item>
+    
+    <item>
       <title>Тестирование maven плагинов</title>
       <link>https://dernasherbrezon.com/posts/testing-maven-plugins/</link>
       <pubDate>Fri, 15 Nov 2019 19:49:18 +0100</pubDate>

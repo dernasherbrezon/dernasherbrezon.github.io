@@ -8,10 +8,136 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 15 Nov 2019 19:49:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 23 Nov 2019 17:33:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Создание VueJS компонента</title>
+      <link>https://dernasherbrezon.com/posts/creating-vuejs-component/</link>
+      <pubDate>Sat, 23 Nov 2019 17:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/creating-vuejs-component/</guid>
+      <description>Введение Мне очень нравится идея маленьких переиспользуемых компонент. Если передо мной встаёт задача добавить какой-нибудь функционал, я прежде всего трачу некоторое время на поиск уже существующего решения. Так и в этот раз. Немногие знают, что r2cloud - это полноценный REST сервер. А значит им можно управлять программно. Сейчас существует только один клиент для него - r2cloud-ui. Это приложение VueJS, которое предоставляет UI для управления. Однако, вся мощь REST сервисов заключается в том, что с ними можно взаимодействовать программно с помощью различных языков программирования.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Создание VueJS компонента</h1><figure>
+				    	<img src="https://dernasherbrezon.com/img/creating-vuejs-component/3.png"/>
+				    </figure></header>
+      		<div class='container entry-content'>
+  
+
+<h2 id="введение">Введение</h2>
+
+<p>Мне очень нравится идея маленьких переиспользуемых компонент. Если передо мной встаёт задача добавить какой-нибудь функционал, я прежде всего трачу некоторое время на поиск уже существующего решения. Так и в этот раз. Немногие знают, что <a href="http://github.com/dernasherbrezon/r2cloud" target="_blank">r2cloud</a> - это полноценный REST сервер. А значит им можно управлять программно. Сейчас существует только один клиент для него - <a href="https://github.com/dernasherbrezon/r2cloud-ui" target="_blank">r2cloud-ui</a>. Это приложение VueJS, которое предоставляет UI для управления. Однако, вся мощь REST сервисов заключается в том, что с ними можно взаимодействовать программно с помощью различных языков программирования. Это позволяет построить достаточно интересные интеграции и более сложные системы. Чтобы рассказать всему миру о том, как можно управлять r2cloud, я решил создать API документацию.</p>
+
+<p>Самый простой создания документации - это записать все REST методы в html файл и добавить на сайт. Однако, за последние десятки лет, инженерная мысль шагнула дальше. Если описать REST API с помощью специальной схемы <a href="https://swagger.io/docs/specification/about" target="_blank">OpenAPI</a>, то на её основе можно:</p>
+
+<ol>
+<li>Сгенерировать документацию</li>
+<li>Сгенерировать клиентскую библиотеку под различные языки программирования</li>
+<li>Сгенерировать заглушку для серверного кода</li>
+</ol>
+
+<p>Второй и третий пункт у меня уже есть, а вот первый пункт мне как раз и нужен. Таким образом передо мной встала задача отрисовать спецификацию OpenAPI в VueJS.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="color:#f92672">&#34;/health&#34;</span>: {
+		<span style="color:#f92672">&#34;get&#34;</span>: {
+			<span style="color:#f92672">&#34;tags&#34;</span>: [
+				<span style="color:#e6db74">&#34;System&#34;</span>
+			],
+			<span style="color:#f92672">&#34;summary&#34;</span>: <span style="color:#e6db74">&#34;Check if r2cloud is up&#34;</span>,
+			<span style="color:#f92672">&#34;responses&#34;</span>: {
+				<span style="color:#f92672">&#34;200&#34;</span>: {
+					<span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;If r2cloud is up&#34;</span>
+				}
+			}
+		}
+	}
+}</code></pre></div>
+<p>Покопавшись немного в интернете я нашёл следующие наиболее близкие решения:</p>
+
+<ul>
+<li><strong><a href="https://www.npmjs.com/package/swagger-ui" target="_blank">swagger-ui</a></strong>. Стандартная библиотека, позволяющая отрисовать спецификацию OpenAPI с помощью собственных стилей и Javascript.</li>
+<li><strong><a href="https://www.npmjs.com/package/@koumoul/vue-openapi" target="_blank">vue-openapi</a></strong>. Позволяет отрисовать спецификацию OpenAPI с помощью библиотеки стилей <a href="https://vuematerial.io" target="_blank">vue-material</a>.</li>
+</ul>
+
+<p>В обоих случаях используются собственные стили компонентов. Эти стили не сочетаются с <a href="https://getbootstrap.com" target="_blank">bootstrap</a>, поэтому я решил написать небольшой компонент - <strong><a href="https://www.npmjs.com/package/vue-openapi-bootstrap" target="_blank">vue-openapi-bootstrap</a></strong>. Он позволяет:</p>
+
+<ul>
+<li>отрисовывать спецификацию OpenAPI 3.x</li>
+<li>UI максимально близко повторяет стандартный <a href="https://petstore.swagger.io/#/" target="_blank">swagger-ui</a></li>
+<li>использует нативные компоненты из bootstrap 4.x и динамические компоненты из bootstrap-vue</li>
+<li>отображает запросы и ответы API в формате json</li>
+<li>улучшенное отображение доменных моделей</li>
+</ul>
+
+<h2 id="создание-компонента">Создание компонента</h2>
+
+<p>Создание однофайлового компонента очень хорошо описано в <a href="https://ru.vuejs.org/v2/cookbook/packaging-sfc-for-npm.html" target="_blank">официальной документации</a>. В этой статье предлагается делать сборку компонента с помощью rollup. Насколько я понял, это ещё один способ сборки javascript кода, более легковесный, чем webpack. Из недостатков следует отметить отсутствие dev сервера и горячей перезагрузки модулей.</p>
+
+<p>После того, как написан весь boilerplate код и конфигурация сборки, написание компонента не представляет сложности. В случае моего компонента, мне удалось найти практически все стандартные компоненты bootstrap, которые позволили отобразить UI, похожий на swagger-ui.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">b-card-body</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;method.deprecated&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-muted&#34;</span>&gt;Warning: Deprecated&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">p</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;method.description&#34;</span>&gt;{{ method.description }}&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;method.parameters &amp;&amp; method.parameters.length &gt; 0&#34;</span>&gt;
+    &lt;<span style="color:#f92672">h4</span>&gt;Parameters&lt;/<span style="color:#f92672">h4</span>&gt;</code></pre></div>
+<p>Почему я выбрал UI совместимый со swagger-ui? Во-первых, у меня нет мнения о том, как должен выглядить правильный UX для описания документации к API. А во-вторых, swagger-ui - это наиболее распространённый компонент для отображения OpenAPI документации.</p>
+
+<p><img src="/img/creating-vuejs-component/1.png" alt="" /></p>
+
+<p>Наибольшая сложность была с описанием того, что есть в стандарте OpenAPI 3.x. Дело в том, что стандарт позволяет достаточно гибко описывать различные REST API. А это значит, что он достаточно обширен и многословен. Чтобы всё это описать, я взял стандартный openapi.json из <a href="https://petstore.swagger.io/#/" target="_blank">petstore</a> и отрисовал всевозможные варианты конфигурации.</p>
+
+<h2 id="финальный-результат">Финальный результат</h2>
+
+<p>Готовый компонент можно подключить следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm install vue-openapi-bootstrap</code></pre></div>
+<p>Использовать на странице:</p>
+
+<pre><code>&lt;template&gt;
+  &lt;vue-openapi-bootstrap :openapi=&quot;openapi&quot;&gt;&lt;/vue-openapi-bootstrap&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import vueOpenapiBootstrap from 'vue-openapi-bootstrap/src/vue-openapi-bootstrap'
+export default {
+  components: {vueOpenapiBootstrap},
+  data () {
+    return {
+      openapi: {}
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+
+<p>В результате получаются такие страницы:</p>
+
+<p><img src="/img/creating-vuejs-component/2.png" alt="" /></p>
+
+<p>А вот так выглядит отображение документации в r2cloud-ui:</p>
+
+<p><img src="/img/creating-vuejs-component/3.png" alt="" /></p>
+
+<p>Сразу после публикации в <a href="https://www.npmjs.com/package/vue-openapi-bootstrap" target="_blank">npmjs.com</a> в первые несколько дней, мой компонент был скачан 66 раз. Это лишний раз подтвердило мою мысль о том, что я на правильном пути и небольшой компонент востребован сообществом.</p>
+
+<p><img src="/img/creating-vuejs-component/4.png" alt="" /></p>
+
+<h2 id="выводы">Выводы</h2>
+
+<ul>
+<li>VueJS продвигает создание небольших переиспользуемых компонент. Это очень мощная и правильная идея, которая позволяет собирать достаточно большие проекты из маленьких кусочков. Правильная реализация этой идеи делает создание компонентов действительно простым делом.</li>
+<li>npmjs продвигает переиспользование кода. Как ещё объяснить те 66 скачиваний моего компонента, если я не давал рекламы и никому о нём не рассказывал?</li>
+<li>Компонент есть куда улучшать: можно добавить поддержку отрисовки описаний с помощью markdown, задание доменной модели с помощью xml.</li>
+</ul>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Тестирование maven плагинов</title>
