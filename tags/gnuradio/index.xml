@@ -5,10 +5,23 @@
     <link>https://dernasherbrezon.com/tags/gnuradio/</link>
     <description>Recent content in gnuradio on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 16 Aug 2019 10:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 28 Nov 2019 15:51:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/gnuradio/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Сигналы со спутников</title>
+      <link>https://dernasherbrezon.com/posts/satellite-signal/</link>
+      <pubDate>Thu, 28 Nov 2019 15:51:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/satellite-signal/</guid>
+      <description>До того, как заняться приёмом сигналов со спутников, я ничего не знал о радио сигналах. Тем более о радио сигналах со спутников. В моём представлении это было: навести антенну на спутник и выставить частоту приёма.
+На самом деле частота сигнала меняется и на спектограмме выглядит как-то вот так:
+Если схематично представить, то принимаемый сигнал будет выглядеть вот так:
+С этим сигналом есть 2 проблемы (на самом деле больше):
+ Эффект Доплера.</description>
+    </item>
     
     <item>
       <title>Расчёт вероятности ошибки для BPSK демодулятора</title>
