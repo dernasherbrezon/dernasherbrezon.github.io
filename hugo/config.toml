@@ -72,6 +72,7 @@ titleSeparator = "•"
 email = "dernasherbrezon@gmail.com"
 github = "dernasherbrezon"
 twitter = "dernasherbrezon"
+telegram = "dernasherbrezonChannel"
 
 [params.comments]
 enable = true
