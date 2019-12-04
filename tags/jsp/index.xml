@@ -5,10 +5,22 @@
     <link>https://dernasherbrezon.com/tags/jsp/</link>
     <description>Recent content in jsp on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 02 Mar 2019 12:48:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 04 Dec 2019 22:29:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/jsp/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Работа с Json в 2019 году</title>
+      <link>https://dernasherbrezon.com/posts/json-in-2019/</link>
+      <pubDate>Wed, 04 Dec 2019 22:29:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/json-in-2019/</guid>
+      <description>Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
+Но что-то пошло не так&amp;hellip;
+Вот ключевое место лога:
+Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;amp;lt;init&amp;amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597)  Оказывается, gson зависит от пакета java.</description>
+    </item>
     
     <item>
       <title>Тестирование JSP тэгов</title>

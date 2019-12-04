@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang='ru'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
+Но что-то пошло не так&hellip;
+Вот ключевое место лога:
+Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;lt;init&amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597)  Оказывается, gson зависит от пакета java.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Работа с Json в 2019 году • dernasherbrezon'>
+<meta property='og:description' content='Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
+Но что-то пошло не так&hellip;
+Вот ключевое место лога:
+Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;lt;init&amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597)  Оказывается, gson зависит от пакета java.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/json-in-2019/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/json-in-2019/2.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='jsp'><meta property='article:published_time' content='2019-12-04T22:29:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-04T22:29:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.53" />
+
+  <title>Работа с Json в 2019 году • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/json-in-2019/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    dernasherbrezon
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/nix/' style='font-size:1em'>*nix</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0333333333333334em'>String</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/ads-b/' style='font-size:1em'>ads-b</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0333333333333334em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.0333333333333334em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0333333333333334em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0333333333333334em'>deb</a>
+      </li><li>
+        <a href='/tags/debian/' style='font-size:1em'>debian</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.0666666666666667em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.0333333333333334em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1em'>fm фильтры</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0333333333333334em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0666666666666667em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0333333333333334em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0666666666666667em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery-plugins/' style='font-size:1em'>jquery plugins</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0333333333333334em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0333333333333334em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0333333333333334em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1333333333333333em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0333333333333334em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/metrics/' style='font-size:1em'>metrics</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.0333333333333334em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1em'>openapi</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.1333333333333333em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1em'>rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0333333333333334em'>rrd</a>
+      </li><li>
+        <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.3em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1.0666666666666667em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0333333333333334em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0333333333333334em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0333333333333334em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.0333333333333334em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1em'>даунсэмплирование</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0333333333333334em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0333333333333334em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0333333333333334em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.0666666666666667em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1666666666666667em'>тестирование</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Работа с Json в 2019 году</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2019-12-04T22:29:18&#43;01:00'>04 Dec 2019</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+
+<h2 id="введение">Введение</h2>
+
+<p>В работе над своей небольшой библиотечкой <a href="https://github.com/dernasherbrezon/jsp-openapi" target="_blank">jsp-openapi</a> мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.</p>
+
+<p>Но что-то <a href="https://travis-ci.org/dernasherbrezon/jsp-openapi/builds/620333411" target="_blank">пошло не так</a>&hellip;</p>
+
+<p>Вот ключевое место лога:</p>
+
+<pre><code>Caused by: java.lang.NoClassDefFoundError: java/sql/Time
+	at com.google.gson.Gson.&amp;lt;init&amp;gt;(Gson.java:265)
+	at com.google.gson.GsonBuilder.create(GsonBuilder.java:597)
+</code></pre>
+
+<p>Оказывается, gson <a href="https://github.com/google/gson/blob/22877d67ba44299e8d77eb841ab20c2087d46752/gson/src/main/java/module-info.java" target="_blank">зависит от пакета java.sql</a>. При сборке jdk9+, библиотека должна создавать файл module-info.java, в котором необходимо описывать эту зависимость.</p>
+
+<p>В принципе, это не страшно. Я даже уже начал идти этим путем: создал module-info.java, начал разбираться как собирать проект на openjdk11 и oraclejdk8. Но тут меня осенило. Я же разрабатываю библиотеку тэгов. Для JSP. В 2019 году. Какая вообще Java 11? В лучшем случае её будут использовать в Java 8.</p>
+
+<p>Немного взгрустнув, я вздохнул и пошёл сложной дорогой: выбор другой JSON библиотеки.</p>
+
+<h2 id="выбор-альтернатив">Выбор альтернатив</h2>
+
+<p>Самое быстрое гугление выдает 3 альтернативы:</p>
+
+<ul>
+<li>Reference implementation <a href="https://github.com/stleary/JSON-java" target="_blank">json-java</a>.</li>
+<li><a href="https://github.com/FasterXML/jackson" target="_blank">Jackson</a></li>
+<li><a href="https://javaee.github.io/jsonp/" target="_blank">json-p</a></li>
+</ul>
+
+<p>Но прежде, чем выбирать какую-то одну, необходимо определиться с требованиями:</p>
+
+<ul>
+<li>минимальное количество зависимостей, но без фанатизма. Код всё равно будет выполняться на сервере</li>
+<li>возможность сериализировать POJO.</li>
+<li>возможность отбрасывать null поля. Из-за того, что я не контролирую <code>io.swagger.v3.oas.models.OpenAPI</code>, то я не могу вставить в него аннотации и прочие служебные конструкции. Сериализация null полей должна быть сконфигурирована извне</li>
+<li>возможность pretty print. Получившийся json будет рендериться с помощью тэгов &lt;pre&gt;, поэтому он должен выглядеть хорошо</li>
+</ul>
+
+<h3 id="json-java">json-java</h3>
+
+<p>Достаточно простой проект, мало кода, а значит быстро и ничего лишнего. Однако, сериализацию объектов через reflection не поддерживает и её придётся писать самому каждый раз. Не подходит.</p>
+
+<h3 id="jackson">Jackson</h3>
+
+<p>Нет, Вы только посмотрите на их readme. Если, с помощью Jackson нельзя собрать космический корабль, то я буду крайне удивлён.</p>
+
+<p><img src="/img/json-in-2019/1.png" alt="" /></p>
+
+<p>После 15 минут вдумчивого анализа оказалось, что для минимальной работы требуется 3 библиотеки:</p>
+
+<ul>
+<li>jackson-core</li>
+<li>jackson-annotations</li>
+<li>jackson-databind</li>
+</ul>
+
+<p>Скрипя сердцем, отложил, как формально подходящую под требования.</p>
+
+<h3 id="jsonp">jsonp</h3>
+
+<p>Чтобы начать работать с этой библиотекой, нужно добавить следующие зависимости:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>javax.json<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>javax.json-api<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.glassfish<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>javax.json<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span></code></pre></div>
+<p>Ох, только не glassfish. Почему выбор библиотеки может зависить от личных предпочтений? Тем не менее, прочитав случайную <a href="https://blog.overops.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/" target="_blank">статью</a> о сравнении сферических коней, решил не брать jsonp по более объективным причинам: низкая производительность.</p>
+
+<h2 id="вывод">Вывод</h2>
+
+<p>Jackson, конечно, уступает в удобстве работы gson. Но за неимением лучшего пришлось выбрать его:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">JsonFactory jsonFactory <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JsonFactory<span style="color:#f92672">();</span>
+jsonFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">configure</span><span style="color:#f92672">(</span>JsonGenerator<span style="color:#f92672">.</span><span style="color:#a6e22e">Feature</span><span style="color:#f92672">.</span><span style="color:#a6e22e">AUTO_CLOSE_TARGET</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+ObjectMapper mapper <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectMapper<span style="color:#f92672">(</span>jsonFactory<span style="color:#f92672">);</span>
+mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">enable</span><span style="color:#f92672">(</span>SerializationFeature<span style="color:#f92672">.</span><span style="color:#a6e22e">INDENT_OUTPUT</span><span style="color:#f92672">);</span>
+mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">setSerializationInclusion</span><span style="color:#f92672">(</span>Include<span style="color:#f92672">.</span><span style="color:#a6e22e">NON_NULL</span><span style="color:#f92672">);</span>
+mapper<span style="color:#f92672">.</span><span style="color:#a6e22e">writeValue</span><span style="color:#f92672">(</span>w<span style="color:#f92672">,</span> value<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperties</span><span style="color:#f92672">());</span></code></pre></div>
+<p>На этом я не остановился и <a href="https://github.com/google/gson/issues/1629" target="_blank">выразил свою позицию</a> разработчикам gson. Шансы, что эту задачу реализуют, крайне малы, так как это значит отказываться от обратной совместимости с предыдущими версиями. И на такое разработчики вряд ли пойдут.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/jsp/'>jsp</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/satellite-signal/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Сигналы со спутников</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'></span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="m 22.05,1.577 c -0.393,-0.016 -0.784,0.08 -1.117,0.235 -0.484,0.186 -4.92,1.902 -9.41,3.64 C 9.263,6.325 7.005,7.198 5.267,7.867 3.53,8.537 2.222,9.035 2.153,9.059 c -0.46,0.16 -1.082,0.362 -1.61,0.984 -0.79581202,1.058365 0.21077405,1.964825 1.004,2.499 1.76,0.564 3.58,1.102 5.087,1.608 0.556,1.96 1.09,3.927 1.618,5.89 0.174,0.394 0.553,0.54 0.944,0.544 l -0.002,0.02 c 0,0 0.307,0.03 0.606,-0.042 0.3,-0.07 0.677,-0.244 1.02,-0.565 0.377,-0.354 1.4,-1.36 1.98,-1.928 l 4.37,3.226 0.035,0.02 c 0,0 0.484,0.34 1.192,0.388 0.354,0.024 0.82,-0.044 1.22,-0.337 0.403,-0.294 0.67,-0.767 0.795,-1.307 0.374,-1.63 2.853,-13.427 3.276,-15.38 L 23.676,4.725 C 23.972,3.625 23.863,2.617 23.18,2.02 22.838,1.723 22.444,1.593 22.05,1.576 Z"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.fae8ed32.js'></script>
+
+</body>
+
+</html>
+
