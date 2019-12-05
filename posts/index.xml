@@ -8,10 +8,35 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Wed, 04 Dec 2019 22:29:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 05 Dec 2019 22:31:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Разговоры о приёме сигналов со спутников</title>
+      <link>https://dernasherbrezon.com/posts/big-beard-theory/</link>
+      <pubDate>Thu, 05 Dec 2019 22:31:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/big-beard-theory/</guid>
+      <description>Зашёл в гости к подкасту Big Beard Theory поговорить о спутниках и приёме сигналов с них. Огромное спасибо Антону за приглашение и помощь в организации выпуска.
+ </description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Разговоры о приёме сигналов со спутников</h1><figure>
+				    	<img src="https://dernasherbrezon.com/img/big-beard-theory/1.jpg"/>
+				    </figure></header>
+      		<div class='container entry-content'>
+  <p>Зашёл в гости к подкасту Big Beard Theory поговорить о спутниках и приёме сигналов с них. Огромное спасибо Антону за приглашение и помощь в организации выпуска.</p>
+
+<iframe src="https://castbox.fm/app/castbox/player/id2408958/id207875336?v=8.13.0&autoplay=0&hide_list=1" frameborder="0" width="100%" height="250"></iframe>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Работа с Json в 2019 году</title>
