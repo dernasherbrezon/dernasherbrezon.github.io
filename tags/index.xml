@@ -5,19 +5,10 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 11 Aug 2012 13:14:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 11 Dec 2011 13:14:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>*nix</title>
-      <link>https://dernasherbrezon.com/tags/nix/</link>
-      <pubDate>Sat, 11 Aug 2012 13:14:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/nix/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Spring</title>
@@ -56,18 +47,9 @@
     </item>
     
     <item>
-      <title>ads-b</title>
-      <link>https://dernasherbrezon.com/tags/ads-b/</link>
-      <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/ads-b/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>api</title>
       <link>https://dernasherbrezon.com/tags/api/</link>
-      <pubDate>Wed, 01 May 2019 18:22:18 +0100</pubDate>
+      <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/api/</guid>
       <description></description>
@@ -133,15 +115,6 @@
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/deb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>debian</title>
-      <link>https://dernasherbrezon.com/tags/debian/</link>
-      <pubDate>Sat, 11 Aug 2012 13:14:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/debian/</guid>
       <description></description>
     </item>
     
@@ -283,7 +256,7 @@
     <item>
       <title>jetty</title>
       <link>https://dernasherbrezon.com/tags/jetty/</link>
-      <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
+      <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/jetty/</guid>
       <description></description>
@@ -436,7 +409,7 @@
     <item>
       <title>openapi</title>
       <link>https://dernasherbrezon.com/tags/openapi/</link>
-      <pubDate>Sat, 23 Nov 2019 17:33:18 +0100</pubDate>
+      <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/openapi/</guid>
       <description></description>
@@ -691,15 +664,6 @@
       <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>даунсэмплирование</title>
-      <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
-      <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
       <description></description>
     </item>
     

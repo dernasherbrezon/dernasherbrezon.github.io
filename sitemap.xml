@@ -263,12 +263,6 @@
   </url>
   
   <url>
-    <loc>https://dernasherbrezon.com/tags/nix/</loc>
-    <lastmod>2012-08-11T13:14:18+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://dernasherbrezon.com/authors/</loc>
     <priority>0</priority>
   </url>
@@ -309,7 +303,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/</loc>
-    <lastmod>2012-08-11T13:14:18+01:00</lastmod>
+    <lastmod>2011-12-11T13:14:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -320,14 +314,8 @@
   </url>
   
   <url>
-    <loc>https://dernasherbrezon.com/tags/ads-b/</loc>
-    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://dernasherbrezon.com/tags/api/</loc>
-    <lastmod>2019-05-01T18:22:18+01:00</lastmod>
+    <lastmod>2019-12-08T19:18:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -370,12 +358,6 @@
   <url>
     <loc>https://dernasherbrezon.com/tags/deb/</loc>
     <lastmod>2017-11-04T13:51:18+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/debian/</loc>
-    <lastmod>2012-08-11T13:14:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -477,7 +459,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/jetty/</loc>
-    <lastmod>2019-12-08T19:18:18+01:00</lastmod>
+    <lastmod>2019-03-02T12:48:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -579,7 +561,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/openapi/</loc>
-    <lastmod>2019-11-23T17:33:18+01:00</lastmod>
+    <lastmod>2019-12-08T19:18:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -748,12 +730,6 @@
   <url>
     <loc>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
     <lastmod>2019-06-08T14:22:18+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/%D0%B4%D0%B0%D1%83%D0%BD%D1%81%D1%8D%D0%BC%D0%BF%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
-    <lastmod>2019-03-04T17:22:18+01:00</lastmod>
     <priority>0</priority>
   </url>
   

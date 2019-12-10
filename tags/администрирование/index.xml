@@ -30,5 +30,19 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
 deb и apt В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции.</description>
     </item>
     
+    <item>
+      <title>Сборка пакета с помощью debconf</title>
+      <link>https://dernasherbrezon.com/posts/debconf/</link>
+      <pubDate>Sat, 11 Aug 2012 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/debconf/</guid>
+      <description>Недавно столкнулся с задачей создания .deb пакета. Поскольку информация в сети разбросана и само описание команд debhelper несколько сумбурно, ниже привожу список действий помогающих собрать архив с нуля:
+Создание исходников.
+#: mkdir package-1.0 #: echo &amp;quot;Sample file in package&amp;quot; &amp;gt; package-1.0/file  Создание специального архива с исходниками
+#: tar czf package-1.0.tar.gz package-1.0/ #: dh_make -c apache -f ../package-1.0.tar.gz  Редактирование параметров пакета.
+#: nano debian/control  Создание конфигураций:
+#: nano debain/package.</description>
+    </item>
+    
   </channel>
 </rss>

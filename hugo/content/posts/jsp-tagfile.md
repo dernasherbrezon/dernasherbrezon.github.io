@@ -5,9 +5,10 @@ draft: false
 images: [/img/jsp-tag-testing/3.png]
 tags:
   - jsp
-  - jetty
   - java
   - jstl
+  - api
+  - openapi
 ---
 Несмотря на то, что технологии [JSP](https://en.wikipedia.org/wiki/JavaServer_Pages) уже почти 20 лет, она по-прежнему не перестаёт удивлять своей продуманностью. В частности, мне очень нравится как реализовано переиспользование компонентов. Если вкратце, то в JSP есть несколько способов.
 

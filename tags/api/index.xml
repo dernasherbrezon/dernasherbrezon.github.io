@@ -5,10 +5,30 @@
     <link>https://dernasherbrezon.com/tags/api/</link>
     <description>Recent content in api on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 01 May 2019 18:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 08 Dec 2019 19:18:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/api/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Переиспользование компонентов в JSP</title>
+      <link>https://dernasherbrezon.com/posts/jsp-tagfile/</link>
+      <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/jsp-tagfile/</guid>
+      <description>Несмотря на то, что технологии JSP уже почти 20 лет, она по-прежнему не перестаёт удивлять своей продуманностью. В частности, мне очень нравится как реализовано переиспользование компонентов. Если вкратце, то в JSP есть несколько способов.
+include Позволяет вставлять в страницу кусок другой страницы. Обычно используется, если нужно переиспользовать блоки без параметров. Например:
+&amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/header.jsp&amp;#34;%&amp;gt; &amp;lt;div class=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;h1&amp;gt;Hello world!&amp;lt;/h1&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/footer.jsp&amp;#34;%&amp;gt; Тэги Позволяют создавать блоки с параметрами. Сами тэги описываются в java коде.</description>
+    </item>
+    
+    <item>
+      <title>Создание VueJS компонента</title>
+      <link>https://dernasherbrezon.com/posts/creating-vuejs-component/</link>
+      <pubDate>Sat, 23 Nov 2019 17:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/creating-vuejs-component/</guid>
+      <description>Введение Мне очень нравится идея маленьких переиспользуемых компонент. Если передо мной встаёт задача добавить какой-нибудь функционал, я прежде всего трачу некоторое время на поиск уже существующего решения. Так и в этот раз. Немногие знают, что r2cloud - это полноценный REST сервер. А значит им можно управлять программно. Сейчас существует только один клиент для него - r2cloud-ui. Это приложение VueJS, которое предоставляет UI для управления. Однако, вся мощь REST сервисов заключается в том, что с ними можно взаимодействовать программно с помощью различных языков программирования.</description>
+    </item>
     
     <item>
       <title>Подписанные ссылки</title>
