@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>дизайн on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/</link>
+    <description>Recent content in дизайн on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 15 Dec 2019 07:14:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Сравнение JSP и VueJS</title>
+      <link>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</link>
+      <pubDate>Sun, 15 Dec 2019 07:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</guid>
+      <description>Споры о том, насколько SPA лучше или хуже проверенных серверных технологий, не утихают до сих пор. Сторонники SPA (React, Angular, VueJS) в один голос говорят насколько это просто и удобно. Сторонники серверных технологий (PHP, JSP, ASP) ничего не говорят, потому что их мало и они заняты разработкой. Из-за того, что оба подхода достаточно разные, то и сравнивать их очень сложно. Зачастую сравнение сваливается во вкусовщину, так как нет людей, которые бы разрабатывали как с помощью одних, так и с помощью других.</description>
+    </item>
+    
+  </channel>
+</rss>

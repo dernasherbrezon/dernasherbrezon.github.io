@@ -5,10 +5,19 @@
     <link>https://dernasherbrezon.com/tags/java/</link>
     <description>Recent content in java on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 08 Dec 2019 19:18:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 15 Dec 2019 07:14:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Сравнение JSP и VueJS</title>
+      <link>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</link>
+      <pubDate>Sun, 15 Dec 2019 07:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</guid>
+      <description>Споры о том, насколько SPA лучше или хуже проверенных серверных технологий, не утихают до сих пор. Сторонники SPA (React, Angular, VueJS) в один голос говорят насколько это просто и удобно. Сторонники серверных технологий (PHP, JSP, ASP) ничего не говорят, потому что их мало и они заняты разработкой. Из-за того, что оба подхода достаточно разные, то и сравнивать их очень сложно. Зачастую сравнение сваливается во вкусовщину, так как нет людей, которые бы разрабатывали как с помощью одних, так и с помощью других.</description>
+    </item>
     
     <item>
       <title>Переиспользование компонентов в JSP</title>
