@@ -5,10 +5,19 @@
     <link>https://dernasherbrezon.com/tags/sonarcube/</link>
     <description>Recent content in sonarcube on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 14 Nov 2019 18:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 24 Dec 2019 18:29:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/sonarcube/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Настройка проекта на Си</title>
+      <link>https://dernasherbrezon.com/posts/setting-up-c/</link>
+      <pubDate>Tue, 24 Dec 2019 18:29:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/setting-up-c/</guid>
+      <description>У меня есть небольшой проект на Си, который позволяет сделать приватный apt репозиторий в облачном хранилище Selectel - apt-transport-swift. Почему именно на Си? Во-первых, я думал, что знаю Си. Во-вторых, в моём представлении все системные утилиты для массового пользования должны быть написаны на низкоуровневом языке. Это значит, что для запуска приложения у меня должны быть минимальное количество зависимостей и минимальное потребление памяти. Ведь я не знаю на каком железе будет запущена моя программа.</description>
+    </item>
     
     <item>
       <title>В поисках хорошего кода</title>
