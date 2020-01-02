@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>rest on dernasherbrezon</title>
@@ -17,7 +17,7 @@
       
       <guid>https://dernasherbrezon.com/posts/signed-urls/</guid>
       <description>Почти все REST сервисы имеют аутентификацию. Есть несколько способов её сделать:
- basic. В каждый запрос добавляется заголовок &amp;ldquo;Authorization&amp;rdquo; с логином и паролем.  GET / HTTP/1.1 Host: example.org Authorization: Basic Zm9vOmJhcg==   token. REST сервис обменивает логин и пароль на специальный токен аутентификации. Клиент должен все последующие запросы делать с этим токеном.  GET / HTTP/1.1 Host: example.org Authorization: Bearer 9yro9yueihfw497y33497y3oeiruhfvskdgjhfaowidayuh  Аутентификация на основе токенов наиболее безопасная и гибкая.</description>
+ basic. В каждый запрос добавляется заголовок &amp;ldquo;Authorization&amp;rdquo; с логином и паролем.  GET / HTTP/1.1 Host: example.org Authorization: Basic Zm9vOmJhcg==  token. REST сервис обменивает логин и пароль на специальный токен аутентификации. Клиент должен все последующие запросы делать с этим токеном.  GET / HTTP/1.1 Host: example.org Authorization: Bearer 9yro9yueihfw497y33497y3oeiruhfvskdgjhfaowidayuh Аутентификация на основе токенов наиболее безопасная и гибкая. Токены можно отзывать и обновлять, в них можно класть дополнительную информацию.</description>
     </item>
     
   </channel>

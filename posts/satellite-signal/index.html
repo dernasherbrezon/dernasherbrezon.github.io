@@ -17,16 +17,16 @@
  Эффект Доплера.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/satellite-signal/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/satellite-signal/2.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='satellite'><meta property='article:tag' content='кубсат'><meta property='article:tag' content='radio'><meta property='article:tag' content='спутники'><meta property='article:tag' content='gnuradio'><meta property='article:published_time' content='2019-11-28T15:51:18&#43;01:00'/><meta property='article:modified_time' content='2019-11-28T15:51:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/satellite-signal/2.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='satellite'><meta property='article:tag' content='кубсат'><meta property='article:tag' content='radio'><meta property='article:tag' content='спутники'><meta property='article:tag' content='gnuradio'><meta property='article:published_time' content='2019-11-28T15:51:18&#43;01:00'/><meta property='article:modified_time' content='2019-11-28T15:51:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/satellite-signal/2.jpg'>
 
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.62.1" />
 
   <title>Сигналы со спутников • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/satellite-signal/'>
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+<link rel='stylesheet' href='/assets/css/main.6a060eb7.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -48,7 +48,9 @@
     </div>
     
     <h2 class='title site-title '>
-    dernasherbrezon
+      <a href='/'>
+      dernasherbrezon
+      </a>
     </h2>
     <div class='desc'>
     Блог о программировании на Java
@@ -72,12 +74,6 @@
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
-      </li><li>
-        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
-      </li><li>
-        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
-      </li><li>
         <a href='/tags/acme/' style='font-size:1em'>acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0625em'>api</a>
@@ -182,11 +178,11 @@
       </li><li>
         <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
-      </li><li>
         <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
       </li><li>
         <a href='/tags/rtlsdr/' style='font-size:1.28125em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -200,9 +196,13 @@
       </li><li>
         <a href='/tags/sonarcube/' style='font-size:1.0625em'>sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.03125em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
       </li><li>
         <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
       </li><li>
@@ -326,31 +326,21 @@
 
   <div class='container entry-content'>
   <p>До того, как заняться приёмом сигналов со спутников, я ничего не знал о радио сигналах. Тем более о радио сигналах со спутников. В моём представлении это было: навести антенну на спутник и выставить частоту приёма.</p>
-
 <p>На самом деле частота сигнала меняется и на спектограмме выглядит как-то вот так:</p>
-
-<p><img src="/img/satellite-signal/1.png" alt="" /></p>
-
+<p><img src="/img/satellite-signal/1.png" alt=""></p>
 <p>Если схематично представить, то принимаемый сигнал будет выглядеть вот так:</p>
-
-<p><img src="/img/satellite-signal/2.jpg" alt="" /></p>
-
+<p><img src="/img/satellite-signal/2.jpg" alt=""></p>
 <p>С этим сигналом есть 2 проблемы (на самом деле больше):</p>
-
 <ol>
-<li><a href="https://ru.wikipedia.org/wiki/Эффект_Доплера" target="_blank">Эффект Доплера</a>. Спутник движется очень быстро, поэтому частота будет смещаться. При этом смещение зависит от расстояния до спутника.</li>
+<li><a href="https://ru.wikipedia.org/wiki/%D0%AD%D1%84%D1%84%D0%B5%D0%BA%D1%82_%D0%94%D0%BE%D0%BF%D0%BB%D0%B5%D1%80%D0%B0">Эффект Доплера</a>. Спутник движется очень быстро, поэтому частота будет смещаться. При этом смещение зависит от расстояния до спутника.</li>
 <li>Постоянная составляющая сигнала (DC spike). Появляется при конвертации входящей частоты в рабочую. Обычно присутствует в супергетеродинной архитектуре радиоприёмника.</li>
 </ol>
-
 <p>Каждый из этих эффектов можно компенсировать:</p>
-
 <ol>
 <li>Зная положение спутника и станции приёма сигнала, можно очень точно рассчитать расстояние до спутника и смещение частоты в момент пролёта. Если сдвигать принимаемую частоту на это смещение, то можно выровнять сигнал и компенсировать эффект Доплера.</li>
 <li>С DC spike можно бороться двумя способами: добавить фильтр, который будет сдвигать сигнал так, чтобы средняя мощность была равна 0, либо принимать на другой частоте, а сигнал смещать и отфильтровывать от DC spike.</li>
 </ol>
-
 <p>Я выбрал второй способ фильтрации постоянной составляющей, поэтому формула вычисления смещения для сигнала следующая:</p>
-
 <pre><code>long startFrequency = частота сигнала в начале приёма
 long endFrequency = частота сигнала по окончанию приёма
 long satelliteFrequency = настоящая частота передачи сигнала спутником
@@ -358,9 +348,7 @@ long maxOffset = Math.max(Math.abs(satelliteFrequency - startFrequency), Math.ab
 long bandwidth = ширина сигнала спутника // обычно задаётся производителем
 
 long offset = maxOffset + bandwidth / 2;
-</code></pre>
-
-<p>После того, как смещение посчитано, нужно настроить приёмник на эту частоту + смещение. А при обработке сигнала, необходимо сместить сигнал назад на это же смещение. Это можно сделать, например, с помощью <a href="http://blog.sdr.hu/grblocks/xlating-fir.html" target="_blank">Frequency Xlating FIR Filter</a>.</p>
+</code></pre><p>После того, как смещение посчитано, нужно настроить приёмник на эту частоту + смещение. А при обработке сигнала, необходимо сместить сигнал назад на это же смещение. Это можно сделать, например, с помощью <a href="http://blog.sdr.hu/grblocks/xlating-fir.html">Frequency Xlating FIR Filter</a>.</p>
 
 </div>
 
@@ -473,16 +461,16 @@ long offset = maxOffset + bandwidth / 2;
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2020 dernasherbrezon </p>
 </div>
 
         </div>
       </footer>
 
     </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script>
+<script src='/assets/js/main.67d669ac.js'></script>
 
 </body>
 

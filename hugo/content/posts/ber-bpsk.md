@@ -3,7 +3,7 @@ title: "Расчёт вероятности ошибки для BPSK"
 date: 2019-05-05T18:22:18+01:00
 draft: false
 mathjax: true
-images: [/img/ber-bpsk/ber-bpsk.png]
+cover: /img/ber-bpsk/ber-bpsk.png
 tags:
   - radio
   - bpsk

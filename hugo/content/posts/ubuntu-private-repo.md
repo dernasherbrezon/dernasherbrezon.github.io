@@ -2,7 +2,7 @@
 title: "Приватный репозиторий в Ubuntu"
 date: 2018-06-07T10:07:18+01:00
 draft: false
-images: [/img/ubuntu-private-repo/xxiubje3ios6bvc16lre6dl-vlq.png]
+cover: /img/ubuntu-private-repo/xxiubje3ios6bvc16lre6dl-vlq.png
 tags:
   - java
   - ubuntu

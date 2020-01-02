@@ -2,7 +2,7 @@
 title: "Производительность rtl_sdr на raspberrypi"
 date: 2019-03-02T18:22:18+01:00
 draft: false
-images: [/img/rtlsdr-perf/8.png]
+cover: /img/rtlsdr-perf/8.png
 tags:
   - java
   - rtlsdr

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>jsp on dernasherbrezon</title>
@@ -39,7 +39,7 @@ include Позволяет вставлять в страницу кусок д�
       <description>Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
 Но что-то пошло не так&amp;hellip;
 Вот ключевое место лога:
-Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;amp;lt;init&amp;amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597)  Оказывается, gson зависит от пакета java.</description>
+Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;amp;lt;init&amp;amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597) Оказывается, gson зависит от пакета java.</description>
     </item>
     
     <item>

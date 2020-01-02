@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>j2ee on dernasherbrezon</title>
@@ -17,9 +17,9 @@
       
       <guid>https://dernasherbrezon.com/posts/glassfish-async-jms-jca/</guid>
       <description>Достаточно интересное и недокументированное поведение Glassfish v.2.0.
-Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&amp;rsquo;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
+Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&#39;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
 Решение:
- Создать инициализацию message listener&amp;rsquo;a в отдельном потоке через WorkManager.  </description>
+ Создать инициализацию message listener&#39;a в отдельном потоке через WorkManager.  </description>
     </item>
     
     <item>

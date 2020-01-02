@@ -2,7 +2,7 @@
 title: "Сравнение JSP и VueJS"
 date: 2019-12-15T07:14:18+01:00
 draft: false
-images: [/img/compare-jsp-vuejs/2.png]
+cover: /img/compare-jsp-vuejs/2.png
 emoji: true
 tags:
   - jsp

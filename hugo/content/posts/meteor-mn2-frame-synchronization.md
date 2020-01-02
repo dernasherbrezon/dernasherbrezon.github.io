@@ -2,7 +2,7 @@
 title: "Синхронизация кадров в Метеор-М №2"
 date: 2019-09-13T22:30:18+01:00
 draft: false
-images: [/img/aistechsat-3/aistechsat-3.jpg]
+cover: /img/aistechsat-3/aistechsat-3.jpg
 tags:
   - meteor-m
   - lrpt

@@ -2,7 +2,7 @@
 title: "Разговоры о приёме сигналов со спутников"
 date: 2019-12-05T22:31:18+01:00
 draft: false
-images: [/img/big-beard-theory/1.jpg]
+cover: /img/big-beard-theory/1.jpg
 tags:
   - космонавтика
   - кубсат

@@ -2,7 +2,7 @@
 title: "Тестирование JSP тэгов"
 date: 2019-03-02T12:48:18+01:00
 draft: false
-images: [/img/jsp-tag-testing/3.png]
+cover: /img/jsp-tag-testing/3.png
 tags:
   - jsp
   - junit

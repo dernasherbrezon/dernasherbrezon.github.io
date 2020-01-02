@@ -2,7 +2,7 @@
 title: "Я слежу за спутниками"
 date: 2019-10-24T21:40:18+01:00
 draft: false
-images: [/img/satellite-telemetry/diagram.png]
+cover: /img/satellite-telemetry/diagram.png
 tags:
   - satellite
   - satnogs

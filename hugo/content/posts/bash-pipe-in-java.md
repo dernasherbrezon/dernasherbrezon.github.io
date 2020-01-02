@@ -2,7 +2,7 @@
 title: "Работа с bash pipe из java"
 date: 2019-07-09T20:50:18+01:00
 draft: false
-images: [/img/bash-pipe-in-java/1.png]
+cover: /img/bash-pipe-in-java/1.png
 tags:
   - java
   - bash

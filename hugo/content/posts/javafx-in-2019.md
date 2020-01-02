@@ -2,7 +2,7 @@
 title: "JavaFX в 2019"
 date: 2019-06-16T10:20:18+01:00
 draft: false
-images: [/img/javafx-in-2019/dark.png]
+cover: /img/javafx-in-2019/dark.png
 tags:
   - java
   - javafx

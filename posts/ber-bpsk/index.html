@@ -9,16 +9,16 @@
 <meta property='og:description' content='Введение Моя сеть приёма сигналов со спутников r2cloud постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/ber-bpsk/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/ber-bpsk/ber-bpsk.png'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='awgn'><meta property='article:tag' content='matlab'><meta property='article:published_time' content='2019-05-05T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-05-05T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/ber-bpsk/ber-bpsk.png'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='awgn'><meta property='article:tag' content='matlab'><meta property='article:published_time' content='2019-05-05T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-05-05T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/ber-bpsk/ber-bpsk.png'>
 
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.62.1" />
 
   <title>Расчёт вероятности ошибки для BPSK • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/ber-bpsk/'>
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+<link rel='stylesheet' href='/assets/css/main.6a060eb7.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -40,7 +40,9 @@
     </div>
     
     <h2 class='title site-title '>
-    dernasherbrezon
+      <a href='/'>
+      dernasherbrezon
+      </a>
     </h2>
     <div class='desc'>
     Блог о программировании на Java
@@ -64,12 +66,6 @@
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
-      </li><li>
-        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
-      </li><li>
-        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
-      </li><li>
         <a href='/tags/acme/' style='font-size:1em'>acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0625em'>api</a>
@@ -174,11 +170,11 @@
       </li><li>
         <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
-      </li><li>
         <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
       </li><li>
         <a href='/tags/rtlsdr/' style='font-size:1.28125em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -192,9 +188,13 @@
       </li><li>
         <a href='/tags/sonarcube/' style='font-size:1.0625em'>sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.03125em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
       </li><li>
         <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
       </li><li>
@@ -317,129 +317,85 @@
   
 
   <div class='container entry-content'>
-  
-
-<h2 id="введение">Введение</h2>
-
-<p>Моя сеть приёма сигналов со спутников <a href="https://github.com/dernasherbrezon/r2cloud" target="_blank">r2cloud</a> постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого. И стал ли новый код лучше, если я добавлю какой-нибудь другой блок в обработку.</p>
-
-<p>Всё это привело меня к \( E_b / N_0 \). Эта метрика показывает отношение энергии сигнала, приходящейся на 1 бит принимаемого сообщения (\( E_b \)), к энергетической спектральной плотности шума (\( N_0 \)). Почему она так важна? Дело в том, что она не зависит от способа модуляции сигнала и пропускной способности канала. Из-за этого её можно использовать, чтобы сравнивать различные модуляции между собой. Обычно строят график отношения \( E_b / N_0 \) к вероятности ошибки (BER). Вот <a href="https://ru.wikipedia.org/wiki/Eb/N0" target="_blank">пример</a> графика сравнения BPSK/QPSK/8-PSK/16-PSK:</p>
-
-<p><img src="/img/ber-bpsk/PSK_BER_curves.svg" alt="" /></p>
-
+  <h2 id="heading">Введение</h2>
+<p>Моя сеть приёма сигналов со спутников <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого. И стал ли новый код лучше, если я добавлю какой-нибудь другой блок в обработку.</p>
+<p>Всё это привело меня к \( E_b / N_0 \). Эта метрика показывает отношение энергии сигнала, приходящейся на 1 бит принимаемого сообщения (\( E_b \)), к энергетической спектральной плотности шума (\( N_0 \)). Почему она так важна? Дело в том, что она не зависит от способа модуляции сигнала и пропускной способности канала. Из-за этого её можно использовать, чтобы сравнивать различные модуляции между собой. Обычно строят график отношения \( E_b / N_0 \) к вероятности ошибки (BER). Вот <a href="https://ru.wikipedia.org/wiki/Eb/N0">пример</a> графика сравнения BPSK/QPSK/8-PSK/16-PSK:</p>
+<p><img src="/img/ber-bpsk/PSK_BER_curves.svg" alt=""></p>
 <p>Что из этого графика можно понять?</p>
-
 <ol>
 <li>Если увеличивать энергию передаваемого бита, то уменьшается вероятность возникновения ошибки.</li>
 <li>В BPSK/QPSK ошибка возникает значительно реже, чем в 8-PSK и 16-PSK при одинаковых значениях энергии передаваемого бита.</li>
 <li>График, например, читается следующим образом: при \( E_b / N_0 \) равным 4 децибелла и BPSK модуляции можно получить 1 ошибочный бит на каждые 100 полученных.</li>
 </ol>
-
 <p>Мне же график прежде всего нужен:</p>
-
 <ol>
 <li>Сравнивать теоретические значения с практической реализацией демодулятора. Прямо сейчас я точно знаю, что различия есть из-за ограниченной точности АЦП. Дело в том, что rtl-sdr имеет разрешающую способность 8 бит. А в теории числа могут быть бесконечной точности. Именно эта разница и должна давать ошибку.</li>
-<li>Анализировать улучшится ли демодулятор, если добавить какой-то определённый блок. Как минимум я хочу попробовать различные алгоритмы получения несущего сигнала и компенсации <a href="https://ru.wikipedia.org/wiki/Многолучевое_распространение" target="_blank">многолучевого распространения</a>.</li>
+<li>Анализировать улучшится ли демодулятор, если добавить какой-то определённый блок. Как минимум я хочу попробовать различные алгоритмы получения несущего сигнала и компенсации <a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%BD%D0%BE%D0%B3%D0%BE%D0%BB%D1%83%D1%87%D0%B5%D0%B2%D0%BE%D0%B5_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5">многолучевого распространения</a>.</li>
 </ol>
-
-<p>Ну и для того, чтобы понять математику, я решил проделать выводы сам. Ниже я буду рассчитывать вероятности ошибки для BPSK (см. синий график выше). Вдохновение я черпал у <a href="http://www.dsplog.com/2007/08/05/bit-error-probability-for-bpsk-modulation/" target="_blank">dsplog</a> плюс добавлял свои мысли.</p>
-
-<h2 id="дано">Дано</h2>
-
+<p>Ну и для того, чтобы понять математику, я решил проделать выводы сам. Ниже я буду рассчитывать вероятности ошибки для BPSK (см. синий график выше). Вдохновение я черпал у <a href="http://www.dsplog.com/2007/08/05/bit-error-probability-for-bpsk-modulation/">dsplog</a> плюс добавлял свои мысли.</p>
+<h2 id="heading-1">Дано</h2>
 <p>Прежде всего необходимо описать физику процесса. Схема процесса показана ниже:</p>
-
-<p><img src="/img/ber-bpsk/bpsk.png" alt="" /></p>
-
+<p><img src="/img/ber-bpsk/bpsk.png" alt=""></p>
 <ol>
 <li>Изначальное сообщение кодируется в аналоговый сигнал. &ldquo;1&rdquo; кодируется в \(+\sqrt{E_b}\), &ldquo;0&rdquo; кодируется в \(-\sqrt{E_b}\). Почему именно как корень из \(E_b\)? Не знаю. Это единственное место, где я не разобрался.</li>
-<li>После этого сигнал складывается с <a href="https://ru.wikipedia.org/wiki/Аддитивный_белый_гауссовский_шум" target="_blank">аддитивным белым гауссовским шумом</a>.</li>
+<li>После этого сигнал складывается с <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%B4%D0%B4%D0%B8%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9_%D0%B1%D0%B5%D0%BB%D1%8B%D0%B9_%D0%B3%D0%B0%D1%83%D1%81%D1%81%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D1%88%D1%83%D0%BC">аддитивным белым гауссовским шумом</a>.</li>
 <li>Далее сигнал демодулируется.</li>
 </ol>
-
 <p>Модулированный BPSK сигнал выглядит следующим образом:</p>
-
-<p><a href="/img/ber-bpsk/bpsk-constellation.m"><img src="/img/ber-bpsk/bpsk-constellation.png" alt="" /></a></p>
-
+<p><a href="/img/ber-bpsk/bpsk-constellation.m"><img src="/img/ber-bpsk/bpsk-constellation.png" alt=""></a></p>
 <p>Красными точками обозначается сигнал без шума. Синими - сигнал с добавлением белого гауссовского шума. Как демодулируется этот сигнал? Все точки, которые больше &ldquo;0&rdquo; становятся &ldquo;1&rdquo;, а те, что меньше &ldquo;0&rdquo; становятся &ldquo;0&rdquo;. На рисунке выше все синие точки достаточно далеко от &ldquo;0&rdquo;, поэтому информацию можно однозначно восстановить. Но что если шум будет сильнее?</p>
-
-<p><a href="/img/ber-bpsk/ber-awgn.m"><img src="/img/ber-bpsk/ber-awgn.png" alt="" /></a></p>
-
+<p><a href="/img/ber-bpsk/ber-awgn.m"><img src="/img/ber-bpsk/ber-awgn.png" alt=""></a></p>
 <p>Тут уже не всё так однозначно. Видно, что некоторые точки закодированные как &ldquo;1&rdquo; на самом деле оказались меньше &ldquo;0&rdquo;. И если бы я попытался их демодулировать, то получил бы неправильную информацию.</p>
-
-<h2 id="решение">Решение</h2>
-
+<h2 id="heading-2">Решение</h2>
 <p>Теперь, когда стало понятно влияние шума на результат демодуляции, можно переходить к графику зависимости вероятности от энергии сигнала. Этот график поможет посчитать вероятность ошибок для различных входных значений. Для начала возьмём сигнал без шума. Вероятность получения &ldquo;0&rdquo; или &ldquo;1&rdquo; всегда 1.</p>
-
-<p><a href="/img/ber-bpsk/no-error-bpsk.m"><img src="/img/ber-bpsk/no-error-bpsk.png" alt="" /></a></p>
-
+<p><a href="/img/ber-bpsk/no-error-bpsk.m"><img src="/img/ber-bpsk/no-error-bpsk.png" alt=""></a></p>
 <p>Частота получения ошибочных битов (Bit error rate) будет 0. Т.е. 0 ошибочных битов на бесконечное количество принятых. В случае наличия гауссовского шума, вероятность получения определяется гауссовской функцией вероятности:</p>
-
-<p><a href="/img/ber-bpsk/awgn-bpsk.m"><img src="/img/ber-bpsk/awgn-bpsk.png" alt="" /></a></p>
-
+<p><a href="/img/ber-bpsk/awgn-bpsk.m"><img src="/img/ber-bpsk/awgn-bpsk.png" alt=""></a></p>
 <p>Гауссовский шум определяется следующей формулой:</p>
-
 <p>$$
 p(x) = \dfrac{1}{\sqrt{2\pi\sigma^2}}e^\dfrac{-(x-\mu)^2}{2\sigma^2}
 $$</p>
-
 <p>Где:</p>
-
 <ul>
 <li>\(\mu=0\),</li>
 <li>\(\sigma^2=N_0/2\)</li>
 </ul>
-
 <p>При передаче &ldquo;1&rdquo; \(\mu=+\sqrt{E_b}\), при &ldquo;0&rdquo; \(\mu=-\sqrt{E_b}\). Подставляя это в формулу:</p>
-
 <p>$$
 \begin{align}
 P(x|s_0)=\dfrac{1}{\sqrt{\pi N_0}}e^\dfrac{-(x+\sqrt{E_b})^2}{N_0} \newline
 P(x|s_1)=\dfrac{1}{\sqrt{\pi N_0}}e^\dfrac{-(x-\sqrt{E_b})^2}{N_0}
 \end{align}
 $$</p>
-
 <p>Теперь самое интересное.</p>
-
-<p><img src="/img/ber-bpsk/awgn-bpsk-error.png" alt="" /></p>
-
+<p><img src="/img/ber-bpsk/awgn-bpsk-error.png" alt=""></p>
 <p>На этом рисунке показаны области возникновения ошибки. Зелёная область - это место где возникает ошибка при передаче &ldquo;1&rdquo;, красная - при передаче &ldquo;0&rdquo;. Общую вероятность ошибки можно записать с помощью формулы полной вероятности:</p>
-
 <p>$$
 P(error)=\dfrac{1}{2}P(error|s_0) + \dfrac{1}{2}P(error|s_1)
 $$</p>
-
 <p>После этого необходимо найти каждую из вероятностей:</p>
-
 <p>$$
 \begin{align}
 P(error|s_0) = \int_{0}^{\infty}P(x|s_0)dx = \dfrac{1}{\sqrt{\pi N_0}}\int_{0}^{\infty}e^\dfrac{-(x+\sqrt{E_b})^2}{N_0}dx \newline
 P(error|s_1) = \int_{-\infty}^{0}P(x|s_1)dx = \dfrac{1}{\sqrt{\pi N_0}}\int_{-\infty}^{0}e^\dfrac{-(x-\sqrt{E_b})^2}{N_0}dx
 \end{align}
 $$</p>
-
-<p>Обычно вероятность ошибки записывают с помощью <a href="https://ru.wikipedia.org/wiki/Функция_ошибок" target="_blank">функции ошибок</a>:</p>
-
+<p>Обычно вероятность ошибки записывают с помощью <a href="https://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%BE%D1%88%D0%B8%D0%B1%D0%BE%D0%BA">функции ошибок</a>:</p>
 <p>$$
 erfc(x)=\dfrac{2}{\sqrt\pi}\int_{0}^{x}e^{-t^2}dt
 $$</p>
-
 <p>Для этого необходимо сделать следующее:</p>
-
 <p>$$
 z=\dfrac{y+\sqrt{E_b}}{\sqrt{N_0}} =&gt; z\sqrt{N_0} = y + \sqrt{E_b}
 $$</p>
-
 <p>Заменить пределы интегрирования:</p>
-
 <p>$$
 \begin{align}
 y=0 =&gt; z = \dfrac{\sqrt{E_b}}{\sqrt{N_0}} \newline
 y=\infty =&gt; z = \infty
 \end{align}
 $$</p>
-
 <p>Получившаяся ошибка записывается как:</p>
-
 <p>$$
 \begin{align}
 P(error|s_0)=\dfrac{1}{\sqrt{\pi N_0}}\int_\limits{\sqrt{\dfrac{E_b}{N_0}}}^{\infty}e^{-z^2}\sqrt{N_0}dz
@@ -447,34 +403,25 @@ P(error|s_0)=\dfrac{1}{\sqrt{\pi N_0}}\int_\limits{\sqrt{\dfrac{E_b}{N_0}}}^{\in
 =\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})
 \end{align}
 $$</p>
-
 <p>Аналогично можно найти ошибку при передачи &ldquo;1&rdquo;:</p>
-
 <p>$$
 \begin{align}
 P(error|s_1)=1-P(s_1)=1-\dfrac{1}{2}erfc(-\sqrt{\dfrac{E_b}{N_0}})
 \end{align}
 $$</p>
-
 <p>Можно воспользоваться свойством функции ошибок:</p>
-
 <p>$$
 \begin{align}
 erfc(-x)=2-erfc(x) =&gt; P(error|s_1) = \dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})
 \end{align}
 $$</p>
-
 <p>Если подставить в формулу полной вероятности:</p>
-
 <p>$$
 P(error)=\dfrac{1}{2}(\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})) + \dfrac{1}{2}(\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}}))=\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})
 $$</p>
-
-<h2 id="ответ">Ответ</h2>
-
+<h2 id="heading-3">Ответ</h2>
 <p>Получившийся график:</p>
-
-<p><a href="/img/ber-bpsk/ber-bpsk.m"><img src="/img/ber-bpsk/ber-bpsk.png" alt="" /></a></p>
+<p><a href="/img/ber-bpsk/ber-bpsk.m"><img src="/img/ber-bpsk/ber-bpsk.png" alt=""></a></p>
 
 </div>
 
@@ -587,16 +534,16 @@ $$</p>
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2020 dernasherbrezon </p>
 </div>
 
         </div>
       </footer>
 
     </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script><script type='text/x-mathjax-config'>
+<script src='/assets/js/main.67d669ac.js'></script><script type='text/x-mathjax-config'>
   MathJax.Hub.Config({})
 </script>
 

@@ -2,7 +2,7 @@
 title: "Тестирование FM фильтров с помощью RTL-SDR"
 date: 2019-07-14T14:20:18+01:00
 draft: false
-images: [/img/test-fm-filter/result.png]
+cover: /img/test-fm-filter/result.png
 tags:
   - rtlsdr
   - rtl_power

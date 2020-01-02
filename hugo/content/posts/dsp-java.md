@@ -2,7 +2,7 @@
 title: "DSP на Java"
 date: 2018-03-08T17:22:18+01:00
 draft: false
-images: [/img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png]
+cover: /img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png
 tags:
   - java
   - dsp

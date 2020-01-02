@@ -2,7 +2,7 @@
 title: "Мониторинг Raspberry PI"
 date: 2017-07-31T12:45:18+01:00
 draft: false
-images: [/img/raspberrypi-monitoring/3231b4f9f5a3453799d709d10c39c4a1.jpg]
+cover: /img/raspberrypi-monitoring/3231b4f9f5a3453799d709d10c39c4a1.jpg
 tags:
   - rrdtool
   - rrd

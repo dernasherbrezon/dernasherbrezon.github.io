@@ -2,7 +2,7 @@
 title: "Расчёт вероятности ошибки для BPSK демодулятора"
 date: 2019-08-16T10:22:18+01:00
 draft: false
-images: [/img/jradio-ber-bpsk/ber-bpsk-demodulator.png]
+cover: /img/jradio-ber-bpsk/ber-bpsk-demodulator.png
 tags:
   - bpsk
   - ber

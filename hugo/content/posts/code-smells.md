@@ -2,7 +2,7 @@
 title: "В поисках хорошего кода"
 date: 2019-11-14T18:22:18+01:00
 draft: false
-images: [/img/code-smells/github.png]
+cover: /img/code-smells/github.png
 tags:
   - java
   - sonarcube

@@ -3,7 +3,7 @@ title: "Расчёт мощности радиосигнала"
 date: 2019-05-29T07:48:18+01:00
 draft: false
 mathjax: true
-images: [/img/power-in-radio-channel/level2-2.gif]
+cover: /img/power-in-radio-channel/level2-2.gif
 tags:
   - radio
 ---

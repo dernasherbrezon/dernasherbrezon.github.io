@@ -2,7 +2,7 @@
 title: "Логирование из Java в Journald"
 date: 2019-09-03T21:22:18+01:00
 draft: false
-images: [/img/journald-java/1.png]
+cover: /img/journald-java/1.png
 tags:
   - java
   - monitoring

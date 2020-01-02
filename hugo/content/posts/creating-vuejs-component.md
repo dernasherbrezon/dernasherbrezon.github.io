@@ -2,7 +2,7 @@
 title: "Создание VueJS компонента"
 date: 2019-11-23T17:33:18+01:00
 draft: false
-images: [/img/creating-vuejs-component/3.png]
+cover: /img/creating-vuejs-component/3.png
 tags:
   - javascript
   - vuejs

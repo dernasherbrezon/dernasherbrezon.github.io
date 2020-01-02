@@ -2,7 +2,7 @@
 title: "Настройка проекта на Си"
 date: 2019-12-24T18:29:18+01:00
 draft: false
-images: [/img/setting-up-c/4.png]
+cover: /img/setting-up-c/4.png
 tags:
   - c
   - sonarcube

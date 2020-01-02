@@ -1,7 +1,7 @@
 ---
 title: "Регистрация пользователей: 5 обязательных вещей"
 date: 2019-12-12T14:40:18+01:00
-images: [/img/design-registration/1.png]
+cover: /img/design-registration/1.png
 draft: false
 tags:
   - design

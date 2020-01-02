@@ -3,24 +3,24 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Maven в Eclipse - это очень удобно.
-Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&#39;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&#39;шный стандартно в output folder для Eclipse&#39;a, а maven&#39;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Интеграция Eclipse и Maven • dernasherbrezon'>
 <meta property='og:description' content='Maven в Eclipse - это очень удобно.
-Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&#39;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&#39;шный стандартно в output folder для Eclipse&#39;a, а maven&#39;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/eclipse-maven/'>
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='maven'><meta property='article:tag' content='eclipse'><meta property='article:published_time' content='2009-01-10T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2009-01-10T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.62.1" />
 
   <title>Интеграция Eclipse и Maven • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/eclipse-maven/'>
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+<link rel='stylesheet' href='/assets/css/main.6a060eb7.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -42,7 +42,9 @@
     </div>
     
     <h2 class='title site-title '>
-    dernasherbrezon
+      <a href='/'>
+      dernasherbrezon
+      </a>
     </h2>
     <div class='desc'>
     Блог о программировании на Java
@@ -66,12 +68,6 @@
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
-      </li><li>
-        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
-      </li><li>
-        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
-      </li><li>
         <a href='/tags/acme/' style='font-size:1em'>acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0625em'>api</a>
@@ -176,11 +172,11 @@
       </li><li>
         <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
-      </li><li>
         <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
       </li><li>
         <a href='/tags/rtlsdr/' style='font-size:1.28125em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -194,9 +190,13 @@
       </li><li>
         <a href='/tags/sonarcube/' style='font-size:1.0625em'>sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.03125em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
       </li><li>
         <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
       </li><li>
@@ -320,49 +320,40 @@
 
   <div class='container entry-content'>
   <p>Maven в Eclipse - это очень удобно.</p>
-
 <p>Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант:
-Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).</p>
-
-<p>Вот тут то и возникает проблема. Вернее маленькое неудобство. Хочется выполнять тесты с помощью JUnit&rsquo;a встроенного в Eclipse. Потому что удобно. Однако он как то странно съинтегрирован с maven&rsquo;ом и похоже видит только классы скомпилированные JDT. Поэтому если нажать Run -&gt; JUnit Test то можно увидеть сообщение: NoClassDefFoundError: /my/test/Class</p>
-
+Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder'а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT'шный стандартно в output folder для Eclipse'a, а maven'овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).</p>
+<p>Вот тут то и возникает проблема. Вернее маленькое неудобство. Хочется выполнять тесты с помощью JUnit'a встроенного в Eclipse. Потому что удобно. Однако он как то странно съинтегрирован с maven'ом и похоже видит только классы скомпилированные JDT. Поэтому если нажать Run -&gt; JUnit Test то можно увидеть сообщение: NoClassDefFoundError: /my/test/Class</p>
 <p>Решение проблемы два:</p>
-
 <ol>
-<li>Выполнять компиляцию тестов с помощью maven&rsquo;а а затем выполнять запуск junit тестов. Но это же слишком неудобно? Каждый раз при изменении класса запускать компиляцию maven&rsquo;ом, поэтому есть ещё один путь.</li>
-<li>Написать нехитрые настройки.
-<br /></li>
+<li>Выполнять компиляцию тестов с помощью maven'а а затем выполнять запуск junit тестов. Но это же слишком неудобно? Каждый раз при изменении класса запускать компиляцию maven'ом, поэтому есть ещё один путь.</li>
+<li>Написать нехитрые настройки.</li>
 </ol>
-
-<p>У каждого maven-проекта есть родительским pom. Поэтому в родительском pom&rsquo;е нужно:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;build&gt;</span>  
-    <span style="color:#f92672">&lt;outputdirectory&gt;</span>${output.dir}<span style="color:#f92672">&lt;/outputdirectory&gt;</span>  
-    <span style="color:#f92672">&lt;testoutputdirectory&gt;</span>${testoutput.dir}<span style="color:#f92672">&lt;/testoutputdirectory&gt;</span>  
+<p>У каждого maven-проекта есть родительским pom. Поэтому в родительском pom'е нужно:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;build</span><span style="color:#f92672">&gt;</span>  
+    <span style="color:#f92672">&lt;outputdirectory</span><span style="color:#f92672">&gt;</span>${output.dir}<span style="color:#f92672">&lt;/outputdirectory&gt;</span>  
+    <span style="color:#f92672">&lt;testoutputdirectory</span><span style="color:#f92672">&gt;</span>${testoutput.dir}<span style="color:#f92672">&lt;/testoutputdirectory&gt;</span>  
     ...  
 <span style="color:#f92672">&lt;/build&gt;</span>  
   
-<span style="color:#f92672">&lt;properties&gt;</span>  
-    <span style="color:#f92672">&lt;output.dir&gt;</span>${basedir}/target/classes<span style="color:#f92672">&lt;/output.dir&gt;</span>  
-    <span style="color:#f92672">&lt;testoutput.dir&gt;</span>${basedir}/target/test-classes<span style="color:#f92672">&lt;/testoutput.dir&gt;</span>  
+<span style="color:#f92672">&lt;properties</span><span style="color:#f92672">&gt;</span>  
+    <span style="color:#f92672">&lt;output.dir</span><span style="color:#f92672">&gt;</span>${basedir}/target/classes<span style="color:#f92672">&lt;/output.dir&gt;</span>  
+    <span style="color:#f92672">&lt;testoutput.dir</span><span style="color:#f92672">&gt;</span>${basedir}/target/test-classes<span style="color:#f92672">&lt;/testoutput.dir&gt;</span>  
 <span style="color:#f92672">&lt;/properties&gt;</span>  
    
-<span style="color:#f92672">&lt;profiles&gt;</span>  
-    <span style="color:#f92672">&lt;profile&gt;</span>  
-        <span style="color:#f92672">&lt;id&gt;</span>eclipse-folders<span style="color:#f92672">&lt;/id&gt;</span>  
-        <span style="color:#f92672">&lt;properties&gt;</span>  
-            <span style="color:#f92672">&lt;output.dir&gt;</span>${basedir}/target/eclipse<span style="color:#f92672">&lt;/output.dir&gt;</span>  
-            <span style="color:#f92672">&lt;testoutput.dir&gt;</span>${basedir}/target/eclipse<span style="color:#f92672">&lt;/testoutput.dir&gt;</span>  
+<span style="color:#f92672">&lt;profiles</span><span style="color:#f92672">&gt;</span>  
+    <span style="color:#f92672">&lt;profile</span><span style="color:#f92672">&gt;</span>  
+        <span style="color:#f92672">&lt;id</span><span style="color:#f92672">&gt;</span>eclipse-folders<span style="color:#f92672">&lt;/id&gt;</span>  
+        <span style="color:#f92672">&lt;properties</span><span style="color:#f92672">&gt;</span>  
+            <span style="color:#f92672">&lt;output.dir</span><span style="color:#f92672">&gt;</span>${basedir}/target/eclipse<span style="color:#f92672">&lt;/output.dir&gt;</span>  
+            <span style="color:#f92672">&lt;testoutput.dir</span><span style="color:#f92672">&gt;</span>${basedir}/target/eclipse<span style="color:#f92672">&lt;/testoutput.dir&gt;</span>  
         <span style="color:#f92672">&lt;/properties&gt;</span>  
     <span style="color:#f92672">&lt;/profile&gt;</span>  
-<span style="color:#f92672">&lt;/profiles&gt;</span></code></pre></div>
-<p>В настройках проекта:</p>
-
+<span style="color:#f92672">&lt;/profiles&gt;</span>
+</code></pre></div><p>В настройках проекта:</p>
 <ul>
 <li>Maven -&gt; Active Maven Profiles написать &ldquo;eclipse-folders&rdquo;</li>
-<li>Java build Path -&gt; Default Output Folder написать &ldquo;target/eclipse&rdquo; и в настройках папок ресурсов (типа &ldquo;/src/test/resources&rdquo;) удалить Excluded чтобы ресурсы подцеплялись при запуске тестов (например log4j.properties)
-<br /></li>
+<li>Java build Path -&gt; Default Output Folder написать &ldquo;target/eclipse&rdquo; и в настройках папок ресурсов (типа &ldquo;/src/test/resources&rdquo;) удалить Excluded чтобы ресурсы подцеплялись при запуске тестов (например log4j.properties)</li>
 </ul>
-
 <p>Я ещё отключил Maven Builder. Но думаю это необязательно.</p>
 
 </div>
@@ -466,16 +457,16 @@
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2020 dernasherbrezon </p>
 </div>
 
         </div>
       </footer>
 
     </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script>
+<script src='/assets/js/main.67d669ac.js'></script>
 
 </body>
 

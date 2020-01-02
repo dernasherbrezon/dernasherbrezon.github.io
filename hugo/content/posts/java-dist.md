@@ -2,7 +2,7 @@
 title: "Дистрибьюция Java приложений"
 date: 2015-08-18T13:55:18+01:00
 draft: false
-images: [/img/java-dist/75bbd9f6074d4cb8a46ad705051aa8e0.png]
+cover: /img/java-dist/75bbd9f6074d4cb8a46ad705051aa8e0.png
 tags:
   - java
   - ubuntu

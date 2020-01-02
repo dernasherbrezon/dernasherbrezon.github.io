@@ -2,7 +2,7 @@
 title: "Управление сертификатами с помощью протокола ACME"
 date: 2017-09-10T16:45:18+01:00
 draft: false
-images: [/img/java-acme/67f139f59aff4f0d82e4ae0b3c0d1e64.png]
+cover: /img/java-acme/67f139f59aff4f0d82e4ae0b3c0d1e64.png
 tags:
   - java
   - acme

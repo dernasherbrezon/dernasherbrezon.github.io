@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>производительность on dernasherbrezon</title>
@@ -37,7 +37,7 @@
       
       <guid>https://dernasherbrezon.com/posts/webapp-perf/</guid>
       <description>Постановка задачи  web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на http://wiki.eclipse.org/Jetty/Howto/Spring IoC - spring 3.0.5 Servlet - собственный сервлет для роутинга запросов к обработчикам. Mysql 5.5, jdbc driver 5.1.21 view - JSP + JSTL YourKit 11 JMeter 2.8  Приложение:
- две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность.</description>
+ две страницы требующие локализации. первая - статичная страница (главная). Собирается из разных кусочков jsp вторая - динамичная. Отображает некоторую сущность. Например товар и его свойства.</description>
     </item>
     
     <item>
@@ -48,8 +48,9 @@
       <guid>https://dernasherbrezon.com/posts/splitperf/</guid>
       <description>В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.
 Для тестирования выбраны следующие кандидаты:
- JDK Guava Apache commons-lang Custom   Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.
-Поскольку Guava поддерживает lazy вычисление, то была добавлена ещё одна комбинация: отложенная итерация по результатам и непосредственная итерация.</description>
+ JDK Guava Apache commons-lang Custom  Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.
+Поскольку Guava поддерживает lazy вычисление, то была добавлена ещё одна комбинация: отложенная итерация по результатам и непосредственная итерация.
+В результате получились следующие значения:</description>
     </item>
     
     <item>
@@ -59,7 +60,7 @@
       
       <guid>https://dernasherbrezon.com/posts/substring/</guid>
       <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
- ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;ldquo;$1&amp;rdquo; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring   Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
+ ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;ldquo;$1&amp;rdquo; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring  Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
 У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
     </item>
     

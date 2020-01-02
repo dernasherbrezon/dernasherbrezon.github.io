@@ -3,24 +3,24 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
-Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.'>
+Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.Sample.update(Sample.java:194)  Что же это означает?'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Время в Raspberrypi • dernasherbrezon'>
 <meta property='og:description' content='Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
-Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.'>
+Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.Sample.update(Sample.java:194)  Что же это означает?'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/time-raspberrypi/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/time-raspberrypi/rtc.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='rrd'><meta property='article:tag' content='администрирование'><meta property='article:tag' content='embedded'><meta property='article:published_time' content='2019-06-08T14:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-08T14:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/time-raspberrypi/rtc.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='rrd'><meta property='article:tag' content='администрирование'><meta property='article:tag' content='embedded'><meta property='article:published_time' content='2019-06-08T14:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-08T14:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/time-raspberrypi/rtc.jpg'>
 
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.62.1" />
 
   <title>Время в Raspberrypi • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/time-raspberrypi/'>
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+<link rel='stylesheet' href='/assets/css/main.6a060eb7.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -42,7 +42,9 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
     </div>
     
     <h2 class='title site-title '>
-    dernasherbrezon
+      <a href='/'>
+      dernasherbrezon
+      </a>
     </h2>
     <div class='desc'>
     Блог о программировании на Java
@@ -66,12 +68,6 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
-      </li><li>
-        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
-      </li><li>
-        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
-      </li><li>
         <a href='/tags/acme/' style='font-size:1em'>acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0625em'>api</a>
@@ -176,11 +172,11 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
       </li><li>
         <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
-      </li><li>
         <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
       </li><li>
         <a href='/tags/rtlsdr/' style='font-size:1.28125em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -194,9 +190,13 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
       </li><li>
         <a href='/tags/sonarcube/' style='font-size:1.0625em'>sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.03125em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
       </li><li>
         <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
       </li><li>
@@ -319,84 +319,63 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
   
 
   <div class='container entry-content'>
-  
-
-<p>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:</p>
-
+  <p>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:</p>
 <pre><code>Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required
 Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.RrdDb.store(RrdDb.java:799)
 Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.Sample.update(Sample.java:194)
 </code></pre>
-
-<p>Что же это означает? Тут нужно сделать небольшой экскурс в rrd. RRD расшифровывается как round robin database - <a href="https://ru.wikipedia.org/wiki/Циклическая_база_данных" target="_blank">циклическая база данных</a>. Новые метрики перезаписывают старые. У каждой метрики есть время и значение. Важным требованием является то, что метрики должны идти по возрастанию времени. Нельзя записать метрику 5 недель назад, так как данные 5 недель назад могли быть уже перезаписаны 1 неделю назад. Соответственно, при попытке записи метрики с некорректным временем возникает ошибка.</p>
-
+<p>Что же это означает? Тут нужно сделать небольшой экскурс в rrd. RRD расшифровывается как round robin database - <a href="https://ru.wikipedia.org/wiki/%D0%A6%D0%B8%D0%BA%D0%BB%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%B1%D0%B0%D0%B7%D0%B0_%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85">циклическая база данных</a>. Новые метрики перезаписывают старые. У каждой метрики есть время и значение. Важным требованием является то, что метрики должны идти по возрастанию времени. Нельзя записать метрику 5 недель назад, так как данные 5 недель назад могли быть уже перезаписаны 1 неделю назад. Соответственно, при попытке записи метрики с некорректным временем возникает ошибка.</p>
 <p>При создании метрики я беру текущее время:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">createSample</span><span style="color:#f92672">();</span>
-<span style="color:#f92672">...</span>
-<span style="color:#66d9ef">public</span> Sample <span style="color:#a6e22e">createSample</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">return</span> createSample<span style="color:#f92672">(</span>Util<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">());</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">createSample</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
+<span style="color:#66d9ef">public</span> Sample <span style="color:#a6e22e">createSample</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">return</span> createSample<span style="color:#f92672">(</span>Util<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
 <span style="color:#f92672">}</span>
-<span style="color:#f92672">...</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getTime</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> 500L<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 1000L<span style="color:#f92672">;</span>
-<span style="color:#f92672">}</span></code></pre></div>
-<p>Получается, в базе хранится метрика в будущем. Всё это указывает на явные проблемы с системным временем.</p>
-
-<h2 id="так-как-же-работает-время-в-raspberrypi">Так как же работает время в Raspberrypi?</h2>
-
-<p>В RPi, а так же в различных embedded системах время работает не так, как в обычных компьютерах. В обычных компьютерах используется так называемые <a href="https://ru.wikipedia.org/wiki/Часы_реального_времени" target="_blank">часы реального времени</a> (RTC). Это специальный чип с независимым источником питания, который постоянно увеличивает счётчик времени. Даже если отключить компьютер, эта схема будет работать и увеличивать счётчик времени.</p>
-
-<p><img src="/img/time-raspberrypi/rtc.jpg" alt="" /></p>
-
+<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> 500L<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 1000L<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Получается, в базе хранится метрика в будущем. Всё это указывает на явные проблемы с системным временем.</p>
+<h2 id="------raspberrypi">Так как же работает время в Raspberrypi?</h2>
+<p>В RPi, а так же в различных embedded системах время работает не так, как в обычных компьютерах. В обычных компьютерах используется так называемые <a href="https://ru.wikipedia.org/wiki/%D0%A7%D0%B0%D1%81%D1%8B_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE_%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B8">часы реального времени</a> (RTC). Это специальный чип с независимым источником питания, который постоянно увеличивает счётчик времени. Даже если отключить компьютер, эта схема будет работать и увеличивать счётчик времени.</p>
+<p><img src="/img/time-raspberrypi/rtc.jpg" alt=""></p>
 <p>Вот действия при включении питания компьютера:</p>
-
 <ol>
 <li>компьютер загружается</li>
 <li>ядро линукса получает время от RTC</li>
 <li>стартуют сетевые службы и поднимаются сетевые интерфейсы</li>
-<li>стартует NTPD, который получает текущее время из интернета по протоколу <a href="https://ru.wikipedia.org/wiki/NTP" target="_blank">NTP</a></li>
+<li>стартует NTPD, который получает текущее время из интернета по протоколу <a href="https://ru.wikipedia.org/wiki/NTP">NTP</a></li>
 <li>он корректирует системное время и время RTC.</li>
 <li>стартуют остальные службы и процессы</li>
 </ol>
-
 <p>Важно понимать, что RTC не является очень точным источником времени. Из-за этого на шаге 5 системные часы могут быть скорректированы. Обычно это совсем небольшая разница - секунды, редко - минуты.</p>
-
-<p>В современных дистрибутивах NTPD обычно заменяют на <a href="https://wiki.archlinux.org/index.php/Systemd-timesyncd_(Русский)" target="_blank">systemd-timesyncd</a>. Эта более легковесная служба времени:</p>
-
+<p>В современных дистрибутивах NTPD обычно заменяют на <a href="https://wiki.archlinux.org/index.php/Systemd-timesyncd_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)">systemd-timesyncd</a>. Эта более легковесная служба времени:</p>
 <ol>
 <li>содержит в себе легковесный NTP-клиент</li>
 <li>получает список NTP серверов по протоколу DHCP от маршрутизатора</li>
 </ol>
-
 <p>Как же это работает в RPi? Совсем по-другому. Дело в том, что в RPi нет RTC чипа. В результате загрузка системы выглядит следующим образом:</p>
-
 <ol>
 <li>RPi загружается</li>
-<li>стартует служба <a href="https://manpages.debian.org/jessie/fake-hwclock/fake-hwclock.8.en.html" target="_blank">fake-hwclock</a>. Она читает текущее время из файла <code>/etc/fake-hwclock.data</code></li>
+<li>стартует служба <a href="https://manpages.debian.org/jessie/fake-hwclock/fake-hwclock.8.en.html">fake-hwclock</a>. Она читает текущее время из файла <code>/etc/fake-hwclock.data</code></li>
 <li>стартуют сетевые службы и поднимаются сетевые интерфейсы</li>
 <li>стартует NTPD</li>
 <li>он корректирует системное время, а fake-hwclock сохраняет текущее правильное время в файл</li>
 <li>стартуют остальные службы и процессы</li>
 </ol>
-
-<h2 id="что-же-тут-может-пойти-не-так">Что же тут может пойти не так?</h2>
-
+<h2 id="------">Что же тут может пойти не так?</h2>
 <ol>
 <li>При самой первой загрузке в файле <code>/etc/fake-hwclock.data</code> лежит время сборки операционной системы</li>
 <li>Если в RPi не настроена сеть, то время надо будет конфигурировать вручную</li>
 <li>Если в RPi не настроена сеть и его выключить, то при следующем старте время продолжит увеличиваться с момента выключения. И если RPI будет выключен на час, значит время будет отличаться на час. Если на день, то на день.</li>
 </ol>
-
 <p>Но не это всё стало причиной бага. Если внимательно присмотреться, то и в случае с rtc, и в случае с fake-hwclock между шагом 5 и 6 существует race condition. NTPD или systemd-timesyncd обновят время асинхронно от старта операционной системы. А это значит, приложение может получить сначала время в будущем, а потом в прошлом.</p>
-
-<h2 id="выводы">Выводы</h2>
-
+<h2 id="heading">Выводы</h2>
 <p>У этого исследования есть два вывода:</p>
-
 <ol>
 <li>я знаю причину возникновения ошибки</li>
 <li>мне придётся обновить документацию. Теперь я не могу утверждать, что моя базовая станция может работать без интернета. Даже если вручную сохранить последние TLE спутников, без интернета текущее время может скакать очень сильно. А это значит, нельзя будет запланировать наблюдение.</li>
-<li>возможно, хорошим выходом из ситации может стать <a href="https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi" target="_blank">RTC для RPi</a></li>
+<li>возможно, хорошим выходом из ситации может стать <a href="https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi">RTC для RPi</a></li>
 </ol>
 
 </div>
@@ -510,16 +489,16 @@ Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.Sample.update(S
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2020 dernasherbrezon </p>
 </div>
 
         </div>
       </footer>
 
     </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script>
+<script src='/assets/js/main.67d669ac.js'></script>
 
 </body>
 

@@ -2,7 +2,7 @@
 title: "Работа с Json в 2019 году"
 date: 2019-12-04T22:29:18+01:00
 draft: false
-images: [/img/json-in-2019/2.png]
+cover: /img/json-in-2019/2.png
 tags:
   - java
   - jsp

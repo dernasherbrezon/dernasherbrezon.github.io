@@ -2,7 +2,7 @@
 title: "Java и без 16Gb памяти?"
 date: 2017-07-16T15:11:18+01:00
 draft: false
-images: [/img/java-small-heap/0ebcb88f4c7d47cc96e872f9c182638c.jpg]
+cover: /img/java-small-heap/0ebcb88f4c7d47cc96e872f9c182638c.jpg
 tags:
   - java
   - raspberrypi

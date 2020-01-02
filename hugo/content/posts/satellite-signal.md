@@ -2,7 +2,7 @@
 title: "Сигналы со спутников"
 date: 2019-11-28T15:51:18+01:00
 draft: false
-images: [/img/satellite-signal/2.jpg]
+cover: /img/satellite-signal/2.jpg
 tags:
   - satellite
   - кубсат

@@ -2,7 +2,7 @@
 title: "Сжимание I/Q потока на raspberrypi"
 date: 2019-03-04T17:22:18+01:00
 draft: false
-images: [/img/rtlsdr-gzip/3.png]
+cover: /img/rtlsdr-gzip/3.png
 tags:
   - rtlsdr
   - производительность

@@ -2,7 +2,7 @@
 title: "Тестирование maven плагинов"
 date: 2019-11-15T19:49:18+01:00
 draft: false
-images: [/img/testing-maven-plugins/logo.png]
+cover: /img/testing-maven-plugins/logo.png
 tags:
   - java
   - maven

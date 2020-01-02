@@ -2,7 +2,7 @@
 title: "Тестирование SDR Filter v1.1"
 date: 2019-08-08T19:20:18+01:00
 draft: false
-images: [/img/test-sdr-filter/testing.jpg]
+cover: /img/test-sdr-filter/testing.jpg
 tags:
   - rtlsdr
   - тестирование

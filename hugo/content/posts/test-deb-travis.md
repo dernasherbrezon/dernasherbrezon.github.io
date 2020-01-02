@@ -2,7 +2,7 @@
 title: "Тестирование debian пакетов в Travis-CI"
 date: 2017-11-04T13:51:18+01:00
 draft: false
-images: [/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png]
+cover: /img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png
 tags:
   - deb
   - travis-ci

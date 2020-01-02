@@ -3,7 +3,7 @@ title: "Динамический диапазон rtl-sdr"
 date: 2019-06-30T22:22:18+01:00
 draft: false
 mathjax: true
-images: [/img/dynamic-range/1.jpg]
+cover: /img/dynamic-range/1.jpg
 tags:
   - перевод
   - rtlsdr

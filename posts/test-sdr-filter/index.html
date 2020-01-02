@@ -2,25 +2,25 @@
 <html lang='ru'><head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Одна из моих базовых станций принимает очень много помех. Из-за низкой чувствительности rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.
+<meta name='description' content='Одна из моих базовых станций принимает очень много помех. Из-за [низкой чувствительности] (https://dernasherbrezon.com/posts/dynamic-range/) rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.
   Процесс тестирования Самое интересное началось сразу же после распаковки устройства. Дело в том, что входящий USB порт формата Type B.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Тестирование SDR Filter v1.1 • dernasherbrezon'>
-<meta property='og:description' content='Одна из моих базовых станций принимает очень много помех. Из-за низкой чувствительности rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.
+<meta property='og:description' content='Одна из моих базовых станций принимает очень много помех. Из-за [низкой чувствительности] (https://dernasherbrezon.com/posts/dynamic-range/) rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.
   Процесс тестирования Самое интересное началось сразу же после распаковки устройства. Дело в том, что входящий USB порт формата Type B.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/test-sdr-filter/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/test-sdr-filter/testing.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-08-08T19:20:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-08T19:20:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/test-sdr-filter/testing.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-08-08T19:20:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-08T19:20:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/test-sdr-filter/testing.jpg'>
 
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.62.1" />
 
   <title>Тестирование SDR Filter v1.1 • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/test-sdr-filter/'>
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+<link rel='stylesheet' href='/assets/css/main.6a060eb7.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -42,7 +42,9 @@
     </div>
     
     <h2 class='title site-title '>
-    dernasherbrezon
+      <a href='/'>
+      dernasherbrezon
+      </a>
     </h2>
     <div class='desc'>
     Блог о программировании на Java
@@ -66,12 +68,6 @@
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
-      </li><li>
-        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
-      </li><li>
-        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
-      </li><li>
         <a href='/tags/acme/' style='font-size:1em'>acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0625em'>api</a>
@@ -176,11 +172,11 @@
       </li><li>
         <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
-      </li><li>
         <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
       </li><li>
         <a href='/tags/rtlsdr/' style='font-size:1.28125em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -194,9 +190,13 @@
       </li><li>
         <a href='/tags/sonarcube/' style='font-size:1.0625em'>sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.03125em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
       </li><li>
         <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
       </li><li>
@@ -319,30 +319,19 @@
   
 
   <div class='container entry-content'>
-  
-
-<p>Одна из моих базовых станций принимает очень много помех. Из-за <a href="https://dernasherbrezon.com/posts/dynamic-range/" target="_blank">низкой чувствительности</a> rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.</p>
-
+  <p>Одна из моих базовых станций принимает очень много помех. Из-за [низкой чувствительности] (https://dernasherbrezon.com/posts/dynamic-range/) rtl-sdr, полезный сигнал почти нельзя получить. У меня возникла идея о том, что часть помех может приходить от USB разъёма RPi. Чтобы проверить эту идею, я недавно приобрёл SDR Filter v1.1 от компании ExpElectroLab и решил сделать на него небольшое видео ревью.</p>
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/7n8nLey6yYo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+  <iframe src="https://www.youtube.com/embed/7n8nLey6yYo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
 </div>
 
-
-<h2 id="процесс-тестирования">Процесс тестирования</h2>
-
+<h2 id="-">Процесс тестирования</h2>
 <p>Самое интересное началось сразу же после распаковки устройства. Дело в том, что входящий USB порт формата Type B. Поэтому просто подключить последовательно фильтр и rtl-sdr к компьютеру не получится. В комплекте устройства USB переходника нет, поэтому пришлось идти в ближайший магазин и покупать дополнительный кабель.</p>
-
 <p>После подключения выясняется, что устройство не работает.</p>
-
 <p>Я измерил напряжение на входящем и исходящем USB портах. На входе 4.7В, а на выходе 3.2В. Видимо стандартного напряжения компьютера недостаточно. Но на всякий случай я спросил у авторов, в чём же может быть проблема. Оказывается, надо покупать более короткий шнур. Это первое USB устройство на моей памяти, которое работает в зависимости от длины шнура. На сайте производителя об этом не сказано.</p>
-
-<p><img src="/img/test-sdr-filter/description.png" alt="" /></p>
-
+<p><img src="/img/test-sdr-filter/description.png" alt=""></p>
 <p>Мне пришлось заказать ещё один шнур, на этот раз покороче. После подключения, загорелась лампочка, но rtl-sdr по-прежнему не определялся. На этот раз напряжение на выходном USB порту было 3.5В. По-прежнему недостаточно. Я связался с автором ещё раз и попросил помощи. Автор посоветовал закоротить диод D1. У меня дома нет паяльника, поэтому я не могу проверить это решение.</p>
-
-<h2 id="выводы">Выводы</h2>
-
+<h2 id="heading">Выводы</h2>
 <ol>
 <li>SDR Filter явно имеет проблемы с питанием. Непонятно как авторы тестировали его.</li>
 <li>Мне не удалось заставить его работать, поэтому он теперь просто валяется в коробке.</li>
@@ -459,16 +448,16 @@
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2020 dernasherbrezon </p>
 </div>
 
         </div>
       </footer>
 
     </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script>
+<script src='/assets/js/main.67d669ac.js'></script>
 
 </body>
 

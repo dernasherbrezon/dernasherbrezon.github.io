@@ -9,16 +9,16 @@
 <meta property='og:description' content='Часть моей хобби инфраструктуры завязана на .deb пакеты и apt репозитории. Чтобы со всем этим работать из java, я написал несколько maven плагинов и выложил в открытый доступ. Один из этих плагинов - deb-maven-plugin. Он позволяет собирать из java проекта .deb пакет. Этот формат пакетов имеет достаточно сложную структуру и большое историческое наследие. Я очень тщательно разобрался с тем, как собирать такой пакет для java проектов и создал плагин, который сильно облегчает сборку.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/testing-maven-plugins/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/testing-maven-plugins/logo.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='maven'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-11-15T19:49:18&#43;01:00'/><meta property='article:modified_time' content='2019-11-15T19:49:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/testing-maven-plugins/logo.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='maven'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-11-15T19:49:18&#43;01:00'/><meta property='article:modified_time' content='2019-11-15T19:49:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/testing-maven-plugins/logo.png'>
 
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.62.1" />
 
   <title>Тестирование maven плагинов • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/testing-maven-plugins/'>
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+<link rel='stylesheet' href='/assets/css/main.6a060eb7.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -40,7 +40,9 @@
     </div>
     
     <h2 class='title site-title '>
-    dernasherbrezon
+      <a href='/'>
+      dernasherbrezon
+      </a>
     </h2>
     <div class='desc'>
     Блог о программировании на Java
@@ -64,12 +66,6 @@
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
-      </li><li>
-        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
-      </li><li>
-        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
-      </li><li>
         <a href='/tags/acme/' style='font-size:1em'>acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0625em'>api</a>
@@ -174,11 +170,11 @@
       </li><li>
         <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
-      </li><li>
         <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
       </li><li>
         <a href='/tags/rtlsdr/' style='font-size:1.28125em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -192,9 +188,13 @@
       </li><li>
         <a href='/tags/sonarcube/' style='font-size:1.0625em'>sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.03125em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
       </li><li>
         <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
       </li><li>
@@ -317,92 +317,70 @@
   
 
   <div class='container entry-content'>
-  
-
-<p>Часть моей хобби инфраструктуры завязана на .deb пакеты и apt репозитории. Чтобы со всем этим работать из java, я написал несколько maven плагинов и выложил в открытый доступ. Один из этих плагинов - <a href="https://github.com/dernasherbrezon/deb-maven-plugin" target="_blank">deb-maven-plugin</a>. Он позволяет собирать из java проекта .deb пакет. <a href="https://ru.wikipedia.org/wiki/Deb_(формат_файлов)" target="_blank">Этот формат пакетов</a> имеет достаточно сложную структуру и большое историческое наследие. Я очень тщательно разобрался с тем, как собирать такой пакет для java проектов и создал плагин, который сильно облегчает сборку. Со временем ко мне приходили различные разработчики и добавляли в этот плагин нужную им функциональность. Мы вместе исправляли ошибки. Всю идиллию портило только одно - полное отсутствие тестов. Каждое изменение, которое мы добавляли могло потенциально сломать уже существующие проекты.</p>
-
-<p>Однажды я решил проверить собранный пакет с помощью утилиты <a href="https://lintian.debian.org" target="_blank">lintian</a> и обнаружил множество критичных ошибок. Это сподвигло меня собраться с мыслями и всё-таки разобраться, как тестируются maven плагины. И поправить ошибки, о которых предупреждал lintian.</p>
-
-<h2 id="требования">Требования</h2>
-
+  <p>Часть моей хобби инфраструктуры завязана на .deb пакеты и apt репозитории. Чтобы со всем этим работать из java, я написал несколько maven плагинов и выложил в открытый доступ. Один из этих плагинов - <a href="https://github.com/dernasherbrezon/deb-maven-plugin">deb-maven-plugin</a>. Он позволяет собирать из java проекта .deb пакет. <a href="https://ru.wikipedia.org/wiki/Deb_(%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%82_%D1%84%D0%B0%D0%B9%D0%BB%D0%BE%D0%B2)">Этот формат пакетов</a> имеет достаточно сложную структуру и большое историческое наследие. Я очень тщательно разобрался с тем, как собирать такой пакет для java проектов и создал плагин, который сильно облегчает сборку. Со временем ко мне приходили различные разработчики и добавляли в этот плагин нужную им функциональность. Мы вместе исправляли ошибки. Всю идиллию портило только одно - полное отсутствие тестов. Каждое изменение, которое мы добавляли могло потенциально сломать уже существующие проекты.</p>
+<p>Однажды я решил проверить собранный пакет с помощью утилиты <a href="https://lintian.debian.org">lintian</a> и обнаружил множество критичных ошибок. Это сподвигло меня собраться с мыслями и всё-таки разобраться, как тестируются maven плагины. И поправить ошибки, о которых предупреждал lintian.</p>
+<h2 id="heading">Требования</h2>
 <p>Прежде чем начать писать тесты, необходимо определиться какие: интеграционные или юнит. Юнит-тесты для maven плагинов достаточно бесполезны. Дело в том, что maven плагин - это один большой класс, реализующий AbstractMojo. Иногда полезно иметь несколько вспомогательных классов, чтобы декомпозиторовать задачу. Но в большинстве случаев - это один большой класс, который нужно тестировать интеграционно.</p>
-
 <p>Ещё одну вещь, которую юнит тесты не смогут проверить - то, как конфигурация пробрасывается внутрь плагина. До версии 3.0 каноничным способом указания конфигурации был javadoc определённого формата. Это крайне плохой и неудобный способ задания внешних параметров.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * @parameter default-value=&#34;${project.basedir}/src/main/deb&#34;;
 </span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">private</span> String debBaseDir<span style="color:#f92672">;</span></code></pre></div>
-<p>Соответственно необходимо протестировать правильность написания этого javadoc. Без полноценного запуска PlexusContainer это достаточно сложно. PlexusContainer - это DI контейнер, который чем-то похож на <a href="https://spring.io" target="_blank">Spring</a> и <a href="https://dagger.dev" target="_blank">Dagger</a>. Однако, из-за своей малой распространённости он имеет крайне скудную документацию. Определить какие компоненты доступны в контейнере можно только методом проб и ошибок. Основные настройки плагина можно получать из MavenProject:</p>
+<span style="color:#66d9ef">private</span> String debBaseDir<span style="color:#f92672">;</span>
+</code></pre></div><p>Соответственно необходимо протестировать правильность написания этого javadoc. Без полноценного запуска PlexusContainer это достаточно сложно. PlexusContainer - это DI контейнер, который чем-то похож на <a href="https://spring.io">Spring</a> и <a href="https://dagger.dev">Dagger</a>. Однако, из-за своей малой распространённости он имеет крайне скудную документацию. Определить какие компоненты доступны в контейнере можно только методом проб и ошибок. Основные настройки плагина можно получать из MavenProject:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
 </span><span style="color:#75715e"> * The maven project.
 </span><span style="color:#75715e"> * 
 </span><span style="color:#75715e"> * @parameter property=&#34;project&#34;
 </span><span style="color:#75715e"> * @readonly
 </span><span style="color:#75715e"> */</span>
-<span style="color:#66d9ef">private</span> MavenProject project<span style="color:#f92672">;</span></code></pre></div>
-<p>Такую конфигурацию можно проверить только интеграционными тестами. Нужно честно запустить PlexusContainer и загрузить тестовый pom.xml.</p>
-
-<p>Если начать искать в сети &ldquo;тестирование maven плагинов&rdquo;, то можно найти <a href="https://maven.apache.org/plugin-developers/plugin-testing.html" target="_blank">официальную документацию</a>. В ней как раз описаны два способа:</p>
-
+<span style="color:#66d9ef">private</span> MavenProject project<span style="color:#f92672">;</span>
+</code></pre></div><p>Такую конфигурацию можно проверить только интеграционными тестами. Нужно честно запустить PlexusContainer и загрузить тестовый pom.xml.</p>
+<p>Если начать искать в сети &ldquo;тестирование maven плагинов&rdquo;, то можно найти <a href="https://maven.apache.org/plugin-developers/plugin-testing.html">официальную документацию</a>. В ней как раз описаны два способа:</p>
 <ol>
 <li>Интеграционные тесты с помощью плагина maven-plugin-testing-harness</li>
 <li>Функциональные тесты с помощью maven-verifier</li>
 </ol>
-
 <p>Мне идеально подходил первый способ. Но для полноты картины я решил разобраться в чём же заключается второй способ. По своей сути maven-verifier ищет инсталляцию maven в системном свойстве MVN_HOME и запускает в отдельном процессе <code>mvn &lt;some plugin&gt;</code>. После этого проверяется, что процесс завершился без ошибки, что нет логов с ошибками и тому подобное. Этот способ идеально подходит для тестирования плагинов с разными версиями maven. В моём же случае хотелось бы запускать maven в одной и той же JVM, что и юнит тесты. Это быстро и позволяет оценить покрытие кода тестами.</p>
-
-<h2 id="интеграционные-тесты">Интеграционные тесты</h2>
-
+<h2 id="-">Интеграционные тесты</h2>
 <p>Свои тесты я предполагал сделать следующим образом:</p>
-
 <ul>
 <li>создать конфигурацию проекта success, в которой использованы всевозможные настройки плагина</li>
 <li>написать тест для конфигурации success</li>
 <li>для того, чтобы протестировать опции по-умолчанию или граничные значения, необходимо взять конфигурацию success и изменить (перезаписать) параметры</li>
 </ul>
-
 <p>В результате у меня получился следующий тест:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Rule</span>
-<span style="color:#66d9ef">public</span> MojoRule mrule <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MojoRule<span style="color:#f92672">();</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#a6e22e">@Rule</span>
+<span style="color:#66d9ef">public</span> MojoRule mrule <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MojoRule<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
 
 <span style="color:#a6e22e">@Rule</span>
-<span style="color:#66d9ef">public</span> TemporaryFolder folder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemporaryFolder<span style="color:#f92672">();</span>
+<span style="color:#66d9ef">public</span> TemporaryFolder folder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TemporaryFolder<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
 
 <span style="color:#a6e22e">@Test</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSuccess</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
-	File basedir <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;src/test/resources/success&#34;</span><span style="color:#f92672">);</span>
-	MavenProject mavenProject <span style="color:#f92672">=</span> mrule<span style="color:#f92672">.</span><span style="color:#a6e22e">readMavenProject</span><span style="color:#f92672">(</span>basedir<span style="color:#f92672">);</span> <span style="color:#75715e">// загрузка конфигурации проекта из pom.xml
-</span><span style="color:#75715e"></span>	mavenProject<span style="color:#f92672">.</span><span style="color:#a6e22e">getBuild</span><span style="color:#f92672">().</span><span style="color:#a6e22e">setDirectory</span><span style="color:#f92672">(</span>folder<span style="color:#f92672">.</span><span style="color:#a6e22e">getRoot</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getAbsolutePath</span><span style="color:#f92672">());</span>
-	Mojo mm <span style="color:#f92672">=</span> mrule<span style="color:#f92672">.</span><span style="color:#a6e22e">lookupConfiguredMojo</span><span style="color:#f92672">(</span>mavenProject<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;package&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">// загрузка и конфигурирования Mojo для тестирования
-</span><span style="color:#75715e"></span>	mm<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">();</span>
-	assertEquals<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> mavenProject<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttachedArtifacts</span><span style="color:#f92672">().</span><span style="color:#a6e22e">size</span><span style="color:#f92672">());</span> <span style="color:#75715e">// получение .deb пакета
-</span><span style="color:#75715e"></span>	Artifact artifact <span style="color:#f92672">=</span> mavenProject<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttachedArtifacts</span><span style="color:#f92672">().</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>0<span style="color:#f92672">);</span> 
-	assertDeb<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;src/test/resources/expected/success&#34;</span><span style="color:#f92672">),</span> artifact<span style="color:#f92672">.</span><span style="color:#a6e22e">getFile</span><span style="color:#f92672">(),</span> artifact<span style="color:#f92672">.</span><span style="color:#a6e22e">getClassifier</span><span style="color:#f92672">());</span> <span style="color:#75715e">// сравнение директории с ожидаемыми файлами и содержимого .deb пакета
-</span><span style="color:#75715e"></span><span style="color:#f92672">}</span></code></pre></div>
-<ul>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSuccess</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	File basedir <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;src/test/resources/success&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	MavenProject mavenProject <span style="color:#f92672">=</span> mrule<span style="color:#f92672">.</span><span style="color:#a6e22e">readMavenProject</span><span style="color:#f92672">(</span>basedir<span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// загрузка конфигурации проекта из pom.xml
+</span><span style="color:#75715e"></span>	mavenProject<span style="color:#f92672">.</span><span style="color:#a6e22e">getBuild</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setDirectory</span><span style="color:#f92672">(</span>folder<span style="color:#f92672">.</span><span style="color:#a6e22e">getRoot</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getAbsolutePath</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	Mojo mm <span style="color:#f92672">=</span> mrule<span style="color:#f92672">.</span><span style="color:#a6e22e">lookupConfiguredMojo</span><span style="color:#f92672">(</span>mavenProject<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;package&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// загрузка и конфигурирования Mojo для тестирования
+</span><span style="color:#75715e"></span>	mm<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	assertEquals<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> mavenProject<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttachedArtifacts</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// получение .deb пакета
+</span><span style="color:#75715e"></span>	Artifact artifact <span style="color:#f92672">=</span> mavenProject<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttachedArtifacts</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>0<span style="color:#f92672">)</span><span style="color:#f92672">;</span> 
+	assertDeb<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;src/test/resources/expected/success&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">,</span> artifact<span style="color:#f92672">.</span><span style="color:#a6e22e">getFile</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">,</span> artifact<span style="color:#f92672">.</span><span style="color:#a6e22e">getClassifier</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// сравнение директории с ожидаемыми файлами и содержимого .deb пакета
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><ul>
 <li>MojoRule - это вспомогательный класс для удобной работы с PlexusContainer. В нём есть множество удобных методов для загрузки плагина из pom.xml и инициализации вспомогательных классов.</li>
 <li>TemporaryFolder - это правило для junit, которое создаёт временную папку вначале теста и удаляет её в конце.</li>
 </ul>
-
 <p>В таком тесте можно загружать гарантированно правильную конфигурацию проекта, менять настройки MavenProject и проверять всевозможные граничные значения.</p>
-
 <p>Самым сложным и одновременно долгим и неприятным оказалась реализация метода <code>assertDeb</code>. По сути этот метод должен рекурсивно сравнивать директории в ожидаемой папке и внутренности .deb пакета.</p>
-
 <p>После того, как я написал этот тест, обнаружилось множество ошибок в тестируемом коде. В частности структура .tar архива, который входит в .deb пакет, создавалась неправильно. По стандарту все вложенные директории должны присутствовать в .tar файле. Например, для файла usr/share/doc/copyright должны быть следующие записи в .tar:</p>
-
 <pre><code>usr/
 usr/share/
 usr/share/doc/
 usr/share/doc/copyright
-</code></pre>
-
-<p>Я же ошибочно создавал только:</p>
-
+</code></pre><p>Я же ошибочно создавал только:</p>
 <pre><code>usr/share/doc/copyright
-</code></pre>
-
-<h2 id="выводы">Выводы</h2>
-
+</code></pre><h2 id="heading-1">Выводы</h2>
 <p>Писать тесты для maven плагинов можно. Однако, это требует достаточно высокий порог вхождения и глубокого понимания того, как работает maven. Нужно быть как минимум готовым к тому, что придётся заглянуть в исходники. Результат же стоит того. Автоматические тесты позволяют спокойно редактировать код плагина без опаски сломать обратную совместимость с сотнями других проектов, которые его используют. Причём редактирование включает в себя улучшение производительности. А представьте, что 15% улучшение сможет улучшить тысячи сборок сотен проектов на 15%!</p>
 
 </div>
@@ -516,16 +494,16 @@ usr/share/doc/copyright
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2020 dernasherbrezon </p>
 </div>
 
         </div>
       </footer>
 
     </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script>
+<script src='/assets/js/main.67d669ac.js'></script>
 
 </body>
 

@@ -2,7 +2,7 @@
 title: "История одной картинки"
 date: 2019-08-26T08:31:17+01:00
 draft: false
-images: [/img/decoding-meteor-m/slides1.jpg]
+cover: /img/decoding-meteor-m/slides1.jpg
 tags:
   - java
   - jpoint

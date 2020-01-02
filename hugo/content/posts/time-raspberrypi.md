@@ -2,7 +2,7 @@
 title: "Время в Raspberrypi"
 date: 2019-06-08T14:22:18+01:00
 draft: false
-images: [/img/time-raspberrypi/rtc.jpg]
+cover: /img/time-raspberrypi/rtc.jpg
 tags:
   - raspberrypi
   - rrd

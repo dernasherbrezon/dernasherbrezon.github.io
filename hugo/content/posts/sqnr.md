@@ -3,7 +3,7 @@ title: "Расчёт SQNR"
 date: 2019-06-27T21:22:18+01:00
 draft: false
 mathjax: true
-images: [/img/sqnr/sqnr.png]
+cover: /img/sqnr/sqnr.png
 tags:
   - radio
   - sqnr

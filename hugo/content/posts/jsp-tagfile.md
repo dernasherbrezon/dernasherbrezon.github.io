@@ -2,7 +2,7 @@
 title: "Переиспользование компонентов в JSP"
 date: 2019-12-08T19:18:18+01:00
 draft: false
-images: [/img/jsp-tag-testing/3.png]
+cover: /img/jsp-tag-testing/3.png
 tags:
   - jsp
   - java

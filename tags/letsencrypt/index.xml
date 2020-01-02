@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>letsencrypt on dernasherbrezon</title>
@@ -16,8 +16,8 @@
       <pubDate>Sun, 10 Sep 2017 16:45:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/posts/java-acme/</guid>
-      <description>Возникла передо мной такая задача: автоматический выпуск сертификатов для Web приложения. И требования: - CA должны доверять все браузеры т.е. самоподписанные сертификаты не подходят; - желательно бесплатно; - Выпуск надо делать программно с помощью Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.
-Наверное многие уже слышали про бесплатные сертификаты от LetsEncrypt и certbot. А можно ли certbot заменить Java?
+      <description>Возникла передо мной такая задача: автоматический выпуск сертификатов для Web приложения. И требования:
+ CA должны доверять все браузеры т.е. самоподписанные сертификаты не подходят; желательно бесплатно; Выпуск надо делать программно с помощью Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Наверное многие уже слышали про бесплатные сертификаты от LetsEncrypt и certbot. А можно ли certbot заменить Java?
 ACME Многие, конечно, любят LetsEncrypt за бесплатные сертификаты, которые, фактически, позволят перевести весь вэб на https.</description>
     </item>
     

@@ -9,16 +9,16 @@
 <meta property='og:description' content='У меня есть небольшой проект на Си, который позволяет сделать приватный apt репозиторий в облачном хранилище Selectel - apt-transport-swift. Почему именно на Си? Во-первых, я думал, что знаю Си. Во-вторых, в моём представлении все системные утилиты для массового пользования должны быть написаны на низкоуровневом языке. Это значит, что для запуска приложения у меня должны быть минимальное количество зависимостей и минимальное потребление памяти. Ведь я не знаю на каком железе будет запущена моя программа.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/setting-up-c/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/setting-up-c/4.png'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='sonarcube'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='travis-ci'><meta property='article:tag' content='valgrind'><meta property='article:published_time' content='2019-12-24T18:29:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-24T18:29:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/setting-up-c/4.png'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='sonarcube'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='travis-ci'><meta property='article:tag' content='valgrind'><meta property='article:published_time' content='2019-12-24T18:29:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-24T18:29:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/setting-up-c/4.png'>
 
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.62.1" />
 
   <title>Настройка проекта на Си • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/setting-up-c/'>
   
   
   <link rel='icon' href='/favicon.ico'>
-<link rel='stylesheet' href='/assets/css/main.4a10984a.css'><style>
+<link rel='stylesheet' href='/assets/css/main.6a060eb7.css'><style>
 :root{--color-accent:#ffcd00;}
 </style>
 
@@ -40,7 +40,9 @@
     </div>
     
     <h2 class='title site-title '>
-    dernasherbrezon
+      <a href='/'>
+      dernasherbrezon
+      </a>
     </h2>
     <div class='desc'>
     Блог о программировании на Java
@@ -64,12 +66,6 @@
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/spring/' style='font-size:1em'>Spring</a>
-      </li><li>
-        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
-      </li><li>
-        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
-      </li><li>
         <a href='/tags/acme/' style='font-size:1em'>acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0625em'>api</a>
@@ -174,11 +170,11 @@
       </li><li>
         <a href='/tags/rrdtool/' style='font-size:1em'>rrdtool</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
-      </li><li>
         <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
       </li><li>
         <a href='/tags/rtlsdr/' style='font-size:1.28125em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -192,9 +188,13 @@
       </li><li>
         <a href='/tags/sonarcube/' style='font-size:1.0625em'>sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.03125em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
       </li><li>
         <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.03125em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
       </li><li>
@@ -317,52 +317,34 @@
   
 
   <div class='container entry-content'>
-  
-
-<p>У меня есть небольшой проект на Си, который позволяет сделать приватный apt репозиторий в облачном хранилище Selectel - <a href="https://github.com/dernasherbrezon/apt-transport-swift" target="_blank">apt-transport-swift</a>. Почему именно на Си? Во-первых, я думал, что знаю Си. Во-вторых, в моём представлении все системные утилиты для массового пользования должны быть написаны на низкоуровневом языке. Это значит, что для запуска приложения у меня должны быть минимальное количество зависимостей и минимальное потребление памяти. Ведь я не знаю на каком железе будет запущена моя программа. Однако, с Си есть некоторые проблемы - это очень старый язык, в котором есть много устаревших конструкций и подходов. Я потратил почти неделю на то, чтобы настроить всевозможные утилиты для улучшения качества проекта. Ниже, я хочу поделиться своими результатами.</p>
-
-<h2 id="система-контроля-версий">Система контроля версий</h2>
-
-<p>Git. Использовать какую-либо другую систему контроля версий в 2019 году было бы крайне эксцентрично. Я выбрал <a href="https://github.com/dernasherbrezon/apt-transport-swift" target="_blank">github</a>, так как там хранятся все мои проекты.</p>
-
-<h2 id="сборка">Сборка</h2>
-
-<p><a href="https://cmake.org" target="_blank">cmake</a>. Мне необходимо будет собирать тесты, считать code coverage и пр. Обычный make был бы слишком простым. Какие-то специальные сборочные системы, например Eclipse CDT, слишком привязаны к IDE и запускать их, например в launchpad, невозможно. С помощью cmake я мог бы собирать проект в Ubuntu и в MacOS.</p>
-
+  <p>У меня есть небольшой проект на Си, который позволяет сделать приватный apt репозиторий в облачном хранилище Selectel - <a href="https://github.com/dernasherbrezon/apt-transport-swift">apt-transport-swift</a>. Почему именно на Си? Во-первых, я думал, что знаю Си. Во-вторых, в моём представлении все системные утилиты для массового пользования должны быть написаны на низкоуровневом языке. Это значит, что для запуска приложения у меня должны быть минимальное количество зависимостей и минимальное потребление памяти. Ведь я не знаю на каком железе будет запущена моя программа. Однако, с Си есть некоторые проблемы - это очень старый язык, в котором есть много устаревших конструкций и подходов. Я потратил почти неделю на то, чтобы настроить всевозможные утилиты для улучшения качества проекта. Ниже, я хочу поделиться своими результатами.</p>
+<h2 id="--">Система контроля версий</h2>
+<p>Git. Использовать какую-либо другую систему контроля версий в 2019 году было бы крайне эксцентрично. Я выбрал <a href="https://github.com/dernasherbrezon/apt-transport-swift">github</a>, так как там хранятся все мои проекты.</p>
+<h2 id="heading">Сборка</h2>
+<p><a href="https://cmake.org">cmake</a>. Мне необходимо будет собирать тесты, считать code coverage и пр. Обычный make был бы слишком простым. Какие-то специальные сборочные системы, например Eclipse CDT, слишком привязаны к IDE и запускать их, например в launchpad, невозможно. С помощью cmake я мог бы собирать проект в Ubuntu и в MacOS.</p>
 <h2 id="continous-integration">Continous integration</h2>
-
-<p><a href="https://travis-ci.org/dernasherbrezon/apt-transport-swift" target="_blank">travis-ci</a>. Прежде всего, он бесплатный и хорошо интегрирован с github. Я его использую в нескольких проектах, и он вполне подходит для моих нужд.</p>
-
-<p><img src="/img/setting-up-c/1.png" alt="" /></p>
-
+<p><a href="https://travis-ci.org/dernasherbrezon/apt-transport-swift">travis-ci</a>. Прежде всего, он бесплатный и хорошо интегрирован с github. Я его использую в нескольких проектах, и он вполне подходит для моих нужд.</p>
+<p><img src="/img/setting-up-c/1.png" alt=""></p>
 <h2 id="continuous-deployment">Continuous deployment</h2>
-
-<p><a href="https://launchpad.net/~rodionovamp/+archive/ubuntu/apt-transport-swift" target="_blank">Launchpad</a>. Не является классическим сервисом/приложением для continuous deployment. Но тем не менее, предоставляет в какой-то мере deployment. Например, он может автоматически собрать исходники под разные версии Ubuntu, под разные архитектуры и задеплоить в <a href="https://help.ubuntu.ru/wiki/ppa" target="_blank">PPA</a>. Сам по себе, Launchpad - это мир в себе. Я постараюсь написать отдельную статью, как собрать проект под него и какие особенности при этом могут возникнуть.</p>
-
-<p><img src="/img/setting-up-c/2.png" alt="" /></p>
-
-<h2 id="тесты">Тесты</h2>
-
-<p><a href="https://github.com/libcheck/check" target="_blank">libcheck</a>. Для начала нужно отметить, что тесты для программы на Си существенно отличаются от тестов для таких языков как Java, Python, Ruby. Дело в том, что каждый тест нужно оборачивать в отдельную программму. Это нужно прежде всего, чтобы отловить memory access violation - наиболее частый тип ошибок. При таких ошибках программа обычно падает в coredump. Если тесты будут запускаться в рамках одного приложения, то ошибка в одном тесте будет валить все оставшиеся тесты. Это не очень хорошо, поэтому разработчики придумали делать fork тестов. Вообще с библиотеками для тестирования в мире Си всё достаточно сложно. Например, многие пытаются тестировать код embedded приложений, в которых очень важен размер программы и скорость, поэтому для каждого случая люди придумывают свою библиотеку тестирования. Иногда доходит <a href="http://www.jera.com/techinfo/jtns/jtn002.html" target="_blank">до абсурда</a>.</p>
-
+<p><a href="https://launchpad.net/~rodionovamp/+archive/ubuntu/apt-transport-swift">Launchpad</a>. Не является классическим сервисом/приложением для continuous deployment. Но тем не менее, предоставляет в какой-то мере deployment. Например, он может автоматически собрать исходники под разные версии Ubuntu, под разные архитектуры и задеплоить в <a href="https://help.ubuntu.ru/wiki/ppa">PPA</a>. Сам по себе, Launchpad - это мир в себе. Я постараюсь написать отдельную статью, как собрать проект под него и какие особенности при этом могут возникнуть.</p>
+<p><img src="/img/setting-up-c/2.png" alt=""></p>
+<h2 id="heading-1">Тесты</h2>
+<p><a href="https://github.com/libcheck/check">libcheck</a>. Для начала нужно отметить, что тесты для программы на Си существенно отличаются от тестов для таких языков как Java, Python, Ruby. Дело в том, что каждый тест нужно оборачивать в отдельную программму. Это нужно прежде всего, чтобы отловить memory access violation - наиболее частый тип ошибок. При таких ошибках программа обычно падает в coredump. Если тесты будут запускаться в рамках одного приложения, то ошибка в одном тесте будет валить все оставшиеся тесты. Это не очень хорошо, поэтому разработчики придумали делать fork тестов. Вообще с библиотеками для тестирования в мире Си всё достаточно сложно. Например, многие пытаются тестировать код embedded приложений, в которых очень важен размер программы и скорость, поэтому для каждого случая люди придумывают свою библиотеку тестирования. Иногда доходит <a href="http://www.jera.com/techinfo/jtns/jtn002.html">до абсурда</a>.</p>
 <p>Отдельной головной болью является подключение этих библиотек. Дело в том, что в cmake модули и пакеты появились сравнительно недавно. И, видимо, чтобы не нарушить обратную совместимость, их поддержка выглядит очень специфической. Например, рекомендуемое подключение libcheck:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">find_package(<span style="color:#e6db74">check</span> <span style="color:#e6db74">&lt;check_version</span> <span style="color:#e6db74">if</span> <span style="color:#e6db74">wanted&gt;</span> <span style="color:#e6db74">REQUIRED</span> <span style="color:#e6db74">CONFIG</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>target_link_libraries(<span style="color:#e6db74">myproj.test</span> <span style="color:#e6db74">Check::check</span>)</code></pre></div>
-<p>Со стороны выглядит компактно и просто. Однако, на практике тут прям совсем много проблем. Самая основная - эта конструкция работает только в <code>libcheck &gt;= 0.13.x</code>. При этом в последней LTS Ubuntu libcheck версии 0.10.x. А это значит:</p>
-
+</span><span style="color:#960050;background-color:#1e0010"></span>target_link_libraries(<span style="color:#e6db74">myproj.test</span> <span style="color:#e6db74">Check::check</span>)<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Со стороны выглядит компактно и просто. Однако, на практике тут прям совсем много проблем. Самая основная - эта конструкция работает только в <code>libcheck &gt;= 0.13.x</code>. При этом в последней LTS Ubuntu libcheck версии 0.10.x. А это значит:</p>
 <ul>
-<li>нужно писать простыню <a href="https://github.com/dernasherbrezon/apt-transport-swift/blob/master/cmake/FindCheck.cmake" target="_blank">FindCheck.cmake</a>, в которой <a href="https://github.com/libcheck/check/issues/236" target="_blank">есть ошибка</a>.</li>
+<li>нужно писать простыню <a href="https://github.com/dernasherbrezon/apt-transport-swift/blob/master/cmake/FindCheck.cmake">FindCheck.cmake</a>, в которой <a href="https://github.com/libcheck/check/issues/236">есть ошибка</a>.</li>
 <li>не забыть обновить на более правильный способ подключения в следующей версии Ubuntu.</li>
 </ul>
-
-<h2 id="тесты-памяти">Тесты памяти</h2>
-
-<p><a href="https://valgrind.org" target="_blank">valgrind</a>. Не секрет, что написать абсолютно корректную программу на Си или C++ практически нереально. Это прежде всего связано с моделью управления памяти. Очень просто выделить объект и забыть его удалить в нужный момент. В современных языках программирования обычно вводят garbage collector, который следит за выделением памяти и удаляет неиспользуемые объекты. Однако, в Си это необходимо делать самому и на помощь приходит вполне стандартный инструмент - valgrind. Единственное, над чем мне пришлось попотеть - это добавить его в continuous integration и сделать так, чтобы всё падало, если есть утечка памяти. Я запускаю его следующим образом:</p>
+<h2 id="-">Тесты памяти</h2>
+<p><a href="https://valgrind.org">valgrind</a>. Не секрет, что написать абсолютно корректную программу на Си или C++ практически нереально. Это прежде всего связано с моделью управления памяти. Очень просто выделить объект и забыть его удалить в нужный момент. В современных языках программирования обычно вводят garbage collector, который следит за выделением памяти и удаляет неиспользуемые объекты. Однако, в Си это необходимо делать самому и на помощь приходит вполне стандартный инструмент - valgrind. Единственное, над чем мне пришлось попотеть - это добавить его в continuous integration и сделать так, чтобы всё падало, если есть утечка памяти. Я запускаю его следующим образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">set +e 
 
 EXIT_CODE<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 <span style="color:#66d9ef">for</span> file in test_*; <span style="color:#66d9ef">do</span>
-	<span style="color:#f92672">[[</span> <span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span> <span style="color:#f92672">==</span> *.dSYM <span style="color:#f92672">]]</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">continue</span>
+	<span style="color:#f92672">[</span><span style="color:#f92672">[</span> <span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span> <span style="color:#f92672">=</span><span style="color:#f92672">=</span> *.dSYM <span style="color:#f92672">]</span><span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">continue</span>
 	valgrind -v --error-exitcode<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -q --tool<span style="color:#f92672">=</span>memcheck --leak-check<span style="color:#f92672">=</span>yes --show-reachable<span style="color:#f92672">=</span>yes ./<span style="color:#e6db74">${</span>file<span style="color:#e6db74">}</span>
 	CURRENT_EXIT_CODE<span style="color:#f92672">=</span>$?
 	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">${</span>CURRENT_EXIT_CODE<span style="color:#e6db74">}</span> !<span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
@@ -370,40 +352,32 @@ EXIT_CODE<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span
 	<span style="color:#66d9ef">fi</span>  
 <span style="color:#66d9ef">done</span>
 
-exit <span style="color:#e6db74">${</span>EXIT_CODE<span style="color:#e6db74">}</span></code></pre></div>
-<p>В этом скрипте, для каждого теста выполняется анализ памяти, и, если статус не равен 0, скрипт возвращает ненулевой результат. Если travis получает ненулевой результат, то он завершает <a href="https://github.com/dernasherbrezon/apt-transport-swift/blob/master/build_debug.sh" target="_blank">билд с ошибкой</a>. Псевдокод выглядит как-то так:</p>
+exit <span style="color:#e6db74">${</span>EXIT_CODE<span style="color:#e6db74">}</span>
+</code></pre></div><p>В этом скрипте, для каждого теста выполняется анализ памяти, и, если статус не равен 0, скрипт возвращает ненулевой результат. Если travis получает ненулевой результат, то он завершает <a href="https://github.com/dernasherbrezon/apt-transport-swift/blob/master/build_debug.sh">билд с ошибкой</a>. Псевдокод выглядит как-то так:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">script:
   - set -e
-  - ./run_tests.sh</code></pre></div>
-<h2 id="code-coverage">Code coverage</h2>
-
-<p><a href="https://ru.wikipedia.org/wiki/Gcov" target="_blank">gcov</a>. Многие думают, что считать покрытие тестами кода - это какой-то фетишизм педантов-максималистов. На самом деле, он прежде всего помогает найти неиспользуемый код, который можно удалить. И только во-вторую очередь позволяет понять насколько хорошо тесты написаны. Достигнуть 100% покрытия почти нереально, да и это зачастую не нужно. Многие сервисы, например sonarcloud, вполне это понимают и устанавливают границу в 80%. Судя по моему опыту, эта граница примерно соответствует тестам, которые проверяют успешное выполнение логики программы. Остальные 20% - это всевозможная обработка сложных граничных и многопоточных случаев.</p>
-
-<p><img src="/img/setting-up-c/3.png" alt="" /></p>
-
+  - ./run_tests.sh
+</code></pre></div><h2 id="code-coverage">Code coverage</h2>
+<p><a href="https://ru.wikipedia.org/wiki/Gcov">gcov</a>. Многие думают, что считать покрытие тестами кода - это какой-то фетишизм педантов-максималистов. На самом деле, он прежде всего помогает найти неиспользуемый код, который можно удалить. И только во-вторую очередь позволяет понять насколько хорошо тесты написаны. Достигнуть 100% покрытия почти нереально, да и это зачастую не нужно. Многие сервисы, например sonarcloud, вполне это понимают и устанавливают границу в 80%. Судя по моему опыту, эта граница примерно соответствует тестам, которые проверяют успешное выполнение логики программы. Остальные 20% - это всевозможная обработка сложных граничных и многопоточных случаев.</p>
+<p><img src="/img/setting-up-c/3.png" alt=""></p>
 <p>Настройка gcov для связки travis и cmake выглядит нетривиально и многие в интернетах советуют переусложнённые конфигурации. Мне же удалось сделать это проще.</p>
-
 <p>Подключение debug информации:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">if(<span style="color:#e6db74">CMAKE_BUILD_TYPE</span> <span style="color:#e6db74">MATCHES</span> <span style="color:#e6db74">Debug</span>)<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span>	set(<span style="color:#e6db74">CMAKE_C_FLAGS</span> <span style="color:#e6db74">&#34;${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage&#34;</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>endif()</code></pre></div>
-<p>Вызов gcov для каждого объекта:</p>
+</span><span style="color:#960050;background-color:#1e0010"></span>endif()<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Вызов gcov для каждого объекта:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">if(<span style="color:#e6db74">CMAKE_BUILD_TYPE</span> <span style="color:#e6db74">MATCHES</span> <span style="color:#e6db74">Debug</span>)<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span>	add_custom_target(<span style="color:#e6db74">&#34;coverage&#34;</span>)<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span>	add_custom_command(<span style="color:#e6db74">TARGET</span> <span style="color:#e6db74">&#34;coverage&#34;</span> <span style="color:#e6db74">COMMAND</span> <span style="color:#e6db74">gcov</span> <span style="color:#f92672">${</span>CMAKE_BINARY_DIR<span style="color:#f92672">}</span><span style="color:#e6db74">/CMakeFiles/swiftlib.dir/src/*.c.o</span>)<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span>endif()</code></pre></div>
-<p>При этом swiftlib содержит все объекты проекта за исключением main.c. Этот файл, в идеале, должен лишь содержать главный цикл или минимальный метод main:</p>
+</span><span style="color:#960050;background-color:#1e0010"></span>endif()<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>При этом swiftlib содержит все объекты проекта за исключением main.c. Этот файл, в идеале, должен лишь содержать главный цикл или минимальный метод main:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
     swift_start_main_loop();
-}</code></pre></div>
-<h2 id="анализ-кода">Анализ кода</h2>
-
-<p><a href="https://sonarcloud.io/organizations/dernasherbrezon-github/projects" target="_blank">sonarcloud</a>. Он поддерживает множество языков в том числе Си, Java, Javascript, и я использую его во всех своих проектах. Удобно и бесплатно.</p>
-
-<p><img src="/img/setting-up-c/4.png" alt="" /></p>
-
-<h2 id="выводы">Выводы.</h2>
-
+}
+</code></pre></div><h2 id="--1">Анализ кода</h2>
+<p><a href="https://sonarcloud.io/organizations/dernasherbrezon-github/projects">sonarcloud</a>. Он поддерживает множество языков в том числе Си, Java, Javascript, и я использую его во всех своих проектах. Удобно и бесплатно.</p>
+<p><img src="/img/setting-up-c/4.png" alt=""></p>
+<h2 id="heading-2">Выводы.</h2>
 <p>Мир Си страннен и многообразен. Почти все инструменты, которые просто и быстро подключаются в современных языках программирования, здесь требуют доработки напильником. Однако, если есть желание разобраться с экосистемой, то всё возможно. После того, как я всё настроил, стало хорошо видно, где стоит поработать. Например, я думал, что покрытие тестами в моём проекте примерно 60%. Однако, в реальности оно оказалось где-то 40%. Статический анализатор sonarcloud нашёл много серьёзных багов, связанных с памятью. Уже сейчас можно сказать, что время, потраченное на настройку, окупилось и принесло пользу.</p>
 
 </div>
@@ -507,16 +481,16 @@ exit <span style="color:#e6db74">${</span>EXIT_CODE<span style="color:#e6db74">}
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank">CC BY-NC-ND 3.0</a> &copy; 2017-2019 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2020 dernasherbrezon </p>
 </div>
 
         </div>
       </footer>
 
     </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
 
-<script src='/assets/js/main.fae8ed32.js'></script>
+<script src='/assets/js/main.67d669ac.js'></script>
 
 </body>
 

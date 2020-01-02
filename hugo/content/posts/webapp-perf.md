@@ -2,7 +2,7 @@
 title: "Оптимизация web приложения с помощью YourKit и JMeter"
 date: 2012-12-28T14:58:18+01:00
 draft: false
-images: [/img/webapp-perf/9.png]
+cover: /img/webapp-perf/9.png
 tags:
   - java
   - gc
