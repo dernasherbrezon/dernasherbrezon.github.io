@@ -357,7 +357,7 @@ deb и apt В мире существует множество действит�
 <li>rm</li>
 <li>postrm</li>
 </ul>
-<p>Существует множество различных промежуточных фаз и различные комбинации состояния инсталляции. Нас они мало интересуют, но тем кто хочет разобраться можно почитать <!-- raw HTML omitted -->официальную документацию<!-- raw HTML omitted -->. Обычно эти скрипты настраивают ротацию и архивирование логов, задают начальные значения конфигураций (например, root-пароль для mysql). Если же у вас конечное бизнес-приложение, то лучше взять какое-нибудь нормальное средство автоматизации вроде <!-- raw HTML omitted -->Ansible<!-- raw HTML omitted -->, <!-- raw HTML omitted -->Chief<!-- raw HTML omitted -->, <!-- raw HTML omitted -->Puppet<!-- raw HTML omitted -->.</p>
+<p>Существует множество различных промежуточных фаз и различные комбинации состояния инсталляции. Нас они мало интересуют, но тем кто хочет разобраться можно почитать <a href="https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html">официальную документацию</a>. Обычно эти скрипты настраивают ротацию и архивирование логов, задают начальные значения конфигураций (например, root-пароль для mysql). Если же у вас конечное бизнес-приложение, то лучше взять какое-нибудь нормальное средство автоматизации вроде <a href="http://www.ansible.com/home">Ansible</a>, <a href="https://www.chef.io/chef/">Chief</a>, <a href="https://puppetlabs.com">Puppet</a>.</p>
 <h2 id="apt">apt</h2>
 <p>apt - это набор инструментов для работы с deb пакетами. Он позволяет:</p>
 <ul>
@@ -372,14 +372,14 @@ deb и apt В мире существует множество действит�
 <li>публикация получившегося пакета в фазе deploy</li>
 </ul>
 <p>Для этого есть несколько maven плагинов.</p>
-<h2 id="a-hrefhttpsgithubcomtcurdtjdebjdeba"><!-- raw HTML omitted -->jdeb<!-- raw HTML omitted --></h2>
-<p>Схема его работы достаточно <!-- raw HTML omitted -->проста<!-- raw HTML omitted -->:</p>
+<h2 id="a-hrefhttpsgithubcomtcurdtjdebjdeba"><a href="https://github.com/tcurdt/jdeb">jdeb</a></h2>
+<p>Схема его работы достаточно <a href="https://github.com/tcurdt/jdeb/blob/master/src/examples/maven/pom.xml">проста</a>:</p>
 <ul>
 <li>перечислить файлы и директории, которые попадут в результирующий .tar.gz архив</li>
 <li>указать пермиссии</li>
 </ul>
-<p>Более полная документация о возможностях плагина можно узнать на официальной <!-- raw HTML omitted -->странице<!-- raw HTML omitted -->.</p>
-<h2 id="a-hrefhttpsgithubcomdernasherbrezonapt-maven-pluginapt-maven-plugina"><!-- raw HTML omitted -->apt-maven-plugin<!-- raw HTML omitted --></h2>
+<p>Более полная документация о возможностях плагина можно узнать на официальной <a href="https://github.com/tcurdt/jdeb/blob/master/docs/maven.md">странице</a>.</p>
+<h2 id="a-hrefhttpsgithubcomdernasherbrezonapt-maven-pluginapt-maven-plugina"><a href="https://github.com/dernasherbrezon/apt-maven-plugin">apt-maven-plugin</a></h2>
 <p>Работает с репозиторием заданным в distributionManagement как с apt репозиторием, а не maven репозиторием. Хотя ничего не мешает их использовать одновременно под одним url. Их layout'ы совместимы между собой.</p>
 <p>Пример конфигурации выглядит следующим образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugin</span><span style="color:#f92672">&gt;</span>
@@ -399,7 +399,7 @@ deb и apt В мире существует множество действит�
 		<span style="color:#f92672">&lt;codename</span><span style="color:#f92672">&gt;</span>strepo<span style="color:#f92672">&lt;/codename&gt;</span>
 	<span style="color:#f92672">&lt;/configuration&gt;</span>
 <span style="color:#f92672">&lt;/plugin&gt;</span>
-</code></pre></div><p>И секция distributionManagement (ничего <!-- raw HTML omitted -->необычного<!-- raw HTML omitted -->):</p>
+</code></pre></div><p>И секция distributionManagement (ничего <a href="https://maven.apache.org/plugins/maven-deploy-plugin/usage.html">необычного</a>):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;distributionManagement</span><span style="color:#f92672">&gt;</span>
 	<span style="color:#f92672">&lt;repository</span><span style="color:#f92672">&gt;</span>
 		<span style="color:#f92672">&lt;id</span><span style="color:#f92672">&gt;</span>maven-release-repo<span style="color:#f92672">&lt;/id&gt;</span>
@@ -417,7 +417,7 @@ sudo apt-get install &lt;artifactId&gt;
 <li>stability</li>
 <li>high availability production ready platform</li>
 </ul>
-<p>Все это отлично решается, если устроить apt репозиторий из самого популярного хостинга для разработчиков: <!-- raw HTML omitted -->s3<!-- raw HTML omitted -->. Вкупе с cloudfront, он даёт гарантию <!-- raw HTML omitted -->99.9%<!-- raw HTML omitted --> надёжности и географическую <!-- raw HTML omitted -->распределённость<!-- raw HTML omitted -->.</p>
+<p>Все это отлично решается, если устроить apt репозиторий из самого популярного хостинга для разработчиков: <a href="https://aws.amazon.com/s3/">s3</a>. Вкупе с cloudfront, он даёт гарантию <a href="https://aws.amazon.com/s3/sla/">99.9%</a> надёжности и географическую <a href="https://www.google.com/maps/d/viewer?mid=zq41xmfbtRfA.kUKJZcl-4O7k&hl=en">распределённость</a>.</p>
 <p>Делается это опять же достаточно просто. Надо подключить плагин для работы с s3:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;build</span><span style="color:#f92672">&gt;</span>
 	<span style="color:#f92672">&lt;extensions</span><span style="color:#f92672">&gt;</span>
@@ -443,7 +443,7 @@ sudo apt-get install &lt;artifactId&gt;
 		<span style="color:#f92672">&lt;password</span><span style="color:#f92672">&gt;</span>apisecret<span style="color:#f92672">&lt;/password&gt;</span>  
 	<span style="color:#f92672">&lt;/server&gt;</span>
 <span style="color:#f92672">&lt;/servers&gt;</span>
-</code></pre></div><p>На конечных серверах для доступа к такому репозиторию существует специальный плагин: <!-- raw HTML omitted -->apt-transport-s3<!-- raw HTML omitted -->. К сожалению его еще нет в официальных репозиториях, поэтому необходимо добавить вручную один из репозиториев, где он содержится:</p>
+</code></pre></div><p>На конечных серверах для доступа к такому репозиторию существует специальный плагин: <a href="https://launchpad.net/~leonard-ehrenfried/+archive/ubuntu/apt-transport-s3">apt-transport-s3</a>. К сожалению его еще нет в официальных репозиториях, поэтому необходимо добавить вручную один из репозиториев, где он содержится:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo add-apt-repository ppa:leonard-ehrenfried/apt-transport-s3
 sudo apt-get install apt-transport-s3
 </code></pre></div><p>После чего можно уже указывать наш s3 репозиторий:</p>

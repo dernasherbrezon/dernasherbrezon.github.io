@@ -337,7 +337,7 @@
 </ul>
 <p>После того, как были определены требования, я без проблем написал необходимый код. Результаты моих ощущений ниже.</p>
 <h2 id="-">Простота старта</h2>
-<p><!-- raw HTML omitted -->JSP<!-- raw HTML omitted --> vs <!-- raw HTML omitted -->VueJS<!-- raw HTML omitted --></p>
+<p><span style="color: green;">JSP</span> vs <span style="color: red;">VueJS</span></p>
 <p>Для JSP начало работы достаточно простое:</p>
 <ul>
 <li>создать стандартный maven проект</li>
@@ -351,18 +351,18 @@
   <span style="color:#f92672">&#34;build:unpkg&#34;</span>: <span style="color:#e6db74">&#34;rollup --config build/rollup.config.js --format iife --file dist/vue-openapi-bootstrap.min.js&#34;</span>
 }
 </code></pre></div><h2 id="--1">Простота упаковки</h2>
-<p><!-- raw HTML omitted -->JSP<!-- raw HTML omitted --> vs <!-- raw HTML omitted -->VueJS<!-- raw HTML omitted --></p>
+<p><span style="color: green;">JSP</span> vs <span style="color: green;">VueJS</span></p>
 <p>Тут о обоих фреймворков нет проблем. Для JSP упаковка - это стандартная команда maven:</p>
 <pre><code>mvn package
 </code></pre><p>В VueJS соответственно:</p>
 <pre><code>npm build
 </code></pre><h2 id="heading-2">Тестирование</h2>
-<p><!-- raw HTML omitted -->JSP<!-- raw HTML omitted --> vs <!-- raw HTML omitted -->VueJS<!-- raw HTML omitted --></p>
+<p><span style="color: green;">JSP</span> vs <span style="color: red;">VueJS</span></p>
 <p>Опять же, из-за rollup и общей путаницы с технологиями, начать тестировать компонент на VueJS нетривиально. Если честно, я так и не осилил переход на webpack с полноценными тестами и покрытием кода.</p>
 <p>В JSP же всё относительно просто: я просто скопировал подход для тестирования тэгов, который <a href="https://dernasherbrezon.com/posts/jsp-tag-testing/">использовал ранее</a> и сразу получил страницу index.html, которая загружается в браузер простым кликом.</p>
 <p><img src="/img/compare-jsp-vuejs/1.png" alt=""></p>
 <h2 id="--2">Скорость разработки</h2>
-<p><!-- raw HTML omitted -->JSP<!-- raw HTML omitted --> vs <!-- raw HTML omitted -->VueJS<!-- raw HTML omitted --></p>
+<p><span style="color: red;">JSP</span> vs <span style="color: green;">VueJS</span></p>
 <p>Да, инженерная мысль шагнула далеко вперед за последние 20 лет и разрабатывать на VuejS получается значительно быстрее. Например, синтаксис чуть более компактный. Сравните вывод одного и того же блока на VueJS:</p>
 <pre><code>&lt;p&gt;Available values:
 {{ param.schema.items.enum.join(', ') }}
@@ -405,7 +405,7 @@
 </code></pre></div><p>И использовать внутри JSP:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;badge ${openapiHelper:getColorByMethod(method)}&#34;</span>&gt;
 </code></pre></div><h2 id="--3">Простота переиспользования</h2>
-<p><!-- raw HTML omitted -->JSP<!-- raw HTML omitted --> vs <!-- raw HTML omitted -->VueJS<!-- raw HTML omitted --></p>
+<p><span style="color: green;">JSP</span> vs <span style="color: green;">VueJS</span></p>
 <p>Тут оба фреймворка постарались и сделали вполне неплохое переиспользование своих компонент. Подключить jsp tag в проект можно описав зависимость:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
 	<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>ru.r2cloud.openapi<span style="color:#f92672">&lt;/groupId&gt;</span>

@@ -126,3 +126,6 @@ hrefTargetBlank = true
 lang = "ru"
 languageName = "Русский"
 weight = 1
+
+[markup.goldmark.renderer]
+unsafe= true
