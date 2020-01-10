@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>abbreviated jpeg on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/abbreviated-jpeg/</link>
+    <description>Recent content in abbreviated jpeg on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 09 Jan 2020 21:11:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/abbreviated-jpeg/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Abbreviated jpeg в Java</title>
+      <link>https://dernasherbrezon.com/posts/abbreviated-jpeg-java/</link>
+      <pubDate>Thu, 09 Jan 2020 21:11:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/abbreviated-jpeg-java/</guid>
+      <description>Я думаю все, кто хоть раз запускал компьютер, знают, что такое Jpeg. Этот стандарт появился в далёком 1991 году и с тех пор оброс различными расширениями и дополнительными возможностями. Для обычных пользователей все эти изменения не видны. Вы просто кликаете по файлу и видите красивую картинку. Для 99% разработчиков jpeg также представляет собой чёрный ящик. Максимум, с чем может столкнуться среднестатистический разработчик - это оптимизировать размер картинок с помощью jpegtran или сконвертировать один формат в другой с помощью ImageIO.</description>
+    </item>
+    
+  </channel>
+</rss>

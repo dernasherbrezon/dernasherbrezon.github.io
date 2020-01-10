@@ -7,10 +7,56 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Tue, 24 Dec 2019 18:29:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jan 2020 21:11:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Abbreviated jpeg в Java</title>
+      <link>https://dernasherbrezon.com/posts/abbreviated-jpeg-java/</link>
+      <pubDate>Thu, 09 Jan 2020 21:11:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/abbreviated-jpeg-java/</guid>
+      <description>Я думаю все, кто хоть раз запускал компьютер, знают, что такое Jpeg. Этот стандарт появился в далёком 1991 году и с тех пор оброс различными расширениями и дополнительными возможностями. Для обычных пользователей все эти изменения не видны. Вы просто кликаете по файлу и видите красивую картинку. Для 99% разработчиков jpeg также представляет собой чёрный ящик. Максимум, с чем может столкнуться среднестатистический разработчик - это оптимизировать размер картинок с помощью jpegtran или сконвертировать один формат в другой с помощью ImageIO.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Abbreviated jpeg в Java</h1></header>
+      		<div class='container entry-content'>
+  <p>Я думаю все, кто хоть раз запускал компьютер, знают, что такое Jpeg. Этот стандарт появился в далёком 1991 году и с тех пор оброс различными расширениями и дополнительными возможностями. Для обычных пользователей все эти изменения не видны. Вы просто кликаете по файлу и видите красивую картинку. Для 99% разработчиков jpeg также представляет собой чёрный ящик. Максимум, с чем может столкнуться среднестатистический разработчик - это оптимизировать размер картинок с помощью <a href="https://linux.die.net/man/1/jpegtran">jpegtran</a> или сконвертировать один формат в другой с помощью <a href="https://docs.oracle.com/javase/tutorial/2d/images/loadimage.html">ImageIO</a>.</p>
+<p>Всё становится значительно сложнее, когда нужно получить картинку со спутника. Понятное дело, никто не будет придумывать совершенно новый способ кодирования картинок, только для того, чтобы передать фотографию. Но и обычным файлом зачастую нельзя передать фотографию. Это, прежде всего, связно с шириной канала и возможными потерями сигнала.</p>
+<p>Одним из способов передачи/хранения картинки является &ldquo;Abbreviated image&rdquo;. Однако, прежде, чем пытаться понять, что это такое, необходимо вспомнить формат хранения Jpeg в обычном файле.</p>
+<h2 id="-">Обычный файл</h2>
+<p>Если вкратце, то данные в jpeg файле хранятся с использованием маркеров. Маркер - это специальные 2 байта, которые идентифицируют тип блока и данные в нём. Например, структура обычного jpeg файла может быть следующая:</p>
+<p><img src="/img/abbreviated-jpeg-java/sampleJpegStructure.jpg" alt=""></p>
+<p>В данном примере, SOI - это маркер начала изображения, DQT - это маркер начала таблицы квантования, SOS - это маркер начала сканирования. Он содержит небольшую метаинформацию и непосредственно данные изображения. EOI - это маркер конца изображения.</p>
+<p>В стандарте описано большое количество различных маркеров и их данных. В данном примере важно понять, что есть заголовок файла, в котором описаны таблицы квантования и таблицы кодирования хаффмана. В спецификации jpeg описаны рекомендованные значения для этих таблиц. Однако, ничто не мешает в каждом файле иметь свои собственные таблицы. Например, можно подобрать более оптимальные таблицы квантования и хаффмана в зависимости от количества цветов в данном изображении.</p>
+<h2 id="abbreviated-jpeg">Abbreviated jpeg</h2>
+<p>Идея Abbreviated jpeg достаточно простая: выкинуть все таблицы из файла и хранить только данные изображения.</p>
+<p><img src="/img/abbreviated-jpeg-java/abbreviatedJpeg.jpeg" alt=""></p>
+<p>При этом, чтобы декодировать и показать изображение из этих файлов, необходимо заранее договориться о значениях в таблицах и других заголовках.</p>
+<p>У такого способа хранения есть как свои достоинства, так и недостатки.</p>
+<p>К достоинствам прежде всего следует отнести то, что размер файла чуть меньше. Также такие файлы устойчивы к повреждениям. Елси отсутствует кусок файла или он повреждён, то достаточно найти следующий маркер RST и продолжить декодирование.</p>
+<p>Недостатков также несколько. Во-первых, необходимо заранее договориться о параметрах файла. Это значит, что такой способ не подходит для web. Производители web брайзеров совершенно точно не будут кодировать всевозможные таблицы для всех возможных комбинаций файлов. Во-вторых, современные каналы связи и диски достаточно большие, чтобы экономить на размере таблиц.</p>
+<p>Несмотря на это, такой способ хранения и передачи изображений jpeg используется в узкоспециализированных системах. Например, формат <a href="https://ukhas.org.uk/guides:ssdv#packet_format">ssdv</a> использует Abbreviated image.</p>
+<h3 id="--java">Поддержка в Java</h3>
+<p>Я был сильно удивлён, когда узнал что поддержка такого экзотичного типа хранения jpeg файла поддерживается в java. В <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.desktop/javax/imageio/metadata/doc-files/jpeg_metadata.html">официальной документации</a> очень детально описано, что происходит при вызове различных методов API. К сожалению, за целый день пристального вглядывания в документацию, я так и не понял как же работать с таким форматом. Лишь на следующий день я решил бросить это дело и просто почитать исходники. Их оказалось, на удивление, не так много, и дело сдвинулось с мёртвой точки.</p>
+<p>Итак, для того, чтобы прочитать такой файл нужно сделать 2 вещи. Во-первых, необходимо задать таблицы, о которых заранее договорились поставщик и получатель.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">JPEGImageReadParam param <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JPEGImageReadParam<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+param<span style="color:#f92672">.</span><span style="color:#a6e22e">setDecodeTables</span><span style="color:#f92672">(</span>qTables<span style="color:#f92672">,</span> DCHuffmanTables<span style="color:#f92672">,</span> ACHuffmanTables<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>Во-вторых, необходимо передать эти параметры при чтении из файла:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ImageReader jpgReader <span style="color:#f92672">=</span> ImageIO<span style="color:#f92672">.</span><span style="color:#a6e22e">getImageReadersByFormatName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jpg&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+jpgReader<span style="color:#f92672">.</span><span style="color:#a6e22e">setInput</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileImageInputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;test.jpeg&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+BufferedImage image  <span style="color:#f92672">=</span> jpgReader<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> param<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>В результате <code>BufferedImage</code> будет содержать вполне обычное изображение, которое можно сохранить или преобразовать далее.</p>
+<p>Несмотря на всё это, API есть куда расти. Например, в <code>JPEGImageReadParam</code> нельзя задать subsampling mode и <code>ColorSpace</code>. А это значит, что они должны быть в самом Abbreviated stream. Это в свою очередь сводит на нет, устойчивость к повреждениям файла.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Настройка проекта на Си</title>
