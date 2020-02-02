@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 23 Jan 2020 00:20:17 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 02 Feb 2020 21:50:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,15 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Fosdem 2020</title>
+      <link>https://dernasherbrezon.com/posts/fosdem-2020/</link>
+      <pubDate>Sun, 02 Feb 2020 21:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fosdem-2020/</guid>
+      <description>В этом году я съездил на Fosdem 2020 и выступил там с речью. Рассказал о r2cloud и отлично пообщался с многими знакомыми.</description>
     </item>
     
     <item>

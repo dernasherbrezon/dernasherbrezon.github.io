@@ -7,10 +7,35 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 23 Jan 2020 00:20:17 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 02 Feb 2020 21:50:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Fosdem 2020</title>
+      <link>https://dernasherbrezon.com/posts/fosdem-2020/</link>
+      <pubDate>Sun, 02 Feb 2020 21:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fosdem-2020/</guid>
+      <description>В этом году я съездил на Fosdem 2020 и выступил там с речью. Рассказал о r2cloud и отлично пообщался с многими знакомыми.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Fosdem 2020</h1></header>
+      		<div class='container entry-content'>
+  
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/1M7Gi2bbSFg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>В этом году я съездил на <a href="https://fosdem.org/2020/">Fosdem 2020</a> и выступил там с речью. Рассказал о <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> и отлично пообщался с многими знакомыми.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Декодирование картинки jy1sat</title>
