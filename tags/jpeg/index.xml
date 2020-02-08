@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.com/tags/jpeg/</link>
     <description>Recent content in jpeg on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 23 Jan 2020 00:20:17 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 08 Feb 2020 16:04:00 +0000</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/jpeg/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Кодирование jpeg</title>
+      <link>https://dernasherbrezon.com/posts/jpeg-encoding/</link>
+      <pubDate>Sat, 08 Feb 2020 16:04:00 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/jpeg-encoding/</guid>
+      <description>Введение Для работой с jpeg файлами написано множество библиотек. Даже Java по умолчанию поддерживает чтение и запись jpeg файлов. Однако, когда требуется декодировать более сложные типы передачи jpeg, то необходимо понимать как устроен формат и какие алгоритмы используются. В этой статье я постараюсь максимально дотошно разобрать кодирование jpeg.
+Типы передачи jpeg Прежде, чем разбирать кодирование цвета в jpeg, необходимо чётко разделять две вещи: кодирование цвета и передача блоков изображения.
+Кодирование цвета - это набор алгоритмов для формирования, так называемых MCU, блоков пикселей 8х8 или 16х16.</description>
+    </item>
     
     <item>
       <title>Декодирование картинки jy1sat</title>
