@@ -2,7 +2,7 @@
 title: "Изображения с DSLWP-B"
 date: 2020-02-15T15:40:18+01:00
 draft: false
-cover: /img/aistechsat-3/aistechsat-3.jpg
+cover: /img/dslwp-b-images/dslwp-137.png
 tags:
   - java
   - ssdv
