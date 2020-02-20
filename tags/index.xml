@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 15 Feb 2020 15:40:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 19 Feb 2020 14:14:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,9 +13,36 @@
     <item>
       <title>java</title>
       <link>https://dernasherbrezon.com/tags/java/</link>
-      <pubDate>Sat, 15 Feb 2020 15:40:18 +0100</pubDate>
+      <pubDate>Wed, 19 Feb 2020 14:14:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mobitex</title>
+      <link>https://dernasherbrezon.com/tags/mobitex/</link>
+      <pubDate>Wed, 19 Feb 2020 14:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/mobitex/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>satellite</title>
+      <link>https://dernasherbrezon.com/tags/satellite/</link>
+      <pubDate>Wed, 19 Feb 2020 14:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/satellite/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>спутники</title>
+      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
+      <pubDate>Wed, 19 Feb 2020 14:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
       <description></description>
     </item>
     
@@ -191,15 +218,6 @@
     </item>
     
     <item>
-      <title>спутники</title>
-      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
-      <pubDate>Thu, 05 Dec 2019 22:31:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>gnuradio</title>
       <link>https://dernasherbrezon.com/tags/gnuradio/</link>
       <pubDate>Thu, 28 Nov 2019 15:51:18 +0100</pubDate>
@@ -214,15 +232,6 @@
       <pubDate>Thu, 28 Nov 2019 15:51:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/radio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>satellite</title>
-      <link>https://dernasherbrezon.com/tags/satellite/</link>
-      <pubDate>Thu, 28 Nov 2019 15:51:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/satellite/</guid>
       <description></description>
     </item>
     
@@ -731,7 +740,7 @@
     </item>
     
     <item>
-      <title>Spring</title>
+      <title>spring</title>
       <link>https://dernasherbrezon.com/tags/spring/</link>
       <pubDate>Sun, 11 Dec 2011 13:14:18 +0100</pubDate>
       

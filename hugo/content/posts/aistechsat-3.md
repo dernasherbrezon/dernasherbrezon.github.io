@@ -6,6 +6,8 @@ cover: /img/aistechsat-3/aistechsat-3.jpg
 tags:
   - java
   - radio
+  - satellite
+  - спутники
 ---
 
 ## Вступление

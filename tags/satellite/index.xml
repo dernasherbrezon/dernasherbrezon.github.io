@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.com/tags/satellite/</link>
     <description>Recent content in satellite on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 28 Nov 2019 15:51:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 19 Feb 2020 14:14:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/satellite/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Декодирование телеметрии D-STAR ONE</title>
+      <link>https://dernasherbrezon.com/posts/dstar1-telemetry/</link>
+      <pubDate>Wed, 19 Feb 2020 14:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/dstar1-telemetry/</guid>
+      <description>Я уже давно декодирую телеметрию с D-STAR ONE, но совсем недавно, просматривая логи базовой станции, наткнулся на следующую ошибку:
+unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream.readUnsignedByte(DataInputStream.java:295) at ru.r2cloud.jradio.dstar1.PayloadData.&amp;lt;init&amp;gt;(PayloadData.java:102) at ru.r2cloud.jradio.dstar1.Dstar1Beacon.readBeacon(Dstar1Beacon.java:27) at ru.r2cloud.jradio.Beacon.readExternal(Beacon.java:16) Эта случайная ошибка в логах и моя любознательность стали причиной интересного расследования, которое значительно улучшило качество приёма телеметрии.
+Расследование Как обычно в таких случаях, я скачал сырые данные и попытался воспроизвести ошибку локально. Код Dstar1Beacon достаточно простой, поэтому остановившись в дебаг-режиме, я сразу понял в чём дело.</description>
+    </item>
     
     <item>
       <title>Сигналы со спутников</title>
@@ -31,6 +42,17 @@
       <guid>https://dernasherbrezon.com/posts/satellite-telemetry/</guid>
       <description>Вступление Иногда в разговоре с разными людьми речь заходит о моём хобби. В таком случае я говорю, что слежу за спутниками. Для большинства это объяснение не слишком-то информативно, поэтому оно идеально подходит для того, чтобы продолжить разговор и одновременно возбудить любопытство. Однако, не все могут лично со мной пообщаться, поэтому в этом посте я хотел бы рассказать о том, что такое - следить за спутниками.
 Телеметрия Первое, что приходит людям на ум, когда говоришь &amp;ldquo;следить за спутниками&amp;rdquo; - это шпионские страсти.</description>
+    </item>
+    
+    <item>
+      <title>Декодирование телеметрии Aistechsat-3</title>
+      <link>https://dernasherbrezon.com/posts/aistechsat-3/</link>
+      <pubDate>Wed, 21 Aug 2019 14:40:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/aistechsat-3/</guid>
+      <description>Вступление Наступило лето, а это значит начался отпускной сезон. Самое время немного расслабиться и добавить декодирование телеметрии для новых спутников. С января Daniel добавил десяток новых спутников. Я начал с Aistechsat-3.
+Декодирование Как и в других случаях я взял готовый демодулятор и реализовал его на Java. Daniel написал, что формат телеметрии задокументирован, но он не успел задекодировать телеметрию.
+Казалось бы, что может пойти не так? Документация есть, данные есть. Надо просто написать код.</description>
     </item>
     
     <item>
