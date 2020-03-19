@@ -5,17 +5,53 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 19 Feb 2020 14:14:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 18 Mar 2020 19:37:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>api</title>
+      <link>https://dernasherbrezon.com/tags/api/</link>
+      <pubDate>Wed, 18 Mar 2020 19:37:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>java</title>
       <link>https://dernasherbrezon.com/tags/java/</link>
-      <pubDate>Wed, 19 Feb 2020 14:14:18 +0100</pubDate>
+      <pubDate>Wed, 18 Mar 2020 19:37:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>junit</title>
+      <link>https://dernasherbrezon.com/tags/junit/</link>
+      <pubDate>Wed, 18 Mar 2020 19:37:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/junit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>REST</title>
+      <link>https://dernasherbrezon.com/tags/rest/</link>
+      <pubDate>Wed, 18 Mar 2020 19:37:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/rest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>тестирование</title>
+      <link>https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
+      <pubDate>Wed, 18 Mar 2020 19:37:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
       <description></description>
     </item>
     
@@ -182,15 +218,6 @@
     </item>
     
     <item>
-      <title>api</title>
-      <link>https://dernasherbrezon.com/tags/api/</link>
-      <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/api/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>openapi</title>
       <link>https://dernasherbrezon.com/tags/openapi/</link>
       <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
@@ -241,15 +268,6 @@
       <pubDate>Fri, 15 Nov 2019 19:49:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/maven/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>тестирование</title>
-      <link>https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
-      <pubDate>Fri, 15 Nov 2019 19:49:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
       <description></description>
     </item>
     
@@ -461,15 +479,6 @@
     </item>
     
     <item>
-      <title>rest</title>
-      <link>https://dernasherbrezon.com/tags/rest/</link>
-      <pubDate>Wed, 01 May 2019 18:22:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/rest/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>security</title>
       <link>https://dernasherbrezon.com/tags/security/</link>
       <pubDate>Wed, 01 May 2019 18:22:18 +0100</pubDate>
@@ -493,15 +502,6 @@
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/jetty/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>junit</title>
-      <link>https://dernasherbrezon.com/tags/junit/</link>
-      <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/junit/</guid>
       <description></description>
     </item>
     
