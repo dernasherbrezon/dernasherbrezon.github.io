@@ -7,10 +7,104 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Wed, 18 Mar 2020 19:37:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 24 Mar 2020 18:40:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Создание и публикация приложения в Launchpad</title>
+      <link>https://dernasherbrezon.com/posts/publishing-to-launchpad/</link>
+      <pubDate>Tue, 24 Mar 2020 18:40:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/publishing-to-launchpad/</guid>
+      <description>Последнюю неделю я активно стал разрабатывать небольшое приложение epever-tracer-influxdb. Оно позволяет читать параметры солнечного контроллера и отправлять данные в InfluxDB. Само приложение написано на C и предполагается, что оно будет работать на Raspberry PI. После того, как я написал это приложение передо мной в очередной раз встала задача дистрибуции. Самый простой способ - попытаться добавить его в основной репозиторий Debian. Но тут есть несколько проблем:
+ непонятно в какой момент пакет окажется в основном репозитории.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Создание и публикация приложения в Launchpad</h1></header>
+      		<div class='container entry-content'>
+  <p>Последнюю неделю я активно стал разрабатывать небольшое приложение <a href="https://github.com/dernasherbrezon/epever-tracer-influxdb">epever-tracer-influxdb</a>. Оно позволяет читать параметры солнечного контроллера и отправлять данные в InfluxDB. Само приложение написано на C и предполагается, что оно будет работать на Raspberry PI. После того, как я написал это приложение передо мной в очередной раз встала задача дистрибуции. Самый простой способ - попытаться добавить его в основной репозиторий Debian. Но тут есть несколько проблем:</p>
+<ul>
+<li>непонятно в какой момент пакет окажется в основном репозитории. Если мне, скажем, необходимо завтра начать использовать его, то мне точно не хочется ждать пока open source бюрократия пережуёт моё приложение</li>
+<li>что-то мне подсказывает, что нужно сделать очень много неявных приседаний прежде, чем моё приложение будет &ldquo;каноничным&rdquo; debian приложением. Это, конечно, полезно, но я не готов тратить сразу много времени на это.</li>
+</ul>
+<p>Все эти проблемы решает <a href="https://launchpad.net">Launchpad</a>. Специальный сервис для хостинга своих персональных apt репозиториев. Это не первое моё приложение, которое я решил разместить там. До этого я размещал там <a href="https://dernasherbrezon.com/posts/setting-up-c/">apt-transport-swift</a>.</p>
+<h2 id="heading">Подготовка</h2>
+<p>Прежде, чем начать подготавливать приложение, необходимо знать одну важную деталь. На ней в документации нет сильного акцента и для новичка это может стать откровением. В debian/ubuntu мире есть очень чёткое различие между &ldquo;оригинальным&rdquo; приложением и &ldquo;дебинизированным&rdquo;. Оригинальное приложение - это фактически исходники приложения и то, что предоставляет разработчик приложения. &ldquo;дебинизированное&rdquo; приложение - это исходники (или .tar.gz) и метаинформация о самом приложении, необходимые скрипты для сборки и разворачивания его в операционной системе. Эту особенность необходимо постоянно держать в голове. Это особенно важно, если ты являешься одновременно разработчиком приложения и мейнтейнером.</p>
+<h2 id="--">Общая схема работы</h2>
+<p>PPA - это personal package archives. По сути репозиторий, где можно хранить свои собственные сборки разных пакетов или собственные приложения. Работает это следующим образом:</p>
+<p><img src="/img/publishing-to-launchpad/1.png" alt=""></p>
+<ol>
+<li>Разработчик подготавливает пакет и исходные коды.</li>
+<li>Эти исходные коды заливаются в launchpad</li>
+<li>Launchpad начинает их собирать для разных архитектур и</li>
+<li>Выкладывает в персональный apt репозторий</li>
+</ol>
+<p>В самом Launchpad есть гигантская билд ферма, которая постоянно собирает новые пакеты под разные архитектуры. Очень круто и удобно. Понятное дело, что они поддерживают только open source проекты.</p>
+<h2 id="heading-1">Погнали</h2>
+<p>Во-первых, необходимо <a href="https://login.launchpad.net/+login">создать аккаунт</a>.</p>
+<p>Во-вторых, в своём профиле на launchpad необходимо создать новый PPA. Тут опять всё очевидно.</p>
+<p>В-третих, необходимо привязать к своему аккаунту PGP ключ. Тут всё не так очевидно, но есть <a href="https://help.launchpad.net/YourAccount/ImportingYourPGPKey">хороший мануал</a> о том, как это сделать. В последствии этот ключ будет использоваться для того, чтобы подписать пакет и залить его launchpad.</p>
+<h2 id="-">Подготовка пакета</h2>
+<p>Для того, чтобы собрать пакет, необходимо описать некоторую мета-информацию. Для этого необходимо создать папку debian в корне проекта. Я подробно не буду описывать каждый из необходимых файлов. Достаточно <a href="https://github.com/dernasherbrezon/epever-tracer-influxdb/tree/master/debian">посмотреть пример</a> того, как это сделано для epever-tracer-influxdb. Для разных приложений набор необходимых файлов может быть разный.</p>
+<h2 id="---1">Локальная сборка пакета</h2>
+<p>Тут всё немножко сложнее. Поскольку я разрабатываю на маке, у меня нет всех необходимых инструментов, чтобы собирать .deb пакеты. В моём случае необходимо делать дополнительные шаги:</p>
+<ul>
+<li>создать виртуалку в облаке</li>
+<li>скопировать свои pgp ключи на виртуалку</li>
+</ul>
+<p>После всего этого необходимо установить пакеты:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt-get install devscripts build-essential lintian
+</code></pre></div><p>Создать архив с оригинальными исходными кодами:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar czf epever-tracer-influxdb_1.0.0.orig.tar.gz epever-tracer-influxdb
+</code></pre></div><p>Тут очень важно то, как называется этот архив. В нём обязательно должна быть версия и .orig.tar.gz. Скрипты сборки будут искать архив именно с таким именем.</p>
+<p>После этого можно проверить, что пакет собирается:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">debuild -i -us -uc -b
+</code></pre></div><p>Также эта команда запускает lintian - линтер для .deb пакетов. Он очень продвинутый и может находить достаточно странные ошибки:</p>
+<pre><code>W: epever-tracer-influxdb: debian-changelog-has-wrong-day-of-week 2020-03-23 is a Monday
+W: epever-tracer-influxdb: new-package-should-close-itp-bug
+E: epever-tracer-influxdb: bad-permissions-for-etc-cron.d-script etc/cron.d/epeverTracerCron 0755 != 0644
+</code></pre><p>По коду ошибки можно найти достаточно полное описание с вариантами исправления. Например, <a href="https://lintian.debian.org/tags/debian-changelog-has-wrong-day-of-week.html">debian-changelog-has-wrong-day-of-week</a> говорит о том, что в changelog файле у меня неправильный день недели. И это правда, потому что changelog был скопирован из другого проекта.</p>
+<p>После того, как сборка прошла успешно, можно собирать .changes файл. Для этого необходимо выполнить команду:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">debuild -S -sa
+</code></pre></div><p>Эта команда создаст несколько файлов директорией выше и подпишет их pgp ключом.</p>
+<h2 id="heading-2">Публикация</h2>
+<p>Теперь всё готово, чтобы публиковать файлы в launchpad. Для этого нужно перейти на директорию выше и вызывать команду:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dput ppa:rodionovamp/epever-tracer-influxdb epever-tracer-influxdb_1.0.0-3_source.changes
+</code></pre></div><p>Название PPA и файла .changes, конечно же, необходимо изменить на свои. Если всё прошло успешно, то launchpad пришлёт письмо:</p>
+<pre><code>[~rodionovamp/ubuntu/epever-tracer-influxdb/disco] epever-tracer-influxdb 1.0.2-5 (Accepted)
+</code></pre><p>Это значит, что исходники получены и готовы к сборке. Статус сборки можно посмотреть в PPA. После того, как собраны все пакеты для всех архитектур, они могут быть доступны для установки:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo add-apt-repository ppa:rodionovamp/epever-tracer-influxdb
+sudo apt-get update
+sudo apt-get install epever-tracer-influxdb
+</code></pre></div><h2 id="----">Что может пойти не так</h2>
+<p>Почти всё может пойти не так. Из-за того, что почти вся сборка основана на различных скриптах и негласных конвенциях, сломаться может любой из шагов выше. Я собрал очень много ошибок и потратил на их решение пару дней.</p>
+<pre><code>dpkg-source: info: building epever-tracer-influxdb using existing ./epever-tracer-influxdb_1.0.0.orig.tar.gz
+dpkg-source: error: cannot represent change to docs/screen1.png: binary file contents changed
+</code></pre><p>Почти всегда необходимо пересоздавать .orig.tar.gz после получения новых исходников из гита.</p>
+<pre><code>Rejected:
+File epever-tracer-influxdb_1.0.0.orig.tar.gz already exists in epever-tracer-influxdb, but uploaded version has different contents. See more information about this error in https://help.launchpad.net/Packaging/UploadErrors.
+</code></pre><p>Нельзя залить один и тот же архив с исходниками два раза. Даже если первый не собрался или в нём ошибка. При небольшом изменении исходников необходимо менять минорную версию и заново создавать архив.</p>
+<pre><code>Files specified in DSC are broken or missing, skipping package unpack verification.
+</code></pre><p>debuild почему-то при ошибке подписывания исходников не падает, а продолжает работу. Если такие исходники попытаться залить в launchpad, то возникают странные ошибки.</p>
+<pre><code>* State: Failed to build
+* Duration: 2 minutes
+* Build Log: ....
+</code></pre><p>То, что собралось на Mac OS необязательно соберётся на Ubuntu. Необходимо локально собирать проект и прогонять все тесты.</p>
+<h2 id="heading-3">Выводы</h2>
+<ul>
+<li>Очень много негласных конвенций и скриптов для сборки deb пакетов. Возможно, это связано с большим наследием самой системы. Возможно, это связано со сложностью поддержки такого большого количества пакетов в консистентном состоянии.</li>
+<li>Как следствие, нужно много читать или много тратить времени, чтобы исправить все ошибки деплоя</li>
+<li>Из плюсов, бесплатный хостинг вашего маленького приложения в публичном месте. Хотя я, конечно же, предпочёл что-нибудь посовременнее и проще.</li>
+</ul>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Тестирование REST клиентов</title>

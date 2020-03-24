@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2020-03-18T19:37:18+01:00</lastmod>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
   </url>
   
   <url>
@@ -18,12 +18,42 @@
   </url>
   
   <url>
-    <loc>https://dernasherbrezon.com/tags/api/</loc>
-    <lastmod>2020-03-18T19:37:18+01:00</lastmod>
+    <loc>https://dernasherbrezon.com/tags/apt/</loc>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/c/</loc>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/deb/</loc>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://dernasherbrezon.com/</loc>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/ubuntu/</loc>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/posts/publishing-to-launchpad/</loc>
+    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/api/</loc>
     <lastmod>2020-03-18T19:37:18+01:00</lastmod>
   </url>
   
@@ -39,11 +69,6 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/rest/</loc>
-    <lastmod>2020-03-18T19:37:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
     <lastmod>2020-03-18T19:37:18+01:00</lastmod>
   </url>
   
@@ -123,22 +148,12 @@
   </url>
   
   <url>
-    <loc>https://dernasherbrezon.com/tags/c/</loc>
-    <lastmod>2019-12-24T18:29:18+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://dernasherbrezon.com/tags/sonarcube/</loc>
     <lastmod>2019-12-24T18:29:18+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://dernasherbrezon.com/tags/travis-ci/</loc>
-    <lastmod>2019-12-24T18:29:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/ubuntu/</loc>
     <lastmod>2019-12-24T18:29:18+01:00</lastmod>
   </url>
   
@@ -488,11 +503,6 @@
   </url>
   
   <url>
-    <loc>https://dernasherbrezon.com/tags/apt/</loc>
-    <lastmod>2018-06-07T10:07:18+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://dernasherbrezon.com/tags/openstack/</loc>
     <lastmod>2018-06-07T10:07:18+01:00</lastmod>
   </url>
@@ -515,11 +525,6 @@
   <url>
     <loc>https://dernasherbrezon.com/posts/dsp-java/</loc>
     <lastmod>2018-03-08T17:22:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/deb/</loc>
-    <lastmod>2017-11-04T13:51:18+01:00</lastmod>
   </url>
   
   <url>

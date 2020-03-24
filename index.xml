@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 18 Mar 2020 19:37:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 24 Mar 2020 18:40:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,16 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Создание и публикация приложения в Launchpad</title>
+      <link>https://dernasherbrezon.com/posts/publishing-to-launchpad/</link>
+      <pubDate>Tue, 24 Mar 2020 18:40:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/publishing-to-launchpad/</guid>
+      <description>Последнюю неделю я активно стал разрабатывать небольшое приложение epever-tracer-influxdb. Оно позволяет читать параметры солнечного контроллера и отправлять данные в InfluxDB. Само приложение написано на C и предполагается, что оно будет работать на Raspberry PI. После того, как я написал это приложение передо мной в очередной раз встала задача дистрибуции. Самый простой способ - попытаться добавить его в основной репозиторий Debian. Но тут есть несколько проблем:
+ непонятно в какой момент пакет окажется в основном репозитории.</description>
     </item>
     
     <item>
