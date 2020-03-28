@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>orekit on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/orekit/</link>
+    <description>Recent content in orekit on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 28 Mar 2020 10:05:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/orekit/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Работа с Orekit</title>
+      <link>https://dernasherbrezon.com/posts/orekit/</link>
+      <pubDate>Sat, 28 Mar 2020 10:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/orekit/</guid>
+      <description>Совсем недавно я обнаружил программу LicenseFinder. Она позволяет сканировать проект и найти все лицензии, которые используются в зависимостях. Это очень удобно, так как не все лицензии совместимы между собой. Я решил проверить свои open source проекты и обнаружил нестыковку лицензий для r2cloud. У меня использовалась библиотека predict4java с лицензией GPL-v2, а у моего проекта лицензия Apache 2.0. Такая зависимость фактически означает, что мой проект тоже должен распространяться под лицензией GPL-v2. И этого мне совсем не хотелось.</description>
+    </item>
+    
+  </channel>
+</rss>
