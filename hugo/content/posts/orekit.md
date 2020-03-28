@@ -2,7 +2,7 @@
 title: "Работа с Orekit"
 date: 2020-03-28T10:05:18+01:00
 draft: false
-cover: /img/bash-pipe-in-java/1.png
+cover: /img/orekit/1.png
 tags:
   - java
   - orekit
