@@ -122,13 +122,13 @@ public Action eventOccurred(SpacecraftState s, ElevationDetector detector, boole
 Ещё одна вещь, которая необходима в r2cloud - это рассчёт смещение допплера для сигнала со спутника. Для этого необходимо рассчитать скорость сближения станции и спутника.
 
 ```java
-tlePropagator.setEphemerisMode();
-SpacecraftState currentState = tlePropagator.propagate(new AbsoluteDate(new Date(utcTimeMillis), TimeScalesFactory.getUTC()));
-final double rangeRate = currentLocation.getRangeRate(currentState.getPVCoordinates(), currentState.getFrame(), currentState.getDate());
+AbsoluteDate date = new AbsoluteDate(new Date(utcTimeMillis), TimeScalesFactory.getUTC());
+PVCoordinates currentState = tlePropagator.getPVCoordinates(date);
+final double rangeRate = currentLocation.getRangeRate(currentState, tlePropagator.getFrame(), date);
 return (long) ((double) freq * (SPEED_OF_LIGHT - rangeRate) / SPEED_OF_LIGHT);
 ```
 
-Здесь я выставляю режим ephemeris и для переданного времени ```utcTimeMillis``` высчитываю текущую позицию спутника. Далее нахожу скорость сближения двух тел. После того, как найдена скорость сближения, можно рассчитать частоту.
+Здесь, для переданного времени ```utcTimeMillis``` я высчитываю текущую позицию спутника. Далее нахожу скорость сближения двух тел. После того, как найдена скорость сближения, можно рассчитать частоту.
 
 ## Вывод
 
