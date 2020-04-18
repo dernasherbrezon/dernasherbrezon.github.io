@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
     <description>Recent content in спутники on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 28 Mar 2020 10:05:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 18 Apr 2020 09:33:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Геокодирование спутниковых снимков: Введение</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-satellite-images/</link>
+      <pubDate>Sat, 18 Apr 2020 09:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-satellite-images/</guid>
+      <description>Начало Пару лет назад я научился получать изображение со спутника Метеор-М2. Тогда я подробно прошёлся по всей модели OSI, начиная с физического уровня rtl-sdr и заканчивая транспортным LRPT. Все наработки я интегрировал в r2cloud, и с тех пор у меня в автоматическом режиме сохраняются все изображения.
+Однако, меня не покидало ощущение некоторой незавершённости задачи. Изображения-то я получал, но что делать с ними дальше совершенно не знал. Вернее, конечно же, знал: как и любой другой метеорологический снимок, он нужен для того, чтобы предсказывать погоду.</description>
+    </item>
     
     <item>
       <title>Работа с Orekit</title>
