@@ -7,10 +7,177 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 18 Apr 2020 09:33:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 18 Apr 2020 18:15:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Геокодирование спутниковых снимков: опорные точки</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-gcp/</link>
+      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-gcp/</guid>
+      <description>Начало В прошлом посте я описал основные шаги, необходимые для геокодирования изображения. Здесь же, я хочу более подробно описать алгоритм получения опорных точек. Опорная точка - это отображение координат пиксела (X,Y) на географические координаты (широта, долгота).
+Зная список опорных точек, можно растянуть изображение по ширине и высоте так, чтобы оно совпало с картой. Их, например, можно задать вручную в любой ГИС. Обычно выбирают береговые линии с характерными полуостровами:
+Мне же такой способ не подходит, так как я хочу делать это в автоматическом режиме.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Геокодирование спутниковых снимков: опорные точки</h1></header>
+      		<div class='container entry-content'>
+  <h2 id="heading">Начало</h2>
+<p>В <a href="https://dernasherbrezon.com/posts/georeferencing-satellite-images/">прошлом посте</a> я описал основные шаги, необходимые для геокодирования изображения. Здесь же, я хочу более подробно описать алгоритм получения опорных точек. Опорная точка - это отображение координат пиксела (X,Y) на географические координаты (широта, долгота).</p>
+<p>Зная список опорных точек, можно растянуть изображение по ширине и высоте так, чтобы оно совпало с картой. Их, например, можно задать вручную в любой ГИС. Обычно выбирают береговые линии с характерными полуостровами:</p>
+<p><img src="/img/georeferencing-gcp/0.png" alt=""></p>
+<p>Мне же такой способ не подходит, так как я хочу делать это в автоматическом режиме. Это более сложный способ, так как требуется смоделировать поведение спутника в каждый момент времени. А для этого нужно вычислить:</p>
+<ul>
+<li>положение спутника</li>
+<li>положение камеры относительно спутника</li>
+<li>параметры камеры (фокусное расстояние, пространственное разрешение и пр)</li>
+</ul>
+<p>Далее я постараюсь рассчитать каждый из этих параметров и посчитать на их основе опорные точки.</p>
+<h2 id="-">Положение спутника</h2>
+<p>Положение спутника можно получить двумя способами:</p>
+<ol>
+<li>На основе телеметрии, которую передаёт сам спутник</li>
+<li>На основе SGP4 модели</li>
+</ol>
+<p>Несмотря на то, что первый способ более точный, Метеор-М2 не передаёт эту информацию. Но это не беда. Можно рассчитать чуть менее точное положение на основе модели <a href="https://en.wikipedia.org/wiki/Simplified_perturbations_models">SGP4</a>. Для этого нужно знать:</p>
+<ul>
+<li>TLE</li>
+<li>текущее время</li>
+</ul>
+<h4 id="tle">TLE</h4>
+<p><a href="https://ru.wikipedia.org/wiki/TLE">TLE</a> - это двухстрочный формат данных, представляющий собой набор элементов орбиты для спутника Земли. Взять актуальные параметры можно с сайта <a href="https://www.celestrak.com/NORAD/elements/weather.txt">www.celestrak.com</a>. Например, в данный момент TLE для Метеор-М2 такие:</p>
+<pre><code>METEOR-M 2              
+1 40069U 14037A   20109.60817406 -.00000042  00000-0 -58409-8 0  9990
+2 40069  98.5096 149.3859 0006903  94.0019 266.1946 14.20671606299713
+</code></pre><h4 id="--1">Текущее время</h4>
+<p>Время - очень важный параметр, который нужно знать для каждой строчки изображения. Его можно получить двумя способами:</p>
+<ol>
+<li>На основе информации со спутника</li>
+<li>Рассчитать на станции приёма</li>
+</ol>
+<p>К счастью, Метеор-М2 передаёт время формирования изображения в каждом пакете. В протоколе LRPT для этого существует вторичный заголовок, в котором может содержаться актуальное время:</p>
+<p><img src="/img/georeferencing-gcp/2.png" alt=""></p>
+<p>Метеор-М2 передаёт в поле &ldquo;мс суток&rdquo; количество миллисекунд, прошедших с начала дня по московскому времени.</p>
+<h4 id="--2">Расчёт положения</h4>
+<p>На основе этих данных можно посчитать положение спутника. Для этого я использую библиотеку <a href="https://www.orekit.org">orekit</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String line1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1 40069U 14037A   20109.60817406 -.00000042  00000-0 -58409-8 0  9990&#34;</span><span style="color:#f92672">;</span>
+String line2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2 40069  98.5096 149.3859 0006903  94.0019 266.1946 14.20671606299713&#34;</span><span style="color:#f92672">;</span>
+TLEPropagator tlePropagator <span style="color:#f92672">=</span> TLEPropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">selectExtrapolator</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TLE<span style="color:#f92672">(</span>line1<span style="color:#f92672">,</span> line2<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+AbsoluteDate date <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AbsoluteDate<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2020-04-11T05:36:00.899994&#34;</span><span style="color:#f92672">,</span> TimeScalesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getUTC</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+PVCoordinates pv <span style="color:#f92672">=</span> tlePropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">getPVCoordinates</span><span style="color:#f92672">(</span>date<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>Здесь для примера я взял расчёт положения для времени <code>2020-04-11 05:36</code>. Таким же образом можно найти положение для любой даты. Единственное, что нужно учитывать - это устаревание TLE. Посчитать траекторию спутника на длительном отрезке времени достаточно сложно и ресурсоёмко. Именно поэтому авторы SGP4 выбрали простые расчёты и периодическую коррекцию на основе визуальных наблюдений.</p>
+<p>Если рассчитать положение спутника с 2020-04-11 05:36 по 2020-04-11 05:46 и наложить полученные координаты на Яндекс карты, то получится вот такая симпатичная картинка:</p>
+<p><img src="/img/georeferencing-gcp/3.png" alt=""></p>
+<p>К слову, использование Яндекс карт оказалось очень удобным способом отладки.</p>
+<h2 id="---">Положение камеры относительно спутника</h2>
+<p>Следующим шагом необходимо понять направление камеры. Для этого необходимо вычислить <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%B2%D0%B0%D1%82%D0%B5%D1%80%D0%BD%D0%B8%D0%BE%D0%BD%D1%8B_%D0%B8_%D0%B2%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%B0">кватернионы</a> самого спутника. Согласно документации, камера спутника смотрит точно в надир. То есть, спутник равномерно вращается вокруг своей оси и при этом угол напрямую зависит от положения относительно Земли. Всё это можно смоделировать с помощью orekit:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String line1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1 40069U 14037A   20109.60817406 -.00000042  00000-0 -58409-8 0  9990&#34;</span><span style="color:#f92672">;</span>
+String line2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2 40069  98.5096 149.3859 0006903  94.0019 266.1946 14.20671606299713&#34;</span><span style="color:#f92672">;</span>
+TLEPropagator tlePropagator <span style="color:#f92672">=</span> TLEPropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">selectExtrapolator</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TLE<span style="color:#f92672">(</span>line1<span style="color:#f92672">,</span> line2<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+Frame eme2000 <span style="color:#f92672">=</span> FramesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getEME2000</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+Frame earthFrame <span style="color:#f92672">=</span> FramesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getITRF</span><span style="color:#f92672">(</span>IERSConventions<span style="color:#f92672">.</span><span style="color:#a6e22e">IERS_2010</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+OneAxisEllipsoid earth <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> OneAxisEllipsoid<span style="color:#f92672">(</span>Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84_EARTH_EQUATORIAL_RADIUS</span><span style="color:#f92672">,</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84_EARTH_FLATTENING</span><span style="color:#f92672">,</span> earthFrame<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+BodyCenterPointing earthCenterAttitudeLaw <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BodyCenterPointing<span style="color:#f92672">(</span>eme2000<span style="color:#f92672">,</span> earth<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+AbsoluteDate date <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AbsoluteDate<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2020-04-11T05:36:00.899994&#34;</span><span style="color:#f92672">,</span> TimeScalesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getUTC</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+Attitude attitude  <span style="color:#f92672">=</span> earthCenterAttitudeLaw<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttitude</span><span style="color:#f92672">(</span>tlePropagator<span style="color:#f92672">,</span> date<span style="color:#f92672">,</span> eme2000<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>Основная идея заключается в том, чтобы определить угол между базисными векторами спутника и вектором, соединяющим центр спутника и центр Земли. Конечно, для более точного позиционирования нужно использовать гравитационный центр Земли. А для этого использовать гравитационные карты Земли. К счастью, в случае Метеор-М2 и камеры MСУ-МР, такой точности не требуется.</p>
+<h2 id="--3">Параметры камеры</h2>
+<p>Самый сложный шаг заключается в моделировании камеры МСУ-МР. Дело в том, что в интернете почти нет её параметров. Я почти разуверился в том, что это вообще возможно найти, однако мне удалось раскопать научную статью &ldquo;<a href="http://jurnal.vniiem.ru/text/154/32-42.pdf">МЕТОДИКИ ОПРЕДЕЛЕНИЯ ВЕЛИЧИНЫ ПРОЕКЦИИ ПИКСЕЛЯ СЪЁМОЧНЫХ СИСТЕМ МСУ-МР И КМСС НА МЕСТНОСТЬ</a>&quot;. В ней вскользь упоминаются параметры:</p>
+<ul>
+<li>количество точек N=1568</li>
+<li>общий угол обзора Θ = 110,5°</li>
+<li>фокусное расстояние. Зависит от типа канала:
+<ul>
+<li>f=150мм,w=0,2 мм для каналов 1,2</li>
+<li>f=150мм,w=0,18мм для канала 3</li>
+<li>f=40мм, w=0,05мм для каналов 4,6</li>
+</ul>
+</li>
+</ul>
+<p>Схематично геометрия съёмки выглядит следующим образом:</p>
+<p><img src="/img/georeferencing-gcp/4.jpg" alt=""></p>
+<p>Для модели расчёта опорных точек мне нужно рассчитать вектора исходящие из камеры и направленные на поверхность. Если принять угол Θn = Θ * n / N, то вектора можно рассчитать следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">double</span> width <span style="color:#f92672">=</span> 1568<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">double</span> delta <span style="color:#f92672">=</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>110<span style="color:#f92672">.</span><span style="color:#a6e22e">5</span><span style="color:#f92672">)</span> <span style="color:#f92672">/</span> width<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> width<span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    SinCos sc <span style="color:#f92672">=</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">sinCos</span><span style="color:#f92672">(</span><span style="color:#f92672">(</span>i <span style="color:#f92672">-</span> width <span style="color:#f92672">/</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">*</span> delta<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    Vector3D curVector <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Vector3D<span style="color:#f92672">(</span>0<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> sc<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">,</span> sc<span style="color:#f92672">.</span><span style="color:#a6e22e">cos</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="--">Построение опорных точек</h2>
+<p>На основе полученных параметров можно рассчитать опорные точки. Для этого надо вспомнить школьный курс неевклидовой геометрии и рассчитать проекции на сферу. Или можно взять готовую библиотеку <a href="https://www.orekit.org/rugged/">Rugged</a>. В ней описана достаточно сложная модель получения опорных точек. Она учитывает скорость света и относительную скорость спутника относительно Земли, модель рефракции атмосферы. Также можно, например, загрузить карту высот и получить более точные координаты.</p>
+<p><img src="/img/georeferencing-gcp/7.png" alt=""></p>
+<p>Для МСУ-МР такая точность не нужна, но это может быть полезно для других типов камер и спутников.</p>
+<p>Центральным классом модели является <code>Rugged</code>. Его можно создать следующим способом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder<span style="color:#f92672">(</span>rawDirs<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		
+MeteorLineDatation lineDatation <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MeteorLineDatation<span style="color:#f92672">(</span>image<span style="color:#f92672">,</span> startOfTheDay<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+LineSensor lineSensor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LineSensor<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;MSU_MR&#34;</span><span style="color:#f92672">,</span> lineDatation<span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">ZERO</span><span style="color:#f92672">,</span> lineOfSight<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+Rugged rugged <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RuggedBuilder<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span>
+	<span style="color:#75715e">// do not use Digital Elevation Model
+</span><span style="color:#75715e"></span>	setAlgorithm<span style="color:#f92672">(</span>AlgorithmId<span style="color:#f92672">.</span><span style="color:#a6e22e">IGNORE_DEM_USE_ELLIPSOID</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span> 
+	setEllipsoid<span style="color:#f92672">(</span>EllipsoidId<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84</span><span style="color:#f92672">,</span> BodyRotatingFrameId<span style="color:#f92672">.</span><span style="color:#a6e22e">ITRF</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span>
+	<span style="color:#75715e">// calculate 10 minute pass
+</span><span style="color:#75715e"></span>	setTimeSpan<span style="color:#f92672">(</span>absDate<span style="color:#f92672">,</span> absDate<span style="color:#f92672">.</span><span style="color:#a6e22e">shiftedBy</span><span style="color:#f92672">(</span>60 <span style="color:#f92672">*</span> 10<span style="color:#f92672">)</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">01</span><span style="color:#f92672">,</span> 8 <span style="color:#f92672">/</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getRate</span><span style="color:#f92672">(</span>0<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span> 
+	setTrajectory<span style="color:#f92672">(</span>InertialFrameId<span style="color:#f92672">.</span><span style="color:#a6e22e">EME2000</span><span style="color:#f92672">,</span>
+	              satellitePVList<span style="color:#f92672">,</span> 4<span style="color:#f92672">,</span> CartesianDerivativesFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">USE_PV</span><span style="color:#f92672">,</span>
+	              satelliteQList<span style="color:#f92672">,</span>  4<span style="color:#f92672">,</span>  AngularDerivativesFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">USE_R</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span>
+	addLineSensor<span style="color:#f92672">(</span>lineSensor<span style="color:#f92672">)</span><span style="color:#f92672">.</span>
+	build<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>Алгоритм следующий:</p>
+<ul>
+<li>создаётся <code>lineOfSight</code> на основе параметров камеры</li>
+<li>создаётся модель сенсора на основе <code>lineOfSight</code> и, так называемого,  <code>LineDatation</code>. Это объект, который позволяет на основе индекса строки получить дату и наоборот</li>
+<li>для рассчёта координат точек:
+<ul>
+<li>используется проекция WGS84. Об этом будет чуть подробнее в следующей статье</li>
+<li>траектория спутника <code>satellitePVList</code></li>
+<li>кватернионы спутника <code>satelliteQList</code></li>
+</ul>
+</li>
+</ul>
+<p>Как только объект создан, можно вычислить опорные точки:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> lineIndex <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">int</span> pixelIndex <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+<span style="color:#75715e">// position of sensor within spacecraft frame
+</span><span style="color:#75715e"></span>Vector3D position <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getPosition</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+AbsoluteDate date <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getDate</span><span style="color:#f92672">(</span>lineIndex<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#75715e">// get line-of-sight
+</span><span style="color:#75715e"></span>Vector3D los <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getLOS</span><span style="color:#f92672">(</span>date<span style="color:#f92672">,</span> pixelIndex<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#75715e">// calculate GCP
+</span><span style="color:#75715e"></span>GeodeticPoint gcp <span style="color:#f92672">=</span> rugged<span style="color:#f92672">.</span><span style="color:#a6e22e">directLocation</span><span style="color:#f92672">(</span>date<span style="color:#f92672">,</span> position<span style="color:#f92672">,</span> los<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><h2 id="heading-1">Результат</h2>
+<p>Для того, чтобы проверить корректность модели, можно рассчитать опорные точки для каждого пиксела и нанести на карту. Например, неправильно рассчитанные квартернионы дают следующую картинку:</p>
+<p><img src="/img/georeferencing-gcp/5.png" alt=""></p>
+<p>Судя по изображению, камера спутника сначала смотрит точно в надир, а потом начинает отклоняться вверх и влево.</p>
+<p>Если все параметры заданы верно, то опорные точки должны выглядеть так:</p>
+<p><img src="/img/georeferencing-gcp/6.png" alt=""></p>
+<p>Здесь видно, что:</p>
+<ol>
+<li>Спутник летит под небольшим углом с севера на юг</li>
+<li>Расстояния между линиями увеличиваются с юга на север из-за проекции меркатора</li>
+<li>Расстояния между пикселами увеличиваются из центра к краям из-за широкоугольной камеры спутника</li>
+</ol>
+<p>После того, как получены опорные точки и они выглядят правдоподобно, можно переходить к следующему шагу: создание GeoTiff файла.</p>
+<hr/>
+<p>Геокодирование спутниковых снимков:</p>
+<ol>
+<li><a href="https://dernasherbrezon.com/posts/georeferencing-satellite-images/">Введение</a></li>
+<li>Опорные точки</li>
+</ol>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Геокодирование спутниковых снимков: Введение</title>
@@ -74,7 +241,7 @@
 <li>уровень 1А. Реконструированные данные с временными метками и вспомогательной информацией. Посчитанной, но не применённой к изображению.</li>
 <li>уровень 1B. Данные уровня 1А, но вспомогательная информация откалибрована на основе параметров сенсора.</li>
 <li>уровень 2. Геокодированные данные.</li>
-<li>уровень 3. Спроекцированные и геокодированные данные с учётом всех исправлений и коррекций.</li>
+<li>уровень 3. Спроецированные и геокодированные данные с учётом всех исправлений и коррекций.</li>
 <li>уровень 4. Обработанные данные с учётом разных моделей. Например, <a href="https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index">NDVI</a>.</li>
 </ul>
 <p>Исходя из такого описания, я хочу формировать данные уровня 1B или уровня 2. Уровени 3 и 4 требуют глубоких знаний приборов и различных метеорологических моделей. Я пока не готов погружаться на такую глубину.</p>
@@ -90,10 +257,16 @@
 <li>непосредственно изображение с временными метками</li>
 <li>параметры камеры. Такие как фокусное расстояние, пространственное разрешение и пр.</li>
 </ul>
-<p>На втором этапе создаётся список контрольных точек. Каждая точка - это отображение пиксела в соответствующую широту и долготу.</p>
+<p>На втором этапе создаётся список опорных точек. Каждая точка - это отображение пиксела в соответствующую широту и долготу.</p>
 <p>На третьем этапе формируется файл в формате GeoTiff. Это специальный формат, который позволяет хранить изображение и привязанные к нему контрольные точки.</p>
 <p>На четвёртом этапе можно загрузить файл в любую ГИС и проверить результат. Либо нарезать GeoTiff на тайлы и наложить на карту.</p>
 <p>Я постараюсь описать каждый из этих шагов в последующих статьях по-подробнее. А в самом конце будет результат работы.</p>
+<hr/>
+<p>Геокодирование спутниковых снимков:</p>
+<ol>
+<li>Введение</li>
+<li><a href="https://dernasherbrezon.com/posts/georeferencing-gcp/">Опорные точки</a></li>
+</ol>
 
 </div>
 
