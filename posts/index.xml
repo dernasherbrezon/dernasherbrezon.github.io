@@ -70,8 +70,8 @@ TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<spa
 </code></pre></div><p>Эта команда создаст в папке <code>tiles</code> необходимые тайлы с уровнями детализации 3,4,5,6. Более детальные тайлы не имеет смысла создавать, так как разрешение МСУ-МР километр на пиксель.</p>
 <p>После того, как созданы тайлы, их можно загружать на карту (да, снизу карта и её можно двигать и зумить):</p>
 <!-- Leaflet -->
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+<script src="https://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 <div id="map" style="height: 480px;"></div>
 <script>
 
