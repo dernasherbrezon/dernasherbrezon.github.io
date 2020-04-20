@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.025em'>REST</a>
+        <a href='/tags/rest/' style='font-size:1.025em'>rest</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.025em'>rrd</a>
       </li><li>
@@ -383,8 +383,12 @@ TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<spa
 </code></pre></div><p>Эта команда создаст в папке <code>tiles</code> необходимые тайлы с уровнями детализации 3,4,5,6. Более детальные тайлы не имеет смысла создавать, так как разрешение МСУ-МР километр на пиксель.</p>
 <p>После того, как созданы тайлы, их можно загружать на карту (да, снизу карта и её можно двигать и зумить):</p>
 <!-- Leaflet -->
-<link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
-<script src="https://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
 <div id="map" style="height: 480px;"></div>
 <script>
 

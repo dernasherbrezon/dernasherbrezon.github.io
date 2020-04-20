@@ -85,8 +85,12 @@ python3 gdal2tiles.py --profile=mercator -z 3-6 output.tif tiles
 После того, как созданы тайлы, их можно загружать на карту (да, снизу карта и её можно двигать и зумить):
 
 <!-- Leaflet -->
-<link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
-<script src="https://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
 
 <div id="map" style="height: 480px;"></div>
 
