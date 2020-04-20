@@ -7,10 +7,100 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 18 Apr 2020 18:15:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 19 Apr 2020 18:09:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Геокодирование спутниковых снимков: GeoTIFF</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-geotiff/</link>
+      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-geotiff/</guid>
+      <description>Начало Итак, в прошлом посте я описал основные шаги, необходимые для получения списка опорных точек. Следующим шагом будет создание файла в формате GeoTIFF. Это подмножество формата tiff, в котором хранится дополнительная геоинформация. Почти все современные ГИС поддерживают этот формат, поэтому в нём распространяются как карты Google Earth, так и панорамы съёмки квадрокоптерами.
+GDAL Для работы с GeoTIFF форматом существует множество библиотек. Наиболее популярная и открытая - GDAL. Она позволяет создавать и редактировать GeoTIFF, выполнять преобразование из одной проекции в другую, создавать тайлы.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Геокодирование спутниковых снимков: GeoTIFF</h1></header>
+      		<div class='container entry-content'>
+  <h2 id="heading">Начало</h2>
+<p>Итак, в <a href="https://dernasherbrezon.com/posts/georeferencing-gcp/">прошлом посте</a> я описал основные шаги, необходимые для получения списка опорных точек. Следующим шагом будет создание файла в формате <a href="https://en.wikipedia.org/wiki/GeoTIFF">GeoTIFF</a>. Это подмножество формата tiff, в котором хранится дополнительная геоинформация. Почти все современные ГИС поддерживают этот формат, поэтому в нём распространяются как карты <a href="https://developers.google.com/earth-engine/exporting">Google Earth</a>, так и панорамы съёмки <a href="https://support.dronedeploy.com/docs/data-export-formats">квадрокоптерами</a>.</p>
+<p><img src="/img/georeferencing-geotiff/1.png" alt=""></p>
+<h2 id="gdal">GDAL</h2>
+<p>Для работы с GeoTIFF форматом существует множество библиотек. Наиболее популярная и открытая - <a href="https://gdal.org">GDAL</a>. Она позволяет создавать и редактировать GeoTIFF, выполнять преобразование из одной проекции в другую, создавать тайлы. Несмотря на то, что есть <a href="https://www.geotools.org">java альтернативы</a>, я решил использовать именно GDAL. Прежде всего из-за лицензии и большого сообщества.</p>
+<p>Итак, для того, чтобы создать GeoTIFF, нужно использовать команду <code>gdal_translate</code>:</p>
+<pre><code>gdal_translate -gcp pixel1 line1 X1 Y1 -gcp pixel2 line2 X2 Y2 ... source.tif sourceGCP.tif
+</code></pre><p>С это командой есть несколько проблем:</p>
+<ul>
+<li>она создаёт промежуточный GeoTIFF файл. Для того, чтобы наложить изображение на карту, его необходимо преобразовать в формат EPSG:3857. Хотелось бы сразу генерировать файл в нужной проекции.</li>
+<li>задавать опорные точки через командную строку не очень удобно. Особенно есть их очень много.</li>
+</ul>
+<p>К счастью, в GDAL есть мета-формат для описания виртуальный датасетов - <a href="https://gdal.org/drivers/raster/vrt.html">VRT</a>. Он позволяет описывать опорные точки и соответствующее им оригинальное изображение.</p>
+<h2 id="vrt">VRT</h2>
+<p>vrt файл - это обычный xml файл. Для него даже есть <a href="https://raw.githubusercontent.com/OSGeo/gdal/master/gdal/data/gdalvrt.xsd">xml схема</a>, чтобы проверить корректность. Для своих нужд я создал следующий файл:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;VRTDataset</span> <span style="color:#a6e22e">rasterXSize=</span><span style="color:#e6db74">&#34;1568&#34;</span> <span style="color:#a6e22e">rasterYSize=</span><span style="color:#e6db74">&#34;480&#34;</span><span style="color:#f92672">&gt;</span>
+	<span style="color:#f92672">&lt;GCPList</span> <span style="color:#a6e22e">Projection=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;GCP</span> <span style="color:#a6e22e">Id=</span><span style="color:#e6db74">&#34;0&#34;</span> <span style="color:#a6e22e">Pixel=</span><span style="color:#e6db74">&#34;1568.5&#34;</span> <span style="color:#a6e22e">Line=</span><span style="color:#e6db74">&#34;0.5&#34;</span> <span style="color:#a6e22e">X=</span><span style="color:#e6db74">&#34;64.87017562215375&#34;</span> <span style="color:#a6e22e">Y=</span><span style="color:#e6db74">&#34;41.05354188002164&#34;</span> <span style="color:#a6e22e">Z=</span><span style="color:#e6db74">&#34;0.0&#34;</span> <span style="color:#f92672">/&gt;</span>
+		<span style="color:#f92672">&lt;GCP</span> <span style="color:#a6e22e">Id=</span><span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#a6e22e">Pixel=</span><span style="color:#e6db74">&#34;1536.5&#34;</span> <span style="color:#a6e22e">Line=</span><span style="color:#e6db74">&#34;0.5&#34;</span> <span style="color:#a6e22e">X=</span><span style="color:#e6db74">&#34;62.466422534484025&#34;</span> <span style="color:#a6e22e">Y=</span><span style="color:#e6db74">&#34;41.906597006909756&#34;</span> <span style="color:#a6e22e">Z=</span><span style="color:#e6db74">&#34;0.0&#34;</span> <span style="color:#f92672">/&gt;</span>
+		...
+	<span style="color:#f92672">&lt;/GCPList&gt;</span>
+	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel1<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
+			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>1<span style="color:#f92672">&lt;/SourceBand&gt;</span>
+		<span style="color:#f92672">&lt;/SimpleSource&gt;</span>
+	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
+	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel2<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
+			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>2<span style="color:#f92672">&lt;/SourceBand&gt;</span>
+		<span style="color:#f92672">&lt;/SimpleSource&gt;</span>
+	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
+	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel3<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
+			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>3<span style="color:#f92672">&lt;/SourceBand&gt;</span>
+		<span style="color:#f92672">&lt;/SimpleSource&gt;</span>
+	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
+<span style="color:#f92672">&lt;/VRTDataset&gt;</span>
+</code></pre></div><p>В этом файле следует обратить внимание на несколько вещей:</p>
+<ul>
+<li>Список опорных точек создан для модели земли WGS84 (EPSG:4326)</li>
+<li><code>output.png</code> - оригинальное изображение.</li>
+<li>Для каждого канала изображения есть описание. Например, <code>&lt;Description&gt;channel2&lt;/Description&gt;</code> - данные спектрального диапазона 0.7-1.1 мкм.</li>
+</ul>
+<h2 id="gdalwarp">gdalwarp</h2>
+<p>После того, как vrt файл создан, можно создавать GeoTIFF в нужной проекции:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gdalwarp -tps -overwrite -t_srs epsg:3857 -of GTIFF output.vrt output.tif
+</code></pre></div><p>Где:</p>
+<ul>
+<li>tps (thin plate spline) - метод интерполяции точек. Без него gdalwarp не сможет правильно обработать опорные точки</li>
+<li>epsg:3857 - проекция <a href="https://en.wikipedia.org/wiki/Web_Mercator_projection">web mercator</a>. Эту проекцию используют все вэб карты: google карты, open street map, yandex карты</li>
+<li>GTIFF - формат выходного файла.</li>
+</ul>
+<p>В результате оригинальное изображение:</p>
+<p><img src="/img/georeferencing-satellite-images/1.png" alt=""></p>
+<p>Будет преоразовано в следующее:</p>
+<p><img src="/img/georeferencing-geotiff/0.png" alt=""></p>
+<p>Как видно, оно было немного повёрнуто и растянуто по краям. На первый взгляд выглядит как раз то, что и нужно было сделать. Но как же убедиться, что всё правильно? Всё правильно, надо наложить его на настоящую карту. Об этом и пойдёт речь в следующей статье.</p>
+<hr/>
+<p>Геокодирование спутниковых снимков:</p>
+<ol>
+<li><a href="https://dernasherbrezon.com/posts/georeferencing-satellite-images/">Введение</a></li>
+<li><a href="https://dernasherbrezon.com/posts/georeferencing-gcp/">Опорные точки</a></li>
+<li>GeoTIFF</li>
+</ol>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Геокодирование спутниковых снимков: опорные точки</title>
@@ -171,6 +261,7 @@ AbsoluteDate date <span style="color:#f92672">=</span> lineSensor<span style="co
 <ol>
 <li><a href="https://dernasherbrezon.com/posts/georeferencing-satellite-images/">Введение</a></li>
 <li>Опорные точки</li>
+<li><a href="https://dernasherbrezon.com/posts/georeferencing-geotiff/">GeoTIFF</a></li>
 </ol>
 
 </div>
@@ -266,6 +357,7 @@ AbsoluteDate date <span style="color:#f92672">=</span> lineSensor<span style="co
 <ol>
 <li>Введение</li>
 <li><a href="https://dernasherbrezon.com/posts/georeferencing-gcp/">Опорные точки</a></li>
+<li><a href="https://dernasherbrezon.com/posts/georeferencing-geotiff/">GeoTIFF</a></li>
 </ol>
 
 </div>

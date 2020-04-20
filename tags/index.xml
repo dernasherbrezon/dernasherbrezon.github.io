@@ -5,24 +5,24 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 18 Apr 2020 18:15:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 19 Apr 2020 18:09:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>java</title>
-      <link>https://dernasherbrezon.com/tags/java/</link>
-      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
+      <title>gdal</title>
+      <link>https://dernasherbrezon.com/tags/gdal/</link>
+      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.com/tags/java/</guid>
+      <guid>https://dernasherbrezon.com/tags/gdal/</guid>
       <description></description>
     </item>
     
     <item>
       <title>lrpt</title>
       <link>https://dernasherbrezon.com/tags/lrpt/</link>
-      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
+      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/lrpt/</guid>
       <description></description>
@@ -31,9 +31,27 @@
     <item>
       <title>meteor-m</title>
       <link>https://dernasherbrezon.com/tags/meteor-m/</link>
-      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
+      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/meteor-m/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>спутники</title>
+      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
+      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>java</title>
+      <link>https://dernasherbrezon.com/tags/java/</link>
+      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/java/</guid>
       <description></description>
     </item>
     
@@ -52,15 +70,6 @@
       <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/satellite/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>спутники</title>
-      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
-      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
       <description></description>
     </item>
     

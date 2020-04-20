@@ -111,3 +111,4 @@ tags:
 
   1. Введение
   2. [Опорные точки]({{< ref "/georeferencing-gcp" >}})
+  3. [GeoTIFF]({{< ref "/georeferencing-geotiff" >}})
