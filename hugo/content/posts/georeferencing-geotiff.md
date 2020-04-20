@@ -5,9 +5,9 @@ cover: /img/georeferencing-geotiff/0.png
 draft: false
 tags:
   - gdal
-  - lrpt
-  - meteor-m
-  - спутники
+  - GeoTIFF
+  - ДЗЗ
+  - georeferencing
 ---
 ## Начало
 
@@ -104,4 +104,5 @@ gdalwarp -tps -overwrite -t_srs epsg:3857 -of GTIFF output.vrt output.tif
   1. [Введение]({{< ref "/georeferencing-satellite-images" >}})
   2. [Опорные точки]({{< ref "/georeferencing-gcp" >}})
   3. GeoTIFF
+  4. [Тайлы]({{< ref "georeferencing-tiles" >}})
 

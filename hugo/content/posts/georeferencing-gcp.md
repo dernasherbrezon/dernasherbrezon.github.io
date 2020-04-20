@@ -10,6 +10,8 @@ tags:
   - спутники
   - orekit
   - java
+  - ДЗЗ
+  - georeferencing
 ---
 ## Начало
 
@@ -208,4 +210,5 @@ GeodeticPoint gcp = rugged.directLocation(date, position, los);
   1. [Введение]({{< ref "/georeferencing-satellite-images" >}})
   2. Опорные точки
   3. [GeoTIFF]({{< ref "/georeferencing-geotiff" >}})
+  4. [Тайлы]({{< ref "georeferencing-tiles" >}})
 

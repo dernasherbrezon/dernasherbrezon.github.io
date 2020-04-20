@@ -5,9 +5,10 @@ cover: /img/georeferencing-satellite-images/1.png
 draft: false
 tags:
   - satellite
-  - lrpt
   - meteor-m
   - спутники
+  - ДЗЗ
+  - georeferencing
 ---
 ## Начало
 
@@ -112,3 +113,4 @@ tags:
   1. Введение
   2. [Опорные точки]({{< ref "/georeferencing-gcp" >}})
   3. [GeoTIFF]({{< ref "/georeferencing-geotiff" >}})
+  4. [Тайлы]({{< ref "georeferencing-tiles" >}})

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>georeferencing on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/georeferencing/</link>
+    <description>Recent content in georeferencing on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 20 Apr 2020 20:52:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/georeferencing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Геокодирование спутниковых снимков: Тайлы</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-tiles/</link>
+      <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-tiles/</guid>
+      <description>Это финальная статья о том, как геокодировать спутниковые снимки. Здесь я постараюсь описать, а что же делать дальше с полученным GeoTIFF файлом. Если интересно о том, как получить GeoTIFF, то можно почитать предыдущие статьи:
+ Введение Опорные точки GeoTIFF Тайлы  QGIS GeoTIFF, полученный на предыдущем шаге выглядит правдоподобно, но хочется убедиться, что проекция выполнена правильно. Самый простой способ - это наложить файл на настоящую карту. Для этого достаточно взять бесплатную QGIS и добавить слой OpenStreetMap:</description>
+    </item>
+    
+    <item>
+      <title>Геокодирование спутниковых снимков: GeoTIFF</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-geotiff/</link>
+      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-geotiff/</guid>
+      <description>Начало Итак, в прошлом посте я описал основные шаги, необходимые для получения списка опорных точек. Следующим шагом будет создание файла в формате GeoTIFF. Это подмножество формата tiff, в котором хранится дополнительная геоинформация. Почти все современные ГИС поддерживают этот формат, поэтому в нём распространяются как карты Google Earth, так и панорамы съёмки квадрокоптерами.
+GDAL Для работы с GeoTIFF форматом существует множество библиотек. Наиболее популярная и открытая - GDAL. Она позволяет создавать и редактировать GeoTIFF, выполнять преобразование из одной проекции в другую, создавать тайлы.</description>
+    </item>
+    
+    <item>
+      <title>Геокодирование спутниковых снимков: опорные точки</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-gcp/</link>
+      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-gcp/</guid>
+      <description>Начало В прошлом посте я описал основные шаги, необходимые для геокодирования изображения. Здесь же, я хочу более подробно описать алгоритм получения опорных точек. Опорная точка - это отображение координат пиксела (X,Y) на географические координаты (широта, долгота).
+Зная список опорных точек, можно растянуть изображение по ширине и высоте так, чтобы оно совпало с картой. Их, например, можно задать вручную в любой ГИС. Обычно выбирают береговые линии с характерными полуостровами:
+Мне же такой способ не подходит, так как я хочу делать это в автоматическом режиме.</description>
+    </item>
+    
+    <item>
+      <title>Геокодирование спутниковых снимков: Введение</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-satellite-images/</link>
+      <pubDate>Sat, 18 Apr 2020 09:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-satellite-images/</guid>
+      <description>Начало Пару лет назад я научился получать изображение со спутника Метеор-М2. Тогда я подробно прошёлся по всей модели OSI, начиная с физического уровня rtl-sdr и заканчивая транспортным LRPT. Все наработки я интегрировал в r2cloud, и с тех пор у меня в автоматическом режиме сохраняются все изображения.
+Однако, меня не покидало ощущение некоторой незавершённости задачи. Изображения-то я получал, но что делать с ними дальше совершенно не знал. Вернее, конечно же, знал: как и любой другой метеорологический снимок, он нужен для того, чтобы предсказывать погоду.</description>
+    </item>
+    
+  </channel>
+</rss>

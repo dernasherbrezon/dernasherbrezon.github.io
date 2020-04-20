@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 19 Apr 2020 18:09:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 20 Apr 2020 20:52:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,16 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Геокодирование спутниковых снимков: Тайлы</title>
+      <link>https://dernasherbrezon.com/posts/georeferencing-tiles/</link>
+      <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/georeferencing-tiles/</guid>
+      <description>Это финальная статья о том, как геокодировать спутниковые снимки. Здесь я постараюсь описать, а что же делать дальше с полученным GeoTIFF файлом. Если интересно о том, как получить GeoTIFF, то можно почитать предыдущие статьи:
+ Введение Опорные точки GeoTIFF Тайлы  QGIS GeoTIFF, полученный на предыдущем шаге выглядит правдоподобно, но хочется убедиться, что проекция выполнена правильно. Самый простой способ - это наложить файл на настоящую карту. Для этого достаточно взять бесплатную QGIS и добавить слой OpenStreetMap:</description>
     </item>
     
     <item>

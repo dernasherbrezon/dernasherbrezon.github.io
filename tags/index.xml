@@ -5,10 +5,46 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 19 Apr 2020 18:09:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 20 Apr 2020 20:52:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>georeferencing</title>
+      <link>https://dernasherbrezon.com/tags/georeferencing/</link>
+      <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/georeferencing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>meteor-m</title>
+      <link>https://dernasherbrezon.com/tags/meteor-m/</link>
+      <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/meteor-m/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ДЗЗ</title>
+      <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</link>
+      <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>спутники</title>
+      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
+      <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>gdal</title>
@@ -20,29 +56,11 @@
     </item>
     
     <item>
-      <title>lrpt</title>
-      <link>https://dernasherbrezon.com/tags/lrpt/</link>
+      <title>GeoTIFF</title>
+      <link>https://dernasherbrezon.com/tags/geotiff/</link>
       <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.com/tags/lrpt/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>meteor-m</title>
-      <link>https://dernasherbrezon.com/tags/meteor-m/</link>
-      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/meteor-m/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>спутники</title>
-      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
-      <pubDate>Sun, 19 Apr 2020 18:09:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
+      <guid>https://dernasherbrezon.com/tags/geotiff/</guid>
       <description></description>
     </item>
     
@@ -52,6 +70,15 @@
       <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lrpt</title>
+      <link>https://dernasherbrezon.com/tags/lrpt/</link>
+      <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/lrpt/</guid>
       <description></description>
     </item>
     
