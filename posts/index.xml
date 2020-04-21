@@ -130,7 +130,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
 <li>она создаёт промежуточный GeoTIFF файл. Для того, чтобы наложить изображение на карту, его необходимо преобразовать в формат EPSG:3857. Хотелось бы сразу генерировать файл в нужной проекции.</li>
 <li>задавать опорные точки через командную строку не очень удобно. Особенно есть их очень много.</li>
 </ul>
-<p>К счастью, в GDAL есть мета-формат для описания виртуальный датасетов - <a href="https://gdal.org/drivers/raster/vrt.html">VRT</a>. Он позволяет описывать опорные точки и соответствующее им оригинальное изображение.</p>
+<p>К счастью, в GDAL есть мета-формат для описания виртуальных датасетов - <a href="https://gdal.org/drivers/raster/vrt.html">VRT</a>. Он позволяет описывать опорные точки и соответствующее им оригинальное изображение.</p>
 <h2 id="vrt">VRT</h2>
 <p>vrt файл - это обычный xml файл. Для него даже есть <a href="https://raw.githubusercontent.com/OSGeo/gdal/master/gdal/data/gdalvrt.xsd">xml схема</a>, чтобы проверить корректность. Для своих нужд я создал следующий файл:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;VRTDataset</span> <span style="color:#a6e22e">rasterXSize=</span><span style="color:#e6db74">&#34;1568&#34;</span> <span style="color:#a6e22e">rasterYSize=</span><span style="color:#e6db74">&#34;480&#34;</span><span style="color:#f92672">&gt;</span>
