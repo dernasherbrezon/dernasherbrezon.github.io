@@ -45,6 +45,7 @@ vrt файл - это обычный xml файл. Для него даже ес
 	</GCPList>
 	<VRTRasterBand dataType="Byte" band="1">
 		<Description>channel1</Description>
+		<NoDataValue>0.0</NoDataValue>
 		<SimpleSource>
 			<SourceFilename relativeToVRT="1">output.png</SourceFilename>
 			<SourceBand>1</SourceBand>
@@ -52,6 +53,7 @@ vrt файл - это обычный xml файл. Для него даже ес
 	</VRTRasterBand>
 	<VRTRasterBand dataType="Byte" band="2">
 		<Description>channel2</Description>
+		<NoDataValue>0.0</NoDataValue>
 		<SimpleSource>
 			<SourceFilename relativeToVRT="1">output.png</SourceFilename>
 			<SourceBand>2</SourceBand>
@@ -59,6 +61,7 @@ vrt файл - это обычный xml файл. Для него даже ес
 	</VRTRasterBand>
 	<VRTRasterBand dataType="Byte" band="3">
 		<Description>channel3</Description>
+		<NoDataValue>0.0</NoDataValue>
 		<SimpleSource>
 			<SourceFilename relativeToVRT="1">output.png</SourceFilename>
 			<SourceBand>3</SourceBand>

@@ -5,10 +5,22 @@
     <link>https://dernasherbrezon.com/tags/geotiff/</link>
     <description>Recent content in GeoTIFF on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 19 Apr 2020 18:09:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2020 16:15:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/geotiff/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Прозрачность в GeoTIFF</title>
+      <link>https://dernasherbrezon.com/posts/geotiff-transparency/</link>
+      <pubDate>Thu, 30 Apr 2020 16:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/geotiff-transparency/</guid>
+      <description>Работа над r2weather.ru идёт полным ходом, а значит появляются и фиксятся различные баги. Один из последних и самых интересных - настройка прозрачности.
+После того, как я создал GeoTIFF и нарезал его на тайлы с помощью gdal2tiles у меня получился следующий результат:
+Если присмотреться, то можно увидеть отдельные &amp;ldquo;выколотые&amp;rdquo; пикселы там, где находится море. А если взять ночную фотографию, то такие пикселы еще более заметны:
+Это явно ошибка определения прозрачности, так как на оригинальном изображении этой проблемы нет.</description>
+    </item>
     
     <item>
       <title>Геокодирование спутниковых снимков: GeoTIFF</title>

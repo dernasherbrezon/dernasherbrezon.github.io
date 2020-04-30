@@ -7,10 +7,59 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 20 Apr 2020 20:52:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2020 16:15:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Прозрачность в GeoTIFF</title>
+      <link>https://dernasherbrezon.com/posts/geotiff-transparency/</link>
+      <pubDate>Thu, 30 Apr 2020 16:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/geotiff-transparency/</guid>
+      <description>Работа над r2weather.ru идёт полным ходом, а значит появляются и фиксятся различные баги. Один из последних и самых интересных - настройка прозрачности.
+После того, как я создал GeoTIFF и нарезал его на тайлы с помощью gdal2tiles у меня получился следующий результат:
+Если присмотреться, то можно увидеть отдельные &amp;ldquo;выколотые&amp;rdquo; пикселы там, где находится море. А если взять ночную фотографию, то такие пикселы еще более заметны:
+Это явно ошибка определения прозрачности, так как на оригинальном изображении этой проблемы нет.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Прозрачность в GeoTIFF</h1></header>
+      		<div class='container entry-content'>
+  <p>Работа над <a href="https://r2weather.ru">r2weather.ru</a> идёт полным ходом, а значит появляются и фиксятся различные баги. Один из последних и самых интересных - настройка прозрачности.</p>
+<p>После того, как я создал GeoTIFF и нарезал его на тайлы с помощью gdal2tiles у меня получился следующий результат:</p>
+<p><img src="/img/geotiff-transparency/1.png" alt=""></p>
+<p>Если присмотреться, то можно увидеть отдельные &ldquo;выколотые&rdquo; пикселы там, где находится море. А если взять ночную фотографию, то такие пикселы еще более заметны:</p>
+<p><img src="/img/geotiff-transparency/2.png" alt=""></p>
+<p>Это явно ошибка определения прозрачности, так как на оригинальном изображении этой проблемы нет.</p>
+<h2 id="heading">Прозрачность</h2>
+<p>В GeoTIFF прозрачность можно задать несколькими способами. В одной из <a href="https://dernasherbrezon.com/posts/georeferencing-geotiff/">предыдущих статей</a> я описал, как задать прозрачность на уровне каждого канала. Для этого нужно добавить следующий параметр:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;NoDataValue</span><span style="color:#f92672">&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
+</code></pre></div><p>Он фактически говорит, что все пикселы с нулевым значением в данном слое - прозрачны. Но это не всегда так! &ldquo;0&rdquo; или чёрный цвет - это не отсутствие цвета. Это такой цвет. В прозрачных png флаг, который определяет прозрачность - это альфа канал. Если значение 0x0, то пиксел полностью прозрачный. Если 0xFF, то - непрозрачный.</p>
+<p>При работе с GeoTIFF этим можно воспользоваться. Для этого добавляется дополнительный слой, у которого тип Alpha:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;4&#34;</span><span style="color:#f92672">&gt;</span>
+	<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>Alpha<span style="color:#f92672">&lt;/Description&gt;</span>
+	<span style="color:#f92672">&lt;ColorInterp</span><span style="color:#f92672">&gt;</span>Alpha<span style="color:#f92672">&lt;/ColorInterp&gt;</span>	
+	<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
+		<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>4<span style="color:#f92672">&lt;/SourceBand&gt;</span>	
+	<span style="color:#f92672">&lt;/SimpleSource&gt;</span>
+<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
+</code></pre></div><p>В результате GeoTIFF будет содержать:</p>
+<pre><code>Band 4 Block=2438x1 Type=Byte, ColorInterp=Alpha
+  Description = Alpha
+</code></pre><p>Программы, которые работают с GeoTIFF могут использовать этот канал для того, чтобы задавать прозрачность.</p>
+<h2 id="heading-1">Результат</h2>
+<p>После добавления прозрачности из альфа-канала, результат gdal2tiles выглядит следующим образом:</p>
+<p><img src="/img/geotiff-transparency/3.png" alt=""></p>
+<p>Над Латвией сейчас ночь.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Геокодирование спутниковых снимков: Тайлы</title>
@@ -141,6 +190,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
 	<span style="color:#f92672">&lt;/GCPList&gt;</span>
 	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
 		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel1<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;NoDataValue</span><span style="color:#f92672">&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
 		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
 			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
 			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>1<span style="color:#f92672">&lt;/SourceBand&gt;</span>
@@ -148,6 +198,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
 	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
 	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">&gt;</span>
 		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel2<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;NoDataValue</span><span style="color:#f92672">&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
 		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
 			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
 			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>2<span style="color:#f92672">&lt;/SourceBand&gt;</span>
@@ -155,6 +206,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
 	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
 	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">&gt;</span>
 		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel3<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;NoDataValue</span><span style="color:#f92672">&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
 		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
 			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
 			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>3<span style="color:#f92672">&lt;/SourceBand&gt;</span>
