@@ -7,10 +7,66 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 30 Apr 2020 16:15:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2020 22:21:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Ошибки прозрачности в gdal2tiles</title>
+      <link>https://dernasherbrezon.com/posts/gdal2tiles-transparency/</link>
+      <pubDate>Thu, 07 May 2020 22:21:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/gdal2tiles-transparency/</guid>
+      <description>В своей работе над r2weather.ru я нахожу множество багов. Иногда они случаются по собственной глупости, а иногда появляются в самых неожиданных местах. Причём, ошибки связаны не только с программированием и различными алгоритмами, но и со странным поведением внешних систем.
+Из недавнего, я обнаружил на результирующей карте совершенно странные полупрозрачные полоски толщиной один-два пиксела.
+Выглядит это, прямо скажем, не очень. Особенно на большой карте мира.
+Исследование Вообще, я специально конвертирую jpeg-файл, принимаемый со спутника в формат .</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Ошибки прозрачности в gdal2tiles</h1></header>
+      		<div class='container entry-content'>
+  <p>В своей работе над <a href="https://r2weather.ru">r2weather.ru</a> я нахожу множество багов. Иногда они случаются по собственной глупости, а иногда появляются в самых неожиданных местах. Причём, ошибки связаны не только с программированием и различными алгоритмами, но и со странным поведением внешних систем.</p>
+<p>Из недавнего, я обнаружил на результирующей карте совершенно странные полупрозрачные полоски толщиной один-два пиксела.</p>
+<p><img src="/img/gdal2tiles-transparency/41.png" alt=""></p>
+<p>Выглядит это, прямо скажем, не очень. Особенно на большой карте мира.</p>
+<h2 id="heading">Исследование</h2>
+<p>Вообще, я специально конвертирую jpeg-файл, принимаемый со спутника в формат .png. Во-первых, это формат без потерь. То есть, каждый пиксел, который я вижу в результирующем jpeg, выглядит именно так, как он был передан со спутника. Это очень сильно улучшает изображение, так как нет двойного перекодирования в jpeg. Во-вторых, png поддерживает альфа-канал. Если часть изображения не была принята, то в альфа-канал можно поместить полностью прозрачные пикселы. Они будут нести дополнительную информацию и их можно будет красиво &ldquo;не показать&rdquo; на карте.</p>
+<p>Если ещё раз глянуть на получившийся тайл, то видно, что полупрозраные пикселы находятся по краям изображения. Если бы я не принял часть пакетов со спутника, то у меня была бы полоса шириной 8 пикселов. А это значит, что эти пикселы добавляются где-то во время обработки.</p>
+<p>Чтобы их найти, достаточно проверить изображение на каждом шаге обработки.</p>
+<p><img src="/img/gdal2tiles-transparency/1.png" alt=""></p>
+<p>GeoTIFF получается с очень чёткими краями.</p>
+<p><img src="/img/gdal2tiles-transparency/2.png" alt=""></p>
+<p>Ага! Попался. gdal2tiles создаёт тайлы с полупрозрачными пикселами по краям. И это очень странно:</p>
+<ol>
+<li>В <a href="https://gdal.org/programs/gdal2tiles.html">официальной документации</a> об этом нигде не сказано</li>
+<li>Полупрозрачность добавляется не во всех слоях! В примере выше тайл с 5го уровня, а для уровня 6 никакой прозрачности не добавляется.</li>
+</ol>
+<p><img src="/img/gdal2tiles-transparency/3.png" alt=""></p>
+<p>Исправляется эта ошибка достаточно просто. Во-первых, при отрисовке нужно брать изображения чуть-чуть внахлёст. Тогда будет плавный переход между двумя изображениями. А во-вторых можно игнорировать все пикселы в которых выставлена полупрозрачность.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> sourceImage<span style="color:#f92672">.</span><span style="color:#a6e22e">getWidth</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> j <span style="color:#f92672">&lt;</span> sourceImage<span style="color:#f92672">.</span><span style="color:#a6e22e">getHeight</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> j<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">int</span> sourceRgb <span style="color:#f92672">=</span> sourceImage<span style="color:#f92672">.</span><span style="color:#a6e22e">getRGB</span><span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> j<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		<span style="color:#75715e">// do not override dest with no data
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">// do not copy any partially tranparent pixels
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">// gdal2tiles.py create them on the edges for some reason
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>sourceRgb <span style="color:#f92672">&gt;</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">&gt;</span> 24<span style="color:#f92672">)</span> <span style="color:#f92672">!</span><span style="color:#f92672">=</span> 0xFF<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			<span style="color:#66d9ef">continue</span><span style="color:#f92672">;</span>
+		<span style="color:#f92672">}</span>
+		destImage<span style="color:#f92672">.</span><span style="color:#a6e22e">setRGB</span><span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> j<span style="color:#f92672">,</span> sourceRgb<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="heading-1">Результат</h2>
+<p>Такое небольшое изменение дало на удивление хорошие результаты.</p>
+<p><img src="/img/gdal2tiles-transparency/4.png" alt=""></p>
+<p>На изображении выше наложены два пролёта подряд на Северной Америкой. Несмотря, на то, что границы каждого пролёта немного размыты, изображение склеено вполне неплохо.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Прозрачность в GeoTIFF</title>
