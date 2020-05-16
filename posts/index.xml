@@ -7,10 +7,170 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 07 May 2020 22:21:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 21:21:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Декодирование картинки fox-1d</title>
+      <link>https://dernasherbrezon.com/posts/decoding-fox1d/</link>
+      <pubDate>Thu, 14 May 2020 21:21:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/decoding-fox1d/</guid>
+      <description>Люди по-прежнему запускают спутники в космос, а я по-прежнему пытаюсь декодировать с них сигналы. На этот раз я решил разобраться со спутниками семейства Fox. Они передают достаточно много данных:
+ телеметрия результаты исследований радиации картинки  Если первые два типа данных достаточно стандартны, то вот картинки - это то, перед чем я не могу устоять.
+Формат передачи данных Эти спутники могут передавать информацию с помощью двух протоколов:
+ медленный. Скорость 200 бит в секунду.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Декодирование картинки fox-1d</h1></header>
+      		<div class='container entry-content'>
+  <p>Люди по-прежнему запускают спутники в космос, а я по-прежнему пытаюсь декодировать с них сигналы. На этот раз я решил разобраться со спутниками семейства Fox. Они передают достаточно много данных:</p>
+<ul>
+<li>телеметрия</li>
+<li>результаты исследований радиации</li>
+<li>картинки</li>
+</ul>
+<p>Если первые два типа данных достаточно стандартны, то вот картинки - это то, перед чем я не могу устоять.</p>
+<h3 id="--">Формат передачи данных</h3>
+<p>Эти спутники могут передавать информацию с помощью двух протоколов:</p>
+<ul>
+<li>медленный. Скорость 200 бит в секунду. Используется для передачи телеметрии.</li>
+<li>быстрый. 9600 бит в секунду. Передача телеметрии, картинок и результатов исследований</li>
+</ul>
+<p>Для декодирования картинки, необходимо разобраться с &ldquo;быстрым&rdquo; протоколом передачи данных. Тут важно знать, что этот протокол включается только по команде с Земли, когда нужно получить большой объём данных. А значит он выключен всё остальное время. Это очень сильно отличается от того, как <a href="https://dernasherbrezon.com/posts/decoding-meteor-m/">Метеор-М</a> и <a href="https://dernasherbrezon.com/posts/decoding-jy1sat/">jy1sat</a> передают изображения, где изображения передаются постоянно.</p>
+<h3 id="heading">Демодуляция</h3>
+<p>Сигнал &ldquo;быстрого&rdquo; протокола - это FSK модулированный сигнал 9600 бит в секунду. Ничего особенного тут нет, стандартный <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/main/java/ru/r2cloud/jradio/demod/FskDemodulator.java">FskDemodulator</a> из <a href="https://github.com/dernasherbrezon/jradio">jradio</a> вполне подходит.</p>
+<p>Единственная странность - это крайне короткое синхрослово. Несмотря на то, что длина самого пакета 5272 байт, синхрослово длиной всего 10бит. Это значит две вещи:</p>
+<ul>
+<li>нужно искать полное совпадение в потоке бит. Иначе, сильно увеличится количество ложных срабатываний. А это в свою очередь сильно будет нагружать и без того не быстрый алгоритм Рид-Соломона</li>
+<li>сильно уменьшается помехоустойчивость. Несмотря на то, что для всего сообщения применяются коды Рида-Соломона, ошибка в одном бите в синхрослове полностью отбрасывает декодирование всего пакета.</li>
+</ul>
+<h3 id="-">Помехоустойчивое декодирование</h3>
+<p>В Fox-* примется достаточно интересная комбинация кодов - <a href="https://en.wikipedia.org/wiki/8b/10b_encoding">код 8b10b</a> и код Рида-Соломона. Код 8b10b работает достаточно интересным способом: каждый передаваемый байт (8 бит) кодируется 10 битами. При этом эти 10 бит выбраны таким образом, чтобы иметь максимальное Хэмминг расстояние.</p>
+<p>Если приёмник получает 10 бит, то он пытается найти их в таблице поиска и получить переданный байт. Если такого значения нет, то считается, что переданный байт не был корректно принят. Какая же польза от этого знания? А это используется в алгоритме Рида-Соломона. Зная, какие байты точно не были корректно приняты, можно передать это знание Риду-Соломону и немного увеличить шансы на восстановление данных.</p>
+<p>До этого момента всё шло хорошо и достаточно понятно. Дальше же начинается череда странных решений и неоднозначных реализаций. Для начала, 5272 байт - это достаточно много для одного пакета. Если же учитывать код 8b10b, то общее количество бит будет - 52720. Чем длиннее пакет, тем больше вероятность возникновения помех и больше вероятность ошибок приёма.</p>
+<p>Весь пакет кодируется с помощью интерливинга 21 кода Рида-Соломона. Но так, как 5272 не делится нацело на 21, то используется padding нулевых байт при декодировании:</p>
+<p><img src="/img/decoding-fox1d/4.png" alt=""></p>
+<p>Как видно из схемы выше, алгоритм получения данных будет достаточно нетривиальным. Нулевые байты дописываются слева к каждому коду. При этом первое слово имеет на один байт больше. Во всех других проколах, с которыми мне приходилось сталкиваться, интерливинг делался для сообщений, которые нацело делились на 255. Причина, по которой была выбрана длина 5272 байт, остаётся для меня загадкой.</p>
+<h3 id="--1">Декодирование картинки</h3>
+<p>Но самое странное - это то, как эти 5272 байт используются. Формат пакета следующий:</p>
+<table>
+	<thead>
+		<tr>
+			<th style="width: 20%">Размер (байт)</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>	
+			<td>6</td>
+			<td>Заголовок. Содержит id спутника и тип телеметрии</td>
+		</tr>
+		<tr>	
+			<td>60</td>
+			<td>Текущая телеметрия. Различные показатели спутника в текущий момент</td>
+		</tr>
+		<tr>	
+			<td>60</td>
+			<td>Максимальные значения показателей за период измерений</td>
+		</tr>
+		<tr>	
+			<td>60</td>
+			<td>Минимальные значения показателей за период измерений</td>
+		</tr>
+		<tr>	
+			<td>1</td>
+			<td>Количество "линий" передаваемого изображения. Линия - это кусочек изображения высотой 8 пикселой в шириной 320 пикселей в формате JPEG</td>
+		</tr>
+		<tr>	
+			<td>Переменная длина</td>
+			<td>"Линии" изображения</td>
+		</tr>
+		<tr>	
+			<td>1</td>
+			<td>Количество пакетов радиационого эксперимента. Передаётся либо изображение, либо данные эксперимента</td>
+		</tr>
+		<tr>	
+			<td>Переменная длина</td>
+			<td>Данные эксперимента</td>
+		</tr>
+	</tbody>
+</table>
+<p>В каждом пакете передаётся всего 3 &ldquo;линии&rdquo; изображения. Если сложить все байты вместе, то получится около 1340 байт. Из-за кодирования jpeg может быть чуть больше или чуть меньше, но никак не 5272. <a href="https://github.com/ac2cz/FoxTelem/issues/632">Оказывается</a> оставшиеся байты используются в <code>experiment on the radiation hardness of COTS memory modules</code>. В официальном клиенте я не нашёл способа декодировать эти данные.</p>
+<h3 id="-jpeg">Декодирование jpeg</h3>
+<p>Способ, которым передаются кусочки изображения, совсем отличается от <a href="https://dernasherbrezon.com/posts/decoding-meteor-m/">Метеор-М</a> и <a href="https://dernasherbrezon.com/posts/decoding-jy1sat/">SSDV</a>. Каждая &ldquo;линия&rdquo; изображения состоит из:</p>
+<table>
+	<thead>
+		<tr>
+			<th style="width: 20%">Название</th>
+			<th style="width: 20%">Размер (байт)</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>	
+			<td>Preamble</td>
+			<td>6</td>
+			<td>Байты синхронизации. Не очень понятно зачем они нужны, так как изображение уже находится внутри пакета.</td>
+		</tr>
+		<tr>	
+			<td>Counter</td>
+			<td>1</td>
+			<td>ID картинки. Крайне необходимое поле для того, чтобы понять, когда закончилась одна картинка и началась другая</td>
+		</tr>
+		<tr>	
+			<td>Length</td>
+			<td>10 бит</td>
+			<td>Длина JPEG данных</td>
+		</tr>
+		<tr>	
+			<td>ID линии</td>
+			<td>6 бит</td>
+			<td>ID линии внутри изображения. От 0 до 29.</td>
+		</tr>		
+		<tr>	
+			<td>JPEG данные</td>
+			<td>переменная длина</td>
+			<td>Непосредственно данные изображения</td>
+		</tr>		
+	</tbody>
+</table>
+<p>Я уже было расчехлил свои <a href="https://dernasherbrezon.com/posts/jpeg-encoding/">таблицы Хаффмана</a> и настроил таблицы квантования, как выяснилось, что можно и без них. Дело в том, что DC коэффициенты обнуляются для каждого следующего кусочка. А это значит, что они независимы и их можно как-есть сохранить в файл и назвать его <code>картинка.jpg</code>. В java код выглядит так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">baos<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>HEADER<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>PictureScanLine cur <span style="color:#f92672">:</span> currentBatch<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">int</span> missingLines <span style="color:#f92672">=</span> cur<span style="color:#f92672">.</span><span style="color:#a6e22e">getLineNumber</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">-</span> previousLineNumber <span style="color:#f92672">-</span> 1<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> missingLines<span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		appendLine<span style="color:#f92672">(</span>baos<span style="color:#f92672">,</span> EMPTY_LINE<span style="color:#f92672">,</span> previousLineNumber <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> 1<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+	previousLineNumber <span style="color:#f92672">=</span> cur<span style="color:#f92672">.</span><span style="color:#a6e22e">getLineNumber</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	appendLine<span style="color:#f92672">(</span>baos<span style="color:#f92672">,</span> cur<span style="color:#f92672">.</span><span style="color:#a6e22e">getData</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">,</span> cur<span style="color:#f92672">.</span><span style="color:#a6e22e">getLineNumber</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>previousLineNumber <span style="color:#f92672">+</span> 1 <span style="color:#f92672">!</span><span style="color:#f92672">=</span> TOTAL_LINES<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">int</span> missingLines <span style="color:#f92672">=</span> TOTAL_LINES <span style="color:#f92672">-</span> previousLineNumber <span style="color:#f92672">-</span> 1<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> missingLines<span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		appendLine<span style="color:#f92672">(</span>baos<span style="color:#f92672">,</span> EMPTY_LINE<span style="color:#f92672">,</span> previousLineNumber <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> 1<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+baos<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>FOOTER<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>При этом <code>HEADER</code>, <code>EMPTY_LINE</code> и <code>FOOTER</code> - это заранее созданные массивы байт. После того, как байты записаны в <code>ByteArrayOutputStream</code> на выходе получается <a href="https://en.wikipedia.org/wiki/JPEG#Syntax_and_structure">стандартный jpeg файл</a>. Тут важно не забыть добавлять тэг <code>RSTn</code> после каждой линии, чтобы сбросить DC коэффициенты в 0.</p>
+<h3 id="heading-1">Результат</h3>
+<p>В результате один пакет Fox-1D позволяет получить вот такую симпатичную картинку из космоса:</p>
+<p><img src="/img/decoding-fox1d/fox1dPicture.png" alt=""></p>
+<p>Если присмотреться, то справа можно увидеть странную зелёную полосу:</p>
+<p><img src="/img/decoding-fox1d/2.png" alt=""></p>
+<p>Я попытался разобраться из-за чего она получилась, но не нашёл ничего подозрительного. Jpeg файл выглядел правильным, и никаких ошибок декодирования не было. Вполне возможно, это баг камеры на спутнике.</p>
+<p>Если же сравнивать <a href="http://www.amsat.org/tlm/showImages.php?id=4">результаты</a> с официальным клиентом, то мне мой нравится больше. В официальном декодере даже нет поддержки пропущенных линий:</p>
+<p><img src="/img/decoding-fox1d/4_69_831012_1.jpg" alt=""></p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Ошибки прозрачности в gdal2tiles</title>
