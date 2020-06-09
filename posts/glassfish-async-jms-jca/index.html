@@ -3,21 +3,21 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Достаточно интересное и недокументированное поведение Glassfish v.2.0.
-Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&#39;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
+Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&rsquo;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
 Решение:
- Создать инициализацию message listener&#39;a в отдельном потоке через WorkManager.  '>
+ Создать инициализацию message listener&rsquo;a в отдельном потоке через WorkManager.  '>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Glassfish Async JMS JCA • dernasherbrezon'>
 <meta property='og:description' content='Достаточно интересное и недокументированное поведение Glassfish v.2.0.
-Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&#39;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
+Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&rsquo;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
 Решение:
- Создать инициализацию message listener&#39;a в отдельном потоке через WorkManager.  '>
+ Создать инициализацию message listener&rsquo;a в отдельном потоке через WorkManager.  '>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/glassfish-async-jms-jca/'>
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='j2ee'><meta property='article:tag' content='glassfish'><meta property='article:published_time' content='2009-04-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2009-04-11T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Glassfish Async JMS JCA • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/glassfish-async-jms-jca/'>
@@ -143,7 +143,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -185,7 +185,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -203,7 +203,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -220,6 +220,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -255,7 +257,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -343,10 +345,10 @@
 
   <div class='container entry-content'>
   <p>Достаточно интересное и недокументированное поведение Glassfish v.2.0.</p>
-<p>Если в потоке вызова <code>endpointActivation(...)</code> в реализации Resource Adapter'a вызвать метод <code>consumer.setMessageListener(...)</code> то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!</p>
+<p>Если в потоке вызова <code>endpointActivation(...)</code> в реализации Resource Adapter&rsquo;a вызвать метод <code>consumer.setMessageListener(...)</code> то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!</p>
 <p>Решение:</p>
 <ul>
-<li>Создать инициализацию message listener'a в отдельном потоке через WorkManager.</li>
+<li>Создать инициализацию message listener&rsquo;a в отдельном потоке через WorkManager.</li>
 </ul>
 
 </div>

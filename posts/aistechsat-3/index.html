@@ -15,7 +15,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='radio'><meta property='article:tag' content='satellite'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2019-08-21T14:40:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-21T14:40:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Декодирование телеметрии Aistechsat-3 • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/aistechsat-3/'>
@@ -141,7 +141,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -183,7 +183,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -201,7 +201,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -218,6 +218,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -253,7 +255,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -340,9 +342,9 @@
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Вступление</h2>
+  <h2 id="вступление">Вступление</h2>
 <p>Наступило лето, а это значит начался отпускной сезон. Самое время немного расслабиться и добавить декодирование телеметрии для новых спутников. С января <a href="https://github.com/daniestevez/gr-satellites">Daniel</a> добавил десяток новых спутников. Я начал с Aistechsat-3.</p>
-<h2 id="heading-1">Декодирование</h2>
+<h2 id="декодирование">Декодирование</h2>
 <p>Как и в <a href="https://github.com/dernasherbrezon/jradio">других случаях</a> я взял готовый демодулятор и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/aistechsat3/Aistechsat3Test.java">реализовал</a> его на Java. Daniel написал, что формат телеметрии <a href="https://www.amsat-ea.org/app/download/11302778/Aistechsat-3+TLM+codes%2C+modulation+and+format+v1.0_AMSAT_EA.pdf">задокументирован</a>, но он не успел задекодировать телеметрию.</p>
 <p>Казалось бы, что может пойти не так? Документация есть, данные есть. Надо просто написать код.</p>
 <p>На практике оказалось всё не так просто.</p>
@@ -378,14 +380,14 @@ torquer_duty
 <pre><code>0180D783013F0100013B1A5D10576900044142C2115A2205B0CA63E6B5CA8989494A5B046B44CC6065456BB17045C8C1370000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CFBA95A751FB7C4A515A09C946C9497046C99111439D28A59B855D10576900043F42686A3EDC03153EE9BC70BE32157BBF202419BF286A303EA4DAEE3E8997F4BD4F205B3B4880E83AB47643C26D172442C80000B8F27416D7BBC179
 </code></pre><p>Получается, спецификация не содержит все типы сообщений.</p>
 <p>Ещё одна интересная вещь, которая меня заинтересовала - размер сообщения. После того, как я полностью прочитываю из <code>DataInputStream</code> данные, там всё ещё остаётся 4 байта. Это очень похоже на CRC32. Обычно контрольная сумма берётся от всех данных, поэтому я написал следующий код:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">long</span> expectedCrc32 <span style="color:#f92672">=</span> Crc32c<span style="color:#f92672">.</span><span style="color:#a6e22e">calculate</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-<span style="color:#66d9ef">long</span> actualCrc32 <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span> 24<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 3<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 2<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">long</span> expectedCrc32 <span style="color:#f92672">=</span> Crc32c<span style="color:#f92672">.</span><span style="color:#a6e22e">calculate</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">);</span>
+<span style="color:#66d9ef">long</span> actualCrc32 <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 24<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 3<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 2<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">);</span>
 
 </code></pre></div><p>Контрольная сумма при этом не совпадала. Я решил попробовать взять контрольную сумму от данных без учёта CSP заголовка:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">long</span> expectedCrc32 <span style="color:#f92672">=</span> Crc32c<span style="color:#f92672">.</span><span style="color:#a6e22e">calculate</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> Header<span style="color:#f92672">.</span><span style="color:#a6e22e">LENGTH</span><span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4 <span style="color:#f92672">-</span> Header<span style="color:#f92672">.</span><span style="color:#a6e22e">LENGTH</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-<span style="color:#66d9ef">long</span> actualCrc32 <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span> 24<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 3<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 2<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">long</span> expectedCrc32 <span style="color:#f92672">=</span> Crc32c<span style="color:#f92672">.</span><span style="color:#a6e22e">calculate</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> Header<span style="color:#f92672">.</span><span style="color:#a6e22e">LENGTH</span><span style="color:#f92672">,</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4 <span style="color:#f92672">-</span> Header<span style="color:#f92672">.</span><span style="color:#a6e22e">LENGTH</span><span style="color:#f92672">);</span>
+<span style="color:#66d9ef">long</span> actualCrc32 <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 4<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 24<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 3<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 16<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">((</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 2<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;&lt;</span> 8<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>data<span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;</span> 0xFFL<span style="color:#f92672">);</span>
 </code></pre></div><p>И это на удивление сработало. Опять же, в документации ни слова про контрольную сумму. А ведь это очень мощный инструмент определения корректности данных.</p>
-<h2 id="heading-2">Выводы</h2>
+<h2 id="выводы">Выводы</h2>
 <p>Мне удалось декодировать большинство радиомаяков, хотя и с некоторыми трудностями. В целом это было очень увлекательно и чем-то похоже на детективную историю с поиском улик.</p>
 <p>С другой стороны, документация от <a href="http://www.aistechspace.com">Aistech</a> вызывает больше вопросов, чем ответов. Из-за того, что они используют радиолюбительский диапазон, им необходимо раскрыть протоколы. Однако, из-за того, что это коммерческая компания, им необходимо скрыть свои эксперименты на орбите и технологию работы спутников. Получается такая двоякая непростая ситуация для компании. Мне же кажется, что доступ к нелицензируемым радиочастотам сильно ускорит разработку коммерческих спутников и в целом положительно скажется на освоении космоса. Главное, чтобы этим не злоупотребляли. А вот тут сложно.</p>
 

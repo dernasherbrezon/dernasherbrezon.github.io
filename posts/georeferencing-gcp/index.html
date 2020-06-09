@@ -15,7 +15,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/georeferencing-gcp/1.png'><meta property='article:section' content='posts'><meta property='article:tag' content='satellite'><meta property='article:tag' content='lrpt'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='спутники'><meta property='article:tag' content='orekit'><meta property='article:tag' content='java'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-18T18:15:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-18T18:15:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/georeferencing-gcp/1.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Геокодирование спутниковых снимков: опорные точки • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/georeferencing-gcp/'>
@@ -141,7 +141,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -183,7 +183,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -201,7 +201,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -218,6 +218,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -253,7 +255,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -340,7 +342,7 @@
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Начало</h2>
+  <h2 id="начало">Начало</h2>
 <p>В <a href="https://dernasherbrezon.com/posts/georeferencing-satellite-images/">прошлом посте</a> я описал основные шаги, необходимые для геокодирования изображения. Здесь же, я хочу более подробно описать алгоритм получения опорных точек. Опорная точка - это отображение координат пиксела (X,Y) на географические координаты (широта, долгота).</p>
 <p>Зная список опорных точек, можно растянуть изображение по ширине и высоте так, чтобы оно совпало с картой. Их, например, можно задать вручную в любой ГИС. Обычно выбирают береговые линии с характерными полуостровами:</p>
 <p><img src="/img/georeferencing-gcp/0.png" alt=""></p>
@@ -351,7 +353,7 @@
 <li>параметры камеры (фокусное расстояние, пространственное разрешение и пр)</li>
 </ul>
 <p>Далее я постараюсь рассчитать каждый из этих параметров и посчитать на их основе опорные точки.</p>
-<h2 id="-">Положение спутника</h2>
+<h2 id="положение-спутника">Положение спутника</h2>
 <p>Положение спутника можно получить двумя способами:</p>
 <ol>
 <li>На основе телеметрии, которую передаёт сам спутник</li>
@@ -367,7 +369,7 @@
 <pre><code>METEOR-M 2              
 1 40069U 14037A   20109.60817406 -.00000042  00000-0 -58409-8 0  9990
 2 40069  98.5096 149.3859 0006903  94.0019 266.1946 14.20671606299713
-</code></pre><h4 id="--1">Текущее время</h4>
+</code></pre><h4 id="текущее-время">Текущее время</h4>
 <p>Время - очень важный параметр, который нужно знать для каждой строчки изображения. Его можно получить двумя способами:</p>
 <ol>
 <li>На основе информации со спутника</li>
@@ -376,33 +378,33 @@
 <p>К счастью, Метеор-М2 передаёт время формирования изображения в каждом пакете. В протоколе LRPT для этого существует вторичный заголовок, в котором может содержаться актуальное время:</p>
 <p><img src="/img/georeferencing-gcp/2.png" alt=""></p>
 <p>Метеор-М2 передаёт в поле &ldquo;мс суток&rdquo; количество миллисекунд, прошедших с начала дня по московскому времени.</p>
-<h4 id="--2">Расчёт положения</h4>
+<h4 id="расчёт-положения">Расчёт положения</h4>
 <p>На основе этих данных можно посчитать положение спутника. Для этого я использую библиотеку <a href="https://www.orekit.org">orekit</a>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String line1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1 40069U 14037A   20109.60817406 -.00000042  00000-0 -58409-8 0  9990&#34;</span><span style="color:#f92672">;</span>
 String line2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2 40069  98.5096 149.3859 0006903  94.0019 266.1946 14.20671606299713&#34;</span><span style="color:#f92672">;</span>
-TLEPropagator tlePropagator <span style="color:#f92672">=</span> TLEPropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">selectExtrapolator</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TLE<span style="color:#f92672">(</span>line1<span style="color:#f92672">,</span> line2<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+TLEPropagator tlePropagator <span style="color:#f92672">=</span> TLEPropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">selectExtrapolator</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TLE<span style="color:#f92672">(</span>line1<span style="color:#f92672">,</span> line2<span style="color:#f92672">));</span>
 
-AbsoluteDate date <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AbsoluteDate<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2020-04-11T05:36:00.899994&#34;</span><span style="color:#f92672">,</span> TimeScalesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getUTC</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-PVCoordinates pv <span style="color:#f92672">=</span> tlePropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">getPVCoordinates</span><span style="color:#f92672">(</span>date<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+AbsoluteDate date <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AbsoluteDate<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2020-04-11T05:36:00.899994&#34;</span><span style="color:#f92672">,</span> TimeScalesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getUTC</span><span style="color:#f92672">());</span>
+PVCoordinates pv <span style="color:#f92672">=</span> tlePropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">getPVCoordinates</span><span style="color:#f92672">(</span>date<span style="color:#f92672">);</span>
 </code></pre></div><p>Здесь для примера я взял расчёт положения для времени <code>2020-04-11 05:36</code>. Таким же образом можно найти положение для любой даты. Единственное, что нужно учитывать - это устаревание TLE. Посчитать траекторию спутника на длительном отрезке времени достаточно сложно и ресурсоёмко. Именно поэтому авторы SGP4 выбрали простые расчёты и периодическую коррекцию на основе визуальных наблюдений.</p>
 <p>Если рассчитать положение спутника с 2020-04-11 05:36 по 2020-04-11 05:46 и наложить полученные координаты на Яндекс карты, то получится вот такая симпатичная картинка:</p>
 <p><img src="/img/georeferencing-gcp/3.png" alt=""></p>
 <p>К слову, использование Яндекс карт оказалось очень удобным способом отладки.</p>
-<h2 id="---">Положение камеры относительно спутника</h2>
+<h2 id="положение-камеры-относительно-спутника">Положение камеры относительно спутника</h2>
 <p>Следующим шагом необходимо понять направление камеры. Для этого необходимо вычислить <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%B2%D0%B0%D1%82%D0%B5%D1%80%D0%BD%D0%B8%D0%BE%D0%BD%D1%8B_%D0%B8_%D0%B2%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%B0">кватернионы</a> самого спутника. Согласно документации, камера спутника смотрит точно в надир. То есть, спутник равномерно вращается вокруг своей оси и при этом угол напрямую зависит от положения относительно Земли. Всё это можно смоделировать с помощью orekit:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String line1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1 40069U 14037A   20109.60817406 -.00000042  00000-0 -58409-8 0  9990&#34;</span><span style="color:#f92672">;</span>
 String line2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2 40069  98.5096 149.3859 0006903  94.0019 266.1946 14.20671606299713&#34;</span><span style="color:#f92672">;</span>
-TLEPropagator tlePropagator <span style="color:#f92672">=</span> TLEPropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">selectExtrapolator</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TLE<span style="color:#f92672">(</span>line1<span style="color:#f92672">,</span> line2<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+TLEPropagator tlePropagator <span style="color:#f92672">=</span> TLEPropagator<span style="color:#f92672">.</span><span style="color:#a6e22e">selectExtrapolator</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TLE<span style="color:#f92672">(</span>line1<span style="color:#f92672">,</span> line2<span style="color:#f92672">));</span>
 
-Frame eme2000 <span style="color:#f92672">=</span> FramesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getEME2000</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-Frame earthFrame <span style="color:#f92672">=</span> FramesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getITRF</span><span style="color:#f92672">(</span>IERSConventions<span style="color:#f92672">.</span><span style="color:#a6e22e">IERS_2010</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-OneAxisEllipsoid earth <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> OneAxisEllipsoid<span style="color:#f92672">(</span>Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84_EARTH_EQUATORIAL_RADIUS</span><span style="color:#f92672">,</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84_EARTH_FLATTENING</span><span style="color:#f92672">,</span> earthFrame<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-BodyCenterPointing earthCenterAttitudeLaw <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BodyCenterPointing<span style="color:#f92672">(</span>eme2000<span style="color:#f92672">,</span> earth<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-AbsoluteDate date <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AbsoluteDate<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2020-04-11T05:36:00.899994&#34;</span><span style="color:#f92672">,</span> TimeScalesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getUTC</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-Attitude attitude  <span style="color:#f92672">=</span> earthCenterAttitudeLaw<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttitude</span><span style="color:#f92672">(</span>tlePropagator<span style="color:#f92672">,</span> date<span style="color:#f92672">,</span> eme2000<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+Frame eme2000 <span style="color:#f92672">=</span> FramesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getEME2000</span><span style="color:#f92672">();</span>
+Frame earthFrame <span style="color:#f92672">=</span> FramesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getITRF</span><span style="color:#f92672">(</span>IERSConventions<span style="color:#f92672">.</span><span style="color:#a6e22e">IERS_2010</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+OneAxisEllipsoid earth <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> OneAxisEllipsoid<span style="color:#f92672">(</span>Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84_EARTH_EQUATORIAL_RADIUS</span><span style="color:#f92672">,</span> Constants<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84_EARTH_FLATTENING</span><span style="color:#f92672">,</span> earthFrame<span style="color:#f92672">);</span>
+BodyCenterPointing earthCenterAttitudeLaw <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BodyCenterPointing<span style="color:#f92672">(</span>eme2000<span style="color:#f92672">,</span> earth<span style="color:#f92672">);</span>
+AbsoluteDate date <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AbsoluteDate<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2020-04-11T05:36:00.899994&#34;</span><span style="color:#f92672">,</span> TimeScalesFactory<span style="color:#f92672">.</span><span style="color:#a6e22e">getUTC</span><span style="color:#f92672">());</span>
+Attitude attitude  <span style="color:#f92672">=</span> earthCenterAttitudeLaw<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttitude</span><span style="color:#f92672">(</span>tlePropagator<span style="color:#f92672">,</span> date<span style="color:#f92672">,</span> eme2000<span style="color:#f92672">);</span>
 </code></pre></div><p>Основная идея заключается в том, чтобы определить угол между базисными векторами спутника и вектором, соединяющим центр спутника и центр Земли. Конечно, для более точного позиционирования нужно использовать гравитационный центр Земли. А для этого использовать гравитационные карты Земли. К счастью, в случае Метеор-М2 и камеры MСУ-МР, такой точности не требуется.</p>
-<h2 id="--3">Параметры камеры</h2>
-<p>Самый сложный шаг заключается в моделировании камеры МСУ-МР. Дело в том, что в интернете почти нет её параметров. Я почти разуверился в том, что это вообще возможно найти, однако мне удалось раскопать научную статью &ldquo;<a href="http://jurnal.vniiem.ru/text/154/32-42.pdf">МЕТОДИКИ ОПРЕДЕЛЕНИЯ ВЕЛИЧИНЫ ПРОЕКЦИИ ПИКСЕЛЯ СЪЁМОЧНЫХ СИСТЕМ МСУ-МР И КМСС НА МЕСТНОСТЬ</a>&quot;. В ней вскользь упоминаются параметры:</p>
+<h2 id="параметры-камеры">Параметры камеры</h2>
+<p>Самый сложный шаг заключается в моделировании камеры МСУ-МР. Дело в том, что в интернете почти нет её параметров. Я почти разуверился в том, что это вообще возможно найти, однако мне удалось раскопать научную статью &ldquo;<a href="http://jurnal.vniiem.ru/text/154/32-42.pdf">МЕТОДИКИ ОПРЕДЕЛЕНИЯ ВЕЛИЧИНЫ ПРОЕКЦИИ ПИКСЕЛЯ СЪЁМОЧНЫХ СИСТЕМ МСУ-МР И КМСС НА МЕСТНОСТЬ</a>&rdquo;. В ней вскользь упоминаются параметры:</p>
 <ul>
 <li>количество точек N=1568</li>
 <li>общий угол обзора Θ = 110,5°</li>
@@ -419,32 +421,32 @@ Attitude attitude  <span style="color:#f92672">=</span> earthCenterAttitudeLaw<s
 <p>Для модели расчёта опорных точек мне нужно рассчитать вектора исходящие из камеры и направленные на поверхность. Если принять угол Θn = Θ * n / N, то вектора можно рассчитать следующим образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">double</span> width <span style="color:#f92672">=</span> 1568<span style="color:#f92672">;</span>
 <span style="color:#66d9ef">double</span> delta <span style="color:#f92672">=</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>110<span style="color:#f92672">.</span><span style="color:#a6e22e">5</span><span style="color:#f92672">)</span> <span style="color:#f92672">/</span> width<span style="color:#f92672">;</span>
-<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> width<span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-    SinCos sc <span style="color:#f92672">=</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">sinCos</span><span style="color:#f92672">(</span><span style="color:#f92672">(</span>i <span style="color:#f92672">-</span> width <span style="color:#f92672">/</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">*</span> delta<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    Vector3D curVector <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Vector3D<span style="color:#f92672">(</span>0<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> sc<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">,</span> sc<span style="color:#f92672">.</span><span style="color:#a6e22e">cos</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> width<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+    SinCos sc <span style="color:#f92672">=</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">sinCos</span><span style="color:#f92672">((</span>i <span style="color:#f92672">-</span> width <span style="color:#f92672">/</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">*</span> delta<span style="color:#f92672">);</span>
+    Vector3D curVector <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Vector3D<span style="color:#f92672">(</span>0<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">,</span> sc<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(),</span> sc<span style="color:#f92672">.</span><span style="color:#a6e22e">cos</span><span style="color:#f92672">());</span>
 <span style="color:#f92672">}</span>
-</code></pre></div><h2 id="--">Построение опорных точек</h2>
+</code></pre></div><h2 id="построение-опорных-точек">Построение опорных точек</h2>
 <p>На основе полученных параметров можно рассчитать опорные точки. Для этого надо вспомнить школьный курс неевклидовой геометрии и рассчитать проекции на сферу. Или можно взять готовую библиотеку <a href="https://www.orekit.org/rugged/">Rugged</a>. В ней описана достаточно сложная модель получения опорных точек. Она учитывает скорость света и относительную скорость спутника относительно Земли, модель рефракции атмосферы. Также можно, например, загрузить карту высот и получить более точные координаты.</p>
 <p><img src="/img/georeferencing-gcp/7.png" alt=""></p>
 <p>Для МСУ-МР такая точность не нужна, но это может быть полезно для других типов камер и спутников.</p>
 <p>Центральным классом модели является <code>Rugged</code>. Его можно создать следующим способом:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder<span style="color:#f92672">(</span>rawDirs<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder<span style="color:#f92672">(</span>rawDirs<span style="color:#f92672">);</span>
+TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
 		
-MeteorLineDatation lineDatation <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MeteorLineDatation<span style="color:#f92672">(</span>image<span style="color:#f92672">,</span> startOfTheDay<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-LineSensor lineSensor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LineSensor<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;MSU_MR&#34;</span><span style="color:#f92672">,</span> lineDatation<span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">ZERO</span><span style="color:#f92672">,</span> lineOfSight<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+MeteorLineDatation lineDatation <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MeteorLineDatation<span style="color:#f92672">(</span>image<span style="color:#f92672">,</span> startOfTheDay<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">());</span>
+LineSensor lineSensor <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LineSensor<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;MSU_MR&#34;</span><span style="color:#f92672">,</span> lineDatation<span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">ZERO</span><span style="color:#f92672">,</span> lineOfSight<span style="color:#f92672">);</span>
 
-Rugged rugged <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RuggedBuilder<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span>
+Rugged rugged <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RuggedBuilder<span style="color:#f92672">().</span>
 	<span style="color:#75715e">// do not use Digital Elevation Model
-</span><span style="color:#75715e"></span>	setAlgorithm<span style="color:#f92672">(</span>AlgorithmId<span style="color:#f92672">.</span><span style="color:#a6e22e">IGNORE_DEM_USE_ELLIPSOID</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span> 
-	setEllipsoid<span style="color:#f92672">(</span>EllipsoidId<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84</span><span style="color:#f92672">,</span> BodyRotatingFrameId<span style="color:#f92672">.</span><span style="color:#a6e22e">ITRF</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span>
+</span><span style="color:#75715e"></span>	setAlgorithm<span style="color:#f92672">(</span>AlgorithmId<span style="color:#f92672">.</span><span style="color:#a6e22e">IGNORE_DEM_USE_ELLIPSOID</span><span style="color:#f92672">).</span> 
+	setEllipsoid<span style="color:#f92672">(</span>EllipsoidId<span style="color:#f92672">.</span><span style="color:#a6e22e">WGS84</span><span style="color:#f92672">,</span> BodyRotatingFrameId<span style="color:#f92672">.</span><span style="color:#a6e22e">ITRF</span><span style="color:#f92672">).</span>
 	<span style="color:#75715e">// calculate 10 minute pass
-</span><span style="color:#75715e"></span>	setTimeSpan<span style="color:#f92672">(</span>absDate<span style="color:#f92672">,</span> absDate<span style="color:#f92672">.</span><span style="color:#a6e22e">shiftedBy</span><span style="color:#f92672">(</span>60 <span style="color:#f92672">*</span> 10<span style="color:#f92672">)</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">01</span><span style="color:#f92672">,</span> 8 <span style="color:#f92672">/</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getRate</span><span style="color:#f92672">(</span>0<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span> 
+</span><span style="color:#75715e"></span>	setTimeSpan<span style="color:#f92672">(</span>absDate<span style="color:#f92672">,</span> absDate<span style="color:#f92672">.</span><span style="color:#a6e22e">shiftedBy</span><span style="color:#f92672">(</span>60 <span style="color:#f92672">*</span> 10<span style="color:#f92672">),</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">01</span><span style="color:#f92672">,</span> 8 <span style="color:#f92672">/</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getRate</span><span style="color:#f92672">(</span>0<span style="color:#f92672">)).</span> 
 	setTrajectory<span style="color:#f92672">(</span>InertialFrameId<span style="color:#f92672">.</span><span style="color:#a6e22e">EME2000</span><span style="color:#f92672">,</span>
 	              satellitePVList<span style="color:#f92672">,</span> 4<span style="color:#f92672">,</span> CartesianDerivativesFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">USE_PV</span><span style="color:#f92672">,</span>
-	              satelliteQList<span style="color:#f92672">,</span>  4<span style="color:#f92672">,</span>  AngularDerivativesFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">USE_R</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span>
-	addLineSensor<span style="color:#f92672">(</span>lineSensor<span style="color:#f92672">)</span><span style="color:#f92672">.</span>
-	build<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	              satelliteQList<span style="color:#f92672">,</span>  4<span style="color:#f92672">,</span>  AngularDerivativesFilter<span style="color:#f92672">.</span><span style="color:#a6e22e">USE_R</span><span style="color:#f92672">).</span>
+	addLineSensor<span style="color:#f92672">(</span>lineSensor<span style="color:#f92672">).</span>
+	build<span style="color:#f92672">();</span>
 </code></pre></div><p>Алгоритм следующий:</p>
 <ul>
 <li>создаётся <code>lineOfSight</code> на основе параметров камеры</li>
@@ -461,13 +463,13 @@ Rugged rugged <span style="color:#f92672">=</span> <span style="color:#66d9ef">n
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> lineIndex <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
 <span style="color:#66d9ef">int</span> pixelIndex <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
 <span style="color:#75715e">// position of sensor within spacecraft frame
-</span><span style="color:#75715e"></span>Vector3D position <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getPosition</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-AbsoluteDate date <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getDate</span><span style="color:#f92672">(</span>lineIndex<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>Vector3D position <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getPosition</span><span style="color:#f92672">();</span>
+AbsoluteDate date <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getDate</span><span style="color:#f92672">(</span>lineIndex<span style="color:#f92672">);</span>
 <span style="color:#75715e">// get line-of-sight
-</span><span style="color:#75715e"></span>Vector3D los <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getLOS</span><span style="color:#f92672">(</span>date<span style="color:#f92672">,</span> pixelIndex<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>Vector3D los <span style="color:#f92672">=</span> lineSensor<span style="color:#f92672">.</span><span style="color:#a6e22e">getLOS</span><span style="color:#f92672">(</span>date<span style="color:#f92672">,</span> pixelIndex<span style="color:#f92672">);</span>
 <span style="color:#75715e">// calculate GCP
-</span><span style="color:#75715e"></span>GeodeticPoint gcp <span style="color:#f92672">=</span> rugged<span style="color:#f92672">.</span><span style="color:#a6e22e">directLocation</span><span style="color:#f92672">(</span>date<span style="color:#f92672">,</span> position<span style="color:#f92672">,</span> los<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-</code></pre></div><h2 id="heading-1">Результат</h2>
+</span><span style="color:#75715e"></span>GeodeticPoint gcp <span style="color:#f92672">=</span> rugged<span style="color:#f92672">.</span><span style="color:#a6e22e">directLocation</span><span style="color:#f92672">(</span>date<span style="color:#f92672">,</span> position<span style="color:#f92672">,</span> los<span style="color:#f92672">);</span>
+</code></pre></div><h2 id="результат">Результат</h2>
 <p>Для того, чтобы проверить корректность модели, можно рассчитать опорные точки для каждого пиксела и нанести на карту. Например, неправильно рассчитанные квартернионы дают следующую картинку:</p>
 <p><img src="/img/georeferencing-gcp/5.png" alt=""></p>
 <p>Судя по изображению, камера спутника сначала смотрит точно в надир, а потом начинает отклоняться вверх и влево.</p>

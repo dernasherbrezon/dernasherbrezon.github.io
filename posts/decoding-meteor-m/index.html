@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/decoding-meteor-m/slides1.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='jpoint'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='lrpt'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='dsp'><meta property='article:published_time' content='2019-08-26T08:31:17&#43;01:00'/><meta property='article:modified_time' content='2019-08-26T08:31:17&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/decoding-meteor-m/slides1.jpg'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>История одной картинки • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/decoding-meteor-m/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -338,11 +340,11 @@
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Введение</h2>
+  <h2 id="введение">Введение</h2>
 <p>В ноябре 2018 года команда конференции JPoint <a href="https://habr.com/ru/company/jugru/blog/429814/">объявила</a> о конкурсе докладов для будущей конференции. Я очень воодушевился и решил подать свою заявку. В своём докладе я хотел рассказать о том, как я декодировал сигнал со спутника Meteor-M 2. В декабре мне позвонили организаторы и мы немножко поговорили про меня и мой доклад. Он им показался интересным и они попросили меня набросать презентацию и текст.</p>
 <p>На январских праздниках я засел за презентацию и сделал, как мне кажется, неплохой доклад. Парням из организации конференции он очень понравился. К сожалению, дальше меня отсеяли и я не попал на конференцию. Они пососетовали мне попробовать попасть на Joker 2019, и вот недавно мой доклад опять не приняли.</p>
 <p>Я потратил очень много усилий, чтобы его сделать, поэтому выложу его сюда, в мой блог.</p>
-<h2 id="-">Описание слайдов</h2>
+<h2 id="описание-слайдов">Описание слайдов</h2>
 <p><img src="/img/decoding-meteor-m/slides1.jpg" alt=""></p>
 <p>Итак, история началась несколько лет назад, когда я вдохновленный успехами частной космонавтики и г-на Маска решил сам прикоснуться к космосу. На глаза мне попалась статья об rtl-sdr о приёме сигналов со спутников. В тот момент я понял. Это оно.</p>
 <p>Конечно, спутников много и непонятно с чего начать, какая антенна нужна, какой софт. Поэтому я решил начать с чего-то, что можно потрогать и увидеть. С метео-снимков. На орбите сейчас летает множество метео-спутников, но самые доступные - это NOAA и наш Meteor. Я посмотрел на картинки в интернете и мне понравились снимки Meteor. Они большего разрешения, цифровые и выглядят лучше.</p>

@@ -11,7 +11,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='jpeg'><meta property='article:tag' content='abbreviated jpeg'><meta property='article:published_time' content='2020-01-09T21:11:18&#43;01:00'/><meta property='article:modified_time' content='2020-01-09T21:11:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Abbreviated jpeg в Java • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/abbreviated-jpeg-java/'>
@@ -137,7 +137,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -179,7 +179,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -197,7 +197,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -214,6 +214,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -249,7 +251,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -339,7 +341,7 @@
   <p>Я думаю все, кто хоть раз запускал компьютер, знают, что такое jpeg. Этот стандарт появился в далёком 1991 году и с тех пор оброс различными расширениями и дополнительными возможностями. Для обычных пользователей все эти изменения не видны. Вы просто кликаете по файлу и видите красивую картинку. Для 99% разработчиков jpeg также представляет собой чёрный ящик. Максимум, с чем может столкнуться среднестатистический разработчик - это оптимизировать размер картинок с помощью <a href="https://linux.die.net/man/1/jpegtran">jpegtran</a> или сконвертировать один формат в другой с помощью <a href="https://docs.oracle.com/javase/tutorial/2d/images/loadimage.html">ImageIO</a>.</p>
 <p>Всё становится значительно сложнее, когда нужно получить картинку со спутника. Понятное дело, никто не будет придумывать совершенно новый способ кодирования картинок, только для того, чтобы передать фотографию. Но и обычные файлы для этого не подходят. Это, прежде всего, связно с шириной канала и возможными потерями сигнала.</p>
 <p>Одним из способов передачи/хранения картинки является &ldquo;Abbreviated image&rdquo;. Однако, прежде, чем пытаться понять, что это такое, необходимо вспомнить формат хранения jpeg в обычном файле.</p>
-<h2 id="-">Обычный файл</h2>
+<h2 id="обычный-файл">Обычный файл</h2>
 <p>Если вкратце, то данные в jpeg файле хранятся с использованием маркеров. Маркер - это специальные 2 байта, которые идентифицируют тип блока и данные в нём. Например, структура обычного jpeg файла может быть следующая:</p>
 <p><img src="/img/abbreviated-jpeg-java/sampleJpegStructure.jpg" alt=""></p>
 <p>В данном примере, SOI - это маркер начала изображения, DQT - это маркер начала таблицы квантования, SOS - это маркер начала сканирования. Он содержит небольшую метаинформацию и непосредственно данные изображения. EOI - это маркер конца изображения.</p>
@@ -352,15 +354,15 @@
 <p>К достоинствам прежде всего следует отнести то, что размер файла чуть меньше. Также такие файлы устойчивы к повреждениям. Если отсутствует кусок файла или он повреждён, то достаточно найти следующий маркер RST и продолжить декодирование.</p>
 <p>Недостатков также несколько. Во-первых, необходимо заранее договориться о параметрах файла. Это значит, что такой способ не подходит для web. Производители web браузеров совершенно точно не будут кодировать всевозможные таблицы для всех возможных комбинаций файлов. Во-вторых, современные каналы связи и диски достаточно большие, чтобы экономить на размере таблиц.</p>
 <p>Несмотря на это, такой способ хранения и передачи изображений jpeg используется в узкоспециализированных системах. Например, формат <a href="https://ukhas.org.uk/guides:ssdv#packet_format">ssdv</a> использует Abbreviated image.</p>
-<h3 id="--java">Поддержка в Java</h3>
+<h3 id="поддержка-в-java">Поддержка в Java</h3>
 <p>Я был сильно удивлён, когда узнал что поддержка такого экзотичного типа хранения jpeg файла поддерживается в java. В <a href="https://docs.oracle.com/en/java/javase/13/docs/api/java.desktop/javax/imageio/metadata/doc-files/jpeg_metadata.html">официальной документации</a> очень детально описано, что происходит при вызове различных методов API. К сожалению, за целый день пристального вглядывания в документацию, я так и не понял как же работать с таким форматом. Лишь на следующий день я решил бросить это дело и просто почитать исходники. Их оказалось, на удивление, не так много, и дело сдвинулось с мёртвой точки.</p>
 <p>Итак, для того, чтобы прочитать такой файл нужно сделать 2 вещи. Во-первых, необходимо задать таблицы, о которых заранее договорились поставщик и получатель.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">JPEGImageReadParam param <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JPEGImageReadParam<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-param<span style="color:#f92672">.</span><span style="color:#a6e22e">setDecodeTables</span><span style="color:#f92672">(</span>qTables<span style="color:#f92672">,</span> DCHuffmanTables<span style="color:#f92672">,</span> ACHuffmanTables<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">JPEGImageReadParam param <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JPEGImageReadParam<span style="color:#f92672">();</span>
+param<span style="color:#f92672">.</span><span style="color:#a6e22e">setDecodeTables</span><span style="color:#f92672">(</span>qTables<span style="color:#f92672">,</span> DCHuffmanTables<span style="color:#f92672">,</span> ACHuffmanTables<span style="color:#f92672">);</span>
 </code></pre></div><p>Во-вторых, необходимо передать эти параметры при чтении из файла:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ImageReader jpgReader <span style="color:#f92672">=</span> ImageIO<span style="color:#f92672">.</span><span style="color:#a6e22e">getImageReadersByFormatName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jpg&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-jpgReader<span style="color:#f92672">.</span><span style="color:#a6e22e">setInput</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileImageInputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;test.jpeg&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-BufferedImage image  <span style="color:#f92672">=</span> jpgReader<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> param<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ImageReader jpgReader <span style="color:#f92672">=</span> ImageIO<span style="color:#f92672">.</span><span style="color:#a6e22e">getImageReadersByFormatName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;jpg&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">next</span><span style="color:#f92672">();</span>
+jpgReader<span style="color:#f92672">.</span><span style="color:#a6e22e">setInput</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileImageInputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;test.jpeg&#34;</span><span style="color:#f92672">)));</span>
+BufferedImage image  <span style="color:#f92672">=</span> jpgReader<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> param<span style="color:#f92672">);</span>
 </code></pre></div><p>В результате <code>BufferedImage</code> будет содержать вполне обычное изображение, которое можно сохранить или преобразовать далее.</p>
 <p>Несмотря на всё это, API есть куда расти. Например, в <code>JPEGImageReadParam</code> нельзя задать subsampling mode и <code>ColorSpace</code>. А это значит, что они должны быть в самом Abbreviated image. Это в свою очередь сводит на нет, устойчивость к повреждениям файла.</p>
 

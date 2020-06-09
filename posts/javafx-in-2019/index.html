@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/javafx-in-2019/dark.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='javafx'><meta property='article:tag' content='rtlsdr'><meta property='article:published_time' content='2019-06-16T10:20:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-16T10:20:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/javafx-in-2019/dark.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>JavaFX в 2019 • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/javafx-in-2019/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -338,7 +340,7 @@
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Зачем?</h2>
+  <h2 id="зачем">Зачем?</h2>
 <p>Зачем вообще кому-то писать толстый клиент в 2019 году? Web и <a href="https://atom.io">atom</a> уже победили. Можно поставить браузер или еще 8Гб оперативной памяти и получить переливающееся приложение. К сожалению, не все задачи можно решать через web. Для измерения АЧХ фильтров, мне необходимо было достаточно простое приложение:</p>
 <ul>
 <li>запуск <a href="http://kmkeen.com/rtl-power/">rtl_power</a> и вывод результатов в виде графика</li>
@@ -347,7 +349,7 @@
 </ul>
 <p>Понятно, что для такого простого приложения использовать web + web server или atom - это слишком. Другими альтернативами были <a href="https://developer.apple.com/swift/">swift</a>, <a href="https://www.qt.io">QT</a> или какой-нибудь <a href="https://dotnet.microsoft.com">.NET</a>. Но у всех у них есть один фатальный недостаток - они не на Java. Вообще, это не первое приложение, которое я писал на Java для десктопа. В далёком 2006 году у меня был небольшой компонент MultiLineTable, который работал поверх стандартного JTable из <a href="https://ru.wikipedia.org/wiki/Swing">Swing</a>. Он позволял делать сложную таблицу со вложенными столбцами.</p>
 <p><img src="/img/javafx-in-2019/8536_original.jpg" alt=""></p>
-<h2 id="heading-1">Процесс</h2>
+<h2 id="процесс">Процесс</h2>
 <p>По сравнению с 2006 годом, прогресс шагнул вперед. Теперь при разработке многие компоненты явно указывают на стандартный паттерн MVC.</p>
 <p><img src="/img/javafx-in-2019/mvc.png" alt=""></p>
 <p>В случае JavaFX:</p>
@@ -370,9 +372,9 @@
 <li>отображение достаточно кастомизированного LineChart</li>
 </ul>
 <p><img src="/img/javafx-in-2019/white.png" alt=""></p>
-<h2 id="-javafx">Передовой JavaFX</h2>
+<h2 id="передовой-javafx">Передовой JavaFX</h2>
 <p>Несмотря на вполне рабочий результат, внутренний перфекционист не давал мне спать. Поэтому я потратил еще около 4 дней на исследования.</p>
-<h3 id="-">Темная тема</h3>
+<h3 id="темная-тема">Темная тема</h3>
 <p>Во-первых, мне захотелось сделать темную тему в приложении. Дело в том, что MacOS у меня переключен на темную тему и многие приложения автоматически (или нет?) стали выглядить в тон основным элементам ОС. Я решил узнать, можно ли поставить темную тему средствами JavaFX. Нельзя. По-умолчанию, все приложения JavaFX запускаются со стандартыми стилями для заданной ОС. Вместе с умельцами со stackoverflow мне удалось сделать нечто похожее на темную тему.</p>
 <ul>
 <li>все стили JavaFX зависят от одного базового стиля &ldquo;-fx-base&rdquo;, поэтому, изменив его на темный, можно поменять стиль всего приложения.</li>
@@ -383,28 +385,28 @@
 </code></pre></div><ul>
 <li>Определить какая сейчас тема установлена в операционной системе можно через системную команду. Она возвращает &ldquo;Dark&rdquo; для темной темы.</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ProcessBuilder builder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">command</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/usr/bin/defaults&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;read&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;-g&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;AppleInterfaceStyle&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ProcessBuilder builder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">command</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/usr/bin/defaults&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;read&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;-g&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;AppleInterfaceStyle&#34;</span><span style="color:#f92672">);</span>
 Process process<span style="color:#f92672">;</span>
 <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-	process <span style="color:#f92672">=</span> builder<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">int</span> resultCode <span style="color:#f92672">=</span> process<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>resultCode <span style="color:#f92672">!</span><span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	process <span style="color:#f92672">=</span> builder<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+	<span style="color:#66d9ef">int</span> resultCode <span style="color:#f92672">=</span> process<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">();</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>resultCode <span style="color:#f92672">!=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
 	<span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	e1<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	e1<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
 	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>Результат вполне неплох:</p>
 <p><img src="/img/javafx-in-2019/dark.png" alt=""></p>
 <p>Но шапка окна по-прежнему светлая! Ее, конечно, можно убрать, нарисовать свою темную и сэмулировать работу, но тогда придется эмулировать работу для каждой ОС. И в каждой ОС она выглядит и работает по-разному. В общем, я решил, что усилия и потенциальные баги не стоят того.</p>
-<h3 id="--1">Выделение текста</h3>
+<h3 id="выделение-текста">Выделение текста</h3>
 <p>rtlSpectrum на старте отображает небольшую подсказку с чего начать. В частности, есть текст команды для генерации .csv файла.</p>
 <p><img src="/img/javafx-in-2019/selectText.png" alt=""></p>
 <p>Очевидно, что эту команду надо бы дать скопировать. Как бы не так. Современные браузеры приучили нас к тому, что в любом приложении можно выделить текст. Однако, это не так в десктоп-приложениях: чтобы выделить текст в Label, необходимо приложить усилия. В частности для JavaFX необходимо сделать фиктивный Node и заменить Label на Input с хитрым стилем, который бы мимикрировал под Label. Слишком сложно для такого простого улучшения.</p>
-<h3 id="--2">Жирный текст</h3>
+<h3 id="жирный-текст">Жирный текст</h3>
 <p>Начальную подсказку надо было как-то выделить. &ldquo;Getting started&rdquo; явно терялась среди пары абзацев текста. Самое очевидное - это сделать размер шрифта больше и сделать его жирным. Оказывается, на Mac OS шрифт по-умолчанию <a href="https://bugs.openjdk.java.net/browse/JDK-8176835">не поддерживает bold</a>. На дворе 2019 год и Java не может отрисовать жирный шрифт. Решением стало использовать другой шрифт - &ldquo;Arial&rdquo;.</p>
-<h2 id="heading-2">Сборка</h2>
+<h2 id="сборка">Сборка</h2>
 <p>Итак, приложение написано, шрифты побеждены, настало время сделать то, без чего ни одно приложение не может обойтись - сборка и дистрибьюция. Поскольку я знаю только <a href="https://ru.wikipedia.org/wiki/Java_Web_Start">Java Web start</a> и он, вроде как, давно умер, то я начал фантазировать на тему того, чего я бы хотел от идеальной дистрибьюции:</p>
 <ul>
 <li>нативное приложение</li>
@@ -425,7 +427,7 @@ hashes javafx.base SHA-256 6ff380e1321d8dcc64b22151ebe8fb31eb10c4484040e49e452ca
 </code></pre><p>Но в 11 версии же нет JavaFX! Оказывается в liberica jdk <a href="https://bell-sw.com/pages/java-11.0.3/">JavaFX включён</a>. Что же получается? Есть JDK/JRE в которых JavaFX модуль есть, а есть те в которых его нет. Если я буду писать приложение, которое зависит от JavaFX, то мне нужно его вместе с приложением поставлять или извне ожидать? В общем, явно существует путаница с тем, как паковать приложение.</p>
 <p>Выкинув JavaFX из maven зависимостей, мне удалось собрать образ приложения. Он занимает ~100Мб и запускается командой <code>./bin/java -m  rtlSpectrum</code>. Простое приложение по выводу графика не должно занимать 100мегабайт. В результирующем обьразе нет rtlSpectrum.sh или просто rtlSpectrum. Этот образ - просто сборка jre, в которой по умолчанию есть rtlSpectrum.</p>
 <p>Все это привело меня к мысли о том, что надо делать по старинке. Я откатился на java 8, где JavaFX есть по умолчанию и начал собирать обычный jar. В итоге приложение мультиплатформенное, весит 26кб и требует java.</p>
-<h2 id="--3">Что дальше?</h2>
+<h2 id="что-дальше">Что дальше?</h2>
 <p>За 6 дней у меня получилось написать достаточно простое приложение для десктопа. Его можно скачать на <a href="https://github.com/dernasherbrezon/rtlSpectrum/releases">github</a>, CI/CD сделан с помощью travis, качество кода анализируется sonarcloud. Из того, что не хватает:</p>
 <ul>
 <li>Тестирование с помощью <a href="https://github.com/TestFX/TestFX">TestFx</a></li>

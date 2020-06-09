@@ -13,7 +13,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/sqnr/sqnr.png'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='sqnr'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='matlab'><meta property='article:published_time' content='2019-06-27T21:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-27T21:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/sqnr/sqnr.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Расчёт SQNR • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/sqnr/'>
@@ -139,7 +139,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@ SQNR АЦП преоразует сигнал из аналогового вид
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -338,7 +340,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
   
 
   <div class='container entry-content'>
-  <h1 id="heading">Введение</h1>
+  <h1 id="введение">Введение</h1>
 <p>Если открыть спецификацию на любой rtl-sdr приемник, то можно увидеть следующую характеристику: АЦП - 8 бит. Почему эта характеристика важна? Почему о ней пишут и что она значит? Я решил разобраться и провёл небольшое расследование.</p>
 <h1 id="sqnr">SQNR</h1>
 <p>АЦП преоразует сигнал из аналогового вида в цифровой. Это преобразование по своей сути всегда неточное. Дело в том, что аналоговый сигнал непрерывный, а цифровой - набор отсчетов. Процесс преобразования сигнала называется квантированием. При этом часть информации теряется, а значит, в терминах обработки сигнала появляется шум. Этот шум называется шумом квантования. Обычно правда используют другой параметр - отношение сигнала к шуму квантирования (SQNR).</p>
@@ -402,7 +404,7 @@ SQNR = 20\log_{10}(\dfrac{V_{rms}}{V_{e}}) \newline
 $$</p>
 <p>После этого можно построить график зависимости SQNR от числа битов:</p>
 <p><a href="/img/sqnr/sqnr.m"><img src="/img/sqnr/sqnr.png" alt=""></a></p>
-<h1 id="heading-1">Выводы</h1>
+<h1 id="выводы">Выводы</h1>
 <p>Из этого графика можно сделать интересные выводы. Например, динамический диапазон rtl-sdr не может быть больше 50db. Это очень важно применительно к измерению качества фильтров. Например, большинство FM фильтров имеют коэффициент ослабления около 60db. А это значит что с помощью rtl-sdr нельзя будет измерить такие фильтры.</p>
 
 </div>

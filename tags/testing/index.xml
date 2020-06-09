@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>testing on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/testing/</link>
+    <description>Recent content in testing on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 25 May 2020 17:27:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Юнит-тесты</title>
+      <link>https://dernasherbrezon.com/posts/unit-tests/</link>
+      <pubDate>Mon, 25 May 2020 17:27:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/unit-tests/</guid>
+      <description>15 лет назад никто не слышал про юнит-тесты. Код писался один раз, потом проверялся вручную QA и методами пристального вглядывания. Все жили в гармонии и мире. Но тут пришли юнит-тесты и мир разделился на два враждующих лагеря: на тех, кто пишет тесты и тех, кто нет.
+Спойлер: я за авто-тесты.
+В интернете очень много аргументов как за, так и против. Я решил собрать свой собственный список аргументов за юнит-тесты.
+1 Тесты пишутся не для того, чтобы протестировать каждое логическое условие и всевозможные комбинации входных и выходных данных.</description>
+    </item>
+    
+  </channel>
+</rss>

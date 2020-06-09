@@ -15,7 +15,7 @@ unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/dstar1-telemetry/4.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='satellite'><meta property='article:tag' content='спутники'><meta property='article:tag' content='mobitex'><meta property='article:published_time' content='2020-02-19T14:14:18&#43;01:00'/><meta property='article:modified_time' content='2020-02-19T14:14:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/dstar1-telemetry/4.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Декодирование телеметрии D-STAR ONE • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/dstar1-telemetry/'>
@@ -141,7 +141,7 @@ unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -183,7 +183,7 @@ unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -201,7 +201,7 @@ unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -218,6 +218,8 @@ unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -253,7 +255,7 @@ unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -348,25 +350,25 @@ java.io.EOFException
         at ru.r2cloud.jradio.dstar1.Dstar1Beacon.readBeacon(Dstar1Beacon.java:27)
         at ru.r2cloud.jradio.Beacon.readExternal(Beacon.java:16)
 </code></pre><p>Эта случайная ошибка в логах и моя любознательность стали причиной интересного расследования, которое значительно улучшило качество приёма телеметрии.</p>
-<h2 id="heading">Расследование</h2>
+<h2 id="расследование">Расследование</h2>
 <p>Как обычно в таких случаях, я скачал сырые данные и попытался воспроизвести ошибку локально. Код <code>Dstar1Beacon</code> достаточно простой, поэтому остановившись в дебаг-режиме, я сразу понял в чём дело. <code>CMX909bBeacon</code> декодирует данные и возвращает массив байт, который и будет использоваться в дальнейшем.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">DataInputStream dis <span style="color:#f92672">=</span> <span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
-<span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> dataFromBlocks <span style="color:#f92672">=</span> CMX909bBeacon<span style="color:#f92672">.</span><span style="color:#a6e22e">readDataBlocks</span><span style="color:#f92672">(</span>NUMBER_OF_BLOCKS<span style="color:#f92672">,</span> randomizer<span style="color:#f92672">,</span> dis<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>dataFromBlocks <span style="color:#f92672">!</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	payload <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PayloadData<span style="color:#f92672">(</span>dataFromBlocks<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">DataInputStream dis <span style="color:#f92672">=</span> <span style="color:#f92672">...</span>
+<span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> dataFromBlocks <span style="color:#f92672">=</span> CMX909bBeacon<span style="color:#f92672">.</span><span style="color:#a6e22e">readDataBlocks</span><span style="color:#f92672">(</span>NUMBER_OF_BLOCKS<span style="color:#f92672">,</span> randomizer<span style="color:#f92672">,</span> dis<span style="color:#f92672">);</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>dataFromBlocks <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	payload <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PayloadData<span style="color:#f92672">(</span>dataFromBlocks<span style="color:#f92672">);</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>Сам же <code>CMX909bBeacon</code> выглядит следующим образом:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">readDataBlocks</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> numberOfBlocks<span style="color:#f92672">,</span> MobitexRandomizer randomizer<span style="color:#f92672">,</span> DataInputStream dis<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> UncorrectableException <span style="color:#f92672">{</span>
-	ByteArrayOutputStream baos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayOutputStream<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> numberOfBlocks<span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">readDataBlocks</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> numberOfBlocks<span style="color:#f92672">,</span> MobitexRandomizer randomizer<span style="color:#f92672">,</span> DataInputStream dis<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">,</span> UncorrectableException <span style="color:#f92672">{</span>
+	ByteArrayOutputStream baos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayOutputStream<span style="color:#f92672">();</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> numberOfBlocks<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
 		<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-			<span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> block <span style="color:#f92672">=</span> readDatablock<span style="color:#f92672">(</span>randomizer<span style="color:#f92672">,</span> dis<span style="color:#f92672">,</span> BLOCK_SIZE_BYTES<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-			baos<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>block<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+			<span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> block <span style="color:#f92672">=</span> readDatablock<span style="color:#f92672">(</span>randomizer<span style="color:#f92672">,</span> dis<span style="color:#f92672">,</span> BLOCK_SIZE_BYTES<span style="color:#f92672">);</span>
+			baos<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>block<span style="color:#f92672">);</span>
 		<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>UncorrectableException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 			<span style="color:#75715e">// if some data recovered, then return it
 </span><span style="color:#75715e"></span>			<span style="color:#75715e">// at least some SourcePacket might be recovered
-</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>baos<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-				<span style="color:#66d9ef">return</span> baos<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>baos<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+				<span style="color:#66d9ef">return</span> baos<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">();</span>
 			<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
 				<span style="color:#75715e">// if this is the first block and we cannot recover it
 </span><span style="color:#75715e"></span>				<span style="color:#75715e">// then throw Exception. most likely whole packet is invalid
@@ -374,7 +376,7 @@ java.io.EOFException
 			<span style="color:#f92672">}</span>
 		<span style="color:#f92672">}</span>
 	<span style="color:#f92672">}</span>
-	<span style="color:#66d9ef">return</span> baos<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">return</span> baos<span style="color:#f92672">.</span><span style="color:#a6e22e">toByteArray</span><span style="color:#f92672">();</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>Для каждого блока (о них чуть ниже), происходит декодирование и добавление в результирующий массив. Самая интересная часть находится в обработке <code>UncorrectableException</code>. Если блок не удалось декодировать, то возвращаются только успешно декодированные данные. Но если декодированных данных нет, то <code>UncorrectableException</code> пробрасывается дальше.</p>
 <p>Видимо, из-за этого как раз и возник <code>EOFException</code>. Из метода вернулось неполное количество байт, и <code>PayloadData</code> просто не смог десериализоваться.</p>
@@ -390,14 +392,14 @@ java.io.EOFException
 <p>Для работы с таким потоком байт обычный массив <code>byte[]</code> не подходит. Во-первых, он занимает место там, где отсутствуют данные. А во-вторых, нужно явно возвращать пустые значения, если идёт чтение из &ldquo;дырки&rdquo;. Для этого я создал структуру данных <code>GapData</code> и поток <code>GapDataInputStream</code>, который очень похож на обычный <code>DataInputStream</code>. Основная его идея достаточно проста: если идёт чтение из &ldquo;дырки&rdquo; то нужно возвращать <code>null</code>, в противном случае - число.</p>
 <p><img src="/img/dstar1-telemetry/4.png" alt=""></p>
 <p>В данном примере, <code>short B = null</code>, потому что один из байтов попадает в дырку. А вот <code>byte C</code> будет содержать значение. Также я сделал методы очень похожие на <code>DataInputStream</code>: <code>readUnsignedByte</code> или <code>readUnsignedShort</code>. Из-за этого миграция на новую структуру данных стала тривиальной:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">batteryChargeOut <span style="color:#f92672">=</span> dis<span style="color:#f92672">.</span><span style="color:#a6e22e">readUnsignedShort</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> 2<span style="color:#f92672">.</span><span style="color:#a6e22e">5f</span> <span style="color:#f92672">/</span> <span style="color:#f92672">(</span>4096 <span style="color:#f92672">*</span> 20 <span style="color:#f92672">*</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">033f</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">batteryChargeOut <span style="color:#f92672">=</span> dis<span style="color:#f92672">.</span><span style="color:#a6e22e">readUnsignedShort</span><span style="color:#f92672">()</span> <span style="color:#f92672">*</span> 2<span style="color:#f92672">.</span><span style="color:#a6e22e">5f</span> <span style="color:#f92672">/</span> <span style="color:#f92672">(</span>4096 <span style="color:#f92672">*</span> 20 <span style="color:#f92672">*</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">033f</span><span style="color:#f92672">);</span>
 </code></pre></div><p>Нужно заменить на:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Integer unsignedShort <span style="color:#f92672">=</span> dis<span style="color:#f92672">.</span><span style="color:#a6e22e">readUnsignedShort</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>unsignedShort <span style="color:#f92672">!</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	batteryChargeOut <span style="color:#f92672">=</span> unsignedShort <span style="color:#f92672">*</span> 2<span style="color:#f92672">.</span><span style="color:#a6e22e">5f</span> <span style="color:#f92672">/</span> <span style="color:#f92672">(</span>4096 <span style="color:#f92672">*</span> 20 <span style="color:#f92672">*</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">033f</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Integer unsignedShort <span style="color:#f92672">=</span> dis<span style="color:#f92672">.</span><span style="color:#a6e22e">readUnsignedShort</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>unsignedShort <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	batteryChargeOut <span style="color:#f92672">=</span> unsignedShort <span style="color:#f92672">*</span> 2<span style="color:#f92672">.</span><span style="color:#a6e22e">5f</span> <span style="color:#f92672">/</span> <span style="color:#f92672">(</span>4096 <span style="color:#f92672">*</span> 20 <span style="color:#f92672">*</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">033f</span><span style="color:#f92672">);</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>При этом все внутренние поля должны измениться на объекты <code>float -&gt; Float</code>, <code>byte -&gt; Byte</code> и так далее.</p>
-<h2 id="heading-1">Послесловие</h2>
+<h2 id="послесловие">Послесловие</h2>
 <p>Судя по коду <code>CMX909bBeacon</code> я уже догадывался, что можно частично прочитать данные. Однако, я забыл добавить правильную обработку в десериализатор. Теперь же, с помощью <code>GapDataInputStream</code> я смогу получать больше ценной информации с орбиты земли.</p>
 
 </div>

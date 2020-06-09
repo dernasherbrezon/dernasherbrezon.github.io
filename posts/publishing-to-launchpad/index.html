@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/publishing-to-launchpad/launchpad-logo-and-name.png'><meta property='article:section' content='posts'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='apt'><meta property='article:tag' content='deb'><meta property='article:tag' content='c'><meta property='article:published_time' content='2020-03-24T18:40:18&#43;01:00'/><meta property='article:modified_time' content='2020-03-24T18:40:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/publishing-to-launchpad/launchpad-logo-and-name.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Создание и публикация приложения в Launchpad • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/publishing-to-launchpad/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -344,9 +346,9 @@
 <li>что-то мне подсказывает, что нужно сделать очень много неявных приседаний прежде, чем моё приложение будет &ldquo;каноничным&rdquo; debian приложением. Это, конечно, полезно, но я не готов тратить сразу много времени на это.</li>
 </ul>
 <p>Все эти проблемы решает <a href="https://launchpad.net">Launchpad</a>. Специальный сервис для хостинга своих персональных apt репозиториев. Это не первое моё приложение, которое я решил разместить там. До этого я размещал там <a href="https://dernasherbrezon.com/posts/setting-up-c/">apt-transport-swift</a>.</p>
-<h2 id="heading">Подготовка</h2>
+<h2 id="подготовка">Подготовка</h2>
 <p>Прежде, чем начать подготавливать приложение, необходимо знать одну важную деталь. На ней в документации нет сильного акцента и для новичка это может стать откровением. В debian/ubuntu мире есть очень чёткое различие между &ldquo;оригинальным&rdquo; приложением и &ldquo;дебинизированным&rdquo;. Оригинальное приложение - это фактически исходники приложения и то, что предоставляет разработчик приложения. &ldquo;дебинизированное&rdquo; приложение - это исходники (или .tar.gz) и метаинформация о самом приложении, необходимые скрипты для сборки и разворачивания его в операционной системе. Эту особенность необходимо постоянно держать в голове. Это особенно важно, если ты являешься одновременно разработчиком приложения и мейнтейнером.</p>
-<h2 id="--">Общая схема работы</h2>
+<h2 id="общая-схема-работы">Общая схема работы</h2>
 <p>PPA - это personal package archives. По сути репозиторий, где можно хранить свои собственные сборки разных пакетов или собственные приложения. Работает это следующим образом:</p>
 <p><img src="/img/publishing-to-launchpad/1.png" alt=""></p>
 <ol>
@@ -356,13 +358,13 @@
 <li>Выкладывает в персональный apt репозторий</li>
 </ol>
 <p>В самом Launchpad есть гигантская билд ферма, которая постоянно собирает новые пакеты под разные архитектуры. Очень круто и удобно. Понятное дело, что они поддерживают только open source проекты.</p>
-<h2 id="heading-1">Погнали</h2>
+<h2 id="погнали">Погнали</h2>
 <p>Во-первых, необходимо <a href="https://login.launchpad.net/+login">создать аккаунт</a>.</p>
 <p>Во-вторых, в своём профиле на launchpad необходимо создать новый PPA. Тут опять всё очевидно.</p>
 <p>В-третих, необходимо привязать к своему аккаунту PGP ключ. Тут всё не так очевидно, но есть <a href="https://help.launchpad.net/YourAccount/ImportingYourPGPKey">хороший мануал</a> о том, как это сделать. В последствии этот ключ будет использоваться для того, чтобы подписать пакет и залить его launchpad.</p>
-<h2 id="-">Подготовка пакета</h2>
+<h2 id="подготовка-пакета">Подготовка пакета</h2>
 <p>Для того, чтобы собрать пакет, необходимо описать некоторую мета-информацию. Для этого необходимо создать папку debian в корне проекта. Я подробно не буду описывать каждый из необходимых файлов. Достаточно <a href="https://github.com/dernasherbrezon/epever-tracer-influxdb/tree/master/debian">посмотреть пример</a> того, как это сделано для epever-tracer-influxdb. Для разных приложений набор необходимых файлов может быть разный.</p>
-<h2 id="---1">Локальная сборка пакета</h2>
+<h2 id="локальная-сборка-пакета">Локальная сборка пакета</h2>
 <p>Тут всё немножко сложнее. Поскольку я разрабатываю на маке, у меня нет всех необходимых инструментов, чтобы собирать .deb пакеты. В моём случае необходимо делать дополнительные шаги:</p>
 <ul>
 <li>создать виртуалку в облаке</li>
@@ -383,7 +385,7 @@ E: epever-tracer-influxdb: bad-permissions-for-etc-cron.d-script etc/cron.d/epev
 <p>После того, как сборка прошла успешно, можно собирать .changes файл. Для этого необходимо выполнить команду:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">debuild -S -sa
 </code></pre></div><p>Эта команда создаст несколько файлов директорией выше и подпишет их pgp ключом.</p>
-<h2 id="heading-2">Публикация</h2>
+<h2 id="публикация">Публикация</h2>
 <p>Теперь всё готово, чтобы публиковать файлы в launchpad. Для этого нужно перейти на директорию выше и вызывать команду:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dput ppa:rodionovamp/epever-tracer-influxdb epever-tracer-influxdb_1.0.0-3_source.changes
 </code></pre></div><p>Название PPA и файла .changes, конечно же, необходимо изменить на свои. Если всё прошло успешно, то launchpad пришлёт письмо:</p>
@@ -392,7 +394,7 @@ E: epever-tracer-influxdb: bad-permissions-for-etc-cron.d-script etc/cron.d/epev
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo add-apt-repository ppa:rodionovamp/epever-tracer-influxdb
 sudo apt-get update
 sudo apt-get install epever-tracer-influxdb
-</code></pre></div><h2 id="----">Что может пойти не так</h2>
+</code></pre></div><h2 id="что-может-пойти-не-так">Что может пойти не так</h2>
 <p>Почти всё может пойти не так. Из-за того, что почти вся сборка основана на различных скриптах и негласных конвенциях, сломаться может любой из шагов выше. Я собрал очень много ошибок и потратил на их решение пару дней.</p>
 <pre><code>dpkg-source: info: building epever-tracer-influxdb using existing ./epever-tracer-influxdb_1.0.0.orig.tar.gz
 dpkg-source: error: cannot represent change to docs/screen1.png: binary file contents changed
@@ -406,7 +408,7 @@ File epever-tracer-influxdb_1.0.0.orig.tar.gz already exists in epever-tracer-in
 * Duration: 2 minutes
 * Build Log: ....
 </code></pre><p>То, что собралось на Mac OS необязательно соберётся на Ubuntu. Необходимо локально собирать проект и прогонять все тесты.</p>
-<h2 id="heading-3">Выводы</h2>
+<h2 id="выводы">Выводы</h2>
 <ul>
 <li>Очень много негласных конвенций и скриптов для сборки deb пакетов. Возможно, это связано с большим наследием самой системы. Возможно, это связано со сложностью поддержки такого большого количества пакетов в консистентном состоянии.</li>
 <li>Как следствие, нужно много читать или много тратить времени, чтобы исправить все ошибки деплоя</li>

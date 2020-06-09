@@ -57,7 +57,7 @@ Server server = new Server(9090); ServletHolder holder = new ServletHolder(new D
       
       <guid>https://dernasherbrezon.com/posts/eclipse-maven/</guid>
       <description>Maven в Eclipse - это очень удобно.
-Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&#39;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&#39;шный стандартно в output folder для Eclipse&#39;a, а maven&#39;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&amp;rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&amp;rsquo;шный стандартно в output folder для Eclipse&amp;rsquo;a, а maven&amp;rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
     </item>
     
   </channel>

@@ -11,7 +11,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/jradio-ber-bpsk/ber-bpsk-demodulator.png'><meta property='article:section' content='posts'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2019-08-16T10:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-16T10:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/jradio-ber-bpsk/ber-bpsk-demodulator.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Расчёт вероятности ошибки для BPSK демодулятора • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/jradio-ber-bpsk/'>
@@ -137,7 +137,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -179,7 +179,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -197,7 +197,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -214,6 +214,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -249,7 +251,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -336,9 +338,9 @@
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Введение</h2>
+  <h2 id="введение">Введение</h2>
 <p>Спустя несколько недель я наконец-то закончил одну очень важную задачу - расчёт вероятности ошибки в BSPK демодуляторе. Почему это важно? Демодулятор работает с сигналом, который проходит через физическую среду. В этой среде возможны сильные или слабые возмущения, которые непосредственно влияют на сигнал. И принимаемый сигнал может меняться со временем от хорошего до плохого и обратно. Из-за этого нельзя однозначно сказать демодулятор &ldquo;работает&rdquo; или &ldquo;не работает&rdquo;. Чтобы оценить его эффективность, необходимо симулировать среду передачи данных и сказать сколько ошибок он выдаёт при разных возмущениях среды. После этого уже можно сравнивать с теоретическими значениями и делать выводы.</p>
-<h2 id="-">Описание теста</h2>
+<h2 id="описание-теста">Описание теста</h2>
 <p>Для того, чтобы симулировать поведение демодулятора, я написал специальный тест. За основу я взял идею <a href="https://destevez.net/2017/07/ber-simulation-in-gnu-radio/">Daniel Estevez</a> и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/test/java/ru/r2cloud/jradio/demod/BpskDemodulatorBer.java">реализовал её</a> на java.</p>
 <p>Идея заключается в том, что подавая на вход BSPK модулятора множество &ldquo;1&rdquo;, необходимо получить множество &ldquo;1&rdquo; на выходе демодулятора. Если в результате получается &ldquo;0&rdquo;, то это значит ошибка. Если подсчитать количество &ldquo;0&rdquo; на выходе и поделить на общее количество полученных битов, то получится вероятность ошибки (BER).</p>
 <p>К сожалению, просто передавать &ldquo;1&rdquo; и получать &ldquo;1&rdquo; не получится. Необходимо сделать несколько шагов:</p>
@@ -352,7 +354,7 @@
 </ul>
 <p>На выходе я должен получить поток битов, на основе которых можно посчитать вероятность ошибки. Тут, правда, есть ещё несколько интересных моментов, которые стоит упомянуть. Во-первых, необходимо отбросить какое-то количество бит в самом начале. Они могут быть заведомо ошибочными, из-за начальной синхронизации демодулятора и дескремблера. Во-вторых, количество действительно неправильных бит должно быть поделено на 6. Это прежде всего связано с дифференциальным кодированием и скрэмблированием.</p>
 <p>Если была принята ошибка, то дифференциальное декодирование добавит ещё одну. Это значит необходимо поделить на 2. Для скремблирования я использую полином <code>0b00000000000100001</code>. А это значит, что на любую ошибку на входе, будет сгенерировано 3 ошибки на выходе. Итого получается 2*3=6.</p>
-<h2 id="heading-1">Результаты</h2>
+<h2 id="результаты">Результаты</h2>
 <p>Прежде чем получить финальный результат, я провёл несколько измерений для различных конфигураций демодулятора. Изначально демодулятор содержал блок эквалайзера. Он был нужен прежде всего для того, чтобы бороться с <a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%BD%D0%BE%D0%B3%D0%BE%D0%BB%D1%83%D1%87%D0%B5%D0%B2%D0%BE%D0%B5_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5">многолучевым распространением</a>. Однако, на практике характеристики демодулятора сильно хуже теоретических:</p>
 <p><a href="/img/jradio-ber-bpsk/lmsdd.m"><img src="/img/jradio-ber-bpsk/lmsdd.png" alt=""></a></p>
 <p>Синей линией обозначается теоретическое значение, красной - практическое измерение.</p>
@@ -361,7 +363,7 @@
 <p>А вот тот же расчёт, но для 1000000 бит:</p>
 <p><a href="/img/jradio-ber-bpsk/ber-bpsk-demodulator.m"><img src="/img/jradio-ber-bpsk/ber-bpsk-demodulator.png" alt="bpsk demodulator"></a></p>
 <p>Как видно на картинке, практическая реализация BPSK демодулятора почти совпадает с <a href="https://dernasherbrezon.com/posts/ber-bpsk/">теоретическими рассчётами</a>. Это даёт уверенности в текущей реализации и позволяет начать оптимизировать другие показатели демодулятора. Также я могу в любой момент запустить тест и проверить изменились ли характеристики. Это очень мощный инструмент отладки.</p>
-<h2 id="--1">Что дальше?</h2>
+<h2 id="что-дальше">Что дальше?</h2>
 <p>Можно добавить различные искажения среды и измерить реакцию демодулятора на них. Из того, что доступно:</p>
 <ol>
 <li>Симуляция многолучевого распространения.</li>

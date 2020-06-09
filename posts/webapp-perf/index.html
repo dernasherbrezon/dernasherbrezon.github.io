@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/webapp-perf/9.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='gc'><meta property='article:tag' content='jetty'><meta property='article:tag' content='jmeter'><meta property='article:tag' content='производительность'><meta property='article:tag' content='yourkit'><meta property='article:published_time' content='2012-12-28T14:58:18&#43;01:00'/><meta property='article:modified_time' content='2012-12-28T14:58:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/webapp-perf/9.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Оптимизация web приложения с помощью YourKit и JMeter • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/webapp-perf/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -338,7 +340,7 @@
   
 
   <div class='container entry-content'>
-  <h2 id="-">Постановка задачи</h2>
+  <h2 id="постановка-задачи">Постановка задачи</h2>
 <ul>
 <li>web server - Jetty. Запускается в embedded режиме с помощью spring. Общая настройка очень похожа на <a href="http://wiki.eclipse.org/Jetty/Howto/Spring">http://wiki.eclipse.org/Jetty/Howto/Spring</a></li>
 <li>IoC - spring 3.0.5</li>
@@ -364,7 +366,7 @@
 <img src="/img/webapp-perf/2.png" alt=""></li>
 </ol>
 <p>После этого, необходимо запустить jetty из под YourKit. Это очень удобно можно сделать, если использовать интеграцию с IDE. Например, Eclipse: <a href="http://www.yourkit.com/docs/12/help/eclipse.jsp">http://www.yourkit.com/docs/12/help/eclipse.jsp</a>. После запуска приложения, необходимо запустить JMeter на выполнение.</p>
-<h2 id="--1">Анализ данных</h2>
+<h2 id="анализ-данных">Анализ данных</h2>
 <p>Первые вещи, которые бросаются в глаза это:</p>
 <ul>
 <li>278 потоков приложения
@@ -374,7 +376,7 @@
 </ul>
 <p>Что говорят эти графики:</p>
 <ul>
-<li>Jetty сконфигурирован с использованием NIO. На каждый входящий запрос, NIO коннектор получает запрос и адресует его внутреннему threadpool'у, который и обрабатывает этот запрос (потоки с именем qtp******). Поскольку пользователей больше 200, то создаются все потоки из внутреннего пула и новые пользователи ждут пока отработает запрос предыдущих пользователей. Такая схема обработки запросов достаточно правильная, однако тут есть тонкость: не в каждой машине есть ~250 ядер. А следовательно операционная система будет тратить больше времени на переключение между этими потоками. Поэтому максимальный размер пула необходимо изменить. Хорошая формула размера пула приведена здесь: <a href="http://www.ibm.com/developerworks/library/j-jtp0730/index.html#heading6">http://www.ibm.com/developerworks/library/j-jtp0730/index.html#heading6</a>. Настроить пул можно передав в JettyServer новый <code>org.eclipse.jetty.util.thread.QueuedThreadPool</code> c указанным свойством maxThreads.</li>
+<li>Jetty сконфигурирован с использованием NIO. На каждый входящий запрос, NIO коннектор получает запрос и адресует его внутреннему threadpool&rsquo;у, который и обрабатывает этот запрос (потоки с именем qtp******). Поскольку пользователей больше 200, то создаются все потоки из внутреннего пула и новые пользователи ждут пока отработает запрос предыдущих пользователей. Такая схема обработки запросов достаточно правильная, однако тут есть тонкость: не в каждой машине есть ~250 ядер. А следовательно операционная система будет тратить больше времени на переключение между этими потоками. Поэтому максимальный размер пула необходимо изменить. Хорошая формула размера пула приведена здесь: <a href="http://www.ibm.com/developerworks/library/j-jtp0730/index.html#heading6">http://www.ibm.com/developerworks/library/j-jtp0730/index.html#heading6</a>. Настроить пул можно передав в JettyServer новый <code>org.eclipse.jetty.util.thread.QueuedThreadPool</code> c указанным свойством maxThreads.</li>
 <li>Затуп вначале связан с первичной компиляцией jsp страницы. В development среде это очень полезная вещь: можно менять jsp страницы и сервер будет автоматически показывать новую версию. В production среде, это необходимо отключить. Это можно сделать в файле webdefault.xml в Jetty. Или переопределить параметры org.apache.jasper.servlet.JspServlet в web.xml приложения. Необходимо настроить параметры: scratchdir - в эту директорию необходимо поместить скопилированные jsp и параметр development = false - jsp сервлет не будет проверять новую версию файла, из-за этого сильно увеличится быстродействие, так как не будут использоваться локи внутри сервлета.</li>
 </ul>
 <p>После произведённых начальных оптимизаций можно посмотреть на потребляемые ресурсы.</p>
@@ -419,10 +421,10 @@
 <p>Белая область в работе потоков означает stop-the-world, когда останавливаются все потоки приложения и выполняется сборка мусора. Как видно, со временем сборка мусора начинает занимать больше времени.</p>
 <p>Для кэширования использовалась библиотека <a href="http://ehcache.org/">Ehcache</a>.</p>
 <p>После введения кэширования для некоторых объектов, время обработки бизнес логики стало составлять <strong>9ms</strong>. Что в сумме даёт <strong>оптимизацию 57%</strong>.</p>
-<p>В YourKit есть замечательная метрика: количество и типы Exception'ов и stacktrace мест, где они были вызваны. Генерация Exception - это очень ресурсоёмкая операция. Поэтому генерацию обычно стараются избегать в высоконагруженных приложениях. При запуске performance теста, данная метрика выдала следующую картину:</p>
+<p>В YourKit есть замечательная метрика: количество и типы Exception&rsquo;ов и stacktrace мест, где они были вызваны. Генерация Exception - это очень ресурсоёмкая операция. Поэтому генерацию обычно стараются избегать в высоконагруженных приложениях. При запуске performance теста, данная метрика выдала следующую картину:</p>
 <p><img src="/img/webapp-perf/12.png" alt=""></p>
 <p>Оказывается драйвер кидает SQLException при закрытии курсора, и проглатывает (не обрабатывает) его. На каждый запрос к базе кидается несколько SQLException. Это баг самого драйвера: <a href="http://bugs.mysql.com/bug.php?id=67318">http://bugs.mysql.com/bug.php?id=67318</a>. После того, как этот баг пофиксят, ожидается серьёзный прирост в производительности.</p>
-<h2 id="heading">Выводы</h2>
+<h2 id="выводы">Выводы</h2>
 <ol>
 <li>Современные фреймворки позволяют быстро разрабатывать приложения, но есть место для их оптимизации.</li>
 <li>Настройки по умолчанию не всегда оптимальны для нагруженных проектов.</li>

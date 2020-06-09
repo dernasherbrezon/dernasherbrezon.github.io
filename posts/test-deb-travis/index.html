@@ -15,7 +15,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png'><meta property='article:section' content='posts'><meta property='article:tag' content='deb'><meta property='article:tag' content='travis-ci'><meta property='article:tag' content='docker'><meta property='article:tag' content='systemd'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2017-11-04T13:51:18&#43;01:00'/><meta property='article:modified_time' content='2017-11-04T13:51:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Тестирование debian пакетов в Travis-CI • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/test-deb-travis/'>
@@ -141,7 +141,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -183,7 +183,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -201,7 +201,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -218,6 +218,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -253,7 +255,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -352,7 +354,7 @@
 <li>тестирование запущенного приложения: проверка prod конфигурации</li>
 </ul>
 <p><img src="/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png" alt=""></p>
-<h2 id="heading">Введение</h2>
+<h2 id="введение">Введение</h2>
 <p>Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов. Поэтому я провел небольшое исследование экосистемы и получил следующее:</p>
 <p><img src="/img/test-deb-travis/rw9hiwy9lgzw4oxcgijh85_qvnw.png" alt=""></p>
 <h2 id="autopkgtest">autopkgtest</h2>
@@ -398,7 +400,7 @@
 <li>пропуск стадии сборки пакета. Мой пакет собирается с помощью <a href="https://github.com/dernasherbrezon/deb-maven-plugin">maven</a> и структура никак не похожа на стандартную.</li>
 <li>тестирование systemd сервиса.</li>
 </ul>
-<h2 id="heading-1">Своё</h2>
+<h2 id="своё">Своё</h2>
 <p>Итак, всё-таки ничего не подошло. В принципе, после достаточно продолжительного исследования, уже становится понятно, что нужно:</p>
 <ul>
 <li>сборка на travis-ci</li>

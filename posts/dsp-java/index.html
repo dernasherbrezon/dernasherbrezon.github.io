@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='dsp'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2018-03-08T17:22:18&#43;01:00'/><meta property='article:modified_time' content='2018-03-08T17:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>DSP на Java • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/dsp-java/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -340,7 +342,7 @@
   <div class='container entry-content'>
   <p>Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C++. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с <a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%B5%D0%BE%D1%80-%D0%9C_%E2%84%962">Метеор-М №2</a>.</p>
 <p><img src="/img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png" alt="DSP in Java"></p>
-<h1 id="heading">Предисловие</h1>
+<h1 id="предисловие">Предисловие</h1>
 <p>Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад. Каждый пишет, что хочет, в каком хочет формате и совершенно не заботится о результатах. Яркий тому пример - декодирование сигнала с Метеор-М. <a href="https://www.rtl-sdr.com/rtl-sdr-tutorial-receiving-meteor-m-n2-lrpt-weather-satellite-images-rtl-sdr/">Обычно</a> алгоритм получения картинки выглядит следующим образом:</p>
 <ol>
 <li>Записать сигнал</li>
@@ -360,11 +362,11 @@
 <li>Демодуляция. Преобразование аудио-сигнала в информацию.</li>
 <li>Декодирование. Преобразование информации в понятный пользователю вид.</li>
 </ol>
-<h1 id="heading-1">Демодуляция</h1>
+<h1 id="демодуляция">Демодуляция</h1>
 <p>Согласно <a href="http://meteor.robonuka.ru/wp-content/uploads/2014/08/pdf_spe_95413_eps_hrpt-lrpt.pdf">официальной документации</a> сигнал модулирован с помощью <a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%B0%D0%BD%D0%B8%D0%BF%D1%83%D0%BB%D1%8F%D1%86%D0%B8%D1%8F">QPSK</a>. Если в кратце, то для передачи двух бит информации используется одно положение фазы.</p>
 <p>Итак, нужно демодулировать QPSK сигнал на Java. То ли никому это неинтересно, то ли Java медленная, но я не нашёл ни одной библиотеки, которые бы это делали. Поэтому я взял <a href="https://github.com/otti-soft/meteor-m2-lrpt">существующий</a> проект демодуляции QPSK сигнала для GNURadio и начал переписывать блоки на Java.</p>
 <p><img src="/img/dsp-java/jcsaroyobfqo11zvh3jino1qq7i.png" alt="QPSK demodulation"></p>
-<h2 id="-">Блоки демодуляции</h2>
+<h2 id="блоки-демодуляции">Блоки демодуляции</h2>
 <p><strong>WavFile source</strong> и <strong>Float to Complex</strong>. Чтение из .wav файла <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D0%BD%D1%84%D0%B0%D0%B7%D0%BD%D0%B0%D1%8F_%D0%B8_%D0%BA%D0%B2%D0%B0%D0%B4%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%BD%D0%B0%D1%8F_%D1%81%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D1%8F%D1%8E%D1%89%D0%B8%D0%B5_%D1%81%D0%B8%D0%B3%D0%BD%D0%B0%D0%BB%D0%B0">IQ</a> сигнала. Значения записаны в файле последовательно. Сначала реальная часть, потом мнимая, потом реальная и так далее. В GNURadio есть свои типы данных и каждый блок рассчин для работы только с определёнными. Так как у нас QPSK модуляция, то нам нужно использовать комплексные числа. Здесь ничего сложного, так как в Java есть поддержка .wav файлов - AudioSystem.getAudioInputStream(inputStream).</p>
 <p><strong>Low Pass Filter</strong>. Это первый фильтр, который предназначен для фильтрации низких частот. Так как наш сигнал занимает 130Mhz, то нам надо отфильтровать лишние частоты.</p>
 <p><img src="/img/dsp-java/yp4g51xrjxss0v9ho9sqt8rdd4y.png" alt="lowpass"></p>
@@ -395,7 +397,7 @@
 <p><img src="/img/dsp-java/nerub3aklfpmzkksbtdbyo0ik90.png" alt="hard decision"></p>
 <p>Если мы будем делать жёсткое решение, то координаты красной точки мы преобразуем в пару &ldquo;00&rdquo;. При этом мы потеряем информацию о том, что точка-то почти &ldquo;01&rdquo; (в нижним квадранте). А эта информация на самом деле может помочь в декодировании. Есть алгоритмы, которые дают лучшие результаты, если передать эту информацию. Поэтому вместо того, чтобы принимать жёсткое решение, надо посчитать вероятность 0 и вероятность 1. Например 100% вероятность нахождения в правом верхнем квадранте будет 255,255. Использование мягких решений увеличивает поток данных в 8 раз, зато даёт более лучшие результаты при декодировании сигнала. Для того, чтобы посчитать мягкое решение, необходимо рассчитать расстояние между текущей точкой и каждой из точек созвездия.</p>
 <p><strong>Rail</strong>, <strong>Float to char</strong>, <strong>File sink</strong>. Эти блоки немного преобразуют результаты и записывают их в файл. Для моего декодера записывать результаты в промежуточный файл не надо. Но в целях отладки было крайне полезно сначала демодулировать сигнал из Java, а затем посмотреть может ли LRPToffLineDecoder извлечь картинку.</p>
-<h1 id="heading-2">Декодирование</h1>
+<h1 id="декодирование">Декодирование</h1>
 <p>Итак, у нас есть поток 0 и 1 из которого нужно получить картинку. Для начала необходимо открыть <a href="http://planet.iitp.ru/spacecraft/meteor_m_n2_structure_2.pdf">официальную документацию</a>, где неплохо описана структура пакетов. Некоторые моменты там были опущены, поэтому я открыл еще <a href="http://meteor.robonuka.ru/wp-content/uploads/2014/08/pdf_spe_95413_eps_hrpt-lrpt.pdf">более официальную документацию</a>.</p>
 <p>Декодирование состоит из следующих этапов:</p>
 <ul>
@@ -412,7 +414,7 @@
 <p>Пожалуй я не буду здесь рассказывать про каждый из алгоритмов. Они сами по себе потянут на отдельную статью. Хочу лишь выложить результаты работы <a href="https://github.com/dernasherbrezon/jradio">моей программы</a>, <a href="http://meteor.robonuka.ru/for-experts/soft/">официальной</a> и <a href="https://github.com/artlav/meteor_decoder">на паскале</a>.</p>
 <p><img src="/img/dsp-java/gjnitpweqxobjmifktc5mli_ehu.jpg" alt="compare"></p>
 <p>К сожалению общая картина занимает 4500x2800px, поэтому я привожу сильно пожатую версию.</p>
-<h1 id="heading-3">Оптимизации</h1>
+<h1 id="оптимизации">Оптимизации</h1>
 <p>А при чём тут Java? - скажут самые стойкие, кто смог дочитать до сюда.</p>
 <p>Сейчас будет немного Java. Дело в том, что оптимизацию имеет смысл для корректно работающей программы. После каждого шага оптимизации можно запустить тесты и убедиться, что всё по прежнему работает корректно.</p>
 <p>Итак, я начну с декодирования. При запуске <a href="https://www.yourkit.com/java/profiler/features/">профайлера</a>, ничего странного не обнаружилось:</p>
@@ -421,19 +423,19 @@
 <li>самый горячий метод - это <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%92%D0%B8%D1%82%D0%B5%D1%80%D0%B1%D0%B8">декодирование Витерби</a>. Сложность этого алгоритма О(T*S), где T - это длина массива данных, S - пространство состояний. В нашем случае у нас 8 (бит) * 4 (00,01,10,11) = 32.</li>
 </ul>
 <p>Помимо CPU, я запустил еще анализ аллокаций объектов. Оказывается, этот метод создаёт миллионы короткоживущих объектов. Они создают лишнюю нагрузку на GC и процессор. Посмотрим, можно ли это оптимизировать. Наивная реализация создаёт связный список для хранения решений каждого входящего бита:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	LinkedList<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span><span style="color:#f92672">&gt;</span> decisions <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i <span style="color:#f92672">+</span><span style="color:#f92672">=</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-		<span style="color:#66d9ef">long</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> d <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>2<span style="color:#f92672">]</span><span style="color:#f92672">;</span> <span style="color:#75715e">//decision
-</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> b <span style="color:#f92672">&lt;</span> 32<span style="color:#f92672">;</span> b<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-			d<span style="color:#f92672">[</span>b <span style="color:#f92672">/</span> 16<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	LinkedList<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span><span style="color:#f92672">[]&gt;</span> decisions <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">long</span><span style="color:#f92672">[]&gt;();</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i <span style="color:#f92672">+=</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> d <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>2<span style="color:#f92672">];</span> <span style="color:#75715e">//decision
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> b <span style="color:#f92672">&lt;</span> 32<span style="color:#f92672">;</span> b<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+			d<span style="color:#f92672">[</span>b <span style="color:#f92672">/</span> 16<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">...;</span>
 		<span style="color:#f92672">}</span>
-		<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
-		decisions<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>d<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		<span style="color:#f92672">...</span>
+		decisions<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>d<span style="color:#f92672">);</span>
 	<span style="color:#f92672">}</span>
 </code></pre></div><p>Это можно попробовать развернуть в одномерный массив и обращаться к результатам хитро вычисляя индекс. Например так:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">long</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> decisions <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">]</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i <span style="color:#f92672">+</span><span style="color:#f92672">=</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-		decisions<span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> b <span style="color:#f92672">/</span> 16<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">long</span><span style="color:#f92672">[]</span> decisions <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">long</span><span style="color:#f92672">[</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">];</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i <span style="color:#f92672">+=</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		decisions<span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> b <span style="color:#f92672">/</span> 16<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">...;</span>
 	<span style="color:#f92672">}</span>
 </code></pre></div><p>В итоге, на одно декодирование создаётся один объект - массив decisions. ViterbiSoft можно ещё дальше оптимизировать. Например, зная то, что размер массива всегда одинаковый, создать long[] decisions в конструкторе и переиспользовать.</p>
 <p>Ещё одним проблемным местом оказался класс FixedLengthTagger. Этот класс содержит скользящее окно. Оно работает следующим образом:</p>
@@ -443,20 +445,20 @@
 <li>если размер окна больше размера пакета, то удалить байт из начала окна</li>
 </ul>
 <p>Наивная реализация использовала LinkedList<Byte> и алгоритм движения окна был такой:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	window<span style="color:#f92672">.</span><span style="color:#a6e22e">offerLast</span><span style="color:#f92672">(</span>curByte<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>window<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">&gt;</span> packet_len<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-		window<span style="color:#f92672">.</span><span style="color:#a6e22e">removeFirst</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	window<span style="color:#f92672">.</span><span style="color:#a6e22e">offerLast</span><span style="color:#f92672">(</span>curByte<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>window<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> packet_len<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		window<span style="color:#f92672">.</span><span style="color:#a6e22e">removeFirst</span><span style="color:#f92672">();</span>
 	<span style="color:#f92672">}</span>
 </code></pre></div><p>На самом деле это очень накладная операция, так как на каждую операцию offerLast внутри LinkedList создаётся объект Node. Он будет содержать наш байт и иметь ссылки на следующий элемент списка и предыдущий. Однако, зная, что размер нашего окна фиксированный, его можно заменить на циклический массив:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	window<span style="color:#f92672">[</span>windowIndex<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> curByte<span style="color:#f92672">;</span>
-	windowIndex<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>windowIndex <span style="color:#f92672">&gt;</span><span style="color:#f92672">=</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	windowIndex<span style="color:#f92672">++;</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>windowIndex <span style="color:#f92672">&gt;=</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 		windowIndex <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
 	<span style="color:#f92672">}</span>
 </code></pre></div><p>Для того, чтобы правильно взять его содержимое надо скопировать данные до текущего указателя первыми и после текущего указателя последними. Как то так:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> packet<span style="color:#f92672">;</span>
-	System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>window<span style="color:#f92672">,</span> windowIndex<span style="color:#f92672">,</span> packet<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> windowIndex<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-	System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>window<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> packet<span style="color:#f92672">,</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> windowIndex<span style="color:#f92672">,</span> windowIndex<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> packet<span style="color:#f92672">;</span>
+	System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>window<span style="color:#f92672">,</span> windowIndex<span style="color:#f92672">,</span> packet<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> windowIndex<span style="color:#f92672">);</span>
+	System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>window<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> packet<span style="color:#f92672">,</span> window<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> windowIndex<span style="color:#f92672">,</span> windowIndex<span style="color:#f92672">);</span>
 </code></pre></div><p>Эти две оптимизации позволили уменьшить время декодирования файла с 4 минут до 20 секунд. Для сравнения LRPToffLineDecoder делает это за 40 секунд.</p>
 <p>Декодирование можно ещё немного оптимизировать, но в ущерб читаемости. Вместо этого можно попробовать ускорить демодуляцию.</p>
 <p>Алгоритмы демодуляции на входе получают большой поток данных, а на выходе выдают сравнительно небольшой. Поэтому эти алгоритмы очень чувствительны к различным оптимизациям. При запуске профайлера, видно, что большая часть приходится именно на математические операции внутри блоков.</p>
@@ -483,13 +485,13 @@
 </blockquote>
 <p>Судя по всему SIMD инструкции не используются.</p>
 <p>Ещё одним интересным местом стало вычисление sincos. Блок Costasloop вычисляет значение синуса и косинуса для одного и того же угла (фазы) для каждого входящего значения. В CPU есть специальная команда - fsincos. Она вычисляет одновременно синус и косинус угла. Однако, в Java такой функции нет. Да и реализовывать её непонятно как: надо либо возвращать double[] (а это сильно ударит по GC), либо возвращать одно значение как результат работы функции, а другое через изменяемый параметр (double в функцию Java передаётся копированием, а Double опять же ударит по GC). Наивная же имплементация выглядит так:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">float</span> sinImg <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(</span><span style="color:#f92672">-</span>d_phase<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-	<span style="color:#66d9ef">float</span> cosReal <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">cos</span><span style="color:#f92672">(</span><span style="color:#f92672">-</span>d_phase<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">float</span> sinImg <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(-</span>d_phase<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">float</span> cosReal <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">cos</span><span style="color:#f92672">(-</span>d_phase<span style="color:#f92672">);</span>
 </code></pre></div><p>Можно попробовать вспомнить тригонометрию и заменить на:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">float</span> sinImg <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(</span><span style="color:#f92672">-</span>d_phase<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">float</span> sinImg <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sin</span><span style="color:#f92672">(-</span>d_phase<span style="color:#f92672">);</span>
 	<span style="color:#66d9ef">float</span> cosReal <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span><span style="color:#f92672">)</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">sqrt</span><span style="color:#f92672">(</span>1 <span style="color:#f92672">-</span> sinImg <span style="color:#f92672">*</span> sinImg<span style="color:#f92672">)</span> <span style="color:#f92672">+</span> calculate sign<span style="color:#f92672">;</span>
 </code></pre></div><p>Переход с Math.cos на Math.sqrt позволил сократить время демодуляции с 6 минут до 5 минут и 30 секунд. Тригонометрические операции можно ещё больше ускорить, если использовать <a href="https://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0_%D0%BF%D0%BE%D0%B8%D1%81%D0%BA%D0%B0">таблицы поиска</a>. Однако, я пока не готов исследовать зависимость результатов декодирования от точности таблиц. Может быть кто-нибудь поможет с этим?</p>
-<h1 id="heading-4">Заключение</h1>
+<h1 id="заключение">Заключение</h1>
 <p>Поскольку я использовал одни и те же блоки для демодуляции сигнала, то можно сравнить время работы Java программы и GNURadio. Как и ожидалось, GNURadio быстрее: ~2 минуты против 5.5 минут. Да, Java почти в 2 раза медленее. Но, если учесть, что файл записывался в течении 15 минут, то производительности Java вполне хватит, чтобы в реальном времени демодулировать сигнал.</p>
 
 </div>

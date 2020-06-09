@@ -13,7 +13,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/georeferencing-geotiff/0.png'><meta property='article:section' content='posts'><meta property='article:tag' content='gdal'><meta property='article:tag' content='GeoTIFF'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-19T18:09:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-19T18:09:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/georeferencing-geotiff/0.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Геокодирование спутниковых снимков: GeoTIFF • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/georeferencing-geotiff/'>
@@ -139,7 +139,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@ GDAL Для работы с GeoTIFF форматом существует мно
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -338,7 +340,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Начало</h2>
+  <h2 id="начало">Начало</h2>
 <p>Итак, в <a href="https://dernasherbrezon.com/posts/georeferencing-gcp/">прошлом посте</a> я описал основные шаги, необходимые для получения списка опорных точек. Следующим шагом будет создание файла в формате <a href="https://en.wikipedia.org/wiki/GeoTIFF">GeoTIFF</a>. Это подмножество формата tiff, в котором хранится дополнительная геоинформация. Почти все современные ГИС поддерживают этот формат, поэтому в нём распространяются как карты <a href="https://developers.google.com/earth-engine/exporting">Google Earth</a>, так и панорамы съёмки <a href="https://support.dronedeploy.com/docs/data-export-formats">квадрокоптерами</a>.</p>
 <p><img src="/img/georeferencing-geotiff/1.png" alt=""></p>
 <h2 id="gdal">GDAL</h2>
@@ -360,27 +362,27 @@ GDAL Для работы с GeoTIFF форматом существует мно
 		...
 	<span style="color:#f92672">&lt;/GCPList&gt;</span>
 	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel1<span style="color:#f92672">&lt;/Description&gt;</span>
-		<span style="color:#f92672">&lt;NoDataValue</span><span style="color:#f92672">&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
-		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;Description&gt;</span>channel1<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;NoDataValue&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
+		<span style="color:#f92672">&lt;SimpleSource&gt;</span>
 			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
-			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>1<span style="color:#f92672">&lt;/SourceBand&gt;</span>
+			<span style="color:#f92672">&lt;SourceBand&gt;</span>1<span style="color:#f92672">&lt;/SourceBand&gt;</span>
 		<span style="color:#f92672">&lt;/SimpleSource&gt;</span>
 	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
 	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel2<span style="color:#f92672">&lt;/Description&gt;</span>
-		<span style="color:#f92672">&lt;NoDataValue</span><span style="color:#f92672">&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
-		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;Description&gt;</span>channel2<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;NoDataValue&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
+		<span style="color:#f92672">&lt;SimpleSource&gt;</span>
 			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
-			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>2<span style="color:#f92672">&lt;/SourceBand&gt;</span>
+			<span style="color:#f92672">&lt;SourceBand&gt;</span>2<span style="color:#f92672">&lt;/SourceBand&gt;</span>
 		<span style="color:#f92672">&lt;/SimpleSource&gt;</span>
 	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
 	<span style="color:#f92672">&lt;VRTRasterBand</span> <span style="color:#a6e22e">dataType=</span><span style="color:#e6db74">&#34;Byte&#34;</span> <span style="color:#a6e22e">band=</span><span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;Description</span><span style="color:#f92672">&gt;</span>channel3<span style="color:#f92672">&lt;/Description&gt;</span>
-		<span style="color:#f92672">&lt;NoDataValue</span><span style="color:#f92672">&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
-		<span style="color:#f92672">&lt;SimpleSource</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;Description&gt;</span>channel3<span style="color:#f92672">&lt;/Description&gt;</span>
+		<span style="color:#f92672">&lt;NoDataValue&gt;</span>0.0<span style="color:#f92672">&lt;/NoDataValue&gt;</span>
+		<span style="color:#f92672">&lt;SimpleSource&gt;</span>
 			<span style="color:#f92672">&lt;SourceFilename</span> <span style="color:#a6e22e">relativeToVRT=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">&gt;</span>output.png<span style="color:#f92672">&lt;/SourceFilename&gt;</span>
-			<span style="color:#f92672">&lt;SourceBand</span><span style="color:#f92672">&gt;</span>3<span style="color:#f92672">&lt;/SourceBand&gt;</span>
+			<span style="color:#f92672">&lt;SourceBand&gt;</span>3<span style="color:#f92672">&lt;/SourceBand&gt;</span>
 		<span style="color:#f92672">&lt;/SimpleSource&gt;</span>
 	<span style="color:#f92672">&lt;/VRTRasterBand&gt;</span>
 <span style="color:#f92672">&lt;/VRTDataset&gt;</span>

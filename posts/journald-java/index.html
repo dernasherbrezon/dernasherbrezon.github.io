@@ -15,7 +15,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/journald-java/1.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='monitoring'><meta property='article:published_time' content='2019-09-03T21:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-09-03T21:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/journald-java/1.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Логирование из Java в Journald • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/journald-java/'>
@@ -141,7 +141,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -183,7 +183,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -201,7 +201,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -218,6 +218,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -253,7 +255,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -378,7 +380,7 @@ Sep 03 21:00:51 raspberrypi java[1352]: ================================= [ru.r2
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">journalctl -u r2cloud -p err -n <span style="color:#ae81ff">10</span>
 </code></pre></div><pre><code>-- Logs begin at Thu 2016-11-03 17:16:42 GMT, end at Tue 2019-09-03 22:09:24 BST. --
 Sep 03 22:09:24 raspberrypi java[1869]: unable to get weather tle
-</code></pre><h3 id="-">Что дальше?</h3>
+</code></pre><h3 id="что-дальше">Что дальше?</h3>
 <ol>
 <li>Неплохо было бы передавать время из JUL напрямую в journald. Сейчас journald проставляет время получения события, а не время, когда оно произошло внутри JVM.</li>
 <li>Настроить централизированное логирование с нотификациями через телеграм. Кто знает как, пишите в комментариях.</li>

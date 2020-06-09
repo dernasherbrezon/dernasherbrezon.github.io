@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='lrpt'><meta property='article:tag' content='dsp'><meta property='article:published_time' content='2019-09-13T22:30:18&#43;01:00'/><meta property='article:modified_time' content='2019-09-13T22:30:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Синхронизация кадров в Метеор-М №2 • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/meteor-mn2-frame-synchronization/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -338,9 +340,9 @@
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Введение</h2>
+  <h2 id="введение">Введение</h2>
 <p>Спутник Метеор-М №2 передаёт информацию согласно протоколу <a href="https://en.wikipedia.org/wiki/Low-rate_picture_transmission">LRPT</a>. Этот протокол определяет физический, канальный и сетевой уровни модели <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%B5%D1%82%D0%B5%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C_OSI">OSI</a>. На физическом уровне используется QPSK модуляция. На канальном уровне LRPT подразумевает использование кадров фиксированного размера с интерливингом и несколькими методами коррекции ошибок. Однако, на практике Метеор-М №2 не использует часть алгоритмов из стандарта. В этой статье я хотел бы описать как необходимо синхронизировать и получать кадры Метеор-М №2.</p>
-<h2 id="-">Генерация кадров</h2>
+<h2 id="генерация-кадров">Генерация кадров</h2>
 <p>Прежде, чем делать получение кадров, необходимо понять как они создаются на спутнике. Алгоритм частично описан в стандарте LRPT и частично в интернете. Итак, первым шагом данные, которые необходимо отправить, разбиваются на кадры фиксированной длины. После этого, к каждому кадру добавляется синхро-маркер <code>1ACFFC1D</code></p>
 <p><img src="/img/meteor-mn2-frame-synchronization/framing.png" alt=""></p>
 <p>После этого данные кодируются свёрточным алгоритмом со скоростью 1/2. Из этого следуют две важные вещи:</p>
@@ -351,7 +353,7 @@
 <p><img src="/img/meteor-mn2-frame-synchronization/convolutional.png" alt=""></p>
 <p>И&hellip; На этом всё. Несмотря на то, что стандарт предписывает ещё дополнительные преобразования данных (спойлер: Метеор-М №2-2 их всё-таки реализует), Метеор-М №2 получившийся поток данных сразу отправляет QPSK модулятору.</p>
 <p><img src="/img/meteor-mn2-frame-synchronization/qpskmod.png" alt=""></p>
-<h2 id="--1">Синхронизация кадров</h2>
+<h2 id="синхронизация-кадров">Синхронизация кадров</h2>
 <p>В общем виде, для того, чтобы синхронизировать кадры, необходимо найти синхро-маркер и прочитать фиксированное количество байт кадра. На практике же, такой подход будет находить крайне малое количество кадров. Прежде всего из-за помех в принимаемом сигнале. Поэтому все алгоритмы по синхронизации кадров сильно отличаются от алгоритмов генерации кадров.</p>
 <p>Забегая вперёд скажу, что для декодирования свёрточного кода применяется <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%92%D0%B8%D1%82%D0%B5%D1%80%D0%B1%D0%B8">алгоритм Витерби</a>. При этом алгоритм работающий с мягкими решениями демодулятора в среднем на 2дб эффективнее, чем с жёсткими решениями. Это значит, что каждый входящий бит будет передаваться в виде байта.</p>
 <p><img src="/img/meteor-mn2-frame-synchronization/softdecisions.png" alt=""></p>
@@ -362,14 +364,14 @@
 <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
 	bitToCheck <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
 <span style="color:#f92672">}</span>
-dataRegister <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>dataRegister <span style="color:#f92672">&lt;</span><span style="color:#f92672">&lt;</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>bitToCheck <span style="color:#f92672">&amp;</span> 0x1<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+dataRegister <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>dataRegister <span style="color:#f92672">&lt;&lt;</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#f92672">(</span>bitToCheck <span style="color:#f92672">&amp;</span> 0x1<span style="color:#f92672">);</span>
 </code></pre></div><p>Если регистр совпал с необходимым синхро-маркером, то из потока читается кадр фиксированного размера и декодируется с помощью алгоритма Витерби.</p>
 <p>Этот алгоритм можно улучшить. Дело в том, что в синхро-маркере <code>035D49C24FF2686B</code> могут быть ошибочные биты. Алгоритм Витерби может скорректировать ошибочные биты как в самом синхро-маркере, так и в данных, идущих за ним. Зная это, можно искать синхромаркер с некоторой точностью. Например, для Метеор-М №2 на основе экспериментов я допускаю до 17 ошибочных бит в регистре или 26%. Тут важно понимать, что небольшой порог не позволит находить пакеты в шумном сигнале, а слишком большой порог даст много ложно-положительных срабатываний.</p>
 <p>Чтобы сделать ещё одно улучшение, надо понимать устройство QPSK демодулятора. Любой некогерентный PSK демодулятор подвержден так называемой ошибке неоднозначности фазы.</p>
 <p><img src="/img/meteor-mn2-frame-synchronization/phase_ambiguity.png" alt=""></p>
 <p>Для алгоритма это значит, что нужно искать не <code>035D49C24FF2686B</code>, а 8 различных вариантов синхро-маркера. Для этого я создал класс <a href="https://github.com/dernasherbrezon/jradio/blob/314552e7f90e800e201b0af2fca43ebbb82fc8b5/src/main/java/ru/r2cloud/jradio/PhaseAmbiguityResolver.java">PhaseAmbiguityResolver</a>, который на вход принимает значение синхро-маркера, а на выходе выдаёт все возможные синхро-маркеры в зависимости от ошибки фазы.</p>
 <p>Далее алгоритм меняется следующим образом. В потоке бит ищется 8 различных вариантов синхро-маркера. Как только синхро-маркер найден, читается кадр фиксированного размера. Далее, в зависимости от найденного синхро-маркера, каждые 2 бита данных вращаются по часовой стрелке или против. Это необходимо для того, чтобы устранить ошибку неоднозначности фазы в самом кадре.</p>
-<h2 id="heading-1">Выводы</h2>
+<h2 id="выводы">Выводы</h2>
 <p>Несмотря на то, что алгоритмы формирования кадров достаточно простые, алгоритмы поиска уже значительно сложнее. Зачастую они ставят перед выбором: количество успешно найденных кадров или увеличенное время (CPU/память) на поиск. Текущий алгоритм синхронизации кадров даёт <a href="https://dernasherbrezon.com/posts/dsp-java/">вполне неплохие результаты</a>.</p>
 
 </div>

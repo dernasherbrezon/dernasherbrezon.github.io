@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/ubuntu-private-repo/xxiubje3ios6bvc16lre6dl-vlq.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='openstack'><meta property='article:tag' content='valgrind'><meta property='article:tag' content='maven'><meta property='article:tag' content='selectel'><meta property='article:tag' content='openstack swift'><meta property='article:tag' content='c'><meta property='article:tag' content='apt'><meta property='article:published_time' content='2018-06-07T10:07:18&#43;01:00'/><meta property='article:modified_time' content='2018-06-07T10:07:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/ubuntu-private-repo/xxiubje3ios6bvc16lre6dl-vlq.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Приватный репозиторий в Ubuntu • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/ubuntu-private-repo/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -339,7 +341,7 @@
 
   <div class='container entry-content'>
   <p>В Ubuntu репозитории – это специальные сервера-хранилища для приложений. Если Вы разрабатываете коммерческое приложение и запускаете его в Ubuntu, то логично положить его в репозиторий. А потом управлять этим приложением так же, как и обычными системными приложениями. Для этого нужно поднять в локальной сети или облаке apache, настроить логин и пароль, не забывать его обновлять&hellip;Но что если есть другой способ?</p>
-<h2 id="-">Облачные хранилища</h2>
+<h2 id="облачные-хранилища">Облачные хранилища</h2>
 <p>С помощью <a href="https://packages.debian.org/sid/apt-transport-s3">apt-transport-s3</a> можно превратить bucket в приватный apt репозиторий. Однако, у этого способа появились следующие недостатки:</p>
 <ul>
 <li>Некоторые адреса Амазона заблокированы в России</li>
@@ -354,7 +356,7 @@
 <li>Все плюсы облачного хранилища: оплата за непосредственно используемые ресурсы, распределенное хранение, отказоустойчивость, 24/7.</li>
 </ul>
 <p>Из недостатков можно выделить лишь полное отсутствие интеграции с Ubuntu. Это сложно назвать недостатком, если Вы программист. Поэтому я написал интеграцию сам: <a href="https://github.com/dernasherbrezon/apt-transport-swift">apt-transport-swift</a>.</p>
-<h1 id="heading">Разработка</h1>
+<h1 id="разработка">Разработка</h1>
 <p>Для начала нужно немного погрузиться в то, как apt взаимодействует в репозиториями. Для того, чтобы получить информацию из репозитория, apt:</p>
 <ul>
 <li>находит соответствующий метод из списка установленных. Все они лежат в папке: /usr/lib/apt/methods/</li>
@@ -385,39 +387,39 @@ Expected-SHA1: 123
 Size: 762361
 Last-Modified: Wed, 23 May 2018 14:13:16 GMT
 </code></pre><p>Поскольку все методы написаны на C++, я решил тоже написать на C++. После двух недель, мои глаза стали вытекать и я решил начать с чего-нибудь попроще. С. Программа вылядела достаточно простой, но результат не удовлетворял моих высоких стандартов качества. Еще две недели пришлось потратить на изучение утечек памяти, инструментов тестирования и настройки билда в <a href="https://travis-ci.org/dernasherbrezon/apt-transport-swift">Travis</a>.</p>
-<h1 id="--1">Всё вместе</h1>
+<h1 id="всё-вместе">Всё вместе</h1>
 <p>В результате я получил следующую схему для Java проектов:</p>
 <p><img src="/img/ubuntu-private-repo/xxiubje3ios6bvc16lre6dl-vlq.png" alt=""></p>
 <ol>
 <li>Сброка .deb артефакта с помощью <a href="https://github.com/dernasherbrezon/deb-maven-plugin">deb-maven-plugin</a>. pom.xml:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugins</span><span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugins&gt;</span>
 ...
-	<span style="color:#f92672">&lt;plugin</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>com.aerse.maven<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>deb-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version</span><span style="color:#f92672">&gt;</span>1.4<span style="color:#f92672">&lt;/version&gt;</span>
-		<span style="color:#f92672">&lt;executions</span><span style="color:#f92672">&gt;</span>
-			<span style="color:#f92672">&lt;execution</span><span style="color:#f92672">&gt;</span>
-				<span style="color:#f92672">&lt;id</span><span style="color:#f92672">&gt;</span>package<span style="color:#f92672">&lt;/id&gt;</span>
-				<span style="color:#f92672">&lt;phase</span><span style="color:#f92672">&gt;</span>package<span style="color:#f92672">&lt;/phase&gt;</span>
-				<span style="color:#f92672">&lt;goals</span><span style="color:#f92672">&gt;</span>
-					<span style="color:#f92672">&lt;goal</span><span style="color:#f92672">&gt;</span>package<span style="color:#f92672">&lt;/goal&gt;</span>
+	<span style="color:#f92672">&lt;plugin&gt;</span>
+		<span style="color:#f92672">&lt;groupId&gt;</span>com.aerse.maven<span style="color:#f92672">&lt;/groupId&gt;</span>
+		<span style="color:#f92672">&lt;artifactId&gt;</span>deb-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;version&gt;</span>1.4<span style="color:#f92672">&lt;/version&gt;</span>
+		<span style="color:#f92672">&lt;executions&gt;</span>
+			<span style="color:#f92672">&lt;execution&gt;</span>
+				<span style="color:#f92672">&lt;id&gt;</span>package<span style="color:#f92672">&lt;/id&gt;</span>
+				<span style="color:#f92672">&lt;phase&gt;</span>package<span style="color:#f92672">&lt;/phase&gt;</span>
+				<span style="color:#f92672">&lt;goals&gt;</span>
+					<span style="color:#f92672">&lt;goal&gt;</span>package<span style="color:#f92672">&lt;/goal&gt;</span>
 				<span style="color:#f92672">&lt;/goals&gt;</span>
 			<span style="color:#f92672">&lt;/execution&gt;</span>
 		<span style="color:#f92672">&lt;/executions&gt;</span>
-		<span style="color:#f92672">&lt;configuration</span><span style="color:#f92672">&gt;</span>
-			<span style="color:#f92672">&lt;unixUserId</span><span style="color:#f92672">&gt;</span>ubuntu<span style="color:#f92672">&lt;/unixUserId&gt;</span>
-			<span style="color:#f92672">&lt;unixGroupId</span><span style="color:#f92672">&gt;</span>ubuntu<span style="color:#f92672">&lt;/unixGroupId&gt;</span>
-			<span style="color:#f92672">&lt;osDependencies</span><span style="color:#f92672">&gt;</span>
-				<span style="color:#f92672">&lt;openjdk-7-jdk</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">&lt;/openjdk-7-jdk&gt;</span>
-				<span style="color:#f92672">&lt;nginx</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">&lt;/nginx&gt;</span>
+		<span style="color:#f92672">&lt;configuration&gt;</span>
+			<span style="color:#f92672">&lt;unixUserId&gt;</span>ubuntu<span style="color:#f92672">&lt;/unixUserId&gt;</span>
+			<span style="color:#f92672">&lt;unixGroupId&gt;</span>ubuntu<span style="color:#f92672">&lt;/unixGroupId&gt;</span>
+			<span style="color:#f92672">&lt;osDependencies&gt;</span>
+				<span style="color:#f92672">&lt;openjdk-7-jdk&gt;&lt;/openjdk-7-jdk&gt;</span>
+				<span style="color:#f92672">&lt;nginx&gt;&lt;/nginx&gt;</span>
 			<span style="color:#f92672">&lt;/osDependencies&gt;</span>
-			<span style="color:#f92672">&lt;javaServiceWrapper</span><span style="color:#f92672">&gt;</span>true<span style="color:#f92672">&lt;/javaServiceWrapper&gt;</span>
-			<span style="color:#f92672">&lt;fileSets</span><span style="color:#f92672">&gt;</span>
-				<span style="color:#f92672">&lt;fileSet</span><span style="color:#f92672">&gt;</span>
-					\<span style="color:#f92672">&lt;source</span><span style="color:#f92672">&gt;</span>${basedir}/src/main/deb<span style="color:#f92672">&lt;/source&gt;</span>
-					<span style="color:#f92672">&lt;target</span><span style="color:#f92672">&gt;</span>/<span style="color:#f92672">&lt;/target&gt;</span>
+			<span style="color:#f92672">&lt;javaServiceWrapper&gt;</span>true<span style="color:#f92672">&lt;/javaServiceWrapper&gt;</span>
+			<span style="color:#f92672">&lt;fileSets&gt;</span>
+				<span style="color:#f92672">&lt;fileSet&gt;</span>
+					\<span style="color:#f92672">&lt;source&gt;</span>${basedir}/src/main/deb<span style="color:#f92672">&lt;/source&gt;</span>
+					<span style="color:#f92672">&lt;target&gt;</span>/<span style="color:#f92672">&lt;/target&gt;</span>
 				<span style="color:#f92672">&lt;/fileSet&gt;</span>
 			<span style="color:#f92672">&lt;/fileSets&gt;</span>
 		<span style="color:#f92672">&lt;/configuration&gt;</span>
@@ -427,38 +429,38 @@ Last-Modified: Wed, 23 May 2018 14:13:16 GMT
 </code></pre></div><ol start="2">
 <li>Дистрибьюция артефакта в apt репозиторий. <a href="https://github.com/dernasherbrezon/apt-maven-plugin">Плагин</a> проинициализирует репозиторий, если он изначально пустой. pom.xml:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugins</span><span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugins&gt;</span>
 ...
-  <span style="color:#f92672">&lt;plugin</span><span style="color:#f92672">&gt;</span>
-    <span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>com.aerse.maven<span style="color:#f92672">&lt;/groupId&gt;</span>
-    <span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>apt-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
-    <span style="color:#f92672">&lt;version</span><span style="color:#f92672">&gt;</span>1.9<span style="color:#f92672">&lt;/version&gt;</span>
-    <span style="color:#f92672">&lt;executions</span><span style="color:#f92672">&gt;</span>
-      <span style="color:#f92672">&lt;execution</span><span style="color:#f92672">&gt;</span>
-        <span style="color:#f92672">&lt;id</span><span style="color:#f92672">&gt;</span>deploy<span style="color:#f92672">&lt;/id&gt;</span>
-        <span style="color:#f92672">&lt;goals</span><span style="color:#f92672">&gt;</span>
-          <span style="color:#f92672">&lt;goal</span><span style="color:#f92672">&gt;</span>deploy<span style="color:#f92672">&lt;/goal&gt;</span>
+  <span style="color:#f92672">&lt;plugin&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.aerse.maven<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>apt-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.9<span style="color:#f92672">&lt;/version&gt;</span>
+    <span style="color:#f92672">&lt;executions&gt;</span>
+      <span style="color:#f92672">&lt;execution&gt;</span>
+        <span style="color:#f92672">&lt;id&gt;</span>deploy<span style="color:#f92672">&lt;/id&gt;</span>
+        <span style="color:#f92672">&lt;goals&gt;</span>
+          <span style="color:#f92672">&lt;goal&gt;</span>deploy<span style="color:#f92672">&lt;/goal&gt;</span>
         <span style="color:#f92672">&lt;/goals&gt;</span>
       <span style="color:#f92672">&lt;/execution&gt;</span>
     <span style="color:#f92672">&lt;/executions&gt;</span>
-	<span style="color:#f92672">&lt;configuration</span><span style="color:#f92672">&gt;</span>
-		<span style="color:#f92672">&lt;component</span><span style="color:#f92672">&gt;</span>main<span style="color:#f92672">&lt;/component&gt;</span>
-		<span style="color:#f92672">&lt;codename</span><span style="color:#f92672">&gt;</span>myrepo<span style="color:#f92672">&lt;/codename&gt;</span>
-		<span style="color:#f92672">&lt;sign</span><span style="color:#f92672">&gt;</span>true<span style="color:#f92672">&lt;/sign&gt;</span>
-		<span style="color:#f92672">&lt;keyname</span><span style="color:#f92672">&gt;</span>name<span style="color:#f92672">&lt;/keyname&gt;</span>
-		<span style="color:#f92672">&lt;passphraseServerId</span><span style="color:#f92672">&gt;</span>gpg.passphrase<span style="color:#f92672">&lt;/passphraseServerId&gt;</span>
+	<span style="color:#f92672">&lt;configuration&gt;</span>
+		<span style="color:#f92672">&lt;component&gt;</span>main<span style="color:#f92672">&lt;/component&gt;</span>
+		<span style="color:#f92672">&lt;codename&gt;</span>myrepo<span style="color:#f92672">&lt;/codename&gt;</span>
+		<span style="color:#f92672">&lt;sign&gt;</span>true<span style="color:#f92672">&lt;/sign&gt;</span>
+		<span style="color:#f92672">&lt;keyname&gt;</span>name<span style="color:#f92672">&lt;/keyname&gt;</span>
+		<span style="color:#f92672">&lt;passphraseServerId&gt;</span>gpg.passphrase<span style="color:#f92672">&lt;/passphraseServerId&gt;</span>
 	<span style="color:#f92672">&lt;/configuration&gt;</span>
   <span style="color:#f92672">&lt;/plugin&gt;</span>
 ...
 <span style="color:#f92672">&lt;/plugins&gt;</span>
 </code></pre></div><p>settings.xml:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;settings</span><span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;settings&gt;</span>
   ...
-  <span style="color:#f92672">&lt;servers</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;servers&gt;</span>
     ...
-    <span style="color:#f92672">&lt;server</span><span style="color:#f92672">&gt;</span>
-      <span style="color:#f92672">&lt;id</span><span style="color:#f92672">&gt;</span>gpg.passphrase<span style="color:#f92672">&lt;/id&gt;</span>
-      <span style="color:#f92672">&lt;passphrase</span><span style="color:#f92672">&gt;</span>passphrase<span style="color:#f92672">&lt;/passphrase&gt;</span>
+    <span style="color:#f92672">&lt;server&gt;</span>
+      <span style="color:#f92672">&lt;id&gt;</span>gpg.passphrase<span style="color:#f92672">&lt;/id&gt;</span>
+      <span style="color:#f92672">&lt;passphrase&gt;</span>passphrase<span style="color:#f92672">&lt;/passphrase&gt;</span>
     <span style="color:#f92672">&lt;/server&gt;</span>
     ...
   <span style="color:#f92672">&lt;/servers&gt;</span>
@@ -467,24 +469,24 @@ Last-Modified: Wed, 23 May 2018 14:13:16 GMT
 </code></pre></div><ol start="3">
 <li>В maven есть такое понятие как wagon. Это особая точка расширения, позволяющая добавить новый протокол. С помощью <a href="https://github.com/dernasherbrezon/swift-maven">swift-maven</a> я добавил поддержку протокола swift. pom.xml:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;project</span><span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;project&gt;</span>
   ...
-  <span style="color:#f92672">&lt;distributionManagement</span><span style="color:#f92672">&gt;</span>
-    <span style="color:#f92672">&lt;repository</span><span style="color:#f92672">&gt;</span>
-      <span style="color:#f92672">&lt;id</span><span style="color:#f92672">&gt;</span>private-repo<span style="color:#f92672">&lt;/id&gt;</span>
-      <span style="color:#f92672">&lt;url</span><span style="color:#f92672">&gt;</span>swift://api.selcdn.ru/v3<span style="color:#f92672">&lt;/url&gt;</span>
+  <span style="color:#f92672">&lt;distributionManagement&gt;</span>
+    <span style="color:#f92672">&lt;repository&gt;</span>
+      <span style="color:#f92672">&lt;id&gt;</span>private-repo<span style="color:#f92672">&lt;/id&gt;</span>
+      <span style="color:#f92672">&lt;url&gt;</span>swift://api.selcdn.ru/v3<span style="color:#f92672">&lt;/url&gt;</span>
     <span style="color:#f92672">&lt;/repository&gt;</span>
   <span style="color:#f92672">&lt;/distributionManagement&gt;</span>
   ...
 
-  <span style="color:#f92672">&lt;build</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;build&gt;</span>
     ...
-    <span style="color:#f92672">&lt;extensions</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;extensions&gt;</span>
       ...
-      <span style="color:#f92672">&lt;extension</span><span style="color:#f92672">&gt;</span>
-        <span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>com.aerse<span style="color:#f92672">&lt;/groupId&gt;</span>
-        <span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>swift-maven<span style="color:#f92672">&lt;/artifactId&gt;</span>
-        <span style="color:#f92672">&lt;version</span><span style="color:#f92672">&gt;</span>1.1<span style="color:#f92672">&lt;/version&gt;</span>
+      <span style="color:#f92672">&lt;extension&gt;</span>
+        <span style="color:#f92672">&lt;groupId&gt;</span>com.aerse<span style="color:#f92672">&lt;/groupId&gt;</span>
+        <span style="color:#f92672">&lt;artifactId&gt;</span>swift-maven<span style="color:#f92672">&lt;/artifactId&gt;</span>
+        <span style="color:#f92672">&lt;version&gt;</span>1.1<span style="color:#f92672">&lt;/version&gt;</span>
       <span style="color:#f92672">&lt;/extension&gt;</span>
       ...
     <span style="color:#f92672">&lt;/extensions&gt;</span>
@@ -492,14 +494,14 @@ Last-Modified: Wed, 23 May 2018 14:13:16 GMT
   <span style="color:#f92672">&lt;/build&gt;</span>  
 <span style="color:#f92672">&lt;/project&gt;</span>
 </code></pre></div><p>settings.xml:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;settings</span><span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;settings&gt;</span>
   ...
-  <span style="color:#f92672">&lt;servers</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;servers&gt;</span>
     ...
-    <span style="color:#f92672">&lt;server</span><span style="color:#f92672">&gt;</span>
-      <span style="color:#f92672">&lt;id</span><span style="color:#f92672">&gt;</span>private-repo<span style="color:#f92672">&lt;/id&gt;</span>
-      <span style="color:#f92672">&lt;username</span><span style="color:#f92672">&gt;</span>username<span style="color:#f92672">&lt;/username&gt;</span>
-      <span style="color:#f92672">&lt;password</span><span style="color:#f92672">&gt;</span>password<span style="color:#f92672">&lt;/password&gt;</span>
+    <span style="color:#f92672">&lt;server&gt;</span>
+      <span style="color:#f92672">&lt;id&gt;</span>private-repo<span style="color:#f92672">&lt;/id&gt;</span>
+      <span style="color:#f92672">&lt;username&gt;</span>username<span style="color:#f92672">&lt;/username&gt;</span>
+      <span style="color:#f92672">&lt;password&gt;</span>password<span style="color:#f92672">&lt;/password&gt;</span>
     <span style="color:#f92672">&lt;/server&gt;</span>
     ...
   <span style="color:#f92672">&lt;/servers&gt;</span>
@@ -523,7 +525,7 @@ Swift {
    Password &quot;password&quot;;
  };
 };
-</code></pre><h1 id="heading-1">Результат</h1>
+</code></pre><h1 id="результат">Результат</h1>
 <p>Хочется отметить, что схема не добавляет никаких новых сущностей в уже существующие инструменты. Всё реализовано в виде плагинов и должно работать независимо друг от друга. Например, с помощью <a href="https://github.com/dernasherbrezon/apt-maven-plugin">apt-maven-plugin</a> можно деплоить в S3.</p>
 
 </div>

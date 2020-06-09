@@ -13,7 +13,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/time-raspberrypi/rtc.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='rrd'><meta property='article:tag' content='администрирование'><meta property='article:tag' content='embedded'><meta property='article:published_time' content='2019-06-08T14:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-08T14:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/time-raspberrypi/rtc.jpg'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Время в Raspberrypi • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/time-raspberrypi/'>
@@ -139,7 +139,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -345,17 +347,17 @@ Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.Sample.update(S
 </code></pre>
 <p>Что же это означает? Тут нужно сделать небольшой экскурс в rrd. RRD расшифровывается как round robin database - <a href="https://ru.wikipedia.org/wiki/%D0%A6%D0%B8%D0%BA%D0%BB%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%B1%D0%B0%D0%B7%D0%B0_%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85">циклическая база данных</a>. Новые метрики перезаписывают старые. У каждой метрики есть время и значение. Важным требованием является то, что метрики должны идти по возрастанию времени. Нельзя записать метрику 5 недель назад, так как данные 5 недель назад могли быть уже перезаписаны 1 неделю назад. Соответственно, при попытке записи метрики с некорректным временем возникает ошибка.</p>
 <p>При создании метрики я беру текущее время:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">createSample</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
-<span style="color:#66d9ef">public</span> Sample <span style="color:#a6e22e">createSample</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">return</span> createSample<span style="color:#f92672">(</span>Util<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">db<span style="color:#f92672">.</span><span style="color:#a6e22e">createSample</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">...</span>
+<span style="color:#66d9ef">public</span> Sample <span style="color:#a6e22e">createSample</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">return</span> createSample<span style="color:#f92672">(</span>Util<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">());</span>
 <span style="color:#f92672">}</span>
-<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> 500L<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 1000L<span style="color:#f92672">;</span>
+<span style="color:#f92672">...</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getTime</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> 500L<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> 1000L<span style="color:#f92672">;</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>Получается, в базе хранится метрика в будущем. Всё это указывает на явные проблемы с системным временем.</p>
-<h2 id="------raspberrypi">Так как же работает время в Raspberrypi?</h2>
+<h2 id="так-как-же-работает-время-в-raspberrypi">Так как же работает время в Raspberrypi?</h2>
 <p>В RPi, а так же в различных embedded системах время работает не так, как в обычных компьютерах. В обычных компьютерах используется так называемые <a href="https://ru.wikipedia.org/wiki/%D0%A7%D0%B0%D1%81%D1%8B_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE_%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B8">часы реального времени</a> (RTC). Это специальный чип с независимым источником питания, который постоянно увеличивает счётчик времени. Даже если отключить компьютер, эта схема будет работать и увеличивать счётчик времени.</p>
 <p><img src="/img/time-raspberrypi/rtc.jpg" alt=""></p>
 <p>Вот действия при включении питания компьютера:</p>
@@ -382,14 +384,14 @@ Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.Sample.update(S
 <li>он корректирует системное время, а fake-hwclock сохраняет текущее правильное время в файл</li>
 <li>стартуют остальные службы и процессы</li>
 </ol>
-<h2 id="------">Что же тут может пойти не так?</h2>
+<h2 id="что-же-тут-может-пойти-не-так">Что же тут может пойти не так?</h2>
 <ol>
 <li>При самой первой загрузке в файле <code>/etc/fake-hwclock.data</code> лежит время сборки операционной системы</li>
 <li>Если в RPi не настроена сеть, то время надо будет конфигурировать вручную</li>
 <li>Если в RPi не настроена сеть и его выключить, то при следующем старте время продолжит увеличиваться с момента выключения. И если RPI будет выключен на час, значит время будет отличаться на час. Если на день, то на день.</li>
 </ol>
 <p>Но не это всё стало причиной бага. Если внимательно присмотреться, то и в случае с rtc, и в случае с fake-hwclock между шагом 5 и 6 существует race condition. NTPD или systemd-timesyncd обновят время асинхронно от старта операционной системы. А это значит, приложение может получить сначала время в будущем, а потом в прошлом.</p>
-<h2 id="heading">Выводы</h2>
+<h2 id="выводы">Выводы</h2>
 <p>У этого исследования есть два вывода:</p>
 <ol>
 <li>я знаю причину возникновения ошибки</li>

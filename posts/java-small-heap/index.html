@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/java-small-heap/0ebcb88f4c7d47cc96e872f9c182638c.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='satellite'><meta property='article:tag' content='спутники'><meta property='article:tag' content='memory'><meta property='article:tag' content='heap'><meta property='article:published_time' content='2017-07-16T15:11:18&#43;01:00'/><meta property='article:modified_time' content='2017-07-16T15:11:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/java-small-heap/0ebcb88f4c7d47cc96e872f9c182638c.jpg'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Java и без 16Gb памяти? • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/java-small-heap/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -340,7 +342,7 @@
   <div class='container entry-content'>
   <p>Однажды меня посетила мысль о том, что надо закодить что-нибудь на Java для RaspberryPI. Предыстория того, как я дошёл до жизни такой, сама по себе потянет на отдельный пост. Но вот сочные технические подробности, трудности и счастливый конец ниже под катом.</p>
 <p><img src="/img/java-small-heap/0ebcb88f4c7d47cc96e872f9c182638c.jpg" alt=""></p>
-<h2 id="-">Постановка задачи</h2>
+<h2 id="постановка-задачи">Постановка задачи</h2>
 <p>Немного разочаровавшись в движении проекта <a href="https://satnogs.org">satnogs</a>, я решил попробовать сам написать базовую станцию для приёма радио сигналов на <a href="https://www.raspberrypi.org">raspberry pi</a>. Проанализировав текущую функциональность satnogs и сложив с собственным заскорузлым enterprise пониманием того, что такое стабильная платформа, я придумал следующие требования:</p>
 <ul>
 	<li>java вместо python. Конечно же.</li>
@@ -380,10 +382,10 @@
 <ul>
 <li>
 <p>А что, если обхитрить JVM: взять compact1 и вручную подложить <a href="https://mvnrepository.com/artifact/org.xerial.thirdparty/jdbc-api/1.4">java.sql api</a>? Ответ: не получится. В Classloader есть вот такой замечательный код:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>name <span style="color:#f92672">!</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">&amp;</span><span style="color:#f92672">&amp;</span> name<span style="color:#f92672">.</span><span style="color:#a6e22e">startsWith</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">       <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>name <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> name<span style="color:#f92672">.</span><span style="color:#a6e22e">startsWith</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java.&#34;</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
             <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> SecurityException
                 <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Prohibited package name: &#34;</span> <span style="color:#f92672">+</span>
-                 name<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> name<span style="color:#f92672">.</span><span style="color:#a6e22e">lastIndexOf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;.&#39;</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+                 name<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> name<span style="color:#f92672">.</span><span style="color:#a6e22e">lastIndexOf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;.&#39;</span><span style="color:#f92672">)));</span>
         <span style="color:#f92672">}</span>
 </code></pre></div><pre><code>
  Вообще непонятно почему существует такой maven артефакт, если его даже теоретически нельзя загрузить.
@@ -427,7 +429,7 @@
 <li>очередной "нагуглил-ночью" код <a href="https://github.com/ralfstx/minimal-json">https://github.com/ralfstx/minimal-json</a>. Посмотрел, вроде там нечему ломаться.</li>
 </ul>
 <p>После нескольких запусков и сборке всего вместе выплыло несколько косяков, но их можно поправить конфигурацией. Например:
-<a href="https://stackoverflow.com/questions/13825403/java-how-to-get-logger-to-work-in-shutdown-hook"><a href="https://stackoverflow.com/questions/13825403/java-how-to-get-logger-to-work-in-shutdown-hook%3C/a%3E">https://stackoverflow.com/questions/13825403/java-how-to-get-logger-to-work-in-shutdown-hook&lt;/a&gt;</a></p>
+<a href="https://stackoverflow.com/questions/13825403/java-how-to-get-logger-to-work-in-shutdown-hook"><a href="https://stackoverflow.com/questions/13825403/java-how-to-get-logger-to-work-in-shutdown-hook">https://stackoverflow.com/questions/13825403/java-how-to-get-logger-to-work-in-shutdown-hook</a></a></p>
 <h2>Итого</h2>
 <ul>
 	<li>все библиотеки в сборе + прогретый кэш для шаблонизатора занимают в памяти ~<b>23mb</b></li>

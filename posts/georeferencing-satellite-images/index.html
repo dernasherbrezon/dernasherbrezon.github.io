@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/georeferencing-satellite-images/1.png'><meta property='article:section' content='posts'><meta property='article:tag' content='satellite'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='спутники'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-18T09:33:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-18T09:33:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/georeferencing-satellite-images/1.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Геокодирование спутниковых снимков: Введение • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/georeferencing-satellite-images/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -338,7 +340,7 @@
   
 
   <div class='container entry-content'>
-  <h2 id="heading">Начало</h2>
+  <h2 id="начало">Начало</h2>
 <p>Пару лет назад я научился <a href="https://dernasherbrezon.com/posts/decoding-meteor-m/">получать изображение</a> со спутника Метеор-М2. Тогда я подробно прошёлся по всей модели OSI, начиная с физического уровня rtl-sdr и заканчивая транспортным LRPT. Все наработки я интегрировал в <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>, и с тех пор у меня в автоматическом режиме сохраняются все изображения.</p>
 <p>Однако, меня не покидало ощущение некоторой незавершённости задачи. Изображения-то я получал, но что делать с ними дальше совершенно не знал. Вернее, конечно же, знал: как и любой другой метеорологический снимок, он нужен для того, чтобы предсказывать погоду.</p>
 <p><img src="/img/georeferencing-satellite-images/1.png" alt=""></p>
@@ -372,7 +374,7 @@
 <li>неточности в наложении границ.</li>
 <li>работает только под Windows и запускается вручную.</li>
 </ul>
-<h2 id="heading-1">Требования</h2>
+<h2 id="требования">Требования</h2>
 <p>Все эти программы работают хорошо, но я захотел сделать лучше и определил для себя следующие требования:</p>
 <ol>
 <li>Автоматическая обработка и возможность запускать из-под Linux. Все мои изображения принимаются в автоматическом режиме и мне хочется их так же обрабатывть в автоматическом режиме.</li>
@@ -380,7 +382,7 @@
 <li>Правильная работа со слоями. Все программы выше просто комбинируют каналы изображения в RGB картинку и делают JPEG. Однако, на Метеор-М2 есть 6 каналов, которые могут включаться и выключаться. И они не всегда соответствуют R, G и B. В тот момент, когда каналы группируются в RGB теряется информация о том, какой именно канал был использован где.</li>
 <li>Полученные изображения можно наложить на Яндекс карту или open street map. Это позволит точно понять где какой город, речка и страна.</li>
 </ol>
-<h2 id="heading-2">Анализ</h2>
+<h2 id="анализ">Анализ</h2>
 <p>Итак, прежде всего необходимо понять в каком виде существуют метео данные. <a href="https://earthdata.nasa.gov/collaborate/open-data-services-and-software/data-information-policy/data-levels">Nasa Earth Data</a> даёт классификацию данных по 4 уровням:</p>
 <ul>
 <li>уровень 0. Данные со спутника в необработанном виде. Тип данных зависит от протокола передачи. В случае Метеор-М2 - это VCDU.</li>
@@ -392,7 +394,7 @@
 </ul>
 <p>Исходя из такого описания, я хочу формировать данные уровня 1B или уровня 2. Уровени 3 и 4 требуют глубоких знаний приборов и различных метеорологических моделей. Я пока не готов погружаться на такую глубину.</p>
 <p>Как легко заметить, эти уровни чем-то похожи на уровни модели OSI. Где каждый уровень предоставляет интерфейс или данные для последующего. Это значит, что подготовив данные уровня 2, я могу предоставить их в стандартном виде для последующей обработки. В теории, любой метеоролог может их взять и начать использовать.</p>
-<h2 id="heading-3">Шаги</h2>
+<h2 id="шаги">Шаги</h2>
 <p>Итак, чтобы получить геокодированные данные, мне нужно сопоставить каждому пикселю координаты широты и долготы. Несмотря на то, что это звучит достаточно просто, этому процессу посвящено отдельное направление науки - <a href="https://ru.wikipedia.org/wiki/%D0%94%D0%B8%D1%81%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%BE%D0%B5_%D0%B7%D0%BE%D0%BD%D0%B4%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D0%97%D0%B5%D0%BC%D0%BB%D0%B8">Дистанционное зондирование Земли</a>. На эту тему написано множество увесистых книжек, поэтому я не буду здесь выводить формулы и аксиомы, а лишь опишу основные шаги.</p>
 <p>Задача геокодирования изображений для каждого спутника может выглядеть чуть-чуть по-другому. Я же постараюсь описать шаги для  Метеор-М2. В общем случае алгоритм выглядит следующим образом:</p>
 <p><img src="/img/georeferencing-satellite-images/5.png" alt=""></p>

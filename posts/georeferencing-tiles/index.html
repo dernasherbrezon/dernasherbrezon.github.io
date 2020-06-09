@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/georeferencing-tiles/0.png'><meta property='article:section' content='posts'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='спутники'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-20T20:52:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-20T20:52:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/georeferencing-tiles/0.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Геокодирование спутниковых снимков: Тайлы • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/georeferencing-tiles/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -354,7 +356,7 @@
 <p><img src="/img/georeferencing-tiles/3.png" alt=""></p>
 <p>Выглядит значительно лучше, но видно, что изображение совсем не совпадает с картой. В моём примере разница примерно 34км. Это достаточно много.</p>
 <p><img src="/img/georeferencing-tiles/4.png" alt=""></p>
-<h2 id="-">Ошибки геокодирования</h2>
+<h2 id="ошибки-геокодирования">Ошибки геокодирования</h2>
 <p>Причин, по котором изображение может не совпадать с картой, множество:</p>
 <ol>
 <li>Ошибки модели SGP4</li>
@@ -364,19 +366,19 @@
 <li>Неизвестный фактор</li>
 </ol>
 <p>Каждая из этих причин может вносить существенную ошибку в геокодировании. И для разных спутников решение может быть совершенно разным. В случае Метеор-М2, я заметил, что в одной из работ указывается стандартное значение крена 2.5 градуса. Это значит, что камера спутника не точно смотрит в надир, а под небольшим углом. Я попытался смоделировать это в Rugged:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder<span style="color:#f92672">(</span>rawDirs<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">addTransform</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FixedRotation<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fixed-rotation&#34;</span><span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">PLUS_I</span><span style="color:#f92672">,</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>2<span style="color:#f92672">.</span><span style="color:#a6e22e">5</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder<span style="color:#f92672">(</span>rawDirs<span style="color:#f92672">);</span>
+losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">addTransform</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FixedRotation<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fixed-rotation&#34;</span><span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">PLUS_I</span><span style="color:#f92672">,</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>2<span style="color:#f92672">.</span><span style="color:#a6e22e">5</span><span style="color:#f92672">)));</span>
+TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
 </code></pre></div><p>Пересоздав GeoTIFF, я получил следующее:</p>
 <p><img src="/img/georeferencing-tiles/5.png" alt=""></p>
 <p>Разница составила около 10км. Это значительно лучше, чем было в прошлый раз. Видимо, я на правильном пути. Немножко &ldquo;поиграв&rdquo; с углами крена и тангажа, я высчитал их для снимка как 2.6 и 0.6:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder<span style="color:#f92672">(</span>rawDirs<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">addTransform</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FixedRotation<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fixed-rotation&#34;</span><span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">PLUS_I</span><span style="color:#f92672">,</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>2<span style="color:#f92672">.</span><span style="color:#a6e22e">6</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">addTransform</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FixedRotation<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fixed-rotation&#34;</span><span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">PLUS_J</span><span style="color:#f92672">,</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>0<span style="color:#f92672">.</span><span style="color:#a6e22e">6</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder<span style="color:#f92672">(</span>rawDirs<span style="color:#f92672">);</span>
+losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">addTransform</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FixedRotation<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fixed-rotation&#34;</span><span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">PLUS_I</span><span style="color:#f92672">,</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>2<span style="color:#f92672">.</span><span style="color:#a6e22e">6</span><span style="color:#f92672">)));</span>
+losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">addTransform</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FixedRotation<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;fixed-rotation&#34;</span><span style="color:#f92672">,</span> Vector3D<span style="color:#f92672">.</span><span style="color:#a6e22e">PLUS_J</span><span style="color:#f92672">,</span> FastMath<span style="color:#f92672">.</span><span style="color:#a6e22e">toRadians</span><span style="color:#f92672">(</span>0<span style="color:#f92672">.</span><span style="color:#a6e22e">6</span><span style="color:#f92672">)));</span>
+TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
 </code></pre></div><p>В результате даёт:</p>
 <p><img src="/img/georeferencing-tiles/6.png" alt=""></p>
-<h2 id="heading">Тайлы</h2>
+<h2 id="тайлы">Тайлы</h2>
 <p>Изображение идеально совпадает с картой. Что же ещё можно сделать? Рассказать об этом другим! Самый простой способ - это разрезать изображение на тайлы и наложить на одну из известных карт.</p>
 <p>В GDAL есть встроенная программа gdal2tiles. С её помощью можно достаточно просто сгенерировать тайлы:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 gdal2tiles.py --profile<span style="color:#f92672">=</span>mercator -z 3-6 output.tif tiles
@@ -404,7 +406,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a 
 L.tileLayer('/img/georeferencing-tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7, attribution: "", minZoom: 3, maxZoom: 6}).addTo(map);
 
 </script>
-<h2 id="heading-1">Послесловие</h2>
+<h2 id="послесловие">Послесловие</h2>
 <p>Несмотря на кажущуюся простоту, для меня весь процесс получения картинки со спутника и наложение её на карту, занял два года. В течении этого времени были и радость открытия и полное отрицание получившихся результатов. Но я очень горд тем, что прошёл весь путь. Ведь я смог разобраться в нескольких совершенно не связанных областях знаний и добиться финального результата.</p>
 <p>Но я не собираюсь стоять на месте. Есть множество вещей, которые можно улучшить:</p>
 <ol>

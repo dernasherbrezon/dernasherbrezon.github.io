@@ -17,7 +17,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/jsp-tag-testing/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='jsp'><meta property='article:tag' content='junit'><meta property='article:tag' content='jetty'><meta property='article:tag' content='sonarcube'><meta property='article:tag' content='java'><meta property='article:tag' content='jstl'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-03-02T12:48:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-02T12:48:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/jsp-tag-testing/3.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Тестирование JSP тэгов • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/jsp-tag-testing/'>
@@ -143,7 +143,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -185,7 +185,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -203,7 +203,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -220,6 +220,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -255,7 +257,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -358,22 +360,22 @@
 <p>После моего героического изменения кода, он стал отображаться как нетестируемый за последние 30 дней. Тут нужно понимать, что код - это несколько классов для JSP. Внутри него есть сильная привязка к servlet api, которую так просто нельзя замокать. Но и оставлять такой простой проект в статусе &ldquo;Quality: Failed&rdquo; мне не позволяла гордость. Я засучил рукава и принялся исследовать.</p>
 <p>Сами классы реализуют <code>javax.servlet.jsp.tagext.TagSupport</code>. Это часть спецификации J2EE для создания тэгов в JSP. Надо сказать технология достаточно древняя и во время её проектирования ни о каком юнит тестировании ещё не думали. Исходя из этого я решил поднимать честный web контейнер для каждого теста, рендерить страницу и сравнивать с результатом.</p>
 <p>Jetty - это легковесный web контейнер, который полностью реализует спецификацию j2ee. Его удобно запускать в embedded режиме. Так же в самом Jetty проекте есть несколько модулей для тестирования, которые предоставляют достаточно удобные функции. Подключается так:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
-	<span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>org.eclipse.jetty<span style="color:#f92672">&lt;/groupId&gt;</span>
-	<span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>jetty-http<span style="color:#f92672">&lt;/artifactId&gt;</span>
-	<span style="color:#f92672">&lt;version</span><span style="color:#f92672">&gt;</span>${jetty.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;classifier</span><span style="color:#f92672">&gt;</span>tests<span style="color:#f92672">&lt;/classifier&gt;</span>
-	<span style="color:#f92672">&lt;scope</span><span style="color:#f92672">&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>org.eclipse.jetty<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>jetty-http<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;version&gt;</span>${jetty.version}<span style="color:#f92672">&lt;/version&gt;</span>
+	<span style="color:#f92672">&lt;classifier&gt;</span>tests<span style="color:#f92672">&lt;/classifier&gt;</span>
+	<span style="color:#f92672">&lt;scope&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
 <span style="color:#f92672">&lt;/dependency&gt;</span>
 </code></pre></div><p>После чего будет доступен класс <code>org.eclipse.jetty.http.HttpTester</code>. С помощью него можно удобно выполнять HTTP запросы и получать ответы:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">Request</span> request <span style="color:#f92672">=</span> HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">newRequest</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">Request</span> request <span style="color:#f92672">=</span> HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">newRequest</span><span style="color:#f92672">();</span>
 HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">Response</span> response<span style="color:#f92672">;</span>
 
-request<span style="color:#f92672">.</span><span style="color:#a6e22e">setMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;GET&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-request<span style="color:#f92672">.</span><span style="color:#a6e22e">setVersion</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;HTTP/1.0&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-request<span style="color:#f92672">.</span><span style="color:#a6e22e">setHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Host&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;tester&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-request<span style="color:#f92672">.</span><span style="color:#a6e22e">setURI</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> pageName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.jsp&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-response <span style="color:#f92672">=</span> HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">parseResponse</span><span style="color:#f92672">(</span>HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">from</span><span style="color:#f92672">(</span>localConnector<span style="color:#f92672">.</span><span style="color:#a6e22e">getResponse</span><span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">generate</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+request<span style="color:#f92672">.</span><span style="color:#a6e22e">setMethod</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;GET&#34;</span><span style="color:#f92672">);</span>
+request<span style="color:#f92672">.</span><span style="color:#a6e22e">setVersion</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;HTTP/1.0&#34;</span><span style="color:#f92672">);</span>
+request<span style="color:#f92672">.</span><span style="color:#a6e22e">setHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Host&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;tester&#34;</span><span style="color:#f92672">);</span>
+request<span style="color:#f92672">.</span><span style="color:#a6e22e">setURI</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> pageName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.jsp&#34;</span><span style="color:#f92672">);</span>
+response <span style="color:#f92672">=</span> HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">parseResponse</span><span style="color:#f92672">(</span>HttpTester<span style="color:#f92672">.</span><span style="color:#a6e22e">from</span><span style="color:#f92672">(</span>localConnector<span style="color:#f92672">.</span><span style="color:#a6e22e">getResponse</span><span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">generate</span><span style="color:#f92672">())));</span>
 </code></pre></div><p>Сами тесты достаточно простые. Создаётся jsp страница</p>
 <pre><code>&lt;%@page contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot; trimDirectiveWhitespaces=&quot;true&quot; %&gt;
 &lt;%@ taglib prefix=&quot;ta&quot; uri=&quot;https://github.com/dernasherbrezon/jtimeago&quot; %&gt;
@@ -394,7 +396,7 @@ ${outputCommentDate}
 <p>После всех исправлений покрытие тестами улучшилось и проект снова стал зелёным:</p>
 <p><img src="/img/jsp-tag-testing/3.png" alt=""></p>
 <p>Несмотря на то, что sonar считает проект зелёным и тэг отрабатывает в настоящем web контейнере как надо, мне не хватает тестов соответствия спецификации. J2EE стандарт достаточно большой с множеством хитрых требований, которые не все полностью реализуют. Например, тэги могут создаваться и кэшироваться на диск. Для этого <code>javax.servlet.jsp.tagext.TagSupport</code> реализует интерфейс <code>java.io.Serializable</code>. J2EE ожидает, что после сериализации кэша тэгов на диск, его можно восстановить и он будет работать. На практике необходимо, чтобы каждый тэг правильно реализовывал <code>java.io.Serializable</code>. Я пока не придумал, как это можно сделать.</p>
-<h2 id="heading">Выводы</h2>
+<h2 id="выводы">Выводы</h2>
 <ol>
 <li>Sonarcube достаточно мощный и простой в настройке инструмент. Пользуйтесь им для своих проектов.</li>
 <li>Процент покрытия тестами кода - важный параметр.</li>

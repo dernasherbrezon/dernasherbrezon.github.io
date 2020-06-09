@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 14 May 2020 21:21:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 25 May 2020 17:27:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,18 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Юнит-тесты</title>
+      <link>https://dernasherbrezon.com/posts/unit-tests/</link>
+      <pubDate>Mon, 25 May 2020 17:27:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/unit-tests/</guid>
+      <description>15 лет назад никто не слышал про юнит-тесты. Код писался один раз, потом проверялся вручную QA и методами пристального вглядывания. Все жили в гармонии и мире. Но тут пришли юнит-тесты и мир разделился на два враждующих лагеря: на тех, кто пишет тесты и тех, кто нет.
+Спойлер: я за авто-тесты.
+В интернете очень много аргументов как за, так и против. Я решил собрать свой собственный список аргументов за юнит-тесты.
+1 Тесты пишутся не для того, чтобы протестировать каждое логическое условие и всевозможные комбинации входных и выходных данных.</description>
     </item>
     
     <item>
@@ -709,7 +721,7 @@ Server server = new Server(9090); ServletHolder holder = new ServletHolder(new D
       <guid>https://dernasherbrezon.com/posts/refactoring-legacy/</guid>
       <description>Навеяно http://www.amazon.com/Working-Effectively-Legacy-Robert-Martin/dp/0131177052
 Мне достаточно часто приходилось работать с наследными системами. Поэтому выработал некоторые свои собственные интересные практики при работе с такими системами.
- Зачастую имена классов, методов и переменных не отражают сути. В таких случаях обычно переименовывают их. Однако в наследных системах такого делать не рекомендуется. Даже при использовании мощных инструментов в современных IDE. Это связано с тем что в конечном итоге подобные системы собираются своими скриптами сборки, зачастую такими же запутанными и очень confuse&#39;ными как и сам код.</description>
+ Зачастую имена классов, методов и переменных не отражают сути. В таких случаях обычно переименовывают их. Однако в наследных системах такого делать не рекомендуется. Даже при использовании мощных инструментов в современных IDE. Это связано с тем что в конечном итоге подобные системы собираются своими скриптами сборки, зачастую такими же запутанными и очень confuse&amp;rsquo;ными как и сам код.</description>
     </item>
     
     <item>
@@ -719,9 +731,9 @@ Server server = new Server(9090); ServletHolder holder = new ServletHolder(new D
       
       <guid>https://dernasherbrezon.com/posts/glassfish-async-jms-jca/</guid>
       <description>Достаточно интересное и недокументированное поведение Glassfish v.2.0.
-Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&#39;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
+Если в потоке вызова endpointActivation(...) в реализации Resource Adapter&amp;rsquo;a вызвать метод consumer.setMessageListener(...) то потоки асинхронного получения сообщения не создадутся. С чем это связано - неизвестно. Исходные коды не смотрел. Возможно с требованиями спецификации о создании потоков через WorkManager. Но разработчик не контролирует создания потоков в JMS клиенте!
 Решение:
- Создать инициализацию message listener&#39;a в отдельном потоке через WorkManager.  </description>
+ Создать инициализацию message listener&amp;rsquo;a в отдельном потоке через WorkManager.  </description>
     </item>
     
     <item>
@@ -746,7 +758,7 @@ javax.jms.Connection conn = connFactory.createConnection(); Session s = conn.cre
       
       <guid>https://dernasherbrezon.com/posts/eclipse-maven/</guid>
       <description>Maven в Eclipse - это очень удобно.
-Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&#39;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&#39;шный стандартно в output folder для Eclipse&#39;a, а maven&#39;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&amp;rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&amp;rsquo;шный стандартно в output folder для Eclipse&amp;rsquo;a, а maven&amp;rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
     </item>
     
   </channel>

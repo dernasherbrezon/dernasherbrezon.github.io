@@ -15,7 +15,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2019-04-20T21:50:18&#43;01:00'/><meta property='article:modified_time' content='2019-04-20T21:50:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Тестирование ошибок файловой системы • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/test-fs-failures/'>
@@ -141,7 +141,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -183,7 +183,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -201,7 +201,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -218,6 +218,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -253,7 +255,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -350,7 +352,7 @@
 </ol>
 <p>Эта ошибка достаточно критичная. Дело в том, что с появлением большого количества спутников, диск будет периодически заполнятся. То есть, &ldquo;no disk space&rdquo; будет достаточно часто возникать. При этом пользовательские настройки не должны пропадать! Даже если диск полностью заполнен, приложение должно работать и отправлять в <a href="https://r2server.com">r2server</a> данные.</p>
 <p>Исправить эту ошибку достаточно просто, однако, возникает немаловажный вопрос: а как вообще тестировать отказ файловой системы? И &ldquo;no disk space&rdquo; в частности?</p>
-<h2 id="heading">Теория</h2>
+<h2 id="теория">Теория</h2>
 <p>До JDK7 необходимо было бы создавать ещё один слой абстракции над файловой системой и делать его mock во время тестирования. В JDK7 появился специальный слой, абстрагирующий файловую систему: <code>java.nio.file.FileSystem</code>. Изначально <a href="http://github.com/dernasherbrezon/r2cloud">r2cloud</a> был написан на основе старого <code>java.io.File</code>, поэтому его необходимо переписать на новый API:</p>
 <p><img src="/img/test-fs-failures/api.png" alt=""></p>
 <h2 id="mockfilesystem">MockFileSystem</h2>
@@ -359,35 +361,35 @@
 <p>Тест при этом выглядит следующим образом.</p>
 <p>Инициалиация. Чтобы MockFileSystem использовалась, необходимо её передавать компонентам извне.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a6e22e">@Before</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
-		fs <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MockFileSystem<span style="color:#f92672">(</span>FileSystems<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-		config <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestConfiguration<span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">,</span> fs<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+		fs <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MockFileSystem<span style="color:#f92672">(</span>FileSystems<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">());</span>
+		config <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestConfiguration<span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">,</span> fs<span style="color:#f92672">);</span>
 	<span style="color:#f92672">}</span>
 </code></pre></div><p>Сам тест при этом выглядит следующим образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a6e22e">@Test</span>
-	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testCorruptedAfterFailedWrite</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testCorruptedAfterFailedWrite</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
 		String lat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;53.40&#34;</span><span style="color:#f92672">;</span>
-		config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">,</span> lat<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-		config<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">,</span> lat<span style="color:#f92672">);</span>
+		config<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">();</span>
 
-		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">mock</span><span style="color:#f92672">(</span>config<span style="color:#f92672">.</span><span style="color:#a6e22e">getTempDirectoryPath</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> FailingByteChannelCallback<span style="color:#f92672">(</span>3<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-		Path userParentPath <span style="color:#f92672">=</span> fs<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">(</span>TestConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">getUserSettingsLocation</span><span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">mock</span><span style="color:#f92672">(</span>userParentPath<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> FailingByteChannelCallback<span style="color:#f92672">(</span>3<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">mock</span><span style="color:#f92672">(</span>config<span style="color:#f92672">.</span><span style="color:#a6e22e">getTempDirectoryPath</span><span style="color:#f92672">(),</span> <span style="color:#66d9ef">new</span> FailingByteChannelCallback<span style="color:#f92672">(</span>3<span style="color:#f92672">));</span>
+		Path userParentPath <span style="color:#f92672">=</span> fs<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">(</span>TestConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">getUserSettingsLocation</span><span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">)).</span><span style="color:#a6e22e">getParent</span><span style="color:#f92672">();</span>
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">mock</span><span style="color:#f92672">(</span>userParentPath<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> FailingByteChannelCallback<span style="color:#f92672">(</span>3<span style="color:#f92672">));</span>
 
 		String newLat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;23.40&#34;</span><span style="color:#f92672">;</span>
-		config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">,</span> newLat<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">,</span> newLat<span style="color:#f92672">);</span>
 		<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-			config<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-			fail<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;config should not be updated&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+			config<span style="color:#f92672">.</span><span style="color:#a6e22e">update</span><span style="color:#f92672">();</span>
+			fail<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;config should not be updated&#34;</span><span style="color:#f92672">);</span>
 		<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 			<span style="color:#75715e">// expected
 </span><span style="color:#75715e"></span>		<span style="color:#f92672">}</span>
 		
-		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">removeMock</span><span style="color:#f92672">(</span>config<span style="color:#f92672">.</span><span style="color:#a6e22e">getTempDirectoryPath</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">removeMock</span><span style="color:#f92672">(</span>userParentPath<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">removeMock</span><span style="color:#f92672">(</span>config<span style="color:#f92672">.</span><span style="color:#a6e22e">getTempDirectoryPath</span><span style="color:#f92672">());</span>
+		fs<span style="color:#f92672">.</span><span style="color:#a6e22e">removeMock</span><span style="color:#f92672">(</span>userParentPath<span style="color:#f92672">);</span>
 
-		config <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestConfiguration<span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">,</span> fs<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-		assertEquals<span style="color:#f92672">(</span>lat<span style="color:#f92672">,</span> config<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+		config <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestConfiguration<span style="color:#f92672">(</span>tempFolder<span style="color:#f92672">,</span> fs<span style="color:#f92672">);</span>
+		assertEquals<span style="color:#f92672">(</span>lat<span style="color:#f92672">,</span> config<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;locaiton.lat&#34;</span><span style="color:#f92672">));</span>
 	<span style="color:#f92672">}</span>
 </code></pre></div><ul>
 <li>В самом начале происходит запись в файл.</li>

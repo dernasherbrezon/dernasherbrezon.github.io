@@ -15,7 +15,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/rtlsdr-gzip/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='производительность'><meta property='article:tag' content='raspberrypi'><meta property='article:published_time' content='2019-03-04T17:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-04T17:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/rtlsdr-gzip/3.png'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Сжимание I/Q потока на raspberrypi • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/rtlsdr-gzip/'>
@@ -141,7 +141,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -183,7 +183,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -201,7 +201,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -218,6 +218,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -253,7 +255,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -352,7 +354,7 @@
 <li>Сохранять данные на диск сразу в сжатом виде</li>
 </ol>
 <p>Первый пункт было достаточно просто <a href="https://github.com/dernasherbrezon/r2cloud/commit/ba4550407a352d85134c0a9986e84e6bba184f89">реализовать</a>. Для второго пункта необходимо было провести тестирование, о котором я и хочу написать дальше.</p>
-<h2 id="heading">Тестирование</h2>
+<h2 id="тестирование">Тестирование</h2>
 <p>Тестирование заключается в сравнении старого способа (писать данные напрямую на диск) и нового.</p>
 <p>Скрипт для запуска старого способа следующий:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">timeout 10m vmstat <span style="color:#ae81ff">1</span> &gt; ~/nogz_vmstat.txt &amp;
@@ -368,7 +370,7 @@ timeout 10m rtl_sdr -f <span style="color:#ae81ff">145952432</span> -s <span sty
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pi@raspberrypi:/tmp $ ls -lh
 -rw-r--r-- <span style="color:#ae81ff">1</span> pi   pi    47M Apr  <span style="color:#ae81ff">2</span> 21:30 gz.raw.gz
 -rw-r--r-- <span style="color:#ae81ff">1</span> pi   pi   275M Apr  <span style="color:#ae81ff">2</span> 21:17 nogz.raw
-</code></pre></div><h2 id="heading-1">Выводы</h2>
+</code></pre></div><h2 id="выводы">Выводы</h2>
 <ol>
 <li>Запись на диск ожидаемо потребляет CPU в районе 10%</li>
 <li>Простоя из-за большого потока данных на флэшку меньше при использовании gzip. Тоже ожидаемо</li>

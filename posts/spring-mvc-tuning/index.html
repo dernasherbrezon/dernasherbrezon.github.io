@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='Spring-mvc'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2011-11-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2011-11-11T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.62.1" />
+<meta name="generator" content="Hugo 0.72.0" />
 
   <title>Оптимизация spring-mvc • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/spring-mvc-tuning/'>
@@ -139,7 +139,7 @@
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.048780487804878em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.024390243902439em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.048780487804878em'>junit</a>
       </li><li>
         <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
       </li><li>
@@ -181,7 +181,7 @@
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.024390243902439em'>rest</a>
+        <a href='/tags/rest/' style='font-size:1.024390243902439em'>REST</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
@@ -199,7 +199,7 @@
       </li><li>
         <a href='/tags/satnogs/' style='font-size:1.024390243902439em'>satnogs</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1em'>security</a>
+        <a href='/tags/security/' style='font-size:1.024390243902439em'>security</a>
       </li><li>
         <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
       </li><li>
@@ -216,6 +216,8 @@
         <a href='/tags/string/' style='font-size:1.024390243902439em'>String</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
       </li><li>
         <a href='/tags/travis-ci/' style='font-size:1.024390243902439em'>travis-ci</a>
       </li><li>
@@ -251,7 +253,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2195121951219512em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1463414634146343em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
       </li></ul>
 </div>
 
@@ -345,44 +347,44 @@
 <li>Не использовать jstl. Достаточно спорное предположение, однако кто то может не использовать jstl и писать на обычных JSP. Я не знаю jstl. И пишу &lt;% %&gt;.</li>
 </ul>
 <p>Итак первая достаточно безболезненная оптимизация не требующая никаких жертв: выключить publishEvent в DispatcherServlet. По умолчанию он отправляет в ApplicationContext сообщение о времени обработки запроса. В production зачастую уже поздно что то мерить. Делается это в web.xml:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;init-param</span><span style="color:#f92672">&gt;</span>  
-	<span style="color:#f92672">&lt;param-name</span><span style="color:#f92672">&gt;</span>publishEvents<span style="color:#f92672">&lt;/param-name&gt;</span>  
-	<span style="color:#f92672">&lt;param-value</span><span style="color:#f92672">&gt;</span>false<span style="color:#f92672">&lt;/param-value&gt;</span>  
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;init-param&gt;</span>  
+	<span style="color:#f92672">&lt;param-name&gt;</span>publishEvents<span style="color:#f92672">&lt;/param-name&gt;</span>  
+	<span style="color:#f92672">&lt;param-value&gt;</span>false<span style="color:#f92672">&lt;/param-value&gt;</span>  
 <span style="color:#f92672">&lt;/init-param&gt;</span>
 </code></pre></div><p>Избавиться от @RequestMapping. Это очень удобно передавать @Param напрямую в метод. Однако реализация AnnotationMethodHandlerAdapter в spring-mvc достаточно требовательна к ресурсам и генерирует кучу мусора на каждый запрос. Логичнее было бы сделать найденные методы кешируемыми, но согласно <a href="https://jira.springsource.org/browse/SPR-6151">https://jira.springsource.org/browse/SPR-6151</a> разработчики считают сложным пофиксить. Поэтому для простоты и небольшого увеличения скорости сделаем новый контроллёр:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">FastController</span> <span style="color:#f92672">{</span>  
   
     String <span style="color:#a6e22e">handleRequest</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">,</span> HttpServletResponse response<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception<span style="color:#f92672">;</span>  
       
-    String <span style="color:#a6e22e">getRequestMappingURL</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+    String <span style="color:#a6e22e">getRequestMappingURL</span><span style="color:#f92672">();</span>  
 
 <span style="color:#f92672">}</span>
 </code></pre></div><p>Чем он лучше чем org.springframework.web.servlet.mvc.Controller? Он позволяет задавать url в том же месте где и содержится его реализация. Не нужно делать лишних движений чтобы добавить его в spring.xml. Соответственно необходимо определить классы которые будут его использовать:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FastUrlDetector</span> <span style="color:#66d9ef">extends</span> AbstractDetectingUrlHandlerMapping <span style="color:#f92672">{</span>  
   
       
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">FastUrlDetector</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-        setAlwaysUseFullPath<span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
-        setUrlDecode<span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">FastUrlDetector</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        setAlwaysUseFullPath<span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>  
+        setUrlDecode<span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>  
     <span style="color:#f92672">}</span>  
       
     <span style="color:#a6e22e">@Override</span>  
-    <span style="color:#66d9ef">protected</span> String<span style="color:#f92672">[</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">determineUrlsForHandler</span><span style="color:#f92672">(</span>String beanName<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-        ApplicationContext context <span style="color:#f92672">=</span> getApplicationContext<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
-        Class<span style="color:#f92672">&lt;</span><span style="color:#f92672">?</span><span style="color:#f92672">&gt;</span> handlerType <span style="color:#f92672">=</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">(</span>beanName<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>FastController<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>handlerType<span style="color:#f92672">)</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-            FastController controller <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>FastController<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span>beanName<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
-            String result <span style="color:#f92672">=</span> controller<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequestMappingURL</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;controller doesnt have url mapping: &#34;</span> <span style="color:#f92672">+</span> beanName<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+    <span style="color:#66d9ef">protected</span> String<span style="color:#f92672">[]</span> <span style="color:#a6e22e">determineUrlsForHandler</span><span style="color:#f92672">(</span>String beanName<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        ApplicationContext context <span style="color:#f92672">=</span> getApplicationContext<span style="color:#f92672">();</span>  
+        Class<span style="color:#f92672">&lt;?&gt;</span> handlerType <span style="color:#f92672">=</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getType</span><span style="color:#f92672">(</span>beanName<span style="color:#f92672">);</span>  
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>FastController<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">isAssignableFrom</span><span style="color:#f92672">(</span>handlerType<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>  
+            FastController controller <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>FastController<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span>beanName<span style="color:#f92672">);</span>  
+            String result <span style="color:#f92672">=</span> controller<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequestMappingURL</span><span style="color:#f92672">();</span>  
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;controller doesnt have url mapping: &#34;</span> <span style="color:#f92672">+</span> beanName<span style="color:#f92672">);</span>  
             <span style="color:#f92672">}</span>  
-            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span> result<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;controller doesnt have url mapping: &#34;</span> <span style="color:#f92672">+</span> beanName<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+            <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span> result<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()</span> <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;controller doesnt have url mapping: &#34;</span> <span style="color:#f92672">+</span> beanName<span style="color:#f92672">);</span>  
             <span style="color:#f92672">}</span>  
             <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span> <span style="color:#f92672">!</span>result<span style="color:#f92672">.</span><span style="color:#a6e22e">startsWith</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;only absolute urls are required. Beanname: &#34;</span> <span style="color:#f92672">+</span> beanName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; Url: &#34;</span> <span style="color:#f92672">+</span> result<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;only absolute urls are required. Beanname: &#34;</span> <span style="color:#f92672">+</span> beanName <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; Url: &#34;</span> <span style="color:#f92672">+</span> result<span style="color:#f92672">);</span>  
             <span style="color:#f92672">}</span>  
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">[</span><span style="color:#f92672">]</span><span style="color:#f92672">{</span>result<span style="color:#f92672">}</span><span style="color:#f92672">;</span>  
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">[]{</span>result<span style="color:#f92672">};</span>  
         <span style="color:#f92672">}</span>  
         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>  
     <span style="color:#f92672">}</span>  
@@ -392,16 +394,16 @@
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FastMethodHandlerAdapter</span> <span style="color:#66d9ef">implements</span> HandlerAdapter <span style="color:#f92672">{</span>  
   
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">supports</span><span style="color:#f92672">(</span>Object handler<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>handler <span style="color:#66d9ef">instanceof</span> FastController<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>handler <span style="color:#66d9ef">instanceof</span> FastController<span style="color:#f92672">);</span>  
     <span style="color:#f92672">}</span>  
   
     <span style="color:#66d9ef">public</span> ModelAndView <span style="color:#a6e22e">handle</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">,</span> HttpServletResponse response<span style="color:#f92672">,</span> Object handler<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>  
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ModelAndView<span style="color:#f92672">(</span><span style="color:#f92672">(</span><span style="color:#f92672">(</span>FastController<span style="color:#f92672">)</span> handler<span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">handleRequest</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ModelAndView<span style="color:#f92672">(((</span>FastController<span style="color:#f92672">)</span> handler<span style="color:#f92672">).</span><span style="color:#a6e22e">handleRequest</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">));</span>  
     <span style="color:#f92672">}</span>  
   
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getLastModified</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">,</span> Object handler<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
  <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>handler <span style="color:#66d9ef">instanceof</span> LastModified<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-  <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span>LastModified<span style="color:#f92672">)</span> handler<span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getLastModified</span><span style="color:#f92672">(</span>request<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+  <span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>LastModified<span style="color:#f92672">)</span> handler<span style="color:#f92672">).</span><span style="color:#a6e22e">getLastModified</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>  
  <span style="color:#f92672">}</span>  
         <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>  
     <span style="color:#f92672">}</span>  
@@ -415,33 +417,33 @@
   
     <span style="color:#a6e22e">@Override</span>  
     <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">renderMergedOutputModel</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> model<span style="color:#f92672">,</span> HttpServletRequest request<span style="color:#f92672">,</span> HttpServletResponse response<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>  
-        RequestDispatcher rd <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequestDispatcher</span><span style="color:#f92672">(</span>getUrl<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>useInclude<span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">)</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-            response<span style="color:#f92672">.</span><span style="color:#a6e22e">setContentType</span><span style="color:#f92672">(</span>getContentType<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>logger<span style="color:#f92672">.</span><span style="color:#a6e22e">isDebugEnabled</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-                logger<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Including resource [&#34;</span> <span style="color:#f92672">+</span> getUrl<span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;] in InternalResourceView &#39;&#34;</span> <span style="color:#f92672">+</span> getBeanName<span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#39;&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+        RequestDispatcher rd <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequestDispatcher</span><span style="color:#f92672">(</span>getUrl<span style="color:#f92672">());</span>  
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>useInclude<span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>  
+            response<span style="color:#f92672">.</span><span style="color:#a6e22e">setContentType</span><span style="color:#f92672">(</span>getContentType<span style="color:#f92672">());</span>  
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>logger<span style="color:#f92672">.</span><span style="color:#a6e22e">isDebugEnabled</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>  
+                logger<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Including resource [&#34;</span> <span style="color:#f92672">+</span> getUrl<span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;] in InternalResourceView &#39;&#34;</span> <span style="color:#f92672">+</span> getBeanName<span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#39;&#34;</span><span style="color:#f92672">);</span>  
             <span style="color:#f92672">}</span>  
-            rd<span style="color:#f92672">.</span><span style="color:#a6e22e">include</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+            rd<span style="color:#f92672">.</span><span style="color:#a6e22e">include</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">);</span>  
         <span style="color:#f92672">}</span>  
   
         <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>  
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>logger<span style="color:#f92672">.</span><span style="color:#a6e22e">isDebugEnabled</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-                logger<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Forwarding to resource [&#34;</span> <span style="color:#f92672">+</span> getUrl<span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;] in InternalResourceView &#39;&#34;</span> <span style="color:#f92672">+</span> getBeanName<span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#39;&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>logger<span style="color:#f92672">.</span><span style="color:#a6e22e">isDebugEnabled</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>  
+                logger<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Forwarding to resource [&#34;</span> <span style="color:#f92672">+</span> getUrl<span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;] in InternalResourceView &#39;&#34;</span> <span style="color:#f92672">+</span> getBeanName<span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#39;&#34;</span><span style="color:#f92672">);</span>  
             <span style="color:#f92672">}</span>  
-            rd<span style="color:#f92672">.</span><span style="color:#a6e22e">forward</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+            rd<span style="color:#f92672">.</span><span style="color:#a6e22e">forward</span><span style="color:#f92672">(</span>request<span style="color:#f92672">,</span> response<span style="color:#f92672">);</span>  
         <span style="color:#f92672">}</span>          
     <span style="color:#f92672">}</span>  
       
     <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">useInclude</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">,</span> HttpServletResponse response<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>WebUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">isIncludeRequest</span><span style="color:#f92672">(</span>request<span style="color:#f92672">)</span> <span style="color:#f92672">|</span><span style="color:#f92672">|</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">isCommitted</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>WebUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">isIncludeRequest</span><span style="color:#f92672">(</span>request<span style="color:#f92672">)</span> <span style="color:#f92672">||</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">isCommitted</span><span style="color:#f92672">());</span>  
     <span style="color:#f92672">}</span>  
   
 <span style="color:#f92672">}</span>  
   
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FastJSPViewResolver</span> <span style="color:#66d9ef">extends</span> UrlBasedViewResolver <span style="color:#f92672">{</span>  
   
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">FastJSPViewResolver</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-        setViewClass<span style="color:#f92672">(</span>FastJSPView<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">FastJSPViewResolver</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        setViewClass<span style="color:#f92672">(</span>FastJSPView<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>  
     <span style="color:#f92672">}</span>  
       
 <span style="color:#f92672">}</span>  
@@ -449,10 +451,10 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;viewResolver&#34;</span>  
  <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.st.FastJSPViewResolver&#34;</span><span style="color:#f92672">&gt;</span>  
  <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;prefix&#34;</span><span style="color:#f92672">&gt;</span>  
-  <span style="color:#f92672">&lt;value</span><span style="color:#f92672">&gt;</span>/WEB-INF/pages/<span style="color:#f92672">&lt;/value&gt;</span>  
+  <span style="color:#f92672">&lt;value&gt;</span>/WEB-INF/pages/<span style="color:#f92672">&lt;/value&gt;</span>  
  <span style="color:#f92672">&lt;/property&gt;</span>  
  <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;suffix&#34;</span><span style="color:#f92672">&gt;</span>  
-  <span style="color:#f92672">&lt;value</span><span style="color:#f92672">&gt;</span>.jsp<span style="color:#f92672">&lt;/value&gt;</span>  
+  <span style="color:#f92672">&lt;value&gt;</span>.jsp<span style="color:#f92672">&lt;/value&gt;</span>  
  <span style="color:#f92672">&lt;/property&gt;</span>  
 <span style="color:#f92672">&lt;/bean&gt;</span> 
 </code></pre></div><p>Чтобы проверить что есть некоторые улучшения ниже приведён тестовый контроллер который перенаправляет запрос в jsp:</p>
@@ -463,7 +465,7 @@
         <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;index2&#34;</span><span style="color:#f92672">;</span>  
     <span style="color:#f92672">}</span>  
       
-    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getRequestMappingURL</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getRequestMappingURL</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
         <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;/test2&#34;</span><span style="color:#f92672">;</span>  
     <span style="color:#f92672">}</span>  
       
@@ -480,7 +482,7 @@
 <ul>
 <li>ServletRequestAttributes. Не очень удачная абстракция. На каждый запрос создаётся этот объект. Не совсем понятно зачем он нужен когда обычный HTTPServletRequest предоставляет методы setAttribute и getAttribute и пр.</li>
 <li>Не очень удачная имплементация некоторых объектов в Jetty: Response.setLocale, Request.getRequestDispatcher, Dispatcher.forward. После оптимизации они стали теми местами которые генерируют наибольшее количество мусора. Не совсем понятно зачем им генерировать много объектов, также непонятно почему они не кешируют результаты вычислений.</li>
-<li>при использовании for each генерируется итератор, который превращается в мусор. Настольные microbenchmark'и показали что итерация по ArrayList при использовании простых индексов быстрее в два раза.</li>
+<li>при использовании for each генерируется итератор, который превращается в мусор. Настольные microbenchmark&rsquo;и показали что итерация по ArrayList при использовании простых индексов быстрее в два раза.</li>
 </ul>
 <p>Выводы:</p>
 <ul>
