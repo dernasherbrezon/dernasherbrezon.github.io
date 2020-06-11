@@ -2,7 +2,7 @@
 title: "Поворотное устройство для r2cloud"
 date: 2020-06-10T18:41:18+01:00
 draft: false
-cover: /img/compare-jsp-vuejs/2.png
+cover: /img/rotator-for-r2cloud/4.jpg
 emoji: true
 tags:
   - satellite
