@@ -5,10 +5,37 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 10 Jun 2020 18:41:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2020 21:35:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>embedded</title>
+      <link>https://dernasherbrezon.com/tags/embedded/</link>
+      <pubDate>Thu, 11 Jun 2020 21:35:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/embedded/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>raspberrypi</title>
+      <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
+      <pubDate>Thu, 11 Jun 2020 21:35:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>администрирование</title>
+      <link>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
+      <pubDate>Thu, 11 Jun 2020 21:35:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>satellite</title>
@@ -515,38 +542,11 @@
     </item>
     
     <item>
-      <title>embedded</title>
-      <link>https://dernasherbrezon.com/tags/embedded/</link>
-      <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/embedded/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>raspberrypi</title>
-      <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
-      <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>rrd</title>
       <link>https://dernasherbrezon.com/tags/rrd/</link>
       <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/rrd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>администрирование</title>
-      <link>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
-      <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
       <description></description>
     </item>
     
