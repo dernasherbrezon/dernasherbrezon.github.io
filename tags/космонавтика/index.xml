@@ -5,21 +5,10 @@
     <link>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</link>
     <description>Recent content in космонавтика on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 10 Jun 2020 18:41:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 05 Dec 2019 22:31:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Поворотное устройство для r2cloud</title>
-      <link>https://dernasherbrezon.com/posts/rotator-for-r2cloud/</link>
-      <pubDate>Wed, 10 Jun 2020 18:41:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/posts/rotator-for-r2cloud/</guid>
-      <description>Введение Последние несколько недель я активно работал над поддержкой поворотных устройств в r2cloud. Тут стоит немного рассказать зачем вообще нужны поворотные устройства и направленные антенны.
-Если совсем грубо, то существует несколько основных классов антенн: всенаправленные, направленные и фазовые решётки. Мой проект до недавнего времени поддерживал только всенаправленные антенны.
-Причина достаточно проста: они просты в настройке и установке. При этом здесь нет движущихся частей и такие антенны могут работать сразу в нескольких диапазонах.</description>
-    </item>
     
     <item>
       <title>Разговоры о приёме сигналов со спутников</title>

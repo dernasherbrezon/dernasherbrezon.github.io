@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>поворотное устройство on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/</link>
+    <description>Recent content in поворотное устройство on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 16 Jun 2020 20:04:18 +0100</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Поворотное устройство - продолжение</title>
+      <link>https://dernasherbrezon.com/posts/rotator-for-r2cloud-2/</link>
+      <pubDate>Tue, 16 Jun 2020 20:04:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/rotator-for-r2cloud-2/</guid>
+      <description>Каждый раз, когда я выхожу тестировать поворотное устройство, находятся удивительные и разнообразные ошибки. Если в прошлый раз после включения вообще ничего не происходило, то на этот раз что-то явно пошло не так.
+  Главные отличия от предыдущей версии:
+ крепление антенны более надёжное. Я использовал стандартные крепления, которые шли в комплекте с поворотным устройством. Несмотря на более громоздкую конструкцию, антенна закреплена гораздо прочнее. облучатели для 70см теперь вертикально расположены. По идее это должно улучшить качество приёма.</description>
+    </item>
+    
+    <item>
+      <title>Поворотное устройство для r2cloud</title>
+      <link>https://dernasherbrezon.com/posts/rotator-for-r2cloud/</link>
+      <pubDate>Wed, 10 Jun 2020 18:41:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/rotator-for-r2cloud/</guid>
+      <description>Введение Последние несколько недель я активно работал над поддержкой поворотных устройств в r2cloud. Тут стоит немного рассказать зачем вообще нужны поворотные устройства и направленные антенны.
+Если совсем грубо, то существует несколько основных классов антенн: всенаправленные, направленные и фазовые решётки. Мой проект до недавнего времени поддерживал только всенаправленные антенны.
+Причина достаточно проста: они просты в настройке и установке. При этом здесь нет движущихся частей и такие антенны могут работать сразу в нескольких диапазонах.</description>
+    </item>
+    
+  </channel>
+</rss>

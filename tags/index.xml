@@ -5,10 +5,37 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 11 Jun 2020 21:35:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2020 20:04:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>satellite</title>
+      <link>https://dernasherbrezon.com/tags/satellite/</link>
+      <pubDate>Tue, 16 Jun 2020 20:04:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/satellite/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>поворотное устройство</title>
+      <link>https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/</link>
+      <pubDate>Tue, 16 Jun 2020 20:04:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>спутники</title>
+      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
+      <pubDate>Tue, 16 Jun 2020 20:04:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>embedded</title>
@@ -38,38 +65,11 @@
     </item>
     
     <item>
-      <title>satellite</title>
-      <link>https://dernasherbrezon.com/tags/satellite/</link>
-      <pubDate>Wed, 10 Jun 2020 18:41:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/satellite/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>satnogs</title>
       <link>https://dernasherbrezon.com/tags/satnogs/</link>
       <pubDate>Wed, 10 Jun 2020 18:41:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/satnogs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>космонавтика</title>
-      <link>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</link>
-      <pubDate>Wed, 10 Jun 2020 18:41:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>спутники</title>
-      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
-      <pubDate>Wed, 10 Jun 2020 18:41:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
       <description></description>
     </item>
     
@@ -371,6 +371,15 @@
     </item>
     
     <item>
+      <title>космонавтика</title>
+      <link>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</link>
+      <pubDate>Thu, 05 Dec 2019 22:31:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>кубсат</title>
       <link>https://dernasherbrezon.com/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/</link>
       <pubDate>Thu, 05 Dec 2019 22:31:18 +0100</pubDate>
@@ -664,15 +673,6 @@
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/metrics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rrdtool</title>
-      <link>https://dernasherbrezon.com/tags/rrdtool/</link>
-      <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/rrdtool/</guid>
       <description></description>
     </item>
     

@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.com/tags/satellite/</link>
     <description>Recent content in satellite on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 10 Jun 2020 18:41:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2020 20:04:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/satellite/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Поворотное устройство - продолжение</title>
+      <link>https://dernasherbrezon.com/posts/rotator-for-r2cloud-2/</link>
+      <pubDate>Tue, 16 Jun 2020 20:04:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/rotator-for-r2cloud-2/</guid>
+      <description>Каждый раз, когда я выхожу тестировать поворотное устройство, находятся удивительные и разнообразные ошибки. Если в прошлый раз после включения вообще ничего не происходило, то на этот раз что-то явно пошло не так.
+  Главные отличия от предыдущей версии:
+ крепление антенны более надёжное. Я использовал стандартные крепления, которые шли в комплекте с поворотным устройством. Несмотря на более громоздкую конструкцию, антенна закреплена гораздо прочнее. облучатели для 70см теперь вертикально расположены. По идее это должно улучшить качество приёма.</description>
+    </item>
     
     <item>
       <title>Поворотное устройство для r2cloud</title>

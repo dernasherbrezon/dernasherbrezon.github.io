@@ -7,7 +7,7 @@ emoji: true
 tags:
   - satellite
   - satnogs
-  - космонавтика
+  - поворотное устройство
   - спутники
 ---
 
