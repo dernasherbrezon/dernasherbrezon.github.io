@@ -11,7 +11,7 @@
  запуск rtl_power и вывод результатов в виде графика чтение .csv файла и вывод в виде графика график должен реагировать на мышь и показывать текущее значение по X и Y  Понятно, что для такого простого приложения использовать web &#43; web server или atom - это слишком.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/javafx-in-2019/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/javafx-in-2019/dark.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='javafx'><meta property='article:tag' content='rtlsdr'><meta property='article:published_time' content='2019-06-16T10:20:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-16T10:20:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/javafx-in-2019/dark.png'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/javafx-in-2019/dark.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='javafx'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='rtlSpectrum'><meta property='article:published_time' content='2019-06-16T10:20:18&#43;01:00'/><meta property='article:modified_time' content='2019-06-16T10:20:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/javafx-in-2019/dark.png'>
 
 <meta name="generator" content="Hugo 0.72.0" />
 
@@ -99,8 +99,6 @@
       </li><li>
         <a href='/tags/flot/' style='font-size:1em'>flot</a>
       </li><li>
-        <a href='/tags/fm-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1em'>fm фильтры</a>
-      </li><li>
         <a href='/tags/gc/' style='font-size:1em'>gc</a>
       </li><li>
         <a href='/tags/gdal/' style='font-size:1.024390243902439em'>gdal</a>
@@ -185,11 +183,11 @@
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.024390243902439em'>rrd</a>
       </li><li>
-        <a href='/tags/rtl_power/' style='font-size:1em'>rtl_power</a>
+        <a href='/tags/rtl_power/' style='font-size:1.024390243902439em'>rtl_power</a>
       </li><li>
-        <a href='/tags/rtlsdr/' style='font-size:1.2195121951219512em'>rtlsdr</a>
+        <a href='/tags/rtlsdr/' style='font-size:1.2439024390243902em'>rtlsdr</a>
       </li><li>
-        <a href='/tags/rtlspectrum/' style='font-size:1em'>rtlSpectrum</a>
+        <a href='/tags/rtlspectrum/' style='font-size:1.048780487804878em'>rtlSpectrum</a>
       </li><li>
         <a href='/tags/s3/' style='font-size:1em'>s3</a>
       </li><li>
@@ -253,7 +251,9 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.2682926829268293em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.170731707317073em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1951219512195121em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.048780487804878em'>фильтры</a>
       </li></ul>
 </div>
 
@@ -374,16 +374,16 @@
 <p><img src="/img/javafx-in-2019/white.png" alt=""></p>
 <h2 id="передовой-javafx">Передовой JavaFX</h2>
 <p>Несмотря на вполне рабочий результат, внутренний перфекционист не давал мне спать. Поэтому я потратил еще около 4 дней на исследования.</p>
-<h3 id="темная-тема">Темная тема</h3>
-<p>Во-первых, мне захотелось сделать темную тему в приложении. Дело в том, что MacOS у меня переключен на темную тему и многие приложения автоматически (или нет?) стали выглядить в тон основным элементам ОС. Я решил узнать, можно ли поставить темную тему средствами JavaFX. Нельзя. По-умолчанию, все приложения JavaFX запускаются со стандартыми стилями для заданной ОС. Вместе с умельцами со stackoverflow мне удалось сделать нечто похожее на темную тему.</p>
+<h3 id="тёмная-тема">Тёмная тема</h3>
+<p>Во-первых, мне захотелось сделать тёмную тему в приложении. Дело в том, что MacOS у меня переключен на тёмную тему и многие приложения автоматически (или нет?) стали выглядить в тон основным элементам ОС. Я решил узнать, можно ли поставить тёмную тему средствами JavaFX. Нельзя. По-умолчанию, все приложения JavaFX запускаются со стандартыми стилями для заданной ОС. Вместе с умельцами со stackoverflow мне удалось сделать нечто похожее на тёмную тему.</p>
 <ul>
-<li>все стили JavaFX зависят от одного базового стиля &ldquo;-fx-base&rdquo;, поэтому, изменив его на темный, можно поменять стиль всего приложения.</li>
+<li>все стили JavaFX зависят от одного базового стиля &ldquo;-fx-base&rdquo;, поэтому, изменив его на тёмный, можно поменять стиль всего приложения.</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">.<span style="color:#a6e22e">root</span> {
     <span style="color:#960050;background-color:#1e0010">-</span>fx-base: rgba(<span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">63</span>, <span style="color:#ae81ff">65</span>, <span style="color:#ae81ff">255</span>);
 }
 </code></pre></div><ul>
-<li>Определить какая сейчас тема установлена в операционной системе можно через системную команду. Она возвращает &ldquo;Dark&rdquo; для темной темы.</li>
+<li>Определить какая сейчас тема установлена в операционной системе можно через системную команду. Она возвращает &ldquo;Dark&rdquo; для тёмной темы.</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ProcessBuilder builder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">().</span><span style="color:#a6e22e">command</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/usr/bin/defaults&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;read&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;-g&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;AppleInterfaceStyle&#34;</span><span style="color:#f92672">);</span>
 Process process<span style="color:#f92672">;</span>
@@ -399,7 +399,7 @@ Process process<span style="color:#f92672">;</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>Результат вполне неплох:</p>
 <p><img src="/img/javafx-in-2019/dark.png" alt=""></p>
-<p>Но шапка окна по-прежнему светлая! Ее, конечно, можно убрать, нарисовать свою темную и сэмулировать работу, но тогда придется эмулировать работу для каждой ОС. И в каждой ОС она выглядит и работает по-разному. В общем, я решил, что усилия и потенциальные баги не стоят того.</p>
+<p>Но шапка окна по-прежнему светлая! Ее, конечно, можно убрать, нарисовать свою тёмную и сэмулировать работу, но тогда придется эмулировать работу для каждой ОС. И в каждой ОС она выглядит и работает по-разному. В общем, я решил, что усилия и потенциальные баги не стоят того.</p>
 <h3 id="выделение-текста">Выделение текста</h3>
 <p>rtlSpectrum на старте отображает небольшую подсказку с чего начать. В частности, есть текст команды для генерации .csv файла.</p>
 <p><img src="/img/javafx-in-2019/selectText.png" alt=""></p>
@@ -444,7 +444,7 @@ hashes javafx.base SHA-256 6ff380e1321d8dcc64b22151ebe8fb31eb10c4484040e49e452ca
   <line x1="7" y1="7" x2="7" y2="7"/>
   
 </svg>
-<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/javafx/'>javafx</a>, <a class='tag' href='/tags/rtlsdr/'>rtlsdr</a></div>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/javafx/'>javafx</a>, <a class='tag' href='/tags/rtlsdr/'>rtlsdr</a>, <a class='tag' href='/tags/rtlspectrum/'>rtlSpectrum</a></div>
 
   </div>
 </footer>
