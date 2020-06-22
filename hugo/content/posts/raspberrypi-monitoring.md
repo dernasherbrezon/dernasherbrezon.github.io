@@ -8,9 +8,9 @@ tags:
   - java
   - raspberrypi
   - monitoring
-  - metrics
+  - javascript
   - flot
-  - jquery plugins
+  - jquery
 ---
 Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:
 
