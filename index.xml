@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 20 Jun 2020 17:30:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2020 21:39:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,17 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Полевые испытания поворотного устройства</title>
+      <link>https://dernasherbrezon.com/posts/rotator-for-r2cloud-3/</link>
+      <pubDate>Tue, 07 Jul 2020 21:39:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/rotator-for-r2cloud-3/</guid>
+      <description>Очередная неделя тестирования поворотного устройства принесла удивительные результаты. Для начала, немного изменений по сравнению с предыдущей неделей.
+  Работа от батареек. В этот раз я решил попробовать работать от батареек. Это должно уменьшить количество помех, приходящих из сети. Не то, чтобы их очень много, но я надеялся уменьшить noise floor. Кстати, кто-нибудь знает как это перевести на русский язык?
+70см фильтр Недавно мне пришёл новый 70см фильтр, который я протестировал в предыдущей статье.</description>
     </item>
     
     <item>
