@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 07 Jul 2020 21:39:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2020 22:20:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,16 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Какую Open source лицензию выбрать?</title>
+      <link>https://dernasherbrezon.com/posts/open-source-license/</link>
+      <pubDate>Thu, 09 Jul 2020 22:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/open-source-license/</guid>
+      <description>На самом деле универсального ответа на этот вопрос нет. Всё, как обычно, зависит от целей проекта и личных предпочтений автора. Open source лицензий великое множество и каждый может выбрать абсолютно любую. Главное, что нужно помнить, open source - это не код без лицензии.
+Даже для мини-проектов на github нужно указывать лицензии. Зачем? Допустим, Вы сделали небольшую, но крайне полезную библиотеку. Допустим, её нашёл какой-нибудь разработчик и захочет использовать в своём коммерческом приложении.</description>
     </item>
     
     <item>

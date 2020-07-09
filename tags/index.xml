@@ -5,10 +5,19 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 07 Jul 2020 21:39:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2020 22:20:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>open source</title>
+      <link>https://dernasherbrezon.com/tags/open-source/</link>
+      <pubDate>Thu, 09 Jul 2020 22:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/open-source/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>satellite</title>
@@ -682,15 +691,6 @@
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/memory/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>open source</title>
-      <link>https://dernasherbrezon.com/tags/open-source/</link>
-      <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/open-source/</guid>
       <description></description>
     </item>
     
