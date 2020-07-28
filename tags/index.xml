@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 09 Jul 2020 22:20:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 26 Jul 2020 14:05:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,18 +13,54 @@
     <item>
       <title>open source</title>
       <link>https://dernasherbrezon.com/tags/open-source/</link>
-      <pubDate>Thu, 09 Jul 2020 22:20:18 +0100</pubDate>
+      <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/open-source/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>r2cloud</title>
+      <link>https://dernasherbrezon.com/tags/r2cloud/</link>
+      <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/r2cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r2weather</title>
+      <link>https://dernasherbrezon.com/tags/r2weather/</link>
+      <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/r2weather/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>satellite</title>
       <link>https://dernasherbrezon.com/tags/satellite/</link>
-      <pubDate>Tue, 07 Jul 2020 21:39:18 +0100</pubDate>
+      <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/satellite/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>разработка</title>
+      <link>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
+      <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>спутники</title>
+      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
+      <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
       <description></description>
     </item>
     
@@ -34,15 +70,6 @@
       <pubDate>Tue, 07 Jul 2020 21:39:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>спутники</title>
-      <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
-      <pubDate>Tue, 07 Jul 2020 21:39:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
       <description></description>
     </item>
     
@@ -304,15 +331,6 @@
       <pubDate>Sat, 15 Feb 2020 15:40:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/ssdv/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r2cloud</title>
-      <link>https://dernasherbrezon.com/tags/r2cloud/</link>
-      <pubDate>Sun, 02 Feb 2020 21:50:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/r2cloud/</guid>
       <description></description>
     </item>
     
@@ -691,15 +709,6 @@
       <pubDate>Sun, 16 Jul 2017 15:11:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/memory/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>разработка</title>
-      <link>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
-      <pubDate>Sat, 08 Apr 2017 12:48:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</guid>
       <description></description>
     </item>
     

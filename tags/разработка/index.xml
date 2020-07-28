@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
     <description>Recent content in разработка on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 08 Apr 2017 12:48:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 26 Jul 2020 14:05:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>r2weather - Открытые метеоснимки из космоса</title>
+      <link>https://dernasherbrezon.com/posts/r2weather/</link>
+      <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/r2weather/</guid>
+      <description>В последнее время я очень много писал про r2weather. В том числе про различные технические особенности реализации. В этой же статье я хочу описать общую схему работы.
+Введение За Зёмлей наблюдает множество метеорологических спутников. Основная их задача - получение различных метеосников поверхности Земли. Эти данные используются в различных моделях. Например, чтобы предсказывать погоду, таяние полярных льдов или плотность распределения плактона в прибрежных водах.
+Одним из таких спутников является Метеор-М №2. Помимо множества разных камер, на нём установлена камера МСУ-МР.</description>
+    </item>
     
     <item>
       <title>Enterprise Java на страже космоса</title>

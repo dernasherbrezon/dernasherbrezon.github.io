@@ -5,6 +5,7 @@ cover: /img/geotiff-transparency/1.png
 draft: false
 tags:
   - geotiff
+  - r2weather
 ---
 
 Работа над [r2weather.ru](https://r2weather.ru) идёт полным ходом, а значит появляются и фиксятся различные баги. Один из последних и самых интересных - настройка прозрачности.
