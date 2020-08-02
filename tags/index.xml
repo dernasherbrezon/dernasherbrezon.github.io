@@ -5,10 +5,46 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 26 Jul 2020 14:05:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2020 10:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ber</title>
+      <link>https://dernasherbrezon.com/tags/ber/</link>
+      <pubDate>Sat, 01 Aug 2020 10:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/ber/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fsk</title>
+      <link>https://dernasherbrezon.com/tags/fsk/</link>
+      <pubDate>Sat, 01 Aug 2020 10:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/fsk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gnuradio</title>
+      <link>https://dernasherbrezon.com/tags/gnuradio/</link>
+      <pubDate>Sat, 01 Aug 2020 10:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/gnuradio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>radio</title>
+      <link>https://dernasherbrezon.com/tags/radio/</link>
+      <pubDate>Sat, 01 Aug 2020 10:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/radio/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>open source</title>
@@ -452,24 +488,6 @@
     </item>
     
     <item>
-      <title>gnuradio</title>
-      <link>https://dernasherbrezon.com/tags/gnuradio/</link>
-      <pubDate>Thu, 28 Nov 2019 15:51:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/gnuradio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>radio</title>
-      <link>https://dernasherbrezon.com/tags/radio/</link>
-      <pubDate>Thu, 28 Nov 2019 15:51:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/radio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>maven</title>
       <link>https://dernasherbrezon.com/tags/maven/</link>
       <pubDate>Fri, 15 Nov 2019 19:49:18 +0100</pubDate>
@@ -502,15 +520,6 @@
       <pubDate>Mon, 26 Aug 2019 08:31:17 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/jpoint/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ber</title>
-      <link>https://dernasherbrezon.com/tags/ber/</link>
-      <pubDate>Fri, 16 Aug 2019 10:22:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/ber/</guid>
       <description></description>
     </item>
     

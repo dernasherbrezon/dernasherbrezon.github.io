@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/radio/</link>
     <description>Recent content in radio on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 28 Nov 2019 15:51:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2020 10:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/radio/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Расчёт вероятности ошибки для FSK демодулятора</title>
+      <link>https://dernasherbrezon.com/posts/jradio-ber-fsk/</link>
+      <pubDate>Sat, 01 Aug 2020 10:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/jradio-ber-fsk/</guid>
+      <description>Введение Прошёл почти год с того момента, когда я измерял BER для BPSK демодулятора. И вот пришло время измерить вероятность ошибки для FSK демодулятора. Поводом к такому исследованию послужило большое количество спутников, передающих частотно-модулированный сигнал. Мне хотелось прежде всего измерить текущие характеристики демодулятора, чтобы в последствии можно было его улучшать.
+Описание теста С прошлого раза я решил существенно поменять методологию. Раньше для подсчёта ошибок использовалось скремблирование. Все полученные нулевые биты делились на 6, из-за характеристик полинома скремблера и дифференциального кодирования.</description>
+    </item>
     
     <item>
       <title>Сигналы со спутников</title>
