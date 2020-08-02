@@ -3,7 +3,7 @@ title: "Расчёт вероятности ошибки для FSK демоду
 date: 2020-08-01T10:22:18+01:00
 draft: false
 mathjax: true
-cover: /img/jradio-ber-bpsk/ber-bpsk-demodulator.png
+cover: /img/jradio-ber-fsk/fskBer.png
 tags:
   - fsk
   - ber
