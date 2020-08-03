@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.com/tags/fsk/</link>
     <description>Recent content in fsk on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 01 Aug 2020 10:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2020 20:22:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/fsk/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Оптимизация FSK демодулятора</title>
+      <link>https://dernasherbrezon.com/posts/tune-ber-fsk/</link>
+      <pubDate>Mon, 03 Aug 2020 20:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/tune-ber-fsk/</guid>
+      <description>Не прошло и года, а я уже придумал как улучшить свой FSK демодулятор. Как уже писал, имея на руках BER кривую, можно начинать улучшать демодулятор. Первым делом я сравнил FSK демодулятор SatNOGS и свой.
+Для этого я взял сырые данные (.wav файл) из обработанного пролёта спутника и попробовал прогнать его через свой демодулятор. В результате у меня получилось 23 пакета. Однако, демодулятор SatNOGS смог найти 24 пакета.
+Всё это значит, что есть пространство для оптимизации.</description>
+    </item>
     
     <item>
       <title>Расчёт вероятности ошибки для FSK демодулятора</title>
