@@ -5,10 +5,22 @@
     <link>https://dernasherbrezon.com/tags/embedded/</link>
     <description>Recent content in embedded on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 11 Jun 2020 21:35:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2020 18:30:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Время в Raspberrypi - 3</title>
+      <link>https://dernasherbrezon.com/posts/time-raspberrypi-3/</link>
+      <pubDate>Wed, 19 Aug 2020 18:30:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/time-raspberrypi-3/</guid>
+      <description>&amp;ldquo;Да сколько уже можно про время в Raspberrypi?!&amp;rdquo; - скажут некоторые. Однако, несмотря на две предыдущие статьи, мне есть о чём написать. Опять.
+Как я уже неоднократно писал, время можно получить двумя способами:
+ подключившись к интернету используя RTC модуль  На некоторых станциях у меня стоит RTC модуль, на некоторых нет. Но я не особо переживал по этому поводу, так как станции имели постоянное подключение к интернету.
+Запах приключений Всё работало очень хорошо и стабильно, до тех пор пока я не обратил на странное поведения в логах.</description>
+    </item>
     
     <item>
       <title>Время в Raspberrypi - 2</title>

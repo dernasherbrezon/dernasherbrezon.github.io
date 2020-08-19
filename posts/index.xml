@@ -7,10 +7,76 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 03 Aug 2020 20:22:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 19 Aug 2020 18:30:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Время в Raspberrypi - 3</title>
+      <link>https://dernasherbrezon.com/posts/time-raspberrypi-3/</link>
+      <pubDate>Wed, 19 Aug 2020 18:30:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/time-raspberrypi-3/</guid>
+      <description>&amp;ldquo;Да сколько уже можно про время в Raspberrypi?!&amp;rdquo; - скажут некоторые. Однако, несмотря на две предыдущие статьи, мне есть о чём написать. Опять.
+Как я уже неоднократно писал, время можно получить двумя способами:
+ подключившись к интернету используя RTC модуль  На некоторых станциях у меня стоит RTC модуль, на некоторых нет. Но я не особо переживал по этому поводу, так как станции имели постоянное подключение к интернету.
+Запах приключений Всё работало очень хорошо и стабильно, до тех пор пока я не обратил на странное поведения в логах.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Время в Raspberrypi - 3</h1></header>
+      		<div class='container entry-content'>
+  <p>&ldquo;Да сколько уже можно про время в Raspberrypi?!&rdquo; - скажут некоторые. Однако, несмотря на две <a href="https://dernasherbrezon.com/posts/time-raspberrypi-2/">предыдущие статьи</a>, мне есть о чём написать. Опять.</p>
+<p>Как я уже неоднократно писал, время можно получить двумя способами:</p>
+<ul>
+<li>подключившись к интернету</li>
+<li>используя RTC модуль</li>
+</ul>
+<p>На некоторых станциях у меня стоит RTC модуль, на некоторых нет. Но я не особо переживал по этому поводу, так как станции имели постоянное подключение к интернету.</p>
+<h2 id="запах-приключений">Запах приключений</h2>
+<p>Всё работало очень хорошо и стабильно, до тех пор пока я не обратил на странное поведения в логах.</p>
+<pre><code>Dec 24 03:20:07 raspberrypi java[447]: [1577147653365] observation time passed. skip 43466
+</code></pre><p>Поначалу я не придал этому должного внимания, так как эта запись могла означать, что очередь на обработку сигналов переполнилась и последующее наблюдение пропустило своё окно. Не имеет смысл запускать задачу по наблюдению за спутником, если тот уже улетел.</p>
+<p>Тем не менее, несколько недель назад я заметил шаблон: сообщения появлялись только при старте приложения. Иногда одно, иногда несколько наблюдений отменялись. Однако, в этом не было ничего критичного. Все последующие наблюдения отработывали на ура.</p>
+<p>Я решил выделить время и попытаться понять в чём же причина. И причина, конечно же, оказалось в системном времени. А именно в том, в какой момент системное время синхронизируется. Для простоты можно нарисовать простейшую диаграмму последовательности:</p>
+<ul>
+<li>стартует система</li>
+<li>запускается systemd-timesyncd и асинхронно запрашивает время</li>
+<li>запускается r2cloud и стартует наблюдения</li>
+<li>systemd-timesyncd получает асинхронный ответ и модифицирует системное время</li>
+</ul>
+<p>Из такого описания явно следует проблема: все наблюдения рассчитаны на основе неправильного системного времени. А значит, когда оно изменится, должны быть отброшены.</p>
+<h2 id="решение-близко">Решение близко</h2>
+<p>К счастью, решение есть! Оно называется <code>systemd-time-wait-sync.service</code>. Этот сервис был добавлен сравнительно недавно в Debian Buster дистрибутив. Он, как следует из названия, дожидается, когда будет получен асинхронный ответ по протоколу NTP, и отправляет специальное событие <code>time-sync.target</code>.</p>
+<p>Для того, чтобы всё заработало, нужно сделать несколько шагов. Во-первых, нужно включить сервис:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo systemctl enable systemd-time-wait-sync
+</code></pre></div><p>Можно проверить статус сервиса:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo systemctl status systemd-time-wait-sync
+● systemd-time-wait-sync.service - Wait Until Kernel Time Synchronized
+   Loaded: loaded <span style="color:#f92672">(</span>/lib/systemd/system/systemd-time-wait-sync.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+   Active: active <span style="color:#f92672">(</span>exited<span style="color:#f92672">)</span> since Tue 2020-08-18 12:01:07 BST; <span style="color:#ae81ff">1</span> day 8h ago
+     Docs: man:systemd-time-wait-sync.service<span style="color:#f92672">(</span>8<span style="color:#f92672">)</span>
+  Process: <span style="color:#ae81ff">111</span> ExecStart<span style="color:#f92672">=</span>/lib/systemd/systemd-time-wait-sync <span style="color:#f92672">(</span>code<span style="color:#f92672">=</span>exited, status<span style="color:#f92672">=</span>0/SUCCESS<span style="color:#f92672">)</span>
+ Main PID: <span style="color:#ae81ff">111</span> <span style="color:#f92672">(</span>code<span style="color:#f92672">=</span>exited, status<span style="color:#f92672">=</span>0/SUCCESS<span style="color:#f92672">)</span>
+
+Aug <span style="color:#ae81ff">18</span> 11:17:01 raspberrypi systemd-time-wait-sync<span style="color:#f92672">[</span>111<span style="color:#f92672">]</span>: adjtime state <span style="color:#ae81ff">5</span> status <span style="color:#ae81ff">40</span> time Tue 2020-08-18 10:17:01.037765 UTC
+</code></pre></div><p>Во-вторых, необходимо, чтобы наш сервис, в данном случае r2cloud, стартовал только тогда, когда время синхронизировано. Для этого нужно в описание юнита добавить зависимость:</p>
+<pre><code>[Unit]
+Description=R2Cloud Service
+After=time-sync.target
+</code></pre><h2 id="результат">Результат</h2>
+<p>В результате r2cloud теперь стартует после того, как время синхронизировано:</p>
+<pre><code>Aug 18 12:01:07 raspberrypi systemd[1]: Started Wait Until Kernel Time Synchronized.
+Aug 18 12:01:07 raspberrypi systemd[1]: Reached target System Time Synchronized.
+Aug 18 12:01:07 raspberrypi systemd[1]: Started R2Cloud Service.
+</code></pre><p>Все наблюдения запускаются в своё время и r2cloud станции по всему миру стали чуть эффективнее работать. Ура!</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Оптимизация FSK демодулятора</title>
