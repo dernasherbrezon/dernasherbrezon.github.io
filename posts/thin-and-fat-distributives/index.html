@@ -2,23 +2,21 @@
 <html lang='ru'><head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Не прошло и года, а я уже придумал как улучшить свой FSK демодулятор. Как уже писал, имея на руках BER кривую, можно начинать улучшать демодулятор. Первым делом я сравнил FSK демодулятор SatNOGS и свой.
-Для этого я взял сырые данные (.wav файл) из обработанного пролёта спутника и попробовал прогнать его через свой демодулятор. В результате у меня получилось 23 пакета. Однако, демодулятор SatNOGS смог найти 24 пакета.
-Всё это значит, что есть пространство для оптимизации.'>
+<meta name='description' content='На этой неделе я окончательно перевёл все мои проекты на Ubuntu 18.04 и тонкие .deb дистрибутивы. Этот проект я начал в начале года и окончательно завершил только сейчас, спустя почти 8 месяцев. Сама по себе миграция заслуживает отдельной статьи с нытьём и риторическими вопросами. Здесь же, я хочу немного описать противостояние тонких и толстых дистрибутивов. То, как я видел эту историю и немного анализа. Поехали!
+Дистрибутивы Почти сразу же, как только написана первая версия любой программы, становится вопрос о том, как её распространять.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='Оптимизация FSK демодулятора • dernasherbrezon'>
-<meta property='og:description' content='Не прошло и года, а я уже придумал как улучшить свой FSK демодулятор. Как уже писал, имея на руках BER кривую, можно начинать улучшать демодулятор. Первым делом я сравнил FSK демодулятор SatNOGS и свой.
-Для этого я взял сырые данные (.wav файл) из обработанного пролёта спутника и попробовал прогнать его через свой демодулятор. В результате у меня получилось 23 пакета. Однако, демодулятор SatNOGS смог найти 24 пакета.
-Всё это значит, что есть пространство для оптимизации.'>
-<meta property='og:url' content='https://dernasherbrezon.com/posts/tune-ber-fsk/'>
+<meta property='og:title' content='Толстые и тонкие дистрибутивы • dernasherbrezon'>
+<meta property='og:description' content='На этой неделе я окончательно перевёл все мои проекты на Ubuntu 18.04 и тонкие .deb дистрибутивы. Этот проект я начал в начале года и окончательно завершил только сейчас, спустя почти 8 месяцев. Сама по себе миграция заслуживает отдельной статьи с нытьём и риторическими вопросами. Здесь же, я хочу немного описать противостояние тонких и толстых дистрибутивов. То, как я видел эту историю и немного анализа. Поехали!
+Дистрибутивы Почти сразу же, как только написана первая версия любой программы, становится вопрос о том, как её распространять.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/thin-and-fat-distributives/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/tune-ber-fsk/mmsps.png'><meta property='article:section' content='posts'><meta property='article:tag' content='fsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2020-08-03T20:22:18&#43;01:00'/><meta property='article:modified_time' content='2020-08-03T20:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/tune-ber-fsk/mmsps.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='maven'><meta property='article:tag' content='администрирование'><meta property='article:published_time' content='2020-08-26T22:31:18&#43;01:00'/><meta property='article:modified_time' content='2020-08-26T22:31:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.72.0" />
 
-  <title>Оптимизация FSK демодулятора • dernasherbrezon</title>
-  <link rel='canonical' href='https://dernasherbrezon.com/posts/tune-ber-fsk/'>
+  <title>Толстые и тонкие дистрибутивы • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/thin-and-fat-distributives/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -314,7 +312,7 @@
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>Оптимизация FSK демодулятора</h1>
+      <h1 class='title'>Толстые и тонкие дистрибутивы</h1>
       
 
     </div>
@@ -328,7 +326,7 @@
   
 </svg>
 <span class='screen-reader-text'> </span>
-  <time class='entry-date' datetime='2020-08-03T20:22:18&#43;01:00'>03 Aug 2020</time>
+  <time class='entry-date' datetime='2020-08-26T22:31:18&#43;01:00'>26 Aug 2020</time>
 </span>
 
   
@@ -344,21 +342,74 @@
   
 
   <div class='container entry-content'>
-  <p><a href="https://dernasherbrezon.com/posts/jradio-ber-fsk/">Не прошло и года</a>, а я уже придумал как улучшить свой FSK демодулятор. Как уже писал, имея на руках BER кривую, можно начинать улучшать демодулятор. Первым делом я сравнил <a href="https://gitlab.com/librespacefoundation/satnogs/satnogs-flowgraphs/-/blob/master/generic/fsk.grc">FSK демодулятор</a> SatNOGS и свой.</p>
-<p>Для этого я взял сырые данные (.wav файл) из <a href="https://network.satnogs.org/observations/2573152/">обработанного пролёта спутника</a> и попробовал прогнать его через свой демодулятор. В результате у меня получилось 23 пакета. Однако, демодулятор SatNOGS смог найти 24 пакета.</p>
-<p><img src="/img/tune-ber-fsk/1.png" alt=""></p>
-<p>Всё это значит, что есть пространство для оптимизации.</p>
-<p>Я открыл flowgraph satnogs и попытался сравнить его со своим.</p>
-<p><img src="/img/tune-ber-fsk/2.png" alt=""></p>
-<p>Основные блоки такие же. Используется DC Blocker и Clock Recovery M&amp;M. Единственное отличие - это использование 1024 шага для усреднения сигнала в DC Blocker. В моём же демодуляторе используется только 32 * sps. Для sps=5, это значение будет 160. Я попробовал увеличить это значение до 1024 и получил 24 пакета!</p>
-<p>Прирост улучшения декодирования отлично виден на BER кривой.</p>
-<p><img src="/img/tune-ber-fsk/dc1024.png" alt=""></p>
-<p>После этого я решил попробовать их настройки для Clock Recovery M&amp;M блока и получил ещё более впечатляющую производительность (зелёная линия):</p>
-<p><img src="/img/tune-ber-fsk/mmfixes.png" alt=""></p>
-<p>Следующим шагом я заметил, что gain omega вычисляется как (2 * Math.PI) / 100. Я попробовал вместо 2 подставить значение sps. В моём случае это было 5. Результат оправдал ожидания. Отчётливо виден небольшой прирост:</p>
-<p><img src="/img/tune-ber-fsk/mmsps.png" alt=""></p>
-<p>После каждого шага оптимизаций я прогонял через демодулятор реальный сигнал и каждый раз получал чуть более лучшие результаты. На изначальном сигнале у меня получилось 24 пакета, а на <a href="https://network.satnogs.org/observations/2573097/">другом</a> вместо 5 изначальных я получил 7. Почти 30% улучшение!</p>
-<p>В ближайшее время я планирую обновить демодулятор и раскатать настройки в сети r2cloud.</p>
+  <p>На этой неделе я окончательно перевёл все мои проекты на Ubuntu 18.04 и тонкие .deb дистрибутивы. Этот проект я начал в начале года и окончательно завершил только сейчас, спустя почти 8 месяцев. Сама по себе миграция заслуживает отдельной статьи с нытьём и риторическими вопросами. Здесь же, я хочу немного описать противостояние тонких и толстых дистрибутивов. То, как я видел эту историю и немного анализа. Поехали!</p>
+<h2 id="дистрибутивы">Дистрибутивы</h2>
+<p>Почти сразу же, как только написана первая версия любой программы, становится вопрос о том, как её распространять. В 2020 есть несколько довольно стандартных способов:</p>
+<ul>
+<li>Докер-образ. Программа компилируется, все зависимые библиотеки кладутся как в <a href="https://docs.docker.com/storage/storagedriver/">storage layer</a></li>
+<li>zip файл. Все необходимые файлы просто кладутся в архив</li>
+<li>debian пакет. Немного о том, как его собрать, я писал в <a href="https://dernasherbrezon.com/posts/java-dist/">одной из своих статей</a></li>
+</ul>
+<p>Если с докер-образами всё понятно, то вот, что положить в zip файл или debian пакет, не всегда очевидно. И существуют 2 диаметрально противоположные стратегии.</p>
+<h2 id="толстые-дистрибутивы">Толстые дистрибутивы</h2>
+<p>Идея достаточно проста: давайте положим в архив все необходимые файлы и зависимые библиотеки, необходимые для работы приложения. Из плюсов данного подхода:</p>
+<ul>
+<li>почти нет зависимости на внешнюю среду. Абсолютно не важно какие библиотеки уже установлены в операционной системе, приложение принесёт свои собственные библиотеки с нужными ему версиями.</li>
+<li>нет зависимости от других приложений. Это следует из того, что все зависимости лежат внутри толстого дистрибутива.</li>
+<li>простота. Достаточно скачать один дистрибутив и запустить его <code>java -jar fatApp.jar</code>.</li>
+</ul>
+<p>Из минусов:</p>
+<ul>
+<li>дистрибутив очень много весит. Из-за того, что все зависимости лежат внутри, размер дистрибутива значительно увеличивается. Это влияет на скорость установки (нужно скачать дистрибутив из apt репозитория или artifactory) и скорость сборки, загрузки в репозиторий.</li>
+<li>как следствие, сильно увеличивается в размерах бинарный репозиторий. Нужно продумывать стратегию очистки старых версий. Например, недавно компания Docker столкнулась с проблемой разросшегося репозитория docker hub и <a href="https://www.docker.com/pricing/retentionfaq">решила удалять неиспользуемые докер-образы</a>. Удалять старые и неиспользующиеся зависимости - достаточно сложная и нетривиальная задача.</li>
+</ul>
+<p>Ярким приверженцом использования толстых дистрибутивов является проект <a href="https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/html/build-tool-plugins-maven-plugin.html">spring boot</a>. Во время фазы <code>package</code> они собирают толстый дистрибутив, который можно запустить одной строчкой:</p>
+<pre><code>$ mvn package
+$ java -jar target/mymodule-0.0.1-SNAPSHOT.jar
+</code></pre><h2 id="тонкие-дистрибутивы">Тонкие дистрибутивы</h2>
+<p>Решить проблемы толстых дистрибутивов призваны тонкие. Но и у них есть свои минусы:</p>
+<ul>
+<li>относительная сложность. Нет единого мнения о том, как правильно собирать тонкий дистрибутив и разворачивать его для запуска.</li>
+<li>зависимость от других приложений. В классическом тонком дистрибутиве зависимости установлены в операционной системе. Но что, если одному приложению нужна одна версия библиотеки, а другому другая? Разработчики linux-подобных операционных систем пытаются найти наименьшее общее кратное для тысяч приложений и библиотек. Это достаточно сложная и трудоёмкая процедура.</li>
+</ul>
+<p>Плюсы вытекают сами собой:</p>
+<ul>
+<li>приложения очень мало весят. Их можно очень быстро деплоить и, зачастую, не нужно переживать о размере бинарного репозитория.</li>
+<li>зависимости переиспользуются между приложениями. Это не очень актуально для Java мира, но вот для C/C++ мира вполне востребовано. Смысл в том, что библиотека загружается в память всего один раз и потом используется разными приложениями. Это уменьшает потребление оперативной памяти и скорость загрузки приложения.</li>
+</ul>
+<p>Как я уже писал, яркими сторонниками тонких дистрибутивов являются операционные системы. Несмотря на то, что команда Ubuntu решила сделать толстые дистрибутивы (snap пакеты), сообщество встретило эту идею очень прохладно и с долей скептицизма.</p>
+<h2 id="тонкие-дистрибутивы-для-java">Тонкие дистрибутивы для Java</h2>
+<p>Во всех своих проектах я постепенно отказался от толстых дистрибутивов и перешёл на тонкие. Для меня это было важно из-за нескольких причин:</p>
+<ul>
+<li>большие бинарные репозитории дорого держать. Для хобби проектов, которые не приносят деньги, платить за гигабайты дистрибутивов - дорого.</li>
+<li>скорость сборки и загрузки в репозитории. Я очень часто работаю в поезде, самолёте, гостиннице, где широкие каналы большая редкость. Загружать 100 мегабайтные толстые дистрибутивы можно часами. А вот загрузка ~200кб занимает секунды. Это очень удобно и увеличивает продуктивность.</li>
+</ul>
+<p>Поскольку не существует единого мнения о том, как делать тонкие дистрибутивы, я решил сделать свой. Для этого я написал небольшой maven plugin - <a href="https://github.com/dernasherbrezon/deps-maven-plugin">deps-maven-plugin</a>. Во время сборки он создаёт три файла:</p>
+<ul>
+<li>repositories.txt - список всех maven репозиториев, которые доступны в проекте</li>
+<li>dependencies.txt - список всех зависимостей проекта</li>
+<li>script.sh - фиксированный скрипт, лежащий внутри плагина</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugin&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.aerse.maven<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>deps-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;configuration&gt;</span>
+		<span style="color:#f92672">&lt;repositories&gt;</span>${project.build.directory}/deps/repositories.txt<span style="color:#f92672">&lt;/repositories&gt;</span>
+		<span style="color:#f92672">&lt;dependencies&gt;</span>${project.build.directory}/deps/dependencies.txt<span style="color:#f92672">&lt;/dependencies&gt;</span>
+		<span style="color:#f92672">&lt;script&gt;</span>${project.build.directory}/deps/script.sh<span style="color:#f92672">&lt;/script&gt;</span>
+		<span style="color:#f92672">&lt;excludes&gt;</span>
+			<span style="color:#f92672">&lt;exclude&gt;</span>com.example:*:*<span style="color:#f92672">&lt;exclude&gt;</span>
+		<span style="color:#f92672">&lt;/excludes&gt;</span>
+	<span style="color:#f92672">&lt;/configuration&gt;</span>
+<span style="color:#f92672">&lt;/plugin&gt;</span>
+</code></pre></div><p>Идея достаточно проста: после распаковки тонкого дистрибутива нужно вызвать script.sh и передать ему два сгенерированных файла. Он их скачает и положит в указанную папку. Это и будет папка со всеми зависимостями.</p>
+<p>Тут нужно учитывать, что все зависимости должны быть доступны в открытых maven репозиторях. Если это не так, то их можно исключить в секции <code>excludes</code> и положить внутрь тонкого артефакта.</p>
+<p>Но как же быть, если артефакт поменял версию или его удалили из списка зависимостей? Всё просто: script.sh строит пересечение зависимостей, которые нужны в папочке и тех, которые там уже есть. Если зависимости уже были скачаны, то они не будут ещё раз скачиваться. А если зависимости уже не используются (лежат в папке, но отсутствуют в dependencies.txt), то они удаляются из папки.</p>
+<p>После того, как скрипт отработает, можно запускать приложение. Например, вот так выглядят пути для r2cloud:</p>
+<pre><code>java -cp /home/pi/r2cloud/lib/*:/usr/share/java/r2cloud/* ru.r2cloud.R2Cloud
+</code></pre><p>Папка <code>/home/pi/r2cloud/lib/</code> содержит само приложение. А папка <code>/usr/share/java/r2cloud/</code> содержит все зависимости приложения.</p>
+<h2 id="результаты">Результаты</h2>
+<p>Помимо очевидных плюсов тонких дистрибутивов, есть и неочевидные. Например, они сильно экономят траффик при обновлении r2cloud через 3g модем. А так же, за всё время у меня накопилось всего 564.11Мб дистрибутивов r2cloud. А это <a href="https://travis-ci.org/github/dernasherbrezon/r2cloud">около 600</a> сборок!</p>
 
 </div>
 
@@ -370,7 +421,7 @@
   <line x1="7" y1="7" x2="7" y2="7"/>
   
 </svg>
-<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/fsk/'>fsk</a>, <a class='tag' href='/tags/ber/'>ber</a>, <a class='tag' href='/tags/radio/'>radio</a></div>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>java</a>, <a class='tag' href='/tags/maven/'>maven</a>, <a class='tag' href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/'>администрирование</a></div>
 
   </div>
 </footer>
@@ -380,7 +431,7 @@
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/posts/jradio-ber-fsk/'>
+      <a href='/posts/time-raspberrypi-3/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -388,17 +439,7 @@
   
 </svg>
  </span>
-        <span class='screen-reader-text'>: </span>Расчёт вероятности ошибки для FSK демодулятора</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/posts/time-raspberrypi-3/'>
-        <span class='screen-reader-text'>: </span>Время в Raspberrypi - 3<span aria-hidden='true'> <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-  
-</svg>
-</span>
-      </a>
+        <span class='screen-reader-text'>: </span>Время в Raspberrypi - 3</a>
     </div></div>
 </nav>
 
