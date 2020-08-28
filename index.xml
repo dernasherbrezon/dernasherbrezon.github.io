@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 26 Aug 2020 22:31:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 29 Aug 2020 00:04:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,16 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Питание Raspberrypi</title>
+      <link>https://dernasherbrezon.com/posts/power-supply-for-raspberrypi/</link>
+      <pubDate>Sat, 29 Aug 2020 00:04:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/power-supply-for-raspberrypi/</guid>
+      <description>Если поискать в интернете словосочетание &amp;ldquo;питание для raspberrypi&amp;rdquo;, то можно найти массу статей о том, что нужно использовать официальный блок питания на 5В и 2.5А. Но что, если RPi питается от солнечных панелей и в логах постоянно проскальзывает &amp;ldquo;Under-voltage detected!&amp;rdquo;? Для решения этой проблемы мне немного пришлось повозиться с теорией и корзиной для покупок.
+Предыстория Прежде, чем пытаться найти решение, нужно понять начальные условия. Для одной из своих станций слежения за спутниками я решил использовать солнечную панель.</description>
     </item>
     
     <item>
