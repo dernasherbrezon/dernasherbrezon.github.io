@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 29 Aug 2020 00:04:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2020 14:40:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Странный Wi-Fi</title>
+      <link>https://dernasherbrezon.com/posts/wifi-country-codes/</link>
+      <pubDate>Sat, 19 Sep 2020 14:40:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/wifi-country-codes/</guid>
+      <description>В процессе исследования странного поведения WiFi в RPi, я наткнулся на довольно интересную информацию. Немногие знают, но WiFi работает в разных странах на разных частотах. Исторически, частоты современного Wifi 2.4Ггц и 5Ггц использовались военными, метеорологическими станциями и радарами. В разных странах они работали немножко на разных частотах, поэтому когда пришёл WiFi, инженеры начали выкручиваться.
+Они придумали довольно простой способ - это конфигурация WiFi в зависимости от страны. Несмотря на то, что железо в принципе может работать в широком диапазоне частот, его ограничивают на уровне прошивки в зависимости от страны.</description>
+    </item>
     
     <item>
       <title>Питание Raspberrypi</title>

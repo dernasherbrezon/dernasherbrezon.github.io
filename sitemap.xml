@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2020-09-06T22:50:18+01:00</lastmod>
+    <lastmod>2020-09-19T14:40:18+01:00</lastmod>
   </url>
   
   <url>
@@ -19,7 +19,27 @@
   
   <url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2020-09-06T22:50:18+01:00</lastmod>
+    <lastmod>2020-09-19T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/raspberrypi/</loc>
+    <lastmod>2020-09-19T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2020-09-19T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/posts/wifi-country-codes/</loc>
+    <lastmod>2020-09-19T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
+    <lastmod>2020-09-19T14:40:18+01:00</lastmod>
   </url>
   
   <url>
@@ -29,11 +49,6 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/satellite/</loc>
-    <lastmod>2020-09-06T22:50:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
     <lastmod>2020-09-06T22:50:18+01:00</lastmod>
   </url>
   
@@ -48,17 +63,7 @@
   </url>
   
   <url>
-    <loc>https://dernasherbrezon.com/tags/raspberrypi/</loc>
-    <lastmod>2020-08-29T00:04:18+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://dernasherbrezon.com/posts/power-supply-for-raspberrypi/</loc>
-    <lastmod>2020-08-29T00:04:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
     <lastmod>2020-08-29T00:04:18+01:00</lastmod>
   </url>
   
