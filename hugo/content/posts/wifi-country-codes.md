@@ -2,7 +2,6 @@
 title: "Странный Wi-Fi"
 date: 2020-09-19T14:40:18+01:00
 draft: false
-cover: /img/aistechsat-3/aistechsat-3.jpg
 tags:
   - raspberrypi
   - администрирование
