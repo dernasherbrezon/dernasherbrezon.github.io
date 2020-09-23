@@ -7,10 +7,73 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 19 Sep 2020 14:40:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2020 22:01:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Жемчужины Python кода</title>
+      <link>https://dernasherbrezon.com/posts/python-way/</link>
+      <pubDate>Wed, 23 Sep 2020 22:01:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/python-way/</guid>
+      <description>В своих статьях я стараюсь рассказывать о небольших технологических штуках и проблемах, с которыми периодически сталкиваюсь. Но вот недавно я столкнулся с совершенно замечательным кодом, написанным на Python, и не могу пройти мимо, чтобы не покритиковать. Итак, есть вот такая функция:
+def getkbits8(num, k, p): binary = bin(num)[2:] # convert number into binary first leadingzeros = 8 - len(binary) # Count the necessary leading zeros to fill byte binary = &amp;#39;0&amp;#39; * leadingzeros + binary # Fill byte with leading zeros end = 8 - p - 1 start = end - k + 1 k_bit_sub_str = binary[start: end + 1] # extract k bit sub-string return int(k_bit_sub_str, 2) # convert extracted sub-string into decimal again Она используется следующим образом:</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Жемчужины Python кода</h1></header>
+      		<div class='container entry-content'>
+  <p>В своих статьях я стараюсь рассказывать о небольших технологических штуках и проблемах, с которыми периодически сталкиваюсь. Но вот недавно я столкнулся с <a href="https://github.com/ralent/swampsat2/blob/ee011be72626cc6e63803d14dc775ca675cbcc6d/lib/swampsat2.py#L447">совершенно замечательным кодом</a>, написанным на Python, и не могу пройти мимо, чтобы не покритиковать. Итак, есть вот такая функция:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getkbits8</span>(num, k, p):
+    binary <span style="color:#f92672">=</span> bin(num)[<span style="color:#ae81ff">2</span>:]  <span style="color:#75715e"># convert number into binary first</span>
+    leadingzeros <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">-</span> len(binary)  <span style="color:#75715e"># Count the necessary leading zeros to fill byte</span>
+    binary <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">*</span> leadingzeros <span style="color:#f92672">+</span> binary  <span style="color:#75715e"># Fill byte with leading zeros</span>
+    end <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">-</span> p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+    start <span style="color:#f92672">=</span> end <span style="color:#f92672">-</span> k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+    k_bit_sub_str <span style="color:#f92672">=</span> binary[start: end <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># extract k  bit sub-string</span>
+    <span style="color:#66d9ef">return</span> int(k_bit_sub_str, <span style="color:#ae81ff">2</span>)  <span style="color:#75715e"># convert extracted sub-string into decimal again</span>
+</code></pre></div><p>Она используется следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">frequentlock <span style="color:#f92672">=</span> ParseDownlink<span style="color:#f92672">.</span>_parsebinary(hexarray, <span style="color:#e6db74">&#39;uint8&#39;</span>)  <span style="color:#75715e"># Get whole register</span>
+ordict[<span style="color:#e6db74">&#39;vutrx_rx_frequentlock&#39;</span>] <span style="color:#f92672">=</span> getkbits8(frequentlock, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Split register by bit position</span>
+</code></pre></div><p>На вход подаётся беззнаковый байт, некий индекс К и ещё один индекс Р. На выходе получается число. Я, признаюсь честно, не знаю Python и поэтому потратил много времени, чтобы понять как работает эта функция. К слову сказать, мне нужно было переписать парсер для телеметрии Swampsat2 с Python на Java для своего проекта.</p>
+<p>Итак, что же делает эта функция на самом деле? Ответ:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> frequentlock <span style="color:#f92672">=</span> dis<span style="color:#f92672">.</span><span style="color:#a6e22e">readUnsignedByte</span><span style="color:#f92672">();</span>
+rxFrequentlock <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>frequentlock <span style="color:#f92672">&gt;&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;</span> 0x1<span style="color:#f92672">);</span>
+</code></pre></div><p>Эта функция всего-навсего выделяет биты из байта. Если нужно получить 4 старших бита, то нужно вызвать функцию вот так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">getkbits8(frequentlock, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>)
+</code></pre></div><p>Работает это так:</p>
+<ul>
+<li>число конвертируется в строку. Например: <code>bin(3)</code> -&gt; <code>'0b11'</code></li>
+<li>берётся строка. В моём примере - это &lsquo;11&rsquo;</li>
+<li>спереди дописывается необходимое количество нулей. Так, чтобы длина стала равна 8. Это длина байта в битах.</li>
+<li>выделяется подстрока нужного размера</li>
+<li>она конвертируется в число и возвращается</li>
+</ul>
+<p>Я не первый раз вижу настолько плохой код и поэтому оправился от шока достаточно быстро. Тем не менее, меня всё не покидала мысль о мотивации программиста, который это писал. Предположим, что этот код писал новичок, и он, банально, не знал, что такое битовые операции. Но это не сходится с тем, что использованы сложные операции работы с массивами и строками. Неужели понять битовые операции было сложнее?</p>
+<p>Второй вопрос, который я себе задал: зависит ли плохой код от языка программирования? Этот код написан на Python, и автор с лёгкостью и простым синтаксисом смог описать сложные операции. Чтобы ответить на этот вопрос, я надел перчатки и написал этот же код, но на Java:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getkbits8</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> num<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> k<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> p<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	String binary <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">toBinaryString</span><span style="color:#f92672">(</span>num<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">int</span> leadingzeros <span style="color:#f92672">=</span> 8 <span style="color:#f92672">-</span> binary<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+	StringBuilder zeros <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuilder<span style="color:#f92672">();</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> leadingzeros<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+		zeros<span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;0&#39;</span><span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+	binary <span style="color:#f92672">=</span> zeros<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> binary<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">int</span> end <span style="color:#f92672">=</span> 8 <span style="color:#f92672">-</span> p <span style="color:#f92672">-</span> 1<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">int</span> start <span style="color:#f92672">=</span> end <span style="color:#f92672">-</span> k <span style="color:#f92672">+</span> 1<span style="color:#f92672">;</span>
+	String k_bit_sub_str <span style="color:#f92672">=</span> binary<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>start<span style="color:#f92672">,</span> end <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>
+	<span style="color:#66d9ef">return</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>k_bit_sub_str<span style="color:#f92672">,</span> 2<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Если честно, то версия на Java кажется более громоздкой. И это хорошо. Если новичок задумает написать такую функцию, то он несколько раз подумает нет ли способа попроще. Этот пример лишний раз убеждает меня в том, что многословность Java, на самом деле, большой плюс. Весь Java код буквально кричит о том, что происходит выделение ресурсов и неэффективные операции, а также видно, что процессор будет выполнять странные вещи. В Python же достаточно написать <code>'0' * leadingzeros</code>.</p>
+<p>Надеюсь, автор оригинального Python кода всего лишь проходил стажировку и не писал софт для настоящих спутников.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Странный Wi-Fi</title>

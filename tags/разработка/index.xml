@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</link>
     <description>Recent content in разработка on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 26 Jul 2020 14:05:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 23 Sep 2020 22:01:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Жемчужины Python кода</title>
+      <link>https://dernasherbrezon.com/posts/python-way/</link>
+      <pubDate>Wed, 23 Sep 2020 22:01:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/python-way/</guid>
+      <description>В своих статьях я стараюсь рассказывать о небольших технологических штуках и проблемах, с которыми периодически сталкиваюсь. Но вот недавно я столкнулся с совершенно замечательным кодом, написанным на Python, и не могу пройти мимо, чтобы не покритиковать. Итак, есть вот такая функция:
+def getkbits8(num, k, p): binary = bin(num)[2:] # convert number into binary first leadingzeros = 8 - len(binary) # Count the necessary leading zeros to fill byte binary = &amp;#39;0&amp;#39; * leadingzeros + binary # Fill byte with leading zeros end = 8 - p - 1 start = end - k + 1 k_bit_sub_str = binary[start: end + 1] # extract k bit sub-string return int(k_bit_sub_str, 2) # convert extracted sub-string into decimal again Она используется следующим образом:</description>
+    </item>
     
     <item>
       <title>r2weather - Открытые метеоснимки из космоса</title>
