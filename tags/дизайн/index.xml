@@ -5,10 +5,19 @@
     <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/</link>
     <description>Recent content in дизайн on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 15 Dec 2019 07:14:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2020 22:50:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Оптимизация расписания</title>
+      <link>https://dernasherbrezon.com/posts/r2cloud-scheduler/</link>
+      <pubDate>Sun, 27 Sep 2020 22:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/r2cloud-scheduler/</guid>
+      <description>Задачка А вот задачка для любителей алгоритмов. Необходимо максимизировать время наблюдения за спутниками. Поясню поподробнее, в чём же она заключается. Итак, есть станция слежения за спутниками. В один момент времени она может записывать сигнал только с одного пролетающего спутника. Спутники летают независимо друг от друга и их количество фиксированно. Можно считать, что пролетают они над одной и той же точкой одинаковое количество раз в день. Но время пролёта случайное. В один момент времени над станцией могут пролетать два и более спутника.</description>
+    </item>
     
     <item>
       <title>Сравнение JSP и VueJS</title>
