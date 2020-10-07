@@ -5,10 +5,20 @@
     <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/</link>
     <description>Recent content in дизайн on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 27 Sep 2020 22:50:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2020 17:23:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Коварные нули</title>
+      <link>https://dernasherbrezon.com/posts/how-to-map-zero/</link>
+      <pubDate>Wed, 07 Oct 2020 17:23:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/how-to-map-zero/</guid>
+      <description>Всё началось в того, что мне захотелось добавить поддержку plutosdr в свой проект r2cloud. Для этого я открыл код, который читает данные из rtlsdr и увидел следующее:
+for (int i = 0; i &amp;lt; 0x100; ++i) { lookupTable[i] = ((i &amp;amp; 0xff) - 127.4f) * (1.0f / 128.0f); } Мой глаз зацепился за 127.4. Я не помню откуда у меня этот код, но число 127.4 выглядит уж больно подозрительно. Во-первых, алгоритм какой-то сложный, а во-вторых странное число.</description>
+    </item>
     
     <item>
       <title>Оптимизация расписания</title>

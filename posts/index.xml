@@ -7,10 +7,51 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 27 Sep 2020 22:50:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 07 Oct 2020 17:23:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Коварные нули</title>
+      <link>https://dernasherbrezon.com/posts/how-to-map-zero/</link>
+      <pubDate>Wed, 07 Oct 2020 17:23:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/how-to-map-zero/</guid>
+      <description>Всё началось в того, что мне захотелось добавить поддержку plutosdr в свой проект r2cloud. Для этого я открыл код, который читает данные из rtlsdr и увидел следующее:
+for (int i = 0; i &amp;lt; 0x100; ++i) { lookupTable[i] = ((i &amp;amp; 0xff) - 127.4f) * (1.0f / 128.0f); } Мой глаз зацепился за 127.4. Я не помню откуда у меня этот код, но число 127.4 выглядит уж больно подозрительно. Во-первых, алгоритм какой-то сложный, а во-вторых странное число.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Коварные нули</h1></header>
+      		<div class='container entry-content'>
+  <p>Всё началось в того, что мне захотелось добавить поддержку <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/adalm-pluto.html#">plutosdr</a> в свой проект <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>. Для этого я открыл код, который читает данные из rtlsdr и увидел следующее:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 0x100<span style="color:#f92672">;</span> <span style="color:#f92672">++</span>i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	lookupTable<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#f92672">((</span>i <span style="color:#f92672">&amp;</span> 0xff<span style="color:#f92672">)</span> <span style="color:#f92672">-</span> 127<span style="color:#f92672">.</span><span style="color:#a6e22e">4f</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> <span style="color:#f92672">(</span>1<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span> <span style="color:#f92672">/</span> 128<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Мой глаз зацепился за <code>127.4</code>. Я не помню откуда у меня этот код, но число <code>127.4</code> выглядит уж больно подозрительно. Во-первых, алгоритм какой-то сложный, а во-вторых странное число. Я решил разобраться что к чему.</p>
+<p>Для начала нужно дать небольшой контекст. Все SDR приёмники имеют фиксированную разрядность АЦП. Для rtl-sdr - это 8 бит. Поэтому значения, которые выдаёт приёмник, находятся в интервале от 0 до 255. Однако, DSP блоки работают с float числами, поэтому нужно преобразовать byte во float в интервале от -1 до 1. Чтобы в рантайме такое преобразование работало быстро, можно сделать таблицу поиска. В ней индекс массива соответствует числу float.</p>
+<p>На первый взгляд задача достаточно простая. Нужно взять интервал от -1 до 1 и поделить на все возможные значения - 256. В итоге получается на каждое значение байта нужно: 2 / 256 = 0.0078125. Пока всё просто. Теперь я хочу проверить границы чисел. Для этого я умножу минимальное и максимальное значение байта на 0.0078125.</p>
+<pre><code>0.0078125 * - 128 = -1.
+0.0078125 * 127 = 0.9921875
+</code></pre><p>Из-за нуля, максимальное значение байта - 127. А значит граница в 1.0 недостижима. Вот схема для примера:</p>
+<p><img src="/img/how-to-map-zero/1.png" alt=""></p>
+<p>Из неё следуют две вещи:</p>
+<ol>
+<li>все значения float будут &ldquo;сдвинуты&rdquo; влево на 0.0078125.</li>
+<li>все положительные значения становятся ближе к нулю.</li>
+</ol>
+<p>Второй момент очень важен. Дело в том, что некоторые алгоритмы используют float для определения вероятности 0 или 1. То есть, чем ближе значение к &ldquo;1&rdquo;, тем более вероятна единица. А чем ближе к &ldquo;-1&rdquo; - тем более вероятен ноль. Как только мы сдвинули все положительные значения ближе к нулю, мы уменьшили их вероятность. Это не очень хорошо.</p>
+<p>Теперь немного становится понятно, почему алгоритм конвертации такой странный и откуда там float. Тем не менее, я так и не понял почему именно <code>127.4</code>. Ведь если нарисовать для него схему, то получается вот что:</p>
+<p><img src="/img/how-to-map-zero/2.png" alt=""></p>
+<p>Почему-то все значения сдвинуты вправо на допольнительные 0.00078125 от их среднего положения. Я так и не смог понять зачем это сделано. В итоге после многочисленных часов раздумий получилось следующее:</p>
+<p><img src="/img/how-to-map-zero/3.png" alt=""></p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Оптимизация расписания</title>
