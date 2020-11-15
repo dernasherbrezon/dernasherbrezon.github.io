@@ -5,19 +5,10 @@
     <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
     <description>Recent content in rtlsdr on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 15 Nov 2020 11:29:18 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jun 2020 17:30:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Сравнение бесплатных программ для электронных таблиц</title>
-      <link>https://dernasherbrezon.com/posts/compare-excel/</link>
-      <pubDate>Sun, 15 Nov 2020 11:29:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/posts/compare-excel/</guid>
-      <description>Совершенно неожиданно даже для себя самого я решил сравнить программы для работы с электронными таблицами. Всё началось с того, что мне захотелось проанализировать какие спутники поддерживает r2cloud, какие можно декодировать с помощью jradio, а какие из них активные. Для этого я по-старинке открыл Libre Office и быстренько накидал табличку. После этого, мне захотелось поделиться ею с нашим небольшим сообществом ловцов спутников в twitter. Я её расшарил в google docs, но тут же задумался: а зачем мне нужен Libre Office, если google docs вполне работает?</description>
-    </item>
     
     <item>
       <title>Тестирование 70см фильтра с помощью RTL-SDR</title>
