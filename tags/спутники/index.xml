@@ -5,10 +5,21 @@
     <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
     <description>Recent content in спутники on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 06 Sep 2020 22:50:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 16 Dec 2020 14:40:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Восстановление jpeg файлов</title>
+      <link>https://dernasherbrezon.com/posts/restore-jpeg-file/</link>
+      <pubDate>Wed, 16 Dec 2020 14:40:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/restore-jpeg-file/</guid>
+      <description>1kuns-pf уже давно сгорел в плотных слоях атмосферы, но он оставил яркий след в базе данных Satnogs. Это самый наблюдаемый спутник на текущий момент. За два года своей работы сообщество приняло около 6 миллионов сообщений.
+Я решил посмотреть, что же это за данные и как то нормализировать их. Так как спутник сгорел, то в результате должен получиться законченный датасет, удобный для анализа.
+У меня есть описание формата трёх типов данных:</description>
+    </item>
     
     <item>
       <title>Протокол Pacsat</title>

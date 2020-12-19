@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2020-11-15T11:29:18+00:00</lastmod>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
   </url>
   
   <url>
@@ -19,7 +19,37 @@
   
   <url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2020-11-15T11:29:18+00:00</lastmod>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/java/</loc>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/jpeg/</loc>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/satellite/</loc>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/posts/restore-jpeg-file/</loc>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</loc>
+    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
   </url>
   
   <url>
@@ -29,11 +59,6 @@
   
   <url>
     <loc>https://dernasherbrezon.com/tags/design/</loc>
-    <lastmod>2020-10-07T17:23:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
     <lastmod>2020-10-07T17:23:18+01:00</lastmod>
   </url>
   
@@ -78,22 +103,7 @@
   </url>
   
   <url>
-    <loc>https://dernasherbrezon.com/tags/java/</loc>
-    <lastmod>2020-09-06T22:50:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/satellite/</loc>
-    <lastmod>2020-09-06T22:50:18+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://dernasherbrezon.com/posts/pacsat/</loc>
-    <lastmod>2020-09-06T22:50:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</loc>
     <lastmod>2020-09-06T22:50:18+01:00</lastmod>
   </url>
   
@@ -255,11 +265,6 @@
   <url>
     <loc>https://dernasherbrezon.com/posts/unit-tests/</loc>
     <lastmod>2020-05-25T17:27:18+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://dernasherbrezon.com/tags/jpeg/</loc>
-    <lastmod>2020-05-14T21:21:18+01:00</lastmod>
   </url>
   
   <url>
