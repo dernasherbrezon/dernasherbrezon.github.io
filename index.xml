@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 16 Dec 2020 14:40:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 14 Jan 2021 20:20:18 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,15 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Open source cubesat workshop 2020</title>
+      <link>https://dernasherbrezon.com/posts/oscw-2020/</link>
+      <pubDate>Thu, 14 Jan 2021 20:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/oscw-2020/</guid>
+      <description>Под конец 2020 я принял участие в Open Source Cubeset Workshop и рассказал о том, как в одиночку разрабатывать опенсорс проект.</description>
     </item>
     
     <item>

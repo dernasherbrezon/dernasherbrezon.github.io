@@ -7,10 +7,35 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Wed, 16 Dec 2020 14:40:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 14 Jan 2021 20:20:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Open source cubesat workshop 2020</title>
+      <link>https://dernasherbrezon.com/posts/oscw-2020/</link>
+      <pubDate>Thu, 14 Jan 2021 20:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/oscw-2020/</guid>
+      <description>Под конец 2020 я принял участие в Open Source Cubeset Workshop и рассказал о том, как в одиночку разрабатывать опенсорс проект.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Open source cubesat workshop 2020</h1></header>
+      		<div class='container entry-content'>
+  
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/RtsIFTjXxo0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>Под конец 2020 я принял участие в <a href="https://oscw.space">Open Source Cubeset Workshop</a> и рассказал о том, как в одиночку разрабатывать опенсорс проект.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Восстановление jpeg файлов</title>
