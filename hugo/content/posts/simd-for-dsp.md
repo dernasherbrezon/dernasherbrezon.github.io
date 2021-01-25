@@ -2,7 +2,6 @@
 title: "SIMD для цифровой обработки сигналов"
 date: 2021-01-25T01:10:18+01:00
 draft: false
-cover: /img/simd-for-dsp/evf0t2iu5xcammoaobfgopwewai.png
 tags:
   - c
   - dsp
