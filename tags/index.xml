@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 25 Jan 2021 01:10:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 07 Feb 2021 13:20:17 +0100</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -13,9 +13,27 @@
     <item>
       <title>c</title>
       <link>https://dernasherbrezon.com/tags/c/</link>
-      <pubDate>Mon, 25 Jan 2021 01:10:18 +0100</pubDate>
+      <pubDate>Sun, 07 Feb 2021 13:20:17 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>valgrind</title>
+      <link>https://dernasherbrezon.com/tags/valgrind/</link>
+      <pubDate>Sun, 07 Feb 2021 13:20:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/valgrind/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>производительность</title>
+      <link>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
+      <pubDate>Sun, 07 Feb 2021 13:20:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</guid>
       <description></description>
     </item>
     
@@ -34,15 +52,6 @@
       <pubDate>Mon, 25 Jan 2021 01:10:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>производительность</title>
-      <link>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
-      <pubDate>Mon, 25 Jan 2021 01:10:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</guid>
       <description></description>
     </item>
     
@@ -439,15 +448,6 @@
       <pubDate>Tue, 24 Dec 2019 18:29:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/travis-ci/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>valgrind</title>
-      <link>https://dernasherbrezon.com/tags/valgrind/</link>
-      <pubDate>Tue, 24 Dec 2019 18:29:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/valgrind/</guid>
       <description></description>
     </item>
     
