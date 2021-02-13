@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SIMD on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/simd/</link>
+    <description>Recent content in SIMD on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 12 Feb 2021 22:30:18 +0000</lastBuildDate>
+    
+	<atom:link href="https://dernasherbrezon.com/tags/simd/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Оптимизация SIMD кода</title>
+      <link>https://dernasherbrezon.com/posts/simd-optimization/</link>
+      <pubDate>Fri, 12 Feb 2021 22:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/simd-optimization/</guid>
+      <description>Остапа понесло.
+&amp;ldquo;12 стульев&amp;rdquo;
+ Почувствовав прилив сил и некоторую уверенность после оптимизации программ на Си, я решил погрузиться ещё глубже. И поводом для этого стало странное поведение функции volk_8i_s32f_convert_32f под RaspberryPI.
+В предыдущей статье я смог с помощью этой функции существенно ускорить работу своей программы sdr-server. На скриншоте ниже видно, что конкретная реализация этой функции под MacOS была volk_8i_s32f_convert_32f_u_sse4_1.
+Это значит, что все метод реализован с помощью инструкций и регистров SSE4.</description>
+    </item>
+    
+    <item>
+      <title>SIMD для цифровой обработки сигналов</title>
+      <link>https://dernasherbrezon.com/posts/simd-for-dsp/</link>
+      <pubDate>Mon, 25 Jan 2021 01:10:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/simd-for-dsp/</guid>
+      <description>Несмотря на то, что мой блог о разработке на Java, мне иногда приходится расчехлять старые знания и писать на Си. Вообще, программирование на Си - это целый мир со своими заморочками, инструментами и подходами. И он совсем не пересекается с тем, что творится в Java. Это, с одной стороны, немного досадно, так как все накопленные знания не имеют никакого смысла, а с другой стороны немного волнительно, как открытие Америки.
+Совсем недавно я придумал одну идею - сделать небольшой TCP сервер, который бы раздавал некоторый диапазон радио частот клиентам.</description>
+    </item>
+    
+  </channel>
+</rss>

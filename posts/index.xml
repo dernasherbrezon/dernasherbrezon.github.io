@@ -7,10 +7,115 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 07 Feb 2021 13:20:17 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 12 Feb 2021 22:30:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Оптимизация SIMD кода</title>
+      <link>https://dernasherbrezon.com/posts/simd-optimization/</link>
+      <pubDate>Fri, 12 Feb 2021 22:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/simd-optimization/</guid>
+      <description>Остапа понесло.
+&amp;ldquo;12 стульев&amp;rdquo;
+ Почувствовав прилив сил и некоторую уверенность после оптимизации программ на Си, я решил погрузиться ещё глубже. И поводом для этого стало странное поведение функции volk_8i_s32f_convert_32f под RaspberryPI.
+В предыдущей статье я смог с помощью этой функции существенно ускорить работу своей программы sdr-server. На скриншоте ниже видно, что конкретная реализация этой функции под MacOS была volk_8i_s32f_convert_32f_u_sse4_1.
+Это значит, что все метод реализован с помощью инструкций и регистров SSE4.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Оптимизация SIMD кода</h1></header>
+      		<div class='container entry-content'>
+  <blockquote>
+<p>Остапа понесло.</p>
+<p>&ldquo;12 стульев&rdquo;</p>
+</blockquote>
+<p>Почувствовав прилив сил и некоторую уверенность после оптимизации программ на Си, я решил погрузиться ещё глубже. И поводом для этого стало странное поведение функции <code>volk_8i_s32f_convert_32f</code> под RaspberryPI.</p>
+<p><a href="https://dernasherbrezon.com/posts/tune-c-application/">В предыдущей статье</a> я смог с помощью этой функции существенно ускорить работу своей программы <a href="https://github.com/dernasherbrezon/sdr-server">sdr-server</a>. На скриншоте ниже видно, что конкретная реализация этой функции под MacOS была <code>volk_8i_s32f_convert_32f_u_sse4_1</code>.</p>
+<p><img src="/img/tune-c-application/6.png" alt=""></p>
+<p>Это значит, что все метод реализован с помощью инструкций и регистров <a href="https://ru.wikipedia.org/wiki/SSE4">SSE4</a>. Однако, запуская этот же код на RaspberryPI, я не заметил существенной разницы по сравнению с обычным циклом.</p>
+<pre><code>#: volk_profile -R volk_8i_s32f_convert_32f -n
+
+RUN_VOLK_TESTS: volk_8i_s32f_convert_32f(131071,1987)
+generic completed in 446.774 ms
+neon completed in 434.753 ms
+a_generic completed in 416.605 ms
+Best aligned arch: a_generic
+Best unaligned arch: neon
+Warning: this was a dry-run. Config not generated
+</code></pre><p>Разница между <code>generic</code> реализаций и специальной реализацией под ARM процессор (<code>neon</code>) несущественна. Это навело меня на мысли. Почему расширенные регистры в Intel работают быстрее, чем похожие регистры в ARM? Я не смог заглянуть внутрь реализации обоих процессоров, чтобы сравнить. Зато я решил открыть <a href="">исходный код Volk</a> и почитать.</p>
+<h2 id="интристики">Интристики</h2>
+<p>Первый же метод в функции пришлось гуглить. Оказывается код написан с использованием <a href="https://developer.arm.com/architectures/instruction-sets/simd-isas/neon/intrinsics?search=vld1q_s8">интристиков</a>. Поэтому прежде, чем читать код, мне пришлось разобраться, что же это такое.</p>
+<p>На самом деле, всё достаточно просто. Интристики - это некоторый промежуточный слой между ассемблером и языком Си. Они оборачивают инструкции ассемблера в функции на Си, чтобы можно было удобнее их читать. Иногда они могут  подготавливать регистры ассемблера для вызова операции. Можно написать код на ассемблере и подключить его в программу на Си, но удобнее написать с помощью интристиков. А компилятор уже преобразует их в ассемблерные инструкции.</p>
+<p>Для примера можно взять функцию <code>vld1q_s8</code>.</p>
+<p><img src="/img/simd-optimization/1.png" alt=""></p>
+<p>Эта функция загружает в регистр данные из памяти:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">int8_t <span style="color:#f92672">*</span>inputVectorPtr;
+int8x16_t inputVal <span style="color:#f92672">=</span> vld1q_s8(inputVectorPtr);
+</code></pre></div><p>После этого можно выполнять необходимые SIMD инструкции над этими данными. При этом компилятор сам выбирает в какой именно регистр будут загружаться данные. Ассемблерный код выглядил бы так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">VLD1.16</span> <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#66d9ef">d0</span>,<span style="color:#66d9ef">d1</span><span style="color:#960050;background-color:#1e0010">}</span>, [<span style="color:#66d9ef">r0</span>]
+</code></pre></div><h2 id="оптимизация">Оптимизация</h2>
+<p>Итак, теперь более-менее понятно, что такое интристики. Пришло время расчехлить теоретические знания, полученные более 15 лет назад, и попытаться разобраться, что происходит в методе.</p>
+<p>А там почему-то используются структуры размерности 2 (<code>int8x8x2_t</code>) вместо обычных векторов. Мне показалось это странным.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">int8x8x2_t inputVal;
+float32x4x2_t outputFloat;
+int16x8_t tmp;
+
+<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> number <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> sixteenthPoints <span style="color:#f92672">=</span> num_points <span style="color:#f92672">/</span> <span style="color:#ae81ff">16</span>;
+<span style="color:#66d9ef">for</span> (; number <span style="color:#f92672">&lt;</span> sixteenthPoints; number<span style="color:#f92672">++</span>) {
+    __VOLK_PREFETCH(inputVectorPtr <span style="color:#f92672">+</span> <span style="color:#ae81ff">16</span>);
+
+    inputVal <span style="color:#f92672">=</span> vld2_s8(inputVectorPtr);
+    inputVal <span style="color:#f92672">=</span> vzip_s8(inputVal.val[<span style="color:#ae81ff">0</span>], inputVal.val[<span style="color:#ae81ff">1</span>]);
+    inputVectorPtr <span style="color:#f92672">+=</span> <span style="color:#ae81ff">16</span>;
+...
+</code></pre></div><p>Оригинальный код выглядит очень громоздким и профессионально написанным. Я же решил попробовать написать свой первый код с помощью интристиков и не слишком рассчитывал улучшить производительность. Вместо использования структур, я написал код с использованием обычных векторов <code>int8x16_t</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">int8x16_t inputVal;
+int16x8_t lower;
+int16x8_t higher;
+float32x4_t outputFloat;
+
+<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> number <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> sixteenthPoints <span style="color:#f92672">=</span> num_points <span style="color:#f92672">/</span> <span style="color:#ae81ff">16</span>;
+<span style="color:#66d9ef">for</span> (; number <span style="color:#f92672">&lt;</span> sixteenthPoints; number<span style="color:#f92672">++</span>) {
+    inputVal <span style="color:#f92672">=</span> vld1q_s8(inputVectorPtr);
+    inputVectorPtr <span style="color:#f92672">+=</span> <span style="color:#ae81ff">16</span>;
+...
+</code></pre></div><p><a href="https://github.com/dernasherbrezon/volk/blob/volk_8i_s32f_convert_32f/kernels/volk/volk_8i_s32f_convert_32f.h#L299">Получилось значительно</a> прямее и проще. Однако, не факт, что быстрее. Единственным способом проверить - это запустить код.</p>
+<pre><code>#: volk_profile -R volk_8i_s32f_convert_32f -n
+
+RUN_VOLK_TESTS: volk_8i_s32f_convert_32f(131071,1987)
+generic completed in 401.395 ms
+neon completed in 324.097 ms
+a_generic completed in 377.772 ms
+Best aligned arch: neon
+Best unaligned arch: neon
+Warning: this was a dry-run. Config not generated
+</code></pre><p>Какого же было моё удивление, когда я увидел 20% прирост производительности! Я перепроверил код ещё несколько раз, и всякий раз моя реализация оказывалась быстрее.</p>
+<p><img src="/img/simd-optimization/2.png" alt=""></p>
+<p>У меня нет достаточно знаний, чтобы точно сказать, почему мой код оказался быстрее. Тем не менее, я выдвинул несколько теорий:</p>
+<ul>
+<li>gcc не смог оптимизировать слишком сложный код в оригинальном методе</li>
+<li>оригинальный код работал с N-мерными структурами, которые не подходят для таких простых операций</li>
+<li>оригинальный код был написан и оттестирован на armv8 (arm64), а не armv7 (RaspberryPI 3+)</li>
+</ul>
+<p>В любом случае, я создал <a href="https://github.com/gnuradio/volk/pull/446">pull request</a> в оригинальный репозиторий и отправил его на ревью.</p>
+<h2 id="результаты">Результаты</h2>
+<p>Пожинать плоды моих усилий придётся не скоро. Для начала мой pull request должен быть проверен. Потом он должен попасть в master, и только потом, через какое-то время, он попадёт в релизную версию. Но вместо того, чтобы сидеть и ждать, я готов исследовать новые горизонты:</p>
+<ul>
+<li>попробовать сравнить <a href="https://www.libvolk.org">libvolk</a> и <a href="https://ru.wikipedia.org/wiki/OpenMAX">openmax</a>. Возможно, в openmax уже реализован этот метод.</li>
+<li>попробовать собрать свою версию libvolk и подключить её в проект с помощью <a href="https://conan.io">conan.io</a>. Тогда не придётся ждать официального релиза.</li>
+</ul>
+<p>В любом случае, sdr-server есть куда улучшать.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Оптимизация производительности приложения на Си</title>

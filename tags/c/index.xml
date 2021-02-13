@@ -5,10 +5,23 @@
     <link>https://dernasherbrezon.com/tags/c/</link>
     <description>Recent content in c on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 07 Feb 2021 13:20:17 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 12 Feb 2021 22:30:18 +0000</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Оптимизация SIMD кода</title>
+      <link>https://dernasherbrezon.com/posts/simd-optimization/</link>
+      <pubDate>Fri, 12 Feb 2021 22:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/simd-optimization/</guid>
+      <description>Остапа понесло.
+&amp;ldquo;12 стульев&amp;rdquo;
+ Почувствовав прилив сил и некоторую уверенность после оптимизации программ на Си, я решил погрузиться ещё глубже. И поводом для этого стало странное поведение функции volk_8i_s32f_convert_32f под RaspberryPI.
+В предыдущей статье я смог с помощью этой функции существенно ускорить работу своей программы sdr-server. На скриншоте ниже видно, что конкретная реализация этой функции под MacOS была volk_8i_s32f_convert_32f_u_sse4_1.
+Это значит, что все метод реализован с помощью инструкций и регистров SSE4.</description>
+    </item>
     
     <item>
       <title>Оптимизация производительности приложения на Си</title>
