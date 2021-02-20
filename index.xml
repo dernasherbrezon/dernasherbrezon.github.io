@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 12 Feb 2021 22:30:18 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 18 Feb 2021 23:11:18 +0000</lastBuildDate>
     
 	<atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -32,6 +32,17 @@
 Become a Patron!
 Или
  </description>
+    </item>
+    
+    <item>
+      <title>Динамические библиотеки, RPATH и Conan</title>
+      <link>https://dernasherbrezon.com/posts/dynamic-libraries-rpath/</link>
+      <pubDate>Thu, 18 Feb 2021 23:11:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/dynamic-libraries-rpath/</guid>
+      <description>Эта статья - скорее коспект того, что я узнал за последнюю неделю о динамических библиотеках, RPATH и Conan.
+Введение Никто в здравом уме не начнёт изучать то, как линкуются библиотеки в MacOS. Поэтому для начала я попытаюсь обрисовать проблему, которую пытался решить.
+Итак, на заре времён, когда жёсткие диски компьютеров были маленькие, память компьютеров была маленькая, люди придумали переиспользование библиотек. Как всё это работает? Допустим у нас есть 2 приложения:</description>
     </item>
     
     <item>

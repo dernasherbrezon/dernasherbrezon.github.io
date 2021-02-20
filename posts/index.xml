@@ -7,10 +7,170 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 12 Feb 2021 22:30:18 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 18 Feb 2021 23:11:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Динамические библиотеки, RPATH и Conan</title>
+      <link>https://dernasherbrezon.com/posts/dynamic-libraries-rpath/</link>
+      <pubDate>Thu, 18 Feb 2021 23:11:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/dynamic-libraries-rpath/</guid>
+      <description>Эта статья - скорее коспект того, что я узнал за последнюю неделю о динамических библиотеках, RPATH и Conan.
+Введение Никто в здравом уме не начнёт изучать то, как линкуются библиотеки в MacOS. Поэтому для начала я попытаюсь обрисовать проблему, которую пытался решить.
+Итак, на заре времён, когда жёсткие диски компьютеров были маленькие, память компьютеров была маленькая, люди придумали переиспользование библиотек. Как всё это работает? Допустим у нас есть 2 приложения:</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Динамические библиотеки, RPATH и Conan</h1></header>
+      		<div class='container entry-content'>
+  <p>Эта статья - скорее коспект того, что я узнал за последнюю неделю о динамических библиотеках, RPATH и Conan.</p>
+<h2 id="введение">Введение</h2>
+<p>Никто в здравом уме не начнёт изучать то, как линкуются библиотеки в MacOS. Поэтому для начала я попытаюсь обрисовать проблему, которую пытался решить.</p>
+<p>Итак, на заре времён, когда жёсткие диски компьютеров были маленькие, память компьютеров была маленькая, люди придумали переиспользование библиотек. Как всё это работает? Допустим у нас есть 2 приложения:</p>
+<ul>
+<li>калькулятор, зависящий от библиотек:
+<ul>
+<li>math</li>
+<li>ncurses</li>
+</ul>
+</li>
+<li>планировщик задач, зависящий от библиотек:
+<ul>
+<li>pthread</li>
+<li>ncurses</li>
+</ul>
+</li>
+</ul>
+<p>При запуске, этих двух приложений, операционная система будет загружать необходимые библиотеки в память. Но так, как библиотека ncurses уже один раз будет загружена, то операционная система не будет загружать её второй раз. Вместо этого приложение &ldquo;планировщик задач&rdquo; получит ссылку на память уже загруженной библиотеки. Это достаточно безопасно, потому что библиотека не может поменяться (я намеренно упрощаю ситуацию с глобальными переменными и thread-safe гарантиями). В итоге, логически мы загрузили две библиотеки, а физически только одну (Resident memory vs Shared memory). Чем больше приложений будет использовать одни и те же библиотеки, тем быстрее будет старт приложений и меньше потребление памяти.</p>
+<p>Помимо экономии памяти, такое переиспользование улучшало поддерживаемость операционной системы. Допустим, в одной из библиотек (ncurses) обнаружена уязвимость. Для того, чтобы её исправить, достаточно обновить библиотеку в одном месте. Все приложения, которые используют эту библиотеку автоматически получат обновление безопасности. Это особенно важно, если некоторые приложения (например, &ldquo;планировщик задач&rdquo;) редко обновляются или вообще заброшены своими создателями.</p>
+<p>Альтернативой этому подходу являются толстые дистрибутивы. Я уже писал о плюсах <a href="thin-and-fat-distributives/">толстых и тонких дистрибутивов</a> для Java. В целом для C/C++ аргументы значительно совпадают. Однако, исторически, приложения операционных систем являются тонкими дистрибутивами. <a href="https://fedoraproject.org/wiki/Bundled_Libraries?rd=Packaging:Bundled_Libraries">Многие ОС</a> до сих пор <a href="https://www.debian.org/doc/debian-policy/ch-source.html#s-embeddedfiles">требуют поставлять приложения</a> в виде тонких дистрибутивов.</p>
+<p>Большинство аргументов за и против тонких дистрибутивов имели смысл лет 20 назад. Сейчас же, когда размер памяти и диска не так важны, появляются новые аргументы против:</p>
+<ul>
+<li>количество библиотек и приложений стало настолько много, что мейнтейнеры популярных систем уже не в состоянии поставлять пакеты с последними версиями библиотек. Зачастую они фиксируют стабильную версию и выпускают небольшие обновления безопасности.</li>
+<li>опять же, из-за количества библиотек и зависимостей между ними, стало сложнее найти тот список версий, который подходил бы большинству приложений. Если калькулятор будет использовать ncurses версии 1.0, а &ldquo;планировщик задач&rdquo; ncurses версии 2.0, то непонятно какую версию ncurses нужно ставить. apt, rpm, yum позволяют ставить только одну версию библиотеки. Нельзя поставить одновременно версию 1.0 и 2.0. Если эти версии не совместимы между собой, то придётся выбирать какое приложение включить в состав операционной системы.</li>
+<li>нужно постоянно обновлять версию всей операционной системы. Ведь новые версии библиотек уже не появятся. А писать код, половина которого обвешана <code>#if NCURSES = 1.0 ... #else if NCURSES = 2.0 ... #endif</code> никому не хочется.</li>
+</ul>
+<p>Всё это пронеслось у меня в голове за считанные секунды, когда я думал о том, как пофиксить &ldquo;<a href="https://github.com/dernasherbrezon/sdr-server/issues/3">Compiling issue - rtlsdr_set_bias_tee</a>&rdquo; в sdr-server.</p>
+<h2 id="conanhttpsconanio"><a href="https://conan.io">Conan</a></h2>
+<p>Взвесив все за и против, я решил пойти путём толстых дистрибутивов. Для этого я решил разобраться в модной технологии, которая у всех на слуху - <a href="https://conan.io">Conan</a> от компании jfrog.</p>
+<p><img src="/img/dynamic-libraries-rpath/conan-install_flow.png" alt="conan-install_flow"></p>
+<p>Основная идея проекта заключается в том, что собранные библиотеки уже лежат на центральном сервере. И для того, чтобы их использовать, достаточно подключить в проект. А Conan сам их скачает и правильно подставит пути. Делается это с помощью небольшого конфига:</p>
+<pre><code>[requires]
+rtlsdr/0.6.4
+volk/2.4.1
+
+[build_requires]
+check/0.15.2@r2cloud/stable
+
+[generators]
+cmake
+</code></pre><p>После этого подключить в CMakeLists.txt Conan:</p>
+<pre><code>include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+</code></pre><p>А потом в папке <code>build</code> вызвать команду <code>install</code>:</p>
+<pre><code>#: conan install ..
+</code></pre><p>Эта команда скачает зависимости, положит их в локальный репозиторий и сгенерирует cmake конфиг в котором прописаны все зависимые библиотеки. После этого остаётся только подключить эти библиотеки к исполняемому файлу:</p>
+<pre><code>target_link_libraries(sdr_server ${CONAN_LIBS})
+</code></pre><p>И собрать проект:</p>
+<pre><code>cmake ..
+</code></pre><p>Это было всё в теории. На практике всё совсем по-другому.</p>
+<h2 id="практика">Практика</h2>
+<p>На практике библиотек в <a href="https://conan.io/center/">conan-center</a> очень мало. Да и те, что есть почему-то <a href="https://github.com/conan-io/conan-center-index/pull/4582">неправильно собраны</a>. Я, в общем-то, был готов к этому, поэтому собрался с мыслями и начал разбираться во всех тонкостях линковки библиотек, их дистрибуции и то, как это реализовано в Conan.</p>
+<p>Итак, для того, чтобы понять как правильно собрать библиотеку, необходимо разобраться как она линкуется с программой. Для этого нужно сделать пару шагов назад.</p>
+<p>В cmake есть два совершенно разных понятия: build и install. Я даже картинку нарисовал, чтобы ешё раз закрепить это важное знание:</p>
+<p><img src="/img/dynamic-libraries-rpath/build-install.png" alt="cmake build vs install"></p>
+<p>Во время фазы &ldquo;build&rdquo; приложение компилируется и из него собираются артефакты. Во время фазы &ldquo;install&rdquo; эти артефакты копируются в правильное место внутри операционной системы. Тут есть очень важная вещь: разделение на две фазы достаточно условное. Это не maven, где есть чёткие правила когда и что должно выполняться. В большинстве случаев, папка build после сборки представляет собой помойку разных файлов разбросанных по папкам. И некоторые библиотеки <a href="https://github.com/gnuradio/volk/blob/master/CMakeLists.txt#L283">приводят в порядок</a> публичные header файлы и библиотеки только во время фазы &ldquo;install&rdquo;. Несмотря на такой беспорядок во время фазы &ldquo;build&rdquo;, любой разработчик ожидает, что приложение можно запустить. Это очень важный момент, который нужно понимать, чтобы разобраться в правильном подключении динамических библиотек.</p>
+<p>Далее я постараюсь описать, как Conan встраивает зависимости в разные фазы.</p>
+<h3 id="компиляция">Компиляция</h3>
+<p>Самый простой шаг. Conan использует пути из локального кэша и передаёт их компилятору:</p>
+<pre><code>[ 37%] Building C object CMakeFiles/perf_xlating.dir/test/perf_xlating.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc \
+ -I/Users/dernasherbrezon/.conan/data/check/0.15.2/r2cloud/stable/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/include \
+ -I/Users/dernasherbrezon/.conan/data/rtlsdr/0.6.4/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/include \
+ -I/Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/include \
+ -I/usr/local/include -std=c99 -O3 -DNDEBUG  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk -std=gnu99 -o CMakeFiles/perf_xlating.dir/test/perf_xlating.c.o -c /Users/dernasherbrezon/git/sdr-server/test/perf_xlating.c
+</code></pre><p>В данном случае кэш находится в <code>/Users/dernasherbrezon/.conan/data/</code> и используются библиотеки <code>rtlsdr, volk &amp; check</code>.</p>
+<h3 id="линковка">Линковка</h3>
+<p>Здесь аналогично: пути из локального кэша используются при линковке.</p>
+<pre><code>[ 40%] Linking C executable bin/perf_xlating
+/usr/local/Cellar/cmake/3.19.4/bin/cmake -E cmake_link_script CMakeFiles/perf_xlating.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -std=c99 -O3 -DNDEBUG  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/perf_xlating.dir/test/perf_xlating.c.o -o bin/perf_xlating  \
+ -L/Users/dernasherbrezon/.conan/data/check/0.15.2/r2cloud/stable/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib \
+ -L/Users/dernasherbrezon/.conan/data/rtlsdr/0.6.4/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib \
+ -L/Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib \
+ lib/libsdr_serverLib.a \
+ -lcheck -lrtlsdr -lvolk /Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk/usr/lib/libz.tbd /usr/local/lib/libconfig.dylib -lpthread -lm 
+</code></pre><h3 id="запуск-после-build">Запуск после build</h3>
+<p>Приложение запустится без проблем, но здесь ожидает сюрприз: абсолютные пути к зависимым библиотекам. При линковке пути до библиотек прописываются в исполняемый файл.</p>
+<pre><code>otool -l bin/perf_xlating|grep -B 2 volk
+          cmd LC_LOAD_DYLIB
+      cmdsize 152
+         name /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib (offset 24)
+</code></pre><p>Такие программы просто не будут работать на другом компьютере из-за абсолютных путей.</p>
+<h3 id="запуск-после-install">Запуск после install</h3>
+<p>Приложение просто не запустится. Для того, чтобы оно запустилось, нужно положить все зависимые библиотеки рядом с бинарником. В Conan это делается просто. Достаточно дописать в файл conanfile.txt следующее:</p>
+<pre><code>[imports]
+bin, *.dll -&gt; ./bin 
+lib, *.dylib* -&gt; ./lib
+lib, *.so* -&gt; ./lib
+</code></pre><p>Эта секция будет выполнятся во время команды <code>conan import ..</code> и скопирует все библиотеки из локального кэша в директорию приложения. Например, <code>/Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib</code> -&gt; <code>sdr-server/build/lib/libvolk.2.4.dylib</code>.</p>
+<p>Следующим шагом необходимо поменять абсолютные пути на относительные внутри исполняемого файла. И вот тут как раз появляется такая вещь как RPATH. Это специальная секция в исполняемом файле, которая содержит директории, в которой нужно искать динамические библиотеки. В эту секцию можно положить значение со специальной переменной @executable_path, чтобы линковщик начал искать библиотеки относительно исполняемого файла. В итоге алгоритм будет такой:</p>
+<ol>
+<li>Загрузить исполняемый файл</li>
+<li>Для каждого имени библиотеки, взять его путь. Если он содержит ключевое слово @rpath, то</li>
+<li>Найти секцию RPATH в исполняемом файле. Если она есть, то</li>
+<li>Проверить значение секции, если оно содержит @executable_path, то подставить текущий путь до бинарника</li>
+<li>В полученном пути поискать библиотеку.</li>
+</ol>
+<p>В MacOS, правда, всё чуть запутаннее. Библиотека содержит внутри себя путь, где она находится:</p>
+<pre><code>otool -l /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib|grep -A 2 LC_ID_DYLIB
+          cmd LC_ID_DYLIB
+      cmdsize 152
+         name /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib (offset 24)
+</code></pre><p>Это выглядит очень странно. Видимо, при линковке этот путь копируется из библиотеки в исполняемый файл. Понятное дело, в таких библиотеках тоже нужно заменить абсолютные пути на относительные. Это можно сделать специальной программой:</p>
+<pre><code>install_name_tool -id @rpath/libvolk.2.4.dylib /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib
+</code></pre><p>Теперь путь содержит специальную метку @rpath:</p>
+<pre><code>otool -l /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib|grep -A 2 LC_ID_DYLIB
+          cmd LC_ID_DYLIB
+      cmdsize 56
+         name @rpath/libvolk.2.4.dylib (offset 24)
+</code></pre><p>Эта метка будет подставляться из RPATH исполняемого файла. Теперь зависимости выглядят следующим образом:</p>
+<pre><code>otool -L bin/perf_xlating 
+bin/perf_xlating:
+	@rpath/libcheck.0.dylib (compatibility version 0.0.0, current version 0.15.2)
+	@rpath/librtlsdr.0.dylib (compatibility version 0.0.0, current version 0.6.4)
+	@rpath/libvolk.2.4.dylib (compatibility version 2.4.0, current version 0.0.0)
+</code></pre><p>Последним шагом нужно задать секцию RPATH, чтобы начать использовать относительные пути к библиотекам.</p>
+<pre><code>install_name_tool -add_rpath @executable_path/../lib bin/perf_xlating
+</code></pre><p>После всех этих манипуляций можно проверить результат. Так как поиск библиотек происходит в рантайме, то для того, чтобы узнать получившиеся пути, нужно запустить программу:</p>
+<pre><code>DYLD_PRINT_LIBRARIES=YES bin/perf_xlating 
+dyld: loaded: &lt;7AB49406-C965-3CD7-99E5-398BC69A6567&gt; /&lt;edited&gt;/sdr-server/build/bin/perf_xlating
+dyld: loaded: &lt;26F34288-9251-3468-9ED9-10A595F04DED&gt; /&lt;edited&gt;/sdr-server/build/bin/../lib/libcheck.0.dylib
+dyld: loaded: &lt;C8BA4B0A-EE3A-3322-9B14-1C68CFCF977B&gt; /&lt;edited&gt;/sdr-server/build/bin/../lib/librtlsdr.0.dylib
+dyld: loaded: &lt;24DC8413-C299-3CD5-ADDD-5785C39B6084&gt; /&lt;edited&gt;/sdr-server/build/bin/../lib/libvolk.2.4.dylib
+...
+</code></pre><p>Идеально.</p>
+<p>Для Linux шаги примерно такие же, только проще. Не нужно прописывать пути внутри самих библиотек.</p>
+<p>Пара слов о cmake. Программу <code>install_name_tool</code> можно заменить командами cmake. К сожалению, в cmake существует десяток различных параметров, которые неявно влияют на результат.</p>
+<pre><code>CMAKE_INSTALL_RPATH
+CMAKE_BUILD_WITH_INSTALL_RPATH
+CMAKE_INSTALL_RPATH_USE_LINK_PATH
+CMAKE_BUILD_RPATH
+CMAKE_SKIP_BUILD_RPATH
+INSTALL_RPATH
+BUILD_RPATH
+</code></pre><p>У меня не получилось заставить cmake проставлять корректный RPATH в исполняемый файл. Возможно, Conan <a href="https://docs.conan.io/en/latest/howtos/manage_shared_libraries/rpaths.html">неявно перезаписывает</a> определённые переменные, тем самым ломая алгоритм.</p>
+<h2 id="заключение">Заключение</h2>
+<p>Потратив неделю на изучение, создание pull request в Conan, volk и libcheck, я в итоге решил сделать всё по-старинке. Идея толстых дистрибутивов хороша, но инфраструктура пока не готова к этому. Будет ли когда-нибудь готова инфраструктура для С/С++ проектов с её cmake, make, pkgconf, autotools, conan - большой вопрос.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Оптимизация SIMD кода</title>
