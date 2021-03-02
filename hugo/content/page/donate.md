@@ -13,7 +13,7 @@ comments: false
 
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
 
-<a href="https://www.patreon.com/bePatron?u=11732578" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+<iframe src="https://github.com/sponsors/dernasherbrezon/card" title="Sponsor dernasherbrezon" height="180" width="600" style="border: 0;"></iframe>
 
 Или
 

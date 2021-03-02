@@ -5,11 +5,7 @@
     <link>https://dernasherbrezon.com/tags/string/</link>
     <description>Recent content in String on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 11 Aug 2012 15:14:18 +0100</lastBuildDate>
-    
-	<atom:link href="https://dernasherbrezon.com/tags/string/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 11 Aug 2012 15:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/string/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Производительность функции split</title>
       <link>https://dernasherbrezon.com/posts/splitperf/</link>
@@ -30,7 +26,7 @@
       
       <guid>https://dernasherbrezon.com/posts/substring/</guid>
       <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
- ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;ldquo;$1&amp;rdquo; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring  Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
+ ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;quot;$1&amp;quot; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring  Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
 У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
     </item>
     

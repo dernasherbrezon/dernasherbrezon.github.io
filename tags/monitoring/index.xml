@@ -5,11 +5,7 @@
     <link>https://dernasherbrezon.com/tags/monitoring/</link>
     <description>Recent content in monitoring on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 03 Sep 2019 21:22:18 +0100</lastBuildDate>
-    
-	<atom:link href="https://dernasherbrezon.com/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 03 Sep 2019 21:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Логирование из Java в Journald</title>
       <link>https://dernasherbrezon.com/posts/journald-java/</link>

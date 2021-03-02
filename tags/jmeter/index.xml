@@ -5,11 +5,7 @@
     <link>https://dernasherbrezon.com/tags/jmeter/</link>
     <description>Recent content in jmeter on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 28 Dec 2012 14:58:18 +0100</lastBuildDate>
-    
-	<atom:link href="https://dernasherbrezon.com/tags/jmeter/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 28 Dec 2012 14:58:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/jmeter/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Оптимизация web приложения с помощью YourKit и JMeter</title>
       <link>https://dernasherbrezon.com/posts/webapp-perf/</link>

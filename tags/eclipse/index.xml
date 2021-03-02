@@ -5,11 +5,7 @@
     <link>https://dernasherbrezon.com/tags/eclipse/</link>
     <description>Recent content in eclipse on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 10 Jan 2009 13:14:18 +0100</lastBuildDate>
-    
-	<atom:link href="https://dernasherbrezon.com/tags/eclipse/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 10 Jan 2009 13:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/eclipse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Интеграция Eclipse и Maven</title>
       <link>https://dernasherbrezon.com/posts/eclipse-maven/</link>

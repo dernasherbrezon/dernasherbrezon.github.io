@@ -5,11 +5,7 @@
     <link>https://dernasherbrezon.com/tags/validator/</link>
     <description>Recent content in validator on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 11 Apr 2012 13:14:18 +0100</lastBuildDate>
-    
-	<atom:link href="https://dernasherbrezon.com/tags/validator/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 11 Apr 2012 13:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/validator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Производительность Hibernate Validator</title>
       <link>https://dernasherbrezon.com/posts/hibernate-perf/</link>

@@ -5,11 +5,7 @@
     <link>https://dernasherbrezon.com/tags/gdal/</link>
     <description>Recent content in gdal on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 07 May 2020 22:21:18 +0100</lastBuildDate>
-    
-	<atom:link href="https://dernasherbrezon.com/tags/gdal/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 07 May 2020 22:21:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/gdal/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ошибки прозрачности в gdal2tiles</title>
       <link>https://dernasherbrezon.com/posts/gdal2tiles-transparency/</link>
