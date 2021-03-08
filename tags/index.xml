@@ -5,13 +5,40 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 18 Feb 2021 23:11:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Mar 2021 20:45:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>apt</title>
+      <link>https://dernasherbrezon.com/tags/apt/</link>
+      <pubDate>Sun, 07 Mar 2021 20:45:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/apt/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>c</title>
       <link>https://dernasherbrezon.com/tags/c/</link>
-      <pubDate>Thu, 18 Feb 2021 23:11:18 +0000</pubDate>
+      <pubDate>Sun, 07 Mar 2021 20:45:18 +0000</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>deb</title>
+      <link>https://dernasherbrezon.com/tags/deb/</link>
+      <pubDate>Sun, 07 Mar 2021 20:45:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/deb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ubuntu</title>
+      <link>https://dernasherbrezon.com/tags/ubuntu/</link>
+      <pubDate>Sun, 07 Mar 2021 20:45:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/ubuntu/</guid>
       <description></description>
     </item>
     
@@ -363,33 +390,6 @@
       <pubDate>Sat, 18 Apr 2020 18:15:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/orekit/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>apt</title>
-      <link>https://dernasherbrezon.com/tags/apt/</link>
-      <pubDate>Tue, 24 Mar 2020 18:40:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/apt/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>deb</title>
-      <link>https://dernasherbrezon.com/tags/deb/</link>
-      <pubDate>Tue, 24 Mar 2020 18:40:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/deb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ubuntu</title>
-      <link>https://dernasherbrezon.com/tags/ubuntu/</link>
-      <pubDate>Tue, 24 Mar 2020 18:40:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/ubuntu/</guid>
       <description></description>
     </item>
     

@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2021-02-18T23:11:18+00:00</lastmod>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
@@ -11,14 +11,26 @@
     <loc>https://dernasherbrezon.com/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
+    <loc>https://dernasherbrezon.com/tags/apt/</loc>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
+  </url><url>
     <loc>https://dernasherbrezon.com/tags/c/</loc>
-    <lastmod>2021-02-18T23:11:18+00:00</lastmod>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/deb/</loc>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2021-02-18T23:11:18+00:00</lastmod>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/</loc>
-    <lastmod>2021-02-18T23:11:18+00:00</lastmod>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/ubuntu/</loc>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/r2cloud-apt/</loc>
+    <lastmod>2021-03-07T20:45:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/dynamic-libraries-rpath/</loc>
     <lastmod>2021-02-18T23:11:18+00:00</lastmod>
@@ -235,15 +247,6 @@
   </url><url>
     <loc>https://dernasherbrezon.com/posts/orekit/</loc>
     <lastmod>2020-03-28T10:05:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/apt/</loc>
-    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/deb/</loc>
-    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/ubuntu/</loc>
-    <lastmod>2020-03-24T18:40:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/publishing-to-launchpad/</loc>
     <lastmod>2020-03-24T18:40:18+01:00</lastmod>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='С появлением нового проекта - sdr-server, у меня стало слишком много приложений, которые нужно как-то устанавливать. И всё бы ничего, но каждое приложение в свою очередь требует разных системных библиотек. А эти системные библиотеки не всегда нужных версий. А если сюда добавить разные версии дистрибутивов и разные архитектуры процессоров, то начинается комбинаторный взрыв, и всё становится очень запутанным.
+Для решения этой проблемы можно было бы сделать докер образа и на этом успокоится.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Создание и поддержка своего собственного APT репозитория • dernasherbrezon'>
+<meta property='og:description' content='С появлением нового проекта - sdr-server, у меня стало слишком много приложений, которые нужно как-то устанавливать. И всё бы ничего, но каждое приложение в свою очередь требует разных системных библиотек. А эти системные библиотеки не всегда нужных версий. А если сюда добавить разные версии дистрибутивов и разные архитектуры процессоров, то начинается комбинаторный взрыв, и всё становится очень запутанным.
+Для решения этой проблемы можно было бы сделать докер образа и на этом успокоится.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/r2cloud-apt/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='apt'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='deb'><meta property='article:tag' content='c'><meta property='article:published_time' content='2021-03-07T20:45:18Z'/><meta property='article:modified_time' content='2021-03-07T20:45:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Создание и поддержка своего собственного APT репозитория • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/r2cloud-apt/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0222222222222221em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0666666666666667em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0444444444444445em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0222222222222221em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.0666666666666667em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0222222222222221em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.1555555555555554em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0666666666666667em'>deb</a>
+      </li><li>
+        <a href='/tags/design/' style='font-size:1.0444444444444445em'>design</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.0666666666666667em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.0666666666666667em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0222222222222221em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0222222222222221em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0666666666666667em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0444444444444445em'>geotiff</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0222222222222221em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0666666666666667em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0222222222222221em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0444444444444445em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0444444444444445em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1111111111111112em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0666666666666667em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0444444444444445em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0444444444444445em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0444444444444445em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0222222222222221em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1111111111111112em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0888888888888888em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.0222222222222221em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0444444444444445em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0222222222222221em'>openapi</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0222222222222221em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0444444444444445em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0444444444444445em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1777777777777778em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.2em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0222222222222221em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0222222222222221em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0222222222222221em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2222222222222223em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0444444444444445em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1.288888888888889em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0444444444444445em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0222222222222221em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.0222222222222221em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0444444444444445em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0222222222222221em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0222222222222221em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0222222222222221em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0222222222222221em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0888888888888888em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0444444444444445em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0222222222222221em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1555555555555554em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0666666666666667em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0444444444444445em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0444444444444445em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0444444444444445em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0222222222222221em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0444444444444445em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2222222222222223em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0444444444444445em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3333333333333335em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1777777777777778em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0444444444444445em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Создание и поддержка своего собственного APT репозитория</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2021-03-07T20:45:18Z'>07 Mar 2021</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>С появлением нового проекта - <a href="https://github.com/dernasherbrezon/sdr-server">sdr-server</a>, у меня стало слишком много приложений, которые нужно как-то устанавливать. И всё бы ничего, но каждое приложение в свою очередь требует разных системных библиотек. А эти системные библиотеки не всегда нужных версий. А если сюда добавить разные версии дистрибутивов и разные архитектуры процессоров, то начинается комбинаторный взрыв, и всё становится очень запутанным.</p>
+<p>Для решения этой проблемы можно было бы сделать докер образа и на этом успокоится. Но, во-первых, я планирую запускать эти приложения под RaspberryPI, где ресурсов не так уж много. Во-вторых, большинство из них написано на Си для получения максимального ускорения. Городить поверх них докер - это значит делать шаг назад. Ну и в-третьих, докер усложнит и без того непростую конфигурацию.</p>
+<p>Всё это привело меня к единственно правильному решению - созданию собственного APT репозитория.</p>
+<p><img src="/img/r2cloud-apt/1.png" alt=""></p>
+<h2 id="требования">Требования</h2>
+<p>Изначально я создал APT репозиторий в S3 и закидывал туда пакеты без какой-либо структуры. Этот подход хорошо работает, если разрабатываешь платформенно-независимые приложения. <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> и <a href="https://github.com/dernasherbrezon/r2cloud-ui">r2cloud-ui</a> - как раз такие. Первому нужна только Java, а второй написан на javascript и компилируется в набор статичных .js файлов. Когда же понадобилось нечто большее, я решил подойти к решению проблемы системно и начал с описания требований.</p>
+<ul>
+<li>поддержка разных дистрибутивов. Мне нужно поддерживать Debian stretch, Debian buster, Ubuntu bionic и Ubuntu focal. Это две последние стабильные версии двух самых популярных дистрибутивов. Debian прежде всего нужен для RaspberryPI. Все RaspberryPi OS основаны на debian. А Ubuntu - это самый популярный дистрибутив как на сервере, так и среди Linux десктопов.</li>
+<li>поддержка двух архитектур: armhf и amd64. В будущем планируется добавить arm64.</li>
+<li>репозиторий должен быть самодостаточный. Это значит, что все зависимости должны устанавливаться либо из центрального репозитория, либо находится в r2cloud репозитории.</li>
+</ul>
+<h2 id="поддержка-разных-дистрибутивов">Поддержка разных дистрибутивов</h2>
+<p>Самый, наверное, главный вопрос: &ldquo;а зачем вообще явно делать поддержку разных дистрибутивов&rdquo;? Ubuntu сделан на основе Debian, поэтому достаточно было бы поддерживать Debian разных версий.</p>
+<p>Но чем больше я пытался ответить на этот вопрос, тем больше убеждался, что явно разделять дистрибутивы и их версии - это правильное решение.</p>
+<h3 id="зависимости">Зависимости</h3>
+<p>Самое очевидное преимущество разных версий дистрибутивов - возможность гибко управлять зависимостями. Например, есть такая библиотека <a href="https://github.com/libcheck/check">check</a>. Эта библиотека для создания юнит тестов на Си. Если ставить её через brew, то поставится версия 0.15.2:</p>
+<p><img src="/img/r2cloud-apt/2.png" alt=""></p>
+<p>И в версии 0.15.2 есть метод <code>ck_assert_ptr_nonnull</code>. Весьма удобный метод для того, чтобы проверять выделена ли память. Однако, при попытке собрать приложение в Ubuntu, будет возникать ошибка: метод <code>ck_assert_ptr_nonnull</code> не найден. А всё из-за того, что в Ubuntu bionic версия библиотеки 0.10.0. И там этого метода ещё нет.</p>
+<p>Эту проблему можно решить несколькими способами:</p>
+<ol>
+<li>Не использовать метод <code>ck_assert_ptr_nonnull</code> и поддерживать минимальную версию check</li>
+<li>Создать отдельный бранч для конкретного дистрибутива, в котором использовать новый метод</li>
+<li>Использовать <code>#if CHECK_VERSION &gt;= 0.11</code> в исходном коде и превратить его в наслоение разных препроцессорных инструкций</li>
+<li>Запаковать check нужной версии в собственный репозиторий и поставлять его вместе с приложением</li>
+</ol>
+<p>Понятное дело, для юнит-тестов 2, 3 и 4 - это перебор. И в моём случае я, скрепя сердцем, переписал юнит-тесты без использования <code>ck_assert_ptr_nonnull</code>. Но для других более важных библиотек, такой способ может и не подойти.</p>
+<p>Например, библиотеку volk мне пришлось компилировать и загружать в свой репозиторий.</p>
+<h3 id="компиляция">Компиляция</h3>
+<p>Компиляция - это ещё один рассадник несовместимости версий и операционных систем. Если приложение скомпилировано более новой версией gcc, то оно вряд ли запустится на операционной системе, где стоит более старая версия.</p>
+<p>На практике мне не удалось найти такие пакеты, которые бы запускались на одной версии дистрибутива и не запускались на другой. Но это лишь значит, что я видел недостаточное количество пакетов.</p>
+<h2 id="дизайн-apt-репозитория">Дизайн APT репозитория</h2>
+<p>Итак, с поддержкой разных версий дистрибутивов определились. Теперь настала очередь выяснить, а как, собственно, это можно сделать.</p>
+<p>Для r2cloud APT репозитория я выбрал следующую схему:</p>
+<ul>
+<li>хостинг - S3</li>
+<li>каждый дистрибутив имеет кодовое имя, которое делается подпапкой</li>
+<li>каждая поддерживаемая архитектура - это подпапка в дистрибутиве</li>
+<li>компонент всегда один - &ldquo;main&rdquo;</li>
+</ul>
+<p>Получилось нечто такое:</p>
+<p><img src="/img/r2cloud-apt/3.png" alt=""></p>
+<p>Тут важно заметить, что непосредственно бинарники могут быть переиспользованы между разными дистрибутивами. Они находятся в отдельной директории <code>pool</code> и их можно идентифицировать по имени, версии, компоненту и архитектуре. Вообще, это сделано специально, чтобы уменьшить размер директории <code>pool</code>. Ведь для того, чтобы перенести бинарник в более новые дистрибутивы, достаточно добавить его имя в файл Packages. Однако, это может быть проблемой, если нужно выпускать бинарник не совместимый с предыдущей версией ОС.</p>
+<p>Чтобы решить эту проблему, Debian-сообщество рекомендует добавлять название дистрибутива в версию:</p>
+<pre><code>0.6.5-1~stretch
+</code></pre><p>Но это может сработать не для всех пакетов, а для тех, которые собираются с source format=quilt. Например, <a href="https://github.com/osmocom/rtl-sdr/blob/master/debian/source/format">rtl-sdr</a> содержит source format=native, так что мне пришлось делать <a href="https://github.com/dernasherbrezon/rtl-sdr">собственный форк</a>.</p>
+<h2 id="сборка-пакетов">Сборка пакетов</h2>
+<p>Из-за того, что появилось множество различных версий дистрибутивов, сборка сильно усложнилась. Единственным правильным способом собрать пакет под определённую версию ОС будет сборка именно в этой версии ОС.</p>
+<p>Чтобы хоть как-то облегчить процесс, я накупил несколько флеш карт и установил на каждую из них свою версию дистрибутива:</p>
+<p><img src="/img/r2cloud-apt/4.png" alt=""></p>
+<p>Как только мне нужно собрать пакет под конкретную версию ОС, я вставляю нужную флеш карту в RaspberryPI и собираю пакет.</p>
+<p>Для сборки под Ubuntu я решил пойти немного другим путём - использовать виртуалки. Они достаточно дешёвые и не нужно держать дома ещё одну железку. Достаточно создать виртуалку с поминутной оплатой и запустить там билд.</p>
+<h2 id="armhf-vs-arm64">armhf vs arm64</h2>
+<p>Больше всего проблем я получил, собирая volk. Эта библиотека использует ассемблерный код и интристики для того, чтобы ускорять выполнение разных DSP преобразований. Я уже <a href="https://dernasherbrezon.com/posts/simd-optimization/">писал недавно</a> о том, как мне удалось её ускорить. Так вот, сборка под RaspberryPI подарила мне много новых ощущений.</p>
+<p>Во-первых, в Debian есть две разные архитектуры для 32битного ARM и 64битного ARM. Они называются соответственно armhf и arm64. Собранные пакеты для armhf находятся в разделе binary-armhf, для arm64 - в binary-arm64. Пока всё просто.</p>
+<p>Во-вторых, в ARM есть такое расширение - NEON. Это расширение добавляет SIMD операции, с помощью которых можно в несколько раз ускорить приложение. И volk очень активно их использует. Но они не включены по умолчанию в RaspberryPI OS! Поэтому компиляция volk просто игнорирует NEON и производит не самый оптимальный код. Почему разработчики RaspberryPI по-умолчанию не включают NEON для меня загадка. Ведь они точно знают какой процессор стоит у них на плате. И все процессоры в RaspberryPI имеют это расширение.</p>
+<p>В-третьих, RaspberryPI OS существует только для armhf. Именно поэтому, запуская компиляцию на RaspberryPI 4, где стоит процессор с arm64, я получаю пакет для armhf. Однако, volk, при компиляции игнорирует <code>dpkg --print-architecture</code> и определяет процессор как arm64! Он производит код для arm64, тот помещается в пакет для armhf, и RaspberryPI 3 не может его запустить. Бардак.</p>
+<p>На поиск и решение всех этих особенностей у меня ушло несколько недель.</p>
+<h2 id="подключение-apt-репозитория">Подключение APT репозитория</h2>
+<p>Но зато подключение репозитория происходит в три строчки:</p>
+<pre><code>sudo apt-get install dirmngr lsb-release
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A5A70917
+sudo bash -c &quot;echo \&quot;deb http://s3.amazonaws.com/r2cloud $(lsb_release --codename --short) main\&quot; &gt; /etc/apt/sources.list.d/r2cloud.list&quot;
+</code></pre><p>Самая важная часть - это <code>$(lsb_release --codename --short)</code>. Я просто беру кодовое имя текущей операционной системы и подключаю соответствующую систему из r2cloud репозитория.</p>
+<h2 id="apt-html">apt-html</h2>
+<p>Количество поддерживаемых дистрибутивов и пакетов стало таким большим, что мне пришлось написать специальную программу - <a href="https://github.com/dernasherbrezon/apt-html">apt-html</a>. Это простая консольная утилита, которая генерирует красивую html страницу со списком пакетов в APT репозитории.</p>
+<p>Запускается достаточно просто:</p>
+<pre><code>java -jar ./target/apt-html.jar --url http://s3.amazonaws.com/r2cloud --include-arch armhf,amd64 --include-component main --include-codename stretch,bionic,buster,focal --include-package sdr-server,libcpu-features-dev,libvolk2-bin,libvolk2.4-dbgsym,libvolk2.4,librtlsdr0,librtlsdr-dev,librtlsdr0-dbgsym,libiio,plutosdr,r2cloud-jdk,r2cloud-ui,rtl-sdr,wxtoimg,r2cloud --output-dir src/main/resources/
+</code></pre><p>На вход подаётся URL APT репозитория, список архитектур для включения в отчёт, список пакетов, список дистрибутивов, а на выходе получается вот такая <a href="https://r2server.ru/apt.html">симпатичная страничка</a>:</p>
+<p><img src="/img/r2cloud-apt/1.png" alt=""></p>
+<h2 id="выводы">Выводы</h2>
+<p>Всё это упражнение в создании APT репозитория заняло у меня несколько недель. И это при том, что последние несколько лет я активно пишу всевозможные инструменты для управления apt репозиториями. Я не думаю, что разработчики Debian сознательно сделали систему такой сложной и запутанной. Скорее всего, со временем она стала обрастать множеством фич и опций, что превратило её в такую, какая она сейчас есть. Несмотря на это, я планирую и дальше развивать r2cloud APT репозиторий и добавлять туда разные полезные пакеты. Ведь это единственный простой способ для конечного пользователя взять и установить программу.</p>
+<p>Пара идей на будущее:</p>
+<ul>
+<li>добавить поддержку arm64</li>
+<li>создать баг или pull request в RaspberryPI OS, чтобы включить опцию GCC &ldquo;-mfpu=neon&rdquo; по-умолчанию</li>
+<li>возможно, создать rack из нескольких RaspberryPI и похожих плат на Intel, чтобы сделать небольшую билд ферму</li>
+</ul>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/apt/'>apt</a>, <a class='tag' href='/tags/ubuntu/'>ubuntu</a>, <a class='tag' href='/tags/deb/'>deb</a>, <a class='tag' href='/tags/c/'>c</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/dynamic-libraries-rpath/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Динамические библиотеки, RPATH и Conan</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2021 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+
+</body>
+
+</html>
+

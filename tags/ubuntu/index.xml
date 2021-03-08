@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/ubuntu/</link>
     <description>Recent content in ubuntu on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 24 Mar 2020 18:40:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Mar 2021 20:45:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Создание и поддержка своего собственного APT репозитория</title>
+      <link>https://dernasherbrezon.com/posts/r2cloud-apt/</link>
+      <pubDate>Sun, 07 Mar 2021 20:45:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/r2cloud-apt/</guid>
+      <description>С появлением нового проекта - sdr-server, у меня стало слишком много приложений, которые нужно как-то устанавливать. И всё бы ничего, но каждое приложение в свою очередь требует разных системных библиотек. А эти системные библиотеки не всегда нужных версий. А если сюда добавить разные версии дистрибутивов и разные архитектуры процессоров, то начинается комбинаторный взрыв, и всё становится очень запутанным.
+Для решения этой проблемы можно было бы сделать докер образа и на этом успокоится.</description>
+    </item>
+    
     <item>
       <title>Создание и публикация приложения в Launchpad</title>
       <link>https://dernasherbrezon.com/posts/publishing-to-launchpad/</link>
