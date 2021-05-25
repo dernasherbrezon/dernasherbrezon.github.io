@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Давненько я ничего не писал в свой блог и на это было несколько причин. Во-первых, я полностью погрузился в написание своего нового проекта - sdr-modem. Не сказать, что он простой, но он гармонично развивает идеи sdr-server и не содержит того, о чём хотелось бы написать. Во-вторых, ничего особенного не происходит.
+Тем не менее, хочется написать небольшую заметку о том, как я измерял производительность функции sincos, и что из этого получилось.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Оптимизация sincos функции • dernasherbrezon'>
+<meta property='og:description' content='Давненько я ничего не писал в свой блог и на это было несколько причин. Во-первых, я полностью погрузился в написание своего нового проекта - sdr-modem. Не сказать, что он простой, но он гармонично развивает идеи sdr-server и не содержит того, о чём хотелось бы написать. Во-вторых, ничего особенного не происходит.
+Тем не менее, хочется написать небольшую заметку о том, как я измерял производительность функции sincos, и что из этого получилось.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/sincos-tuning/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='SIMD'><meta property='article:tag' content='dsp'><meta property='article:published_time' content='2021-05-25T17:05:18&#43;01:00'/><meta property='article:modified_time' content='2021-05-25T17:05:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Оптимизация sincos функции • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/sincos-tuning/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0222222222222221em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0666666666666667em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0444444444444445em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0222222222222221em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.0666666666666667em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0222222222222221em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.1777777777777778em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0666666666666667em'>deb</a>
+      </li><li>
+        <a href='/tags/design/' style='font-size:1.0444444444444445em'>design</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.0888888888888888em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.0666666666666667em'>embedded</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0222222222222221em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0222222222222221em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0666666666666667em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0444444444444445em'>geotiff</a>
+      </li><li>
+        <a href='/tags/glassfish/' style='font-size:1.0222222222222221em'>glassfish</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0666666666666667em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0222222222222221em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0444444444444445em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0444444444444445em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1111111111111112em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0666666666666667em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0444444444444445em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0444444444444445em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0444444444444445em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0222222222222221em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1111111111111112em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0888888888888888em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.0222222222222221em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0444444444444445em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0222222222222221em'>openapi</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0222222222222221em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0444444444444445em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0444444444444445em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1777777777777778em'>radio</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.2em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0222222222222221em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0222222222222221em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0222222222222221em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2222222222222223em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0444444444444445em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satellite/' style='font-size:1.288888888888889em'>satellite</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0444444444444445em'>satnogs</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0222222222222221em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.0444444444444445em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0444444444444445em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0222222222222221em'>spring</a>
+      </li><li>
+        <a href='/tags/spring-mvc/' style='font-size:1em'>Spring-mvc</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0222222222222221em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0222222222222221em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0222222222222221em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0888888888888888em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0444444444444445em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0222222222222221em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1555555555555554em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0666666666666667em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0444444444444445em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0444444444444445em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0444444444444445em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0222222222222221em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0444444444444445em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.2222222222222223em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0444444444444445em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3333333333333335em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1777777777777778em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0444444444444445em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Оптимизация sincos функции</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2021-05-25T17:05:18&#43;01:00'>25 May 2021</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Давненько я ничего не писал в свой блог и на это было несколько причин. Во-первых, я полностью погрузился в написание своего нового проекта - <a href="https://github.com/dernasherbrezon/sdr-modem">sdr-modem</a>. Не сказать, что он простой, но он гармонично развивает идеи <a href="https://github.com/dernasherbrezon/sdr-server">sdr-server</a> и не содержит того, о чём хотелось бы написать. Во-вторых, ничего особенного не происходит.</p>
+<p>Тем не менее, хочется написать небольшую заметку о том, как я измерял производительность функции sincos, и что из этого получилось.</p>
+<h2 id="sincos">sincos</h2>
+<p>Вычисление синуса и косинуса - это достаточно дорогие операции. Именно поэтому их <a href="https://stackoverflow.com/questions/18662261/fastest-implementation-of-sine-cosine-and-square-root-in-c-doesnt-need-to-b">очень часто пытаются оптимизировать</a>. Однако, иногда нужно посчитать одновременно и синус и косинус. Например, при частотной модуляции сигнала для каждого значения сигнала нужно увеличивать фазу и считать для неё синус и косинус. Невероятное совпадение, но это как раз то, над чем я сейчас работаю. В таких случаях есть очень странное ощущение, что вычислив синус угла, можно чуть быстрее посчитать косинус. И, действительно, в библиотеке C есть отдельная функция для этого - <a href="https://linux.die.net/man/3/sincos">sincos</a>. Она позволяет вычислить одновременно синус и косинус угла.</p>
+<p>Однако, к тому моменту как я нашёл эту функцию, я знал ещё как минимум о двух других реализациях - volk и приближённое вычисление в gnuradio. При таком разнообразии подходов глаза начинают разбегаться и нужно срочно измерять! Что я и сделал, написав небольшое приложение для каждой из реализаций.</p>
+<h2 id="наивная-реализация">Наивная реализация</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;math.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_naive</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        output[i] <span style="color:#f92672">=</span> cosf(input[i]) <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> sinf(input[i]);
+    }
+}
+</code></pre></div><p>Ничего особенного, просто вычисление синуса и косинуса каждый раз. Здесь и далее все массивы заранее созданы и проинициализированы.</p>
+<h2 id="стандартная-функция-sincos">Стандартная функция sincos</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;math.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_sincos</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    <span style="color:#66d9ef">float</span> real;
+    <span style="color:#66d9ef">float</span> imag;
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        __sincosf(input[i], <span style="color:#f92672">&amp;</span>real, <span style="color:#f92672">&amp;</span>imag);
+        output[i] <span style="color:#f92672">=</span> real <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> imag;
+    }
+}
+</code></pre></div><p><code>__sincosf</code> берёт углы один за другим и последовательно рассчитывает значение. Результат кладётся в выходной массив комплексных чисел.</p>
+<p>Когда я писал этот метод, то случайно навёл курсор на функцию почитать документацию и увидел интересное заявление:</p>
+<p><img src="/img/sincos-tuning/1.png" alt=""></p>
+<p>Оказывается в MacOS есть специальная библиотека для работы с SIMD инструкциями и она поддерживает sincos!</p>
+<h2 id="sincos-из-библиотеки-accelerate">sincos из библиотеки Accelerate</h2>
+<p>Accelerate - это Framework, если использовать терминологию Apple. Подключается он просто:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">add_compile_options(<span style="color:#e6db74">&#34;-F/Library/Frameworks/&#34;</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>link_libraries(<span style="color:#e6db74">&#34;-F/Library/Frameworks/&#34;</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>find_library(<span style="color:#e6db74">LIB_ACCELERATE</span> <span style="color:#e6db74">accelerate</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>target_link_libraries(<span style="color:#e6db74">sdr_modemLib</span> <span style="color:#f92672">${</span>LIB_ACCELERATE<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>После этого его можно использовать:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;Accelerate/Accelerate.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_accelerate</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>sin, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>cos, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    vvsincosf(sin, cos, input, (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>len);
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        output[i] <span style="color:#f92672">=</span> cos[i] <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> sin[i];
+    }
+}
+</code></pre></div><p>Эта функция возвращает отдельно массив синусов и массив косинусов, так что всё равно придётся выполнять de-interleaving, чтобы получить массив комплексных чисел.</p>
+<h2 id="volk">volk</h2>
+<p>В <a href="https://github.com/gnuradio/volk">volk</a> тоже есть функции для работы с синусом и косинусом. Однако, это две совершенно разные функции, которые работают независимо. Но это не беда:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;volk/volk.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_volk</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>sin, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>cos, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    volk_32f_sin_32f(sin, input, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>) len);
+    volk_32f_cos_32f(cos, input, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>) len);
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        output[i] <span style="color:#f92672">=</span> cos[i] <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> sin[i];
+    }
+}
+</code></pre></div><p>Вызываем сначала расчёт синусов, затем косинусов, а в конце de-interleaving.</p>
+<h2 id="приближённое-вычисление-и-таблицы-поиска">Приближённое вычисление и таблицы поиска</h2>
+<p>Этот метод активно используется в <a href="https://github.com/gnuradio/gnuradio/blob/1a0be2e6b54496a8136a64d86e372ab219c6559b/gnuradio-runtime/include/gnuradio/fxpt.h#L75">gnuradio</a>. Насколько я понял, они сначала конвертируют угол в целочисленное значение, а потом хитрым способом ищут в <a href="https://github.com/gnuradio/gnuradio/blob/1a0be2e6b54496a8136a64d86e372ab219c6559b/gnuradio-runtime/include/gnuradio/fxpt.h#L79">таблице поиска</a>. Код из gnuradio не так-то просто добавить в проект, поэтому я скопировал его как-есть.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cals_gnuradio</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    <span style="color:#66d9ef">float</span> oi, oq;
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">float</span> d_phase <span style="color:#f92672">=</span> fmod(input[i] <span style="color:#f92672">+</span> PI, <span style="color:#ae81ff">2.0f</span> <span style="color:#f92672">*</span> PI) <span style="color:#f92672">-</span> PI;
+        int32_t angle <span style="color:#f92672">=</span> float_to_fixed(d_phase);
+        gnuradio_sincos(angle, <span style="color:#f92672">&amp;</span>oq, <span style="color:#f92672">&amp;</span>oi);
+        output[i] <span style="color:#f92672">=</span> oi <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> oq;
+    }
+}
+</code></pre></div><h2 id="результаты">Результаты</h2>
+<p>Результат выполнения программы для каждого из метода:</p>
+<table>
+	<thead>
+		<tr>
+			<th>Метод</th>
+			<th>Время выполнения</th>
+			<th>real part</th>
+			<th>imag part</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Наивная реализация</td>
+			<td>0.009063</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>Стандартная функция sincos</td>
+			<td>0.025624</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>sincos из библиотеки Accelerate</td>
+			<td>0.009075</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>volk</td>
+			<td>0.007843</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>Приближённое вычисление и таблицы поиска</td>
+			<td>0.050738</td>
+			<td>0.838890</td>
+			<td>-0.544300</td>
+		</tr>
+	</tbody>
+</table>
+<p>Второй столбец показывает время выполнения в попугаях на случайно большом количестве входящих данных. Третий и четвёртый столбцы - это значение комплексного числа из результата по случайному индексу. Я добавил его просто, чтобы убедиться в одинаковых результатах.</p>
+<p>Как видно из времени выполнения, самый быстрый способ - это volk. Он почти в 3.2 раза быстрее стандартной библиотеки. И даже быстрее Accelerate.</p>
+<p>Ещё один удивительный факт - это крайне медленный способ приближённого расчёта. Я бы ожидал, что он на порядок быстрее всех остальных, но на практике он в 7 раз медленнее самого быстрого способа! Я выполнил программу несколько раз и каждый раз получил примерно одинаковые результаты. Так что, это вряд ли связано с загрузкой системы.</p>
+<p>Функция sincos значительно проигрывает наивной реализации. Я не знаю почему.</p>
+<p>Несмотря на то, что Accelerate не самый быстрый способ рассчёта sincos (примерно в 2.8 раз быстрее стандартной функции), я был приятно удивлён. Буквально за пару строчек кода я получил стандартную библиотеку, которая неплохо оптимизирована для MacOS. А если пойти на <a href="https://developer.apple.com/documentation/accelerate">официальный сайт</a>, то можно увидеть достаточно интересный список поддерживаемых функций. Помимо DSP, эта библиотека поддерживает работу с нейронными сетями, векторами, матрицами, линейной алгеброй. Зная, насколько Apple заморачивается с поддержкой нейронных сетей в своих процессорах, я представляю насколько круто иметь железо и библиотеку работающих в тандеме. Не удивительно, что софт в MacOS по ощущениям просто летает.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/c/'>c</a>, <a class='tag' href='/tags/simd/'>SIMD</a>, <a class='tag' href='/tags/dsp/'>dsp</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/r2cloud-apt/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Создание и поддержка своего собственного APT репозитория</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2021 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+
+</body>
+
+</html>
+

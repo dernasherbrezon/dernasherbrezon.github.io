@@ -7,10 +7,148 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 07 Mar 2021 20:45:18 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 May 2021 17:05:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Оптимизация sincos функции</title>
+      <link>https://dernasherbrezon.com/posts/sincos-tuning/</link>
+      <pubDate>Tue, 25 May 2021 17:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sincos-tuning/</guid>
+      <description>Давненько я ничего не писал в свой блог и на это было несколько причин. Во-первых, я полностью погрузился в написание своего нового проекта - sdr-modem. Не сказать, что он простой, но он гармонично развивает идеи sdr-server и не содержит того, о чём хотелось бы написать. Во-вторых, ничего особенного не происходит.
+Тем не менее, хочется написать небольшую заметку о том, как я измерял производительность функции sincos, и что из этого получилось.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Оптимизация sincos функции</h1></header>
+      		<div class='container entry-content'>
+  <p>Давненько я ничего не писал в свой блог и на это было несколько причин. Во-первых, я полностью погрузился в написание своего нового проекта - <a href="https://github.com/dernasherbrezon/sdr-modem">sdr-modem</a>. Не сказать, что он простой, но он гармонично развивает идеи <a href="https://github.com/dernasherbrezon/sdr-server">sdr-server</a> и не содержит того, о чём хотелось бы написать. Во-вторых, ничего особенного не происходит.</p>
+<p>Тем не менее, хочется написать небольшую заметку о том, как я измерял производительность функции sincos, и что из этого получилось.</p>
+<h2 id="sincos">sincos</h2>
+<p>Вычисление синуса и косинуса - это достаточно дорогие операции. Именно поэтому их <a href="https://stackoverflow.com/questions/18662261/fastest-implementation-of-sine-cosine-and-square-root-in-c-doesnt-need-to-b">очень часто пытаются оптимизировать</a>. Однако, иногда нужно посчитать одновременно и синус и косинус. Например, при частотной модуляции сигнала для каждого значения сигнала нужно увеличивать фазу и считать для неё синус и косинус. Невероятное совпадение, но это как раз то, над чем я сейчас работаю. В таких случаях есть очень странное ощущение, что вычислив синус угла, можно чуть быстрее посчитать косинус. И, действительно, в библиотеке C есть отдельная функция для этого - <a href="https://linux.die.net/man/3/sincos">sincos</a>. Она позволяет вычислить одновременно синус и косинус угла.</p>
+<p>Однако, к тому моменту как я нашёл эту функцию, я знал ещё как минимум о двух других реализациях - volk и приближённое вычисление в gnuradio. При таком разнообразии подходов глаза начинают разбегаться и нужно срочно измерять! Что я и сделал, написав небольшое приложение для каждой из реализаций.</p>
+<h2 id="наивная-реализация">Наивная реализация</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;math.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_naive</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        output[i] <span style="color:#f92672">=</span> cosf(input[i]) <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> sinf(input[i]);
+    }
+}
+</code></pre></div><p>Ничего особенного, просто вычисление синуса и косинуса каждый раз. Здесь и далее все массивы заранее созданы и проинициализированы.</p>
+<h2 id="стандартная-функция-sincos">Стандартная функция sincos</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;math.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_sincos</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    <span style="color:#66d9ef">float</span> real;
+    <span style="color:#66d9ef">float</span> imag;
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        __sincosf(input[i], <span style="color:#f92672">&amp;</span>real, <span style="color:#f92672">&amp;</span>imag);
+        output[i] <span style="color:#f92672">=</span> real <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> imag;
+    }
+}
+</code></pre></div><p><code>__sincosf</code> берёт углы один за другим и последовательно рассчитывает значение. Результат кладётся в выходной массив комплексных чисел.</p>
+<p>Когда я писал этот метод, то случайно навёл курсор на функцию почитать документацию и увидел интересное заявление:</p>
+<p><img src="/img/sincos-tuning/1.png" alt=""></p>
+<p>Оказывается в MacOS есть специальная библиотека для работы с SIMD инструкциями и она поддерживает sincos!</p>
+<h2 id="sincos-из-библиотеки-accelerate">sincos из библиотеки Accelerate</h2>
+<p>Accelerate - это Framework, если использовать терминологию Apple. Подключается он просто:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">add_compile_options(<span style="color:#e6db74">&#34;-F/Library/Frameworks/&#34;</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>link_libraries(<span style="color:#e6db74">&#34;-F/Library/Frameworks/&#34;</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>find_library(<span style="color:#e6db74">LIB_ACCELERATE</span> <span style="color:#e6db74">accelerate</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>target_link_libraries(<span style="color:#e6db74">sdr_modemLib</span> <span style="color:#f92672">${</span>LIB_ACCELERATE<span style="color:#f92672">}</span>)<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>После этого его можно использовать:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;Accelerate/Accelerate.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_accelerate</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>sin, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>cos, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    vvsincosf(sin, cos, input, (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>len);
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        output[i] <span style="color:#f92672">=</span> cos[i] <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> sin[i];
+    }
+}
+</code></pre></div><p>Эта функция возвращает отдельно массив синусов и массив косинусов, так что всё равно придётся выполнять de-interleaving, чтобы получить массив комплексных чисел.</p>
+<h2 id="volk">volk</h2>
+<p>В <a href="https://github.com/gnuradio/volk">volk</a> тоже есть функции для работы с синусом и косинусом. Однако, это две совершенно разные функции, которые работают независимо. Но это не беда:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;volk/volk.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">calc_volk</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>sin, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>cos, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    volk_32f_sin_32f(sin, input, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>) len);
+    volk_32f_cos_32f(cos, input, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>) len);
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        output[i] <span style="color:#f92672">=</span> cos[i] <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> sin[i];
+    }
+}
+</code></pre></div><p>Вызываем сначала расчёт синусов, затем косинусов, а в конце de-interleaving.</p>
+<h2 id="приближённое-вычисление-и-таблицы-поиска">Приближённое вычисление и таблицы поиска</h2>
+<p>Этот метод активно используется в <a href="https://github.com/gnuradio/gnuradio/blob/1a0be2e6b54496a8136a64d86e372ab219c6559b/gnuradio-runtime/include/gnuradio/fxpt.h#L75">gnuradio</a>. Насколько я понял, они сначала конвертируют угол в целочисленное значение, а потом хитрым способом ищут в <a href="https://github.com/gnuradio/gnuradio/blob/1a0be2e6b54496a8136a64d86e372ab219c6559b/gnuradio-runtime/include/gnuradio/fxpt.h#L79">таблице поиска</a>. Код из gnuradio не так-то просто добавить в проект, поэтому я скопировал его как-есть.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cals_gnuradio</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, size_t len, <span style="color:#66d9ef">float</span> complex <span style="color:#f92672">*</span>output, size_t output_len) {
+    <span style="color:#66d9ef">float</span> oi, oq;
+    <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">float</span> d_phase <span style="color:#f92672">=</span> fmod(input[i] <span style="color:#f92672">+</span> PI, <span style="color:#ae81ff">2.0f</span> <span style="color:#f92672">*</span> PI) <span style="color:#f92672">-</span> PI;
+        int32_t angle <span style="color:#f92672">=</span> float_to_fixed(d_phase);
+        gnuradio_sincos(angle, <span style="color:#f92672">&amp;</span>oq, <span style="color:#f92672">&amp;</span>oi);
+        output[i] <span style="color:#f92672">=</span> oi <span style="color:#f92672">+</span> I <span style="color:#f92672">*</span> oq;
+    }
+}
+</code></pre></div><h2 id="результаты">Результаты</h2>
+<p>Результат выполнения программы для каждого из метода:</p>
+<table>
+	<thead>
+		<tr>
+			<th>Метод</th>
+			<th>Время выполнения</th>
+			<th>real part</th>
+			<th>imag part</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Наивная реализация</td>
+			<td>0.009063</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>Стандартная функция sincos</td>
+			<td>0.025624</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>sincos из библиотеки Accelerate</td>
+			<td>0.009075</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>volk</td>
+			<td>0.007843</td>
+			<td>0.838675</td>
+			<td>-0.544632</td>
+		</tr>
+		<tr>
+			<td>Приближённое вычисление и таблицы поиска</td>
+			<td>0.050738</td>
+			<td>0.838890</td>
+			<td>-0.544300</td>
+		</tr>
+	</tbody>
+</table>
+<p>Второй столбец показывает время выполнения в попугаях на случайно большом количестве входящих данных. Третий и четвёртый столбцы - это значение комплексного числа из результата по случайному индексу. Я добавил его просто, чтобы убедиться в одинаковых результатах.</p>
+<p>Как видно из времени выполнения, самый быстрый способ - это volk. Он почти в 3.2 раза быстрее стандартной библиотеки. И даже быстрее Accelerate.</p>
+<p>Ещё один удивительный факт - это крайне медленный способ приближённого расчёта. Я бы ожидал, что он на порядок быстрее всех остальных, но на практике он в 7 раз медленнее самого быстрого способа! Я выполнил программу несколько раз и каждый раз получил примерно одинаковые результаты. Так что, это вряд ли связано с загрузкой системы.</p>
+<p>Функция sincos значительно проигрывает наивной реализации. Я не знаю почему.</p>
+<p>Несмотря на то, что Accelerate не самый быстрый способ рассчёта sincos (примерно в 2.8 раз быстрее стандартной функции), я был приятно удивлён. Буквально за пару строчек кода я получил стандартную библиотеку, которая неплохо оптимизирована для MacOS. А если пойти на <a href="https://developer.apple.com/documentation/accelerate">официальный сайт</a>, то можно увидеть достаточно интересный список поддерживаемых функций. Помимо DSP, эта библиотека поддерживает работу с нейронными сетями, векторами, матрицами, линейной алгеброй. Зная, насколько Apple заморачивается с поддержкой нейронных сетей в своих процессорах, я представляю насколько круто иметь железо и библиотеку работающих в тандеме. Не удивительно, что софт в MacOS по ощущениям просто летает.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Создание и поддержка своего собственного APT репозитория</title>
