@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>plutosdr on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/plutosdr/</link>
+    <description>Recent content in plutosdr on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 25 Jun 2021 10:58:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/plutosdr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Передача сигнала с помощью plutosdr</title>
+      <link>https://dernasherbrezon.com/posts/plutosdr-tx/</link>
+      <pubDate>Fri, 25 Jun 2021 10:58:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/plutosdr-tx/</guid>
+      <description>Последние несколько месяцев я напряжённо работаю над своим проектом sdr-modem. Он представляет собой небольшой TCP сервер, который получает массив байт от клиента и передаёт их с помощью радио сигнала в эфир. Также он может и получать сигнал, декодировать и отправлять клиентам поток байт.
+Пару недель назад я наконец-то дописал основную функциональность и тесты. Пришло время протестировать его работу в реальных условиях. Для этого я сделал небольшой тестовый стенд:
+ java приложение соединяется с sdr-modem по TCP и отправляет массив байтов.</description>
+    </item>
+    
+  </channel>
+</rss>
