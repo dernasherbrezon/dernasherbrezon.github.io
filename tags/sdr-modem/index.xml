@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sdr-modem on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/sdr-modem/</link>
+    <description>Recent content in sdr-modem on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 06 Aug 2021 09:47:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/sdr-modem/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Задержка в sdr-modem</title>
+      <link>https://dernasherbrezon.com/posts/sdr-modem-latency/</link>
+      <pubDate>Fri, 06 Aug 2021 09:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sdr-modem-latency/</guid>
+      <description>В предыдущей статье я планировал реализовать не только отправку, но и приём сигнала с помощью plutosdr. Спустя месяц и несколько важных рефакторингов, я сделал всё, что хотел. Теперь можно напрямую сравнивать приём через plutosdr и через sdr-server. Понятное дело, через plutosdr будет намного быстрее. Мне же хотелось узнать насколько быстрее и померить эту задержку.
+Описание стэнда Алгоритм тестирования для plutosdr и sdr-server выглядит следущим образом:
+ создать сообщение отправить в sdr-modem записать время отправки принять это же сообщение из sdr-modem найти разницу между временем отправки и получения  Для того, чтобы отправить сообщение, его нужно закодировать во фрейм.</description>
+    </item>
+    
+    <item>
+      <title>Передача сигнала с помощью plutosdr</title>
+      <link>https://dernasherbrezon.com/posts/plutosdr-tx/</link>
+      <pubDate>Fri, 25 Jun 2021 10:58:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/plutosdr-tx/</guid>
+      <description>Последние несколько месяцев я напряжённо работаю над своим проектом sdr-modem. Он представляет собой небольшой TCP сервер, который получает массив байт от клиента и передаёт их с помощью радио сигнала в эфир. Также он может и получать сигнал, декодировать и отправлять клиентам поток байт.
+Пару недель назад я наконец-то дописал основную функциональность и тесты. Пришло время протестировать его работу в реальных условиях. Для этого я сделал небольшой тестовый стенд:
+ java приложение соединяется с sdr-modem по TCP и отправляет массив байтов.</description>
+    </item>
+    
+    <item>
+      <title>Оптимизация sincos функции</title>
+      <link>https://dernasherbrezon.com/posts/sincos-tuning/</link>
+      <pubDate>Tue, 25 May 2021 17:05:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sincos-tuning/</guid>
+      <description>Давненько я ничего не писал в свой блог и на это было несколько причин. Во-первых, я полностью погрузился в написание своего нового проекта - sdr-modem. Не сказать, что он простой, но он гармонично развивает идеи sdr-server и не содержит того, о чём хотелось бы написать. Во-вторых, ничего особенного не происходит.
+Тем не менее, хочется написать небольшую заметку о том, как я измерял производительность функции sincos, и что из этого получилось.</description>
+    </item>
+    
+  </channel>
+</rss>

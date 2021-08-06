@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
     <description>Recent content in rtlsdr on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 20 Jun 2020 17:30:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 Aug 2021 09:47:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Задержка в sdr-modem</title>
+      <link>https://dernasherbrezon.com/posts/sdr-modem-latency/</link>
+      <pubDate>Fri, 06 Aug 2021 09:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sdr-modem-latency/</guid>
+      <description>В предыдущей статье я планировал реализовать не только отправку, но и приём сигнала с помощью plutosdr. Спустя месяц и несколько важных рефакторингов, я сделал всё, что хотел. Теперь можно напрямую сравнивать приём через plutosdr и через sdr-server. Понятное дело, через plutosdr будет намного быстрее. Мне же хотелось узнать насколько быстрее и померить эту задержку.
+Описание стэнда Алгоритм тестирования для plutosdr и sdr-server выглядит следущим образом:
+ создать сообщение отправить в sdr-modem записать время отправки принять это же сообщение из sdr-modem найти разницу между временем отправки и получения  Для того, чтобы отправить сообщение, его нужно закодировать во фрейм.</description>
+    </item>
+    
     <item>
       <title>Тестирование 70см фильтра с помощью RTL-SDR</title>
       <link>https://dernasherbrezon.com/posts/test-70cm-filter/</link>

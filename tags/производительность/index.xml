@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
     <description>Recent content in производительность on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 12 Feb 2021 22:30:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 Aug 2021 09:47:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Задержка в sdr-modem</title>
+      <link>https://dernasherbrezon.com/posts/sdr-modem-latency/</link>
+      <pubDate>Fri, 06 Aug 2021 09:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sdr-modem-latency/</guid>
+      <description>В предыдущей статье я планировал реализовать не только отправку, но и приём сигнала с помощью plutosdr. Спустя месяц и несколько важных рефакторингов, я сделал всё, что хотел. Теперь можно напрямую сравнивать приём через plutosdr и через sdr-server. Понятное дело, через plutosdr будет намного быстрее. Мне же хотелось узнать насколько быстрее и померить эту задержку.
+Описание стэнда Алгоритм тестирования для plutosdr и sdr-server выглядит следущим образом:
+ создать сообщение отправить в sdr-modem записать время отправки принять это же сообщение из sdr-modem найти разницу между временем отправки и получения  Для того, чтобы отправить сообщение, его нужно закодировать во фрейм.</description>
+    </item>
+    
     <item>
       <title>Оптимизация SIMD кода</title>
       <link>https://dernasherbrezon.com/posts/simd-optimization/</link>
