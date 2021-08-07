@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>prometheus on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/prometheus/</link>
+    <description>Recent content in prometheus on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 07 Aug 2021 06:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Мониторинг Mikrotik роутеров с помощью Prometheus</title>
+      <link>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</link>
+      <pubDate>Sat, 07 Aug 2021 06:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</guid>
+      <description>Для начала вообще пара слов о том, зачем мониторить роутеры. Роутер, как и любое другое устройство, имеет аппаратные ресурсы, которые могут закончится. Например, браузер стал медленнее открывать страницы или видео стало медленнее загружаться. Это может быть как из-за провайдера, так и из-за роутера. Возможно, к роутеру подключено слишком много устройств, и он стал медленнее, или параллельно кто-то качает слишком много - всё это может быть причиной замедления.
+Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке.</description>
+    </item>
+    
+  </channel>
+</rss>
