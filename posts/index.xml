@@ -7,10 +7,97 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 06 Aug 2021 09:47:18 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Aug 2021 06:50:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Мониторинг Mikrotik роутеров с помощью Prometheus</title>
+      <link>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</link>
+      <pubDate>Sat, 07 Aug 2021 06:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</guid>
+      <description>Для начала вообще пара слов о том, зачем мониторить роутеры. Роутер, как и любое другое устройство, имеет аппаратные ресурсы, которые могут закончится. Например, браузер стал медленнее открывать страницы или видео стало медленнее загружаться. Это может быть как из-за провайдера, так и из-за роутера. Возможно, к роутеру подключено слишком много устройств, и он стал медленнее, или параллельно кто-то качает слишком много - всё это может быть причиной замедления.
+Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Мониторинг Mikrotik роутеров с помощью Prometheus</h1></header>
+      		<div class='container entry-content'>
+  <p>Для начала вообще пара слов о том, зачем мониторить роутеры. Роутер, как и любое другое устройство, имеет аппаратные ресурсы, которые могут закончится. Например, браузер стал медленнее открывать страницы или видео стало медленнее загружаться. Это может быть как из-за провайдера, так и из-за роутера. Возможно, к роутеру подключено слишком много устройств, и он стал медленнее, или параллельно кто-то качает слишком много - всё это может быть причиной замедления.</p>
+<p>Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке. Но это лишь статичная информация, которая может и не дать полной картины происходящего. Гораздо удобнее смотреть изменение различных покателей во времени. Например, ЦПУ загружен на 80% - это хорошо и плохо? Если на графике видно, что загрузка ЦПУ совпадает с уменьшением скорости скачивания, то да, дело в ЦПУ. А если 80% загрузка держится последние несколько дней или недель, то вряд ли она связана со скоростью скачивания. Возможно, что-то ещё могло повлиять.</p>
+<h2 id="общая-схема">Общая схема</h2>
+<p>В качестве роутера я использовал <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a>. Он позволяет использовать SIM карту, чтобы подключиться к сотовой сети, и раздавать Wi-Fi.</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/mikrotik_wap_r.jpg" alt="mikrotik_wap_r"></p>
+<p>Общая схема мониторинга выглядит следующим образом:</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/schema.png" alt=""></p>
+<h2 id="mikrotik">Mikrotik</h2>
+<p>Prometheus не может напрямую читать метрики из Mikrotik. Вместо этого он обращается в специальный exporter, который выдаёт метрики в нужном формате. Mikrotik позволяет экспортировать метрики с помощью протокола <a href="https://ru.wikipedia.org/wiki/SNMP">SNMP</a>. По-умолчанию он не включён. Его можно включить следующей командой:</p>
+<pre><code>[admin@MikroTik] /snmp
+[admin@MikroTik] /snmp&gt;  set enabled yes
+</code></pre><h2 id="snmp-exporter">SNMP-exporter</h2>
+<p><a href="https://github.com/prometheus/snmp_exporter">SNMP-exporter</a> нужен для того, чтобы преобразовать метрики из SNMP формата в специальный формат, который понимает Prometheus. Устанавливается он достаточно просто:</p>
+<pre><code>wget https://github.com/prometheus/snmp_exporter/releases/download/v0.20.0/snmp_exporter-0.20.0.linux-armv7.tar.gz
+tar xzf snmp_exporter-0.20.0.linux-armv7.tar.gz
+</code></pre><p>Следующим шагом будет создание systemd сервиса, который бы автоматически стартовал на старте. Для этого нужно создать следующий файл:</p>
+<pre><code>sudo vi /etc/systemd/system/snmp_exporter.service
+</code></pre><p>Файл:</p>
+<pre><code>[Unit]
+Description=SNMP Exporter
+After=network-online.target
+
+[Service]
+User=pi
+Restart=on-failure
+ExecStart=/usr/local/bin/snmp_exporter --config.file='&lt;path to&gt;/snmp_exporter-0.20.0.linux-armv7/snmp.yml'
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><p>Нужно только внимательно указать путь к snmp.yml файлу. Этот файл содержит маппинг SNMP объектов на метрики Prometheus для разных типов устройств. Mikrotik уже есть в этом файле, так что можно использовать его как-есть.</p>
+<p>Дальше необходимо скопировать snmp_exporter:</p>
+<pre><code>sudo cp ./snmp_exporter-0.20.0.linux-armv7/snmp_exporter /usr/local/bin/snmp_exporter
+</code></pre><p>После этого стартовать сервис:</p>
+<pre><code>sudo systemctl enable snmp_exporter
+sudo systemctl start snmp_exporter
+</code></pre><p>Проверить статус сервиса можно командой:</p>
+<pre><code>sudo systemctl status snmp_exporter
+</code></pre><p>Если сервис стартовал успешно, то вывод будет следующий:</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/snmp_exporter.png" alt=""></p>
+<h2 id="prometheus">Prometheus</h2>
+<p>Все метрики будут сохраняться в <a href="https://prometheus.io">Prometheus</a>. Prometheus - это специальная база данных для хранения метрик. Его можно запустить локально, либо в облаке.</p>
+<p>Я не буду подробно описывать как настроить и стартовать Prometheus. Есть достаточно <a href="https://prometheus.io/docs/prometheus/latest/getting_started/">полная инструкция</a> как это сделать.</p>
+<p>Сейчас же достаточно настроить подключение к exporter. Это делается через основной конфиг prometheus.yaml:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  - <span style="color:#f92672">job_name</span>: <span style="color:#ae81ff">mikrotik</span>
+    <span style="color:#f92672">static_configs</span>:
+      - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;raspberrypi.local:9116&#39;</span>]
+</code></pre></div><h2 id="grafana">Grafana</h2>
+<p>Можно воспользоваться <a href="https://grafana.com/grafana/dashboards/14420">готовыми дашбордами</a> и сразу импортировать их в Grafana.</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/image.png" alt=""></p>
+<p>Однако, каждое устройство немного отличается друг от друга и большинство дашбордов ничего не покажет. Для <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a> я выбрал самые важные параметры:</p>
+<ul>
+<li>Uptime - <code>sysUpTime{instance='$instance'}/100</code></li>
+<li>Load CPU - <code>avg(hrProcessorLoad{instance='$instance'})</code></li>
+<li>Load RAM - <code>(hrStorageUsed{hrStorageIndex='65536',instance='$instance'} * 100 )/(hrStorageSize{hrStorageIndex='65536',instance='$instance'})</code></li>
+<li>Load system disk - <code>(hrStorageUsed{hrStorageIndex='131072',instance='$instance'} * 100 )/(hrStorageSize{hrStorageIndex='131072',instance='$instance'})</code></li>
+<li>In/Out bit/sec - <code>irate(ifHCInOctets{job='mikrotik',ifName=~'$Interface',instance='$instance'}[20s])*8</code></li>
+<li>RSRP (Reference Signal Received Power) уровень LTE сигнала - <code>mtxrLTEModemSignalRSRP</code></li>
+</ul>
+<p>После чего добавил панели:</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/grafana.png" alt=""></p>
+<p>Для того, чтобы добавить другие метрики, нужно сначала найти их oid (идентификатор в SNMP):</p>
+<pre><code>[admin@MikroTik] /interface lte print oid
+</code></pre><p>После этого необходимо найти oid в snmp.yaml:</p>
+<pre><code>pi@rasp-buster:~ $ grep 1.3.6.1.4.1.14988.1.1.16.1.1.4 snmp.yml -B 1
+  - name: mtxrLTEModemSignalRSRP
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.4
+</code></pre><p>Метрика с именем <code>mtxrLTEModemSignalRSRP</code> должна быть доступна в Prometheus.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Задержка в sdr-modem</title>

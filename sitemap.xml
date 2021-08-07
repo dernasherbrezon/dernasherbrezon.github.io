@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2021-08-06T09:47:18+00:00</lastmod>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
@@ -12,7 +12,22 @@
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2021-08-06T09:47:18+00:00</lastmod>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/memory/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/monitoring/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/plutosdr/</loc>
     <lastmod>2021-08-06T09:47:18+00:00</lastmod>
@@ -21,9 +36,6 @@
     <lastmod>2021-08-06T09:47:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/sdr-modem/</loc>
-    <lastmod>2021-08-06T09:47:18+00:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
     <lastmod>2021-08-06T09:47:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/sdr-modem-latency/</loc>
@@ -123,9 +135,6 @@
     <lastmod>2020-09-23T22:01:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/wifi-country-codes/</loc>
-    <lastmod>2020-09-19T14:40:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
     <lastmod>2020-09-19T14:40:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/pacsat/</loc>
@@ -365,9 +374,6 @@
     <loc>https://dernasherbrezon.com/posts/meteor-mn2-frame-synchronization/</loc>
     <lastmod>2019-09-13T22:30:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/monitoring/</loc>
-    <lastmod>2019-09-03T21:22:18+01:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/posts/journald-java/</loc>
     <lastmod>2019-09-03T21:22:18+01:00</lastmod>
   </url><url>
@@ -501,9 +507,6 @@
     <lastmod>2017-07-16T15:11:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/java-small-heap/</loc>
-    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/memory/</loc>
     <lastmod>2017-07-16T15:11:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/enterprise-java-space/</loc>
