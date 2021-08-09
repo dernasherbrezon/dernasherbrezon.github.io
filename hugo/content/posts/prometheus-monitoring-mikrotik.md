@@ -100,7 +100,18 @@ sudo systemctl status snmp_exporter
 ```yaml
   - job_name: mikrotik
     static_configs:
-      - targets: ['raspberrypi.local:9116']
+      - targets:
+        - 192.168.1.1  # SNMP device.
+    metrics_path: /snmp
+    params:
+      module: [mikrotik]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: raspberrypi.local:9116
 ```
 
 ## Grafana

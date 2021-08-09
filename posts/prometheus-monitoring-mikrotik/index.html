@@ -398,7 +398,18 @@ sudo systemctl start snmp_exporter
 <p>Сейчас же достаточно настроить подключение к exporter. Это делается через основной конфиг prometheus.yaml:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  - <span style="color:#f92672">job_name</span>: <span style="color:#ae81ff">mikrotik</span>
     <span style="color:#f92672">static_configs</span>:
-      - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;raspberrypi.local:9116&#39;</span>]
+      - <span style="color:#f92672">targets</span>:
+        - <span style="color:#ae81ff">192.168.1.1</span>  <span style="color:#75715e"># SNMP device.</span>
+    <span style="color:#f92672">metrics_path</span>: <span style="color:#ae81ff">/snmp</span>
+    <span style="color:#f92672">params</span>:
+      <span style="color:#f92672">module</span>: [<span style="color:#ae81ff">mikrotik]</span>
+    <span style="color:#f92672">relabel_configs</span>:
+      - <span style="color:#f92672">source_labels</span>: [<span style="color:#ae81ff">__address__]</span>
+        <span style="color:#f92672">target_label</span>: <span style="color:#ae81ff">__param_target</span>
+      - <span style="color:#f92672">source_labels</span>: [<span style="color:#ae81ff">__param_target]</span>
+        <span style="color:#f92672">target_label</span>: <span style="color:#ae81ff">instance</span>
+      - <span style="color:#f92672">target_label</span>: <span style="color:#ae81ff">__address__</span>
+        <span style="color:#f92672">replacement</span>: <span style="color:#ae81ff">raspberrypi.local:9116</span>
 </code></pre></div><h2 id="grafana">Grafana</h2>
 <p>Можно воспользоваться <a href="https://grafana.com/grafana/dashboards/14420">готовыми дашбордами</a> и сразу импортировать их в Grafana.</p>
 <p><img src="/img/prometheus-monitoring-mikrotik/image.png" alt=""></p>
