@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <lastmod>2021-08-09T15:52:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
@@ -12,18 +12,24 @@
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <lastmod>2021-08-09T15:52:18+00:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/memory/</loc>
-    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <loc>https://dernasherbrezon.com/tags/java/</loc>
+    <lastmod>2021-08-09T15:52:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/monitoring/</loc>
-    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <lastmod>2021-08-09T15:52:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/prometheus/</loc>
-    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <lastmod>2021-08-09T15:52:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2021-08-09T15:52:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/writing-prometheus-exporter/</loc>
+    <lastmod>2021-08-09T15:52:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/memory/</loc>
     <lastmod>2021-08-07T06:50:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</loc>
@@ -94,9 +100,6 @@
   </url><url>
     <loc>https://dernasherbrezon.com/posts/simd-for-dsp/</loc>
     <lastmod>2021-01-25T01:10:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/java/</loc>
-    <lastmod>2021-01-14T20:20:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/oscw-2020/</loc>
     <lastmod>2021-01-14T20:20:18+01:00</lastmod>
