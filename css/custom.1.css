@@ -1,0 +1,18 @@
+.comment-content a, .entry-content a {
+    border-bottom:none;
+}
+
+a:focus, a:hover, .menu a:hover, .menu a:focus {
+	color: #0645ad;
+    text-decoration: underline;
+}
+a:visited, .menu a:visited {
+	color: #0b0080;
+}
+a {
+	color: #0645ad;
+	text-decoration: none;
+}
+a:active {
+	color: #ffcd00;
+}
