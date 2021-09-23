@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 09 Aug 2021 15:52:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Sep 2021 21:20:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
       <link>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</link>
@@ -27,6 +27,18 @@
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
  Или
  </description>
+    </item>
+    
+    <item>
+      <title>Сравнение различных флагов компиляции для Raspberry pi</title>
+      <link>https://dernasherbrezon.com/posts/compare-compile-flags-raspberrypi/</link>
+      <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/compare-compile-flags-raspberrypi/</guid>
+      <description>Недавно мне на глаза попалась самая первая версия Raspberry pi и я решил немного поэкспериментировать со старым железом.
+Мне было интересно насколько отличается производительность библиотеки volk в зависимости от различных флагов компиляции.
+arm1176jzf-s Для начала необходимо определиться с процессором. Как известно, Raspberrypi использует system-on-the-chip (SoC) от broadcom. Это даже написано на самом процессоре: Broadcom BCM2835. Внутри этого чипа находится несколько логических компонентов:
+ ядро CPU - ARM arm1176jzf-s ядро GPU - VideoCore 4  К сожалению, стандартные linux инструменты выдают совершенно неправильную информацию о процессоре, поэтому приходится смотреть маркировку прямо на плате и искать информацию в Интернете.</description>
     </item>
     
     <item>

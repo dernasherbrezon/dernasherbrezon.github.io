@@ -5,7 +5,19 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 25 Jan 2021 01:10:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Sep 2021 21:20:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Сравнение различных флагов компиляции для Raspberry pi</title>
+      <link>https://dernasherbrezon.com/posts/compare-compile-flags-raspberrypi/</link>
+      <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/compare-compile-flags-raspberrypi/</guid>
+      <description>Недавно мне на глаза попалась самая первая версия Raspberry pi и я решил немного поэкспериментировать со старым железом.
+Мне было интересно насколько отличается производительность библиотеки volk в зависимости от различных флагов компиляции.
+arm1176jzf-s Для начала необходимо определиться с процессором. Как известно, Raspberrypi использует system-on-the-chip (SoC) от broadcom. Это даже написано на самом процессоре: Broadcom BCM2835. Внутри этого чипа находится несколько логических компонентов:
+ ядро CPU - ARM arm1176jzf-s ядро GPU - VideoCore 4  К сожалению, стандартные linux инструменты выдают совершенно неправильную информацию о процессоре, поэтому приходится смотреть маркировку прямо на плате и искать информацию в Интернете.</description>
+    </item>
+    
     <item>
       <title>SIMD для цифровой обработки сигналов</title>
       <link>https://dernasherbrezon.com/posts/simd-for-dsp/</link>
