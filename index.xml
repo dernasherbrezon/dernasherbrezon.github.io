@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 23 Sep 2021 21:20:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Sep 2021 13:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
       <link>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</link>
@@ -27,6 +27,16 @@
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
  Или
  </description>
+    </item>
+    
+    <item>
+      <title>Индивидуальные APT репозитории для CPU</title>
+      <link>https://dernasherbrezon.com/posts/apt-for-cpu/</link>
+      <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/apt-for-cpu/</guid>
+      <description>Интересный факт - все приложения, находящиеся в стандартных репозиториях Debian или Ubuntu, скомпилированы с опциями по-умолчанию. Это приводит к интересным последствиям. Например, программисты не используют SIMD инструкции и полагаются на компилятор. Компилятор не всегда может оптимизировать код под конкретный процессор. Из-за этого все супер-быстрые возможности процессоров и невероятные SIMD операции простаивают без дела.
+Разработчики Debian объясняют эту особенность тем, что включение поддержки расширенных регистров не даёт существенного ускорения. И, зачастую, это верно.</description>
     </item>
     
     <item>

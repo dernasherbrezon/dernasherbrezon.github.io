@@ -7,10 +7,112 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 23 Sep 2021 21:20:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 25 Sep 2021 13:17:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Индивидуальные APT репозитории для CPU</title>
+      <link>https://dernasherbrezon.com/posts/apt-for-cpu/</link>
+      <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/apt-for-cpu/</guid>
+      <description>Интересный факт - все приложения, находящиеся в стандартных репозиториях Debian или Ubuntu, скомпилированы с опциями по-умолчанию. Это приводит к интересным последствиям. Например, программисты не используют SIMD инструкции и полагаются на компилятор. Компилятор не всегда может оптимизировать код под конкретный процессор. Из-за этого все супер-быстрые возможности процессоров и невероятные SIMD операции простаивают без дела.
+Разработчики Debian объясняют эту особенность тем, что включение поддержки расширенных регистров не даёт существенного ускорения. И, зачастую, это верно.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Индивидуальные APT репозитории для CPU</h1></header>
+      		<div class='container entry-content'>
+  <p>Интересный факт - все приложения, находящиеся в стандартных репозиториях Debian или Ubuntu, скомпилированы с опциями по-умолчанию. Это приводит к интересным последствиям. Например, программисты не используют SIMD инструкции и полагаются на компилятор. Компилятор не всегда может оптимизировать код под конкретный процессор. Из-за этого все супер-быстрые возможности процессоров и невероятные SIMD операции простаивают без дела.</p>
+<p>Разработчики Debian объясняют эту особенность тем, что <a href="https://wiki.debian.org/ArmHardFloatPort/VfpComparison#NEON">включение поддержки расширенных регистров не даёт существенного ускорения</a>. И, зачастую, это верно. Разработчики не будут писать на ассемблере код, чтобы оптимизировать приложения для какого-то одного процессора. Да и не многим приложениям это нужно. А даже, если и написать более оптимизированный код, то непонятно как доставить его пользователю. Получается замкнутый круг: операционным системам невыгодно держать инфраструктуру бинарных пакетов для улучшения производительности на 5-10%. А разработчики не будут писать оптимизированный код, потому что нет инфраструктуры.</p>
+<p>Тем не менее, есть отдельные библиотеки, которые оптимизированы специально для разных версий процессоров и по-максимуму используют их возможности. Например, <a href="https://www.libvolk.org">volk</a> позволяет предоставляет набор функций оптимизированный для цифровой обработки сигналов. Если процессор поддерживает оптимизированную реализацию и такая реализация написана, то volk выбирает её. Если нет, то подставляется реализация, которая написана на простом C. Получается, не нужно писать код под каждый тип процессора. Это хорошо, но остаётся другая проблема - дистрибьюция таких библиотек.</p>
+<p>Эту-то проблему я и решил на прошлой неделе. Однако, прежде, чем переходить к решению, нужно понять &ldquo;а как вообще работает дистрибьюция APT пакетов?&rdquo;</p>
+<h2 id="apt-репозитории">APT репозитории</h2>
+<p><img src="/img/apt-for-cpu/1.png" alt=""></p>
+<p>Я постараюсь описать схему репозиториев Debian, но это абсолютно так же работает и для Ubuntu. Итак, у каждого дистрибутива есть кодовое имя. Это кодовое имя даётся разным версиям операционной системы. В контексте компиляции это значит, что в разных версиях будут разные версии GCC и разные версии libc. Из чего зачастую следует, что пакет собранный в одной версии операционной системы, может не работать в другой. Иногда это не так, но в общем случае следует собирать пакет для каждой версии ОС.</p>
+<p>У каждой версии ОС есть список архитектур, которые она поддерживает. На схеме выше я привёл только две: armhf и amd64. На самом деле, Debian поддерживает гораздо больше. Архитектура в контексте сборки приложения - это усреднённый тип процессора. Например, amd64 - это все 64-битные процессоры, а не только от AMD. То же самое и для armhf. armhf - это &ldquo;обычный&rdquo; 32-битный процессор на архитектуре ARM.</p>
+<p>Для того, чтобы иметь бинарные приложения для каждого процессора, нужно пойти ещё дальше и добавить ещё один уровень.</p>
+<p><img src="/img/apt-for-cpu/2.png" alt=""></p>
+<p>Можно иметь отдельные репозитории для различных версий ARM процессоров: cortex-a7, cortex-a53 и т.д. Также нужно иметь некоторую общую &ldquo;generic&rdquo; версию. Это на тот случай, если CPU не поддерживается. Каждый пакет должен быть собран под различные процессоры, а также с параметрами по-умолчанию для &ldquo;generic&rdquo; версии. На клиенте, подключение CPU-специфичного репозитория можно было бы сделать так (псевдокод):</p>
+<pre><code>deb http://s3.amazonaws.com/r2cloud-$(lscpu model or generic if not supported) $(lsb_release --codename --short) main
+</code></pre><p>К сожалению, стандартный APT репозиторий не поддерживают такое детальное логическое разделение, поэтому его можно сделать на физическом уровне. Достаточно создать несколько разных репозиториев под разными URL. Выглядить это могло бы так:</p>
+<p><img src="/img/apt-for-cpu/3.png" alt=""></p>
+<p>Получается несколько физических репозиториев, каждый из которых содержит:</p>
+<ul>
+<li>несколько версий ОС</li>
+<li>несколько архитектур</li>
+<li>только один тип процессора</li>
+</ul>
+<p>Хорошая новость заключается в том, что типов процессоров не так много. Вдвойне хорошая новость заключается в том, что приложений, которые оптимизированы для нескольких процессоров не так много. Получается, что такие репозитории будут достаточно небольшими.</p>
+<h2 id="флаги-gcc">Флаги GCC</h2>
+<p>В <a href="https://dernasherbrezon.com/posts/compare-compile-flags-raspberrypi/">предыдущей своей статье</a> я описал опции компиляции для самого первого Raspberr pi, в котором стоит процессор ARM arm1176jzf-s. Однако, другие версии Raspberry pi содержат другие процессоры. Именно поэтому код, собранный под один процессор не запустится на другом:</p>
+<p><img src="/img/apt-for-cpu/4.png" alt=""></p>
+<p>Кстати, флаги компиляции для ARM процессоров нужно обязательно прописывать, потому что GCC по-умолчанию не включает поддержку расширенных регистров NEON. А вот для Intel x86_64 их включать необязательно, потому что они доступны по-умолчанию. Вот список тех флагов, которые нужно включать для различных версий Raspberry pi.</p>
+<table>
+	<thead>
+		<tr>
+			<th>Raspberry pi</th>
+			<th>Опции</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Raspberry pi 1B</td>
+			<td>-mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard</td>
+		</tr>
+		<tr>
+			<td>Raspberry pi 2 model B</td>
+			<td>-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard</td>
+		</tr>
+		<tr>
+			<td>Raspberry pi 3</td>
+			<td>-mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard</td>
+		</tr>
+		<tr>
+			<td>Raspberry pi 4</td>
+			<td>-mcpu=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard</td>
+		</tr>
+	</tbody>
+</table>
+<h2 id="реализация">Реализация</h2>
+<p>После того, как стало ясно каким образом собрать и разложить бинарники по разным репозиториям, осталось всё это реализовать. Для разных APT репозиториев я создал несколько S3 bucket. Каждый из них содержит только специфичные для конкретного процессора бинарники. В результате в проекте <a href="https://r2server.ru/apt.html">r2cloud</a> появилось два типа репозиториев:</p>
+<ul>
+<li><a href="http://s3.amazonaws.com/r2cloud">http://s3.amazonaws.com/r2cloud</a> - в нём содержатся приложения не критичные к типу процессора. Там по-прежнему есть разделение на armhf и amd64.</li>
+<li><a href="http://s3.amazonaws.com/r2cloud-">http://s3.amazonaws.com/r2cloud-</a>* - в таких репозиториях содержатся приложения собранные под конкретные процессоры.</li>
+</ul>
+<p>Для сборки приложений под конкретный тип процессора я написал небольшой bash скрипт. В нём определяется архитектура процессора (armhf или amd64):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">CURRENT_ARCH<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span>
+</code></pre></div><p>А после этого список поддерживаемых процессоров:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CURRENT_ARCH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;armhf&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	supported_cores<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;arm1176jzf-s cortex-a53 cortex-a7 cortex-a72 generic&#34;</span>
+<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CURRENT_ARCH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;amd64&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	supported_cores<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;generic&#34;</span>
+<span style="color:#66d9ef">else</span>
+	echo <span style="color:#e6db74">&#34;unknown arch: </span><span style="color:#e6db74">${</span>CURRENT_ARCH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+	exit <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>Если приложение нужно собирать в зависимости от процессора (all), то запускается сборка для каждого из процессоров. Если нет (one), то приложение собирается для стандартного репозитория:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CORE_BUILD<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;all&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	<span style="color:#66d9ef">for</span> i in <span style="color:#e6db74">${</span>supported_cores<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">do</span>
+		build_core $i
+	<span style="color:#66d9ef">done</span>
+<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CORE_BUILD<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;one&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	build_core
+<span style="color:#66d9ef">else</span>
+	echo <span style="color:#e6db74">&#34;unknown core_build: </span><span style="color:#e6db74">${</span>CORE_BUILD<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+	exit <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><h2 id="результаты">Результаты</h2>
+<p>В результате сборка стала занимать чуть больше времени. И для того, чтобы масштабироваться дальше, нужно уже что-то посерьёзнее обычного bash скрипта. Тем не менее для моих нужд этого вполне хватает и позволяет сильно упростить и ускорить приложения на Raspberry pi. Сама плата не очень быстрая, поэтому такая оптимизация крайне необходима.</p>
+<p>Поскольку у меня теперь есть инфраструктура доставки приложений в зависимости от процессора, то в будущем можно заняться совсем уж экзотическими вещами вроде запуска кода на GPU. Тот же Raspberry pi содержит графическое ядро VideoCore IV, которое умеет перемножать матрицы и вектора очень быстро. А это крайне полезно для цифровой обработки сигналов.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Сравнение различных флагов компиляции для Raspberry pi</title>

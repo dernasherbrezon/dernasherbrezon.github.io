@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 23 Sep 2021 21:20:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Sep 2021 13:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Индивидуальные APT репозитории для CPU</title>
+      <link>https://dernasherbrezon.com/posts/apt-for-cpu/</link>
+      <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/apt-for-cpu/</guid>
+      <description>Интересный факт - все приложения, находящиеся в стандартных репозиториях Debian или Ubuntu, скомпилированы с опциями по-умолчанию. Это приводит к интересным последствиям. Например, программисты не используют SIMD инструкции и полагаются на компилятор. Компилятор не всегда может оптимизировать код под конкретный процессор. Из-за этого все супер-быстрые возможности процессоров и невероятные SIMD операции простаивают без дела.
+Разработчики Debian объясняют эту особенность тем, что включение поддержки расширенных регистров не даёт существенного ускорения. И, зачастую, это верно.</description>
+    </item>
+    
     <item>
       <title>Сравнение различных флагов компиляции для Raspberry pi</title>
       <link>https://dernasherbrezon.com/posts/compare-compile-flags-raspberrypi/</link>

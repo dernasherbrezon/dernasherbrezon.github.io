@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
     <description>Recent content in администрирование on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Aug 2021 06:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Sep 2021 13:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Индивидуальные APT репозитории для CPU</title>
+      <link>https://dernasherbrezon.com/posts/apt-for-cpu/</link>
+      <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/apt-for-cpu/</guid>
+      <description>Интересный факт - все приложения, находящиеся в стандартных репозиториях Debian или Ubuntu, скомпилированы с опциями по-умолчанию. Это приводит к интересным последствиям. Например, программисты не используют SIMD инструкции и полагаются на компилятор. Компилятор не всегда может оптимизировать код под конкретный процессор. Из-за этого все супер-быстрые возможности процессоров и невероятные SIMD операции простаивают без дела.
+Разработчики Debian объясняют эту особенность тем, что включение поддержки расширенных регистров не даёт существенного ускорения. И, зачастую, это верно.</description>
+    </item>
+    
     <item>
       <title>Мониторинг Mikrotik роутеров с помощью Prometheus</title>
       <link>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</link>
