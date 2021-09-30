@@ -364,7 +364,7 @@
 <p>Для того, чтобы иметь бинарные приложения для каждого процессора, нужно пойти ещё дальше и добавить ещё один уровень.</p>
 <p><img src="/img/apt-for-cpu/2.png" alt=""></p>
 <p>Можно иметь отдельные репозитории для различных версий ARM процессоров: cortex-a7, cortex-a53 и т.д. Также нужно иметь некоторую общую &ldquo;generic&rdquo; версию. Это на тот случай, если CPU не поддерживается. Каждый пакет должен быть собран под различные процессоры, а также с параметрами по-умолчанию для &ldquo;generic&rdquo; версии. На клиенте, подключение CPU-специфичного репозитория можно было бы сделать так (псевдокод):</p>
-<pre><code>deb http://s3.amazonaws.com/r2cloud-$(lscpu model or generic if not supported) $(lsb_release --codename --short) main
+<pre><code>deb http://s3.amazonaws.com/r2cloud/cpu-$(lscpu model or generic if not supported) $(lsb_release --codename --short) main
 </code></pre><p>К сожалению, стандартный APT репозиторий не поддерживают такое детальное логическое разделение, поэтому его можно сделать на физическом уровне. Достаточно создать несколько разных репозиториев под разными URL. Выглядить это могло бы так:</p>
 <p><img src="/img/apt-for-cpu/3.png" alt=""></p>
 <p>Получается несколько физических репозиториев, каждый из которых содержит:</p>
@@ -408,7 +408,7 @@
 <p>После того, как стало ясно каким образом собрать и разложить бинарники по разным репозиториям, осталось всё это реализовать. Для разных APT репозиториев я создал несколько S3 bucket. Каждый из них содержит только специфичные для конкретного процессора бинарники. В результате в проекте <a href="https://r2server.ru/apt.html">r2cloud</a> появилось два типа репозиториев:</p>
 <ul>
 <li><a href="http://s3.amazonaws.com/r2cloud">http://s3.amazonaws.com/r2cloud</a> - в нём содержатся приложения не критичные к типу процессора. Там по-прежнему есть разделение на armhf и amd64.</li>
-<li><a href="http://s3.amazonaws.com/r2cloud-">http://s3.amazonaws.com/r2cloud-</a>* - в таких репозиториях содержатся приложения собранные под конкретные процессоры.</li>
+<li><a href="http://s3.amazonaws.com/r2cloud/cpu-">http://s3.amazonaws.com/r2cloud/cpu-</a>* - в таких репозиториях содержатся приложения собранные под конкретные процессоры.</li>
 </ul>
 <p>Для сборки приложений под конкретный тип процессора я написал небольшой bash скрипт. В нём определяется архитектура процессора (armhf или amd64):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">CURRENT_ARCH<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span>
