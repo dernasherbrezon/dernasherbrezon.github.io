@@ -6,7 +6,6 @@ cover: /img/java-small-heap/0ebcb88f4c7d47cc96e872f9c182638c.jpg
 tags:
   - java
   - raspberrypi
-  - satellite
   - спутники
   - memory
   - heap

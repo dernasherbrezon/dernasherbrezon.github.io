@@ -4,7 +4,6 @@ date: 2020-04-18T18:15:18+01:00
 cover: /img/georeferencing-gcp/1.png
 draft: false
 tags:
-  - satellite
   - lrpt
   - meteor-m
   - спутники

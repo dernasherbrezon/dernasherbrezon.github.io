@@ -5,7 +5,6 @@ draft: false
 cover: /img/pacsat/1.png
 tags:
   - java
-  - satellite
   - спутники
 ---
 

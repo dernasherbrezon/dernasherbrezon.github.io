@@ -5,7 +5,6 @@ draft: false
 cover: /img/dstar1-telemetry/4.png
 tags:
   - java
-  - satellite
   - спутники
   - mobitex
 ---

@@ -116,9 +116,6 @@
     <loc>https://dernasherbrezon.com/tags/jpeg/</loc>
     <lastmod>2020-12-16T14:40:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/satellite/</loc>
-    <lastmod>2020-12-16T14:40:18+01:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/posts/restore-jpeg-file/</loc>
     <lastmod>2020-12-16T14:40:18+01:00</lastmod>
   </url><url>
@@ -127,9 +124,6 @@
   </url><url>
     <loc>https://dernasherbrezon.com/posts/compare-excel/</loc>
     <lastmod>2020-11-15T11:29:18+00:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/design/</loc>
-    <lastmod>2020-10-07T17:23:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/how-to-map-zero/</loc>
     <lastmod>2020-10-07T17:23:18+01:00</lastmod>
@@ -173,10 +167,10 @@
     <loc>https://dernasherbrezon.com/tags/fsk/</loc>
     <lastmod>2020-08-03T20:22:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/radio/</loc>
+    <loc>https://dernasherbrezon.com/posts/tune-ber-fsk/</loc>
     <lastmod>2020-08-03T20:22:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/posts/tune-ber-fsk/</loc>
+    <loc>https://dernasherbrezon.com/tags/radio/</loc>
     <lastmod>2020-08-03T20:22:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/gnuradio/</loc>
@@ -602,9 +596,6 @@
     <loc>https://dernasherbrezon.com/tags/%D0%B8%D0%B4%D0%B5%D0%B8/</loc>
     <lastmod>2009-05-11T13:14:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/glassfish/</loc>
-    <lastmod>2009-04-11T13:14:18+01:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/posts/glassfish-async-jms-jca/</loc>
     <lastmod>2009-04-11T13:14:18+01:00</lastmod>
   </url><url>
@@ -625,5 +616,7 @@
     <loc>https://dernasherbrezon.com/categories/</loc>
   </url><url>
     <loc>https://dernasherbrezon.com/series/</loc>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/</loc>
   </url>
 </urlset>

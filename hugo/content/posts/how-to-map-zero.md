@@ -4,7 +4,6 @@ date: 2020-10-07T17:23:18+01:00
 draft: false
 tags:
   - дизайн
-  - design
 ---
 
 Всё началось в того, что мне захотелось добавить поддержку [plutosdr](https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/adalm-pluto.html#) в свой проект [r2cloud](https://github.com/dernasherbrezon/r2cloud). Для этого я открыл код, который читает данные из rtlsdr и увидел следующее:

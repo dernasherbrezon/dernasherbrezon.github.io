@@ -5,7 +5,6 @@ draft: false
 cover: /img/rotator-for-r2cloud-2/1.png
 emoji: true
 tags:
-  - satellite
   - поворотное устройство
   - спутники
 ---

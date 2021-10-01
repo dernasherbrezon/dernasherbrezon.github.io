@@ -4,7 +4,6 @@ date: 2019-10-24T21:40:18+01:00
 draft: false
 cover: /img/satellite-telemetry/diagram.png
 tags:
-  - satellite
   - satnogs
   - космонавтика
   - спутники

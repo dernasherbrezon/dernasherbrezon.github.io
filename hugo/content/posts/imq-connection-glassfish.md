@@ -5,7 +5,6 @@ draft: false
 tags:
   - java
   - j2ee
-  - glassfish
 ---
 Наблюдается следующая проблема:
 

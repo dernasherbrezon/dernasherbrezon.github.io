@@ -4,7 +4,6 @@ date: 2020-04-18T09:33:18+01:00
 cover: /img/georeferencing-satellite-images/1.png
 draft: false
 tags:
-  - satellite
   - meteor-m
   - спутники
   - ДЗЗ

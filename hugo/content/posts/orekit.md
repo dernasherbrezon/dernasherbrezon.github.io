@@ -6,7 +6,6 @@ cover: /img/orekit/1.png
 tags:
   - java
   - orekit
-  - satellite
   - спутники
 ---
 

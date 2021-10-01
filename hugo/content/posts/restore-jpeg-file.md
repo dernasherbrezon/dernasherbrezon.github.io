@@ -6,7 +6,6 @@ cover: /img/restore-jpeg-file/7.png
 tags:
   - java
   - jpeg
-  - satellite
   - спутники
 ---
 

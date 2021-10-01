@@ -5,7 +5,6 @@ draft: false
 tags:
   - java
   - j2ee
-  - glassfish
 ---
 Достаточно интересное и недокументированное поведение Glassfish v.2.0.
 
