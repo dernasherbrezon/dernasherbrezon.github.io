@@ -17,6 +17,16 @@
     </item>
     
     <item>
+      <title>Оптимизация spring-mvc</title>
+      <link>https://dernasherbrezon.com/posts/spring-mvc-tuning/</link>
+      <pubDate>Fri, 11 Nov 2011 13:14:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/spring-mvc-tuning/</guid>
+      <description>Общие решения всегда медленнее частных. Ниже я собираюсь немного оптимизировать spring-mvc. Оптимизация прежде всего рассчитана на уменьшение генерируемого мусора. Прежде чем начать оптимизировать надо определиться какие функции фреймворка можно выкинуть и какими фичами пренебречь:
+ ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память? Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов.</description>
+    </item>
+    
+    <item>
       <title>Запуск Jetty Embedded через spring</title>
       <link>https://dernasherbrezon.com/posts/jetty-embedded-maven/</link>
       <pubDate>Thu, 11 Nov 2010 13:14:18 +0100</pubDate>
