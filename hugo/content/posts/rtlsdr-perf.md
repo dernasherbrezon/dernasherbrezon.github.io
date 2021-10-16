@@ -1,5 +1,5 @@
 ---
-title: "Производительность rtl_sdr на raspberrypi"
+title: "Производительность rtl_sdr на Raspberrypi"
 date: 2019-03-02T18:22:18+01:00
 draft: false
 cover: /img/rtlsdr-perf/8.png

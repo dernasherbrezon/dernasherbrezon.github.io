@@ -1,5 +1,5 @@
 ---
-title: "Сжимание I/Q потока на raspberrypi"
+title: "Сжимание I/Q потока на Raspberrypi"
 date: 2019-03-04T17:22:18+01:00
 draft: false
 cover: /img/rtlsdr-gzip/3.png

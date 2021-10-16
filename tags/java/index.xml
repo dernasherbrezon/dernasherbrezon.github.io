@@ -270,7 +270,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson
     </item>
     
     <item>
-      <title>Производительность rtl_sdr на raspberrypi</title>
+      <title>Производительность rtl_sdr на Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/rtlsdr-perf/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       
@@ -322,7 +322,7 @@ ACME Многие, конечно, любят LetsEncrypt за бесплатн�
     </item>
     
     <item>
-      <title>Мониторинг Raspberry PI</title>
+      <title>Мониторинг Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       

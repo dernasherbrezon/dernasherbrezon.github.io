@@ -99,7 +99,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
     </item>
     
     <item>
-      <title>Сжимание I/Q потока на raspberrypi</title>
+      <title>Сжимание I/Q потока на Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/rtlsdr-gzip/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
@@ -110,7 +110,7 @@ SQNR АЦП преоразует сигнал из аналогового вид
     </item>
     
     <item>
-      <title>Производительность rtl_sdr на raspberrypi</title>
+      <title>Производительность rtl_sdr на Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/rtlsdr-perf/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       

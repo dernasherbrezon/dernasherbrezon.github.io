@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Sep 2021 13:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Oct 2021 15:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FMA в Raspberrypi</title>
+      <link>https://dernasherbrezon.com/posts/fma-raspberrypi/</link>
+      <pubDate>Sat, 16 Oct 2021 15:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fma-raspberrypi/</guid>
+      <description>Разбираясь с одним интересным багом в коде DSP фильтра, я с удивлением обнаружил целую область неизведанного в области чисел с плавающий точкой. Есть замечательная статья о том, что каждый программист должен знать об операциях с плавающей точкой. В ней очень подробно описывается проблема и её решение в стандарте IEEE 754. Однако, там нет явного упоминания такой вещи, как FMA (Fused multiply-add). Мне показалось интересным разобраться, как эта технология работает.
+FMA FMA - это оптимизация на уровне процессора следующей операции:</description>
+    </item>
+    
     <item>
       <title>Индивидуальные APT репозитории для CPU</title>
       <link>https://dernasherbrezon.com/posts/apt-for-cpu/</link>
@@ -17,7 +27,7 @@
     </item>
     
     <item>
-      <title>Сравнение различных флагов компиляции для Raspberry pi</title>
+      <title>Сравнение различных флагов компиляции для Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/compare-compile-flags-raspberrypi/</link>
       <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
       
@@ -90,7 +100,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
     </item>
     
     <item>
-      <title>Сжимание I/Q потока на raspberrypi</title>
+      <title>Сжимание I/Q потока на Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/rtlsdr-gzip/</link>
       <pubDate>Mon, 04 Mar 2019 17:22:18 +0100</pubDate>
       
@@ -101,7 +111,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
     </item>
     
     <item>
-      <title>Производительность rtl_sdr на raspberrypi</title>
+      <title>Производительность rtl_sdr на Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/rtlsdr-perf/</link>
       <pubDate>Sat, 02 Mar 2019 18:22:18 +0100</pubDate>
       
@@ -110,7 +120,7 @@ Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad s
     </item>
     
     <item>
-      <title>Мониторинг Raspberry PI</title>
+      <title>Мониторинг Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
       

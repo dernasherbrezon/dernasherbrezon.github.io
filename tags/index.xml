@@ -5,7 +5,43 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Sep 2021 13:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Oct 2021 15:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>c</title>
+      <link>https://dernasherbrezon.com/tags/c/</link>
+      <pubDate>Sat, 16 Oct 2021 15:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>raspberrypi</title>
+      <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
+      <pubDate>Sat, 16 Oct 2021 15:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SIMD</title>
+      <link>https://dernasherbrezon.com/tags/simd/</link>
+      <pubDate>Sat, 16 Oct 2021 15:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/simd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>производительность</title>
+      <link>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
+      <pubDate>Sat, 16 Oct 2021 15:22:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>apt</title>
       <link>https://dernasherbrezon.com/tags/apt/</link>
@@ -16,38 +52,11 @@
     </item>
     
     <item>
-      <title>raspberrypi</title>
-      <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
-      <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>администрирование</title>
       <link>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
       <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>производительность</title>
-      <link>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</link>
-      <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>c</title>
-      <link>https://dernasherbrezon.com/tags/c/</link>
-      <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/c/</guid>
       <description></description>
     </item>
     
@@ -129,15 +138,6 @@
       <pubDate>Fri, 06 Aug 2021 09:47:18 +0000</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/sdr-modem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SIMD</title>
-      <link>https://dernasherbrezon.com/tags/simd/</link>
-      <pubDate>Tue, 25 May 2021 17:05:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/simd/</guid>
       <description></description>
     </item>
     
