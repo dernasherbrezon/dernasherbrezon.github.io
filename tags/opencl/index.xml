@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>opencl on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/opencl/</link>
+    <description>Recent content in opencl on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 01 Nov 2021 18:13:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/opencl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenCL для RaspberryPI</title>
+      <link>https://dernasherbrezon.com/posts/opencl-raspberrypi/</link>
+      <pubDate>Mon, 01 Nov 2021 18:13:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/opencl-raspberrypi/</guid>
+      <description>Изначально у меня не было планов писать код под GPU. Обработка сигналов спутников на Java вполне возможна. И я продолжаю развивать это направление. Код на Java позволяет достаточно быстро написать обработчик сигнала и внедрить в работающую систему. Также с помощью Java гораздо удобнее обрабатывать неструктурированые или слабо структурированые данные. К таким данным обычно относятся различные высокоуровневые протоколы. Однако, есть и недостатки - скорость. Java не очень подходит для быстрой обработки однотипных данных.</description>
+    </item>
+    
+  </channel>
+</rss>
