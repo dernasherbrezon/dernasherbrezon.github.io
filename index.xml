@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 05 Nov 2021 18:13:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Nov 2021 14:11:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
       <link>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</link>
@@ -27,6 +27,15 @@
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
  Или
  </description>
+    </item>
+    
+    <item>
+      <title>Оптимизация OpenCL на RaspberryPI</title>
+      <link>https://dernasherbrezon.com/posts/tune-opencl-raspberrypi/</link>
+      <pubDate>Sat, 06 Nov 2021 14:11:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/tune-opencl-raspberrypi/</guid>
+      <description>Это третья статья в цикле про мои похождения в области распределённых вычислений. Первая статья была про то, зачем вообще нужен OpenCL и распределённые вычисления. Вторая статья про то, как настроить OpenCL для Raspberrypi, чем отличаются различные режимы работы и драйвера. Эта статья будет про оптимизацию OpenCL кода. Самое важное, что нужно понять: сможет ли GPU заменить или хотя бы приблизиться по производительности к CPU при выполнении Frequency Xlating FIR фильтра.</description>
     </item>
     
     <item>
