@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/monitoring/</link>
     <description>Recent content in monitoring on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 09 Aug 2021 15:52:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 Nov 2021 17:13:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Счётчики и датчики</title>
+      <link>https://dernasherbrezon.com/posts/gauge-and-counter-explained/</link>
+      <pubDate>Mon, 22 Nov 2021 17:13:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/gauge-and-counter-explained/</guid>
+      <description>Любой, кто хотя бы раз сталкивался с системами мониторинга, знает, что существует два типа метрик: счётчики (counter) и датчики (gauge). Но не многие знают, зачем именно сделаны эти два типа.
+Датчики Тип &amp;ldquo;датчик&amp;rdquo; используется для измерения текущего состояния. Обычно это число, которое может как увеличиватся, так и уменьшаться. Например, это могут быть измерения температуры, количество подключенных пользователей, load average и так далее. По сути, измерение любого стохастического процесса, про которого заранее ничего неизвестно.</description>
+    </item>
+    
     <item>
       <title>Создание Prometheus exporter</title>
       <link>https://dernasherbrezon.com/posts/writing-prometheus-exporter/</link>
