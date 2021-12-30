@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='В последнее время всё популярнее становится протокол передачи данных LoRa. Уже несколько спутников вовсю его используют и существует целая сеть приёма сигналов - tinyGS. Конечно же, пропустить такое я не мог и начал исследовать как подключить протокол LoRa к r2cloud. К сожалению, это закрытый протокол, поэтому демодулировать его стандартным rtl-sdr не получится. Для получения сигнала нужно использовать специальный чип, который на выходе уже выдаст готовый пакет. Эти чипы достаточно дешёвые, но напрямую к Raspberrypi не подключаются, а используются в основном в связке с ESP32.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Программирование ESP32 • dernasherbrezon'>
+<meta property='og:description' content='В последнее время всё популярнее становится протокол передачи данных LoRa. Уже несколько спутников вовсю его используют и существует целая сеть приёма сигналов - tinyGS. Конечно же, пропустить такое я не мог и начал исследовать как подключить протокол LoRa к r2cloud. К сожалению, это закрытый протокол, поэтому демодулировать его стандартным rtl-sdr не получится. Для получения сигнала нужно использовать специальный чип, который на выходе уже выдаст готовый пакет. Эти чипы достаточно дешёвые, но напрямую к Raspberrypi не подключаются, а используются в основном в связке с ESP32.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/programming-esp32/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='esp32'><meta property='article:tag' content='lora'><meta property='article:tag' content='r2lora'><meta property='article:published_time' content='2021-12-30T11:30:18Z'/><meta property='article:modified_time' content='2021-12-30T11:30:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Программирование ESP32 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/programming-esp32/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0217391304347827em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.065217391304348em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.065217391304348em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0217391304347827em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.065217391304348em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0217391304347827em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.2826086956521738em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.065217391304348em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.108695652173913em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.065217391304348em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0217391304347827em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0217391304347827em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.065217391304348em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0434782608695652em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.065217391304348em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0217391304347827em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0434782608695652em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0434782608695652em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.108695652173913em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.065217391304348em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0434782608695652em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0434782608695652em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0434782608695652em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0217391304347827em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.108695652173913em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0217391304347827em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0869565217391304em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.0869565217391304em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0434782608695652em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0217391304347827em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0434782608695652em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0217391304347827em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0217391304347827em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0217391304347827em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0434782608695652em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1739130434782608em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.3260869565217392em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0217391304347827em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0217391304347827em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0217391304347827em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2391304347826086em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0434782608695652em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0434782608695652em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0434782608695652em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0217391304347827em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.065217391304348em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0434782608695652em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0434782608695652em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0217391304347827em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0217391304347827em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0434782608695652em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0217391304347827em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0869565217391304em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0434782608695652em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0217391304347827em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1956521739130435em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.065217391304348em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.065217391304348em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0434782608695652em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0434782608695652em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0217391304347827em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0434782608695652em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3260869565217392em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0434782608695652em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3260869565217392em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1739130434782608em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0434782608695652em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Программирование ESP32</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2021-12-30T11:30:18Z'>30 Dec 2021</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>В последнее время всё популярнее становится протокол передачи данных <a href="https://ru.wikipedia.org/wiki/LoRa">LoRa</a>. Уже несколько спутников вовсю его используют и существует целая сеть приёма сигналов - <a href="https://tinygs.com">tinyGS</a>. Конечно же, пропустить такое я не мог и начал исследовать как подключить протокол LoRa к <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>. К сожалению, это закрытый протокол, поэтому демодулировать его стандартным rtl-sdr не получится. Для получения сигнала нужно использовать специальный чип, который на выходе уже выдаст готовый пакет. Эти чипы достаточно дешёвые, но напрямую к Raspberrypi не подключаются, а используются в основном в связке с ESP32. Из всего этого и родился мой новый проект - <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a>.</p>
+<h2 id="постановка-задачи">Постановка задачи</h2>
+<p>Итак, нужно дать доступ к чипу LoRa из r2cloud. Желательно, чтобы интерфейс доступа был универсальный и подходил не только для проекта r2cloud. Это позволит другим проектам, не связанным с приёмом спутниковых сигналов, использовать проект, улучшать и вносить изменения.</p>
+<p>Есть несколько вариантов:</p>
+<ul>
+<li>Полностью реализовать функционал r2cloud на ESP32. Сюда входит: составление расписания пролётов, получение параметров спутников, авто-обновление, отправка на центральный сервер. Это достаточно трудоёмкий процесс - ведь придётся переписать очень много уже готового и оттестированного кода. Опять же, непонятно хватит ли мощности ESP32 для расчёта орбит спутников.</li>
+<li>Написать минимальное приложение для управления чипом и контролировать приём сигнала из r2cloud.</li>
+</ul>
+<p>Я решил пойти вторым путём. Во-первых, в r2cloud уже есть поддержка получения данных из внешних источников (plutosdr и sdr-server). Поэтому для добавления LoRa будет достаточно написать ещё один модуль. Во-вторых, логики на ESP32 будет минимальное количество. Чем меньше кода, тем меньше ошибок. В-третьих, такой дизайн позволит переиспользовать проект не только для приёма сигналов со спутников.</p>
+<h2 id="дизайн">Дизайн</h2>
+<p>В общем виде дизайн r2lora выглядит следующим образом:</p>
+<p><img src="/img/programming-esp32/design.png" alt=""></p>
+<p>Клиенты взаимодействуют с сервисом с помощью REST API, в котором доступно несколько методов:</p>
+<ul>
+<li>начать получение данных</li>
+<li>получить все принятые пакеты данных. Нужно запускать периодически для скачивания принятых пакетов.</li>
+<li>окончить получение данных</li>
+<li>передать данные</li>
+<li>получить статус приложения</li>
+</ul>
+<p>Я выбрал именно поллинг данных вместо вебсокетов, так как его наиболее просто реализовать на ESP32. А также потому, что он очень надёжный. При использовании вебсокетов пришлось бы реализовывать алгоритмы переподключения и дедубликации данных.</p>
+<p>Помимо основного функционала, необходимо реализовать вспомогательный. Компонент &ldquo;Configurator&rdquo; предназначен для того, чтобы создать начальную конфигурацию устройства. Он работает следующим образом:</p>
+<ul>
+<li>Если устройство ещё не сконфигурировано, то необходимо поднять собственную точку доступа.</li>
+<li>Для того, чтобы выполнить начальную конфигурацию, пользователь должен подключится к этой точке доступа, настроить логин, пароль к локальной WiFi точке доступа.</li>
+<li>Отсоединится</li>
+<li>После чего, устройство отключит собственную точку доступа и попытается подключиться к локальной</li>
+<li>Если подключение удалось, то приложение стартует WebServer и начинает слушать команды от пользователя</li>
+</ul>
+<p>Если устройство уже сконфигурировано, то оно сразу должно подключатся к локальной точке доступа. Если же подключение не удалось, то оно должно возвращаться в начальное состояние и поднимать собственную точку.</p>
+<p>Ещё одним обязательным компонентом является <a href="https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D0%BE_%D0%B2%D0%BE%D0%B7%D0%B4%D1%83%D1%85%D1%83">Firmware-Over-The-Air (FOTA)</a>. Все приложения содержат ошибки, одним из способов уменьшения их влияния является автообновление. FOTA позволяет автоматически скачивать прошивку с центрального сервера и обновлять устройство.</p>
+<h2 id="выбор-инструментов">Выбор инструментов</h2>
+<p>Для разработки под ESP32 есть несколько инструментов: <a href="https://www.arduino.cc/en/software">Arduino IDE</a>, <a href="https://platformio.org">PlatformIO</a> и <a href="https://github.com/espressif/esp-idf">ESP-IDF</a>. На самом деле стандартом де-факто постепенно стал PlatformIO. Он позволяет не только разрабатывать проект на C/C++, но и собирать проект, управлять сторонними библиотеками, запускать тесты, анализировать код и многое другое.</p>
+<p>PlatformIO - это просто плагин к Visual Studio Code. Для установки достаточно скачать VSCode и установить плагин.</p>
+<p><img src="/img/programming-esp32/platformio.png" alt=""></p>
+<p>Помимо IDE, PlatformIO предоставляет CLI. С помощью него можно делать всё то же самое, что и в IDE, но в консоли. Дизайн PlatformIO очень похож на cmake, который лишь вызывает gcc с нужными параметрами, генерирует makefile, собирает приложение и пр. PlatformIO скачивает многочисленные Python-зависимости и делегирует сборку тому же ESP-IDF. При этом он отлично интегрирует множество несвязанных инструментов между собой позволяя сосредоточится на разработке приложения, а не конфигурировании.</p>
+<p>На самом деле PlatformIO покрывает 100% всех потребностей. За несколько месяцев разработки я не испытывал никаких неудобств и всё было под рукой.</p>
+<p>В следующей статье я постараюсь описать структуру проекта, процесс разработки приложения и раскрыть некоторые особенности программирования под микроконтроллеры.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/esp32/'>esp32</a>, <a class='tag' href='/tags/lora/'>lora</a>, <a class='tag' href='/tags/r2lora/'>r2lora</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/gauge-and-counter-explained/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Счётчики и датчики</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2021 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+
+</body>
+
+</html>
+
