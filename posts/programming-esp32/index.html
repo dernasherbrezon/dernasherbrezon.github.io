@@ -5,7 +5,7 @@
 <meta name='description' content='В последнее время всё популярнее становится протокол передачи данных LoRa. Уже несколько спутников вовсю его используют и существует целая сеть приёма сигналов - tinyGS. Конечно же, пропустить такое я не мог и начал исследовать как подключить протокол LoRa к r2cloud. К сожалению, это закрытый протокол, поэтому демодулировать его стандартным rtl-sdr не получится. Для получения сигнала нужно использовать специальный чип, который на выходе уже выдаст готовый пакет. Эти чипы достаточно дешёвые, но напрямую к Raspberrypi не подключаются, а используются в основном в связке с ESP32.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='Программирование ESP32 • dernasherbrezon'>
+<meta property='og:title' content='Создание проекта на основе ESP32 • dernasherbrezon'>
 <meta property='og:description' content='В последнее время всё популярнее становится протокол передачи данных LoRa. Уже несколько спутников вовсю его используют и существует целая сеть приёма сигналов - tinyGS. Конечно же, пропустить такое я не мог и начал исследовать как подключить протокол LoRa к r2cloud. К сожалению, это закрытый протокол, поэтому демодулировать его стандартным rtl-sdr не получится. Для получения сигнала нужно использовать специальный чип, который на выходе уже выдаст готовый пакет. Эти чипы достаточно дешёвые, но напрямую к Raspberrypi не подключаются, а используются в основном в связке с ESP32.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/programming-esp32/'>
 <meta property='og:site_name' content='dernasherbrezon'>
@@ -13,7 +13,7 @@
 
 <meta name="generator" content="Hugo 0.81.0" />
 
-  <title>Программирование ESP32 • dernasherbrezon</title>
+  <title>Создание проекта на основе ESP32 • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/programming-esp32/'>
   
   
@@ -98,7 +98,7 @@
       </li><li>
         <a href='/tags/embedded/' style='font-size:1.065217391304348em'>embedded</a>
       </li><li>
-        <a href='/tags/esp32/' style='font-size:1em'>esp32</a>
+        <a href='/tags/esp32/' style='font-size:1.0217391304347827em'>esp32</a>
       </li><li>
         <a href='/tags/flot/' style='font-size:1em'>flot</a>
       </li><li>
@@ -146,7 +146,7 @@
       </li><li>
         <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
       </li><li>
-        <a href='/tags/lora/' style='font-size:1em'>lora</a>
+        <a href='/tags/lora/' style='font-size:1.0217391304347827em'>lora</a>
       </li><li>
         <a href='/tags/lrpt/' style='font-size:1.0434782608695652em'>lrpt</a>
       </li><li>
@@ -182,7 +182,7 @@
       </li><li>
         <a href='/tags/r2cloud/' style='font-size:1.0434782608695652em'>r2cloud</a>
       </li><li>
-        <a href='/tags/r2lora/' style='font-size:1em'>r2lora</a>
+        <a href='/tags/r2lora/' style='font-size:1.0217391304347827em'>r2lora</a>
       </li><li>
         <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
       </li><li>
@@ -325,7 +325,7 @@
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>Программирование ESP32</h1>
+      <h1 class='title'>Создание проекта на основе ESP32</h1>
       
 
     </div>
@@ -394,6 +394,7 @@
 <p>Помимо IDE, PlatformIO предоставляет CLI. С помощью него можно делать всё то же самое, что и в IDE, но в консоли. Дизайн PlatformIO очень похож на cmake, который лишь вызывает gcc с нужными параметрами, генерирует makefile, собирает приложение и пр. PlatformIO скачивает многочисленные Python-зависимости и делегирует сборку тому же ESP-IDF. При этом он отлично интегрирует множество несвязанных инструментов между собой позволяя сосредоточится на разработке приложения, а не конфигурировании.</p>
 <p>На самом деле PlatformIO покрывает 100% всех потребностей. За несколько месяцев разработки я не испытывал никаких неудобств, и всё было под рукой.</p>
 <p>В следующей статье я постараюсь описать структуру проекта, процесс разработки приложения и раскрыть некоторые особенности программирования под микроконтроллеры.</p>
+<p>Далее: <a href="https://dernasherbrezon.com/posts/configuring-platformio/">настройка проекта</a></p>
 
 </div>
 
@@ -426,6 +427,17 @@
 </svg>
  </span>
         <span class='screen-reader-text'>: </span>Счётчики и датчики</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/configuring-platformio/'>
+        <span class='screen-reader-text'>: </span>Настройка проекта в PlatformIO<span aria-hidden='true'> <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
     </div></div>
 </nav>
 
@@ -499,7 +511,7 @@
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2021 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2022 dernasherbrezon </p>
 </div>
 
         </div>

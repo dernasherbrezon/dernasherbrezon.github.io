@@ -7,13 +7,149 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 31 Dec 2021 01:30:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 01 Jan 2022 20:30:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item turbo="true">
-      <title>Программирование ESP32</title>
+      <title>Настройка проекта в PlatformIO</title>
+      <link>https://dernasherbrezon.com/posts/configuring-platformio/</link>
+      <pubDate>Sat, 01 Jan 2022 20:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/configuring-platformio/</guid>
+      <description>В предыдущей статье я описал общий дизайн r2lora и выбрал инструменты для разработки. Теперь можно остановится на конфигурировании проекта и разбиении его на отдельные модули. PlatformIO отлично интегрирован с множеством различных инструментов и позволяет делать сложные вещи почти так же просто, как и в Java.
+Управление зависимостями Бич любой разработки на C/C++ - это управление зависимостями. В языке и экосистеме просто нет стандартного способа для этого. Каждый делает это по-своему. Есть широко известный в узких кругах Conan.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Настройка проекта в PlatformIO</h1></header>
+      		<div class='container entry-content'>
+  <p>В <a href="https://dernasherbrezon.com/posts/programming-esp32/">предыдущей статье</a> я описал общий дизайн r2lora и выбрал инструменты для разработки. Теперь можно остановится на конфигурировании проекта и разбиении его на отдельные модули. <a href="https://platformio.org">PlatformIO</a> отлично интегрирован с множеством различных инструментов и позволяет делать сложные вещи почти так же просто, как и в Java.</p>
+<h2 id="управление-зависимостями">Управление зависимостями</h2>
+<p>Бич любой разработки на C/C++ - это управление зависимостями. В языке и экосистеме просто нет стандартного способа для этого. Каждый делает это по-своему. Есть широко известный в узких кругах <a href="https://dernasherbrezon.com/posts/dynamic-libraries-rpath/">Conan</a>. Но в нём нет множества библиотек. Есть библиотеки в операционных системах, но они не подходят для микроконтроллеров и их версии определяются операционными системами, а не приложениями.</p>
+<p>В PlatformIO есть свой репозиторий библиотек, которые удобный образом интегрированы в платформу.</p>
+<p><img src="/img/configuring-platformio/libs.png" alt=""></p>
+<p>Здесь можно отфильтровать библиотеки по типу микроконтроллера, фреймворку, назначению и многим другим параметрам. Это необычайно полезно, потому что существует великое множество различных микроконтроллеров. И все они разные. Разная архитектура, разные наборы регистров, разные объёмы памяти. И то, что PlatformIO изначально это учитывает, позволяет хоть как-то бороться с хаосом.</p>
+<p>Для того, чтобы добавить зависимость в проект нужно написать следующее:</p>
+<pre><code>[env]
+lib_deps = 
+	jgromes/RadioLib@^4.6.0
+	prampec/IotWebConf@^3.2.0
+	bblanchon/ArduinoJson@^6.18.5
+	thingpulse/ESP8266 and ESP32 OLED driver for SSD1306 displays@^4.2.1
+</code></pre><p>Это добавит 4 библиотеки:</p>
+<ul>
+<li><a href="https://github.com/jgromes/RadioLib">jgromes/RadioLib</a> - библиотека для работы с чипом LoRa. Она предоставляет универсальный интерфейс для отправки и получения данных, а также скрывает некоторые особенности реализации самих чипов.</li>
+<li><a href="https://github.com/prampec/IotWebConf">prampec/IotWebConf</a> - библиотека для конфигурирования. Она поднимает точку доступа, хранит конфигурацию системы в постоянной памяти и полностью отвечает за начальную конфигурацию системы.</li>
+<li><a href="https://github.com/bblanchon/ArduinoJson">bblanchon/ArduinoJson</a> - сериализация и десериализация JSON.</li>
+<li><a href="https://github.com/ThingPulse/esp8266-oled-ssd1306">thingpulse/ESP8266 and ESP32 OLED driver for SSD1306 displays</a> - удобная библиотека для работы со встроенным дисплеем.</li>
+</ul>
+<p>Все зависимости просто скачиваются из git репозитория и складываются в специальную папку внутри проекта. По сути это очень похоже на работу с зависимостями в npm. Эти зависимости компилируются как часть проекта в единый бинарник - firmware.bin, который прошивается в микроконтроллер. Если какие-то библиотечные функции не используются, то они и не попадают в финальный дистрибутив. Это особенно актуально для микроконтроллеров, так как размер памяти там обычно маленький. Для примера плата <a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v2.html">TTGO LoRa32-OLED V2</a> имеет всего 4мб встроенной флеш памяти и 320кб оперативной. И это считается очень много.</p>
+<h2 id="платы">Платы</h2>
+<p>Если говорить о платах, то в PlatformIO есть специальная сущность - &ldquo;board&rdquo; (плата). Каждая плата характеризуется типом процессора, частотой работы, размером оперативной памяти и многими другими параметрами. Если в проекте планируется поддержка разных плат, то их достаточно объявить в конфигурации и тогда PlatformIO будет собирать отдельную прошивку для каждой из них.</p>
+<pre><code>[env:ttgo-lora32-v2]
+platform = espressif32
+board = ttgo-lora32-v2
+build_flags = 
+    ${env.build_flags}
+	-DPIN_CS=18
+	-DPIN_DI0=26
+	-DPIN_RST=23
+	-DPIN_OLED_SDA=21
+	-DPIN_OLED_SCL=22
+</code></pre><p>В примере выше я объявил некоторую конфигурацию (&ldquo;ttgo-lora32-v2&rdquo;), которую нужно использовать для сборки приложения под плату ttgo-lora32-v2 с дополнительными флагами компиляции. <code>${env.build_flags}</code> наследует общую конфигурацию <code>build_flags</code> из объявления <code>env</code>. Остальные параметры специфичны для конкретной платы. Из-за того, что каждая плата имеет фиксированные номера пинов, то их можно объявить прямо в конфигурации.</p>
+<p>r2lora поддерживает все платы, в которых используется LoRa чип:</p>
+<ul>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v2.html">ttgo-lora32-v2</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v1.html">ttgo-lora32-v1</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v21.html">ttgo-lora32-v21</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/heltec_wifi_lora_32.html">heltec_wifi_lora_32</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/heltec_wifi_lora_32_V2.html">heltec_wifi_lora_32_V2</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-t-beam.html">ttgo-t-beam</a></li>
+</ul>
+<p>Никто не мешает прикрутить <a href="https://www.amazon.co.uk/SX1278-DRF1278F-Arduino-wireless-module/dp/B079QZXP5D">LoRa чип</a> вручную к плате. В таком случае достаточно будет объявить новый env и прописать каждый из пинов.</p>
+<p>Для каждой платы может быть собственный набор библиотек и своя собственная папка для сборки:</p>
+<p><img src="/img/configuring-platformio/envs.png" alt=""></p>
+<h2 id="платформа-и-фреймворк">Платформа и фреймворк</h2>
+<p>Помимо плат, в PlatformIO есть понятие платформы и фреймворка. Платформа обычно соответствует типу микроконтроллера. В случае с ESP32 - это espressif32. Иногда микроконтроллер может поддерживать разные архитектуры, тогда каждая из них имеет свой id платформы. Ближайший аналог - это arm64 или armhf. За тем исключением, что платформа описывает конкретный чип. Нечто похожее я пытался сделать, когда компилировал приложения <a href="https://dernasherbrezon.com/posts/apt-for-cpu/">для конкретных процессоров</a>.</p>
+<p>Все платы, которые содержат LoRa чипы основаны на ESP32, поэтому <code>platform = espressif32</code>.</p>
+<p>Фреймворк - это нечто вроде SDK, который обычно предоставляет производитель микроконтроллеров. Обычно с помощью одного SDK можно разрабатывать под разные модели микроконтроллеров. Иногда есть универсальные SDK. Для ESP32 можно разрабатывать как с помощью <code>framework = espidf</code>, так и <code>framework = arduino</code>. Я выбрал arduino, так как с помощью Arduino API написано множество библиотек. Несмотря на то, что ESP32 несовместим напрямую в Arduino, существует промежуточный слой <code>framework-arduinoespressif32</code>, который конвертирует Arduino API в вызовы ESP32. Немного неоптимально, но ESP32 достаточно мощный, и никто сильно этим не заморачивается.</p>
+<h2 id="структура-проекта">Структура проекта</h2>
+<p>При использовании <code>framework = arduino</code> проект должен быть стурктурирован следующим образом:</p>
+<p><img src="/img/configuring-platformio/project.png" alt=""></p>
+<p>Внутри папки <code>src</code> находятся исходники и входная точка в программу. Обычно это main с методами <code>void loop()</code> и <code>void setup()</code>. Можно программировать на С или С++. Однако, если некоторые библиотеки написаны на С++ и не поддерживают подключение из С, то придётся писать на С++ (sigh!).</p>
+<p>Есть ещё папка <code>lib</code>. Она должна содержать небольшие компоненты приложения, которые нужно оттестировать. Выглядит это так:</p>
+<ul>
+<li>PlatformIO будет брать каждую подпапку внутри <code>lib</code> и компилировать</li>
+<li>линковать с тестами</li>
+<li>собирать firmware.bin</li>
+<li>прошивать на плату и получать результаты выполнения теста</li>
+</ul>
+<h2 id="тестирование-проекта">Тестирование проекта</h2>
+<p>PlatformIO позволяет запускать тесты прямо на микроконтроллере! Тесты можно разбить на отдельные Test Suite и внутри каждого сделать несколько юнит тестов. Каждый Test Suite - это отдельная прошивка, которая имеет одну точку входа и заливается на микроконтроллер стандартным способом.</p>
+<p>В скриншоте выше я сделал несколько Test Suite:</p>
+<ul>
+<li>api - тестирование REST API интерфейса</li>
+<li>embedded (lora) - тестирование LoRa модуля. Достаточно стартовать приём и остановить. Проверяется правильная конфигурация пинов и использование чипа</li>
+<li>fota - тестирование <a href="https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D0%BE_%D0%B2%D0%BE%D0%B7%D0%B4%D1%83%D1%85%D1%83">Firmware-Over-The-Air (FOTA)</a>. Относительно сложный тест, который по-умолчанию не запускается. Он скачивает новую прошивку из S3 и применяет её.</li>
+<li>util - тестирование небольшого вспомогательного класса.</li>
+</ul>
+<p>Я не стал заморачиваться с 80% покрытием кода тестами (его ещё и не подсчитать просто так!), поэтому постарался по-максимуму оттестировать код. А уж, что не получилось, то неполучилось.</p>
+<p>Каждый Test Suite содержит несколько юнит тестов. Для написания юнит тестов используется библиотека <a href="https://github.com/ThrowTheSwitch/Unity">unity</a>. Посколько юнит тест должен выполняться один раз, то метод loop не должен делать ничего полезного. Например, он может моргать светодиодом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">loop</span>() {
+  digitalWrite(<span style="color:#ae81ff">13</span>, HIGH);
+  delay(<span style="color:#ae81ff">100</span>);
+  digitalWrite(<span style="color:#ae81ff">13</span>, LOW);
+  delay(<span style="color:#ae81ff">500</span>);
+}
+</code></pre></div><p>Вся логика должна находится в методе setup:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup</span>() {
+  <span style="color:#75715e">// NOTE!!! Wait for &gt;2 secs
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// if board doesn&#39;t support software reset via Serial.DTR/RTS
+</span><span style="color:#75715e"></span>  delay(<span style="color:#ae81ff">2000</span>);
+
+  UNITY_BEGIN();
+  RUN_TEST(test_success_start);
+  RUN_TEST(test_no_request);
+  RUN_TEST(test_invalid_json);
+  RUN_TEST(test_begin_failed);
+  RUN_TEST(test_success_stop_even_if_not_running);
+  RUN_TEST(test_pull);
+  RUN_TEST(test_frames_after_stop);
+  RUN_TEST(test_cant_tx_during_receive);
+  RUN_TEST(test_invalid_tx_request);
+  RUN_TEST(test_empty_tx_request);
+  RUN_TEST(test_invalid_lora_tx_code);
+  RUN_TEST(test_invalid_tx_data_request);
+  RUN_TEST(test_success_tx);
+  UNITY_END();
+}
+</code></pre></div><p>В примере выше я добавляю в Test Suite несколько юнит тестов. Каждый юнит тест это отдельная функция:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_success_start</span>(<span style="color:#66d9ef">void</span>) {
+  ApiHandler handler(<span style="color:#f92672">&amp;</span>web, <span style="color:#f92672">&amp;</span>mock, NULL, NULL);
+  String output;
+  <span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> handler.handleStart(VALID_RX_REQUEST, <span style="color:#f92672">&amp;</span>output);
+  TEST_ASSERT_EQUAL_INT(<span style="color:#ae81ff">200</span>, code);
+  assertStatus(<span style="color:#f92672">&amp;</span>output, <span style="color:#e6db74">&#34;SUCCESS&#34;</span>);
+}
+</code></pre></div><p>Здесь не должно быть ничего неожиданного. Обычное тестирование какое можно встретить даже в Java проекте.</p>
+<p>Можно запускать как отдельные Test Suite, так и все вместе.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pio test --test-port /dev/ttyACM0 -e ttgo-lora32-v2 -f fota
+</code></pre></div><p>В результате PlatformIO выведет на экран разную статистику:</p>
+<p><img src="/img/configuring-platformio/unittests.png" alt=""></p>
+<p>Более детальную документацию можно найти на сайте проекта: <a href="https://docs.platformio.org/en/latest//plus/unit-testing.html">unit testing</a>.</p>
+<h2 id="далее">Далее</h2>
+<p>После того, как структура проекта достаточно понятна, можно приступать непосредственно в реализации. О чём я постараюсь написать в следующей статье.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
+    
+    <item turbo="true">
+      <title>Создание проекта на основе ESP32</title>
       <link>https://dernasherbrezon.com/posts/programming-esp32/</link>
       <pubDate>Fri, 31 Dec 2021 01:30:18 +0100</pubDate>
       
@@ -22,7 +158,7 @@
       <turbo:content>
       	<![CDATA[
       		<header>
-      			<h1>Программирование ESP32</h1></header>
+      			<h1>Создание проекта на основе ESP32</h1></header>
       		<div class='container entry-content'>
   <p>В последнее время всё популярнее становится протокол передачи данных <a href="https://ru.wikipedia.org/wiki/LoRa">LoRa</a>. Уже несколько спутников вовсю его используют и существует целая сеть приёма сигналов - <a href="https://tinygs.com">tinyGS</a>. Конечно же, пропустить такое я не мог и начал исследовать как подключить протокол LoRa к <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>. К сожалению, это закрытый протокол, поэтому демодулировать его стандартным rtl-sdr не получится. Для получения сигнала нужно использовать специальный чип, который на выходе уже выдаст готовый пакет. Эти чипы достаточно дешёвые, но напрямую к Raspberrypi не подключаются, а используются в основном в связке с ESP32. Из всего этого и родился мой новый проект - <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a>.</p>
 <h2 id="постановка-задачи">Постановка задачи</h2>
@@ -62,6 +198,7 @@
 <p>Помимо IDE, PlatformIO предоставляет CLI. С помощью него можно делать всё то же самое, что и в IDE, но в консоли. Дизайн PlatformIO очень похож на cmake, который лишь вызывает gcc с нужными параметрами, генерирует makefile, собирает приложение и пр. PlatformIO скачивает многочисленные Python-зависимости и делегирует сборку тому же ESP-IDF. При этом он отлично интегрирует множество несвязанных инструментов между собой позволяя сосредоточится на разработке приложения, а не конфигурировании.</p>
 <p>На самом деле PlatformIO покрывает 100% всех потребностей. За несколько месяцев разработки я не испытывал никаких неудобств, и всё было под рукой.</p>
 <p>В следующей статье я постараюсь описать структуру проекта, процесс разработки приложения и раскрыть некоторые особенности программирования под микроконтроллеры.</p>
+<p>Далее: <a href="https://dernasherbrezon.com/posts/configuring-platformio/">настройка проекта</a></p>
 
 </div>
 

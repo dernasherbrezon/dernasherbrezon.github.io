@@ -5,9 +5,19 @@
     <link>https://dernasherbrezon.com/tags/r2lora/</link>
     <description>Recent content in r2lora on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 31 Dec 2021 01:30:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/r2lora/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 01 Jan 2022 20:30:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/r2lora/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Программирование ESP32</title>
+      <title>Настройка проекта в PlatformIO</title>
+      <link>https://dernasherbrezon.com/posts/configuring-platformio/</link>
+      <pubDate>Sat, 01 Jan 2022 20:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/configuring-platformio/</guid>
+      <description>В предыдущей статье я описал общий дизайн r2lora и выбрал инструменты для разработки. Теперь можно остановится на конфигурировании проекта и разбиении его на отдельные модули. PlatformIO отлично интегрирован с множеством различных инструментов и позволяет делать сложные вещи почти так же просто, как и в Java.
+Управление зависимостями Бич любой разработки на C/C++ - это управление зависимостями. В языке и экосистеме просто нет стандартного способа для этого. Каждый делает это по-своему. Есть широко известный в узких кругах Conan.</description>
+    </item>
+    
+    <item>
+      <title>Создание проекта на основе ESP32</title>
       <link>https://dernasherbrezon.com/posts/programming-esp32/</link>
       <pubDate>Fri, 31 Dec 2021 01:30:18 +0100</pubDate>
       
