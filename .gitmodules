@@ -1,0 +1,3 @@
+[submodule "hugo/themes/minimo"]
+	path = hugo/themes/minimo
+	url = https://github.com/MunifTanjim/minimo.git
