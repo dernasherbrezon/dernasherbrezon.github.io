@@ -7,10 +7,263 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 01 Jan 2022 20:30:18 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Jan 2022 21:04:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Создание FOTA компонента</title>
+      <link>https://dernasherbrezon.com/posts/fota-for-r2lora/</link>
+      <pubDate>Sun, 02 Jan 2022 21:04:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fota-for-r2lora/</guid>
+      <description>Эта статья продолжает цикл разработки проекта r2lora. Предыдущие статьи:
+ Создание проекта на основе ESP32 Настройка проекта в PlatformIO  FOTA - это сокращение от Firmware-Over-The-Air (обновление по воздуху). Это специальный компонент, который обновляет приложение, если доступна новая версия.
+Дизайн Автообновление можно сделать несколькими способами:
+ Специальный компонент начинает слушать TCP/UDP порт. Для обновления нужно отправить прошивку на этот порт с любого другого устройства работающего в сети. По сути push-обновление. Специальный компонент периодически проверяет центральный сервер на наличие новой версии.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Создание FOTA компонента</h1></header>
+      		<div class='container entry-content'>
+  <p>Эта статья продолжает цикл разработки проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a>. Предыдущие статьи:</p>
+<ul>
+<li><a href="https://dernasherbrezon.com/posts/programming-esp32/">Создание проекта на основе ESP32</a></li>
+<li><a href="https://dernasherbrezon.com/posts/configuring-platformio/">Настройка проекта в PlatformIO</a></li>
+</ul>
+<p>FOTA - это сокращение от <a href="https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D0%BE_%D0%B2%D0%BE%D0%B7%D0%B4%D1%83%D1%85%D1%83">Firmware-Over-The-Air</a> (обновление по воздуху). Это специальный компонент, который обновляет приложение, если доступна новая версия.</p>
+<h2 id="дизайн">Дизайн</h2>
+<p>Автообновление можно сделать несколькими способами:</p>
+<ul>
+<li>Специальный компонент начинает слушать TCP/UDP порт. Для обновления нужно отправить прошивку на этот порт с любого другого устройства работающего в сети. По сути push-обновление.</li>
+<li>Специальный компонент периодически проверяет центральный сервер на наличие новой версии. Если такая есть, то он скачивает её.</li>
+</ul>
+<p>Первый способ реализован в стандартной библиотеке <a href="https://github.com/jandrassy/ArduinoOTA">ArduinoOTA</a>. Она используется повсеместно и стала стандартом де-факто в мире микроконтроллеров. Из плюсов можно отметить простоту работы: устройство начинает обновление, как только кто-то извне отправил новую версию. Не нужно создавать сложную инфраструктуру хранения и доставки обновлений: достаточно отправить прошивку с любого устройства находящегося в сети.</p>
+<p>Но у этого подхода есть серьёзный недостаток: нужен ещё один внешний сервер (для автоматизации) или пользователь (ручное) для того, чтобы закачивать прошивку.</p>
+<p>Я выбрал второй вариант. Он больше всего походит на классический способ обновления пакетов в Debian, Ubuntu и других операционных системах. APT или любой другой менеджер периодически проверяет сервер на наличие обновлений, скачивает и устанавливает их. Так работают все обновления безопасности почти во всех операционных системах. Из недостатков - нужно хранить прошивки на центральном сервере и FOTA-компонент должен периодически проверять доступность новой версии. В моём случае это не такая большая проблема, так как я уже поддерживаю собственный APT репозиторий. И добавление FOTA репозитория не так уж сложно.</p>
+<h2 id="fota-репозиторий">FOTA репозиторий</h2>
+<p>Я не стал городить сложную структуру репозитория, как это сделано в APT. FOTA репозиторий состоит из двух логических файлов:</p>
+<ul>
+<li>r2lora.json - файл-индекс с текущими версиями прошивок под каждую плату</li>
+<li>непосредственно сами файлы прошивок</li>
+</ul>
+<p>Файл-индекс имеет следующую структуру:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
+    {
+        <span style="color:#f92672">&#34;board&#34;</span>: <span style="color:#e6db74">&#34;ttgo-lora32-v2&#34;</span>,
+        <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.1&#34;</span>,
+        <span style="color:#f92672">&#34;filename&#34;</span>: <span style="color:#e6db74">&#34;/fotatest/ttgo-lora32-v2-1.1.bin.zz&#34;</span>,
+        <span style="color:#f92672">&#34;size&#34;</span>: <span style="color:#ae81ff">203984</span>,
+        <span style="color:#f92672">&#34;md5Checksum&#34;</span>: <span style="color:#e6db74">&#34;6c0931332848636087c599a1ad9c06a8&#34;</span>
+    }
+]
+</code></pre></div><p>В нём находится массив json-объектов, описывающих каждую плату. Из-за того, что каждая плата отличается друг от друга, репозиторий должен хранить прошивки одной и той же версии для каждой из плат. Каждая прошивка описывается следующими обязательными полями:</p>
+<table>
+<thead>
+<tr>
+<th>
+Название
+</th>
+<th>
+Описание
+</th>
+<th>
+Пример
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+board
+</td>
+<td>
+Имя платы. Должно совпадать с именем платы в PlatformIO
+</td>
+<td>
+ttgo-lora32-v2
+</td>
+</tr>
+<tr>
+<td>
+version
+</td>
+<td>
+Версия приложения. Если текущая версия приложения не совпадает с версией в репозитории, то скачивается версия из репозитория.
+</td>
+<td>
+1.1
+</td>
+</tr>
+<tr>
+<td>
+filename
+</td>
+<td>
+Путь до файла внутри репозитория. Все файлы должны быть сжаты с помощью zlib.
+</td>
+<td>
+/fota/ttgo-lora32-v2-1.1.bin.zz
+</td>
+</tr>
+<tr>
+<td>
+size
+</td>
+<td>
+Размер файла прошивки в байтах ДО сжатия. Позволяет правильно рисовать прогресс бар при обновлении.
+</td>
+<td>
+203984
+</td>
+</tr>
+<tr>
+<td>
+md5Checksum
+</td>
+<td>
+Контрольная сумма файла прошивки ДО сжатия. Алгоритм: MD5
+</td>
+<td>
+6c0931332848636087c599a1ad9c06a8
+</td>
+</tr>
+</tbody>
+</table>
+<p>Все прошивки отлично сжимаются почти в 2 раза, поэтому по-умолчанию репозиторий может содержать только сжатые прошивки. При этом экономится не только место на моём S3 и сеть, но и увеличивается скорость скачивания новых версий. Это особенно актуально на таких маломощных устройствах как ESP32.</p>
+<p>Доступ к FOTA репозиторию осуществляется с помощью HTTP, поэтому его можно развернуть где угодно. В моём случае - это Amazon S3.</p>
+<h2 id="алгоритм-работы">Алгоритм работы</h2>
+<p>Первым делом <a href="https://github.com/dernasherbrezon/r2lora/blob/main/lib/fota/Fota.cpp#L13">FOTA компонент</a> скачивает файл-индекс.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>begin(hostname, port, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>indexFile)) {
+  log_e(<span style="color:#e6db74">&#34;unable to begin&#34;</span>);
+  <span style="color:#66d9ef">return</span> FOTA_UNKNOWN_ERROR;
+}
+<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified.isEmpty()) {
+  <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>addHeader(<span style="color:#e6db74">&#34;If-Modified-Since&#34;</span>, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified);
+}
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>headers[] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Last-Modified&#34;</span>};
+<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>collectHeaders(headers, <span style="color:#ae81ff">1</span>);
+<span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>GET();
+</code></pre></div><p>При этом я запоминаю время последнего обновления файла. Если файл не поменялся, то сервер должен вернуть HTTP 304. И тогда я немного съэкономлю на трафике и разборе json-файла. Для доступа к репозиторию я использую стандартный <code>HTTPClient</code> из <code>HTTPClient.h</code>, который поставляется вместе с фреймворком Arduino.</p>
+<p>Далее компонент должен найти информацию о прошивке для текущей платы. PlatformIO передаёт имя платы при компиляции через параметр <code>ARDUINO_VARIANT</code>.</p>
+<p>Если информация найдена и версия не совпадает с текущей, то FOTA скачает файл прошивки с сервера. Правда, алгоритм скачивания достаточно хитрый. Дело в том, что файл полностью не поместится в памяти, поэтому надо скачивать небольшим буфером и сразу записывать в правильный раздел. Для работы с обновлениями есть специальный класс <code>Update</code> из <code>Update.h</code>. Он записывает новую версию в специальную партицию на флеш памяти, проверяет контрольную сумму полученного файла и устанавливает новую партицию в качестве загрузочной.</p>
+<p>Помимо этого, FOTA компонент поддерживает специальный callback метод. По мере скачивания файла, которое может занять некоторое время, я обновляю прогресс бар.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc) {
+  Update.onProgress(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc);
+}
+</code></pre></div><p>Эта лямбда-функция на вход получает текущее количество скачанных байт и общее количество байт. Вывод на экран при этом достаточно тривиальный:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">updater<span style="color:#f92672">-&gt;</span>setOnUpdate([](size_t current, size_t total) {
+  display<span style="color:#f92672">-&gt;</span>setStatus(<span style="color:#e6db74">&#34;UPDATING&#34;</span>);
+  display<span style="color:#f92672">-&gt;</span>setProgress((<span style="color:#66d9ef">uint8_t</span>)((<span style="color:#66d9ef">float</span>)current <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">/</span> total));
+  display<span style="color:#f92672">-&gt;</span>update();
+});
+</code></pre></div><p>Как только файл полностью скачен и контрольная сумма проверена, необходимо перезагрузить плату:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (reboot) {
+  log_i(<span style="color:#e6db74">&#34;update completed. rebooting&#34;</span>);
+  ESP.restart();
+} <span style="color:#66d9ef">else</span> {
+  log_i(<span style="color:#e6db74">&#34;update completed&#34;</span>);
+}
+</code></pre></div><h2 id="zlib">zlib</h2>
+<p>Отдельно хочется остановится на архивировании/разархивировании. В ESP32 нет поддержки <a href="https://zlib.net">zlib</a>. Поэтому надо либо самому портировать zlib на ESP32, либо искать более легковесную альтернативу. И она есть - <a href="https://github.com/richgel999/miniz">miniz</a>. Но самое замечательное заключается в том, что ROM уже содержит реализацию основных функций miniz. Так что на размер прошивки использование miniz не влияет.</p>
+<p>Разархивирование потока данных состоит из нескольких шагов. Во-первых, нужно инициализировать вспомогательные структуры для miniz:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">tinfl_init(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>inflator);
+</code></pre></div><p>Во-вторых, нужно создать два промежуточных буфера.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextCompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>compressedBuffer;
+<span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextUncompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer;
+</code></pre></div><p>В один буфер необходимо записывать сжатые данные, а в другой буфер miniz будет помещать разархивированные данные. Тут важно выделить не меньше 32768 байт для выходного массива. В документации это не описано, но почему-то miniz требует буфер именного такого размера. Если выделить меньше, то разархивация будет падать со статусом -1.</p>
+<p>Далее интересно: нужно следить, чтобы во входящем буфере было достаточно данных для работы, и при этом, чтобы в исходящем буфере было место для новых данных.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">size_t inBytes <span style="color:#f92672">=</span> actuallyRead;
+size_t outBytes <span style="color:#f92672">=</span> availableOut;
+status <span style="color:#f92672">=</span> tinfl_decompress(inflator, (<span style="color:#66d9ef">const</span> mz_uint8 <span style="color:#f92672">*</span>)nextCompressedBuffer, <span style="color:#f92672">&amp;</span>inBytes,
+                          <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, nextUncompressedBuffer, <span style="color:#f92672">&amp;</span>outBytes,
+                          flags);
+actuallyRead <span style="color:#f92672">-=</span> inBytes;
+nextCompressedBuffer <span style="color:#f92672">=</span> nextCompressedBuffer <span style="color:#f92672">+</span> inBytes;
+
+availableOut <span style="color:#f92672">-=</span> outBytes;
+nextUncompressedBuffer <span style="color:#f92672">=</span> nextUncompressedBuffer <span style="color:#f92672">+</span> outBytes;
+</code></pre></div><p>Как только исходящий буфер полностью заполнен, можно записывать на флэш:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">size_t actuallyWrote <span style="color:#f92672">=</span> Update.write(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, bytesInTheOutput);
+</code></pre></div><p>Однако, когда я запустил тест, то получил следующую ошибку:</p>
+<pre><code>[I][Fota.cpp:191] downloadAndApplyFirmware(): downloading new firmware: 203984 bytes
+***ERROR*** A stack overflow in task loopTask has been detected.
+abort() was called at PC 0x40088a50 on core 1
+
+ELF file SHA256: 0000000000000000
+
+Backtrace: 0x400887bc:0x3ffaee10 0x40088a39:0x3ffaee30 0x40088a50:0x3ffaee50 0x4008a633:0x3ffaee70 0x4008c1fc:0x3ffaee90 0x4008c1b2:0x00a42700
+  #0  0x400887bc:0x3ffaee10 in invoke_abort at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/esp32/panic.c:715
+  #1  0x40088a39:0x3ffaee30 in abort at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/esp32/panic.c:715
+  #2  0x40088a50:0x3ffaee50 in vApplicationStackOverflowHook at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/esp32/panic.c:715
+  #3  0x4008a633:0x3ffaee70 in vTaskSwitchContext at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/tasks.c:3507
+  #4  0x4008c1fc:0x3ffaee90 in _frxt_dispatch at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/portasm.S:406
+  #5  0x4008c1b2:0x00a42700 in _frxt_int_exit at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/portasm.S:206
+</code></pre><p>Казалось бы, причём тут <code>stack overflow</code>? У меня даже рекурсии нет. Оказывается, нельзя написать вот так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">tinfl_decompressor inflator;
+</code></pre></div><p>Это создаст структуру на стеке вызова функции. И размер этой структуры больше, чем доступная память стека. Микроконтроллеры. По той же причине нельзя написать:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">uint8_t</span> uncompressedBuffer[<span style="color:#ae81ff">32768</span>];
+</code></pre></div><p>Иначе получится:</p>
+<pre><code>[E][WiFiClient.cpp:62] fillBuffer(): Not enough memory to allocate buffer
+[E][WiFiClient.cpp:439] read(): fail on fd 61, errno: 11, &quot;No more processes&quot;
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+</code></pre><p>Решается это просто - нужно выделять объекты в heap с помощью malloc или new.</p>
+<p>После того, как я исправил все эти исключения, то обнаружил, что zlib - это не то же самое, что и gzip. У них разные заголовки. Поэтому создать прошивку следующей командой просто не получится:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gzip firmware.bin
+</code></pre></div><p>miniz не сможет распаковать. Внутри всё тот же Deflate, но заголовки файлов отличаются. Можно воспользоваться разными хаками и подменять заголовок gzip, но мне показалось это ненадёжным. Я нашёл специальную программу <a href="https://zlib.net/pigz/">pigz</a>, которая может создавать zlib-файлы:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pigz --zlib firmware.bin
+</code></pre></div><p>Немного неудобно, но работает.</p>
+<h2 id="тестирование">Тестирование</h2>
+<p>Код нужно тестировать, и FOTA не исключение. Но как протестировать обновление самого себя? Ведь после обновления нужно перезагрузить программу и результат теста определённо пропадёт. Тут я пошёл на некоторые уступки и отошёл от классического юнит-тестирования:</p>
+<ul>
+<li>в метод <code>loop</code> я добавил параметр <code>bool reboot</code>. Он нужен только для тестирования.</li>
+<li>метод <code>loop</code> начал возвращать статус код. С одной стороны большинство программ на С и так возвращают статус-код. С другой стороны, он тут не нужен и используется в тестах, чтобы понять тип ошибки.</li>
+</ul>
+<p>Ещё одной сложностью тестирования FOTA является сильная привязка к разной инфраструктуре. Нужно убедиться, что HTTP клиент правильно инициализирован и действительно скачивает прошивку. Нужно убедиться, что zlib распаковывает файл и контрольная сумма совпадает. &ldquo;Раз нужно тестировать инфраструктуру, то нужно поднять инфраструктуру!&rdquo; - подумал я и создал:</p>
+<ul>
+<li>специальные версии прошивок для каждой из плат, которые ничего не делают.</li>
+<li>залил их на S3</li>
+<li>добавил множество файлов-индексов с разными возможными ошибками</li>
+</ul>
+<p>Пример юнит-теста ниже:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_non_existing_file</span>() {
+  Fota fota;
+  fota.init(<span style="color:#e6db74">&#34;1.0&#34;</span>, <span style="color:#e6db74">&#34;apt.r2server.ru&#34;</span>, <span style="color:#ae81ff">80</span>, <span style="color:#e6db74">&#34;/fotatest/missingfile.json&#34;</span>, <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>, ARDUINO_VARIANT);
+  TEST_ASSERT_EQUAL(FOTA_INVALID_SERVER_RESPONSE, fota.loop(false));
+}
+</code></pre></div><p>FOTA инициализируется и пытается проверить обновление. <code>missingfile.json</code> - это заранее созданный файл с ожидаемой ошибкой, который я загрузил на S3.</p>
+<p>Ещё одним неудобством стало подключение к WiFi перед выполнением теста. Ведь для того, чтобы скачать с S3 нужно полностью инициализированное подключение к Интернету. PlatformIO позволяет передавать переменные среды в билд:</p>
+<pre><code>build_flags = -DWIFI_SSID=\&quot;${sysenv.WIFI_SSID}\&quot; -DWIFI_PASSWORD=\&quot;${sysenv.WIFI_PASSWORD}\&quot;
+</code></pre><p>В коде они используются следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#ifndef WIFI_SSID
+</span><span style="color:#75715e">#define WIFI_SSID &#34;&#34;
+</span><span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#ifndef WIFI_PASSWORD
+</span><span style="color:#75715e">#define WIFI_PASSWORD &#34;&#34;
+</span><span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+<span style="color:#66d9ef">while</span> (WiFi.status() <span style="color:#f92672">!=</span> WL_CONNECTED) {
+  delay(<span style="color:#ae81ff">500</span>);
+}
+</code></pre></div><p>Если при сборке теста в переменных окружения были логин и пароль для локальной точки доступа, то они будут вкомпилированы в прошивку теста и использованы перед выполнением всех тестов.</p>
+<p>Финальным штрихом будет отключение этого теста по-умолчанию. Я не рассчитываю, что любой желающий собрать проект будет тестировать FOTA, да и мне выполнять тест каждый раз при сборке совсем не хочется. Для этого в PlatformIO есть поддержка отключаемых тестов!</p>
+<pre><code>test_ignore = fota, testfirmware
+</code></pre><p><code>testfirmware</code> - это ещё один тест, который на самом деле не тест, а та самая программа, которая ничего не делает и используется для тестирования FOTA.</p>
+<p>Это всё звучит очень усложнённо, но и сам компонент достаточно сложный и делает много вещей, которые как раз хотелось бы проверять автоматически. А уж сколько ошибок я нашёл с помощью этих тестов! Зато теперь обновление работает идеально.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/_DowEhVwboI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Настройка проекта в PlatformIO</title>

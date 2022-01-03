@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Эта статья продолжает цикл разработки проекта r2lora. Предыдущие статьи:
+ Создание проекта на основе ESP32 Настройка проекта в PlatformIO  FOTA - это сокращение от Firmware-Over-The-Air (обновление по воздуху). Это специальный компонент, который обновляет приложение, если доступна новая версия.
+Дизайн Автообновление можно сделать несколькими способами:
+ Специальный компонент начинает слушать TCP/UDP порт. Для обновления нужно отправить прошивку на этот порт с любого другого устройства работающего в сети. По сути push-обновление. Специальный компонент периодически проверяет центральный сервер на наличие новой версии.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Создание FOTA компонента • dernasherbrezon'>
+<meta property='og:description' content='Эта статья продолжает цикл разработки проекта r2lora. Предыдущие статьи:
+ Создание проекта на основе ESP32 Настройка проекта в PlatformIO  FOTA - это сокращение от Firmware-Over-The-Air (обновление по воздуху). Это специальный компонент, который обновляет приложение, если доступна новая версия.
+Дизайн Автообновление можно сделать несколькими способами:
+ Специальный компонент начинает слушать TCP/UDP порт. Для обновления нужно отправить прошивку на этот порт с любого другого устройства работающего в сети. По сути push-обновление. Специальный компонент периодически проверяет центральный сервер на наличие новой версии.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/fota-for-r2lora/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:video' content='https://youtu.be/_DowEhVwboI'><meta property='article:section' content='posts'><meta property='article:tag' content='esp32'><meta property='article:tag' content='lora'><meta property='article:tag' content='r2lora'><meta property='article:published_time' content='2022-01-02T21:04:18Z'/><meta property='article:modified_time' content='2022-01-02T21:04:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Создание FOTA компонента • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/fota-for-r2lora/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0217391304347827em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.065217391304348em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.065217391304348em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0217391304347827em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.065217391304348em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0217391304347827em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.2826086956521738em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.065217391304348em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.108695652173913em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.065217391304348em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.0434782608695652em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0217391304347827em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0217391304347827em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.065217391304348em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0434782608695652em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.065217391304348em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/heap/' style='font-size:1em'>heap</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0217391304347827em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0434782608695652em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0434782608695652em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.108695652173913em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.065217391304348em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0434782608695652em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0434782608695652em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.0434782608695652em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0434782608695652em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0217391304347827em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.108695652173913em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0217391304347827em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0869565217391304em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.0869565217391304em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0434782608695652em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0217391304347827em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0434782608695652em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0217391304347827em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0217391304347827em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0217391304347827em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0434782608695652em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0434782608695652em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1739130434782608em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.3260869565217392em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0217391304347827em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0217391304347827em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0217391304347827em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2391304347826086em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0434782608695652em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0434782608695652em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0434782608695652em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0217391304347827em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.065217391304348em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0434782608695652em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0434782608695652em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0217391304347827em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0217391304347827em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0434782608695652em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0217391304347827em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0869565217391304em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0434782608695652em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0217391304347827em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1956521739130435em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.065217391304348em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.065217391304348em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0434782608695652em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0434782608695652em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0217391304347827em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0434782608695652em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3260869565217392em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0434782608695652em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3260869565217392em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1739130434782608em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0434782608695652em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Создание FOTA компонента</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2022-01-02T21:04:18Z'>02 Jan 2022</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Эта статья продолжает цикл разработки проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a>. Предыдущие статьи:</p>
+<ul>
+<li><a href="https://dernasherbrezon.com/posts/programming-esp32/">Создание проекта на основе ESP32</a></li>
+<li><a href="https://dernasherbrezon.com/posts/configuring-platformio/">Настройка проекта в PlatformIO</a></li>
+</ul>
+<p>FOTA - это сокращение от <a href="https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D0%BE_%D0%B2%D0%BE%D0%B7%D0%B4%D1%83%D1%85%D1%83">Firmware-Over-The-Air</a> (обновление по воздуху). Это специальный компонент, который обновляет приложение, если доступна новая версия.</p>
+<h2 id="дизайн">Дизайн</h2>
+<p>Автообновление можно сделать несколькими способами:</p>
+<ul>
+<li>Специальный компонент начинает слушать TCP/UDP порт. Для обновления нужно отправить прошивку на этот порт с любого другого устройства работающего в сети. По сути push-обновление.</li>
+<li>Специальный компонент периодически проверяет центральный сервер на наличие новой версии. Если такая есть, то он скачивает её.</li>
+</ul>
+<p>Первый способ реализован в стандартной библиотеке <a href="https://github.com/jandrassy/ArduinoOTA">ArduinoOTA</a>. Она используется повсеместно и стала стандартом де-факто в мире микроконтроллеров. Из плюсов можно отметить простоту работы: устройство начинает обновление, как только кто-то извне отправил новую версию. Не нужно создавать сложную инфраструктуру хранения и доставки обновлений: достаточно отправить прошивку с любого устройства находящегося в сети.</p>
+<p>Но у этого подхода есть серьёзный недостаток: нужен ещё один внешний сервер (для автоматизации) или пользователь (ручное) для того, чтобы закачивать прошивку.</p>
+<p>Я выбрал второй вариант. Он больше всего походит на классический способ обновления пакетов в Debian, Ubuntu и других операционных системах. APT или любой другой менеджер периодически проверяет сервер на наличие обновлений, скачивает и устанавливает их. Так работают все обновления безопасности почти во всех операционных системах. Из недостатков - нужно хранить прошивки на центральном сервере и FOTA-компонент должен периодически проверять доступность новой версии. В моём случае это не такая большая проблема, так как я уже поддерживаю собственный APT репозиторий. И добавление FOTA репозитория не так уж сложно.</p>
+<h2 id="fota-репозиторий">FOTA репозиторий</h2>
+<p>Я не стал городить сложную структуру репозитория, как это сделано в APT. FOTA репозиторий состоит из двух логических файлов:</p>
+<ul>
+<li>r2lora.json - файл-индекс с текущими версиями прошивок под каждую плату</li>
+<li>непосредственно сами файлы прошивок</li>
+</ul>
+<p>Файл-индекс имеет следующую структуру:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
+    {
+        <span style="color:#f92672">&#34;board&#34;</span>: <span style="color:#e6db74">&#34;ttgo-lora32-v2&#34;</span>,
+        <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.1&#34;</span>,
+        <span style="color:#f92672">&#34;filename&#34;</span>: <span style="color:#e6db74">&#34;/fotatest/ttgo-lora32-v2-1.1.bin.zz&#34;</span>,
+        <span style="color:#f92672">&#34;size&#34;</span>: <span style="color:#ae81ff">203984</span>,
+        <span style="color:#f92672">&#34;md5Checksum&#34;</span>: <span style="color:#e6db74">&#34;6c0931332848636087c599a1ad9c06a8&#34;</span>
+    }
+]
+</code></pre></div><p>В нём находится массив json-объектов, описывающих каждую плату. Из-за того, что каждая плата отличается друг от друга, репозиторий должен хранить прошивки одной и той же версии для каждой из плат. Каждая прошивка описывается следующими обязательными полями:</p>
+<table>
+<thead>
+<tr>
+<th>
+Название
+</th>
+<th>
+Описание
+</th>
+<th>
+Пример
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+board
+</td>
+<td>
+Имя платы. Должно совпадать с именем платы в PlatformIO
+</td>
+<td>
+ttgo-lora32-v2
+</td>
+</tr>
+<tr>
+<td>
+version
+</td>
+<td>
+Версия приложения. Если текущая версия приложения не совпадает с версией в репозитории, то скачивается версия из репозитория.
+</td>
+<td>
+1.1
+</td>
+</tr>
+<tr>
+<td>
+filename
+</td>
+<td>
+Путь до файла внутри репозитория. Все файлы должны быть сжаты с помощью zlib.
+</td>
+<td>
+/fota/ttgo-lora32-v2-1.1.bin.zz
+</td>
+</tr>
+<tr>
+<td>
+size
+</td>
+<td>
+Размер файла прошивки в байтах ДО сжатия. Позволяет правильно рисовать прогресс бар при обновлении.
+</td>
+<td>
+203984
+</td>
+</tr>
+<tr>
+<td>
+md5Checksum
+</td>
+<td>
+Контрольная сумма файла прошивки ДО сжатия. Алгоритм: MD5
+</td>
+<td>
+6c0931332848636087c599a1ad9c06a8
+</td>
+</tr>
+</tbody>
+</table>
+<p>Все прошивки отлично сжимаются почти в 2 раза, поэтому по-умолчанию репозиторий может содержать только сжатые прошивки. При этом экономится не только место на моём S3 и сеть, но и увеличивается скорость скачивания новых версий. Это особенно актуально на таких маломощных устройствах как ESP32.</p>
+<p>Доступ к FOTA репозиторию осуществляется с помощью HTTP, поэтому его можно развернуть где угодно. В моём случае - это Amazon S3.</p>
+<h2 id="алгоритм-работы">Алгоритм работы</h2>
+<p>Первым делом <a href="https://github.com/dernasherbrezon/r2lora/blob/main/lib/fota/Fota.cpp#L13">FOTA компонент</a> скачивает файл-индекс.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>begin(hostname, port, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>indexFile)) {
+  log_e(<span style="color:#e6db74">&#34;unable to begin&#34;</span>);
+  <span style="color:#66d9ef">return</span> FOTA_UNKNOWN_ERROR;
+}
+<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified.isEmpty()) {
+  <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>addHeader(<span style="color:#e6db74">&#34;If-Modified-Since&#34;</span>, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified);
+}
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>headers[] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Last-Modified&#34;</span>};
+<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>collectHeaders(headers, <span style="color:#ae81ff">1</span>);
+<span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>GET();
+</code></pre></div><p>При этом я запоминаю время последнего обновления файла. Если файл не поменялся, то сервер должен вернуть HTTP 304. И тогда я немного съэкономлю на трафике и разборе json-файла. Для доступа к репозиторию я использую стандартный <code>HTTPClient</code> из <code>HTTPClient.h</code>, который поставляется вместе с фреймворком Arduino.</p>
+<p>Далее компонент должен найти информацию о прошивке для текущей платы. PlatformIO передаёт имя платы при компиляции через параметр <code>ARDUINO_VARIANT</code>.</p>
+<p>Если информация найдена и версия не совпадает с текущей, то FOTA скачает файл прошивки с сервера. Правда, алгоритм скачивания достаточно хитрый. Дело в том, что файл полностью не поместится в памяти, поэтому надо скачивать небольшим буфером и сразу записывать в правильный раздел. Для работы с обновлениями есть специальный класс <code>Update</code> из <code>Update.h</code>. Он записывает новую версию в специальную партицию на флеш памяти, проверяет контрольную сумму полученного файла и устанавливает новую партицию в качестве загрузочной.</p>
+<p>Помимо этого, FOTA компонент поддерживает специальный callback метод. По мере скачивания файла, которое может занять некоторое время, я обновляю прогресс бар.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc) {
+  Update.onProgress(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc);
+}
+</code></pre></div><p>Эта лямбда-функция на вход получает текущее количество скачанных байт и общее количество байт. Вывод на экран при этом достаточно тривиальный:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">updater<span style="color:#f92672">-&gt;</span>setOnUpdate([](size_t current, size_t total) {
+  display<span style="color:#f92672">-&gt;</span>setStatus(<span style="color:#e6db74">&#34;UPDATING&#34;</span>);
+  display<span style="color:#f92672">-&gt;</span>setProgress((<span style="color:#66d9ef">uint8_t</span>)((<span style="color:#66d9ef">float</span>)current <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">/</span> total));
+  display<span style="color:#f92672">-&gt;</span>update();
+});
+</code></pre></div><p>Как только файл полностью скачен и контрольная сумма проверена, необходимо перезагрузить плату:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (reboot) {
+  log_i(<span style="color:#e6db74">&#34;update completed. rebooting&#34;</span>);
+  ESP.restart();
+} <span style="color:#66d9ef">else</span> {
+  log_i(<span style="color:#e6db74">&#34;update completed&#34;</span>);
+}
+</code></pre></div><h2 id="zlib">zlib</h2>
+<p>Отдельно хочется остановится на архивировании/разархивировании. В ESP32 нет поддержки <a href="https://zlib.net">zlib</a>. Поэтому надо либо самому портировать zlib на ESP32, либо искать более легковесную альтернативу. И она есть - <a href="https://github.com/richgel999/miniz">miniz</a>. Но самое замечательное заключается в том, что ROM уже содержит реализацию основных функций miniz. Так что на размер прошивки использование miniz не влияет.</p>
+<p>Разархивирование потока данных состоит из нескольких шагов. Во-первых, нужно инициализировать вспомогательные структуры для miniz:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">tinfl_init(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>inflator);
+</code></pre></div><p>Во-вторых, нужно создать два промежуточных буфера.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextCompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>compressedBuffer;
+<span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextUncompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer;
+</code></pre></div><p>В один буфер необходимо записывать сжатые данные, а в другой буфер miniz будет помещать разархивированные данные. Тут важно выделить не меньше 32768 байт для выходного массива. В документации это не описано, но почему-то miniz требует буфер именного такого размера. Если выделить меньше, то разархивация будет падать со статусом -1.</p>
+<p>Далее интересно: нужно следить, чтобы во входящем буфере было достаточно данных для работы, и при этом, чтобы в исходящем буфере было место для новых данных.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">size_t inBytes <span style="color:#f92672">=</span> actuallyRead;
+size_t outBytes <span style="color:#f92672">=</span> availableOut;
+status <span style="color:#f92672">=</span> tinfl_decompress(inflator, (<span style="color:#66d9ef">const</span> mz_uint8 <span style="color:#f92672">*</span>)nextCompressedBuffer, <span style="color:#f92672">&amp;</span>inBytes,
+                          <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, nextUncompressedBuffer, <span style="color:#f92672">&amp;</span>outBytes,
+                          flags);
+actuallyRead <span style="color:#f92672">-=</span> inBytes;
+nextCompressedBuffer <span style="color:#f92672">=</span> nextCompressedBuffer <span style="color:#f92672">+</span> inBytes;
+
+availableOut <span style="color:#f92672">-=</span> outBytes;
+nextUncompressedBuffer <span style="color:#f92672">=</span> nextUncompressedBuffer <span style="color:#f92672">+</span> outBytes;
+</code></pre></div><p>Как только исходящий буфер полностью заполнен, можно записывать на флэш:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">size_t actuallyWrote <span style="color:#f92672">=</span> Update.write(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, bytesInTheOutput);
+</code></pre></div><p>Однако, когда я запустил тест, то получил следующую ошибку:</p>
+<pre><code>[I][Fota.cpp:191] downloadAndApplyFirmware(): downloading new firmware: 203984 bytes
+***ERROR*** A stack overflow in task loopTask has been detected.
+abort() was called at PC 0x40088a50 on core 1
+
+ELF file SHA256: 0000000000000000
+
+Backtrace: 0x400887bc:0x3ffaee10 0x40088a39:0x3ffaee30 0x40088a50:0x3ffaee50 0x4008a633:0x3ffaee70 0x4008c1fc:0x3ffaee90 0x4008c1b2:0x00a42700
+  #0  0x400887bc:0x3ffaee10 in invoke_abort at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/esp32/panic.c:715
+  #1  0x40088a39:0x3ffaee30 in abort at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/esp32/panic.c:715
+  #2  0x40088a50:0x3ffaee50 in vApplicationStackOverflowHook at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/esp32/panic.c:715
+  #3  0x4008a633:0x3ffaee70 in vTaskSwitchContext at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/tasks.c:3507
+  #4  0x4008c1fc:0x3ffaee90 in _frxt_dispatch at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/portasm.S:406
+  #5  0x4008c1b2:0x00a42700 in _frxt_int_exit at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/portasm.S:206
+</code></pre><p>Казалось бы, причём тут <code>stack overflow</code>? У меня даже рекурсии нет. Оказывается, нельзя написать вот так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">tinfl_decompressor inflator;
+</code></pre></div><p>Это создаст структуру на стеке вызова функции. И размер этой структуры больше, чем доступная память стека. Микроконтроллеры. По той же причине нельзя написать:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">uint8_t</span> uncompressedBuffer[<span style="color:#ae81ff">32768</span>];
+</code></pre></div><p>Иначе получится:</p>
+<pre><code>[E][WiFiClient.cpp:62] fillBuffer(): Not enough memory to allocate buffer
+[E][WiFiClient.cpp:439] read(): fail on fd 61, errno: 11, &quot;No more processes&quot;
+Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+</code></pre><p>Решается это просто - нужно выделять объекты в heap с помощью malloc или new.</p>
+<p>После того, как я исправил все эти исключения, то обнаружил, что zlib - это не то же самое, что и gzip. У них разные заголовки. Поэтому создать прошивку следующей командой просто не получится:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gzip firmware.bin
+</code></pre></div><p>miniz не сможет распаковать. Внутри всё тот же Deflate, но заголовки файлов отличаются. Можно воспользоваться разными хаками и подменять заголовок gzip, но мне показалось это ненадёжным. Я нашёл специальную программу <a href="https://zlib.net/pigz/">pigz</a>, которая может создавать zlib-файлы:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pigz --zlib firmware.bin
+</code></pre></div><p>Немного неудобно, но работает.</p>
+<h2 id="тестирование">Тестирование</h2>
+<p>Код нужно тестировать, и FOTA не исключение. Но как протестировать обновление самого себя? Ведь после обновления нужно перезагрузить программу и результат теста определённо пропадёт. Тут я пошёл на некоторые уступки и отошёл от классического юнит-тестирования:</p>
+<ul>
+<li>в метод <code>loop</code> я добавил параметр <code>bool reboot</code>. Он нужен только для тестирования.</li>
+<li>метод <code>loop</code> начал возвращать статус код. С одной стороны большинство программ на С и так возвращают статус-код. С другой стороны, он тут не нужен и используется в тестах, чтобы понять тип ошибки.</li>
+</ul>
+<p>Ещё одной сложностью тестирования FOTA является сильная привязка к разной инфраструктуре. Нужно убедиться, что HTTP клиент правильно инициализирован и действительно скачивает прошивку. Нужно убедиться, что zlib распаковывает файл и контрольная сумма совпадает. &ldquo;Раз нужно тестировать инфраструктуру, то нужно поднять инфраструктуру!&rdquo; - подумал я и создал:</p>
+<ul>
+<li>специальные версии прошивок для каждой из плат, которые ничего не делают.</li>
+<li>залил их на S3</li>
+<li>добавил множество файлов-индексов с разными возможными ошибками</li>
+</ul>
+<p>Пример юнит-теста ниже:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_non_existing_file</span>() {
+  Fota fota;
+  fota.init(<span style="color:#e6db74">&#34;1.0&#34;</span>, <span style="color:#e6db74">&#34;apt.r2server.ru&#34;</span>, <span style="color:#ae81ff">80</span>, <span style="color:#e6db74">&#34;/fotatest/missingfile.json&#34;</span>, <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>, ARDUINO_VARIANT);
+  TEST_ASSERT_EQUAL(FOTA_INVALID_SERVER_RESPONSE, fota.loop(false));
+}
+</code></pre></div><p>FOTA инициализируется и пытается проверить обновление. <code>missingfile.json</code> - это заранее созданный файл с ожидаемой ошибкой, который я загрузил на S3.</p>
+<p>Ещё одним неудобством стало подключение к WiFi перед выполнением теста. Ведь для того, чтобы скачать с S3 нужно полностью инициализированное подключение к Интернету. PlatformIO позволяет передавать переменные среды в билд:</p>
+<pre><code>build_flags = -DWIFI_SSID=\&quot;${sysenv.WIFI_SSID}\&quot; -DWIFI_PASSWORD=\&quot;${sysenv.WIFI_PASSWORD}\&quot;
+</code></pre><p>В коде они используются следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#ifndef WIFI_SSID
+</span><span style="color:#75715e">#define WIFI_SSID &#34;&#34;
+</span><span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#ifndef WIFI_PASSWORD
+</span><span style="color:#75715e">#define WIFI_PASSWORD &#34;&#34;
+</span><span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>
+WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+<span style="color:#66d9ef">while</span> (WiFi.status() <span style="color:#f92672">!=</span> WL_CONNECTED) {
+  delay(<span style="color:#ae81ff">500</span>);
+}
+</code></pre></div><p>Если при сборке теста в переменных окружения были логин и пароль для локальной точки доступа, то они будут вкомпилированы в прошивку теста и использованы перед выполнением всех тестов.</p>
+<p>Финальным штрихом будет отключение этого теста по-умолчанию. Я не рассчитываю, что любой желающий собрать проект будет тестировать FOTA, да и мне выполнять тест каждый раз при сборке совсем не хочется. Для этого в PlatformIO есть поддержка отключаемых тестов!</p>
+<pre><code>test_ignore = fota, testfirmware
+</code></pre><p><code>testfirmware</code> - это ещё один тест, который на самом деле не тест, а та самая программа, которая ничего не делает и используется для тестирования FOTA.</p>
+<p>Это всё звучит очень усложнённо, но и сам компонент достаточно сложный и делает много вещей, которые как раз хотелось бы проверять автоматически. А уж сколько ошибок я нашёл с помощью этих тестов! Зато теперь обновление работает идеально.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/_DowEhVwboI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/esp32/'>esp32</a>, <a class='tag' href='/tags/lora/'>lora</a>, <a class='tag' href='/tags/r2lora/'>r2lora</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/configuring-platformio/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Настройка проекта в PlatformIO</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2022 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+
+</body>
+
+</html>
+
