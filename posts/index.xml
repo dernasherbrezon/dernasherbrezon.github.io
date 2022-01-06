@@ -7,10 +7,113 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 02 Jan 2022 21:04:18 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jan 2022 18:30:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>USB тестер A3-B</title>
+      <link>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</link>
+      <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</guid>
+      <description>Совсем недавно я приобрёл USB тестер A3-B.
+Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:
+ измерять потребление тока в разных режимах:  сна активной работы простоя   измерять потребление во времени. Дисплей умеет переключаться в режим построения графика и показывать, как меняется потребление в течении некоторого времени.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>USB тестер A3-B</h1></header>
+      		<div class='container entry-content'>
+  <p>Совсем недавно я приобрёл USB тестер A3-B.</p>
+<p><img src="/img/smart-usb-meter-a3-b/a3-b.jpg" alt=""></p>
+<p>Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:</p>
+<ul>
+<li>измерять потребление тока в разных режимах:
+<ul>
+<li>сна</li>
+<li>активной работы</li>
+<li>простоя</li>
+</ul>
+</li>
+<li>измерять потребление во времени. Дисплей умеет переключаться в режим построения графика и показывать, как меняется потребление в течении некоторого времени.</li>
+<li>измерять общее потребление за промежуток времени.</li>
+<li>определять тип зарядки: быстрая, медленная.</li>
+<li>определять качество зарядного устройства. На некоторых устройствах может быть написано 10Ватт, но при этом они фактически выдают 5Ватт.</li>
+</ul>
+<p>Мне такое устройство прежде всего интересно тем, что может измерять потребление тока ESP32 и Raspberry PI. Некоторые мои станции работают от солнечных панелей и оптимизация потребления тока - вполне насущная проблема.</p>
+<p>Ещё, как разработчику r2lora и r2cloud, мне важно оптимизировать свой собственный код на низкое потребление электричества. И такое устройство как раз помогает в этом.</p>
+<p>Но сами по себе показатели сложно считывать с экрана. И вот тут на помощь приходит bluetooth.</p>
+<blockquote>
+<p>Всё сразу становится лучше, если к этому добавить bluetooth.</p>
+<p>Леонард Хофстедтер</p>
+</blockquote>
+<p>Через bluetooth можно получить все параметры, которые отображаются на экране. А так как они в цифровом виде, то их можно программно обработать и построить красивые графики.</p>
+<h2 id="bluetooth">Bluetooth</h2>
+<p><a href="https://www.amazon.co.uk/dp/B07DCS11GM">На карточке товара</a> написано, что A3-B поддерживает bluetooth и подключится к нему можно только из-под приложения на android. То есть теоретически данные получить всё же можно. Осталось понять как.</p>
+<p>И тут на помощь приходит github. Оказывается, умельцы уже давно разобрались в протоколе и смогли написать кучу программ. Для начала нужно найти устройство и привязать его:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bluetoothctl scan on
+</code></pre></div><p>Эта команда выдаст всевозможные bluetooth устройства в округе:</p>
+<p><img src="/img/smart-usb-meter-a3-b/discovery.png" alt=""></p>
+<p>A3-B опознаётся как 2 устройства: E-test BLE и E-test SPP. BLE - это <a href="https://ru.wikipedia.org/wiki/Bluetooth_%D1%81_%D0%BD%D0%B8%D0%B7%D0%BA%D0%B8%D0%BC_%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%BE%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%D0%BC">bluetooth low energy</a>. SPP - это профиль <a href="https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Serial_Port_Profile_(SPP)">serial port profile</a>. Вся коммуникация будет идти через serial port, поэтому нужно подключатся к SPP устройству.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo rfcomm bind <span style="color:#ae81ff">0</span> B3:BA:D5:A7:1F:E1 <span style="color:#ae81ff">2</span>
+</code></pre></div><p>Эта команда создаст устройство <code>/dev/rfcomm0</code>, привяжет к нему bluetooth устройство и выберет порт номер 2. Номер порта - это очень важно. Устройство по-умолчанию предоставляет несколько портов. Но только по порту 2 можно получать данные. Вполне возможно остальные порты используются для перепрошивки устройства.</p>
+<p>Проверить соединение можно с помощью проекта <a href="https://github.com/rfinnie/rdserialtool">rdserialtool</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./rdserialtool  --debug --device um24c --serial-device /dev/rfcomm0
+</code></pre></div><p>Если подключение прошло успешно, то в консоли будет следующее:</p>
+<pre><code>2022-01-06 14:29:21,918 INFO: rdserialtool 0.2.1
+2022-01-06 14:29:21,918 INFO: Copyright (C) 2019 Ryan Finnie
+2022-01-06 14:29:21,919 INFO: 
+2022-01-06 14:29:21,919 INFO: Connecting to UM24C /dev/rfcomm0
+2022-01-06 14:29:21,919 DEBUG: Serial: Connecting to /dev/rfcomm0
+2022-01-06 14:29:21,920 INFO: Connection established
+2022-01-06 14:29:21,921 INFO: 
+2022-01-06 14:29:22,221 DEBUG: Serial: SEND begin (b'\xf0')
+2022-01-06 14:29:22,222 DEBUG: Serial: SEND end (1 bytes)
+2022-01-06 14:29:22,222 DEBUG: Serial: RECV begin
+2022-01-06 14:29:26,688 DEBUG: Serial: RECV end (b'\tc\x01\xf6\x002\x00\x00\x00\xfb\x00\x18\x00K\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x012\x00\x00\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x03\x00\x003\xb8\x00\x01\x00\x03\x00\x05\x00\x00\x03\xec\x00\x00\xff\xf1')
+2022-01-06 14:29:26,690 DEBUG: Start: 0x0963, end: 0xfff1
+2022-01-06 14:29:26,692 DEBUG: DUMP: b'\tc\x01\xf5\x002\x00\x00\x00\xfb\x00\x18\x00K\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x012\x00\x00\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x03\x00\x003\xb8\x00\x01\x00\x03\x00\x05\x00\x00\x03\xec\x00\x00\xff\xf1'
+USB:  5.02V,  0.050A,  0.251W,  100.4Ω
+Data:  3.06V(+),  0.00V(-), charging mode: Unknown / Normal
+Recording (on) :    0.403Ah,    2.016Wh,  13240 sec at &gt;= 0.03A
+Data groups:
+    *0:    0.403Ah,    2.016Wh       5:    0.000Ah,    0.000Wh
+     1:    0.000Ah,    0.000Wh       6:    0.000Ah,    0.000Wh
+     2:    0.000Ah,    0.000Wh       7:    0.000Ah,    0.000Wh
+     3:    0.000Ah,    0.000Wh       8:    0.000Ah,    0.000Wh
+     4:    0.000Ah,    0.000Wh       9:    0.000Ah,    0.000Wh
+UM24C, temperature:  24C ( 75F)
+Screen: 0/6, brightness: 5/5, timeout: 3 min
+Collection time: 2022-01-06 14:29:26.689485
+</code></pre><p>Правда, этот проект выводит либо слишком много данных, либо данные в формате json. Поэтому я взял другой проект - <a href="https://github.com/davatorium/um25c-client">um25c-client</a>. Он подключается к устройству и каждую секунду выводит текущее значение напряжения и тока. Эти данные очень удобно импортировать в .csv и анализировать.</p>
+<h2 id="анализ-всего-вокруг">Анализ всего вокруг</h2>
+<p>Большинство устройств подключается по USB, поэтому можно померить буквально весь мир! Я начал с достаточно безобидных вещей. Мышка <a href="https://www.razer.com/gaming-mice/razer-naga-x/RZ01-03590100-R3U1">Razer Naga X</a>. Среднее потребление около 110мА:</p>
+<p><a href="/img/smart-usb-meter-a3-b/razernaga.csv"><img src="/img/smart-usb-meter-a3-b/razernaga.png" alt=""></a></p>
+<p>Raspberry PI 3b. Среднее потребление в режиме ожидания 300мА.</p>
+<p><a href="/img/smart-usb-meter-a3-b/raspberrypi3b.csv"><img src="/img/smart-usb-meter-a3-b/raspberrypi3b.png" alt=""></a></p>
+<p>Далее, сравнение потребления проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> и <a href="http://tinygs.com">tinyGS</a>. Оба работают на одной и той же плате <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&amp;Id=1326&amp;FId=t3:50060:3">TTGO LoRa32</a>:</p>
+<p><a href="/img/smart-usb-meter-a3-b/r2lora-tinygs.csv"><img src="/img/smart-usb-meter-a3-b/r2lora-tinygs.png" alt=""></a></p>
+<p>Проект r2lora значительно проще, чем tinyGS, поэтому и потребление энергии меньше. Ещё я отказался от сложного UI с несколькими экранами, часами и пр. Если сделать яркость экрана tinyGS равной 0, то получатся следующие значения:</p>
+<p><a href="/img/smart-usb-meter-a3-b/tinygs-idle-black.csv"><img src="/img/smart-usb-meter-a3-b/tinygs-idle-black.png" alt=""></a></p>
+<p>Помогло, но не сильно. Среднее потребление около 100мА.</p>
+<p><a href="/img/smart-usb-meter-a3-b/firmware.csv"><img src="/img/smart-usb-meter-a3-b/firmware.png" alt=""></a></p>
+<p>Загрузка новой прошивки потребляет около 30мА. Забавно.</p>
+<p><a href="/img/smart-usb-meter-a3-b/wifi.csv"><img src="/img/smart-usb-meter-a3-b/wifi.png" alt=""></a></p>
+<p>Кстати, во время первоначального соединения по WiFi потребление тока вырастает до ~150мА. Причём как для r2lora, так и tinyGS. Как только IP адрес получен, то потребление резко возвращается к нормальному.</p>
+<p>Ещё я померил потребление в режиме приёма сигнала по протоколу LoRa. Оно совсем не меняется, либо меняется в рамках погрешности.</p>
+<p>А вот, кстати, интересный график потребления энергии во время подключения ESP32 к Raspberry PI по USB:</p>
+<p><a href="/img/smart-usb-meter-a3-b/full.csv"><img src="/img/smart-usb-meter-a3-b/full.png" alt=""></a></p>
+<p>Сразу при подключении потребление резко подскакивает до 500мА. Потом идёт подключение ESP32 к WiFi точке доступа, а потом нормальная работа. При этом напряжение с 5.140В подскакивает до 5.160В и нормализируется до 5.140В.</p>
+<h2 id="выводы">Выводы</h2>
+<p>A3-B позволяет не только теоретизировать о потреблении энергии, но и запечатлеть потребление во времени и делать различные выводы на основе фактических данных.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Создание FOTA компонента</title>

@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/r2lora/</link>
     <description>Recent content in r2lora on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 02 Jan 2022 21:04:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/r2lora/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jan 2022 18:30:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/r2lora/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>USB тестер A3-B</title>
+      <link>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</link>
+      <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</guid>
+      <description>Совсем недавно я приобрёл USB тестер A3-B.
+Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:
+ измерять потребление тока в разных режимах:  сна активной работы простоя   измерять потребление во времени. Дисплей умеет переключаться в режим построения графика и показывать, как меняется потребление в течении некоторого времени.</description>
+    </item>
+    
     <item>
       <title>Создание FOTA компонента</title>
       <link>https://dernasherbrezon.com/posts/fota-for-r2lora/</link>
