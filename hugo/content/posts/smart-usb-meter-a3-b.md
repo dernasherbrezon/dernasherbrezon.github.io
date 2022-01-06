@@ -2,6 +2,7 @@
 title: "USB тестер A3-B"
 date: 2022-01-06T18:30:18+00:00
 draft: false
+cover: /img/smart-usb-meter-a3-b/a3-b.jpg
 tags:
   - monitoring
   - r2lora
