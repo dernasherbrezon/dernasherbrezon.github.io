@@ -11,7 +11,13 @@
 {{ $xAxisLabel := .Get "xAxisLabel" }}
 {{ $xAxisUnit := .Get "xAxisUnit" }}
 {{ $dataC := getJSON $url }}
-<canvas id="{{ $id }}" width="400" height="200" style="margin-bottom: 1.5em"></canvas>
+{{ $staticSrc := .Get "staticSrc" }}
+<canvas id="{{ $id }}" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="{{ $id }}" download="{{ $id }}.png" href="" title="{{ $title }}">Скачать</a>
+</small>
+</div>
 <script>
 var {{ $id | safeJS }}Data = {{ $dataC }};
 var {{ $id | safeJS }}datasource = {{ $id | safeJS }}Data.map(function(e) {
@@ -46,7 +52,8 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
             fill: true,
-            borderWidth: 2
+            borderWidth: 2,
+            tension: 0.2
         },
         	{{- end -}}
         {
@@ -56,14 +63,18 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
             fill: true,
-            borderWidth: 2
+            borderWidth: 2,
+            tension: 0.2
         }],
         labels: {{ $id | safeJS }}XAxis
     },
     options: {
     	elements: {
     		point: {
-    			radius: 2
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
     		}	
     	},
         animation: {
@@ -142,3 +153,8 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
     }
 });
 </script>
+{{- if $staticSrc -}}
+<noscript>
+	<img src="{{ $staticSrc }}">
+</noscript>
+{{- end -}}

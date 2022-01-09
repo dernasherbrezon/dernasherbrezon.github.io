@@ -1,0 +1,14 @@
+{{- if eq .Params.chartjs true -}}
+<script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
+{{- end -}}

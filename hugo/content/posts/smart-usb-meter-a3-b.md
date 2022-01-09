@@ -98,27 +98,27 @@ Collection time: 2022-01-06 14:29:26.689485
 
 Большинство устройств подключается по USB, поэтому можно померить буквально весь мир! Я начал с достаточно безобидных вещей. Мышка [Razer Naga X](https://www.razer.com/gaming-mice/razer-naga-x/RZ01-03590100-R3U1). Среднее потребление около 110мА:
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/razernaga.json" id="razernaga" title="Razer Naga X" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/razernaga.json" id="razernaga" title="Razer Naga X" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/razernaga.png" >}}
 
 Raspberry PI 3b. Среднее потребление в режиме ожидания 300мА.
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/raspberrypi3b.json" id="raspberrypi3b" title="Raspberry PI 3b" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/raspberrypi3b.json" id="raspberrypi3b" title="Raspberry PI 3b" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/raspberrypi3b.png">}}
 
 Далее, сравнение потребления проекта [r2lora](https://github.com/dernasherbrezon/r2lora) и [tinyGS](http://tinygs.com). Оба работают на одной и той же плате [TTGO LoRa32](http://www.lilygo.cn/prod_view.aspx?TypeId=50060&Id=1326&FId=t3:50060:3):
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/r2lora-tinygs.json" id="r2loraTinygs" title="tinyGS vs r2lora" datasource="r2loraCurrent" datasourceLabel="r2lora" datasource2="tinygsCurrent" datasource2Label="tinyGS" yAxisLabel="Ток" yAxisUnit="мA" >}}
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/r2lora-tinygs.json" id="r2loraTinygs" title="tinyGS vs r2lora" datasource="r2loraCurrent" datasourceLabel="r2lora" datasource2="tinygsCurrent" datasource2Label="tinyGS" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/r2lora-tinygs.png" >}}
 
 Проект r2lora значительно проще, чем tinyGS, поэтому и потребление энергии меньше. Ещё я отказался от сложного UI с несколькими экранами, часами и пр. Если сделать яркость экрана tinyGS равной 0, то получатся следующие значения:
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/tinygs-idle-black.json" id="tinygsIdleBlack" title="tinyGS полная яркость и 0" datasource2="fullCurrent" datasource2Label="Полная яркость" datasource="disabledCurrent" datasourceLabel="Отключена яркость" yAxisLabel="Ток" yAxisUnit="мA" >}}
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/tinygs-idle-black.json" id="tinygsIdleBlack" title="tinyGS полная яркость и 0" datasource2="fullCurrent" datasource2Label="Полная яркость" datasource="disabledCurrent" datasourceLabel="Отключена яркость" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/tinygs-idle-black.png" >}}
 
 Помогло, но не сильно. Среднее потребление около 100мА.
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/firmware.json" id="firmware" title="Загрузка прошивки" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/firmware.json" id="firmware" title="Загрузка прошивки" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/firmware.png">}}
 
 Загрузка новой прошивки потребляет около 30мА. Забавно.
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/wifi.json" id="wifi" title="Подключение к WiFi" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/wifi.json" id="wifi" title="Подключение к WiFi" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/wifi.png" >}}
 
 Кстати, во время первоначального соединения по WiFi потребление тока вырастает до ~150мА. Причём как для r2lora, так и tinyGS. Как только IP адрес получен, то потребление резко возвращается к нормальному.
 
@@ -126,7 +126,7 @@ Raspberry PI 3b. Среднее потребление в режиме ожид�
 
 А вот, кстати, интересный график потребления энергии во время подключения ESP32 к Raspberry PI по USB:
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/full.json" id="full" title="Подключение r2lora к RaspberryPI" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/full.json" id="full" title="Подключение r2lora к RaspberryPI" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/full.png" >}}
 
 Сразу при подключении потребление резко подскакивает до 500мА. Потом идёт подключение ESP32 к WiFi точке доступа, а потом нормальная работа. При этом напряжение с 5.140В подскакивает до 5.160В и нормализируется до 5.140В.
 
