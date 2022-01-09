@@ -527,7 +527,7 @@ const razernagaChart = new Chart(razernagaCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga.png">
+	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
 </noscript>
 <p>Raspberry PI 3b. Среднее потребление в режиме ожидания 300мА.</p>
 
@@ -634,7 +634,7 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/raspberrypi3b.png">
+	<img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
 </noscript>
 <p>Далее, сравнение потребления проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> и <a href="http://tinygs.com">tinyGS</a>. Оба работают на одной и той же плате <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&amp;Id=1326&amp;FId=t3:50060:3">TTGO LoRa32</a>:</p>
 
@@ -752,7 +752,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs.png">
+	<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
 </noscript>
 <p>Проект r2lora значительно проще, чем tinyGS, поэтому и потребление энергии меньше. Ещё я отказался от сложного UI с несколькими экранами, часами и пр. Если сделать яркость экрана tinyGS равной 0, то получатся следующие значения:</p>
 
@@ -870,7 +870,7 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black.png">
+	<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
 </noscript>
 <p>Помогло, но не сильно. Среднее потребление около 100мА.</p>
 
@@ -977,7 +977,7 @@ const firmwareChart = new Chart(firmwareCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/firmware.png">
+	<img src="/img/smart-usb-meter-a3-b/firmware2.png">
 </noscript>
 <p>Загрузка новой прошивки потребляет около 30мА. Забавно.</p>
 
@@ -1084,7 +1084,7 @@ const wifiChart = new Chart(wifiCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/wifi.png">
+	<img src="/img/smart-usb-meter-a3-b/wifi2.png">
 </noscript>
 <p>Кстати, во время первоначального соединения по WiFi потребление тока вырастает до ~150мА. Причём как для r2lora, так и tinyGS. Как только IP адрес получен, то потребление резко возвращается к нормальному.</p>
 <p>Ещё я померил потребление в режиме приёма сигнала по протоколу LoRa. Оно совсем не меняется, либо меняется в рамках погрешности.</p>
@@ -1193,7 +1193,7 @@ const fullChart = new Chart(fullCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/full.png">
+	<img src="/img/smart-usb-meter-a3-b/full2.png">
 </noscript>
 <p>Сразу при подключении потребление резко подскакивает до 500мА. Потом идёт подключение ESP32 к WiFi точке доступа, а потом нормальная работа. При этом напряжение с 5.140В подскакивает до 5.160В и нормализируется до 5.140В.</p>
 <h2 id="выводы">Выводы</h2>
