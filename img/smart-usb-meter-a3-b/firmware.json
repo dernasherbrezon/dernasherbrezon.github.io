@@ -1,0 +1,74 @@
+[
+	{
+		"voltage": 5.020,
+		"current": 0.0330
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0330
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0320
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0320
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0290
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0290
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0260
+	},
+	{
+		"voltage": 5.030,
+		"current": 0.0260
+	},
+	{
+		"voltage": 5.010,
+		"current": 0.0270
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0270
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0290
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0290
+	},
+	{
+		"voltage": 5.030,
+		"current": 0.0270
+	},
+	{
+		"voltage": 5.030,
+		"current": 0.0290
+	},
+	{
+		"voltage": 5.030,
+		"current": 0.0260
+	},
+	{
+		"voltage": 5.030,
+		"current": 0.0310
+	},
+	{
+		"voltage": 5.030,
+		"current": 0.0280
+	},
+	{
+		"voltage": 5.020,
+		"current": 0.0260
+	}
+]

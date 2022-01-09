@@ -3,14 +3,13 @@ title: "USB тестер A3-B"
 date: 2022-01-06T18:30:18+00:00
 draft: false
 cover: /img/smart-usb-meter-a3-b/a3-b.jpg
+chartjs: true
 tags:
   - monitoring
   - r2lora
   - esp32
 ---
 Совсем недавно я приобрёл USB тестер A3-B.
-
-![](/img/smart-usb-meter-a3-b/a3-b.jpg)
 
 Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:
 
@@ -99,27 +98,27 @@ Collection time: 2022-01-06 14:29:26.689485
 
 Большинство устройств подключается по USB, поэтому можно померить буквально весь мир! Я начал с достаточно безобидных вещей. Мышка [Razer Naga X](https://www.razer.com/gaming-mice/razer-naga-x/RZ01-03590100-R3U1). Среднее потребление около 110мА:
 
-[![](/img/smart-usb-meter-a3-b/razernaga.png)](/img/smart-usb-meter-a3-b/razernaga.csv)
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/razernaga.json" id="razernaga" title="Razer Naga X" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
 
 Raspberry PI 3b. Среднее потребление в режиме ожидания 300мА.
 
-[![](/img/smart-usb-meter-a3-b/raspberrypi3b.png)](/img/smart-usb-meter-a3-b/raspberrypi3b.csv)
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/raspberrypi3b.json" id="raspberrypi3b" title="Raspberry PI 3b" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
 
 Далее, сравнение потребления проекта [r2lora](https://github.com/dernasherbrezon/r2lora) и [tinyGS](http://tinygs.com). Оба работают на одной и той же плате [TTGO LoRa32](http://www.lilygo.cn/prod_view.aspx?TypeId=50060&Id=1326&FId=t3:50060:3):
 
-[![](/img/smart-usb-meter-a3-b/r2lora-tinygs.png)](/img/smart-usb-meter-a3-b/r2lora-tinygs.csv)
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/r2lora-tinygs.json" id="r2loraTinygs" title="tinyGS vs r2lora" datasource="r2loraCurrent" datasourceLabel="r2lora" datasource2="tinygsCurrent" datasource2Label="tinyGS" yAxisLabel="Ток" yAxisUnit="мA" >}}
 
 Проект r2lora значительно проще, чем tinyGS, поэтому и потребление энергии меньше. Ещё я отказался от сложного UI с несколькими экранами, часами и пр. Если сделать яркость экрана tinyGS равной 0, то получатся следующие значения:
 
-[![](/img/smart-usb-meter-a3-b/tinygs-idle-black.png)](/img/smart-usb-meter-a3-b/tinygs-idle-black.csv)
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/tinygs-idle-black.json" id="tinygsIdleBlack" title="tinyGS полная яркость и 0" datasource2="fullCurrent" datasource2Label="Полная яркость" datasource="disabledCurrent" datasourceLabel="Отключена яркость" yAxisLabel="Ток" yAxisUnit="мA" >}}
 
 Помогло, но не сильно. Среднее потребление около 100мА.
 
-[![](/img/smart-usb-meter-a3-b/firmware.png)](/img/smart-usb-meter-a3-b/firmware.csv)
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/firmware.json" id="firmware" title="Загрузка прошивки" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
 
 Загрузка новой прошивки потребляет около 30мА. Забавно.
 
-[![](/img/smart-usb-meter-a3-b/wifi.png)](/img/smart-usb-meter-a3-b/wifi.csv)
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/wifi.json" id="wifi" title="Подключение к WiFi" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
 
 Кстати, во время первоначального соединения по WiFi потребление тока вырастает до ~150мА. Причём как для r2lora, так и tinyGS. Как только IP адрес получен, то потребление резко возвращается к нормальному.
 
@@ -127,7 +126,7 @@ Raspberry PI 3b. Среднее потребление в режиме ожид�
 
 А вот, кстати, интересный график потребления энергии во время подключения ESP32 к Raspberry PI по USB:
 
-[![](/img/smart-usb-meter-a3-b/full.png)](/img/smart-usb-meter-a3-b/full.csv)
+{{< chartjs url="/static/img/smart-usb-meter-a3-b/full.json" id="full" title="Подключение r2lora к RaspberryPI" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" >}}
 
 Сразу при подключении потребление резко подскакивает до 500мА. Потом идёт подключение ESP32 к WiFi точке доступа, а потом нормальная работа. При этом напряжение с 5.140В подскакивает до 5.160В и нормализируется до 5.140В.
 

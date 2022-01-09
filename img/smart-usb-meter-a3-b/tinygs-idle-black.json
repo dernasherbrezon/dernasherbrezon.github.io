@@ -1,0 +1,218 @@
+[
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1280,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1280,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1360,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1360,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.010,
+		"fullCurrent": 0.1270,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.010,
+		"fullCurrent": 0.1280,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1360,
+		"disabledVoltage": 5.000,
+		"disabledCurrent": 0.1180
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1340,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1290,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1300,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1070
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1290,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1290,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1300,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1140
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1390,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1140
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1300,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1290,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1420,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1410,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1340,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1420,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1380,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 4.990,
+		"fullCurrent": 0.1510,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1300,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1390,
+		"disabledVoltage": 5.000,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1300,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1290,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1280,
+		"disabledVoltage": 5.000,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1290,
+		"disabledVoltage": 5.000,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1290,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1140
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1310,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1400,
+		"disabledVoltage": 5.000,
+		"disabledCurrent": 0.1170
+	},
+	{
+		"fullVoltage": 4.990,
+		"fullCurrent": 0.1580,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1300,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1110
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1420,
+		"disabledVoltage": 5.000,
+		"disabledCurrent": 0.1150
+	},
+	{
+		"fullVoltage": 4.980,
+		"fullCurrent": 0.1720,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	},
+	{
+		"fullVoltage": 5.000,
+		"fullCurrent": 0.1350,
+		"disabledVoltage": 5.010,
+		"disabledCurrent": 0.1050
+	}
+]

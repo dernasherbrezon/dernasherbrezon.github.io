@@ -1,0 +1,144 @@
+{{ $url := .Get "url" }}
+{{ $id := .Get "id" }}
+{{ $title := .Get "title" }}
+{{ $datasource := .Get "datasource" }}
+{{ $datasourceLabel := .Get "datasourceLabel" }}
+{{ $datasource2 := .Get "datasource2" }}
+{{ $datasource2Label := .Get "datasource2Label" }}
+{{ $yAxisLabel := .Get "yAxisLabel" }}
+{{ $yAxisUnit := .Get "yAxisUnit" }}
+{{ $xAxis := .Get "xAxis" }}
+{{ $xAxisLabel := .Get "xAxisLabel" }}
+{{ $xAxisUnit := .Get "xAxisUnit" }}
+{{ $dataC := getJSON $url }}
+<canvas id="{{ $id }}" width="400" height="200" style="margin-bottom: 1.5em"></canvas>
+<script>
+var {{ $id | safeJS }}Data = {{ $dataC }};
+var {{ $id | safeJS }}datasource = {{ $id | safeJS }}Data.map(function(e) {
+	return e.{{ $datasource | safeJS }};
+});
+{{- if $datasource2 -}}
+var {{ $id | safeJS }}datasource2 = {{ $id | safeJS }}Data.map(function(e) {
+	return e.{{ $datasource2 | safeJS }};
+});
+{{- end -}}
+
+{{- if $xAxis -}}
+var {{ $id | safeJS }}XAxis = {{ $id | safeJS }}Data.map(function(e) {
+	return e.{{ $xAxis | safeJS }};
+});
+{{- else -}}
+var {{ $id | safeJS }}XAxis = {{ $id | safeJS }}Data.map(function(e, index) {
+	return index;
+});
+{{- end -}}
+
+var {{ $id | safeJS }}Ctx = document.getElementById('{{ $id }}').getContext('2d');
+const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
+    type: 'line',
+    data: {
+        datasets: [
+        	{{- if $datasource2 -}}
+        {
+        	label: '{{ $datasource2Label }}',
+            data: {{ $id | safeJS }}datasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2
+        },
+        	{{- end -}}
+        {
+            label: '{{ $datasourceLabel }}',
+            data: {{ $id | safeJS }}datasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2
+        }],
+        labels: {{ $id | safeJS }}XAxis
+    },
+    options: {
+    	elements: {
+    		point: {
+    			radius: 2
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+        	{{- if $xAxis -}}
+        	x: {
+                title: {
+                    display: true,
+                    text: '{{ $xAxisLabel }}'
+                },
+                ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return value + ' {{ $xAxisUnit }}';
+                    }
+                }
+        	},
+        	{{- end -}}
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: '{{ $yAxisLabel }}'
+                },
+                ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, ticks) {
+                        return value + ' {{ $yAxisUnit }}';
+                    }
+                }
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: '{{ $title }}',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {
+            		{{- if $xAxis -}}
+            		title: function(context) {
+                        return context[0].label + ' {{ $xAxisUnit }}';
+            		},
+            		{{- else -}}
+            		title: function() {},
+            		{{- end -}}
+            		label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' {{ $yAxisUnit }}';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script>
