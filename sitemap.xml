@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2022-01-06T18:30:18+00:00</lastmod>
+    <lastmod>2022-01-10T12:14:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
@@ -12,7 +12,22 @@
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2022-01-06T18:30:18+00:00</lastmod>
+    <lastmod>2022-01-10T12:14:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/javascript/</loc>
+    <lastmod>2022-01-10T12:14:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2022-01-10T12:14:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</loc>
+    <lastmod>2022-01-10T12:14:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
+    <lastmod>2022-01-10T12:14:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</loc>
+    <lastmod>2022-01-10T12:14:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/esp32/</loc>
     <lastmod>2022-01-06T18:30:18+00:00</lastmod>
@@ -21,9 +36,6 @@
     <lastmod>2022-01-06T18:30:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/r2lora/</loc>
-    <lastmod>2022-01-06T18:30:18+00:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
     <lastmod>2022-01-06T18:30:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</loc>
@@ -75,9 +87,6 @@
     <lastmod>2021-09-25T13:17:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/apt-for-cpu/</loc>
-    <lastmod>2021-09-25T13:17:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</loc>
     <lastmod>2021-09-25T13:17:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/dsp/</loc>
@@ -174,9 +183,6 @@
     <lastmod>2020-09-27T22:50:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/python-way/</loc>
-    <lastmod>2020-09-23T22:01:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/</loc>
     <lastmod>2020-09-23T22:01:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/wifi-country-codes/</loc>
@@ -365,9 +371,6 @@
     <loc>https://dernasherbrezon.com/posts/setting-up-c/</loc>
     <lastmod>2019-12-24T18:29:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/javascript/</loc>
-    <lastmod>2019-12-15T07:14:18+01:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/tags/jsp/</loc>
     <lastmod>2019-12-15T07:14:18+01:00</lastmod>
   </url><url>
@@ -547,9 +550,6 @@
   </url><url>
     <loc>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</loc>
     <lastmod>2017-07-31T12:45:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/heap/</loc>
-    <lastmod>2017-07-16T15:11:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/java-small-heap/</loc>
     <lastmod>2017-07-16T15:11:18+01:00</lastmod>

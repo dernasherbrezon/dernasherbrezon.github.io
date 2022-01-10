@@ -7,10 +7,124 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 06 Jan 2022 18:30:18 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Jan 2022 12:14:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Динамические графики в Hugo</title>
+      <link>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</link>
+      <pubDate>Mon, 10 Jan 2022 12:14:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</guid>
+      <description>У Вас никогда не было желания подвигать мышкой на графике в интернете? Вот есть какой-нибудь график, и прям хочется навести курсор на минимальное значение или максимальное? Или посмотреть, как быстро менялось значение по времени просто сравнив начало и конец? У меня постоянно. Проблема в том, что большинство графиков в интернете - это картинки. Картинки, которые сгенерированы в Excel, да ещё и в ужасном разрешении.
+Да, что говорить, - я сам создаю такие графики.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Динамические графики в Hugo</h1></header>
+      		<div class='container entry-content'>
+  <p>У Вас никогда не было желания подвигать мышкой на графике в интернете? Вот есть какой-нибудь график, и прям хочется навести курсор на минимальное значение или максимальное? Или посмотреть, как быстро менялось значение по времени просто сравнив начало и конец? У меня постоянно. Проблема в том, что большинство графиков в интернете - это картинки. Картинки, которые сгенерированы в Excel, да ещё и в ужасном разрешении.</p>
+<p>Да, что говорить, - я сам создаю такие графики. Вот взять, например, мой последний <a href="https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/">пост про USB тестер</a>:</p>
+<p><img src="/img/smart-usb-meter-a3-b/r2lora-tinygs-old.png" alt=""></p>
+<p>График хороший: в нём есть заголовок, оси, подписаны единицы измерения. Формально им можно пользоваться и, наверное, делать какие-то выводы. Но вот смотришь на него и возникает какое-то чувство ущербности и неполноценности.</p>
+<p>Хочется добавить прозрачности, какого-то динамизма. <a href="https://www.businessinsider.com/apple-changes-angle-of-laptop-screen-displayed-in-stores-to-76-degrees-2015-8?r=US&amp;IR=T">Как в магазинах Apple</a>: поставить ноутбук так, чтобы его хотелось открыть и повертеть в руках.</p>
+<h2 id="требования">Требования</h2>
+<p>Несмотря на то, что мой блог статический и сгенерирован с помощью <a href="https://gohugo.io">Hugo</a>, в него вполне можно добавить динамизма с помощью javascript. Что же хочется?</p>
+<ul>
+<li>динамический график. При наведении курсора на график, должны отображаться значения по оси Х и У.</li>
+<li>данные должны хранится отдельно от статьи. Некоторые графики могут содержать достаточно большое количество точек и мне не хотелось бы &ldquo;как-есть&rdquo; копировать данные прямо в Markdown файл. Это только засорит статью и её будет сложно редактировать. Поэтому данные необходимо хранить в отдельных файлах.</li>
+<li>включение поддержки графиков должно быть явным. Большинство статей без графиков, поэтому загружать дополнительный javascript на них не имеет смысла.</li>
+<li>возможность задать график через конфигурацию, ну или с минимальным количеством javascript.</li>
+</ul>
+<p>По-умолчанию Hugo не поддерживает такие вещи. Но всё это можно сделать самому! Для этого я взял:</p>
+<ul>
+<li><a href="https://gohugo.io/content-management/shortcodes/">Hugo shortcodes</a></li>
+<li><a href="https://www.chartjs.org">chartjs</a></li>
+<li>немного терпения</li>
+</ul>
+<h2 id="hugo-shortcodes">Hugo shortcodes</h2>
+<p>Hugo shortcodes - это, по сути, обычные теги. Такие, например, есть в <a href="https://dernasherbrezon.com/posts/jsp-tagfile/">JSP</a> или во <a href="https://dernasherbrezon.com/posts/creating-vuejs-component/">VueJS</a>. Я создал shortcode <a href="https://github.com/dernasherbrezon/dernasherbrezon.github.io/blob/master/hugo/layouts/shortcodes/chartjs.html">chartjs</a> со следующими параметрами:</p>
+<ul>
+<li>&ldquo;url&rdquo; - локально лежащий json файл с данными.</li>
+<li>&ldquo;id&rdquo; - уникальный id графика. Используется в html тэгах и названиях javascript объектах.</li>
+<li>&ldquo;title&rdquo; - заголовок графика.</li>
+<li>&ldquo;datasource&rdquo; - поле в json объекте, которое будет использоваться в качестве значений по оси Y.</li>
+<li>&ldquo;datasourceLabel&rdquo; - человеко-читаемое название данных.</li>
+<li>&ldquo;datasource2&rdquo; - на случай, если нужно отобразить два графика. Необязательное поле.</li>
+<li>&ldquo;datasource2Label&rdquo; - человеко-читаемое название данных для второго графика. Необязательное поле.</li>
+<li>&ldquo;yAxisLabel&rdquo; - название оси Y</li>
+<li>&ldquo;yAxisUnit&rdquo; - единицы измерения по оси Y. Ох, сколько же графиков не имеют этих базовых параметров.</li>
+<li>&ldquo;xAxis&rdquo; - оле в json объекте, которое будет использоваться в качестве значений по оси X. Необязательное поле. По-умолчанию будет браться индекс объекта json.</li>
+<li>&ldquo;xAxisLabel&rdquo; - человеко-читаемое значение оси Х. Необязательное поле.</li>
+<li>&ldquo;xAxisUnit&rdquo; - единица измерения.</li>
+<li>&ldquo;staticSrc&rdquo; - график отрендеренный в статичную картинку. Об этом чуть далее.</li>
+</ul>
+<p>Самое сложное было - это разобраться с синтаксисом движка шаблонов Hugo. Как Вам такое:</p>
+<pre><code>{{ $dataC := getJSON $url }}
+</code></pre><p>Или такое:</p>
+<pre><code>{{ $id | safeJS }}
+</code></pre><p>Сам компонент достаточно простой. Он выводит необходимые html теги и настраивает chartjs согласно документации. От себя я лишь добавил шаблонизацию, какие-то стили отображения графика и кнопку &ldquo;Скачать&rdquo;. Если на неё кликнуть, то можно скачать график в виде картинки.</p>
+<p>В результате в посте нужно написать следующее:</p>
+<pre><code>{{&lt; chartjs url=&quot;/static/img/smart-usb-meter-a3-b/r2lora-tinygs.json&quot; id=&quot;r2loraTinygs&quot; title=&quot;tinyGS vs r2lora&quot; datasource=&quot;r2loraCurrent&quot; datasourceLabel=&quot;r2lora&quot; datasource2=&quot;tinygsCurrent&quot; datasource2Label=&quot;tinyGS&quot; yAxisLabel=&quot;Ток&quot; yAxisUnit=&quot;мA&quot; staticSrc=&quot;/img/smart-usb-meter-a3-b/r2lora-tinygs2.png&quot; &gt;}}
+</code></pre><p>Чтобы получилась вот такая красота:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
+
+<p>Сама библиотека chartjs подключается один в раз в заголовочной файле <code>head/extra.html</code>:</p>
+<pre><code>{{- if eq .Params.chartjs true -}}
+&lt;script src=&quot;{{ print &quot;/js/chart.min.js&quot; | relURL }}&quot;&gt;&lt;/script&gt;
+{{- end -}}
+</code></pre><p>А для того, чтобы добавлять её только в те посты, где графики нужны, необходимо указать в параметрах поста:</p>
+<pre><code>chartjs: true
+</code></pre><h2 id="telegram">Telegram</h2>
+<p>И вся эта красота не работает в <a href="https://instantview.telegram.org">Telegram instant view</a>. Это такой специальный сервис Telegram, который берёт исходную страницу, парсит html и конвертирует в специальный внутренний формат, чтобы выводить прямо в клиенте. Это позволяет открыть и прочитать статью без загрузки с сайта. Поскольку мой блог некоммерческий, мне хочется, чтобы читатели смогли получить доступ к информации быстро и просто. Однако, очевидно, что Telegram не поддерживает javascript ни в каком виде. Да и обычные html теги не все поддерживаются.</p>
+<p>Можно просто удалить все графики:</p>
+<pre><code>@remove: $body//canvas
+</code></pre><p>Но тогда статья просто потеряет смысл.</p>
+<p>Вместо этого я придумал следующее:</p>
+<ul>
+<li>удалить canvas из instant view. Он всё равно не поддерживается.</li>
+<li>добавить параметр &ldquo;staticSrc&rdquo; к компоненту chartjs, который будет рендерится в обычную картинку внутри тега <code>&lt;noscript&gt;</code>. Если в браузере отключён javascript или он не поддерживается по каким-либо причинам, то вместо <code>&lt;noscript&gt;</code> будет отображаться его содержимое.</li>
+<li>в instant view сделать правило, которое удалит родительский <code>&lt;noscript&gt;</code> и покажет всё то, что есть внутри.</li>
+</ul>
+<p>В итоге правила преобразования html поста в instant view стали содержать следующее (очередной птичий язык):</p>
+<pre><code>@remove: $body//canvas
+@remove: //a[@class=&quot;downloadChart&quot;]
+@detach: //noscript/img
+</code></pre><p><img src="/img/dynamic-charts-hugo/instant-view.png" alt=""></p>
+<h2 id="rss">RSS</h2>
+<p>Да, мой блог ещё доступен по RSS. Например, Яндекс использует RSS, чтобы делать свои <a href="https://yandex.ru/dev/turbo/">турбо-страницы</a>. По сути - это такие же специальные страницы как и Telegram instant view, только для Яндекса. Если ничего специального не сделать, то в RSS попадёт портянка javascript, который просто не будет работать.</p>
+<p>Для того, чтобы починить RSS нужно сделать следующее:</p>
+<ul>
+<li>убедиться, что страницы Hugo ещё можно рендерить в RSS. Для этого в config.toml должна быть строчка <code>page = ['HTML', 'RSS']</code></li>
+<li>Создать shortcode, специфичный для конкретного формата. В моём примере - это <code>chartjs.rss.xml</code>. В нём необходимо выводить статичный график, который уже был сконфигурирован для Telegram.</li>
+</ul>
+<pre><code>{{ $staticSrc := .Get &quot;staticSrc&quot; }}
+&lt;img src=&quot;{{ $staticSrc }}&quot;&gt;
+</code></pre><p>После всех этих манипуляций, RSS будет содержать статичные картинки:</p>
+<p><img src="/img/dynamic-charts-hugo/rss.png" alt=""></p>
+<p>После всех этих манипуляций блог стал выглядеть чуть более приятнее. Хотя бы для меня самого. А это уже неплохо!</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>USB тестер A3-B</title>
@@ -103,98 +217,8 @@ Collection time: 2022-01-06 14:29:26.689485
 
 
 
-<canvas id="razernaga" width="400" height="200"></canvas>
-<div class='align-center' style="margin-bottom: 1.5em">
-<small>
-	<a class="downloadChart" data-canvasid="razernaga" download="razernaga.png" href="" title="Razer Naga X">Скачать</a>
-</small>
-</div>
-<script>
-var razernagaData = [{"current":0.105,"voltage":5.09},{"current":0.107,"voltage":5.09},{"current":0.11,"voltage":5.08},{"current":0.113,"voltage":5.09},{"current":0.118,"voltage":5.09},{"current":0.119,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.107,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.09,"voltage":5.09},{"current":0.092,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.103,"voltage":5.09},{"current":0.111,"voltage":5.09},{"current":0.118,"voltage":5.08},{"current":0.117,"voltage":5.08}];
-var razernagadatasource = razernagaData.map(function(e) {
-	return e.current;
-});var razernagaXAxis = razernagaData.map(function(e, index) {
-	return index;
-});var razernagaCtx = document.getElementById('razernaga').getContext('2d');
-const razernagaChart = new Chart(razernagaCtx, {
-    type: 'line',
-    data: {
-        datasets: [{
-            label: 'Ток',
-            data: razernagadatasource,
-            borderColor: '#ffcd00',
-            backgroundColor: 'rgba(255, 205, 0, 0.1)',
-            pointBackgroundColor: '#ffcd00',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        }],
-        labels: razernagaXAxis
-    },
-    options: {
-    	elements: {
-    		point: {
-    		      radius: 0,
-    		      hitRadius: 10,
-    		      hoverRadius: 4,
-    		      hoverBorderWidth: 3
-    		}	
-    	},
-        animation: {
-            duration: 0
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Ток'
-                },
-                ticks: {
-                    
-                    callback: function(value, index, ticks) {
-                        return value + ' мA';
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Razer Naga X',
-                font: {
-                	size: 16
-                }
-            },
-            legend: {
-                display: false
-            },
-            tooltip: {
-            	position: 'nearest',
-            	callbacks: {title: function() {},label: function(context) {
-            			let label = context.dataset.label || '';
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
 
-                        if (label) {
-                            label += ': ';
-                        }
-                        
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
-                        }
-                        
-                        return label;
-            		}
-            	}
-            }
-        }
-    }
-});
-</script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
-</noscript>
 <p>Raspberry PI 3b. Среднее потребление в режиме ожидания 300мА.</p>
 
 
@@ -210,98 +234,8 @@ const razernagaChart = new Chart(razernagaCtx, {
 
 
 
-<canvas id="raspberrypi3b" width="400" height="200"></canvas>
-<div class='align-center' style="margin-bottom: 1.5em">
-<small>
-	<a class="downloadChart" data-canvasid="raspberrypi3b" download="raspberrypi3b.png" href="" title="Raspberry PI 3b">Скачать</a>
-</small>
-</div>
-<script>
-var raspberrypi3bData = [{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.299,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.303,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14}];
-var raspberrypi3bdatasource = raspberrypi3bData.map(function(e) {
-	return e.current;
-});var raspberrypi3bXAxis = raspberrypi3bData.map(function(e, index) {
-	return index;
-});var raspberrypi3bCtx = document.getElementById('raspberrypi3b').getContext('2d');
-const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
-    type: 'line',
-    data: {
-        datasets: [{
-            label: 'Ток',
-            data: raspberrypi3bdatasource,
-            borderColor: '#ffcd00',
-            backgroundColor: 'rgba(255, 205, 0, 0.1)',
-            pointBackgroundColor: '#ffcd00',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        }],
-        labels: raspberrypi3bXAxis
-    },
-    options: {
-    	elements: {
-    		point: {
-    		      radius: 0,
-    		      hitRadius: 10,
-    		      hoverRadius: 4,
-    		      hoverBorderWidth: 3
-    		}	
-    	},
-        animation: {
-            duration: 0
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Ток'
-                },
-                ticks: {
-                    
-                    callback: function(value, index, ticks) {
-                        return value + ' мA';
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Raspberry PI 3b',
-                font: {
-                	size: 16
-                }
-            },
-            legend: {
-                display: false
-            },
-            tooltip: {
-            	position: 'nearest',
-            	callbacks: {title: function() {},label: function(context) {
-            			let label = context.dataset.label || '';
+<img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
 
-                        if (label) {
-                            label += ': ';
-                        }
-                        
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
-                        }
-                        
-                        return label;
-            		}
-            	}
-            }
-        }
-    }
-});
-</script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
-</noscript>
 <p>Далее, сравнение потребления проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> и <a href="http://tinygs.com">tinyGS</a>. Оба работают на одной и той же плате <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&amp;Id=1326&amp;FId=t3:50060:3">TTGO LoRa32</a>:</p>
 
 
@@ -317,109 +251,8 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
 
 
 
-<canvas id="r2loraTinygs" width="400" height="200"></canvas>
-<div class='align-center' style="margin-bottom: 1.5em">
-<small>
-	<a class="downloadChart" data-canvasid="r2loraTinygs" download="r2loraTinygs.png" href="" title="tinyGS vs r2lora">Скачать</a>
-</small>
-</div>
-<script>
-var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}];
-var r2loraTinygsdatasource = r2loraTinygsData.map(function(e) {
-	return e.r2loraCurrent;
-});var r2loraTinygsdatasource2 = r2loraTinygsData.map(function(e) {
-	return e.tinygsCurrent;
-});var r2loraTinygsXAxis = r2loraTinygsData.map(function(e, index) {
-	return index;
-});var r2loraTinygsCtx = document.getElementById('r2loraTinygs').getContext('2d');
-const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
-    type: 'line',
-    data: {
-        datasets: [{
-        	label: 'tinyGS',
-            data: r2loraTinygsdatasource2,
-            borderColor: '#7fc35e',
-            backgroundColor: 'rgba(49, 76, 37, 0.1)',
-            pointBackgroundColor: '#7fc35e',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        },{
-            label: 'r2lora',
-            data: r2loraTinygsdatasource,
-            borderColor: '#ffcd00',
-            backgroundColor: 'rgba(255, 205, 0, 0.1)',
-            pointBackgroundColor: '#ffcd00',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        }],
-        labels: r2loraTinygsXAxis
-    },
-    options: {
-    	elements: {
-    		point: {
-    		      radius: 0,
-    		      hitRadius: 10,
-    		      hoverRadius: 4,
-    		      hoverBorderWidth: 3
-    		}	
-    	},
-        animation: {
-            duration: 0
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Ток'
-                },
-                ticks: {
-                    
-                    callback: function(value, index, ticks) {
-                        return value + ' мA';
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'tinyGS vs r2lora',
-                font: {
-                	size: 16
-                }
-            },
-            legend: {
-                display: false
-            },
-            tooltip: {
-            	position: 'nearest',
-            	callbacks: {title: function() {},label: function(context) {
-            			let label = context.dataset.label || '';
+<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
 
-                        if (label) {
-                            label += ': ';
-                        }
-                        
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
-                        }
-                        
-                        return label;
-            		}
-            	}
-            }
-        }
-    }
-});
-</script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
-</noscript>
 <p>Проект r2lora значительно проще, чем tinyGS, поэтому и потребление энергии меньше. Ещё я отказался от сложного UI с несколькими экранами, часами и пр. Если сделать яркость экрана tinyGS равной 0, то получатся следующие значения:</p>
 
 
@@ -435,109 +268,8 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 
 
 
-<canvas id="tinygsIdleBlack" width="400" height="200"></canvas>
-<div class='align-center' style="margin-bottom: 1.5em">
-<small>
-	<a class="downloadChart" data-canvasid="tinygsIdleBlack" download="tinygsIdleBlack.png" href="" title="tinyGS полная яркость и 0">Скачать</a>
-</small>
-</div>
-<script>
-var tinygsIdleBlackData = [{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.127,"fullVoltage":5.01},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5.01},{"disabledCurrent":0.118,"disabledVoltage":5,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.107,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.141,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.138,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.151,"fullVoltage":4.99},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.131,"fullVoltage":5},{"disabledCurrent":0.117,"disabledVoltage":5,"fullCurrent":0.14,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.158,"fullVoltage":4.99},{"disabledCurrent":0.111,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.172,"fullVoltage":4.98},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.135,"fullVoltage":5}];
-var tinygsIdleBlackdatasource = tinygsIdleBlackData.map(function(e) {
-	return e.disabledCurrent;
-});var tinygsIdleBlackdatasource2 = tinygsIdleBlackData.map(function(e) {
-	return e.fullCurrent;
-});var tinygsIdleBlackXAxis = tinygsIdleBlackData.map(function(e, index) {
-	return index;
-});var tinygsIdleBlackCtx = document.getElementById('tinygsIdleBlack').getContext('2d');
-const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
-    type: 'line',
-    data: {
-        datasets: [{
-        	label: 'Полная яркость',
-            data: tinygsIdleBlackdatasource2,
-            borderColor: '#7fc35e',
-            backgroundColor: 'rgba(49, 76, 37, 0.1)',
-            pointBackgroundColor: '#7fc35e',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        },{
-            label: 'Отключена яркость',
-            data: tinygsIdleBlackdatasource,
-            borderColor: '#ffcd00',
-            backgroundColor: 'rgba(255, 205, 0, 0.1)',
-            pointBackgroundColor: '#ffcd00',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        }],
-        labels: tinygsIdleBlackXAxis
-    },
-    options: {
-    	elements: {
-    		point: {
-    		      radius: 0,
-    		      hitRadius: 10,
-    		      hoverRadius: 4,
-    		      hoverBorderWidth: 3
-    		}	
-    	},
-        animation: {
-            duration: 0
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Ток'
-                },
-                ticks: {
-                    
-                    callback: function(value, index, ticks) {
-                        return value + ' мA';
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'tinyGS полная яркость и 0',
-                font: {
-                	size: 16
-                }
-            },
-            legend: {
-                display: false
-            },
-            tooltip: {
-            	position: 'nearest',
-            	callbacks: {title: function() {},label: function(context) {
-            			let label = context.dataset.label || '';
+<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
 
-                        if (label) {
-                            label += ': ';
-                        }
-                        
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
-                        }
-                        
-                        return label;
-            		}
-            	}
-            }
-        }
-    }
-});
-</script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
-</noscript>
 <p>Помогло, но не сильно. Среднее потребление около 100мА.</p>
 
 
@@ -553,98 +285,8 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
 
 
 
-<canvas id="firmware" width="400" height="200"></canvas>
-<div class='align-center' style="margin-bottom: 1.5em">
-<small>
-	<a class="downloadChart" data-canvasid="firmware" download="firmware.png" href="" title="Загрузка прошивки">Скачать</a>
-</small>
-</div>
-<script>
-var firmwareData = [{"current":0.033,"voltage":5.02},{"current":0.033,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.026,"voltage":5.02},{"current":0.026,"voltage":5.03},{"current":0.027,"voltage":5.01},{"current":0.027,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.027,"voltage":5.03},{"current":0.029,"voltage":5.03},{"current":0.026,"voltage":5.03},{"current":0.031,"voltage":5.03},{"current":0.028,"voltage":5.03},{"current":0.026,"voltage":5.02}];
-var firmwaredatasource = firmwareData.map(function(e) {
-	return e.current;
-});var firmwareXAxis = firmwareData.map(function(e, index) {
-	return index;
-});var firmwareCtx = document.getElementById('firmware').getContext('2d');
-const firmwareChart = new Chart(firmwareCtx, {
-    type: 'line',
-    data: {
-        datasets: [{
-            label: 'Ток',
-            data: firmwaredatasource,
-            borderColor: '#ffcd00',
-            backgroundColor: 'rgba(255, 205, 0, 0.1)',
-            pointBackgroundColor: '#ffcd00',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        }],
-        labels: firmwareXAxis
-    },
-    options: {
-    	elements: {
-    		point: {
-    		      radius: 0,
-    		      hitRadius: 10,
-    		      hoverRadius: 4,
-    		      hoverBorderWidth: 3
-    		}	
-    	},
-        animation: {
-            duration: 0
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Ток'
-                },
-                ticks: {
-                    
-                    callback: function(value, index, ticks) {
-                        return value + ' мA';
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Загрузка прошивки',
-                font: {
-                	size: 16
-                }
-            },
-            legend: {
-                display: false
-            },
-            tooltip: {
-            	position: 'nearest',
-            	callbacks: {title: function() {},label: function(context) {
-            			let label = context.dataset.label || '';
+<img src="/img/smart-usb-meter-a3-b/firmware2.png">
 
-                        if (label) {
-                            label += ': ';
-                        }
-                        
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
-                        }
-                        
-                        return label;
-            		}
-            	}
-            }
-        }
-    }
-});
-</script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/firmware2.png">
-</noscript>
 <p>Загрузка новой прошивки потребляет около 30мА. Забавно.</p>
 
 
@@ -660,98 +302,8 @@ const firmwareChart = new Chart(firmwareCtx, {
 
 
 
-<canvas id="wifi" width="400" height="200"></canvas>
-<div class='align-center' style="margin-bottom: 1.5em">
-<small>
-	<a class="downloadChart" data-canvasid="wifi" download="wifi.png" href="" title="Подключение к WiFi">Скачать</a>
-</small>
-</div>
-<script>
-var wifiData = [{"current":0.054,"voltage":5.02},{"current":0.054,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.033,"voltage":5.03},{"current":0.046,"voltage":5.02},{"current":0.135,"voltage":5},{"current":0.146,"voltage":4.99},{"current":0.134,"voltage":5},{"current":0.132,"voltage":5},{"current":0.142,"voltage":5},{"current":0.133,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.133,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.145,"voltage":5},{"current":0.139,"voltage":5},{"current":0.133,"voltage":5},{"current":0.153,"voltage":4.99},{"current":0.146,"voltage":5},{"current":0.145,"voltage":5},{"current":0.154,"voltage":4.99},{"current":0.144,"voltage":5},{"current":0.068,"voltage":5.02}];
-var wifidatasource = wifiData.map(function(e) {
-	return e.current;
-});var wifiXAxis = wifiData.map(function(e, index) {
-	return index;
-});var wifiCtx = document.getElementById('wifi').getContext('2d');
-const wifiChart = new Chart(wifiCtx, {
-    type: 'line',
-    data: {
-        datasets: [{
-            label: 'Ток',
-            data: wifidatasource,
-            borderColor: '#ffcd00',
-            backgroundColor: 'rgba(255, 205, 0, 0.1)',
-            pointBackgroundColor: '#ffcd00',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        }],
-        labels: wifiXAxis
-    },
-    options: {
-    	elements: {
-    		point: {
-    		      radius: 0,
-    		      hitRadius: 10,
-    		      hoverRadius: 4,
-    		      hoverBorderWidth: 3
-    		}	
-    	},
-        animation: {
-            duration: 0
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Ток'
-                },
-                ticks: {
-                    
-                    callback: function(value, index, ticks) {
-                        return value + ' мA';
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Подключение к WiFi',
-                font: {
-                	size: 16
-                }
-            },
-            legend: {
-                display: false
-            },
-            tooltip: {
-            	position: 'nearest',
-            	callbacks: {title: function() {},label: function(context) {
-            			let label = context.dataset.label || '';
+<img src="/img/smart-usb-meter-a3-b/wifi2.png">
 
-                        if (label) {
-                            label += ': ';
-                        }
-                        
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
-                        }
-                        
-                        return label;
-            		}
-            	}
-            }
-        }
-    }
-});
-</script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/wifi2.png">
-</noscript>
 <p>Кстати, во время первоначального соединения по WiFi потребление тока вырастает до ~150мА. Причём как для r2lora, так и tinyGS. Как только IP адрес получен, то потребление резко возвращается к нормальному.</p>
 <p>Ещё я померил потребление в режиме приёма сигнала по протоколу LoRa. Оно совсем не меняется, либо меняется в рамках погрешности.</p>
 <p>А вот, кстати, интересный график потребления энергии во время подключения ESP32 к Raspberry PI по USB:</p>
@@ -769,98 +321,8 @@ const wifiChart = new Chart(wifiCtx, {
 
 
 
-<canvas id="full" width="400" height="200"></canvas>
-<div class='align-center' style="margin-bottom: 1.5em">
-<small>
-	<a class="downloadChart" data-canvasid="full" download="full.png" href="" title="Подключение r2lora к RaspberryPI">Скачать</a>
-</small>
-</div>
-<script>
-var fullData = [{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.298,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.493,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.485,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.429,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.432,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.448,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.433,"voltage":5.16},{"current":0.43,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.377,"voltage":5.15},{"current":0.383,"voltage":5.15},{"current":0.364,"voltage":5.15},{"current":0.357,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.356,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.354,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.344,"voltage":5.15}];
-var fulldatasource = fullData.map(function(e) {
-	return e.current;
-});var fullXAxis = fullData.map(function(e, index) {
-	return index;
-});var fullCtx = document.getElementById('full').getContext('2d');
-const fullChart = new Chart(fullCtx, {
-    type: 'line',
-    data: {
-        datasets: [{
-            label: 'Ток',
-            data: fulldatasource,
-            borderColor: '#ffcd00',
-            backgroundColor: 'rgba(255, 205, 0, 0.1)',
-            pointBackgroundColor: '#ffcd00',
-            fill: true,
-            borderWidth: 2,
-            tension: 0.2
-        }],
-        labels: fullXAxis
-    },
-    options: {
-    	elements: {
-    		point: {
-    		      radius: 0,
-    		      hitRadius: 10,
-    		      hoverRadius: 4,
-    		      hoverBorderWidth: 3
-    		}	
-    	},
-        animation: {
-            duration: 0
-        },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
-        scales: {y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Ток'
-                },
-                ticks: {
-                    
-                    callback: function(value, index, ticks) {
-                        return value + ' мA';
-                    }
-                }
-            }
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Подключение r2lora к RaspberryPI',
-                font: {
-                	size: 16
-                }
-            },
-            legend: {
-                display: false
-            },
-            tooltip: {
-            	position: 'nearest',
-            	callbacks: {title: function() {},label: function(context) {
-            			let label = context.dataset.label || '';
+<img src="/img/smart-usb-meter-a3-b/full2.png">
 
-                        if (label) {
-                            label += ': ';
-                        }
-                        
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
-                        }
-                        
-                        return label;
-            		}
-            	}
-            }
-        }
-    }
-});
-</script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/full2.png">
-</noscript>
 <p>Сразу при подключении потребление резко подскакивает до 500мА. Потом идёт подключение ESP32 к WiFi точке доступа, а потом нормальная работа. При этом напряжение с 5.140В подскакивает до 5.160В и нормализируется до 5.140В.</p>
 <h2 id="выводы">Выводы</h2>
 <p>A3-B позволяет не только теоретизировать о потреблении энергии, но и запечатлеть потребление во времени и делать различные выводы на основе фактических данных.</p>

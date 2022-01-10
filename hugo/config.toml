@@ -130,3 +130,6 @@ weight = 1
 
 [markup.goldmark.renderer]
 unsafe= true
+
+[outputs]
+page = ['HTML', 'RSS']
