@@ -1,7 +1,6 @@
 ---
 title: "Антенна Aurel GP 433"
 date: 2022-01-21T12:10:18+00:00
-cover: /img/geotiff-transparency/1.png
 draft: false
 chartjs: true
 tags:
