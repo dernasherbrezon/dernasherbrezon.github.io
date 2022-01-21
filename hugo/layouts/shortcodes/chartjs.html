@@ -31,7 +31,7 @@ var {{ $id | safeJS }}datasource2 = {{ $id | safeJS }}Data.map(function(e) {
 
 {{- if $xAxis -}}
 var {{ $id | safeJS }}XAxis = {{ $id | safeJS }}Data.map(function(e) {
-	return e.{{ $xAxis | safeJS }};
+	return '' + e.{{ $xAxis | safeJS }};
 });
 {{- else -}}
 var {{ $id | safeJS }}XAxis = {{ $id | safeJS }}Data.map(function(e, index) {
@@ -43,6 +43,7 @@ var {{ $id | safeJS }}Ctx = document.getElementById('{{ $id }}').getContext('2d'
 const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
     type: 'line',
     data: {
+        labels: {{ $id | safeJS }}XAxis,
         datasets: [
         	{{- if $datasource2 -}}
         {
@@ -65,8 +66,7 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: {{ $id | safeJS }}XAxis
+        }]
     },
     options: {
     	elements: {
@@ -94,7 +94,8 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
                 ticks: {
                     // Include a dollar sign in the ticks
                     callback: function(value, index, ticks) {
-                        return value + ' {{ $xAxisUnit }}';
+                    	//console.log(value + " " + index + " " + ticks);
+                        return this.getLabelForValue(value) + ' {{ $xAxisUnit }}';
                     }
                 }
         	},

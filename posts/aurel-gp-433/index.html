@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Недавно я получил в подарок вот такую замечательную антенну - Aurel GP 433:
+Она работает на частоте 433МГц в ISM диапазоне и позволяет получать сигналы со спутников, смодулированные с помощью технологии LoRa.
+С её помощью мне удалось принять несколько пакетов со спутника NORBI. Он как раз передаёт на частоте 433Мгц. Далее мне захотелось понять характеристики антенны на частоте 401Мгц. На ней передают недавно запущенные спутники семейства FOSSASAT.
+Для этого я измерил коэффициент обратных потерь для разных частот.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Антенна Aurel GP 433 • dernasherbrezon'>
+<meta property='og:description' content='Недавно я получил в подарок вот такую замечательную антенну - Aurel GP 433:
+Она работает на частоте 433МГц в ISM диапазоне и позволяет получать сигналы со спутников, смодулированные с помощью технологии LoRa.
+С её помощью мне удалось принять несколько пакетов со спутника NORBI. Он как раз передаёт на частоте 433Мгц. Далее мне захотелось понять характеристики антенны на частоте 401Мгц. На ней передают недавно запущенные спутники семейства FOSSASAT.
+Для этого я измерил коэффициент обратных потерь для разных частот.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/aurel-gp-433/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/geotiff-transparency/1.png'><meta property='article:section' content='posts'><meta property='article:tag' content='спутники'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2022-01-21T12:10:18Z'/><meta property='article:modified_time' content='2022-01-21T12:10:18Z'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/geotiff-transparency/1.png'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Антенна Aurel GP 433 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/aurel-gp-433/'>
+
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><script src="/js/chart.min.js"></script>
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0217391304347827em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.065217391304348em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.065217391304348em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0217391304347827em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.065217391304348em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0217391304347827em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.2826086956521738em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.065217391304348em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.108695652173913em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.065217391304348em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.065217391304348em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0217391304347827em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0217391304347827em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.065217391304348em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0434782608695652em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.065217391304348em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0217391304347827em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.065217391304348em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0434782608695652em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.108695652173913em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.065217391304348em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0434782608695652em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0434782608695652em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.0434782608695652em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0434782608695652em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0217391304347827em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.108695652173913em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0217391304347827em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0869565217391304em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.108695652173913em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0434782608695652em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0217391304347827em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0434782608695652em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0217391304347827em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0217391304347827em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0217391304347827em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0434782608695652em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.065217391304348em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.1956521739130435em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.3260869565217392em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0217391304347827em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0217391304347827em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0217391304347827em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2391304347826086em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0434782608695652em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0434782608695652em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0434782608695652em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0217391304347827em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.065217391304348em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0434782608695652em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0434782608695652em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0217391304347827em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0217391304347827em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0434782608695652em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0217391304347827em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0869565217391304em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0434782608695652em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0217391304347827em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2173913043478262em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.065217391304348em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.065217391304348em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0434782608695652em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0434782608695652em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0217391304347827em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0434782608695652em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3260869565217392em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.065217391304348em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3478260869565217em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1739130434782608em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0434782608695652em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Антенна Aurel GP 433</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2022-01-21T12:10:18Z'>21 Jan 2022</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Недавно я получил в подарок вот такую замечательную антенну - Aurel GP 433:</p>
+<p><img src="/img/Aurel-GP-433/antenna.jpg" alt=""></p>
+<p>Она работает на частоте 433МГц в <a href="https://en.wikipedia.org/wiki/ISM_radio_band">ISM диапазоне</a> и позволяет получать сигналы со спутников, смодулированные с помощью технологии <a href="https://en.wikipedia.org/wiki/LoRa">LoRa</a>.</p>
+<p>С её помощью мне удалось принять несколько пакетов со спутника <a href="https://db.satnogs.org/satellite/DNNN-7162-2135-4056-8903">NORBI</a>. Он как раз передаёт на частоте 433Мгц. Далее мне захотелось понять характеристики антенны на частоте 401Мгц. На ней передают недавно запущенные спутники семейства <a href="https://db.satnogs.org/search/?q=FOSSASAT">FOSSASAT</a>.</p>
+<p>Для этого я измерил коэффициент обратных потерь для разных частот. Получившийся график ниже (чем меньше, тем лучше):</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="aurelgp433" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="aurelgp433" download="aurelgp433.png" href="" title="Aurel GP 433">Скачать</a>
+</small>
+</div>
+<script>
+var aurelgp433Data = [{"frequency":20,"imag":0.559754431,"real":-0.760943531,"returnLoss":-0.494598660574042},{"frequency":24.8,"imag":0.932080805,"real":-0.045752331,"returnLoss":-0.60047715736128},{"frequency":29.6,"imag":0.604275941,"real":0.70737195,"returnLoss":-0.627206400036229},{"frequency":34.4,"imag":-0.199963644,"real":0.91393274,"returnLoss":-0.578636568912912},{"frequency":39.2,"imag":-0.856476783,"real":0.396418601,"returnLoss":-0.502684564874219},{"frequency":44,"imag":-0.840923905,"real":-0.427415788,"returnLoss":-0.506894082716626},{"frequency":48.8,"imag":-0.201555848,"real":-0.914489448,"returnLoss":-0.570421492588648},{"frequency":53.6,"imag":0.568589746,"real":-0.728111207,"returnLoss":-0.688268894499976},{"frequency":58.4,"imag":0.897969543,"real":-0.015972018,"returnLoss":-0.933394102908786},{"frequency":63.2,"imag":0.573965668,"real":0.702335059,"returnLoss":-0.847526309458225},{"frequency":68,"imag":-0.216166049,"real":0.889754116,"returnLoss":-0.765538339310705},{"frequency":72.8,"imag":-0.84387809,"real":0.363054633,"returnLoss":-0.736889959280024},{"frequency":77.6,"imag":-0.811290621,"real":-0.447731435,"returnLoss":-0.661808367458644},{"frequency":82.4,"imag":-0.176766887,"real":-0.899630427,"returnLoss":-0.7542020470646},{"frequency":87.2,"imag":0.581038117,"real":-0.701310515,"returnLoss":-0.812141176830676},{"frequency":92,"imag":0.903180599,"real":0.002565916,"returnLoss":-0.884472946676031},{"frequency":96.8,"imag":0.550869643,"real":0.703880727,"returnLoss":-0.975046208102731},{"frequency":101.6,"imag":-0.239650413,"real":0.867271542,"returnLoss":-0.917336589291846},{"frequency":106.4,"imag":-0.846630096,"real":0.335399121,"returnLoss":-0.813013799763714},{"frequency":111.2,"imag":-0.789260268,"real":-0.461868405,"returnLoss":-0.776616910418116},{"frequency":116,"imag":-0.135411277,"real":-0.895686388,"returnLoss":-0.858736106625921},{"frequency":120.8,"imag":0.592654764,"real":-0.661215186,"returnLoss":-1.03228491125489},{"frequency":125.6,"imag":0.872600913,"real":0.032070543,"returnLoss":-1.17782437927629},{"frequency":130.4,"imag":0.509892344,"real":0.704370141,"returnLoss":-1.21404967712871},{"frequency":135.2,"imag":-0.255506992,"real":0.84126538,"returnLoss":-1.11814178492322},{"frequency":140,"imag":-0.837762355,"real":0.310259938,"returnLoss":-0.979388841209051},{"frequency":144.8,"imag":-0.768310666,"real":-0.466431468,"returnLoss":-0.926641131406514},{"frequency":149.6,"imag":-0.122949831,"real":-0.882662415,"returnLoss":-1.00064867821775},{"frequency":154.4,"imag":0.594930112,"real":-0.64763534,"returnLoss":-1.11610785311252},{"frequency":159.2,"imag":0.855329811,"real":0.055640909,"returnLoss":-1.33898829181669},{"frequency":164,"imag":0.476239442,"real":0.710362195,"returnLoss":-1.35834086304709},{"frequency":168.8,"imag":-0.302132576,"real":0.807742714,"returnLoss":-1.28583306938058},{"frequency":173.6,"imag":-0.836273431,"real":0.242297321,"returnLoss":-1.20295706647444},{"frequency":178.4,"imag":-0.707636356,"real":-0.502767384,"returnLoss":-1.22902763875801},{"frequency":183.2,"imag":-0.071987427,"real":-0.850481212,"returnLoss":-1.37570156782171},{"frequency":188,"imag":0.584632217,"real":-0.602096378,"returnLoss":-1.52233137716114},{"frequency":192.8,"imag":0.831179976,"real":0.070687428,"returnLoss":-1.57480083869271},{"frequency":197.6,"imag":0.438618808,"real":0.712306261,"returnLoss":-1.55046747999748},{"frequency":202.4,"imag":-0.338271021,"real":0.772677779,"returnLoss":-1.47850590110684},{"frequency":207.2,"imag":-0.830290257,"real":0.173015326,"returnLoss":-1.43080150281803},{"frequency":212,"imag":-0.618880033,"real":-0.537393093,"returnLoss":-1.72757523477701},{"frequency":216.8,"imag":-0.003165593,"real":-0.710732936,"returnLoss":-2.96578501556675},{"frequency":221.6,"imag":0.442781805,"real":-0.577728271,"returnLoss":-2.75866994208687},{"frequency":226.4,"imag":0.775130093,"real":-0.023044358,"returnLoss":-2.20867121260892},{"frequency":231.2,"imag":0.489681243,"real":0.635039508,"returnLoss":-1.91746547678222},{"frequency":236,"imag":-0.261967033,"real":0.783367156,"returnLoss":-1.66030467210954},{"frequency":240.8,"imag":-0.814795434,"real":0.244887501,"returnLoss":-1.40344529116591},{"frequency":245.6,"imag":-0.703610539,"real":-0.499682754,"returnLoss":-1.27989111848801},{"frequency":250.4,"imag":-0.067073673,"real":-0.857460439,"returnLoss":-1.30922492715132},{"frequency":255.2,"imag":0.600737214,"real":-0.597605288,"returnLoss":-1.43865103461693},{"frequency":260,"imag":0.828953742,"real":0.096801012,"returnLoss":-1.57057216622805},{"frequency":264.8,"imag":0.395684748,"real":0.725220322,"returnLoss":-1.65890385932565},{"frequency":269.6,"imag":-0.386046081,"real":0.742849767,"returnLoss":-1.54370365934183},{"frequency":274.4,"imag":-0.840782821,"real":0.126030892,"returnLoss":-1.40982133807886},{"frequency":279.2,"imag":-0.627195715,"real":-0.576982021,"returnLoss":-1.38894290130243},{"frequency":284,"imag":0.024662869,"real":-0.844388425,"returnLoss":-1.46545116406722},{"frequency":288.8,"imag":0.637326121,"real":-0.520810961,"returnLoss":-1.69136445381439},{"frequency":293.6,"imag":0.783691942,"real":0.174306377,"returnLoss":-1.90739497447534},{"frequency":298.4,"imag":0.299720078,"real":0.740661978,"returnLoss":-1.94898760472962},{"frequency":303.2,"imag":-0.44577232,"real":0.671178281,"returnLoss":-1.87626006974017},{"frequency":308,"imag":-0.804703176,"real":0.042208369,"returnLoss":-1.87535369084034},{"frequency":312.8,"imag":-0.544825434,"real":-0.588665127,"returnLoss":-1.9154500912168},{"frequency":317.6,"imag":0.0865684,"real":-0.783702969,"returnLoss":-2.06430008294029},{"frequency":322.4,"imag":0.650677859,"real":-0.417451322,"returnLoss":-2.23555050939708},{"frequency":327.2,"imag":0.695138156,"real":0.289377599,"returnLoss":-2.46450299015348},{"frequency":332,"imag":0.111503794,"real":0.727363944,"returnLoss":-2.66408433983362},{"frequency":336.8,"imag":-0.551554381,"real":0.492426037,"returnLoss":-2.6225439196556},{"frequency":341.6,"imag":-0.7201159,"real":-0.150256529,"returnLoss":-2.66687205499823},{"frequency":346.4,"imag":-0.343296825,"real":-0.634568095,"returnLoss":-2.83554755075176},{"frequency":351.2,"imag":0.238523662,"real":-0.643980383,"returnLoss":-3.26422270427672},{"frequency":356,"imag":0.600882649,"real":-0.204619333,"returnLoss":-3.9477144243163},{"frequency":360.8,"imag":0.464116036,"real":0.332405298,"returnLoss":-4.86919667990234},{"frequency":365.6,"imag":-0.042346816,"real":0.528593719,"returnLoss":-5.50977621649549},{"frequency":370.4,"imag":-0.452042758,"real":0.23784025,"returnLoss":-5.83508210601567},{"frequency":375.2,"imag":-0.448253989,"real":-0.196045428,"returnLoss":-6.20938538187298},{"frequency":380,"imag":-0.172054588,"real":-0.420401453,"returnLoss":-6.85416230853883},{"frequency":384.8,"imag":0.142088904,"real":-0.385748207,"returnLoss":-7.72136588987873},{"frequency":389.6,"imag":0.345831155,"real":-0.132367134,"returnLoss":-8.62898416491339},{"frequency":394.4,"imag":0.246405243,"real":0.215023994,"returnLoss":-9.70815711681404},{"frequency":399.2,"imag":-0.087850399,"real":0.293168425,"returnLoss":-10.284207243165},{"frequency":404,"imag":-0.301841616,"real":0.08254534,"returnLoss":-10.0911930664185},{"frequency":408.8,"imag":-0.238903388,"real":-0.151784718,"returnLoss":-10.9629467701819},{"frequency":413.6,"imag":-0.070403076,"real":-0.216876581,"returnLoss":-12.8406310435724},{"frequency":418.4,"imag":0.022297888,"real":-0.146292611,"returnLoss":-16.5958119312003},{"frequency":423.2,"imag":0.047132872,"real":-0.106316953,"returnLoss":-18.6886908035185},{"frequency":428,"imag":0.080593548,"real":-0.058256704,"returnLoss":-20.0484044098629},{"frequency":432.8,"imag":0.083500467,"real":0.020796416,"returnLoss":-21.3048555812377},{"frequency":437.6,"imag":0.038160588,"real":0.082323595,"returnLoss":-20.8442053330024},{"frequency":442.4,"imag":-0.066909968,"real":0.115747384,"returnLoss":-17.4776850997989},{"frequency":447.2,"imag":-0.180787354,"real":0.052828297,"returnLoss":-14.5007886502538},{"frequency":452,"imag":-0.228943347,"real":-0.110444135,"returnLoss":-11.8968034215495},{"frequency":456.8,"imag":-0.107030138,"real":-0.284082025,"returnLoss":-10.354667355931},{"frequency":461.6,"imag":0.132716134,"real":-0.281252861,"returnLoss":-10.1449833236305},{"frequency":466.4,"imag":0.288762569,"real":-0.060830928,"returnLoss":-10.6006051847105},{"frequency":471.2,"imag":0.188057795,"real":0.231784,"returnLoss":-10.5017320100745},{"frequency":476,"imag":-0.141668587,"real":0.32775557,"returnLoss":-8.94511267493587},{"frequency":480.8,"imag":-0.417850524,"real":0.099616467,"returnLoss":-7.33950667863234},{"frequency":485.6,"imag":-0.396468788,"real":-0.262729972,"returnLoss":-6.45479487872242},{"frequency":490.4,"imag":-0.09529557,"real":-0.477350413,"returnLoss":-6.25353070013169},{"frequency":495.2,"imag":0.288335204,"real":-0.371394306,"returnLoss":-6.55468380635174},{"frequency":500,"imag":0.467029839,"real":0.024203047,"returnLoss":-6.60145938736878}];
+var aurelgp433datasource = aurelgp433Data.map(function(e) {
+	return e.returnLoss;
+});var aurelgp433XAxis = aurelgp433Data.map(function(e) {
+	return '' + e.frequency;
+});var aurelgp433Ctx = document.getElementById('aurelgp433').getContext('2d');
+const aurelgp433Chart = new Chart(aurelgp433Ctx, {
+    type: 'line',
+    data: {
+        labels: aurelgp433XAxis,
+        datasets: [{
+            label: 'Обратная потеря',
+            data: aurelgp433datasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: 'Частота'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' МГц';
+                    }
+                }
+        	},y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Обратная потеря'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' дБ';
+                    }
+                }
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Aurel GP 433',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' МГц';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' дБ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/Aurel-GP-433/aurelgp433.png">
+</noscript>
+<p>Разница между 433Мгц и 401Мгц около 10Дб! Это достаточно много и, мне кажется, шансов принять сигнал на эту антенну крайне мало.</p>
+<h2 id="получение-данных-для-графика">Получение данных для графика</h2>
+<p>Отдельно хочется описать схему получения данных для графика.</p>
+<h3 id="nanovna-h4">NanoVNA H4</h3>
+<p>Для измерений я использовал <a href="https://www.amazon.co.uk/Nanovna-H4-10k-1-5GHz-Touchscreen-Measuring-Parameters/dp/B08P4Z44ZV">NanoVNA H4</a>. Инструкций по настройке и использованию подобных устройств в Интернете достаточно много, поэтому я не буду на этом останавливаться.</p>
+<h3 id="nanovna-saver">nanovna-saver</h3>
+<p>NanoVNA H4 выводит классный график на экран, но для того, чтобы получить цифры, нужно использовать специальную программу. Я взял <a href="https://github.com/NanoVNA-Saver/nanovna-saver">nanovna-saver</a>. Во-первых, она заработала у меня на MacOS. А во-вторых, она позволяет экспортировать значения в текстовый файл. Возможно, в Интернете есть командные утилиты, которые могут просто считать данные в консоль, но с наскоку мне не удалось их найти.</p>
+<h3 id="обработка-файла">Обработка файла</h3>
+<p>nanovna-saver экспортирует файлы в формате <a href="https://ibis.org/connector/touchstone_spec11.pdf">Touchstone</a>. Это такой древний формат файлов, который используется для хранения измерений различных сетей. Несмотря на свою простоту и изначальную проприетарность, он стал стандартом де-факто в индустрии.</p>
+<p>Формат его следующий:</p>
+<pre><code># HZ S RI R 50
+20000000 -0.760943531 0.559754431
+24800000 -0.045752331 0.932080805
+</code></pre><p>Сначала идёт заголовок с описанием данных, которые хранятся в файле. В моём примере это:</p>
+<ul>
+<li><code>HZ</code> - единица измерения частоты. Герц. Может быть еще MHZ, KHZ и так далее.</li>
+<li><code>S</code> - тип данных. &ldquo;S&rdquo; - &ldquo;Scattering parameters&rdquo;.</li>
+<li><code>RI</code> - формат данных. В данном случае - это real и imag (реальная и мнимая часть) комплексного числа. Это комплексное число описывает отражённую волну.</li>
+<li><code>R 50</code> - измерения для импеданса в 50 Ом.</li>
+</ul>
+<p>Каждая строчка содержит частоту, вещественную часть и мнимую часть волны. Для того, чтобы получить магнитуду нужно выполнить:</p>
+<pre><code>20 * LOG10(SQRT(real*real + imag*imag))
+</code></pre>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/'>спутники</a>, <a class='tag' href='/tags/radio/'>Радио</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/dynamic-charts-hugo/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Динамические графики в Hugo</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2022 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
+</body>
+
+</html>
+

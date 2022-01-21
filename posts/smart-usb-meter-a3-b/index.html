@@ -188,7 +188,7 @@
       </li><li>
         <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
       </li><li>
-        <a href='/tags/radio/' style='font-size:1.1739130434782608em'>Радио</a>
+        <a href='/tags/radio/' style='font-size:1.1956521739130435em'>Радио</a>
       </li><li>
         <a href='/tags/raspberrypi/' style='font-size:1.3260869565217392em'>raspberrypi</a>
       </li><li>
@@ -264,7 +264,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
       </li><li>
-        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3260869565217392em'>спутники</a>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3478260869565217em'>спутники</a>
       </li><li>
         <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1739130434782608em'>тестирование</a>
       </li><li>
@@ -451,6 +451,7 @@ var razernagadatasource = razernagaData.map(function(e) {
 const razernagaChart = new Chart(razernagaCtx, {
     type: 'line',
     data: {
+        labels: razernagaXAxis,
         datasets: [{
             label: 'Ток',
             data: razernagadatasource,
@@ -460,8 +461,7 @@ const razernagaChart = new Chart(razernagaCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: razernagaXAxis
+        }]
     },
     options: {
     	elements: {
@@ -558,6 +558,7 @@ var raspberrypi3bdatasource = raspberrypi3bData.map(function(e) {
 const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
     type: 'line',
     data: {
+        labels: raspberrypi3bXAxis,
         datasets: [{
             label: 'Ток',
             data: raspberrypi3bdatasource,
@@ -567,8 +568,7 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: raspberrypi3bXAxis
+        }]
     },
     options: {
     	elements: {
@@ -667,6 +667,7 @@ var r2loraTinygsdatasource = r2loraTinygsData.map(function(e) {
 const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
     type: 'line',
     data: {
+        labels: r2loraTinygsXAxis,
         datasets: [{
         	label: 'tinyGS',
             data: r2loraTinygsdatasource2,
@@ -685,8 +686,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: r2loraTinygsXAxis
+        }]
     },
     options: {
     	elements: {
@@ -785,6 +785,7 @@ var tinygsIdleBlackdatasource = tinygsIdleBlackData.map(function(e) {
 const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
     type: 'line',
     data: {
+        labels: tinygsIdleBlackXAxis,
         datasets: [{
         	label: 'Полная яркость',
             data: tinygsIdleBlackdatasource2,
@@ -803,8 +804,7 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: tinygsIdleBlackXAxis
+        }]
     },
     options: {
     	elements: {
@@ -901,6 +901,7 @@ var firmwaredatasource = firmwareData.map(function(e) {
 const firmwareChart = new Chart(firmwareCtx, {
     type: 'line',
     data: {
+        labels: firmwareXAxis,
         datasets: [{
             label: 'Ток',
             data: firmwaredatasource,
@@ -910,8 +911,7 @@ const firmwareChart = new Chart(firmwareCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: firmwareXAxis
+        }]
     },
     options: {
     	elements: {
@@ -1008,6 +1008,7 @@ var wifidatasource = wifiData.map(function(e) {
 const wifiChart = new Chart(wifiCtx, {
     type: 'line',
     data: {
+        labels: wifiXAxis,
         datasets: [{
             label: 'Ток',
             data: wifidatasource,
@@ -1017,8 +1018,7 @@ const wifiChart = new Chart(wifiCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: wifiXAxis
+        }]
     },
     options: {
     	elements: {
@@ -1117,6 +1117,7 @@ var fulldatasource = fullData.map(function(e) {
 const fullChart = new Chart(fullCtx, {
     type: 'line',
     data: {
+        labels: fullXAxis,
         datasets: [{
             label: 'Ток',
             data: fulldatasource,
@@ -1126,8 +1127,7 @@ const fullChart = new Chart(fullCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: fullXAxis
+        }]
     },
     options: {
     	elements: {

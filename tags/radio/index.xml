@@ -5,7 +5,19 @@
     <link>https://dernasherbrezon.com/tags/radio/</link>
     <description>Recent content in Радио on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 03 Aug 2020 20:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/radio/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jan 2022 12:10:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/radio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Антенна Aurel GP 433</title>
+      <link>https://dernasherbrezon.com/posts/aurel-gp-433/</link>
+      <pubDate>Fri, 21 Jan 2022 12:10:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/aurel-gp-433/</guid>
+      <description>Недавно я получил в подарок вот такую замечательную антенну - Aurel GP 433:
+Она работает на частоте 433МГц в ISM диапазоне и позволяет получать сигналы со спутников, смодулированные с помощью технологии LoRa.
+С её помощью мне удалось принять несколько пакетов со спутника NORBI. Он как раз передаёт на частоте 433Мгц. Далее мне захотелось понять характеристики антенны на частоте 401Мгц. На ней передают недавно запущенные спутники семейства FOSSASAT.
+Для этого я измерил коэффициент обратных потерь для разных частот.</description>
+    </item>
+    
     <item>
       <title>Оптимизация FSK демодулятора</title>
       <link>https://dernasherbrezon.com/posts/tune-ber-fsk/</link>

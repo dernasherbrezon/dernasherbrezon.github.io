@@ -186,7 +186,7 @@
       </li><li>
         <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
       </li><li>
-        <a href='/tags/radio/' style='font-size:1.1739130434782608em'>Радио</a>
+        <a href='/tags/radio/' style='font-size:1.1956521739130435em'>Радио</a>
       </li><li>
         <a href='/tags/raspberrypi/' style='font-size:1.3260869565217392em'>raspberrypi</a>
       </li><li>
@@ -262,7 +262,7 @@
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
       </li><li>
-        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3260869565217392em'>спутники</a>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3478260869565217em'>спутники</a>
       </li><li>
         <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1739130434782608em'>тестирование</a>
       </li><li>
@@ -432,6 +432,7 @@ var r2loraTinygsdatasource = r2loraTinygsData.map(function(e) {
 const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
     type: 'line',
     data: {
+        labels: r2loraTinygsXAxis,
         datasets: [{
         	label: 'tinyGS',
             data: r2loraTinygsdatasource2,
@@ -450,8 +451,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
             fill: true,
             borderWidth: 2,
             tension: 0.2
-        }],
-        labels: r2loraTinygsXAxis
+        }]
     },
     options: {
     	elements: {
@@ -583,6 +583,17 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 </svg>
  </span>
         <span class='screen-reader-text'>: </span>USB тестер A3-B</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/aurel-gp-433/'>
+        <span class='screen-reader-text'>: </span>Антенна Aurel GP 433<span aria-hidden='true'> <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
     </div></div>
 </nav>
 
