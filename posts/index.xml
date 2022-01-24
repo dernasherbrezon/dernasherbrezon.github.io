@@ -3856,7 +3856,9 @@ date <span style="color:#f92672">&amp;&amp;</span> sudo hwclock -r
 <p>В данном примере версия 04270A.</p>
 <p>Если всё работает как нужно, то можно переходить к настройке rotctrld. Это специальный демон, который принимает команды по TCP и управляет через serial порт устройством.</p>
 <h2 id="настройка-rotctrld">Настройка rotctrld</h2>
-<p>Демон rotctrld поставляется вместе с библиотекой <a href="https://hamlib.github.io">hamlib</a>. Эта библиотека предоставляет единый интерфейс для различных поворотных устройств и радиостанций. Список поддерживаемых устройств можно получить следующей командой:</p>
+<p>Демон rotctrld поставляется вместе с библиотекой <a href="https://hamlib.github.io">hamlib</a>. Эта библиотека предоставляет единый интерфейс для различных поворотных устройств и радиостанций. В стандартном пакете она ещё содержит набор CLI утилит для управления устройствами. Устанавливаются они стандартным образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install libhamlib-utils
+</code></pre></div><p>Список поддерживаемых устройств можно получить следующей командой:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rotctrld --list
 </code></pre></div><p>SkyWatcher в списке не оказалось, но я почитал протокол и он оказался очень похож на Celestron. Команда для запуска выглядит следующим образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rotctld --model<span style="color:#f92672">=</span><span style="color:#ae81ff">1401</span> --port<span style="color:#f92672">=</span><span style="color:#ae81ff">4533</span> --listen-addr<span style="color:#f92672">=</span>127.0.0.1 --rot-file<span style="color:#f92672">=</span>/dev/ttyUSB0
