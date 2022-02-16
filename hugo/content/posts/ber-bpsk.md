@@ -3,6 +3,7 @@ title: "Расчёт вероятности ошибки для BPSK"
 date: 2019-05-05T18:22:18+01:00
 draft: false
 mathjax: true
+chartjs: true
 cover: /img/ber-bpsk/ber-bpsk.png
 tags:
   - radio
@@ -159,4 +160,4 @@ $$
 
 Получившийся график:
 
-[![](/img/ber-bpsk/ber-bpsk.png)](/img/ber-bpsk/ber-bpsk.m)
+{{< chartjs url="/static/img/ber-bpsk/ber-bpsk.json" id="berBpsk" title="BPSK BER" datasource="ber" datasourceLabel="Bit Error Rate" yAxisLabel="Bit Error Rate" yAxisUnit="" yMax="1" yAxisLogarithmic="true" yMaxTicksLimit="7" xAxis="ebno" xAxisLabel="Eb/No" xAxisUnit="dB" xMaxTicksLimit="11" staticSrc="/img/ber-bpsk/ber-bpsk.png" >}}

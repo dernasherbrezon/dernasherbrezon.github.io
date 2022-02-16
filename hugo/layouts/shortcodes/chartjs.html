@@ -7,9 +7,13 @@
 {{ $datasource2Label := .Get "datasource2Label" }}
 {{ $yAxisLabel := .Get "yAxisLabel" }}
 {{ $yAxisUnit := .Get "yAxisUnit" }}
+{{ $yAxisLogarithmic := .Get "yAxisLogarithmic" }}
+{{ $yMaxTicksLimit := .Get "yMaxTicksLimit" }}
+{{ $yMax := .Get "yMax" }}
 {{ $xAxis := .Get "xAxis" }}
 {{ $xAxisLabel := .Get "xAxisLabel" }}
 {{ $xAxisUnit := .Get "xAxisUnit" }}
+{{ $xMaxTicksLimit := .Get "xMaxTicksLimit" }}
 {{ $dataC := getJSON $url }}
 {{ $staticSrc := .Get "staticSrc" }}
 <canvas id="{{ $id }}" width="400" height="200"></canvas>
@@ -97,11 +101,20 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
                     	//console.log(value + " " + index + " " + ticks);
                         return this.getLabelForValue(value) + ' {{ $xAxisUnit }}';
                     }
+                	{{- if $xMaxTicksLimit -}}
+                	, maxTicksLimit: {{ $xMaxTicksLimit }}
+                	{{- end -}}
                 }
         	},
         	{{- end -}}
             y: {
                 beginAtZero: true,
+                {{- if $yMax -}}
+        		max: {{ $yMax }},
+                {{- end -}}
+                {{- if $yAxisLogarithmic -}}
+        		type: 'logarithmic',
+        		{{- end -}}
                 title: {
                     display: true,
                     text: '{{ $yAxisLabel }}'
@@ -111,6 +124,9 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
                     callback: function(value, index, ticks) {
                         return value + ' {{ $yAxisUnit }}';
                     }
+	            	{{- if $yMaxTicksLimit -}}
+	            	, maxTicksLimit: {{ $yMaxTicksLimit }}
+	            	{{- end -}}
                 }
             }
         },

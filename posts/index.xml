@@ -7798,7 +7798,22 @@ P(error)=\dfrac{1}{2}(\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})) + \dfrac{1}{2}(
 $$</p>
 <h2 id="ответ">Ответ</h2>
 <p>Получившийся график:</p>
-<p><a href="/img/ber-bpsk/ber-bpsk.m"><img src="/img/ber-bpsk/ber-bpsk.png" alt=""></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/ber-bpsk/ber-bpsk.png">
+
 
 </div>
 

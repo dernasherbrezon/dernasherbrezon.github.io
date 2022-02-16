@@ -414,6 +414,10 @@
 
 
 
+
+
+
+
 <canvas id="r2loraTinygs" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -470,8 +474,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,
-                title: {
+                beginAtZero: true,title: {
                     display: true,
                     text: 'Ток'
                 },
@@ -479,8 +482,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
                     
                     callback: function(value, index, ticks) {
                         return value + ' мA';
-                    }
-                }
+                    }}
             }
         },
         plugins: {

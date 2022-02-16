@@ -379,6 +379,10 @@
 
 
 
+
+
+
+
 <canvas id="aurelgp433" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -433,11 +437,9 @@ const aurelgp433Chart = new Chart(aurelgp433Ctx, {
                     callback: function(value, index, ticks) {
                     	
                         return this.getLabelForValue(value) + ' МГц';
-                    }
-                }
+                    }}
         	},y: {
-                beginAtZero: true,
-                title: {
+                beginAtZero: true,title: {
                     display: true,
                     text: 'Обратная потеря'
                 },
@@ -445,8 +447,7 @@ const aurelgp433Chart = new Chart(aurelgp433Ctx, {
                     
                     callback: function(value, index, ticks) {
                         return value + ' дБ';
-                    }
-                }
+                    }}
             }
         },
         plugins: {

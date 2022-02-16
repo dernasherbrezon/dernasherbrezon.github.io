@@ -7,3 +7,24 @@
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://dernasherbrezon.com/tags/abbreviated-jpeg/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
+.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Декодирование картинки jy1sat</title>
+      <link>https://dernasherbrezon.com/posts/decoding-jy1sat/</link>
+      <pubDate>Thu, 23 Jan 2020 00:20:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/decoding-jy1sat/</guid>
+      <description>Введение Все началось с того, что я решил подчистить неиспользуемый код в jradio. Оказалось, спутники семейства funcube шлют дополнительные 200 байт в пакете. В зависимости от спутника, там могут содержаться более детальная телеметрия или просто текстовые сообщения с земли. После небольшого исследования выяснилось, что спутник jy1sat использует их, чтобы передавать картинку! Это мгновенно заинтересовало меня, и в следующие несколько недель я не смог спать, думая о том, как её декодировать.</description>
+    </item>
+    
+    <item>
+      <title>Abbreviated jpeg в Java</title>
+      <link>https://dernasherbrezon.com/posts/abbreviated-jpeg-java/</link>
+      <pubDate>Thu, 09 Jan 2020 21:11:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/abbreviated-jpeg-java/</guid>
+      <description>Я думаю все, кто хоть раз запускал компьютер, знают, что такое jpeg. Этот стандарт появился в далёком 1991 году и с тех пор оброс различными расширениями и дополнительными возможностями. Для обычных пользователей все эти изменения не видны. Вы просто кликаете по файлу и видите красивую картинку. Для 99% разработчиков jpeg также представляет собой чёрный ящик. Максимум, с чем может столкнуться среднестатистический разработчик - это оптимизировать размер картинок с помощью jpegtran или сконвертировать один формат в другой с помощью ImageIO.</description>
+    </item>
+    
+  </channel>
+</rss>

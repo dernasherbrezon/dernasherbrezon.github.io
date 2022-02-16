@@ -27,7 +27,7 @@
 <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><script src="/js/chart.min.js"></script>
 </head>
 <body class='page type-posts has-sidebar'>
 
@@ -458,7 +458,127 @@ P(error)=\dfrac{1}{2}(\dfrac{1}{2}erfc(\sqrt{\dfrac{E_b}{N_0}})) + \dfrac{1}{2}(
 $$</p>
 <h2 id="ответ">Ответ</h2>
 <p>Получившийся график:</p>
-<p><a href="/img/ber-bpsk/ber-bpsk.m"><img src="/img/ber-bpsk/ber-bpsk.png" alt=""></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="berBpsk" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="berBpsk" download="berBpsk.png" href="" title="BPSK BER">Скачать</a>
+</small>
+</div>
+<script>
+var berBpskData = [{"ber":0.07865,"ebno":0},{"ber":0.076274,"ebno":0.1},{"ber":0.073927,"ebno":0.2},{"ber":0.071609,"ebno":0.3},{"ber":0.069321,"ebno":0.4},{"ber":0.067065,"ebno":0.5},{"ber":0.064841,"ebno":0.6},{"ber":0.06265,"ebno":0.7},{"ber":0.060492,"ebno":0.8},{"ber":0.058369,"ebno":0.9},{"ber":0.056282,"ebno":1},{"ber":0.054231,"ebno":1.1},{"ber":0.052216,"ebno":1.2},{"ber":0.050239,"ebno":1.3},{"ber":0.048301,"ebno":1.4},{"ber":0.046401,"ebno":1.5},{"ber":0.044541,"ebno":1.6},{"ber":0.042721,"ebno":1.7},{"ber":0.040942,"ebno":1.8},{"ber":0.039203,"ebno":1.9},{"ber":0.037506,"ebno":2},{"ber":0.035851,"ebno":2.1},{"ber":0.034238,"ebno":2.2},{"ber":0.032668,"ebno":2.3},{"ber":0.03114,"ebno":2.4},{"ber":0.029655,"ebno":2.5},{"ber":0.028214,"ebno":2.6},{"ber":0.026815,"ebno":2.7},{"ber":0.02546,"ebno":2.8},{"ber":0.024148,"ebno":2.9},{"ber":0.022878,"ebno":3},{"ber":0.021652,"ebno":3.1},{"ber":0.020469,"ebno":3.2},{"ber":0.019328,"ebno":3.3},{"ber":0.018229,"ebno":3.4},{"ber":0.017173,"ebno":3.5},{"ber":0.016157,"ebno":3.6},{"ber":0.015183,"ebno":3.7},{"ber":0.014249,"ebno":3.8},{"ber":0.013355,"ebno":3.9},{"ber":0.012501,"ebno":4},{"ber":0.011685,"ebno":4.1},{"ber":0.010907,"ebno":4.2},{"ber":0.010167,"ebno":4.3},{"ber":0.009462,"ebno":4.4},{"ber":0.008794,"ebno":4.5},{"ber":0.00816,"ebno":4.6},{"ber":0.00756,"ebno":4.7},{"ber":0.006993,"ebno":4.8},{"ber":0.006458,"ebno":4.9},{"ber":0.005954,"ebno":5},{"ber":0.00548,"ebno":5.1},{"ber":0.005035,"ebno":5.2},{"ber":0.004617,"ebno":5.3},{"ber":0.004227,"ebno":5.4},{"ber":0.003862,"ebno":5.5},{"ber":0.003522,"ebno":5.6},{"ber":0.003206,"ebno":5.7},{"ber":0.002912,"ebno":5.8},{"ber":0.00264,"ebno":5.9},{"ber":0.002388,"ebno":6},{"ber":0.002156,"ebno":6.1},{"ber":0.001942,"ebno":6.2},{"ber":0.001745,"ebno":6.3},{"ber":0.001565,"ebno":6.4},{"ber":0.0014,"ebno":6.5},{"ber":0.001249,"ebno":6.6},{"ber":0.001112,"ebno":6.7},{"ber":0.000988,"ebno":6.8},{"ber":0.000875,"ebno":6.9},{"ber":0.000773,"ebno":7},{"ber":0.000681,"ebno":7.1},{"ber":0.000598,"ebno":7.2},{"ber":0.000524,"ebno":7.3},{"ber":0.000458,"ebno":7.4},{"ber":0.000399,"ebno":7.5},{"ber":0.000346,"ebno":7.6},{"ber":0.0003,"ebno":7.7},{"ber":0.000259,"ebno":7.8},{"ber":0.000223,"ebno":7.9},{"ber":0.000191,"ebno":8},{"ber":0.000163,"ebno":8.1},{"ber":0.000139,"ebno":8.2},{"ber":0.000118,"ebno":8.3},{"ber":0.0001,"ebno":8.4},{"ber":0.000084,"ebno":8.5},{"ber":0.000071,"ebno":8.6},{"ber":0.000059,"ebno":8.7},{"ber":0.000049,"ebno":8.8},{"ber":0.000041,"ebno":8.9},{"ber":0.000034,"ebno":9},{"ber":0.000028,"ebno":9.1},{"ber":0.000023,"ebno":9.2},{"ber":0.000018,"ebno":9.3},{"ber":0.000015,"ebno":9.4},{"ber":0.000012,"ebno":9.5},{"ber":0.00001,"ebno":9.6},{"ber":0.000008,"ebno":9.7},{"ber":0.000006,"ebno":9.8},{"ber":0.000005,"ebno":9.9},{"ber":0.000004,"ebno":10}];
+var berBpskdatasource = berBpskData.map(function(e) {
+	return e.ber;
+});var berBpskXAxis = berBpskData.map(function(e) {
+	return '' + e.ebno;
+});var berBpskCtx = document.getElementById('berBpsk').getContext('2d');
+const berBpskChart = new Chart(berBpskCtx, {
+    type: 'line',
+    data: {
+        labels: berBpskXAxis,
+        datasets: [{
+            label: 'Bit Error Rate',
+            data: berBpskdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: 'Eb\/No'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' dB';
+                    }, maxTicksLimit: "11"}
+        	},y: {
+                beginAtZero: true,max: "1",type: 'logarithmic',title: {
+                    display: true,
+                    text: 'Bit Error Rate'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }, maxTicksLimit: "7"}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'BPSK BER',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' dB';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/ber-bpsk/ber-bpsk.png">
+</noscript>
 
 </div>
 
@@ -588,7 +708,18 @@ $$</p>
   MathJax.Hub.Config({})
 </script>
 
-<script type='text/javascript' async src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+<script type='text/javascript' async src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script><script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
 </body>
 
 </html>
