@@ -1,0 +1,282 @@
+[
+	{
+		"ebno": 0.000000,
+		"fskBer": 0.158655,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 0.500000,
+		"fskBer": 0.144742,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 1.000000,
+		"fskBer": 0.130927,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 1.500000,
+		"fskBer": 0.117318,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 2.000000,
+		"fskBer": 0.104029,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 2.500000,
+		"fskBer": 0.091180,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 3.000000,
+		"fskBer": 0.078896,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 3.500000,
+		"fskBer": 0.067296,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 4.000000,
+		"fskBer": 0.056495,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 4.500000,
+		"fskBer": 0.046595,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 5.000000,
+		"fskBer": 0.037679,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 5.500000,
+		"fskBer": 0.029806,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 6.000000,
+		"fskBer": 0.023007,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 6.500000,
+		"fskBer": 0.017279,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 1.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 1.0
+	},
+	{
+		"ebno": 7.000000,
+		"fskBer": 0.012587,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 0.1375,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.1717557251908397
+	},
+	{
+		"ebno": 7.500000,
+		"fskBer": 0.008861,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 0.075,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.13931297709923665
+	},
+	{
+		"ebno": 8.000000,
+		"fskBer": 0.006004,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 0.075,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.0916030534351145
+	},
+	{
+		"ebno": 8.500000,
+		"fskBer": 0.003899,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.05343511450381679
+	},
+	{
+		"ebno": 9.000000,
+		"fskBer": 0.002413,
+		"ax25Byte20Checksum": 1.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.022900763358778626
+	},
+	{
+		"ebno": 9.500000,
+		"fskBer": 0.001416,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.01717557251908397
+	},
+	{
+		"ebno": 10.000000,
+		"fskBer": 0.000783,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.011450381679389313
+	},
+	{
+		"ebno": 10.500000,
+		"fskBer": 0.000405,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.0057251908396946565
+	},
+	{
+		"ebno": 11.000000,
+		"fskBer": 0.000194,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 1.0,
+		"ax25Byte131NoChecksum": 0.0057251908396946565
+	},
+	{
+		"ebno": 11.500000,
+		"fskBer": 0.000086,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 12.000000,
+		"fskBer": 0.000034,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 12.500000,
+		"fskBer": 0.000012,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 13.000000,
+		"fskBer": 0.000004,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 13.500000,
+		"fskBer": 0.000001,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 14.000000,
+		"fskBer": 0.000000,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 14.500000,
+		"fskBer": 0.000000,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 15.000000,
+		"fskBer": 0.000000,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 15.500000,
+		"fskBer": 0.000000,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 16.000000,
+		"fskBer": 0.000000,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 16.500000,
+		"fskBer": 0.000000,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	},
+	{
+		"ebno": 17.000000,
+		"fskBer": 0.000000,
+		"ax25Byte20Checksum": 0.0,
+		"ax25Byte20NoChecksum": 0.0,
+		"ax25Byte131Checksum": 0.0,
+		"ax25Byte131NoChecksum": 0.0
+	}
+]

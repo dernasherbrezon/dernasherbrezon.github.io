@@ -86,7 +86,7 @@
       </li><li>
         <a href='/tags/bash/' style='font-size:1.0217391304347827em'>bash</a>
       </li><li>
-        <a href='/tags/ber/' style='font-size:1.065217391304348em'>ber</a>
+        <a href='/tags/ber/' style='font-size:1.0869565217391304em'>ber</a>
       </li><li>
         <a href='/tags/bpsk/' style='font-size:1.0217391304347827em'>bpsk</a>
       </li><li>
@@ -106,7 +106,7 @@
       </li><li>
         <a href='/tags/flot/' style='font-size:1em'>flot</a>
       </li><li>
-        <a href='/tags/fsk/' style='font-size:1.0217391304347827em'>fsk</a>
+        <a href='/tags/fsk/' style='font-size:1.0434782608695652em'>fsk</a>
       </li><li>
         <a href='/tags/gc/' style='font-size:1em'>gc</a>
       </li><li>
@@ -188,7 +188,7 @@
       </li><li>
         <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
       </li><li>
-        <a href='/tags/radio/' style='font-size:1.1956521739130435em'>Радио</a>
+        <a href='/tags/radio/' style='font-size:1.2173913043478262em'>Радио</a>
       </li><li>
         <a href='/tags/raspberrypi/' style='font-size:1.3260869565217392em'>raspberrypi</a>
       </li><li>
@@ -439,6 +439,12 @@ Collection time: 2022-01-06 14:29:26.689485
 
 
 
+
+
+
+
+
+
 <canvas id="razernaga" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -548,6 +554,12 @@ const razernagaChart = new Chart(razernagaCtx, {
 
 
 
+
+
+
+
+
+
 <canvas id="raspberrypi3b" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -639,6 +651,12 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
 	<img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
 </noscript>
 <p>Далее, сравнение потребления проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> и <a href="http://tinygs.com">tinyGS</a>. Оба работают на одной и той же плате <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&amp;Id=1326&amp;FId=t3:50060:3">TTGO LoRa32</a>:</p>
+
+
+
+
+
+
 
 
 
@@ -777,6 +795,12 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 
 
 
+
+
+
+
+
+
 <canvas id="tinygsIdleBlack" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -879,6 +903,12 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
 	<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
 </noscript>
 <p>Помогло, но не сильно. Среднее потребление около 100мА.</p>
+
+
+
+
+
+
 
 
 
@@ -1006,6 +1036,12 @@ const firmwareChart = new Chart(firmwareCtx, {
 
 
 
+
+
+
+
+
+
 <canvas id="wifi" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -1099,6 +1135,12 @@ const wifiChart = new Chart(wifiCtx, {
 <p>Кстати, во время первоначального соединения по WiFi потребление тока вырастает до ~150мА. Причём как для r2lora, так и tinyGS. Как только IP адрес получен, то потребление резко возвращается к нормальному.</p>
 <p>Ещё я померил потребление в режиме приёма сигнала по протоколу LoRa. Оно совсем не меняется, либо меняется в рамках погрешности.</p>
 <p>А вот, кстати, интересный график потребления энергии во время подключения ESP32 к Raspberry PI по USB:</p>
+
+
+
+
+
+
 
 
 

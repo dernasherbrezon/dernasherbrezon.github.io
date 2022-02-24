@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/fsk/</link>
     <description>Recent content in fsk on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 03 Aug 2020 20:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/fsk/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Feb 2022 22:13:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/fsk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Расчёт вероятности ошибки для AX.25</title>
+      <link>https://dernasherbrezon.com/posts/ber-ax25/</link>
+      <pubDate>Sat, 19 Feb 2022 22:13:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/ber-ax25/</guid>
+      <description>Введение Обычно вероятность ошибки используется для сравнения различных типов модуляции между собой. Однако, на практике помимо демодулятора используются дополнительные блоки:
+ формирование фреймов канального уровня контроль и коррекция ошибок  И каждый из этих блоков может как уменьшить вероятность декодирования фрейма, так и увеличить. Все алгоритмы контроля и коррекции ошибок предназначены для того, чтобы увеличить вероятность декодирования фрейма. А вот формирование самих фреймов может сильно повлиять на возможности получения данных.</description>
+    </item>
+    
     <item>
       <title>Оптимизация FSK демодулятора</title>
       <link>https://dernasherbrezon.com/posts/tune-ber-fsk/</link>

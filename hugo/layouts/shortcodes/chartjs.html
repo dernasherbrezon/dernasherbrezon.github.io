@@ -5,6 +5,12 @@
 {{ $datasourceLabel := .Get "datasourceLabel" }}
 {{ $datasource2 := .Get "datasource2" }}
 {{ $datasource2Label := .Get "datasource2Label" }}
+{{ $datasource3 := .Get "datasource3" }}
+{{ $datasource3Label := .Get "datasource3Label" }}
+{{ $datasource4 := .Get "datasource4" }}
+{{ $datasource4Label := .Get "datasource4Label" }}
+{{ $datasource5 := .Get "datasource5" }}
+{{ $datasource5Label := .Get "datasource5Label" }}
 {{ $yAxisLabel := .Get "yAxisLabel" }}
 {{ $yAxisUnit := .Get "yAxisUnit" }}
 {{ $yAxisLogarithmic := .Get "yAxisLogarithmic" }}
@@ -33,6 +39,24 @@ var {{ $id | safeJS }}datasource2 = {{ $id | safeJS }}Data.map(function(e) {
 });
 {{- end -}}
 
+{{- if $datasource3 -}}
+var {{ $id | safeJS }}datasource3 = {{ $id | safeJS }}Data.map(function(e) {
+	return e.{{ $datasource3 | safeJS }};
+});
+{{- end -}}
+
+{{- if $datasource4 -}}
+var {{ $id | safeJS }}datasource4 = {{ $id | safeJS }}Data.map(function(e) {
+	return e.{{ $datasource4 | safeJS }};
+});
+{{- end -}}
+
+{{- if $datasource5 -}}
+var {{ $id | safeJS }}datasource5 = {{ $id | safeJS }}Data.map(function(e) {
+	return e.{{ $datasource5 | safeJS }};
+});
+{{- end -}}
+
 {{- if $xAxis -}}
 var {{ $id | safeJS }}XAxis = {{ $id | safeJS }}Data.map(function(e) {
 	return '' + e.{{ $xAxis | safeJS }};
@@ -56,6 +80,42 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
             borderColor: '#7fc35e',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },
+        	{{- end -}}
+    	{{- if $datasource3 -}}
+        {
+        	label: '{{ $datasource3Label }}',
+            data: {{ $id | safeJS }}datasource3,
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },
+        	{{- end -}}
+    	{{- if $datasource4 -}}
+        {
+        	label: '{{ $datasource4Label }}',
+            data: {{ $id | safeJS }}datasource4,
+            borderColor: '#5DD9BE',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#5DD9BE',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },
+        	{{- end -}}
+    	{{- if $datasource5 -}}
+        {
+        	label: '{{ $datasource5Label }}',
+            data: {{ $id | safeJS }}datasource5,
+            borderColor: '#CF8659',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#CF8659',
             fill: true,
             borderWidth: 2,
             tension: 0.2
