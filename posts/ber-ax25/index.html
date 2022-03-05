@@ -745,12 +745,184 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
 <li>При Eb/N0=13дБ фреймы лучше не декодируются.</li>
 <li>размер фрейма перестал влиять на результаты.</li>
 </ul>
-<p>Судя по результатам теста, демодулятор работает не так как ожидается. При полном отсутствии шума, все фреймы должны были декодироваться, ну или большая их часть. А в моём случае совсем наоборот. Очевидно, что ошибка где-то в демодуляторе. Я его проверил несколько раз, и потенциальным местом может быть <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/main/java/ru/r2cloud/jradio/blocks/ClockRecoveryMM.java">ClockRecoveryMM</a>. Судя по отзывам в Интернете, он плохо работает при достаточно сильном (большая амплитуда) прямоугольном (форма) сигнале. А при Eb/N0=17дБ, это как раз и происходит.</p>
-<p>Возможно, мне следует:</p>
-<ul>
-<li>посмотреть на альтернативные алгоритмы синхронизации сэмплов</li>
-<li>попробовать искать AX.25 фреймы с помощью синхрослова</li>
-</ul>
+<p>Судя по результатам теста, демодулятор работает не так как ожидается. При полном отсутствии шума, все фреймы должны были декодироваться, ну или большая их часть. А в моём случае совсем наоборот.</p>
+<h2 id="результаты-3">Результаты 3</h2>
+<p>Одной из причин такого поведения может быть внутреннее состояние демодулятора. Внутри демодулятора есть множество циклов обратной связи. Эти циклы корректируют поведение блоков в зависимости от выходных данных. Внутри каждого цикла есть некое состояние, которое описывает обратную связь. Если на вход демодулятора подаётся шум, то такой цикл обратной связи будет находится в &ldquo;свободном поиске&rdquo; и внутреннее состояние может плавать от +Х до -Х. Если же, сигнал, то цикл будет стремится к некоему локальному минимуму и состояние будет стремится к какому-нибудь числу. В итоге он достигнет равновесия и будет корректировать выходные данные. Но время, которое нужно для того, чтобы цикл пришёл в нужное равновесие лежит в каком-то интервале. Собственно, передавая достаточно длинную преамбулу в начале каждого пакета, можно заставить демодулятор синхронизироваться с потоком данных и улучшить декодирование.</p>
+<p>Я попробовал преамбулы нескольких длин: 3, 6 и 9 байт. Каждый байт такой преамбулы - это 0x7e. В итоге получилось следующее:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="ax25Ber3" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="ax25Ber3" download="ax25Ber3.png" href="" title="AX.25 BER">Скачать</a>
+</small>
+</div>
+<script>
+var ax25Ber3Data = [{"ebno":0,"fskBer":0.15865525393145696,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":0.5,"fskBer":0.14474212146104393,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":1,"fskBer":0.1309272963463169,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":1.5,"fskBer":0.11731779978548318,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":2,"fskBer":0.1040286363052162,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":2.5,"fskBer":0.09118037349115199,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":3,"fskBer":0.07889586912978602,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":3.5,"fskBer":0.06729612929213863,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":4,"fskBer":0.05649530051362306,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":4.5,"fskBer":0.04659512487725431,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":5,"fskBer":0.03767898814746325,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":5.5,"fskBer":0.029806226789021444,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":6,"fskBer":0.02300713589277829,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":6.5,"fskBer":0.017279468541572376,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":7,"fskBer":0.012587034122355586,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":7.5,"fskBer":0.008861051096347865,"prepend0":0.999,"prepend3":0.999,"prepend6":0.998,"prepend9":0.998},{"ebno":8,"fskBer":0.006004385813621199,"prepend0":0.987,"prepend3":0.989,"prepend6":0.991,"prepend9":0.992},{"ebno":8.5,"fskBer":0.0038986290439469748,"prepend0":0.959,"prepend3":0.943,"prepend6":0.962,"prepend9":0.962},{"ebno":9,"fskBer":0.0024133110011664415,"prepend0":0.898,"prepend3":0.88,"prepend6":0.878,"prepend9":0.89},{"ebno":9.5,"fskBer":0.001416119261884248,"prepend0":0.793,"prepend3":0.745,"prepend6":0.733,"prepend9":0.763},{"ebno":10,"fskBer":0.0007827011290012748,"prepend0":0.618,"prepend3":0.579,"prepend6":0.53,"prepend9":0.561},{"ebno":10.5,"fskBer":0.00040456251202240215,"prepend0":0.481,"prepend3":0.409,"prepend6":0.354,"prepend9":0.37},{"ebno":11,"fskBer":0.00019398540032568773,"prepend0":0.343,"prepend3":0.27,"prepend6":0.21,"prepend9":0.203},{"ebno":11.5,"fskBer":0.00008551058184999764,"prepend0":0.25,"prepend3":0.17,"prepend6":0.122,"prepend9":0.117},{"ebno":12,"fskBer":0.00003430259232262812,"prepend0":0.196,"prepend3":0.113,"prepend6":0.055,"prepend9":0.073},{"ebno":12.5,"fskBer":0.000012380617585204551,"prepend0":0.165,"prepend3":0.083,"prepend6":0.025,"prepend9":0.033},{"ebno":13,"fskBer":0.000003969252944222963,"prepend0":0.152,"prepend3":0.07,"prepend6":0.01,"prepend9":0.015},{"ebno":13.5,"fskBer":0.0000011142642546405037,"prepend0":0.141,"prepend3":0.064,"prepend6":0.005,"prepend9":0.006},{"ebno":14,"fskBer":0,"prepend0":0.132,"prepend3":0.063,"prepend6":0.004,"prepend9":0.003},{"ebno":14.5,"fskBer":0,"prepend0":0.128,"prepend3":0.062,"prepend6":0.003,"prepend9":0.002},{"ebno":15,"fskBer":0,"prepend0":0.124,"prepend3":0.068,"prepend6":0.003,"prepend9":0.001},{"ebno":15.5,"fskBer":0,"prepend0":0.12,"prepend3":0.067,"prepend6":0.004,"prepend9":0.001},{"ebno":16,"fskBer":0,"prepend0":0.118,"prepend3":0.07,"prepend6":0.003,"prepend9":0},{"ebno":16.5,"fskBer":0,"prepend0":0.116,"prepend3":0.073,"prepend6":0.003,"prepend9":0},{"ebno":17,"fskBer":0,"prepend0":0.117,"prepend3":0.07,"prepend6":0.001,"prepend9":0}];
+var ax25Ber3datasource = ax25Ber3Data.map(function(e) {
+	return e.fskBer;
+});var ax25Ber3datasource2 = ax25Ber3Data.map(function(e) {
+	return e.prepend0;
+});var ax25Ber3datasource3 = ax25Ber3Data.map(function(e) {
+	return e.prepend3;
+});var ax25Ber3datasource4 = ax25Ber3Data.map(function(e) {
+	return e.prepend6;
+});var ax25Ber3datasource5 = ax25Ber3Data.map(function(e) {
+	return e.prepend9;
+});var ax25Ber3XAxis = ax25Ber3Data.map(function(e) {
+	return '' + e.ebno;
+});var ax25Ber3Ctx = document.getElementById('ax25Ber3').getContext('2d');
+const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
+    type: 'line',
+    data: {
+        labels: ax25Ber3XAxis,
+        datasets: [{
+        	label: 'Prepend 0',
+            data: ax25Ber3datasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'Prepend 3',
+            data: ax25Ber3datasource3,
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'Prepend 6',
+            data: ax25Ber3datasource4,
+            borderColor: '#5DD9BE',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#5DD9BE',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'Prepend 9',
+            data: ax25Ber3datasource5,
+            borderColor: '#CF8659',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#CF8659',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'FSK',
+            data: ax25Ber3datasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: 'Eb\/No'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' dB';
+                    }, maxTicksLimit: "11"}
+        	},y: {
+                beginAtZero: true,max: "1",type: 'logarithmic',title: {
+                    display: true,
+                    text: 'Bit Error Rate'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }, maxTicksLimit: "10"}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'AX.25 BER',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' dB';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/ber-ax25/ber-ax25-4.png">
+</noscript>
+<h2 id="анализ-3">Анализ 3</h2>
+<p>На графике явно видно, что, чем длиннее преамбула, тем больше данных декодировано. Преамбула длиной 9 байт показывает наилучшие показатели.</p>
+<p>По-прежнему демодулятор не может приблизится к теоретическому пределу FSK, хотя кривые в чём-то повторяют BER кривую теории.</p>
 
 </div>
 
