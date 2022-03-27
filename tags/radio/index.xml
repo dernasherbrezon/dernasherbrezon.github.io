@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/radio/</link>
     <description>Recent content in Радио on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 19 Feb 2022 22:13:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/radio/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Mar 2022 19:48:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/radio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Оптимизация приёма AX.25</title>
+      <link>https://dernasherbrezon.com/posts/ber-ax25-optimization/</link>
+      <pubDate>Tue, 15 Mar 2022 19:48:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/ber-ax25-optimization/</guid>
+      <description>Введение Итак, после того, как измерена BER кривая для AX.25 декодера, можно попробовать её оптимизировать.
+Оптимизация заранее известного заголовка Просмотрев несколько десятков протоколов различных спутников от UNISAT-7 до FIREBIRD 4, я обнаружил, что они всегда шлют один и тот же AX.25 заголовок. Заранее зная такой заголовок, можно игнорировать его в принятом фрейме и попытаться исправить ошибки получения. Алгоритм тогда будет выглядеть следующим образом:
+ найти флаги начала и окончания HDLC фрейма посчитать контрольную сумму если сумма совпала, то фрейм корректно получен если сумма не совпала, то подставить заранее известный заголовок в начало фрейма посчитать контрольную сумму ещё раз если сумма совпала, то фрейм удалось восстановить если не совпала, то ничего не поделаешь - фрейм утерян  При таком алгоритме спутник может слать как известные заголовки, так и нет.</description>
+    </item>
+    
     <item>
       <title>Расчёт вероятности ошибки для AX.25</title>
       <link>https://dernasherbrezon.com/posts/ber-ax25/</link>

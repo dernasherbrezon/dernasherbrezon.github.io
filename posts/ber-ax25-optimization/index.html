@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Введение Итак, после того, как измерена BER кривая для AX.25 декодера, можно попробовать её оптимизировать.
+Оптимизация заранее известного заголовка Просмотрев несколько десятков протоколов различных спутников от UNISAT-7 до FIREBIRD 4, я обнаружил, что они всегда шлют один и тот же AX.25 заголовок. Заранее зная такой заголовок, можно игнорировать его в принятом фрейме и попытаться исправить ошибки получения. Алгоритм тогда будет выглядеть следующим образом:
+ найти флаги начала и окончания HDLC фрейма посчитать контрольную сумму если сумма совпала, то фрейм корректно получен если сумма не совпала, то подставить заранее известный заголовок в начало фрейма посчитать контрольную сумму ещё раз если сумма совпала, то фрейм удалось восстановить если не совпала, то ничего не поделаешь - фрейм утерян  При таком алгоритме спутник может слать как известные заголовки, так и нет.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Оптимизация приёма AX.25 • dernasherbrezon'>
+<meta property='og:description' content='Введение Итак, после того, как измерена BER кривая для AX.25 декодера, можно попробовать её оптимизировать.
+Оптимизация заранее известного заголовка Просмотрев несколько десятков протоколов различных спутников от UNISAT-7 до FIREBIRD 4, я обнаружил, что они всегда шлют один и тот же AX.25 заголовок. Заранее зная такой заголовок, можно игнорировать его в принятом фрейме и попытаться исправить ошибки получения. Алгоритм тогда будет выглядеть следующим образом:
+ найти флаги начала и окончания HDLC фрейма посчитать контрольную сумму если сумма совпала, то фрейм корректно получен если сумма не совпала, то подставить заранее известный заголовок в начало фрейма посчитать контрольную сумму ещё раз если сумма совпала, то фрейм удалось восстановить если не совпала, то ничего не поделаешь - фрейм утерян  При таком алгоритме спутник может слать как известные заголовки, так и нет.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/ber-ax25-optimization/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='fsk'><meta property='article:tag' content='ber'><meta property='article:published_time' content='2022-03-15T19:48:18Z'/><meta property='article:modified_time' content='2022-03-15T19:48:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Оптимизация приёма AX.25 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/ber-ax25-optimization/'>
+
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><script src="/js/chart.min.js"></script>
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0217391304347827em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.065217391304348em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.065217391304348em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0217391304347827em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.108695652173913em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0217391304347827em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.2826086956521738em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.065217391304348em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.108695652173913em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.065217391304348em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.065217391304348em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.065217391304348em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0217391304347827em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.065217391304348em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0434782608695652em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.065217391304348em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0217391304347827em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.065217391304348em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0434782608695652em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.108695652173913em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.065217391304348em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0434782608695652em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0434782608695652em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.0434782608695652em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0434782608695652em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0217391304347827em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.108695652173913em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0217391304347827em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0869565217391304em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.108695652173913em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0434782608695652em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0217391304347827em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0434782608695652em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0217391304347827em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0217391304347827em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0217391304347827em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0434782608695652em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.065217391304348em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2391304347826086em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.3260869565217392em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0217391304347827em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0217391304347827em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0217391304347827em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2391304347826086em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0434782608695652em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0434782608695652em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0434782608695652em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0217391304347827em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.065217391304348em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0434782608695652em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0434782608695652em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0217391304347827em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0217391304347827em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0434782608695652em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0217391304347827em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0869565217391304em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0434782608695652em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0217391304347827em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2173913043478262em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.065217391304348em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.065217391304348em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0434782608695652em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0434782608695652em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0217391304347827em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0434782608695652em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3260869565217392em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.065217391304348em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3478260869565217em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1739130434782608em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0434782608695652em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Оптимизация приёма AX.25</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2022-03-15T19:48:18Z'>15 Mar 2022</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <h2 id="введение">Введение</h2>
+<p>Итак, после того, как <a href="https://dernasherbrezon.com/posts/ber-ax25/">измерена BER кривая для AX.25 декодера</a>, можно попробовать её оптимизировать.</p>
+<h2 id="оптимизация-заранее-известного-заголовка">Оптимизация заранее известного заголовка</h2>
+<p>Просмотрев несколько десятков протоколов различных спутников от UNISAT-7 до FIREBIRD 4, я обнаружил, что они всегда шлют один и тот же AX.25 заголовок. Заранее зная такой заголовок, можно игнорировать его в принятом фрейме и попытаться исправить ошибки получения. Алгоритм тогда будет выглядеть следующим образом:</p>
+<ul>
+<li>найти флаги начала и окончания HDLC фрейма</li>
+<li>посчитать контрольную сумму</li>
+<li>если сумма совпала, то фрейм корректно получен</li>
+<li>если сумма не совпала, то подставить заранее известный заголовок в начало фрейма</li>
+<li>посчитать контрольную сумму ещё раз</li>
+<li>если сумма совпала, то фрейм удалось восстановить</li>
+<li>если не совпала, то ничего не поделаешь - фрейм утерян</li>
+</ul>
+<p>При таком алгоритме спутник может слать как известные заголовки, так и нет. Вероятность исправления ошибок в известных заголовках будет выше.</p>
+<p>Вообще такой подход работает отлично для приёма данных со спутников. Они часто шлют данные один ко многим и имеют один и тот же заголовок AX.25. Поскольку целью проекта r2cloud является получение как можно больше данных из космоса, то такую оптимизацию неплохо было бы иметь.</p>
+<h2 id="использование-синхрослова">Использование синхрослова</h2>
+<p>Одним из слабых мест HDLC являются начальные и конечные тэги - 0b01111110. Если хотя бы один бит в принятом тэге неправильный, то весь фрейм будет отброшен. Даже если полезные данные не содержат ошибок. Декодер просто не сможет найти начало фрейма. В хорошо продуманных протоколах используется синхрослово, за которым идут полезные данные. Синхрослово - это заранее известная последовательность бит, которую отправляют перед каждым фреймом. Это слово позволяет:</p>
+<ul>
+<li>найти начало фрейма</li>
+<li>не выполнять дорогостоящих и сложных вычислений вроде коррекции ошибок или проверки контрольной суммы</li>
+<li>делать неточный поиск. Это позволяет найти начало фрейма даже, если в принятом синхрослове есть несколько бит ошибок</li>
+</ul>
+<p>Для HDLC таким синхрословом может быть начальный тэг 0b01111110. Проблема заключается в том, что большинство спутников использует G3RUH скремблер. Вообще <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BA%D1%80%D0%B5%D0%BC%D0%B1%D0%BB%D0%B5%D1%80">скремблированые данных</a> перед отправкой - полезная штука. Однако, в AX25 он применяется и к тэгам! Это значит, что каждый фрейм каждый раз будет иметь разные биты вместо 0b01111110. И это не очень подходит для приёма HDLC.</p>
+<p>Однако, я не стал отчаиватся и придумал следующий алгоритм:</p>
+<ul>
+<li>взять реальный сигнал со спутника</li>
+<li>декодировать его старым алгоритмом</li>
+<li>собрать статистику для каждого успешно декодированного фрейма:
+<ul>
+<li>внутреннее состояние дескремблера</li>
+<li>вывод демодулятора до того, как он будет пропущен через дескремблер</li>
+</ul>
+</li>
+</ul>
+<p>Зная такую статистику для каждого фрейма можно понять состояние скремблера в момент передачи данных со спутника. Если оно одно и то же, то принятые данные можно отмотать назад и получить синхрослово. Да, это звучит так же сложно, как и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/main/java/ru/r2cloud/jradio/blocks/HdlcReceiver.java#L164">реализовано в jradio</a>.</p>
+<p>Однако, алгоритм на удивление работает и я могу искать начало HDLC фреймов даже если они были пропущены через скремблер!</p>
+<h2 id="проверка">Проверка</h2>
+<p>Я реализовал оба алгоритма и прогнал на искусственном тесте <a href="">Ax24G3ruhBer</a>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="headerOptimization" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="headerOptimization" download="headerOptimization.png" href="" title="Оптимизация заголовка">Скачать</a>
+</small>
+</div>
+<script>
+var headerOptimizationData = [{"ebno":0,"fskBer":0.15865525393145696,"header":1,"noHeader":1,"syncword":1},{"ebno":0.5,"fskBer":0.14474212146104393,"header":1,"noHeader":1,"syncword":1},{"ebno":1,"fskBer":0.1309272963463169,"header":1,"noHeader":1,"syncword":1},{"ebno":1.5,"fskBer":0.11731779978548318,"header":1,"noHeader":1,"syncword":1},{"ebno":2,"fskBer":0.1040286363052162,"header":1,"noHeader":1,"syncword":1},{"ebno":2.5,"fskBer":0.09118037349115199,"header":1,"noHeader":1,"syncword":1},{"ebno":3,"fskBer":0.07889586912978602,"header":1,"noHeader":1,"syncword":1},{"ebno":3.5,"fskBer":0.06729612929213863,"header":1,"noHeader":1,"syncword":1},{"ebno":4,"fskBer":0.05649530051362306,"header":1,"noHeader":1,"syncword":1},{"ebno":4.5,"fskBer":0.04659512487725431,"header":1,"noHeader":1,"syncword":1},{"ebno":5,"fskBer":0.03767898814746325,"header":1,"noHeader":1,"syncword":1},{"ebno":5.5,"fskBer":0.029806226789021444,"header":1,"noHeader":1,"syncword":1},{"ebno":6,"fskBer":0.02300713589277829,"header":1,"noHeader":1,"syncword":1},{"ebno":6.5,"fskBer":0.017279468541572376,"header":1,"noHeader":1,"syncword":1},{"ebno":7,"fskBer":0.012587034122355586,"header":1,"noHeader":1,"syncword":1},{"ebno":7.5,"fskBer":0.008861051096347865,"header":1,"noHeader":1,"syncword":1},{"ebno":8,"fskBer":0.006004385813621199,"header":1,"noHeader":1,"syncword":1},{"ebno":8.5,"fskBer":0.0038986290439469748,"header":1,"noHeader":1,"syncword":1},{"ebno":9,"fskBer":0.0024133110011664415,"header":1,"noHeader":1,"syncword":1},{"ebno":9.5,"fskBer":0.001416119261884248,"header":0.999,"noHeader":0.999,"syncword":0.998},{"ebno":10,"fskBer":0.0007827011290012748,"header":0.97,"noHeader":0.982,"syncword":0.966},{"ebno":10.5,"fskBer":0.00040456251202240215,"header":0.874,"noHeader":0.902,"syncword":0.868},{"ebno":11,"fskBer":0.00019398540032568773,"header":0.677,"noHeader":0.718,"syncword":0.665},{"ebno":11.5,"fskBer":0.00008551058184999764,"header":0.43,"noHeader":0.458,"syncword":0.422},{"ebno":12,"fskBer":0.00003430259232262812,"header":0.231,"noHeader":0.249,"syncword":0.224},{"ebno":12.5,"fskBer":0.000012380617585204551,"header":0.105,"noHeader":0.113,"syncword":0.1},{"ebno":13,"fskBer":0.000003969252944222963,"header":0.047,"noHeader":0.051,"syncword":0.044},{"ebno":13.5,"fskBer":0.0000011142642546405037,"header":0.017,"noHeader":0.019,"syncword":0.016},{"ebno":14,"fskBer":0,"header":0.011,"noHeader":0.011,"syncword":0.008},{"ebno":14.5,"fskBer":0,"header":0.004,"noHeader":0.004,"syncword":0.002},{"ebno":15,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":15.5,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":16,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":16.5,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":17,"fskBer":0,"header":0,"noHeader":0,"syncword":0}];
+var headerOptimizationdatasource = headerOptimizationData.map(function(e) {
+	return e.fskBer;
+});var headerOptimizationdatasource2 = headerOptimizationData.map(function(e) {
+	return e.noHeader;
+});var headerOptimizationdatasource3 = headerOptimizationData.map(function(e) {
+	return e.header;
+});var headerOptimizationdatasource4 = headerOptimizationData.map(function(e) {
+	return e.syncword;
+});var headerOptimizationXAxis = headerOptimizationData.map(function(e) {
+	return '' + e.ebno;
+});var headerOptimizationCtx = document.getElementById('headerOptimization').getContext('2d');
+const headerOptimizationChart = new Chart(headerOptimizationCtx, {
+    type: 'line',
+    data: {
+        labels: headerOptimizationXAxis,
+        datasets: [{
+        	label: 'Без заголовка',
+            data: headerOptimizationdatasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'С заголовком',
+            data: headerOptimizationdatasource3,
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'Синхрослово',
+            data: headerOptimizationdatasource4,
+            borderColor: '#5DD9BE',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#5DD9BE',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'FSK',
+            data: headerOptimizationdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: 'Eb\/No'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' dB';
+                    }, maxTicksLimit: "11"}
+        	},y: {
+                beginAtZero: true,max: "1",type: 'logarithmic',title: {
+                    display: true,
+                    text: 'Bit Error Rate'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }, maxTicksLimit: "10"}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Оптимизация заголовка',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' dB';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/ber-ax25-optimization/header.png">
+</noscript>
+<p>В тесте отправляются фреймы размером 131 байт. Если учесть, что заголовок занимает 16 байт, то улучшить приём можно примерно на 12%. На графике видно улучшение, но небольшое. В среднем на 8%.</p>
+<p>Если же использовать поиск синхрослова и заранее известный заголовок, то улучшить приём можно в среднем на 14% процентов. А при достаточно сильном сигнале вплоть до 50%.</p>
+<h2 id="проверка-оптимизаций-на-реальных-сигналах">Проверка оптимизаций на реальных сигналах</h2>
+<p>После тестирования оптимизаций на модели, я решил проверить работу на реальных сигналах со спутников. Вот пример сигнала со спутника UNISAT-7:</p>
+<p><img src="/img/ber-ax25-optimization/unisat7.jpg" alt=""></p>
+<p>На спектрограмме отчётливо виден сигнал со спутника - он идёт вдоль зелёной линии. Однако, его мощности недостаточно, чтобы декодировать все пакеты. До оптимизаций мой декодер мог получить только 3 фрейма, после оптимизаций - 4.</p>
+<p>Я также сравнил результаты с декодером из gr_satellites. Этот декодер лёг в основу моего до всех оптимизаций. Я запускал его следующей командой:</p>
+<pre><code>gr_satellites 47945 --rawfile output.raw.gz-doppler.cf32 --samp_rate 48000 --iq
+</code></pre><p>В результате мне удалось получить только один фрейм.</p>
+<h2 id="выводы">Выводы</h2>
+<p>HDLC не так-то просто оптимизировать. Мне потребовалось несколько недель и действительно очень много кода, чтобы немного улучшить приём. Тем не менее мой метод нельзя сделать универсальным и декодер необходимо конфигурировать для каждого спутника отдельно.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/radio/'>Радио</a>, <a class='tag' href='/tags/fsk/'>fsk</a>, <a class='tag' href='/tags/ber/'>ber</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/ber-ax25/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Расчёт вероятности ошибки для AX.25</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2022 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
+</body>
+
+</html>
+
