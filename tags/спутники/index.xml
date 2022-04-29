@@ -5,7 +5,16 @@
     <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
     <description>Recent content in спутники on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 21 Jan 2022 12:10:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Apr 2022 22:19:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Отслеживание спутников с помощью Javascript и D3</title>
+      <link>https://dernasherbrezon.com/posts/satellite-d3/</link>
+      <pubDate>Wed, 27 Apr 2022 22:19:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/satellite-d3/</guid>
+      <description>В следующем месяце я планирую поехать на фестиваль Electromagnetic field. Ну, а чтобы не ехать с пустыми руками, я решил взять с собой поворотное устройство и сделать стенд, на котором будет работать r2cloud. Просто поворачивающейся антенны мне показалось недостаточно, поэтому я придумал дать доступ к r2cloud, где каждый желающий может посмотреть за каким спутником ведётся наблюдение, какие данные получены, какие спутники на подлёте. К сожалению, в r2cloud нет понятия ролей и нельзя создать пользователя с правами &amp;ldquo;только чтение&amp;rdquo;.</description>
+    </item>
+    
     <item>
       <title>Антенна Aurel GP 433</title>
       <link>https://dernasherbrezon.com/posts/aurel-gp-433/</link>

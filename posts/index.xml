@@ -7,10 +7,154 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Tue, 15 Mar 2022 19:48:18 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 27 Apr 2022 22:19:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Отслеживание спутников с помощью Javascript и D3</title>
+      <link>https://dernasherbrezon.com/posts/satellite-d3/</link>
+      <pubDate>Wed, 27 Apr 2022 22:19:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/satellite-d3/</guid>
+      <description>В следующем месяце я планирую поехать на фестиваль Electromagnetic field. Ну, а чтобы не ехать с пустыми руками, я решил взять с собой поворотное устройство и сделать стенд, на котором будет работать r2cloud. Просто поворачивающейся антенны мне показалось недостаточно, поэтому я придумал дать доступ к r2cloud, где каждый желающий может посмотреть за каким спутником ведётся наблюдение, какие данные получены, какие спутники на подлёте. К сожалению, в r2cloud нет понятия ролей и нельзя создать пользователя с правами &amp;ldquo;только чтение&amp;rdquo;.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Отслеживание спутников с помощью Javascript и D3</h1></header>
+      		<div class='container entry-content'>
+  <p>В следующем месяце я планирую поехать на фестиваль <a href="https://www.emfcamp.org">Electromagnetic field</a>. Ну, а чтобы не ехать с пустыми руками, я решил взять с собой <a href="rotator-for-r2cloud/">поворотное устройство</a> и сделать стенд, на котором будет работать r2cloud. Просто поворачивающейся антенны мне показалось недостаточно, поэтому я придумал дать доступ к r2cloud, где каждый желающий может посмотреть за каким спутником ведётся наблюдение, какие данные получены, какие спутники на подлёте. К сожалению, в r2cloud нет понятия ролей и нельзя создать пользователя с правами &ldquo;только чтение&rdquo;. Вот тут-то у меня и родилась идея сделать режим презентации.</p>
+<p>Этот режим должен работать следующим образом:</p>
+<ul>
+<li>по-умолчанию должен быть выключен</li>
+<li>должен включаться в настройках</li>
+<li>быть доступен без логина и пароля</li>
+<li>показывать последние 5 наблюдений</li>
+<li>показывать полную информацию о каждом наблюдении - данные, спектрограмму, TLE</li>
+<li>показывать следующие 5 запланированных наблюдений</li>
+<li>показывать текущее положение спутников на карте Земли и область их видимости</li>
+</ul>
+<p>Первые пару пунктов легко сделать дополнительной настройкой:</p>
+<p><img src="/img/satellite-d3/config.png" alt=""></p>
+<p>Однако, последний пункт - самый сложный. Как отрисовать карту Земли с проекциями всех координат? Как вообще нарисовать карту Земли?</p>
+<h2 id="анализ-требований">Анализ требований</h2>
+<p>При анализе требований я решил пойти с конца. Я точно знаю, что приложение должно уметь работать без интернета, а значит никаких Google Maps, Open Street Map, MapBox и др. Для того, чтобы нарисовать карту Земли, мне достаточно одного самого крупного масштаба. В идеале карта должна быть похожа на <a href="http://gpredict.oz9aec.net">gpredict</a>:</p>
+<p><img src="/img/satellite-d3/gpredict.png" alt=""></p>
+<p>Следующее требование - работа в браузере. <a href="https://github.com/dernasherbrezon/r2cloud-ui">r2cloud-ui</a> вполне подходит для этого и совсем не хочется создавать отдельное приложение. А значит режим презентации должен быть написан на javascript.</p>
+<h2 id="выбор-технологий">Выбор технологий</h2>
+<p>Беглый поиск в Google показал, что проще всего использовать библиотеку <a href="https://d3js.org">d3</a>. В ней есть модуль для работы с ГИС данными - <a href="https://github.com/d3/d3-geo">d3-geo</a>.</p>
+<pre><code>npm install d3
+</code></pre><p>С их помощью можно преобразовывать координаты спутника в координаты точки на карте:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">projection</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">d3</span>.<span style="color:#a6e22e">geoMercator</span>().<span style="color:#a6e22e">fitExtent</span>( [ [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>], [<span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">height</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">120</span>], ], <span style="color:#a6e22e">land</span>)
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">centerXY</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">projection</span>([<span style="color:#a6e22e">longitudeDeg</span>, <span style="color:#a6e22e">latitudeDeg</span>])
+</code></pre></div><p>При этом в d3-geo есть поддержка как стандартных проекций:</p>
+<ul>
+<li>geoMercator</li>
+<li>geoMiller</li>
+<li>geoNaturalEarth2</li>
+</ul>
+<p>Так и совсем странных:</p>
+<ul>
+<li>geoAitoff</li>
+<li>geoArmadillo</li>
+<li>geoBromley</li>
+</ul>
+<p><img src="/img/satellite-d3/armadillo.png" alt=""></p>
+<p>Я решил не выпендриваться и взял стандартную проекцию - Меркатор. Эта проекция используется в Google Maps и Open Street Map.</p>
+<p>Ещё d3 поддерживает <a href="https://geojson.org">GeoJSON</a> - JSON формат описания географических объектов.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;Feature&#34;</span>,
+  <span style="color:#f92672">&#34;geometry&#34;</span>: {
+    <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;Point&#34;</span>,
+    <span style="color:#f92672">&#34;coordinates&#34;</span>: [<span style="color:#ae81ff">125.6</span>, <span style="color:#ae81ff">10.1</span>]
+  },
+  <span style="color:#f92672">&#34;properties&#34;</span>: {
+    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Dinagat Islands&#34;</span>
+  }
+}
+</code></pre></div><p>С его помощью можно описывать границы континентов или государств. Есть <a href="https://github.com/simonepri/geo-maps/blob/master/info/earth-coastlines.md">множество</a> <a href="https://datahub.io/core/geo-countries">сайтов</a>, где можно бесплатно скачать все береговые линии Земли. Но, зачастую, такие файлы слишком детализированы для моих нужд. Мне же необходимо отобразить все континенты на небольшом изображении 800x600 без возможности увеличения. Можно попробовать использовать менее детализиронные GeoJSON файлы, но они содержат дополнительную метаинформацию, которая мне тоже не нужна. На помощь приходит другой формат - <a href="https://github.com/topojson/topojson">topoJSON</a>. Это небольшое расширение GeoJSON, которое позволяет задавать геометрии небольшими сегментами и линиями. Он как раз призван создавать файлы чуть меньшего размера по сравнению с GeoJSON за счёт выкидывания всего ненужного.</p>
+<pre><code>npm install topojson-client
+</code></pre><p>В итоге из достаточно детализированного GeoJSON файла размером 33Мб я смог получить карту размером 16Кб. Да, некоторые острова стали выглядеть очень условно, некоторые детали совсем потерялись, но этого вполне достаточно для нужд проекта:</p>
+<p><img src="/img/satellite-d3/mercator.png" alt=""></p>
+<h2 id="расчёт-траекторий-спутников">Расчёт траекторий спутников</h2>
+<p>Следующим шагом будет расчёт траекторий спутников. Нужно определить широту, долготу и область видимости спутника. Область видимости - это такая область Земли, в которой можно наблюдать за спутником или получать сигнал. Чем выше находится спутник, тем больше его область видимости.</p>
+<p>Тут есть небольшая тонкость. На сервере я рассчитываю положение спутника с помощью библиотеки <a href="https://www.orekit.org">orekit</a>. С её помощью можно рассчитать траектории и передать готовый результат в браузер. Либо передавать с сервера TLE и рассчитывать все координаты на клиентской стороне. У каждого способа есть свои плюсы и минусы.</p>
+<p>Расчёт на сервере:</p>
+<p><strong>+</strong> расчёт будет производить та же библиотека, что и для запуска наблюдений</p>
+<p><strong>+</strong> расчёт можно закэшировать и считать один раз для нескольких клиентов</p>
+<p><strong>—</strong> raspberrypi достаточно слабый. Если делать расчёт траекторий каждые 10 секунд, то это может сильно повлиять на декодирование данных и приём сигнала</p>
+<p>Расчёт на клиенте:</p>
+<p><strong>+</strong> браузер возьмёт на себя расчёт траекторий и позволит снизить нагрузку на сервер</p>
+<p><strong>—</strong> библиотека расчёта будет отличаться от серверной. А это значит, что любая ошибка в расчётах на сервере не сможет быть отловлена на клиенте. И наоборот.</p>
+<p>Я решил всё-таки делать расчёт на клиенте, чтобы уменьшить нагрузку на сервер.</p>
+<p>Для этого я использовал библиотеку <a href="https://github.com/shashwatak/satellite-js">satellite.js</a>. Она создана на основе <a href="https://github.com/brandon-rhodes/python-sgp4">python-sgp4</a>, которая основана на достаточно старой модели Земли, не поддерживает leap seconds и прочие параметры из справочников. Тем не менее на практике оказалось, что разница совсем небольшая - доли секунды. И для того, чтобы показать спутник на небольшой карте, такой точности вполне достаточно.</p>
+<pre><code>npm install satellite.js
+</code></pre><h2 id="реализация">Реализация</h2>
+<p>Код, необходимый для инициализации Земли в SVG, я уже привёл выше. К сожалению, Антарктида в проекции Меркатора занимает ну очень много места, а станций слежения там не предвидится. Для того, чтобы удалить Антарктиду, я просто расширил SVG на 120 пикселей по высоте и Антарктида перестала помещаться:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">projection</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">d3</span>.<span style="color:#a6e22e">geoMercator</span>().<span style="color:#a6e22e">fitExtent</span>( [ [<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>], [<span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">height</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">120</span>], ], <span style="color:#a6e22e">land</span>)
+</code></pre></div><p>Далее, координаты спутников рассчитываются следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">satrec</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">satellite</span>.<span style="color:#a6e22e">twoline2satrec</span>(<span style="color:#a6e22e">tle</span>.<span style="color:#a6e22e">line2</span>, <span style="color:#a6e22e">tle</span>.<span style="color:#a6e22e">line3</span>)
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">positionAndVelocity</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">satellite</span>.<span style="color:#a6e22e">propagate</span>(<span style="color:#a6e22e">satrec</span>, <span style="color:#a6e22e">currentDate</span>);
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">positionGd</span>    <span style="color:#f92672">=</span> <span style="color:#a6e22e">satellite</span>.<span style="color:#a6e22e">eciToGeodetic</span>(<span style="color:#a6e22e">positionAndVelocity</span>.<span style="color:#a6e22e">position</span>, <span style="color:#a6e22e">gmst</span>)
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">longitudeDeg</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">satellite</span>.<span style="color:#a6e22e">degreesLong</span>(<span style="color:#a6e22e">positionGd</span>.<span style="color:#a6e22e">longitude</span>)
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">latitudeDeg</span>  <span style="color:#f92672">=</span> <span style="color:#a6e22e">satellite</span>.<span style="color:#a6e22e">degreesLat</span>(<span style="color:#a6e22e">positionGd</span>.<span style="color:#a6e22e">latitude</span>)
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">centerXY</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">projection</span>([<span style="color:#a6e22e">longitudeDeg</span>, <span style="color:#a6e22e">latitudeDeg</span>])
+</code></pre></div><p>Область видимости спутника - это сферический угол, который определяется высотой спутника и радиусом Земли:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">coreAngle</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">acos</span>(<span style="color:#ae81ff">6.378135E3</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">6.378135E3</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">positionGd</span>.<span style="color:#a6e22e">height</span>)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1.74532925E-2</span>
+</code></pre></div><p>Чтобы рассчитать координаты получившегося эллипса, необходимо вспомнить немного <a href="https://ru.wikipedia.org/wiki/%D0%A1%D1%84%D0%B5%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D1%82%D1%80%D0%B8%D0%B3%D0%BE%D0%BD%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%8F">сферической геометрии</a>. Либо использовать <code>geoCircle</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">circle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">d3</span>.<span style="color:#a6e22e">geoCircle</span>().<span style="color:#a6e22e">center</span>([<span style="color:#a6e22e">longitudeDeg</span>, <span style="color:#a6e22e">latitudeDeg</span>]).<span style="color:#a6e22e">radius</span>( <span style="color:#a6e22e">coreAngle</span> )()
+</code></pre></div><p>Несмотря на то, что метод задания радиуса этого круга называется &ldquo;радиус&rdquo;, нужно передавать именно угол в градусах.</p>
+<p><img src="/img/satellite-d3/satellites.png" alt=""></p>
+<h2 id="ux">UX</h2>
+<p>Всё самое сложное позади и можно немного &ldquo;поиграться со шрифтами&rdquo;. А именно - улучшить UX. Во-первых, каждое наблюдение должно отличаться по цвету от всех остальных. Для этого я <a href="https://stackoverflow.com/a/52171480/659097">откуда-то</a> скопировал функцию вычисления хэша строки:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">hashcode</span>(<span style="color:#a6e22e">str</span>, <span style="color:#a6e22e">seed</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">h1</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xdeadbeef</span> <span style="color:#f92672">^</span> <span style="color:#a6e22e">seed</span>;
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">h2</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x41c6ce57</span> <span style="color:#f92672">^</span> <span style="color:#a6e22e">seed</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">ch</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">str</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+        <span style="color:#a6e22e">ch</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">str</span>.<span style="color:#a6e22e">charCodeAt</span>(<span style="color:#a6e22e">i</span>);
+        <span style="color:#a6e22e">h1</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">imul</span>(<span style="color:#a6e22e">h1</span> <span style="color:#f92672">^</span> <span style="color:#a6e22e">ch</span>, <span style="color:#ae81ff">2654435761</span>);
+        <span style="color:#a6e22e">h2</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">imul</span>(<span style="color:#a6e22e">h2</span> <span style="color:#f92672">^</span> <span style="color:#a6e22e">ch</span>, <span style="color:#ae81ff">1597334677</span>);
+    }
+    <span style="color:#a6e22e">h1</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">imul</span>(<span style="color:#a6e22e">h1</span> <span style="color:#f92672">^</span> (<span style="color:#a6e22e">h1</span><span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#ae81ff">16</span>), <span style="color:#ae81ff">2246822507</span>) <span style="color:#f92672">^</span> Math.<span style="color:#a6e22e">imul</span>(<span style="color:#a6e22e">h2</span> <span style="color:#f92672">^</span> (<span style="color:#a6e22e">h2</span><span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#ae81ff">13</span>), <span style="color:#ae81ff">3266489909</span>);
+    <span style="color:#a6e22e">h2</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">imul</span>(<span style="color:#a6e22e">h2</span> <span style="color:#f92672">^</span> (<span style="color:#a6e22e">h2</span><span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#ae81ff">16</span>), <span style="color:#ae81ff">2246822507</span>) <span style="color:#f92672">^</span> Math.<span style="color:#a6e22e">imul</span>(<span style="color:#a6e22e">h1</span> <span style="color:#f92672">^</span> (<span style="color:#a6e22e">h1</span><span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#ae81ff">13</span>), <span style="color:#ae81ff">3266489909</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">4294967296</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">2097151</span> <span style="color:#f92672">&amp;</span> <span style="color:#a6e22e">h2</span>) <span style="color:#f92672">+</span> (<span style="color:#a6e22e">h1</span><span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#ae81ff">0</span>);
+}
+</code></pre></div><p>И на основе хэша вычисляю случайный цвет:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">getRandomColor</span>(<span style="color:#a6e22e">hash</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">colour</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">hash</span> <span style="color:#f92672">&gt;&gt;</span> (<span style="color:#a6e22e">i</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>;
+    <span style="color:#a6e22e">colour</span> <span style="color:#f92672">+=</span> (<span style="color:#e6db74">&#39;00&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">16</span>)).<span style="color:#a6e22e">substr</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>);
+  }
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">colour</span>;
+}
+</code></pre></div><p>В качестве строки для хэша я использовал Id наблюдения. Таким образом цвет области видимости спутника всегда будет один и тот же даже после перезагрузки страницы.</p>
+<p>Следующим неплохим улучшением будет подсвечивания всей области видимости при наведении курсора. Это можно сделать с помощью javascript, а можно с помощью CSS! Для этого к элементу path нужно добавить CSS класс:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">path</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;satelliteCircle&#34;</span>&gt;
+</code></pre></div><p>И соответствующий стиль:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">.<span style="color:#a6e22e">satelliteCircle</span>:<span style="color:#a6e22e">hover</span> {
+	stroke: rgba(<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0.4</span>);
+}
+</code></pre></div><p>При наведении курсора мыши, вся область будет выдяляться полупрозрачной красной линией.</p>
+<p>Ещё неплохо было бы добавить название спутника и время до начала наблюдения. Для этого внутрь элемента path необходимо добавить title:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">path</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;satelliteCircle&#34;</span> <span style="color:#a6e22e">:fill</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cur.color&#34;</span> <span style="color:#a6e22e">fill-opacity</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.2&#34;</span> <span style="color:#a6e22e">:d</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cur.path&#34;</span>&gt;
+	&lt;<span style="color:#f92672">title</span>&gt;{{ cur.name }}&amp;#xA;&lt;<span style="color:#f92672">br</span>&gt;{{ cur.timeHint }}&lt;/<span style="color:#f92672">title</span>&gt;
+&lt;/<span style="color:#f92672">path</span>&gt;
+</code></pre></div><p><code>timeHint</code> вычисляется следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">moment</span>(<span style="color:#a6e22e">vm</span>.<span style="color:#a6e22e">observations</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">start</span>).<span style="color:#a6e22e">fromNow</span>()
+</code></pre></div><p>Элементы <code>&amp;#xA;&lt;br&gt;</code> позволяют сделать подсказку на нескольких строчках. Причём старые браузеры смогут понять тэг <code>br</code>, а новые - спецсимвол <code>&amp;#xA;</code>.  Всё это было благополучно найдено в Google и работает.</p>
+<p>После всех манипуляций с vuejs, получилось вот такое SVG изображение, которое обновляется каждые 10 секунд. Особенно впечатляет, как d3-geo обрабатывает области видимости спутников вокруг полюсов:</p>
+<p><img src="/img/satellite-d3/satellites2.png" alt=""></p>
+<p>Полный код можно найти тут: <a href="https://github.com/dernasherbrezon/r2cloud-ui/blob/master/src/components/pages/presentationMode.vue">presentationMode.vue</a>.</p>
+<p>Если честно, то мне понравился получившийся результат. Если продраться через многочисленную рекламу самого популярного сайта для отслеживания спутников <a href="https://www.n2yo.com/">n2yo.com</a>, то можно увидеть достаточно посредственную реализацию:</p>
+<p><img src="/img/satellite-d3/n2yo.png" alt=""></p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Оптимизация приёма AX.25</title>
@@ -1984,7 +2128,7 @@ sudo systemctl start snmp_exporter
       
       <guid>https://dernasherbrezon.com/posts/sdr-modem-latency/</guid>
       <description>В предыдущей статье я планировал реализовать не только отправку, но и приём сигнала с помощью plutosdr. Спустя месяц и несколько важных рефакторингов, я сделал всё, что хотел. Теперь можно напрямую сравнивать приём через plutosdr и через sdr-server. Понятное дело, через plutosdr будет намного быстрее. Мне же хотелось узнать насколько быстрее и померить эту задержку.
-Описание стэнда Алгоритм тестирования для plutosdr и sdr-server выглядит следущим образом:
+Описание стенда Алгоритм тестирования для plutosdr и sdr-server выглядит следущим образом:
  создать сообщение отправить в sdr-modem записать время отправки принять это же сообщение из sdr-modem найти разницу между временем отправки и получения  Для того, чтобы отправить сообщение, его нужно закодировать во фрейм.</description>
       <turbo:content>
       	<![CDATA[
@@ -1992,7 +2136,7 @@ sudo systemctl start snmp_exporter
       			<h1>Задержка в sdr-modem</h1></header>
       		<div class='container entry-content'>
   <p>В предыдущей статье я планировал реализовать не только отправку, но и приём сигнала с помощью plutosdr. Спустя месяц и несколько важных рефакторингов, я сделал всё, что хотел. Теперь можно напрямую сравнивать приём через plutosdr и через sdr-server. Понятное дело, через plutosdr будет намного быстрее. Мне же хотелось узнать насколько быстрее и померить эту задержку.</p>
-<h2 id="описание-стэнда">Описание стэнда</h2>
+<h2 id="описание-стенда">Описание стенда</h2>
 <p>Алгоритм тестирования для plutosdr и sdr-server выглядит следущим образом:</p>
 <ul>
 <li>создать сообщение</li>
@@ -3890,8 +4034,8 @@ $$</p>
   <p><a href="https://dernasherbrezon.com/posts/rotator-for-r2cloud-2/">Последние наблюдения</a> показали, что у меня очень высокий уровень шума, если антенна направлена в центр города. У меня возникло предположение, что это связано со слишком сильными сигналами на соседних частотах. Если это так, то это значит, что GSM, FM и DVB перегрузили вход rtl-sdr, полностью заглушив слабые сигналы. Такое возможно, так как у rtl-sdr достаточно <a href="https://dernasherbrezon.com/posts/dynamic-range/">низкий динамический диапазон</a>.</p>
 <p>Для того, чтобы проверить теорию, я решил купить вот такой <a href="https://www.ebay.co.uk/itm/70cm-430-440MHz-Filter-EME-RTL-SDR/264521132435?pageci=fdb1adb1-62db-45fd-9a71-4029605d1ae3">фильтр на 70см</a> и протестировать его.</p>
 <p><img src="/img/test-70cm-filter/0.jpg" alt=""></p>
-<h2 id="описание-стэнда">Описание стэнда</h2>
-<p>В <a href="https://dernasherbrezon.com/posts/test-fm-filter/">прошлый раз</a> я тестировал фм-фильтры. В этот раз я решил собрать такой же стэнд и протестировать 70см фильтр.</p>
+<h2 id="описание-стенда">Описание стенда</h2>
+<p>В <a href="https://dernasherbrezon.com/posts/test-fm-filter/">прошлый раз</a> я тестировал фм-фильтры. В этот раз я решил собрать такой же стенд и протестировать 70см фильтр.</p>
 <p><img src="/img/test-70cm-filter/1.jpg" alt=""></p>
 <h2 id="софт">Софт</h2>
 <p>rtl_power - программа из стандартной поставки <a href="https://github.com/osmocom/rtl-sdr">rtl-sdr</a>. Она позволяет сканировать большой диапазон частот, разбивая его участки примерно 2Mhz и выполняя быстрое преобразование фурье. После этого, результаты преобразуются в dbm.</p>
@@ -7321,8 +7465,8 @@ torquer_duty
       
       <guid>https://dernasherbrezon.com/posts/test-fm-filter/</guid>
       <description>TL;TR; Фильтры тестировать можно, но выводы нужно делать аккуратно.
-Постановка задачи Архитектура rtl sdr требует специального фильтра на входе. Поскольку сильнешими источниками сигнала являются фм станции, то я решил поставить фм фильтры на входе приёмника. Но прежде, чем устанавливать их, мне хотелось измерить частотные характеристики фильтров и пощупать их в деле. Для этого я купил несколько фм фильтров и собрал стэнд для их тестирования.
-Описание стэнда Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра.</description>
+Постановка задачи Архитектура rtl sdr требует специального фильтра на входе. Поскольку сильнешими источниками сигнала являются фм станции, то я решил поставить фм фильтры на входе приёмника. Но прежде, чем устанавливать их, мне хотелось измерить частотные характеристики фильтров и пощупать их в деле. Для этого я купил несколько фм фильтров и собрал стенд для их тестирования.
+Описание стенда Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра.</description>
       <turbo:content>
       	<![CDATA[
       		<header>
@@ -7330,9 +7474,9 @@ torquer_duty
       		<div class='container entry-content'>
   <p>TL;TR; Фильтры тестировать можно, но выводы нужно делать аккуратно.</p>
 <h2 id="постановка-задачи">Постановка задачи</h2>
-<p>Архитектура rtl sdr требует специального фильтра на входе. Поскольку сильнешими источниками сигнала являются фм станции, то я решил поставить фм фильтры на входе приёмника. Но прежде, чем устанавливать их, мне хотелось измерить частотные характеристики фильтров и пощупать их в деле. Для этого я купил несколько фм фильтров и собрал стэнд для их тестирования.</p>
-<h2 id="описание-стэнда">Описание стэнда</h2>
-<p>Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра. Фильтр отфильтровывает только часть. Разница между сигналом с фильтром и без, и есть характеристика фильтра. Вот как выглядит мой стэнд:</p>
+<p>Архитектура rtl sdr требует специального фильтра на входе. Поскольку сильнешими источниками сигнала являются фм станции, то я решил поставить фм фильтры на входе приёмника. Но прежде, чем устанавливать их, мне хотелось измерить частотные характеристики фильтров и пощупать их в деле. Для этого я купил несколько фм фильтров и собрал стенд для их тестирования.</p>
+<h2 id="описание-стенда">Описание стенда</h2>
+<p>Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра. Фильтр отфильтровывает только часть. Разница между сигналом с фильтром и без, и есть характеристика фильтра. Вот как выглядит мой стенд:</p>
 <p><img src="/img/test-fm-filter/1.jpg" alt=""></p>
 <h3 id="софт">Софт</h3>
 <p>rtl_power - программа из стандартной поставки <a href="https://github.com/osmocom/rtl-sdr">rtl-sdr</a>. Она позволяет сканировать большой диапазон частот, разбивая его участки примерно 2Mhz и выполняя быстрое преобразование фурье. После этого, результаты преобразуются в dbm. Все измерения производились с помощью одних и тех же настроек:</p>
@@ -7373,7 +7517,7 @@ torquer_duty
 <p>По ссылкам можно скачать результат для каждого фильтра, загрузить в <a href="http://github.com/dernasherbrezon/rtlSpectrum">rtlSpectrum</a> и посравнивать их на разных частотах.</p>
 <p>Выводы:</p>
 <ul>
-<li>фильтры соответствуют заявленным характеристикам. По крайней мере на столько, на сколько позволяет судить стэнд.</li>
+<li>фильтры соответствуют заявленным характеристикам. По крайней мере на столько, на сколько позволяет судить стенд.</li>
 <li>с помощью rtl-sdr и rtl_power можно измерять характеристики фильтров, но делать это нужно очень аккуратно.</li>
 </ul>
 
