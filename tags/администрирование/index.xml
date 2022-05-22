@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
     <description>Recent content in администрирование on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 10 Jan 2022 12:14:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 21 May 2022 21:54:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Привязка systemd сервиса к устройству</title>
+      <link>https://dernasherbrezon.com/posts/systemd-udev/</link>
+      <pubDate>Sat, 21 May 2022 21:54:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/systemd-udev/</guid>
+      <description>В одном из постов про поворотное устройство я вскользь упомянул настройку rotctrld. rotctrld - это небольшой демон, который открывает TCP порт и позволяет отправлять команды в tty-устройство. Я написал небольшой systemd конфиг, чтобы демон стартовал и рестартовал во время загрузки raspberrypi.
+[Unit] Description=rotctrld Service [Service] WorkingDirectory=/home/pi/r2cloud/ ExecStart=rotctld --model=1401 --port=4533 --listen-addr=127.0.0.1 --rot-file=/dev/ttyUSB0 Restart=always User=pi Group=pi [Install] WantedBy=multi-user.target Однако, со временем стали всплывать достаточно неприятные моменты в обслуживании. Например, поворотное устройство иногда определялось как /dev/ttyUSB1.</description>
+    </item>
+    
     <item>
       <title>Динамические графики в Hugo</title>
       <link>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</link>

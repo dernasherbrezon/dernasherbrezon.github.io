@@ -7,10 +7,80 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Wed, 27 Apr 2022 22:19:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 21 May 2022 21:54:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Привязка systemd сервиса к устройству</title>
+      <link>https://dernasherbrezon.com/posts/systemd-udev/</link>
+      <pubDate>Sat, 21 May 2022 21:54:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/systemd-udev/</guid>
+      <description>В одном из постов про поворотное устройство я вскользь упомянул настройку rotctrld. rotctrld - это небольшой демон, который открывает TCP порт и позволяет отправлять команды в tty-устройство. Я написал небольшой systemd конфиг, чтобы демон стартовал и рестартовал во время загрузки raspberrypi.
+[Unit] Description=rotctrld Service [Service] WorkingDirectory=/home/pi/r2cloud/ ExecStart=rotctld --model=1401 --port=4533 --listen-addr=127.0.0.1 --rot-file=/dev/ttyUSB0 Restart=always User=pi Group=pi [Install] WantedBy=multi-user.target Однако, со временем стали всплывать достаточно неприятные моменты в обслуживании. Например, поворотное устройство иногда определялось как /dev/ttyUSB1.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Привязка systemd сервиса к устройству</h1></header>
+      		<div class='container entry-content'>
+  <p>В одном из постов про поворотное устройство я вскользь упомянул настройку rotctrld. rotctrld - это небольшой демон, который открывает TCP порт и позволяет отправлять команды в tty-устройство. Я написал небольшой systemd конфиг, чтобы демон стартовал и рестартовал во время загрузки raspberrypi.</p>
+<pre><code>[Unit]
+Description=rotctrld Service
+
+[Service]
+WorkingDirectory=/home/pi/r2cloud/
+ExecStart=rotctld --model=1401 --port=4533 --listen-addr=127.0.0.1 --rot-file=/dev/ttyUSB0
+Restart=always
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><p>Однако, со временем стали всплывать достаточно неприятные моменты в обслуживании. Например, поворотное устройство иногда определялось как <code>/dev/ttyUSB1</code>. Тогда приходилось либо перетыкать его в другой порт, либо логинится на устройство, менять конфиг systemd и рестартовать.</p>
+<p>Или вот ещё один пример, при старте системы устройство не подключено. systemd пытается стартовать демон несколько раз и, несмотря на <code>Restart=always</code>, отчаивается. Даже если я подключил устройство позднее, демон уже может не работать. Чтобы это решить, я сначала подключал устройство, а затем стартовал raspberrypi.</p>
+<p>Это всё крайне неудобно, поэтому я решил разобраться с этим.</p>
+<h2 id="udev">UDEV</h2>
+<p>Для того, чтобы устройство определялось под одним и тем же именем, нужно привязать идентификатор USB устройства к названию девайса.</p>
+<p>Идентификатор USB устройства можно получить с помощью команды <code>lsusb</code>:</p>
+<pre><code>pi@rasp-bullseye:~ $ lsusb
+Bus 001 Device 004: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port / Mobile Action MA-8910P
+Bus 001 Device 003: ID 0424:ec00 Microchip Technology, Inc. (formerly SMSC) SMSC9512/9514 Fast Ethernet Adapter
+Bus 001 Device 002: ID 0424:9514 Microchip Technology, Inc. (formerly SMSC) SMC9514 Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+</code></pre><p>Поворотное устройство определяется как <code>Prolific Technology, Inc. PL2303 Serial Port</code> с индентификатором  <code>067b:2303</code>.</p>
+<p>Далее необходимо создать конфиг udev <code>/etc/udev/rules.d/99-usb-rotator.rules</code>, который содержит следующее:</p>
+<pre><code>SUBSYSTEM==&quot;tty&quot;, ATTRS{idVendor}==&quot;067b&quot;, ATTRS{idProduct}==&quot;2303&quot;, SYMLINK+=&quot;ttyRotator&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;rotctrld.service&quot;
+</code></pre><p>В нём написано, что нужно создать symlink <code>/dev/ttyRotator</code> для устройства <code>067b:2303</code>. Ещё в этом правиле написано стартовать <code>rotctrld.service</code>, при появлении устройства. Крайне полезная вещь!</p>
+<h2 id="systemd">systemd</h2>
+<p>Последним штрихом будет остановка сервиса, если устройство отключено. Для этого необходимо добавить следующую строчку в rotctrld сервис:</p>
+<pre><code>[unit]
+...
+StopWhenUnneeded=true
+</code></pre><p>А ещё необходимо переключить сервис на использование симлинка:</p>
+<pre><code>ExecStart=rotctld --model=1401 --port=4533 --listen-addr=127.0.0.1 --rot-file=/dev/ttyRotator
+</code></pre><h2 id="результаты">Результаты</h2>
+<p>В результате при подключении поворотного устройства в логах будет следующее:</p>
+<pre><code>May 21 21:36:29 rasp-bullseye kernel: pl2303 1-1.2:1.0: pl2303 converter detected
+May 21 21:36:29 rasp-bullseye kernel: usb 1-1.2: pl2303 converter now attached to ttyUSB0
+May 21 21:36:29 rasp-bullseye mtp-probe[849]: checking bus 1, device 6: &quot;/sys/devices/platform/soc/3f980000.usb/usb1/1-1/1-1.2&quot;
+May 21 21:36:29 rasp-bullseye mtp-probe[849]: bus: 1, device: 6 was not an MTP device
+May 21 21:36:29 rasp-bullseye systemd[1]: Started rotctrld Service.
+</code></pre><p>А при отключении:</p>
+<pre><code>May 21 21:36:04 rasp-bullseye kernel: usb 1-1.2: USB disconnect, device number 5
+May 21 21:36:04 rasp-bullseye kernel: pl2303 ttyUSB1: pl2303 converter now disconnected from ttyUSB1
+May 21 21:36:04 rasp-bullseye kernel: pl2303 1-1.2:1.0: device disconnected
+May 21 21:36:04 rasp-bullseye systemd[1]: Stopping rotctrld Service...
+May 21 21:36:04 rasp-bullseye systemd[1]: rotctrld.service: Succeeded.
+May 21 21:36:04 rasp-bullseye systemd[1]: Stopped rotctrld Service.
+</code></pre><p>Казалось бы, небольшие изменения в конфигурации, но насколько они делают жизнь проще! А ещё я крайне удивлён мощью systemd. Несмотря на всю критику, он позволяет сделать подобную функциональность всего с помощью пары строчек в конфигурации.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Отслеживание спутников с помощью Javascript и D3</title>
