@@ -25,7 +25,7 @@
       		<header>
       			<h1>Привязка systemd сервиса к устройству</h1></header>
       		<div class='container entry-content'>
-  <p>В одном из постов про поворотное устройство я вскользь упомянул настройку rotctrld. rotctrld - это небольшой демон, который открывает TCP порт и позволяет отправлять команды в tty-устройство. Я написал небольшой systemd конфиг, чтобы демон стартовал и рестартовал во время загрузки raspberrypi.</p>
+  <p>В одном из <a href="https://dernasherbrezon.com/posts/rotator-for-r2cloud/">постов про поворотное устройство</a> я вскользь упомянул настройку rotctrld. rotctrld - это небольшой демон, который открывает TCP порт и позволяет отправлять команды в tty-устройство. Я написал небольшой systemd конфиг, чтобы демон стартовал и рестартовал во время загрузки raspberrypi.</p>
 <pre><code>[Unit]
 Description=rotctrld Service
 
@@ -4281,7 +4281,7 @@ date <span style="color:#f92672">&amp;&amp;</span> sudo hwclock -r
 <p>Демон rotctrld поставляется вместе с библиотекой <a href="https://hamlib.github.io">hamlib</a>. Эта библиотека предоставляет единый интерфейс для различных поворотных устройств и радиостанций. В стандартном пакете она ещё содержит набор CLI утилит для управления устройствами. Устанавливаются они стандартным образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install libhamlib-utils
 </code></pre></div><p>Список поддерживаемых устройств можно получить следующей командой:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rotctrld --list
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rotctld --list
 </code></pre></div><p>SkyWatcher в списке не оказалось, но я почитал протокол и он оказался очень похож на Celestron. Команда для запуска выглядит следующим образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rotctld --model<span style="color:#f92672">=</span><span style="color:#ae81ff">1401</span> --port<span style="color:#f92672">=</span><span style="color:#ae81ff">4533</span> --listen-addr<span style="color:#f92672">=</span>127.0.0.1 --rot-file<span style="color:#f92672">=</span>/dev/ttyUSB0
 </code></pre></div><p>В MacOS это тоже работает. Для этого достаточно поставить hamlib через homebrew и запустить так:</p>
