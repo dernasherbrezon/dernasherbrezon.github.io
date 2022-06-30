@@ -9,7 +9,7 @@ tags:
   - администрирование
   - embedded
 ---
-Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
+Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой-то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
 
 	Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required
 	Jun 07 09:17:51 raspberrypi java[472]:         at com.aerse.core.RrdDb.store(RrdDb.java:799)
@@ -78,4 +78,4 @@ public static long getTime() {
 
 1. я знаю причину возникновения ошибки
 2. мне придётся обновить документацию. Теперь я не могу утверждать, что моя базовая станция может работать без интернета. Даже если вручную сохранить последние TLE спутников, без интернета текущее время может скакать очень сильно. А это значит, нельзя будет запланировать наблюдение.
-3. возможно, хорошим выходом из ситации может стать [RTC для RPi](https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi)
+3. возможно, хорошим выходом из ситуации может стать [RTC для RPi](https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi)

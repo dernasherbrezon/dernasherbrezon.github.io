@@ -379,7 +379,7 @@ brew install --HEAD LouisBrunner/valgrind/valgrind
 </code></pre><p>Во-вторых, сторонняя сборка требует новой версии xcode 12.4. А для этого нужно его обновить. В-третьих, бинарник устанавливается в <code>/usr/local/bin</code>, а eclipse плагин ищет его только в <code>/usr/bin</code>. В-четвёртых, симлинки не работают:</p>
 <pre><code>sudo ln -s $(which valgrind) /usr/bin/valgrind
 ln: /usr/bin/valgrind: Operation not permitted
-</code></pre><p>Всё из-за новой политики безопасности MacOS. Даже sudo не поможет. Чтобы valgrind плагин подцепил <code>/usr/local/bin</code>, нужно открыть текстовым редактором конфиги eclipse и прописать дополнительные пути. Ну и в-пятых:</p>
+</code></pre><p>Всё из-за новой политики безопасности MacOS. Даже sudo не поможет. Чтобы valgrind плагин подцепил <code>/usr/local/bin</code>, нужно открыть текстовым редактором конфиги eclipse и прописать дополнительные пути. Ну и, в-пятых:</p>
 <pre><code>!ENTRY org.eclipse.cdt.core 4 0 2021-02-06 21:18:30.657
 !MESSAGE Error: Cannot run program &quot;valgrind&quot;: Unknown reason
 !STACK 0

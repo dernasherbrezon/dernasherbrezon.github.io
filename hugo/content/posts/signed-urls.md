@@ -32,7 +32,7 @@ Authorization: Bearer 9yro9yueihfw497y33497y3oeiruhfvskdgjhfaowidayuh
 ```javascript
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 ```
- * Делать вызывы к защищённым методам
+ * Делать вызовы к защищённым методам
  
 ```javascript
 $http.get('/admin/config/general').then(function (response) {

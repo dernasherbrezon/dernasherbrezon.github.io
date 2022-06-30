@@ -372,7 +372,7 @@
 	process<span style="color:#f92672">.</span><span style="color:#a6e22e">destroy</span><span style="color:#f92672">();</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="новые-требования">Новые требования</h2>
-<p>Итак код работает в проде уже несколько месяцев. Но тут выясняется, что raspberry pi не успевает записывать на флэшку. Я <a href="https://dernasherbrezon.com/posts/rtlsdr-gzip/">провел тесты</a> и убедился, что сжатие входящих данных сильно ускоряет систему и делает её более стабильной.</p>
+<p>Итак, код работает в проде уже несколько месяцев. Но тут выясняется, что raspberry pi не успевает записывать на флэшку. Я <a href="https://dernasherbrezon.com/posts/rtlsdr-gzip/">провел тесты</a> и убедился, что сжатие входящих данных сильно ускоряет систему и делает её более стабильной.</p>
 <p>Самый простой способ сделать сжатие можно следующим способом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buf <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>BUF_SIZE<span style="color:#f92672">];</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">isInterrupted</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
@@ -388,7 +388,7 @@ gzipOutputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">
 <span style="color:#66d9ef">int</span> exitCode <span style="color:#f92672">=</span> process<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">();</span>
 </code></pre></div><p>И код враппера:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rtl_sdr -arg1 value1 ... | gzip &gt; output.gz
-</code></pre></div><p>Почти сразу после релиза стало понятно, что сломалась остановка процесса. Дело в том, что этот bash скрипт создаёт 2 подпроцесса. При вызове <code>process.destroy();</code> завершается сам скрипт и gzip. rtl_sdr при этом остаётся работать. Пришлось повозится с bash-магией и получилось следующее:</p>
+</code></pre></div><p>Почти сразу после релиза стало понятно, что сломалась остановка процесса. Дело в том, что этот bash скрипт создаёт 2 подпроцесса. При вызове <code>process.destroy();</code> завершается сам скрипт и gzip. rtl_sdr при этом остаётся работать. Пришлось повозиться с bash-магией и получилось следующее:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">_term<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> 
   kill -TERM <span style="color:#e6db74">&#34;</span>$rtl<span style="color:#e6db74">&#34;</span> 2&gt;/dev/null
 <span style="color:#f92672">}</span>
@@ -407,7 +407,7 @@ wait <span style="color:#e6db74">&#34;</span>$child<span style="color:#e6db74">&
 </ul>
 <p>Последним штрихом необходимо правильно передать код возврата. Есть две ситуации завершения работы:</p>
 <ul>
-<li>Нормальная работа. При нормальной работе rtl_sdr всегда должна завершаться через kill. И тогда статус должен быть 143. Однако, если завершать pipe с помощью <code>kill -TERM</code>, то pipe вернёт код возврата последней команды - gzip. И тогда этот код передастся команде wait и она пробросит его выше. Этот код будет 0.</li>
+<li>Нормальная работа. При нормальной работе rtl_sdr всегда должна завершаться через kill. И тогда статус должен быть 143. Однако, если завершать pipe с помощью <code>kill -TERM</code>, то pipe вернёт код возврата последней команды - gzip. И тогда этот код передастся команде wait, и она пробросит его выше. Этот код будет 0.</li>
 <li>Завершение с ошибкой. Код возврата в таком случае 0. Он должен опять же проброситься в команду wait и дальше в Java.</li>
 </ul>
 <p>Решается эта проблема следующей командой:</p>

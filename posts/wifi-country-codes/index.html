@@ -368,7 +368,7 @@
 <p><img src="/img/wifi-country-codes/2.png" alt=""></p>
 <p>Наиболее подвержены таким помехам станции на 5Ггц.</p>
 <h2 id="перебои-в-работе">Перебои в работе</h2>
-<p>В RPi сущесвует специальный сервис - &ldquo;wifi-country&rdquo;. Он следит за тем, чтобы страна была правильно указана. Если она не указана, то в логах появляются вот такие сообщения:</p>
+<p>В RPi существует специальный сервис - &ldquo;wifi-country&rdquo;. Он следит за тем, чтобы страна была правильно указана. Если она не указана, то в логах появляются вот такие сообщения:</p>
 <pre><code>Sep 18 18:10:25 raspberrypi wifi-country[324]: Wi-Fi is disabled because the country is not set
 </code></pre><p>При этом сам WiFi модуль не выключается и сеть работает. Однако, через какое-то время WiFi может потерять связь и отключиться. Это случается спонтанно и такое событие трудно отловить. За несколько лет на моих RPi это случалось примерно раз в месяц.</p>
 <h2 id="как-узнать-настройки-страны-для-wifi">Как узнать настройки страны для WiFi?</h2>
@@ -397,7 +397,7 @@ country GB: DFS-ETSI
 <h2 id="как-изменить-настройки-страны-для-wifi">Как изменить настройки страны для WiFi?</h2>
 <p>В MacOS это можно сделать через программу &ldquo;Wireless Diagnostics&rdquo;. Для этого нужно нажать клавишу &ldquo;Alt&rdquo; и кликнуть по значку WiFi. В появившемся меню будет пункт &ldquo;Open Wireless Diagnostics&rdquo;. Эта программа проанализирует WiFi сети вокруг и выдаст отчёт.</p>
 <p><img src="/img/wifi-country-codes/4.png" alt=""></p>
-<p>Как видно на скриншоте, моя Time Capsule конфликтует с сетями вокруг. Для того, чтобы поменять страну, нужно открыть AirPort Utility, выбрать &ldquo;Wireless&rdquo; -&gt; &ldquo;Wireless options&rdquo; и выбрать регион:</p>
+<p>Как видно на скриншоте, моя Time Capsule конфликтует с сетями вокруг. Для того чтобы поменять страну, нужно открыть AirPort Utility, выбрать &ldquo;Wireless&rdquo; -&gt; &ldquo;Wireless options&rdquo; и выбрать регион:</p>
 <p><img src="/img/wifi-country-codes/5.png" alt=""></p>
 <p>Иии&hellip; <a href="https://discussions.apple.com/thread/6500525">ничего не получится</a>, так как список стран для Time Capsule задаётся в прошивке.</p>
 <p>Для RPi поменять страну очень просто. Это можно сделать через программу raspi-config. Нужно выбрать &ldquo;Localization Options&rdquo; -&gt; &ldquo;Change Wi-Fi Country&rdquo; и выбрать свою страну из списка.</p>

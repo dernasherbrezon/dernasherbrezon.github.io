@@ -478,7 +478,7 @@ md5Checksum
 <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>headers[] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Last-Modified&#34;</span>};
 <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>collectHeaders(headers, <span style="color:#ae81ff">1</span>);
 <span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>GET();
-</code></pre></div><p>При этом я запоминаю время последнего обновления файла. Если файл не поменялся, то сервер должен вернуть HTTP 304. И тогда я немного съэкономлю на трафике и разборе json-файла. Для доступа к репозиторию я использую стандартный <code>HTTPClient</code> из <code>HTTPClient.h</code>, который поставляется вместе с фреймворком Arduino.</p>
+</code></pre></div><p>При этом я запоминаю время последнего обновления файла. Если файл не поменялся, то сервер должен вернуть HTTP 304. И тогда я немного сэкономлю на трафике и разборе json-файла. Для доступа к репозиторию я использую стандартный <code>HTTPClient</code> из <code>HTTPClient.h</code>, который поставляется вместе с фреймворком Arduino.</p>
 <p>Далее компонент должен найти информацию о прошивке для текущей платы. PlatformIO передаёт имя платы при компиляции через параметр <code>ARDUINO_VARIANT</code>.</p>
 <p>Если информация найдена и версия не совпадает с текущей, то FOTA скачает файл прошивки с сервера. Правда, алгоритм скачивания достаточно хитрый. Дело в том, что файл полностью не поместится в памяти, поэтому надо скачивать небольшим буфером и сразу записывать в правильный раздел. Для работы с обновлениями есть специальный класс <code>Update</code> из <code>Update.h</code>. Он записывает новую версию в специальную партицию на флеш памяти, проверяет контрольную сумму полученного файла и устанавливает новую партицию в качестве загрузочной.</p>
 <p>Помимо этого, FOTA компонент поддерживает специальный callback метод. По мере скачивания файла, которое может занять некоторое время, я обновляю прогресс бар.</p>
@@ -499,7 +499,7 @@ md5Checksum
   log_i(<span style="color:#e6db74">&#34;update completed&#34;</span>);
 }
 </code></pre></div><h2 id="zlib">zlib</h2>
-<p>Отдельно хочется остановится на архивировании/разархивировании. В ESP32 нет поддержки <a href="https://zlib.net">zlib</a>. Поэтому надо либо самому портировать zlib на ESP32, либо искать более легковесную альтернативу. И она есть - <a href="https://github.com/richgel999/miniz">miniz</a>. Но самое замечательное заключается в том, что ROM уже содержит реализацию основных функций miniz. Так что на размер прошивки использование miniz не влияет.</p>
+<p>Отдельно хочется остановиться на архивировании/разархивировании. В ESP32 нет поддержки <a href="https://zlib.net">zlib</a>. Поэтому надо либо самому портировать zlib на ESP32, либо искать более легковесную альтернативу. И она есть - <a href="https://github.com/richgel999/miniz">miniz</a>. Но самое замечательное заключается в том, что ROM уже содержит реализацию основных функций miniz. Так что на размер прошивки использование miniz не влияет.</p>
 <p>Разархивирование потока данных состоит из нескольких шагов. Во-первых, нужно инициализировать вспомогательные структуры для miniz:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">tinfl_init(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>inflator);
 </code></pre></div><p>Во-вторых, нужно создать два промежуточных буфера.</p>
@@ -542,7 +542,7 @@ Backtrace: 0x400887bc:0x3ffaee10 0x40088a39:0x3ffaee30 0x40088a50:0x3ffaee50 0x4
 [E][WiFiClient.cpp:439] read(): fail on fd 61, errno: 11, &quot;No more processes&quot;
 Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
 </code></pre><p>Решается это просто - нужно выделять объекты в heap с помощью malloc или new.</p>
-<p>После того, как я исправил все эти исключения, то обнаружил, что zlib - это не то же самое, что и gzip. У них разные заголовки. Поэтому создать прошивку следующей командой просто не получится:</p>
+<p>После того как я исправил все эти исключения, то обнаружил, что zlib - это не то же самое, что и gzip. У них разные заголовки. Поэтому создать прошивку следующей командой просто не получится:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gzip firmware.bin
 </code></pre></div><p>miniz не сможет распаковать. Внутри всё тот же Deflate, но заголовки файлов отличаются. Можно воспользоваться разными хаками и подменять заголовок gzip, но мне показалось это ненадёжным. Я нашёл специальную программу <a href="https://zlib.net/pigz/">pigz</a>, которая может создавать zlib-файлы:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pigz --zlib firmware.bin
@@ -585,7 +585,7 @@ WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 <p>Финальным штрихом будет отключение этого теста по-умолчанию. Я не рассчитываю, что любой желающий собрать проект будет тестировать FOTA, да и мне выполнять тест каждый раз при сборке совсем не хочется. Для этого в PlatformIO есть поддержка отключаемых тестов!</p>
 <pre><code>test_ignore = fota, testfirmware
 </code></pre><p><code>testfirmware</code> - это ещё один тест, который на самом деле не тест, а та самая программа, которая ничего не делает и используется для тестирования FOTA.</p>
-<p>Это всё звучит очень усложнённо, но и сам компонент достаточно сложный и делает много вещей, которые как раз хотелось бы проверять автоматически. А уж сколько ошибок я нашёл с помощью этих тестов! Зато теперь обновление работает идеально.</p>
+<p>Это всё звучит очень сложно, но и сам компонент достаточно сложный и делает много вещей, которые как раз хотелось бы проверять автоматически. А уж сколько ошибок я нашёл с помощью этих тестов! Зато теперь обновление работает идеально.</p>
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
   <iframe src="https://www.youtube.com/embed/_DowEhVwboI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>

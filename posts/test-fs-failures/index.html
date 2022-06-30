@@ -375,7 +375,7 @@
 <p>Во время тестирования FileSystem необходимо заменить на MockFileSystem, которая генерирует IOException по заранее сконфигурированному сценарию. К сожалению, я не нашёл такую файловую систему, поэтому написал свою <a href="http://github.com/dernasherbrezon/mockfs">mockfs</a>.</p>
 <p>Она позволяет проксировать запросы к файловой системе по-умолчанию и генерировать IOException при доступе к определённым файлам.</p>
 <p>Тест при этом выглядит следующим образом.</p>
-<p>Инициалиация. Чтобы MockFileSystem использовалась, необходимо её передавать компонентам извне.</p>
+<p>Инициализация. Чтобы MockFileSystem использовалась, необходимо её передавать компонентам извне.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a6e22e">@Before</span>
 	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
 		fs <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MockFileSystem<span style="color:#f92672">(</span>FileSystems<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefault</span><span style="color:#f92672">());</span>
@@ -413,7 +413,7 @@
 <li>Очистка mock объектов.</li>
 <li>Загрузка данных из файла и проверка того, что предыдущее значение успешно было загружено.</li>
 </ul>
-<p>После того, как тест был написан, исправление ошибки достаточно простое:</p>
+<p>После того как тест был написан, исправление ошибки достаточно простое:</p>
 <ul>
 <li>делать запись во временный файл</li>
 <li>атомарно перезаписывать временный файл в результирующий</li>

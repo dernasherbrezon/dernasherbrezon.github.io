@@ -46,7 +46,7 @@ sudo ln -s $(which valgrind) /usr/bin/valgrind
 ln: /usr/bin/valgrind: Operation not permitted
 ```
 
-Всё из-за новой политики безопасности MacOS. Даже sudo не поможет. Чтобы valgrind плагин подцепил ```/usr/local/bin```, нужно открыть текстовым редактором конфиги eclipse и прописать дополнительные пути. Ну и в-пятых:
+Всё из-за новой политики безопасности MacOS. Даже sudo не поможет. Чтобы valgrind плагин подцепил ```/usr/local/bin```, нужно открыть текстовым редактором конфиги eclipse и прописать дополнительные пути. Ну и, в-пятых:
 
 ```
 !ENTRY org.eclipse.cdt.core 4 0 2021-02-06 21:18:30.657

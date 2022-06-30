@@ -2,14 +2,14 @@
 <html lang='ru' dir='auto'><head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
+<meta name='description' content='Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, недолго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
 Но что-то пошло не так&hellip;
 Вот ключевое место лога:
 Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;lt;init&amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597) Оказывается, gson зависит от пакета java.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Работа с Json в 2019 году • dernasherbrezon'>
-<meta property='og:description' content='Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
+<meta property='og:description' content='Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, недолго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
 Но что-то пошло не так&hellip;
 Вот ключевое место лога:
 Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;lt;init&amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597) Оказывается, gson зависит от пакета java.'>
@@ -361,7 +361,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson
 
   <div class='container entry-content'>
   <h2 id="введение">Введение</h2>
-<p>В работе над своей небольшой библиотечкой <a href="https://github.com/dernasherbrezon/jsp-openapi">jsp-openapi</a> мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.</p>
+<p>В работе над своей небольшой библиотечкой <a href="https://github.com/dernasherbrezon/jsp-openapi">jsp-openapi</a> мне понадобилось сериализировать Java объекты в JSON. Я, недолго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.</p>
 <p>Но что-то <a href="https://travis-ci.org/dernasherbrezon/jsp-openapi/builds/620333411">пошло не так</a>&hellip;</p>
 <p>Вот ключевое место лога:</p>
 <pre><code>Caused by: java.lang.NoClassDefFoundError: java/sql/Time
@@ -395,7 +395,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson
 <li>jackson-annotations</li>
 <li>jackson-databind</li>
 </ul>
-<p>Скрипя сердцем, отложил, как формально подходящую под требования.</p>
+<p>Скрипя сердце, отложил, как формально подходящую под требования.</p>
 <h3 id="jsonp">jsonp</h3>
 <p>Чтобы начать работать с этой библиотекой, нужно добавить следующие зависимости:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
@@ -409,7 +409,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson
     <span style="color:#f92672">&lt;artifactId&gt;</span>javax.json<span style="color:#f92672">&lt;/artifactId&gt;</span>
     <span style="color:#f92672">&lt;version&gt;</span>1.1<span style="color:#f92672">&lt;/version&gt;</span>
 <span style="color:#f92672">&lt;/dependency&gt;</span>
-</code></pre></div><p>Ох, только не glassfish. Почему выбор библиотеки может зависить от личных предпочтений? Тем не менее, прочитав случайную <a href="https://blog.overops.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/">статью</a> о сравнении сферических коней, решил не брать jsonp по более объективным причинам: низкая производительность.</p>
+</code></pre></div><p>Ох, только не glassfish. Почему выбор библиотеки может зависеть от личных предпочтений? Тем не менее, прочитав случайную <a href="https://blog.overops.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/">статью</a> о сравнении сферических коней, решил не брать jsonp по более объективным причинам: низкая производительность.</p>
 <h2 id="вывод">Вывод</h2>
 <p>Jackson, конечно, уступает в удобстве работы gson. Но за неимением лучшего пришлось выбрать его:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">JsonFactory jsonFactory <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> JsonFactory<span style="color:#f92672">();</span>

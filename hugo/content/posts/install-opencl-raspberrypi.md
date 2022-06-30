@@ -21,7 +21,7 @@ tags:
 sudo apt-get install llvm-9 opencl-headers ocl-icd-dev ocl-icd-opencl-dev clinfo
 ```
 
-Далее, необходимо установить специальный транслятор, который будет переводить SPIR-V во внутренне представление LLVM. Здесь важно ставить версию, такую же как и LLVM. Например, для LLVM 9 нужно использовать бранч ```llvm_release_90```:
+Далее, необходимо установить специальный транслятор, который будет переводить SPIR-V во внутренне представление LLVM. Здесь важно ставить версию, такую же как и LLVM. Например, для LLVM 9 нужно использовать ветку ```llvm_release_90```:
 
 ```bash
 git clone --depth=1 --branch llvm_release_90 https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git
@@ -65,13 +65,13 @@ make
 sudo make install
 ```
 
-После того, как установлены необходимые компоненты, можно проверить результат. Команда ```sudo clinfo``` должна выдать хотя бы одно доступное устройство:
+После того как установлены необходимые компоненты, можно проверить результат. Команда ```sudo clinfo``` должна выдать хотя бы одно доступное устройство:
 
 ![](/img/install-opencl-raspberrypi/1.png)
 
 ## clDsp-test
 
-Я создал небольшой проект на github - [clDsp-test](https://github.com/dernasherbrezon/clDsp-test). В нём я реализовал КИХ-фильтр, который является наиболее узким местом Frequency Xlating FIR filter. С помощью него я могу сравнить производительность CPU и GPU. Этот тест выбран не случайно. Именно этот фильтр находится в центре [sdr-server](https://github.com/dernasherbrezon/sdr-server/blob/main/src/xlating.c) и является наиболее узким местом системы.
+Я создал небольшой проект на github - [clDsp-test](https://github.com/dernasherbrezon/clDsp-test). В нём я реализовал КИХ-фильтр, который является наиболее узким местом Frequency Xlating FIR filter. С помощью него я могу сравнить производительность CPU и GPU. Этот тест выбран неслучайно. Именно этот фильтр находится в центре [sdr-server](https://github.com/dernasherbrezon/sdr-server/blob/main/src/xlating.c) и является наиболее узким местом системы.
 
 Поддержка OpenCL подключается в проект следующим образом:
 
@@ -146,7 +146,7 @@ __kernel void fir_filter_process(__global const float *restrict input, __global 
 }
 ```
 
-После того, как OpenCL проинициализирован, код ядра загружен и скомпилирован, всё готово к обработке данных. В главном цикле программы или обработчика необходимо:
+После того как OpenCL проинициализирован, код ядра загружен и скомпилирован, всё готово к обработке данных. В главном цикле программы или обработчика необходимо:
 
 1. Записать входные данные в буфер CPU/GPU:
 
@@ -166,7 +166,7 @@ clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &work_items, &local_item_
 clEnqueueReadBuffer(command_queue, output_obj, CL_TRUE, 0, result_len * sizeof(float complex), filter->output, 0, NULL, NULL);
 ```
 
-Вот, собственно, и всё. В массиве ```filter->output``` будет находится результат.
+Вот, собственно, и всё. В массиве ```filter->output``` будет находиться результат.
 
 ## Тонкости
 

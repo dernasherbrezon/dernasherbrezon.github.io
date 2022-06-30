@@ -360,14 +360,14 @@
 <ul>
 <li>ISO-8859-1-encoded URLs. Человеко-понятные-урл (ЧПУ) используются SEO продвижения в поисковых движках. Но что если это не нужно? Зачем на каждый запрос тратить процессорное время и память?</li>
 <li>Всегда абсолютные пути для сервлетов-контроллёров. По умолчанию spring-mvc позволяет использовать относительные пути для include запросов. При оптимизации выполненной ниже и использовании Jetty результат такой же. Возможно это актуально для других контейнеров.</li>
-<li>Не использовать jstl. Достаточно спорное предположение, однако кто то может не использовать jstl и писать на обычных JSP. Я не знаю jstl. И пишу &lt;% %&gt;.</li>
+<li>Не использовать jstl. Достаточно спорное предположение, однако кто-то может не использовать jstl и писать на обычных JSP. Я не знаю jstl. И пишу &lt;% %&gt;.</li>
 </ul>
-<p>Итак первая достаточно безболезненная оптимизация не требующая никаких жертв: выключить publishEvent в DispatcherServlet. По умолчанию он отправляет в ApplicationContext сообщение о времени обработки запроса. В production зачастую уже поздно что то мерить. Делается это в web.xml:</p>
+<p>Итак, первая достаточно безболезненная оптимизация не требующая никаких жертв: выключить publishEvent в DispatcherServlet. По умолчанию он отправляет в ApplicationContext сообщение о времени обработки запроса. В production зачастую уже поздно что-то мерить. Делается это в web.xml:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;init-param&gt;</span>  
 	<span style="color:#f92672">&lt;param-name&gt;</span>publishEvents<span style="color:#f92672">&lt;/param-name&gt;</span>  
 	<span style="color:#f92672">&lt;param-value&gt;</span>false<span style="color:#f92672">&lt;/param-value&gt;</span>  
 <span style="color:#f92672">&lt;/init-param&gt;</span>
-</code></pre></div><p>Избавиться от @RequestMapping. Это очень удобно передавать @Param напрямую в метод. Однако реализация AnnotationMethodHandlerAdapter в spring-mvc достаточно требовательна к ресурсам и генерирует кучу мусора на каждый запрос. Логичнее было бы сделать найденные методы кешируемыми, но согласно <a href="https://jira.springsource.org/browse/SPR-6151">https://jira.springsource.org/browse/SPR-6151</a> разработчики считают сложным пофиксить. Поэтому для простоты и небольшого увеличения скорости сделаем новый контроллёр:</p>
+</code></pre></div><p>Избавиться от @RequestMapping. Это очень удобно передавать @Param напрямую в метод. Однако реализация AnnotationMethodHandlerAdapter в spring-mvc достаточно требовательна к ресурсам и генерирует кучу мусора на каждый запрос. Логичнее было бы сделать найденные методы кешируемыми, но согласно <a href="https://jira.springsource.org/browse/SPR-6151">https://jira.springsource.org/browse/SPR-6151</a> разработчики считают сложным исправить. Поэтому для простоты и небольшого увеличения скорости сделаем новый контроллёр:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">FastController</span> <span style="color:#f92672">{</span>  
   
     String <span style="color:#a6e22e">handleRequest</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">,</span> HttpServletResponse response<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception<span style="color:#f92672">;</span>  
@@ -375,7 +375,7 @@
     String <span style="color:#a6e22e">getRequestMappingURL</span><span style="color:#f92672">();</span>  
 
 <span style="color:#f92672">}</span>
-</code></pre></div><p>Чем он лучше чем org.springframework.web.servlet.mvc.Controller? Он позволяет задавать url в том же месте где и содержится его реализация. Не нужно делать лишних движений чтобы добавить его в spring.xml. Соответственно необходимо определить классы которые будут его использовать:</p>
+</code></pre></div><p>Чем он лучше, чем org.springframework.web.servlet.mvc.Controller? Он позволяет задавать url в том же месте где и содержится его реализация. Не нужно делать лишних движений, чтобы добавить его в spring.xml. Соответственно необходимо определить классы, которые будут его использовать:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FastUrlDetector</span> <span style="color:#66d9ef">extends</span> AbstractDetectingUrlHandlerMapping <span style="color:#f92672">{</span>  
   
       
@@ -489,15 +489,15 @@
 </code></pre></div><p>Аннотация @Controller используется для автоматического поиска контроллёра в classpath при старте приложения. В результате под нагрузкой jmeter (50 пользователей) получаются следующие показатели:</p>
 <ul>
 <li>Настройки GC по умолчанию. Оптимизированная версия ~3 коллекции в секунду, неоптимизированная ~6 коллекций</li>
-<li>Latency &amp; throughtput одинаковые для обоих версий.</li>
-<li>Время работы HandlerAdapter.handle (от общего времени обработки запроса): для оптимизированной версии 0%, неоптимизированной 31%. Результат впечатляющий. Очевидно это связано с тем что вызов метода напрямую быстрее поиска метода по аанотации и вызова через Reflection</li>
+<li>Latency &amp; throughput одинаковые для обоих версий.</li>
+<li>Время работы HandlerAdapter.handle (от общего времени обработки запроса): для оптимизированной версии 0%, не оптимизированной 31%. Результат впечатляющий. Очевидно это связано с тем что вызов метода напрямую быстрее поиска метода по аннотации и вызова через Reflection</li>
 <li>Время работы для DispatcherServlet.getLastModified: для оптимизированной версии 0%, неоптимизированной 11%. Связано с тем что AbstractHandlerMapping.getHandler использует абсолютные пути и не использует DefaultAnnotationHandlerMapping.</li>
 <li>Среднее количество генерируемых объектов в минуту: для оптимизированной версии 4к-5к, неоптимизированной 9к-14к. Уменьшение в 2 раза!</li>
 </ul>
 <p>Дополнительные находки:</p>
 <ul>
 <li>ServletRequestAttributes. Не очень удачная абстракция. На каждый запрос создаётся этот объект. Не совсем понятно зачем он нужен когда обычный HTTPServletRequest предоставляет методы setAttribute и getAttribute и пр.</li>
-<li>Не очень удачная имплементация некоторых объектов в Jetty: Response.setLocale, Request.getRequestDispatcher, Dispatcher.forward. После оптимизации они стали теми местами которые генерируют наибольшее количество мусора. Не совсем понятно зачем им генерировать много объектов, также непонятно почему они не кешируют результаты вычислений.</li>
+<li>Не очень удачная реализация некоторых объектов в Jetty: Response.setLocale, Request.getRequestDispatcher, Dispatcher.forward. После оптимизации они стали теми местами которые генерируют наибольшее количество мусора. Не совсем понятно зачем им генерировать много объектов, также непонятно почему они не кешируют результаты вычислений.</li>
 <li>при использовании for each генерируется итератор, который превращается в мусор. Настольные microbenchmark&rsquo;и показали что итерация по ArrayList при использовании простых индексов быстрее в два раза.</li>
 </ul>
 <p>Выводы:</p>

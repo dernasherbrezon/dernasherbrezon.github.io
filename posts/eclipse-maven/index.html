@@ -3,12 +3,12 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Maven в Eclipse - это очень удобно.
-Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например, следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Интеграция Eclipse и Maven • dernasherbrezon'>
 <meta property='og:description' content='Maven в Eclipse - это очень удобно.
-Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
+Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например, следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/eclipse-maven/'>
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='maven'><meta property='article:tag' content='eclipse'><meta property='article:published_time' content='2009-01-10T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2009-01-10T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
@@ -357,12 +357,12 @@
 
   <div class='container entry-content'>
   <p>Maven в Eclipse - это очень удобно.</p>
-<p>Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например следующий вариант:
+<p>Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например, следующий вариант:
 Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&rsquo;шный стандартно в output folder для Eclipse&rsquo;a, а maven&rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp; target/test-classes (по дефолту).</p>
-<p>Вот тут то и возникает проблема. Вернее маленькое неудобство. Хочется выполнять тесты с помощью JUnit&rsquo;a встроенного в Eclipse. Потому что удобно. Однако он как то странно съинтегрирован с maven&rsquo;ом и похоже видит только классы скомпилированные JDT. Поэтому если нажать Run -&gt; JUnit Test то можно увидеть сообщение: NoClassDefFoundError: /my/test/Class</p>
+<p>Вот тут то и возникает проблема. Вернее маленькое неудобство. Хочется выполнять тесты с помощью JUnit&rsquo;a встроенного в Eclipse. Потому что удобно. Однако он как то странно интегрирован с maven&rsquo;ом и похоже видит только классы скомпилированные JDT. Поэтому если нажать Run -&gt; JUnit Test то можно увидеть сообщение: NoClassDefFoundError: /my/test/Class</p>
 <p>Решение проблемы два:</p>
 <ol>
-<li>Выполнять компиляцию тестов с помощью maven&rsquo;а а затем выполнять запуск junit тестов. Но это же слишком неудобно? Каждый раз при изменении класса запускать компиляцию maven&rsquo;ом, поэтому есть ещё один путь.</li>
+<li>Выполнять компиляцию тестов с помощью maven&rsquo;а, а затем выполнять запуск junit тестов. Но это же слишком неудобно? Каждый раз при изменении класса запускать компиляцию maven&rsquo;ом, поэтому есть ещё один путь.</li>
 <li>Написать нехитрые настройки.</li>
 </ol>
 <p>У каждого maven-проекта есть родительским pom. Поэтому в родительском pom&rsquo;е нужно:</p>

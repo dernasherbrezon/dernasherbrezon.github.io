@@ -4,13 +4,13 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
  ReplaceAll. String.replaceAll(&ldquo;pattern&rdquo;,&quot;$1&quot; &#43; 1); Pattern. Pattern p = Pattern.compile(&ldquo;pattern&rdquo;); and etc. Ручной способ через indexOf и substring  Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
-У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.'>
+У меня было чувство, что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Выбор быстрого алгоритма поиска подстроки • dernasherbrezon'>
 <meta property='og:description' content='Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
  ReplaceAll. String.replaceAll(&ldquo;pattern&rdquo;,&quot;$1&quot; &#43; 1); Pattern. Pattern p = Pattern.compile(&ldquo;pattern&rdquo;); and etc. Ручной способ через indexOf и substring  Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
-У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.'>
+У меня было чувство, что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/substring/'>
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='String'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2012-06-11T13:14:18&#43;01:00'/><meta property='article:modified_time' content='2012-06-11T13:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
@@ -365,7 +365,7 @@
 <li>Ручной способ через indexOf и substring</li>
 </ul>
 <p>Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.</p>
-<p>У меня было чувство что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее. Результат графически изображён ниже:</p>
+<p>У меня было чувство, что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее. Результат графически изображён ниже:</p>
 <p><img src="/img/substring/1.png" alt=""></p>
 <p>Тест запускал фильтрацию одного и того же файла 10к раз. Размер файла - 4286 символов. Время выполнения абсолютное и указано в миллисекундах.</p>
 <p>Столбец А: время выполнения фильтрации с помощью ручного способа</p>

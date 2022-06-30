@@ -369,18 +369,18 @@ Group=pi
 
 [Install]
 WantedBy=multi-user.target
-</code></pre><p>Однако, со временем стали всплывать достаточно неприятные моменты в обслуживании. Например, поворотное устройство иногда определялось как <code>/dev/ttyUSB1</code>. Тогда приходилось либо перетыкать его в другой порт, либо логинится на устройство, менять конфиг systemd и рестартовать.</p>
+</code></pre><p>Однако, со временем стали всплывать достаточно неприятные моменты в обслуживании. Например, поворотное устройство иногда определялось как <code>/dev/ttyUSB1</code>. Тогда приходилось либо перетыкать его в другой порт, либо логиниться на устройство, менять конфиг systemd и рестартовать.</p>
 <p>Или вот ещё один пример, при старте системы устройство не подключено. systemd пытается стартовать демон несколько раз и, несмотря на <code>Restart=always</code>, отчаивается. Даже если я подключил устройство позднее, демон уже может не работать. Чтобы это решить, я сначала подключал устройство, а затем стартовал raspberrypi.</p>
 <p>Это всё крайне неудобно, поэтому я решил разобраться с этим.</p>
 <h2 id="udev">UDEV</h2>
-<p>Для того, чтобы устройство определялось под одним и тем же именем, нужно привязать идентификатор USB устройства к названию девайса.</p>
+<p>Для того чтобы устройство определялось под одним и тем же именем, нужно привязать идентификатор USB устройства к названию девайса.</p>
 <p>Идентификатор USB устройства можно получить с помощью команды <code>lsusb</code>:</p>
 <pre><code>pi@rasp-bullseye:~ $ lsusb
 Bus 001 Device 004: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port / Mobile Action MA-8910P
 Bus 001 Device 003: ID 0424:ec00 Microchip Technology, Inc. (formerly SMSC) SMSC9512/9514 Fast Ethernet Adapter
 Bus 001 Device 002: ID 0424:9514 Microchip Technology, Inc. (formerly SMSC) SMC9514 Hub
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-</code></pre><p>Поворотное устройство определяется как <code>Prolific Technology, Inc. PL2303 Serial Port</code> с индентификатором  <code>067b:2303</code>.</p>
+</code></pre><p>Поворотное устройство определяется как <code>Prolific Technology, Inc. PL2303 Serial Port</code> с идентификатором  <code>067b:2303</code>.</p>
 <p>Далее необходимо создать конфиг udev <code>/etc/udev/rules.d/99-usb-rotator.rules</code>, который содержит следующее:</p>
 <pre><code>SUBSYSTEM==&quot;tty&quot;, ATTRS{idVendor}==&quot;067b&quot;, ATTRS{idProduct}==&quot;2303&quot;, SYMLINK+=&quot;ttyRotator&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;rotctrld.service&quot;
 </code></pre><p>В нём написано, что нужно создать symlink <code>/dev/ttyRotator</code> для устройства <code>067b:2303</code>. Ещё в этом правиле написано стартовать <code>rotctrld.service</code>, при появлении устройства. Крайне полезная вещь!</p>

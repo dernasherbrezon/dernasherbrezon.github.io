@@ -10,7 +10,7 @@ tags:
 
 ## Введение  
 
-В работе над своей небольшой библиотечкой [jsp-openapi](https://github.com/dernasherbrezon/jsp-openapi) мне понадобилось сериализировать Java объекты в JSON. Я, не долго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
+В работе над своей небольшой библиотечкой [jsp-openapi](https://github.com/dernasherbrezon/jsp-openapi) мне понадобилось сериализировать Java объекты в JSON. Я, недолго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
 
 Но что-то [пошло не так](https://travis-ci.org/dernasherbrezon/jsp-openapi/builds/620333411)...
 
@@ -59,7 +59,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time
 - jackson-annotations
 - jackson-databind
 
-Скрипя сердцем, отложил, как формально подходящую под требования.
+Скрипя сердце, отложил, как формально подходящую под требования.
 
 ### jsonp
 
@@ -79,7 +79,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time
 </dependency>
 ```
 
-Ох, только не glassfish. Почему выбор библиотеки может зависить от личных предпочтений? Тем не менее, прочитав случайную [статью](https://blog.overops.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/) о сравнении сферических коней, решил не брать jsonp по более объективным причинам: низкая производительность.
+Ох, только не glassfish. Почему выбор библиотеки может зависеть от личных предпочтений? Тем не менее, прочитав случайную [статью](https://blog.overops.com/the-ultimate-json-library-json-simple-vs-gson-vs-jackson-vs-json/) о сравнении сферических коней, решил не брать jsonp по более объективным причинам: низкая производительность.
 
 ## Вывод
 

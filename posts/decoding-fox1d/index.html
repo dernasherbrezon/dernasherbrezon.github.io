@@ -416,7 +416,7 @@
 		</tr>
 		<tr>	
 			<td>1</td>
-			<td>Количество "линий" передаваемого изображения. Линия - это кусочек изображения высотой 8 пикселой в шириной 320 пикселей в формате JPEG</td>
+			<td>Количество "линий" передаваемого изображения. Линия - это кусочек изображения высотой 8 пикселов и шириной 320 пикселей в формате JPEG</td>
 		</tr>
 		<tr>	
 			<td>Переменная длина</td>
@@ -489,7 +489,7 @@
 	<span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 baos<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>FOOTER<span style="color:#f92672">);</span>
-</code></pre></div><p>При этом <code>HEADER</code>, <code>EMPTY_LINE</code> и <code>FOOTER</code> - это заранее созданные массивы байт. После того, как байты записаны в <code>ByteArrayOutputStream</code> на выходе получается <a href="https://en.wikipedia.org/wiki/JPEG#Syntax_and_structure">стандартный jpeg файл</a>. Тут важно не забыть добавлять тэг <code>RSTn</code> после каждой линии, чтобы сбросить DC коэффициенты в 0.</p>
+</code></pre></div><p>При этом <code>HEADER</code>, <code>EMPTY_LINE</code> и <code>FOOTER</code> - это заранее созданные массивы байт. После того как байты записаны в <code>ByteArrayOutputStream</code> на выходе получается <a href="https://en.wikipedia.org/wiki/JPEG#Syntax_and_structure">стандартный jpeg файл</a>. Тут важно не забыть добавлять тэг <code>RSTn</code> после каждой линии, чтобы сбросить DC коэффициенты в 0.</p>
 <h3 id="результат">Результат</h3>
 <p>В результате один пакет Fox-1D позволяет получить вот такую симпатичную картинку из космоса:</p>
 <p><img src="/img/decoding-fox1d/fox1dPicture.png" alt=""></p>

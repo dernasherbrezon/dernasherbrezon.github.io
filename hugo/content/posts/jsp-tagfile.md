@@ -118,13 +118,13 @@ public class IfTag extends ConditionalTagSupport {
 </tag-file>
 ```
 
-После того, как библиотека собрана, она подключается стандартным способом:
+После того как библиотека собрана, она подключается стандартным способом:
 
 ```
 <%@ taglib prefix="openapi" uri="https://github.com/dernasherbrezon/jsp-openapi" %>
 ```
 
-И используется как обычно:
+И используется, как обычно:
 
 ```html
 <body>

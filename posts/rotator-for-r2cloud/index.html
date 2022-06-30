@@ -369,7 +369,7 @@
 <p>У таких антенн коэффициент усиления сигнала может быть до 20 dBi. Недостаток у них очевидный: их нужно направлять на спутник. Это не так-то просто сделать, если учесть, что спутник движется достаточно быстро и в разное время бывает в разных участках неба.</p>
 <p>И тут на помощь приходит поворотное устройство. Специальный софт рассчитывает положение спутника относительно антенны и направляет антенну точно на спутник. Это позволяет принимать достаточно слабые сигналы.</p>
 <h2 id="поворотное-устройство">Поворотное устройство</h2>
-<p>В центре всей системы стоит, конечно же, поворотное устройство. Некоторые покупают готовые, некоторые строят своё. Например, проект SATNOGS <a href="https://wiki.satnogs.org/SatNOGS_Rotator_v3">предоставляет</a> модели для самостоятельной сборки. Главное отличие от готовых - стоимость. Готовые повортные устройства <a href="https://www.rfhamdesign.com/products/spx-antenna-rotators/spx-01-az--el/index.php">начинаются от 600$</a>. Если же распечатывать на 3D-принтере и делать самому, то материалы будут стоить около 200$. Я же решил попробовать другой, не менее популярный способ - использовать поворотное устройство от телескопа.</p>
+<p>В центре всей системы стоит, конечно же, поворотное устройство. Некоторые покупают готовые, некоторые строят своё. Например, проект SATNOGS <a href="https://wiki.satnogs.org/SatNOGS_Rotator_v3">предоставляет</a> модели для самостоятельной сборки. Главное отличие от готовых - стоимость. Готовые поворотные устройства <a href="https://www.rfhamdesign.com/products/spx-antenna-rotators/spx-01-az--el/index.php">начинаются от 600$</a>. Если же распечатывать на 3D-принтере и делать самому, то материалы будут стоить около 200$. Я же решил попробовать другой, не менее популярный способ - использовать поворотное устройство от телескопа.</p>
 <p>Многие современные телескопы идут в комплекте с треногами и поворотными устройствами. Эти устройства ничем не уступают классическим коммерческим. Мне же хотелось получить две вещи:</p>
 <ul>
 <li>Мобильность. Я не могу установить антенну на крыше многоэтажного дома. На балконе тоже не вариант, так как качество приёма будет значительно хуже.</li>
@@ -390,9 +390,9 @@
 <p>Уже почти отчаявшись, я решил попробовать кабель USB Type-B на USB Type-A и у меня получилось.</p>
 <h2 id="настройка-synscan">Настройка SynScan</h2>
 <p>В Linux устройство опознаётся как ttyUSB0. Это всё из-за того, что внутри есть специальный чип, который преобразует USB протокол в serial устройство.</p>
-<p>Для того, чтобы проверить правильно ли всё работает, можно использовать простую утилиту <a href="https://tio.github.io">tio</a>:</p>
+<p>Для того чтобы проверить, правильно ли всё работает, можно использовать простую утилиту <a href="https://tio.github.io">tio</a>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tio -e -b <span style="color:#ae81ff">9600</span> /dev/tty.usbserial-1410
-</code></pre></div><p>SynScan поддерживает несколько команд, все они - простые буквенные коды в ASCII. Например, для того, чтобы проверить версию прошивки нужно ввести &ldquo;V&rdquo;:</p>
+</code></pre></div><p>SynScan поддерживает несколько команд, все они - простые буквенные коды в ASCII. Например, для того чтобы проверить версию прошивки, нужно ввести &ldquo;V&rdquo;:</p>
 <p><img src="/img/rotator-for-r2cloud/7.png" alt=""></p>
 <p>В данном примере версия 04270A.</p>
 <p>Если всё работает как нужно, то можно переходить к настройке rotctrld. Это специальный демон, который принимает команды по TCP и управляет через serial порт устройством.</p>
@@ -401,7 +401,7 @@
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install libhamlib-utils
 </code></pre></div><p>Список поддерживаемых устройств можно получить следующей командой:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rotctld --list
-</code></pre></div><p>SkyWatcher в списке не оказалось, но я почитал протокол и он оказался очень похож на Celestron. Команда для запуска выглядит следующим образом:</p>
+</code></pre></div><p>SkyWatcher в списке не оказалось, но я почитал протокол, и он оказался очень похож на Celestron. Команда для запуска выглядит следующим образом:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rotctld --model<span style="color:#f92672">=</span><span style="color:#ae81ff">1401</span> --port<span style="color:#f92672">=</span><span style="color:#ae81ff">4533</span> --listen-addr<span style="color:#f92672">=</span>127.0.0.1 --rot-file<span style="color:#f92672">=</span>/dev/ttyUSB0
 </code></pre></div><p>В MacOS это тоже работает. Для этого достаточно поставить hamlib через homebrew и запустить так:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/usr/local/Cellar/hamlib/3.3/bin/rotctld --model<span style="color:#f92672">=</span><span style="color:#ae81ff">1401</span> --port<span style="color:#f92672">=</span><span style="color:#ae81ff">4533</span> --listen-addr<span style="color:#f92672">=</span>127.0.0.1 --rot-file<span style="color:#f92672">=</span>/dev/tty.usbserial-1410
@@ -418,7 +418,7 @@ Group=pi
 
 [Install]
 WantedBy=multi-user.target
-</code></pre><p>Теперь демон будет стартовать при запуске системы и в случае крэша рестартовать. Для того, чтобы общаться с ним из Java, Я написал небольшой клиент-обёртку - <a href="https://github.com/dernasherbrezon/rotctrldClient">rotctrldClient</a>. Не очень благозвучное название, зато делает свою работу хорошо:</p>
+</code></pre><p>Теперь демон будет стартовать при запуске системы и в случае крэша рестартовать. Для того чтобы общаться с ним из Java, Я написал небольшой клиент-обёртку - <a href="https://github.com/dernasherbrezon/rotctrldClient">rotctrldClient</a>. Не очень благозвучное название, зато делает свою работу хорошо:</p>
 <p><img src="/img/rotator-for-r2cloud/8.png" alt=""></p>
 <p>Именно эта библиотека находится в сердце <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> для управления поворотными устройствами.</p>
 <h2 id="настройка-r2cloud">Настройка r2cloud</h2>
