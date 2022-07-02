@@ -14,7 +14,7 @@
       <guid>https://dernasherbrezon.com/posts/dstar1-telemetry/</guid>
       <description>Я уже давно декодирую телеметрию с D-STAR ONE, но совсем недавно, просматривая логи базовой станции, наткнулся на следующую ошибку:
 unable to parse beacon java.io.EOFException at java.base/java.io.DataInputStream.readUnsignedByte(DataInputStream.java:295) at ru.r2cloud.jradio.dstar1.PayloadData.&amp;lt;init&amp;gt;(PayloadData.java:102) at ru.r2cloud.jradio.dstar1.Dstar1Beacon.readBeacon(Dstar1Beacon.java:27) at ru.r2cloud.jradio.Beacon.readExternal(Beacon.java:16) Эта случайная ошибка в логах и моя любознательность стали причиной интересного расследования, которое значительно улучшило качество приёма телеметрии.
-Расследование Как обычно в таких случаях, я скачал сырые данные и попытался воспроизвести ошибку локально. Код Dstar1Beacon достаточно простой, поэтому остановившись в дебаг-режиме, я сразу понял в чём дело.</description>
+Расследование Как обычно, в таких случаях, я скачал сырые данные и попытался воспроизвести ошибку локально. Код Dstar1Beacon достаточно простой, поэтому остановившись в дебаг-режиме, я сразу понял в чём дело.</description>
     </item>
     
   </channel>

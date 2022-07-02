@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
     <description>Recent content in администрирование on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 21 May 2022 21:54:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Jul 2022 22:19:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Отладка приложений в Debian</title>
+      <link>https://dernasherbrezon.com/posts/debian-debug/</link>
+      <pubDate>Fri, 01 Jul 2022 22:19:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/debian-debug/</guid>
+      <description>Последние несколько месяцев я вожусь с sdr-modem и пытаюсь запустить его в связке с r2cloud. И вот, когда я уже думал, что все тесты прошли, билд на github actions собирается, оно падает с segmentation fault. Но я не стал падать духом и решил воспользоваться случаем, чтобы изучить отладку приложений в Debian.
+Основы Итак, для того, чтобы отладка показала хоть что-то полезное, необходимо скомпилировать приложение с отладочной информацией. В противном случае будет что-то вроде этого:</description>
+    </item>
+    
     <item>
       <title>Привязка systemd сервиса к устройству</title>
       <link>https://dernasherbrezon.com/posts/systemd-udev/</link>
@@ -23,7 +33,7 @@
       
       <guid>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</guid>
       <description>У Вас никогда не было желания подвигать мышкой на графике в интернете? Вот есть какой-нибудь график, и прям хочется навести курсор на минимальное значение или максимальное? Или посмотреть, как быстро менялось значение по времени просто сравнив начало и конец? У меня постоянно. Проблема в том, что большинство графиков в интернете - это картинки. Картинки, которые сгенерированы в Excel, да ещё и в ужасном разрешении.
-Да, что говорить, - я сам создаю такие графики.</description>
+Да, что говорить - я сам создаю такие графики.</description>
     </item>
     
     <item>
@@ -42,7 +52,7 @@
       <pubDate>Sat, 07 Aug 2021 06:50:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</guid>
-      <description>Для начала вообще пара слов о том, зачем мониторить роутеры. Роутер, как и любое другое устройство, имеет аппаратные ресурсы, которые могут закончится. Например, браузер стал медленнее открывать страницы или видео стало медленнее загружаться. Это может быть как из-за провайдера, так и из-за роутера. Возможно, к роутеру подключено слишком много устройств, и он стал медленнее, или параллельно кто-то качает слишком много - всё это может быть причиной замедления.
+      <description>Для начала вообще пара слов о том, зачем мониторить роутеры. Роутер, как и любое другое устройство, имеет аппаратные ресурсы, которые могут закончиться. Например, браузер стал медленнее открывать страницы или видео стало медленнее загружаться. Это может быть как из-за провайдера, так и из-за роутера. Возможно, к роутеру подключено слишком много устройств, и он стал медленнее, или параллельно кто-то качает слишком много - всё это может быть причиной замедления.
 Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке.</description>
     </item>
     
@@ -103,7 +113,7 @@
       <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/posts/time-raspberrypi/</guid>
-      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
+      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой-то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
 Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.Sample.update(Sample.java:194)  Что же это означает?</description>
     </item>
     
