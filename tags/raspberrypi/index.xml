@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 21 May 2022 21:54:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 Aug 2022 23:25:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Датчик BH1750</title>
+      <link>https://dernasherbrezon.com/posts/bh1750/</link>
+      <pubDate>Fri, 05 Aug 2022 23:25:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/bh1750/</guid>
+      <description>Введение Анализируя графики моей солнечной панели, я обнаружил, что мощность иногда падает практически до нуля. В попытках разобраться в чём же дело, я придумал несколько гипотез. Одна из гипотез заключалась в том, что облако пролетает над солнечной панелью и вызывает резкие изменения в показаниях. Для того, чтобы доказать эту гипотезу, я решил поставить датчик освещённости и в течении дня собирать данные. Если это действительно облако, то освещённость будет падать.
+В качестве датчика освещённости я выбрал крайне распространённый BH1750.</description>
+    </item>
+    
     <item>
       <title>Привязка systemd сервиса к устройству</title>
       <link>https://dernasherbrezon.com/posts/systemd-udev/</link>
