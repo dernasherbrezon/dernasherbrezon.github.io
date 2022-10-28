@@ -7,10 +7,35 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 05 Aug 2022 23:25:18 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 28 Oct 2022 20:52:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>AMSAT-UK 2022</title>
+      <link>https://dernasherbrezon.com/posts/amsat-uk-2022/</link>
+      <pubDate>Fri, 28 Oct 2022 20:52:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/amsat-uk-2022/</guid>
+      <description>В этом году я съездил на AMSAT-UK 2022 и выступил там с речью. Рассказал о том, как увеличивал количество данных, получаемых со спутников, разные трюки и планы.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>AMSAT-UK 2022</h1></header>
+      		<div class='container entry-content'>
+  
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/NFOE_tfVzTU" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<p>В этом году я съездил на <a href="https://ukamsat.files.wordpress.com/2022/09/colloquium-2022.pdf">AMSAT-UK 2022</a> и выступил там с речью. Рассказал о том, как увеличивал количество данных, получаемых со спутников, разные трюки и планы.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Датчик BH1750</title>

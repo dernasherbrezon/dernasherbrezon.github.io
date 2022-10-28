@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2022-08-05T23:25:18+00:00</lastmod>
+    <lastmod>2022-10-28T20:52:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
@@ -11,13 +11,22 @@
     <loc>https://dernasherbrezon.com/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2022-08-05T23:25:18+00:00</lastmod>
+    <loc>https://dernasherbrezon.com/posts/amsat-uk-2022/</loc>
+    <lastmod>2022-10-28T20:52:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/raspberrypi/</loc>
-    <lastmod>2022-08-05T23:25:18+00:00</lastmod>
+    <loc>https://dernasherbrezon.com/</loc>
+    <lastmod>2022-10-28T20:52:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/r2cloud/</loc>
+    <lastmod>2022-10-28T20:52:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2022-10-28T20:52:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</loc>
+    <lastmod>2022-10-28T20:52:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/raspberrypi/</loc>
     <lastmod>2022-08-05T23:25:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/bh1750/</loc>
@@ -54,9 +63,6 @@
     <lastmod>2022-04-27T22:19:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/satellite-d3/</loc>
-    <lastmod>2022-04-27T22:19:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</loc>
     <lastmod>2022-04-27T22:19:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/ber/</loc>
@@ -198,9 +204,6 @@
     <lastmod>2021-01-25T01:10:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/oscw-2020/</loc>
-    <lastmod>2021-01-14T20:20:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/r2cloud/</loc>
     <lastmod>2021-01-14T20:20:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/jpeg/</loc>
