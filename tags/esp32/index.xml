@@ -5,7 +5,16 @@
     <link>https://dernasherbrezon.com/tags/esp32/</link>
     <description>Recent content in esp32 on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 06 Jan 2022 18:30:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Dec 2022 21:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Оптимизация энергопотребления LoRa</title>
+      <link>https://dernasherbrezon.com/posts/lora-deep-sleep/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-deep-sleep/</guid>
+      <description>Последние несколько месяцев я работаю над уменьшением энергопотребления в проекте lora-at. Идея заключается в том, чтобы сделать энергонезависимый приёмник, положить его на балконе и 24/7 принимать сигналы со спутников. Легче сказать, чем сделать. Особенно для того, кто никогда не оптимизировал код по низкое энергопотребление и не проектировал электрические цепи. Конечно, можно поставить самую большую солнечную панель, принимать сигналы только днём и не заморачиваться. Но мне такой подход показался недостойным звания инженера, поэтому я принял вызов и принялся проектировать.</description>
+    </item>
+    
     <item>
       <title>USB тестер A3-B</title>
       <link>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</link>

@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 28 Oct 2022 20:52:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Dec 2022 21:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
       <link>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</link>
@@ -26,6 +26,15 @@
 Правда иногда приходится покупать различные лицензии или железо для исследований, а также оплачивать хостинг хобби проектов.
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
  </description>
+    </item>
+    
+    <item>
+      <title>Оптимизация энергопотребления LoRa</title>
+      <link>https://dernasherbrezon.com/posts/lora-deep-sleep/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-deep-sleep/</guid>
+      <description>Последние несколько месяцев я работаю над уменьшением энергопотребления в проекте lora-at. Идея заключается в том, чтобы сделать энергонезависимый приёмник, положить его на балконе и 24/7 принимать сигналы со спутников. Легче сказать, чем сделать. Особенно для того, кто никогда не оптимизировал код по низкое энергопотребление и не проектировал электрические цепи. Конечно, можно поставить самую большую солнечную панель, принимать сигналы только днём и не заморачиваться. Но мне такой подход показался недостойным звания инженера, поэтому я принял вызов и принялся проектировать.</description>
     </item>
     
     <item>

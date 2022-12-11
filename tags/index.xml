@@ -5,7 +5,43 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 28 Oct 2022 20:52:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Dec 2022 21:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>c</title>
+      <link>https://dernasherbrezon.com/tags/c/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>embedded</title>
+      <link>https://dernasherbrezon.com/tags/embedded/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/embedded/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>esp32</title>
+      <link>https://dernasherbrezon.com/tags/esp32/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/esp32/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lora</title>
+      <link>https://dernasherbrezon.com/tags/lora/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/lora/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>r2cloud</title>
       <link>https://dernasherbrezon.com/tags/r2cloud/</link>
@@ -39,15 +75,6 @@
       <pubDate>Fri, 05 Aug 2022 23:25:18 +0000</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/%D1%81/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>c</title>
-      <link>https://dernasherbrezon.com/tags/c/</link>
-      <pubDate>Fri, 01 Jul 2022 22:19:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/c/</guid>
       <description></description>
     </item>
     
@@ -142,15 +169,6 @@
     </item>
     
     <item>
-      <title>esp32</title>
-      <link>https://dernasherbrezon.com/tags/esp32/</link>
-      <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/esp32/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>monitoring</title>
       <link>https://dernasherbrezon.com/tags/monitoring/</link>
       <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
@@ -165,15 +183,6 @@
       <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/r2lora/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>lora</title>
-      <link>https://dernasherbrezon.com/tags/lora/</link>
-      <pubDate>Sun, 02 Jan 2022 21:04:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/lora/</guid>
       <description></description>
     </item>
     
@@ -318,15 +327,6 @@
       <pubDate>Wed, 26 Aug 2020 22:31:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/maven/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>embedded</title>
-      <link>https://dernasherbrezon.com/tags/embedded/</link>
-      <pubDate>Wed, 19 Aug 2020 18:30:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/embedded/</guid>
       <description></description>
     </item>
     
