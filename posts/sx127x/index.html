@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Один из фундаментальных вопросов, на который каждый программист должен периодически отвечать - &ldquo;стоит ли взять готовую библиотеку или написать свою?&rdquo;. Однозначно ответить на этот вопрос раз и навсегда не получится. Надо каждый раз садится и разбираться в каждом конкретном случае. Вот и мне недавно выпал этот случай.
+В прошлом посте я писал как уменьшил потребление тока LoRa до 16мА. Однако, для этого мне пришлось модифицировать уже существующую библиотеку arduino-LoRa. Для того, чтобы провести эксперимент и проверить теорию, этого вполне достаточно, но для полноценного инженерного решения нужно что-то более основательное.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='sx127x • dernasherbrezon'>
+<meta property='og:description' content='Один из фундаментальных вопросов, на который каждый программист должен периодически отвечать - &ldquo;стоит ли взять готовую библиотеку или написать свою?&rdquo;. Однозначно ответить на этот вопрос раз и навсегда не получится. Надо каждый раз садится и разбираться в каждом конкретном случае. Вот и мне недавно выпал этот случай.
+В прошлом посте я писал как уменьшил потребление тока LoRa до 16мА. Однако, для этого мне пришлось модифицировать уже существующую библиотеку arduino-LoRa. Для того, чтобы провести эксперимент и проверить теорию, этого вполне достаточно, но для полноценного инженерного решения нужно что-то более основательное.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/sx127x/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='lora'><meta property='article:tag' content='esp32'><meta property='article:tag' content='embedded'><meta property='article:published_time' content='2023-01-07T16:33:18&#43;01:00'/><meta property='article:modified_time' content='2023-01-07T16:33:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>sx127x • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/sx127x/'>
+  
+    <link href="https://dernasherbrezon.com/posts/sx127x/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0217391304347827em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.065217391304348em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.065217391304348em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0217391304347827em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.108695652173913em'>ber</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0217391304347827em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.3478260869565217em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0869565217391304em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.108695652173913em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.108695652173913em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.108695652173913em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.065217391304348em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0217391304347827em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.065217391304348em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0434782608695652em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.065217391304348em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0217391304347827em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0869565217391304em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0434782608695652em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.108695652173913em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.065217391304348em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0434782608695652em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0434782608695652em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.0869565217391304em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0434782608695652em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0217391304347827em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.108695652173913em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0217391304347827em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0869565217391304em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.108695652173913em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0434782608695652em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0217391304347827em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0434782608695652em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0217391304347827em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0217391304347827em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0217391304347827em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.065217391304348em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.065217391304348em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0434782608695652em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2391304347826086em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.3695652173913042em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0217391304347827em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0217391304347827em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0217391304347827em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2391304347826086em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0434782608695652em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0434782608695652em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.065217391304348em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0217391304347827em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.065217391304348em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0434782608695652em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0434782608695652em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0217391304347827em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0217391304347827em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0434782608695652em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0217391304347827em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0869565217391304em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0434782608695652em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0434782608695652em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2608695652173914em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.065217391304348em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.065217391304348em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0434782608695652em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0434782608695652em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0217391304347827em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.065217391304348em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3260869565217392em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.065217391304348em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81/' style='font-size:1em'>С</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.391304347826087em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1739130434782608em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0434782608695652em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>sx127x</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2023-01-07T16:33:18&#43;01:00'>07 Jan 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Один из фундаментальных вопросов, на который каждый программист должен периодически отвечать - &ldquo;стоит ли взять готовую библиотеку или написать свою?&rdquo;. Однозначно ответить на этот вопрос раз и навсегда не получится. Надо каждый раз садится и разбираться в каждом конкретном случае. Вот и мне недавно выпал этот случай.</p>
+<p>В <a href="https://dernasherbrezon.com/posts/lora-deep-sleep/">прошлом посте</a> я писал как уменьшил потребление тока LoRa до 16мА. Однако, для этого мне пришлось модифицировать уже существующую библиотеку <a href="https://github.com/sandeepmistry/arduino-LoRa">arduino-LoRa</a>. Для того, чтобы провести эксперимент и проверить теорию, этого вполне достаточно, но для полноценного инженерного решения нужно что-то более основательное.</p>
+<p>И тут возникает тот самый вопрос: стоит ли взять готовую библиотеку или написать свою?</p>
+<h2 id="существующие-библиотеки">Существующие библиотеки</h2>
+<p>Я проверил: <a href="https://github.com/sandeepmistry/arduino-LoRa">arduino-LoRa</a>, <a href="https://github.com/jgromes/RadioLib">RadioLib</a>, <a href="https://github.com/fifteenhex/sx127x">sx127x by fifteenhex</a>, <a href="https://github.com/morransmith/sx127x">sx127x by morransmith</a>, <a href="https://github.com/Inteform/esp32-lora-library">esp32-lora-library</a>, <a href="https://github.com/nopnop2002/esp-idf-sx127x">esp-idf-sx127x</a> и оказалось, что ни одна из них не удовлетворяет моим требованиям! Все они подразумевают, что в начале работы с модулем, его нужно перевести в режим сна и обратно в режим ожидания. Это сбросит все данные, которые до этого лежали в FIFO буфере. Но при загрузке из режима глубокого сна этот буфер содержит принятое сообщение! Прежде, чем бросаться писать свою собственную библиотеку я мог бы сделать pull request с тем, что мне нужно. Но и тут я не уверен в результате: моё изменение слишком низкоуровневое и противоречит концепции многих библиотек.</p>
+<p>Вообще просмотрев существующие библиотеки для arduino и ESP32, мне показалось, что их написали любители, которые плохо разбираются в программировании. Взять, например, <a href="https://github.com/sandeepmistry/arduino-LoRa">arduino-LoRa</a>. Библиотека, в которой нет ни одной строчки комментария, имеет 1300+ звёзд на Github и де-факто является стандартной библиотекой для работы с LoRa. Помимо этого, в ней смешана инициализация SPI, работа с отдельными пинами и, собственно, логика управления чипом sx127x. Удивительно, но только один метод из более чем 30, возвращает код ошибки. Остальные возвращают void.</p>
+<p>В этом плане <a href="https://github.com/jgromes/RadioLib">RadioLib</a> написана чуть лучше. В ней есть отдельная сущность Module, которая абстрагирует работу с SPI. Однако, делает это не до конца.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int16_t</span> SX127x<span style="color:#f92672">::</span>begin(<span style="color:#66d9ef">uint8_t</span> chipVersion, <span style="color:#66d9ef">uint8_t</span> syncWord, <span style="color:#66d9ef">uint16_t</span> preambleLength) {
+  <span style="color:#75715e">// set module properties
+</span><span style="color:#75715e"></span>  _mod<span style="color:#f92672">-&gt;</span>init(RADIOLIB_USE_SPI);
+  Module<span style="color:#f92672">::</span>pinMode(_mod<span style="color:#f92672">-&gt;</span>getIrq(), INPUT);
+  Module<span style="color:#f92672">::</span>pinMode(_mod<span style="color:#f92672">-&gt;</span>getGpio(), INPUT);
+  ...
+}
+</code></pre></div><p>Метод <code>pinMode</code> - не является частью протокола SPI и зачем он был добавлен в <code>Module</code> остаётся загадкой. Вообще, управление пинами - не является частью спецификации чипа sx127x и, соответственно, не должно быть внутри библиотеки.</p>
+<p>Помимо этого, RadioLib - крайне запутанная библиотека. Несмотря на то, что есть физическая абстракция SPI интерфейса под названием <code>Module</code>, в ней так же есть отдельная сущность <code>PhysicalLayer</code>. Вся эта иерархия классов в RadioLib явно переусложнена. Например, вот так выглядит наследование:</p>
+<pre><code>PhysicalLayer -&gt; SX127x -&gt; SX1278 -&gt; SX1276
+</code></pre><p>Из этого следует, что при инициализации нужно знать модель чипа и в зависимости от неё создавать класс SX1278 или SX1276.</p>
+<p>Всего этого оказалось достаточно, чтобы начать разрабатывать свою библиотеку. И не зря, ибо вскрылось множество откровенно странных вещей во многих реализациях.</p>
+<h2 id="sx127x">sx127x</h2>
+<p>Если честно, то я не сразу придумал название библиотеки, зато с самого начала знал, как она должна работать:</p>
+<ul>
+<li>Библиотека должна переводить документацию на чип в C код. Она не должна строить никаких предположений о том, как её будут использовать и в каком порядке вызывать методы. При таком подходе работа с ней будет чуть более многословной, зато функции можно будет комбинировать как нужно и вызывать хоть из отдельных потоков, хоть из тасков. В моём случае я смогу инициализировать доступ к чипу не перетирая данные при выходе из глубокого сна.</li>
+<li>Библиотека должны быть написана на С и быть документированной. Желательно с отсылками в документацию на чип. Из С++ вызвать С не проблема, а вот из С вызывать С++ очень сложно. Да и С мне нравится больше.</li>
+<li>Библиотека не должна зависить от других библиотек. SPI интерфейс есть в стандартной библиотеке ESP, а это единственное, что должно быть нужно.</li>
+</ul>
+<p>В результате у меня всё получилось:</p>
+<p><a href="https://github.com/dernasherbrezon/sx127x">https://github.com/dernasherbrezon/sx127x</a></p>
+<h2 id="детали-реализации">Детали реализации</h2>
+<p>Когда я только начал работать над библиотекой, я лишь в общих чертах представлял работу чипа. Если вкратце, то нужно инициализировать SPI устройство и через SPI установить нужные регистры. Этих регистров очень много и в зависимости от режима работы (LoRa или FSK) одни и те же регистры значат разное. Однако, по мере работы над библиотекой и чтением документации я узнавал всё больше и всё больше удивлялся насколько стандартные библиотеки непродуманы.</p>
+<h3 id="header-mode">Header mode</h3>
+<p>Оказывается, в протоколе LoRa есть такое понятие как &ldquo;явный заголовок&rdquo; и &ldquo;неявный заголовок&rdquo;. &ldquo;Явный заголовок&rdquo; - это режим работы, при котором в каждое сообщение отправляемое в сеть добавляется заголовок. Приёмник в свою очередь получает такой заголовок и понимает параметры сообщения:</p>
+<ul>
+<li>длина сообщения</li>
+<li>используется контрольная сумма или нет</li>
+<li>параметры для FEC декодирования</li>
+</ul>
+<p><img src="/img/sx127x/1.png" alt=""></p>
+<p>Получается на приёмнике эти параметры конфигурировать не надо!</p>
+<p>В режиме неявного заголовка он не передаётся и подразумевается, что передатчик и приёмник заранее довогорились о параметрах и передавать их не нужно. Зачем же нужен такой режим? Ну во-первых, для того, чтобы быстрее передать сообщение. В некоторых странах есть ограничение на время в течении которого можно передавать сигнал в ISM band (частоты на которых обычно работает LoRa). Чем быстрее сообщение передастся, тем больше данных можно передать за единицу времени. Во-вторых, передавая быстро сообщение, можно экономить энергию.</p>
+<p>В sx127x сделана явная поддержка обоих режимов:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @brief Set implicit header.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * sx127x can send packets for explicit header or without it (implicit). In implicit mode receiver should be configured with pre-defined values using this function.
+</span><span style="color:#75715e"> * In explicit mode, all information is sent in the header. Thus no configuration needed.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @param header Pre-defined packet information. If NULL, then assume explicit header in RX mode. For TX explicit mode please use sx127x_set_tx_explcit_header function.
+</span><span style="color:#75715e"> * @param device Pointer to variable to hold the device handle
+</span><span style="color:#75715e"> * @return
+</span><span style="color:#75715e"> *         - ESP_ERR_INVALID_ARG   if parameter is invalid
+</span><span style="color:#75715e"> *         - ESP_OK                on success
+</span><span style="color:#75715e"> */</span>
+esp_err_t <span style="color:#a6e22e">sx127x_set_implicit_header</span>(sx127x_implicit_header_t <span style="color:#f92672">*</span>header, sx127x <span style="color:#f92672">*</span>device);
+</code></pre></div><h3 id="tx-power">TX power</h3>
+<p>В LoRa чипах конфигурирование мощности передатчика достаточно запутанное. В чипе есть два пина, к которым может подключаться антенна:</p>
+<ul>
+<li>RFO</li>
+<li>PA_BOOST</li>
+</ul>
+<p><img src="/img/sx127x/2.png" alt=""></p>
+<p>Через RFO можно добится усиление мощности в 15dbm, а через PA_BOOST - 20dbm. При этом в официальной документации рекомендуют ограничивать максимальное потребление тока для разного уровня усиления. Я долго пытался понять зачем это нужно и придумал следующее объяснение. Усилитель мощности потребляет ток, чтобы входящий сигнал увеличить в Х раз. Мощность исходящего сигнала зависит не только от тока и напряжения, но и от сопротивления. Теперь можно представить ситуацию при которой антенна, импеданс которой 50 Ом, заржавела. Или контакт между антенной и чипом заржавел. Или подключили антенну на 75 Ом. Тогда, для того, чтобы получить те же самые 20dbm при том же напряжении 3.3В нужно подать гораздо больший ток. Если потребление тока не ограничивать, то вся система станет потреблять больше энергии в лучшем случае. А в худшем, чип или контакты могут перегореть. В библиотеке sx127x при конфигурировании мощности усилителя одновременно ограничивается максимальное потребление тока. Тем не менее потребление тока можно переопределить с помощью специального метода:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @brief Configure overload current protection (OCP) for PA.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @param onoff Enable or disable OCP
+</span><span style="color:#75715e"> * @param milliamps Maximum current in milliamps
+</span><span style="color:#75715e"> * @param device Pointer to variable to hold the device handle
+</span><span style="color:#75715e"> * @return
+</span><span style="color:#75715e"> *         - ESP_ERR_INVALID_ARG   if parameter is invalid
+</span><span style="color:#75715e"> *         - ESP_OK                on success
+</span><span style="color:#75715e"> */</span>
+esp_err_t <span style="color:#a6e22e">sx127x_set_ocp</span>(sx127x_ocp_t onoff, uint8_t milliamps, sx127x <span style="color:#f92672">*</span>device);
+</code></pre></div><h3 id="обработка-прерываний">Обработка прерываний</h3>
+<p>Обработка прерываний, как оказалось, одна из самых сложных концепций, которая реализована из рук вон плохо исключительно во всех библиотеках. Кроме sx127x. LoRa чип очень активно использует прерывания. Когда чип получает сообщение, то генерируется прерывание. Когда сообщение отправлено, то тоже генерируется прерывание. Когда frequency hopping требует переключения частоты, то тоже генерируется прерывание. Вообще в LoRa чипах около 12-ти типов прерываний. Для того, чтобы получать эти прерывания, отдельные пины чипа должны быть подключены в процессору. К сожалению, в стандартных платах TTGO и Heltec подключен только один пин DIO0 - минимально необходимый для отправки и получения данных.</p>
+<p>В большинстве библиотек механизм прерываний спрятан внутри библиотеки. Это крайне плохой дизайн по нескольким причинам:</p>
+<ul>
+<li>Нет способа обрабатывать прерывания асинхронно с помощью тасков FreeRTOS. Обычно реализация выглядит так:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">start <span style="color:#f92672">=</span> Module<span style="color:#f92672">::</span>micros();
+<span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>Module<span style="color:#f92672">::</span>digitalRead(_mod<span style="color:#f92672">-&gt;</span>getIrq())) {
+  Module<span style="color:#f92672">::</span>yield();
+  <span style="color:#66d9ef">if</span>(Module<span style="color:#f92672">::</span>micros() <span style="color:#f92672">-</span> start <span style="color:#f92672">&gt;</span> timeout) {
+    clearIRQFlags();
+    <span style="color:#66d9ef">return</span>(ERR_TX_TIMEOUT);
+  }
+}
+</code></pre></div><p>SPI шина постоянно загружена поллингом, процессор работает на максимальной скорости и потребляет энергию, все остальные задачи заблокированы. В коде выше по сути даже и не обрабатывается прерывание, а просто читается регистр, чтобы понять завершилась ли передача данных.</p>
+<ul>
+<li>Получается сильно связанный код между логикой работы чипа и обработкой прерываний в конкретном фреймворке. Причём в arduino-LoRa callback функция вызывается в ISR. Если функция будет долго работать или выводить в Serial, то приложение упадёт.</li>
+</ul>
+<p>В sx127x я решил убрать любое упоминание прерываний, ISR и задач FreeRTOS. Для того, чтобы сконфигурировать прерывание от чипа библиотека не нужна. Достаточно написать:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">ESP_ERROR_CHECK(gpio_isr_handler_add((gpio_num_t)DIO0, handle_interrupt_fromisr, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)device));
+</code></pre></div><p>Как будет реализован обработчик прерывания должно решать преложение. Это может быть тот же самый бесконечный цикл. Или отдельный таск в FreeRTOS. Или что-нибудь ещё. Главное, чтобы в этом цикле вызывалась функция <code>sx127x_handle_interrupt</code> - именно она обработает регистр прерываний, поймёт какое именно прерывание произошло и вызовет соответствующий callback.</p>
+<h3 id="обработка-ошибок">Обработка ошибок</h3>
+<p>Отправка или получение данных через SPI может закончится ошибкой. Это либо таймаут, либо неправильный аргумент при формировании сообщения, либо что-то ещё. При работе с LoRa чипом почти каждый метод - это отправка и получение небольших сообщений через SPI. Вот и получается, что каждый метод в теории может вернуть ошибку.</p>
+<p>Поскольку моя библиотека написана на С, то я решил ничего не придумывать, а сделать общепризнанную обработку ошибок через возвращаемые коды. Именно поэтому почти каждая функция возвращает значение <code>esp_err_t</code>. А если функция должна вернуть значение, то оно возвращается через параметр-указатель.</p>
+<p>Как это не приходится признавать, но обработка ошибок всегда увеличивает размер кода и уменьшает читаемость. Единственное, что тут можно сделать - это попытаться смягчить боль. Например, делать обработку ошибок единообразной.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">esp_err_t code <span style="color:#f92672">=</span> sx127x_set_bandwidth(bw, device);
+<span style="color:#66d9ef">if</span> (code <span style="color:#f92672">!=</span> ESP_OK) {
+  <span style="color:#66d9ef">return</span> code;
+}
+code <span style="color:#f92672">=</span> sx127x_set_implicit_header(NULL, device);
+<span style="color:#66d9ef">if</span> (code <span style="color:#f92672">!=</span> ESP_OK) {
+  <span style="color:#66d9ef">return</span> code;
+}
+</code></pre></div><h3 id="документация">Документация</h3>
+<p>Я заметил одну странную особенность: написание документации способствует написанию лучшего кода. Именно во время написания документации ко всем функциям я начал понимать, где функция лишняя, где наоборот нужно добавить параметров, где нет единообразия, а где нужно всё переделать. Оказалось это упраженение помогает взглянуть на проект издалека и понять, что можно улучшить.</p>
+<p>Я прочитал много кода из стандартной библиотеки ESP и считаю, что она имеет очень хорошую документацию. А поскольку моя библиотека поддерживается только ESP, то было вполне логично оформить документацию в том же стиле.</p>
+<p><img src="/img/sx127x/3.png" alt=""></p>
+<h3 id="дистрибуция">Дистрибуция</h3>
+<p>Библиотека, которую сложно подключить, никому не нужна. Именно поэтому стоит задуматься и над тем, как другие разработчики будут её использовать.</p>
+<p>С этим у меня возникли определённые сложности. Дело в том, что до этого я имел дело только с PlatformIO. А там библиотека для ESP могла легко зависить от Arduino API. В теории с этим нет проблем, так как espressif выпустил слой совместимости между ESP и Arduino, но всё это выглядит неаккуратно.</p>
+<p>В итоге я переписал библиотеку следующим образом:</p>
+<ul>
+<li>она не зависит от Arduino API</li>
+<li>примеры использования зависят только от ESP API</li>
+<li>структура кода соответствует <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#example-project">ESP component</a></li>
+</ul>
+<p>В итоге её можно использовать либо как компонент в esp-idf, либо как обычную библиотеку из PlatformIO registry:</p>
+<p><a href="https://registry.platformio.org/libraries/dernasherbrezon/sx127x">https://registry.platformio.org/libraries/dernasherbrezon/sx127x</a></p>
+<h2 id="планы">Планы</h2>
+<p>Удивительно, но факт: после всей той работы, что я проделал, библиотеку есть куда улучшать.</p>
+<p>Во-первых, можно добавить поддержку FSK и OOK модуляций. Правда, они значительно усложняют работу с чипом. Я пока не придумал как на уровне API сделать удобной работу в разных режимах.</p>
+<p>Во-вторых, можно добавить поддержку других типов прерываний. У меня есть только платы TTGO и Heltec, поэтому я могу протестировать только прерывания на пине DIO0, но если купить отдельный модуль, то можно использовать все пины и все типы прерываний. Вот будет потеха.</p>
+<p>В-третьих, можно абстрагировать работу с SPI в отдельный файл. Это позволит использовать библиотеку и с RaspberryPI, и с Arduino, и с любым другим чипом. Для этого нужно было бы всего лишь имплементировать SPI конкретной платформы.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/c/'>c</a>, <a class='tag' href='/tags/lora/'>lora</a>, <a class='tag' href='/tags/esp32/'>esp32</a>, <a class='tag' href='/tags/embedded/'>embedded</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/lora-deep-sleep/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Оптимизация энергопотребления LoRa</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

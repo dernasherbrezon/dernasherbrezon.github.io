@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/lora/</link>
     <description>Recent content in lora on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 10 Dec 2022 21:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Jan 2023 16:33:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sx127x</title>
+      <link>https://dernasherbrezon.com/posts/sx127x/</link>
+      <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sx127x/</guid>
+      <description>Один из фундаментальных вопросов, на который каждый программист должен периодически отвечать - &amp;ldquo;стоит ли взять готовую библиотеку или написать свою?&amp;rdquo;. Однозначно ответить на этот вопрос раз и навсегда не получится. Надо каждый раз садится и разбираться в каждом конкретном случае. Вот и мне недавно выпал этот случай.
+В прошлом посте я писал как уменьшил потребление тока LoRa до 16мА. Однако, для этого мне пришлось модифицировать уже существующую библиотеку arduino-LoRa. Для того, чтобы провести эксперимент и проверить теорию, этого вполне достаточно, но для полноценного инженерного решения нужно что-то более основательное.</description>
+    </item>
+    
     <item>
       <title>Оптимизация энергопотребления LoRa</title>
       <link>https://dernasherbrezon.com/posts/lora-deep-sleep/</link>
