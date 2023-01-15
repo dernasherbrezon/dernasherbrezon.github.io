@@ -5,13 +5,31 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Jan 2023 16:33:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Jan 2023 12:59:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>c</title>
       <link>https://dernasherbrezon.com/tags/c/</link>
-      <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lora</title>
+      <link>https://dernasherbrezon.com/tags/lora/</link>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/lora/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>raspberrypi</title>
+      <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
       <description></description>
     </item>
     
@@ -34,15 +52,6 @@
     </item>
     
     <item>
-      <title>lora</title>
-      <link>https://dernasherbrezon.com/tags/lora/</link>
-      <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/lora/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>r2cloud</title>
       <link>https://dernasherbrezon.com/tags/r2cloud/</link>
       <pubDate>Fri, 28 Oct 2022 20:52:18 +0100</pubDate>
@@ -57,24 +66,6 @@
       <pubDate>Fri, 28 Oct 2022 20:52:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>raspberrypi</title>
-      <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
-      <pubDate>Fri, 05 Aug 2022 23:25:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/raspberrypi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>С</title>
-      <link>https://dernasherbrezon.com/tags/%D1%81/</link>
-      <pubDate>Fri, 05 Aug 2022 23:25:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D1%81/</guid>
       <description></description>
     </item>
     

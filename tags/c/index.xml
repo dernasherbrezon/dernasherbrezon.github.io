@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/c/</link>
     <description>Recent content in c on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Jan 2023 16:33:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Jan 2023 12:59:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sx127x для RaspberryPI</title>
+      <link>https://dernasherbrezon.com/posts/lora-raspberrypi/</link>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-raspberrypi/</guid>
+      <description>Продолжая работать над новой библиотекой sx127x, я решил добавить поддержку Linux и RaspberryPI в частности. Помимо чисто практической надобности, мне хотелось понять насколько отличается программирование под микроконтроллеры от обычных операционных систем.
+Я с самого начала спроектировал библиотеку достаточно хорошо, поэтому для миграции под Linux потребовалось совсем немного изменений:
+ отказаться от esp_err.h и сделать возвращаемые коды типа int вынести работут с SPI в отдельный заголовок и переопределить для разных платформ  Если первый пункт достаточно простой, то со вторым пришлось повозиться.</description>
+    </item>
+    
     <item>
       <title>sx127x</title>
       <link>https://dernasherbrezon.com/posts/sx127x/</link>
@@ -23,6 +34,16 @@
       
       <guid>https://dernasherbrezon.com/posts/lora-deep-sleep/</guid>
       <description>Последние несколько месяцев я работаю над уменьшением энергопотребления в проекте lora-at. Идея заключается в том, чтобы сделать энергонезависимый приёмник, положить его на балконе и 24/7 принимать сигналы со спутников. Легче сказать, чем сделать. Особенно для того, кто никогда не оптимизировал код по низкое энергопотребление и не проектировал электрические цепи. Конечно, можно поставить самую большую солнечную панель, принимать сигналы только днём и не заморачиваться. Но мне такой подход показался недостойным звания инженера, поэтому я принял вызов и принялся проектировать.</description>
+    </item>
+    
+    <item>
+      <title>Датчик BH1750</title>
+      <link>https://dernasherbrezon.com/posts/bh1750/</link>
+      <pubDate>Fri, 05 Aug 2022 23:25:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/bh1750/</guid>
+      <description>Введение Анализируя графики моей солнечной панели, я обнаружил, что мощность иногда падает практически до нуля. В попытках разобраться в чём же дело, я придумал несколько гипотез. Одна из гипотез заключалась в том, что облако пролетает над солнечной панелью и вызывает резкие изменения в показаниях. Для того, чтобы доказать эту гипотезу, я решил поставить датчик освещённости и в течении дня собирать данные. Если это действительно облако, то освещённость будет падать.
+В качестве датчика освещённости я выбрал крайне распространённый BH1750.</description>
     </item>
     
     <item>

@@ -7,10 +7,124 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 07 Jan 2023 16:33:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 15 Jan 2023 12:59:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>sx127x для RaspberryPI</title>
+      <link>https://dernasherbrezon.com/posts/lora-raspberrypi/</link>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-raspberrypi/</guid>
+      <description>Продолжая работать над новой библиотекой sx127x, я решил добавить поддержку Linux и RaspberryPI в частности. Помимо чисто практической надобности, мне хотелось понять насколько отличается программирование под микроконтроллеры от обычных операционных систем.
+Я с самого начала спроектировал библиотеку достаточно хорошо, поэтому для миграции под Linux потребовалось совсем немного изменений:
+ отказаться от esp_err.h и сделать возвращаемые коды типа int вынести работут с SPI в отдельный заголовок и переопределить для разных платформ  Если первый пункт достаточно простой, то со вторым пришлось повозиться.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>sx127x для RaspberryPI</h1></header>
+      		<div class='container entry-content'>
+  <p>Продолжая работать над новой <a href="https://github.com/dernasherbrezon/sx127x">библиотекой sx127x</a>, я решил добавить поддержку Linux и RaspberryPI в частности. Помимо чисто практической надобности, мне хотелось понять насколько отличается программирование под микроконтроллеры от обычных операционных систем.</p>
+<p>Я с самого начала спроектировал библиотеку достаточно хорошо, поэтому для миграции под Linux потребовалось совсем немного изменений:</p>
+<ul>
+<li>отказаться от esp_err.h и сделать возвращаемые коды типа <code>int</code></li>
+<li>вынести работут с SPI в отдельный заголовок и переопределить для разных платформ</li>
+</ul>
+<p>Если первый пункт достаточно простой, то со вторым пришлось повозиться.</p>
+<h2 id="spi-в-linux">SPI в Linux</h2>
+<p>В современных версиях ядра Linux (4.x+) есть поддержка SPI. На стороне операционной системы есть драйвер, который создаёт устройства вида <code>/dev/spidevX.X</code> для работы из пользовательского режима. Каждое мастер-устройство может иметь от одного до несколько SPI шин. Каждая шина состоит из нескольких проводов: MOSI, MISO, SCLK, SS. К каждой шине может подключаться до несколько slave устройств.</p>
+<p><img src="/img/lora-raspberrypi/3.png" alt=""></p>
+<p>В RaspberryPI по-умолчанию включена только одна SPI шина SPI0. У неё адрес <code>/dev/spidev0.X</code>. При желании можно включить и вторую шину в файле <code>/boot/config.txt</code>:</p>
+<pre><code>dtoverlay=spi1-3cs
+</code></pre><p>К каждой шине RaspberryPI можно подключить до двух slave устройств.</p>
+<p><img src="/img/lora-raspberrypi/1.png" alt=""></p>
+<p>Таким образом получается, что SPI драйвер создаст 4 файла:</p>
+<ul>
+<li>/dev/spidev0.0</li>
+<li>/dev/spidev0.1</li>
+<li>/dev/spidev1.0</li>
+<li>/dev/spidev1.1</li>
+</ul>
+<p>Если в ESP32 при инициализации SPI нужно было явно прописывать какой пин отвечает за какой сигнал, то в RaspberryPI достаточно открыть нужное устройство для работы:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> spi_device_fd <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;/dev/spidev0.0&#34;</span>, O_RDWR);
+<span style="color:#66d9ef">if</span> (spi_device_fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+    perror(<span style="color:#e6db74">&#34;unable to open device&#34;</span>);
+    <span style="color:#66d9ef">return</span> EXIT_FAILURE;
+}
+</code></pre></div><p>А далее уже конфигурировать, используя ioctl:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> mode <span style="color:#f92672">=</span> SPI_MODE_0; <span style="color:#75715e">// CPOL=0, CPHA=0
+</span><span style="color:#75715e"></span>LINUX_ERROR_CHECK(ioctl(spi_device_fd, SPI_IOC_WR_MODE, <span style="color:#f92672">&amp;</span>mode));
+</code></pre></div><p>API для отправки и получения данных выглядит очень похоже на ESP32:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> spi_ioc_transfer tr[<span style="color:#ae81ff">2</span>];
+memset(<span style="color:#f92672">&amp;</span>tr, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(tr));
+tr[<span style="color:#ae81ff">0</span>].tx_buf <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>)<span style="color:#f92672">&amp;</span>reg;
+tr[<span style="color:#ae81ff">0</span>].len <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+tr[<span style="color:#ae81ff">1</span>].rx_buf <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span>)result;
+tr[<span style="color:#ae81ff">1</span>].len <span style="color:#f92672">=</span> data_length;
+<span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> ioctl(<span style="color:#f92672">*</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>)spi_device, SPI_IOC_MESSAGE(<span style="color:#ae81ff">2</span>), <span style="color:#f92672">&amp;</span>tr);
+</code></pre></div><p>Для этого используется структура <code>spi_ioc_transfer</code> и всё тот же ioctl. В примере выше показан полудуплексный режим работы: сначала отправляется команда с типом регистра, а потом читается ответ в переменную <code>result</code> длины <code>data_length</code>. Для полнодуплексного режима нужно было бы использовать всего одно сообщение, в котором были бы заполненны <code>tx_buf</code> и <code>rx_buf</code>. Однако, для управления sx127x достаточно полудуплексного режима.</p>
+<h2 id="gpio-в-linux">GPIO в Linux</h2>
+<p>В принципе, одного SPI достаточно, чтобы работать с sx127x. Для того, чтобы получить сообщение, нужно было бы периодически вызывать функцию <code>sx127x_handle_interrupt</code>. Она проверяет выставлен ли флаг полученного сообщения и вызывает нужный обработчик. Однако, если сообщения приходят часто или через заранее неизвестные интервалы, то при таком способе можно пропустить пакет. Каждый новый будет перезатирать предыдущий во внутренней памяти чипа. Чтобы этого избежать, нужно использовать прерывания. В sx127x есть целых 6 пинов, которые генерируют различные типы прерываний. Для отправки и получения достаточно подключить только один - DIO0.</p>
+<p>Но как обработать его в Linux?</p>
+<p>Для этого нужно использовать gpio драйвер. Это стандартный драйвер, который разграничивает доступ пользователей к пинам устройства и позволяет работать нескольким программам независимо.</p>
+<p>В RaspberryPI он создаёт устройство <code>/dev/gpiochip0</code>. Его нужно открыть, чтобы начать работу:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> fd <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;/dev/gpiochip0&#34;</span>, O_RDONLY);
+<span style="color:#66d9ef">if</span> (fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+    perror(<span style="color:#e6db74">&#34;unable to open device&#34;</span>);
+    <span style="color:#66d9ef">return</span> EXIT_FAILURE;
+}
+</code></pre></div><p>Далее зарезервировать один из пинов или &ldquo;линию&rdquo; в терминологии Linux:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> gpioevent_request rq;
+rq.lineoffset <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>;
+rq.eventflags <span style="color:#f92672">=</span> GPIOEVENT_EVENT_RISING_EDGE;
+<span style="color:#66d9ef">char</span> label[] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lora_raspberry&#34;</span>;
+memcpy(rq.consumer_label, label, <span style="color:#66d9ef">sizeof</span>(label));
+rq.handleflags <span style="color:#f92672">=</span> GPIOHANDLE_REQUEST_INPUT;
+<span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> ioctl(fd, GPIO_GET_LINEEVENT_IOCTL, <span style="color:#f92672">&amp;</span>rq);
+</code></pre></div><p>В примере выше я резервирую пин 27 для получения событий. Событие в данном случае это изменение состояния с &ldquo;низкий уровень&rdquo; на &ldquo;высокий уровень&rdquo;. Это именно то, что будет делать чип при генерации прерывания.</p>
+<p>После этого необходимо ожидать событие с помощью poll API:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">struct</span> pollfd pfd;
+pfd.fd <span style="color:#f92672">=</span> rq.fd;
+pfd.events <span style="color:#f92672">=</span> POLLIN;
+fprintf(stdout, <span style="color:#e6db74">&#34;waiting for packets...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+<span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+    code <span style="color:#f92672">=</span> poll(<span style="color:#f92672">&amp;</span>pfd, <span style="color:#ae81ff">1</span>, GPIO_POLL_TIMEOUT);
+    <span style="color:#66d9ef">if</span> (code <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        perror(<span style="color:#e6db74">&#34;unable to receive gpio interrupt&#34;</span>);
+        <span style="color:#66d9ef">break</span>;
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pfd.events <span style="color:#f92672">&amp;</span> POLLIN) {
+        sx127x_handle_interrupt(device);
+    }
+}
+close(rq.fd);
+</code></pre></div><p>Если событие получено, то вызывать функцию-обработчик прерывания <code>sx127x_handle_interrupt</code>.</p>
+<h2 id="сборка">Сборка</h2>
+<p>Пару слов нужно сказать о сборке проекта. Из-за того, что API для SPI отличается между ESP32 и Linux, мне пришлось вынести весь код, работающий с SPI в отдельный файл <code>sx127x_spi.h</code>. В нём есть 4 метода следующего вида, которые имплементированы по разному для разных платформ:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @brief Read up to 4 bytes from device via SPI
+</span><span style="color:#75715e"> * 
+</span><span style="color:#75715e"> * @param reg Register
+</span><span style="color:#75715e"> * @param spi_device Pointer to variable to hold the device handle. Can be different on different platforms
+</span><span style="color:#75715e"> * @param data_length Number of bytes to read into result
+</span><span style="color:#75715e"> * @param result Where the data will be written to
+</span><span style="color:#75715e"> * @return 
+</span><span style="color:#75715e"> *         - SX127X_ERR_INVALID_ARG   if parameter is invalid
+</span><span style="color:#75715e"> *         - SX127X_OK                on success
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sx127x_spi_read_registers</span>(<span style="color:#66d9ef">int</span> reg, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>spi_device, size_t data_length, uint32_t <span style="color:#f92672">*</span>result);
+</code></pre></div><p>Во время сборки под RaspberryPI я компилирую <code>sx127x_linux_spi.c</code>, а для ESP32 - <code>sx127x_esp_spi.c</code>.</p>
+<h2 id="тестирование">Тестирование</h2>
+<p>Для тестирования я купил модуль RA-02. Он содержит внутри себя чип sx1278. Пришлось немного попаять, чтобы в результате получилось что-то вроде этого:</p>
+<p><img src="/img/lora-raspberrypi/2.png" alt=""></p>
+<p>В своём тесте я передавал сигнал с ESP32 на другой ESP32 и RaspberryPI. Всё сработало идеально, за исключением расчёта ошибки частоты. sx127x чип может вычислить разницу между частотой на которой было получено сообщение и частотой, на которую был настроен приёмник. В случае с ESP32 он выдавал около -473 Гц, а для RaspberryPI около 4024 Гц. Скорее всего это объясняется тем, что кристаллы-генераторы несущей частоты немного отличаются для двух модулей.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>sx127x</title>
