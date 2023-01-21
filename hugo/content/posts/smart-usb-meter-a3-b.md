@@ -8,6 +8,7 @@ tags:
   - monitoring
   - r2lora
   - esp32
+  - bluetooth
 ---
 Совсем недавно я приобрёл USB тестер A3-B.
 

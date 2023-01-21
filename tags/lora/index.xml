@@ -5,7 +5,16 @@
     <link>https://dernasherbrezon.com/tags/lora/</link>
     <description>Recent content in lora on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 15 Jan 2023 12:59:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BLE сервер на Java</title>
+      <link>https://dernasherbrezon.com/posts/ble-server-java/</link>
+      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/ble-server-java/</guid>
+      <description>В одном из предыдущих постов я начал оптимизировать энергопотребление ESP32 и LoRa. Идея заключалась в том, чтобы переводить микроконтроллер в режим сна и просыпаться только тогда, когда необходимо получить данные. Но как узнать в какой момент времени нужно просыпаться? Вот тут всё зависит от конкретного приложения. Если необходимо передавать данные с одинаковым интервалом, то его можно захардкодить в прошивке. А что делать, если получение данных нужно делать через заранее неизвестные промежутки времени?</description>
+    </item>
+    
     <item>
       <title>sx127x для RaspberryPI</title>
       <link>https://dernasherbrezon.com/posts/lora-raspberrypi/</link>

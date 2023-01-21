@@ -5,22 +5,49 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 15 Jan 2023 12:59:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>c</title>
-      <link>https://dernasherbrezon.com/tags/c/</link>
-      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      <title>bluetooth</title>
+      <link>https://dernasherbrezon.com/tags/bluetooth/</link>
+      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.com/tags/c/</guid>
+      <guid>https://dernasherbrezon.com/tags/bluetooth/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://dernasherbrezon.com/tags/java/</link>
+      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>lora</title>
       <link>https://dernasherbrezon.com/tags/lora/</link>
-      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/lora/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r2cloud</title>
+      <link>https://dernasherbrezon.com/tags/r2cloud/</link>
+      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/r2cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>c</title>
+      <link>https://dernasherbrezon.com/tags/c/</link>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/c/</guid>
       <description></description>
     </item>
     
@@ -48,15 +75,6 @@
       <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/esp32/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r2cloud</title>
-      <link>https://dernasherbrezon.com/tags/r2cloud/</link>
-      <pubDate>Fri, 28 Oct 2022 20:52:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/r2cloud/</guid>
       <description></description>
     </item>
     
@@ -228,15 +246,6 @@
       <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/testing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Java</title>
-      <link>https://dernasherbrezon.com/tags/java/</link>
-      <pubDate>Mon, 09 Aug 2021 15:52:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/java/</guid>
       <description></description>
     </item>
     

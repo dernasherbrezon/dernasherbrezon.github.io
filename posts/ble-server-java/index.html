@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='В одном из предыдущих постов я начал оптимизировать энергопотребление ESP32 и LoRa. Идея заключалась в том, чтобы переводить микроконтроллер в режим сна и просыпаться только тогда, когда необходимо получить данные. Но как узнать в какой момент времени нужно просыпаться? Вот тут всё зависит от конкретного приложения. Если необходимо передавать данные с одинаковым интервалом, то его можно захардкодить в прошивке. А что делать, если получение данных нужно делать через заранее неизвестные промежутки времени?'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='BLE сервер на Java • dernasherbrezon'>
+<meta property='og:description' content='В одном из предыдущих постов я начал оптимизировать энергопотребление ESP32 и LoRa. Идея заключалась в том, чтобы переводить микроконтроллер в режим сна и просыпаться только тогда, когда необходимо получить данные. Но как узнать в какой момент времени нужно просыпаться? Вот тут всё зависит от конкретного приложения. Если необходимо передавать данные с одинаковым интервалом, то его можно захардкодить в прошивке. А что делать, если получение данных нужно делать через заранее неизвестные промежутки времени?'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/ble-server-java/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='lora'><meta property='article:tag' content='bluetooth'><meta property='article:tag' content='r2cloud'><meta property='article:published_time' content='2023-01-17T08:22:17&#43;01:00'/><meta property='article:modified_time' content='2023-01-17T08:22:17&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>BLE сервер на Java • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/ble-server-java/'>
+  
+    <link href="https://dernasherbrezon.com/posts/ble-server-java/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0212765957446808em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0638297872340425em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0638297872340425em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0212765957446808em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1063829787234043em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0212765957446808em'>bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0212765957446808em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.3829787234042552em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0851063829787233em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.1063829787234043em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.1063829787234043em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.1063829787234043em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0638297872340425em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0212765957446808em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0638297872340425em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0425531914893618em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0638297872340425em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0212765957446808em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0851063829787233em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0425531914893618em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1063829787234043em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0638297872340425em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0425531914893618em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0425531914893618em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.127659574468085em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0425531914893618em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0212765957446808em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1063829787234043em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0212765957446808em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0851063829787233em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1063829787234043em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0425531914893618em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0212765957446808em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0425531914893618em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0212765957446808em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0212765957446808em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0212765957446808em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0851063829787233em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0638297872340425em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0425531914893618em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2340425531914894em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.3829787234042552em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0212765957446808em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0212765957446808em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0212765957446808em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2340425531914894em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0425531914893618em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0425531914893618em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0638297872340425em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0212765957446808em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.0638297872340425em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0425531914893618em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0425531914893618em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0212765957446808em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0212765957446808em'>String</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0425531914893618em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0212765957446808em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0851063829787233em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0425531914893618em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0425531914893618em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2553191489361701em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0638297872340425em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0638297872340425em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0425531914893618em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0425531914893618em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0212765957446808em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0638297872340425em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3191489361702127em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0638297872340425em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3829787234042552em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1702127659574468em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0425531914893618em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>BLE сервер на Java</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2023-01-17T08:22:17&#43;01:00'>17 Jan 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>В одном из <a href="https://dernasherbrezon.com/posts/lora-deep-sleep/">предыдущих постов</a> я начал оптимизировать энергопотребление ESP32 и LoRa. Идея заключалась в том, чтобы переводить микроконтроллер в режим сна и просыпаться только тогда, когда необходимо получить данные. Но как узнать в какой момент времени нужно просыпаться? Вот тут всё зависит от конкретного приложения. Если необходимо передавать данные с одинаковым интервалом, то его можно захардкодить в прошивке. А что делать, если получение данных нужно делать через заранее неизвестные промежутки времени? В моём проекте <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> как раз такой случай.</p>
+<h2 id="схема-работы">Схема работы</h2>
+<p>r2cloud составляет расписание пролёта спутников в зависимости от разных параметров. Как только спутник оказывается в области видимости, начинается приём данных. Как только спутник улетел за горизонт, сигнал обрабатывается и отправляется на сервер.</p>
+<p>ESP32 должен получать с сервера время начала следующего наблюдения и засыпать. По пробуждению нужно ещё раз получить параметры и начать принимать сигнал. Проще всего описать алгоритм работы с помощью диаграммы последовательности:</p>
+<p><img src="/img/ble-server-java/2.svg" alt=""></p>
+<p>На этой диаграмме минимизирована коммуникация между ESP32 и r2cloud для экономии энергии. Также микроконтроллер выступает активным компонентом, который инициирует все взаимодействия. Это решает проблему polling данных, всевозможных таймаутов и прочего.</p>
+<p>Осталось понять каким образом ESP32 должен получать данные с сервера. Тут есть несколько вариантов:</p>
+<ul>
+<li>По проводу через serial интерфейс. Однако, это сводит на нет, весь смысл глубокого сна и экономии энергии. Ведь по проводу можно передать и питание.</li>
+<li>LoRa. Выглядит очень заманчиво. ESP32 получает данные со спутника и ретранслирует дальше. <a href="https://dernasherbrezon.com/posts/lora-raspberrypi/">LoRa модуль на RaspberryPI</a> получает данные и передаёт в r2cloud. Но для этого нужно покупать отдельный LoRa модуль, паять и настраивать. Всё это значительно усложняет систему.</li>
+<li>Bluetooth. Он есть и на ESP32 и на RaspberryPI.</li>
+<li>Wi-Fi. Для того, чтобы отправить небольшое сообщение, нужно подсоединится к точке доступа, зашифровать данные и отправить. Мало того, что это потребляет много энергии, так ещё и нужна отдельная точка доступа.</li>
+</ul>
+<p>Я решил разобраться с Bluetooth и посмотреть, что получится.</p>
+<h2 id="ble">BLE</h2>
+<p>BLE (Bluetooth Low Energy) - это беспроводная технология Bluetooth с низким энергопотреблением. Её основная идея заключается в том, что два устройства не должны постоянно держать соединение активным, тем самым потребляя энергию. Вместо этого есть набор специальных &ldquo;профилей&rdquo; - GAP и GATT, которые предоставляют программную модель для отправки коротких сообщений между двумя устройствами. При этом с точки зрения программиста выглядит будто бы два устройства соединены и активны.</p>
+<p>Каждое устройство, которое хочет предоставить доступ к своим возможностям через BLE, должно создать в памяти древовидную структуру свойств, методов и сервисов. Эта структура определена в спецификации GATT (Generic Attribute Profile).</p>
+<p><img src="/img/ble-server-java/3.svg" alt=""></p>
+<p>Для примера, я подключился к своим часам с помощью программы <a href="https://www.nordicsemi.com/Products/Development-tools/nrf-connect-for-desktop">nRF Connect</a>:</p>
+<p><img src="/img/ble-server-java/1.png" alt=""></p>
+<p>Справа видна часть публичной информации, которую публикует устройство:</p>
+<ul>
+<li>Сервис &ldquo;Device information&rdquo;
+<ul>
+<li>Характеристика &ldquo;Model Number String&rdquo;</li>
+<li>Характеристика &ldquo;Manufacturer Name String&rdquo;</li>
+</ul>
+</li>
+</ul>
+<p>Для того, чтобы LoRa смогла отправить данные на RaspberryPI нужно будет создать похожую структуру. И вот тут начинаются некоторые сложности, так как в разных операционных системах разные API и подходы.</p>
+<h2 id="bluez">Bluez</h2>
+<p>Для работы с Bluetooth в Linux используется целый стек под названием <a href="https://github.com/bluez/bluez">bluez</a>. Стек в данном случае подразумевает набор драйверов для Linux и реализаций разных Bluetooth профилей, которые могут работать на разных уровнях модели OSI. Сюда так же входят различные программы для управления bluetooth такие как hcitool или gatttool.</p>
+<p>В моём случае наиболее интересные профили bluez - это GAP и GATT. Первый - это легковесный протокол обнаружения устройств, а второй - способ организации объектов и полей в дерево.</p>
+<p>bluez позволяет управлять устройством с помощью интерфейсов и объектов D-Bus.</p>
+<h2 id="d-bus">D-Bus</h2>
+<p>D-Bus - это система междпроцессорного взаимодействия в Linux. Она представляет собой что-то вроде центральной шины, через которую приложения могут посылать друг другу сигналы, вызывать методы и получать свойства.</p>
+<p><img src="/img/ble-server-java/4.png" alt=""></p>
+<p>bluez создаёт в D-Bus дерево объектов и свойств для каждого подключённого устройства. И уже работая с этими объектами, можно получать или отправлять данные на устройства. Немножко запутанно, но этот подход позволяет подключать несколько разных bluetooth устройств к одному физическому bluetooth чипу и независимо работать с каждым из них.</p>
+<p>На скриншоте вверху видно, что bluez создал D-Bus объект <code>org.bluez.Device1</code> для подключённого устройства <code>78:DD:08:A3:A7:52</code>. Это устройство предоставляет доступ к нескольким сервисам и их свойствам:</p>
+<ul>
+<li>service0001
+<ul>
+<li>characteristic0006</li>
+</ul>
+</li>
+<li>service0010
+<ul>
+<li>characteristic0012</li>
+</ul>
+</li>
+<li>service0100</li>
+<li>service0200
+<ul>
+<li>characteristic0204</li>
+<li>characteristic0212</li>
+</ul>
+</li>
+<li>service0680</li>
+</ul>
+<p>В данном примере удалённое устройство предоставляет доступ к своим сервисам. А что если нужно сделать наоборот: выставить наружу доступ к RaspberryPI? Для этого нужно написать приложение, которое зарегистрирует в bluez необходимые сервисы.</p>
+<h2 id="gatt-сервер">GATT сервер</h2>
+<p>В общем случае схема выглядит так:</p>
+<p><img src="/img/ble-server-java/5.svg" alt=""></p>
+<p>Приложение должно создать в D-Bus структуру сервисов и их свойств:</p>
+<ul>
+<li>Сервисы должны реализовывать интерфейс <code>org.bluez.GattService1</code></li>
+<li>Свойства должны реализовывать интерфейс <code>org.bluez.GattCharacteristic1</code></li>
+</ul>
+<p>Несмотря на то, что названия интерфейсов очень похожи на нормальные Java объекты, они не имеют ничего общего с Java. Это просто строчка из спецификации bluez.</p>
+<p>После того, как объекты созданы, нужно найти объект Service Manager в D-Bus и зарегистрировать в нём приложение. Service Manager - это D-Bus объект, реализующий интерфейс <code>org.bluez.GattManager1</code>.</p>
+<p>Далее необходимо каким-то образом рассказать всем устройствам в округе какие сервисы поддерживает RaspberryPI. Для этого нужно:</p>
+<ul>
+<li>В D-Bus создать объект типа <code>org.bluez.LEAdvertisement1</code>, в котором будет список сервисов, доступных для внешних устройств</li>
+<li>Зарегистрировать этот объект в Advertising Manager</li>
+</ul>
+<h2 id="интеграция-с-java">Интеграция с Java</h2>
+<p>Итак, в результате задача свелась к тому, чтобы подключиться к D-Bus и зарегистрировать нужные сервисы. По-умолчанию к D-Bus можно подключиться только через <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BA%D0%B5%D1%82_%D0%B4%D0%BE%D0%BC%D0%B5%D0%BD%D0%B0_Unix">unix domain socket (UDS)</a>: <code>/var/run/dbus/system_bus_socket</code>. В Java поддержка UDS появилась только в версии 16. Работа с ними очень похожа на обычные сокеты:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ServerSocketChannel serverChannel <span style="color:#f92672">=</span> ServerSocketChannel
+  <span style="color:#f92672">.</span><span style="color:#a6e22e">open</span><span style="color:#f92672">(</span>StandardProtocolFamily<span style="color:#f92672">.</span><span style="color:#a6e22e">UNIX</span><span style="color:#f92672">);</span>
+serverChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">bind</span><span style="color:#f92672">(</span>socketAddress<span style="color:#f92672">);</span>
+SocketChannel channel <span style="color:#f92672">=</span> serverChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    readSocketMessage<span style="color:#f92672">(</span>channel<span style="color:#f92672">)</span>
+      <span style="color:#f92672">.</span><span style="color:#a6e22e">ifPresent</span><span style="color:#f92672">(</span>message <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">printf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[Client message] %s&#34;</span><span style="color:#f92672">,</span> message<span style="color:#f92672">));</span>
+    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>100<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Но лучше всего воспользоваться готовыми библиотеками от <a href="https://github.com/hypfvieh">hypfvieh</a>. Они абстрагируют работу с dbus и предоставляют нужные API для работы с bluez:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>bluez-dbus<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;version&gt;</span>0.1.4<span style="color:#f92672">&lt;/version&gt;</span>
+	<span style="color:#f92672">&lt;exclusions&gt;</span>
+		<span style="color:#f92672">&lt;exclusion&gt;</span>
+			<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId&gt;</span>dbus-java<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;/exclusion&gt;</span>
+	<span style="color:#f92672">&lt;/exclusions&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>dbus-java-core<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;version&gt;</span>4.2.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>dbus-java-transport-native-unixsocket<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;version&gt;</span>4.2.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>В результате код будет выглядеть следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// connect to dbus
+</span><span style="color:#75715e"></span>dbusConn <span style="color:#f92672">=</span> DBusConnectionBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">forAddress</span><span style="color:#f92672">(</span>address<span style="color:#f92672">).</span><span style="color:#a6e22e">withShared</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+<span style="color:#75715e">// find bluez
+</span><span style="color:#75715e"></span>ObjectManager adapter <span style="color:#f92672">=</span> dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">getRemoteObject</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.bluez&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">,</span> ObjectManager<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// find service manager from all registered services
+</span><span style="color:#75715e"></span>DBusPath serviceManagerPath <span style="color:#f92672">=</span> getServiceManagerPath<span style="color:#f92672">(</span>adapter<span style="color:#f92672">);</span>
+<span style="color:#75715e">// find service manager and advertising manager
+</span><span style="color:#75715e"></span>serviceManager <span style="color:#f92672">=</span> dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">getRemoteObject</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.bluez&#34;</span><span style="color:#f92672">,</span> serviceManagerPath<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">(),</span> GattManager1<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+advertisingManager <span style="color:#f92672">=</span> dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">getRemoteObject</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.bluez&#34;</span><span style="color:#f92672">,</span> serviceManagerPath<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">(),</span> LEAdvertisingManager1<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// create hierarchy of characteristics and services
+</span><span style="color:#75715e"></span>application <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BleApplication<span style="color:#f92672">(</span>allServices<span style="color:#f92672">);</span>
+<span style="color:#75715e">// export them into D-Bus
+</span><span style="color:#75715e"></span>exportAll<span style="color:#f92672">(</span>dbusConn<span style="color:#f92672">,</span> application<span style="color:#f92672">);</span>
+<span style="color:#75715e">// register application in bluez
+</span><span style="color:#75715e"></span>serviceManager<span style="color:#f92672">.</span><span style="color:#a6e22e">RegisterApplication</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DBusPath<span style="color:#f92672">(</span>application<span style="color:#f92672">.</span><span style="color:#a6e22e">getObjectPath</span><span style="color:#f92672">()),</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;());</span>
+<span style="color:#75715e">// create advertisement object
+</span><span style="color:#75715e"></span>advertisement <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BleAdvertisement<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/org/bluez/r2cloud/advertisement0&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;r2cloud&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;peripheral&#34;</span><span style="color:#f92672">,</span> LORA_SERVICE_UUID<span style="color:#f92672">);</span>
+<span style="color:#75715e">// and export it to D-Bus
+</span><span style="color:#75715e"></span>dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">exportObject</span><span style="color:#f92672">(</span>advertisement<span style="color:#f92672">);</span>
+<span style="color:#75715e">// register advertisement in bluez
+</span><span style="color:#75715e"></span>advertisingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">RegisterAdvertisement</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DBusPath<span style="color:#f92672">(</span>advertisement<span style="color:#f92672">.</span><span style="color:#a6e22e">getObjectPath</span><span style="color:#f92672">()),</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;());</span>
+</code></pre></div><h2 id="взаимодействие-с-r2cloud">Взаимодействие с r2cloud</h2>
+<p>Последним шагом будет непосредственно реализация протокола между ESP32 и r2cloud. Я решил сделать один сервис с двумя свойствами:</p>
+<ul>
+<li>Расписание. При чтении из него возвращаются параметры следующего наблюдения. Запись в это свойство означает полученный пакет. Немного странно, но сильно упрощает код на стороне ESP32.</li>
+<li>Статус. Служит для получения уровня заряда батареи и bluetooth сигнала.</li>
+</ul>
+<p>Эти параметры можно добавить в мониторинг или просто показывать в UI:</p>
+<p><img src="/img/ble-server-java/6.png" alt=""></p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>Java</a>, <a class='tag' href='/tags/lora/'>lora</a>, <a class='tag' href='/tags/bluetooth/'>bluetooth</a>, <a class='tag' href='/tags/r2cloud/'>r2cloud</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/lora-raspberrypi/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>sx127x для RaspberryPI</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+
