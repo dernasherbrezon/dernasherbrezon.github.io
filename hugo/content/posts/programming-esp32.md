@@ -24,7 +24,7 @@ tags:
 
 В общем виде дизайн r2lora выглядит следующим образом:
 
-![](/img/programming-esp32/design.png)
+{{< svg "/img/programming-esp32/design.svg" >}}
 
 Клиенты взаимодействуют с сервисом с помощью REST API, в котором доступно несколько методов:
 
