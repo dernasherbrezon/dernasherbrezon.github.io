@@ -24,7 +24,7 @@ tags:
   
 Выглядит всё это как-то так:
 
-![](/img/plutosdr-tx/0.png)
+{{< svg "/img/plutosdr-tx/0.svg" >}}
 
 Ну или как-то так:
 
