@@ -7,13 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Tue, 04 Apr 2023 19:12:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/sx127x/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Таймер в SX127x</title>
+      <title>Таймер в sx127x</title>
       <link>https://dernasherbrezon.com/posts/timer-sx127x/</link>
       <pubDate>Tue, 04 Apr 2023 19:12:18 +0000</pubDate>
       
       <guid>https://dernasherbrezon.com/posts/timer-sx127x/</guid>
       <description>В процессе разработки поддержки FSK модуляции для sx127x, я столкнулся с интересной задачей. В чипах sx127x есть уникальный режим, который позволяет периодически отправлять сообщения. Для этого достаточно задать байты для передачи, интервал между сообщениями и запустить стейт-машину, которая будет отправлять одинаковое сообщение с указанным интервалом.
 Особенность задачи заключается в том, что интервал задаётся двумя таймерами. И для каждого таймера нужно задать два параметра: разрешение таймера и количество тиков. Разрешение таймера может быть трёх типов: 64 мкс, 4.</description>
+    </item>
+    
+    <item>
+      <title>sx127x для RaspberryPI</title>
+      <link>https://dernasherbrezon.com/posts/lora-raspberrypi/</link>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-raspberrypi/</guid>
+      <description>Продолжая работать над новой библиотекой sx127x, я решил добавить поддержку Linux и RaspberryPI в частности. Помимо чисто практической надобности, мне хотелось понять насколько отличается программирование под микроконтроллеры от обычных операционных систем.
+Я с самого начала спроектировал библиотеку достаточно хорошо, поэтому для миграции под Linux потребовалось совсем немного изменений:
+ отказаться от esp_err.h и сделать возвращаемые коды типа int вынести работут с SPI в отдельный заголовок и переопределить для разных платформ  Если первый пункт достаточно простой, то со вторым пришлось повозиться.</description>
     </item>
     
     <item>

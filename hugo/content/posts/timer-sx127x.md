@@ -1,5 +1,5 @@
 ---
-title: "Таймер в SX127x"
+title: "Таймер в sx127x"
 date: 2023-04-04T19:12:18+00:00
 draft: false
 mathjax: true
