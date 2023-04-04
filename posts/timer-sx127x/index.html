@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='В процессе разработки поддержки FSK модуляции для sx127x, я столкнулся с интересной задачей. В чипах sx127x есть уникальный режим, который позволяет периодически отправлять сообщения. Для этого достаточно задать байты для передачи, интервал между сообщениями и запустить стейт-машину, которая будет отправлять одинаковое сообщение с указанным интервалом.
+Особенность задачи заключается в том, что интервал задаётся двумя таймерами. И для каждого таймера нужно задать два параметра: разрешение таймера и количество тиков. Разрешение таймера может быть трёх типов: 64 мкс, 4.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Таймер в SX127x • dernasherbrezon'>
+<meta property='og:description' content='В процессе разработки поддержки FSK модуляции для sx127x, я столкнулся с интересной задачей. В чипах sx127x есть уникальный режим, который позволяет периодически отправлять сообщения. Для этого достаточно задать байты для передачи, интервал между сообщениями и запустить стейт-машину, которая будет отправлять одинаковое сообщение с указанным интервалом.
+Особенность задачи заключается в том, что интервал задаётся двумя таймерами. И для каждого таймера нужно задать два параметра: разрешение таймера и количество тиков. Разрешение таймера может быть трёх типов: 64 мкс, 4.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/timer-sx127x/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='sx127x'><meta property='article:published_time' content='2023-04-04T19:12:18Z'/><meta property='article:modified_time' content='2023-04-04T19:12:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Таймер в SX127x • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/timer-sx127x/'>
+  
+    <link href="https://dernasherbrezon.com/posts/timer-sx127x/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0208333333333333em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0625em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0625em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0208333333333333em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1041666666666667em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0208333333333333em'>bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0208333333333333em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.375em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0833333333333333em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.1041666666666667em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.1041666666666667em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.1041666666666667em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0625em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0208333333333333em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0625em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0416666666666667em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0625em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0208333333333333em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0833333333333333em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0416666666666667em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1041666666666667em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0625em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0416666666666667em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0416666666666667em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.125em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0416666666666667em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0208333333333333em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1041666666666667em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0208333333333333em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0833333333333333em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1041666666666667em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0416666666666667em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0208333333333333em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0416666666666667em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0208333333333333em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0208333333333333em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0208333333333333em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0833333333333333em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0625em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0416666666666667em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2291666666666667em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.375em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0208333333333333em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0208333333333333em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0208333333333333em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2291666666666667em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0416666666666667em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0416666666666667em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0625em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0208333333333333em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.0625em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0416666666666667em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0416666666666667em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0208333333333333em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0208333333333333em'>String</a>
+      </li><li>
+        <a href='/tags/sx127x/' style='font-size:1.0208333333333333em'>sx127x</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0416666666666667em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0208333333333333em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0833333333333333em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0416666666666667em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0416666666666667em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.25em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0625em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0625em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0416666666666667em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0416666666666667em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0208333333333333em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0625em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3125em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0625em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.375em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1666666666666667em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0416666666666667em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Таймер в SX127x</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2023-04-04T19:12:18Z'>04 Apr 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>В процессе разработки поддержки FSK модуляции для <a href="https://github.com/dernasherbrezon/sx127x">sx127x</a>, я столкнулся с интересной задачей. В чипах sx127x есть уникальный режим, который позволяет периодически отправлять сообщения. Для этого достаточно задать байты для передачи, интервал между сообщениями и запустить стейт-машину, которая будет отправлять одинаковое сообщение с указанным интервалом.</p>
+<p>Особенность задачи заключается в том, что интервал задаётся двумя таймерами. И для каждого таймера нужно задать два параметра: разрешение таймера и количество тиков. Разрешение таймера может быть трёх типов: 64 мкс, 4.1 мс и 262 мс. Количество тиков может быть от 0 до 255. Таким образом формула для вычисления интервала будет следующая:</p>
+<p>$$
+интервал = X_1\times Y_1 + X_2\times Y_2
+$$</p>
+<p>Это уравнение с четырмя неизвестными. Я не каждый день решаю уравнения с четырмя неизвестными, а если быть точнее, то мне никогда не приходилось этого делать за всю мою программисткую карьеру. Поэтому поначалу я немного задумался.</p>
+<p>Если чуть-чуть приглядется к условию, то можно попробовать решить это уравнение методом перебора. Ведь разрешение таймера может быть всего трёх типов. А значит нужно перебрать всего 6 различных условий.</p>
+<p>При этом в любом решении будет ошибка дискретизации, которая схематично должна выглядеть как-то так:</p>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" viewBox="-0.5 -0.5 656 198"><defs/><g><path d="M 7 157 L 640.63 157" fill="none" stroke="none" pointer-events="stroke"/><path d="M 645.88 157 L 638.88 160.5 L 640.63 157 L 638.88 153.5 Z" fill="none" stroke="none" pointer-events="all"/><path d="M 7 157 M 7 157 C 153.5 160.56 300.13 161.96 640.63 157 M 7 157 C 154.61 159.46 303.22 159.19 640.63 157" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 638.75 153.65 C 638.75 153.65 638.75 153.65 638.75 153.65 M 638.75 153.65 C 638.75 153.65 638.75 153.65 638.75 153.65 M 641.11 157.03 C 641.72 156.41 641.84 155.94 642.43 155.52 M 641.11 157.03 C 641.57 156.59 641.61 156.25 642.43 155.52" fill="none" stroke="rgb(0, 0, 0)" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/><path d="M 645.88 157 M 645.88 157 C 643.32 158.92 644.25 157.01 638.88 160.5 M 645.88 157 C 644.1 158.18 642.66 158.6 638.88 160.5 M 638.88 160.5 C 640 158.92 639.74 157.49 640.63 157 M 638.88 160.5 C 639.7 159.57 640.12 158.21 640.63 157 M 640.63 157 C 640.55 155.07 638.78 154.17 638.88 153.5 M 640.63 157 C 639.82 155.42 638.94 154.43 638.88 153.5 M 638.88 153.5 C 641.01 152.76 642.93 155.3 645.88 157 M 638.88 153.5 C 640.92 154.49 643.51 155.96 645.88 157" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/><path d="M 7 177 L 7 13.37" fill="none" stroke="none" pointer-events="stroke"/><path d="M 7 8.12 L 10.5 15.12 L 7 13.37 L 3.5 15.12 Z" fill="none" stroke="none" pointer-events="all"/><path d="M 7 177 M 7 177 C 4.5 142.38 3.54 100.57 7 13.37 M 7 177 C 10.72 125.19 10.47 76.84 7 13.37" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 6.76 8.4 C 6.76 8.4 6.76 8.4 6.76 8.4 M 6.76 8.4 C 6.76 8.4 6.76 8.4 6.76 8.4 M 7.16 14.04 C 7.57 12.97 8.28 13.42 9.12 11.77 M 7.16 14.04 C 7.55 13.35 7.84 12.82 9.12 11.77" fill="none" stroke="rgb(0, 0, 0)" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/><path d="M 7 8.12 M 7 8.12 C 6.82 9.73 9.04 14.02 10.5 15.12 M 7 8.12 C 8.52 10.41 8.67 10.98 10.5 15.12 M 10.5 15.12 C 9.34 14.28 9.14 14.31 7 13.37 M 10.5 15.12 C 9.28 14.87 8.21 14.11 7 13.37 M 7 13.37 C 5.85 13.8 5.78 13.65 3.5 15.12 M 7 13.37 C 6.32 14.16 5.17 14.5 3.5 15.12 M 3.5 15.12 C 3.35 13.23 5.66 11.87 7 8.12 M 3.5 15.12 C 5.03 12.53 5.45 10.7 7 8.12" fill="none" stroke="rgb(0, 0, 0)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" pointer-events="all"/><rect x="567" y="167" width="80" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 182px; margin-left: 568px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Интервал</div></div></div></foreignObject><text x="607" y="186" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Интервал</text></switch></g><rect x="17" y="17" width="100" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 98px; height: 1px; padding-top: 32px; margin-left: 18px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Ошибка<br />дискретизации</div></div></div></foreignObject><text x="67" y="36" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Ошибка&#xa;дискретизации</text></switch></g><path d="M 7 157 L 7 147 L 47 157 Z" fill="none" stroke="none" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,27,152)" pointer-events="all"/><path d="M 7.29 146.66 C 7.29 146.66 7.29 146.66 7.29 146.66 M 7.29 146.66 C 7.29 146.66 7.29 146.66 7.29 146.66 M 7.03 153.06 C 6.94 151.22 9.84 150.22 11.63 147.78 M 7.03 153.06 C 8.75 151.75 9.82 150.41 11.63 147.78 M 8.08 157.95 C 11.35 156.81 10.55 152.55 15.96 148.89 M 8.08 157.95 C 11.51 155.94 14.6 151.56 15.96 148.89 M 13.07 158.31 C 13.3 154.88 16.13 155.74 20.29 150.01 M 13.07 158.31 C 14.87 155.02 17.44 152.46 20.29 150.01 M 18.71 157.91 C 19.27 156.52 21.15 155.47 24.62 151.12 M 18.71 157.91 C 19.65 156.85 21.76 154.52 24.62 151.12 M 23.7 158.27 C 26.19 157.7 25.83 153.16 28.95 152.24 M 23.7 158.27 C 24.59 156.59 27.18 155.34 28.95 152.24 M 29.34 157.88 C 30.56 157.24 30.99 155.44 33.28 153.35 M 29.34 157.88 C 30.07 156.92 30.66 155.59 33.28 153.35 M 34.33 158.24 C 36.19 157.6 37.2 155.45 37.61 154.46 M 34.33 158.24 C 35.29 157.5 36.65 156.47 37.61 154.46 M 39.97 157.84 C 41.14 156.62 41.51 156.73 41.94 155.58 M 39.97 157.84 C 40.51 157.14 41.19 156.52 41.94 155.58 M 44.96 158.2 C 45.1 157.83 46.17 157.26 46.27 156.69 M 44.96 158.2 C 45.13 157.67 45.55 157.5 46.27 156.69" fill="none" stroke="#d5e8d4" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,27,152)" pointer-events="all"/><path d="M 7 157 M 7 157 C 7.1 152.45 7.48 148.97 7 147 M 7 157 C 7.52 154.02 6.79 150.16 7 147 M 7 147 C 14.89 151.17 30.55 149.45 47 157 M 7 147 C 21.66 153 39.63 155 47 157 M 47 157 C 35.98 153.17 27.77 155.15 7 157 M 47 157 C 36.65 158.94 27.14 158.25 7 157" fill="none" stroke="#82b366" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,27,152)" pointer-events="all"/><path d="M 47 157 L 47 147 L 87 157 Z" fill="none" stroke="none" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,67,152)" pointer-events="all"/><path d="M 47.14 146.84 C 47.14 146.84 47.14 146.84 47.14 146.84 M 47.14 146.84 C 47.14 146.84 47.14 146.84 47.14 146.84 M 46.87 153.24 C 46.76 152.79 49.03 150.67 51.47 147.96 M 46.87 153.24 C 47.92 152.04 49.51 150.68 51.47 147.96 M 47.92 158.13 C 51.75 156.86 54.59 152.93 55.8 149.07 M 47.92 158.13 C 50.89 155.89 53.13 152.2 55.8 149.07 M 53.57 157.74 C 57.32 153.51 57.34 151.05 60.13 150.19 M 53.57 157.74 C 55.38 155.01 57.56 152.89 60.13 150.19 M 58.55 158.1 C 61.22 154.22 64.29 154.25 64.46 151.3 M 58.55 158.1 C 60.87 155.99 63.62 153.81 64.46 151.3 M 64.2 157.7 C 65.08 155.45 68.71 152.85 68.79 152.42 M 64.2 157.7 C 65.7 156.39 67.11 155.73 68.79 152.42 M 69.19 158.06 C 70.66 157.22 72.25 154.28 73.12 153.53 M 69.19 158.06 C 69.45 157 70.48 156.52 73.12 153.53 M 74.83 157.67 C 76.26 155.98 76.3 155.55 77.45 154.65 M 74.83 157.67 C 75.34 157.25 76.24 156.15 77.45 154.65 M 79.82 158.03 C 80.85 157.22 81.61 156.84 81.78 155.76 M 79.82 158.03 C 80.29 157.68 80.72 157.19 81.78 155.76 M 85.46 157.63 C 85.64 157.26 85.75 157.31 86.11 156.88 M 85.46 157.63 C 85.57 157.51 85.92 157.15 86.11 156.88" fill="none" stroke="#d5e8d4" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,67,152)" pointer-events="all"/><path d="M 47 157 M 47 157 C 44.89 154.47 48.79 148.83 47 147 M 47 157 C 46.99 152.94 46.25 150.23 47 147 M 47 147 C 52.39 149.48 64.16 150.16 87 157 M 47 147 C 61.37 150.93 80.35 153.06 87 157 M 87 157 C 77.07 159.34 67.5 154.02 47 157 M 87 157 C 74.7 156.65 60.6 156.33 47 157" fill="none" stroke="#82b366" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,67,152)" pointer-events="all"/><path d="M 87 157 L 87 147 L 127 157 Z" fill="none" stroke="none" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,107,152)" pointer-events="all"/><path d="M 86.98 147.03 C 86.98 147.03 86.98 147.03 86.98 147.03 M 86.98 147.03 C 86.98 147.03 86.98 147.03 86.98 147.03 M 86.72 153.42 C 89.38 151.56 88.21 151.12 91.31 148.14 M 86.72 153.42 C 88.49 152.14 89.19 150.75 91.31 148.14 M 87.77 158.31 C 90.58 153.92 95.49 152.14 95.64 149.26 M 87.77 158.31 C 88.33 155.25 90.55 154.07 95.64 149.26 M 93.41 157.92 C 95.09 154.1 99.25 153.89 99.97 150.37 M 93.41 157.92 C 95.7 155.45 97.73 153.54 99.97 150.37 M 98.4 158.28 C 98.12 157.11 101.19 155.97 104.3 151.49 M 98.4 158.28 C 99.1 156.72 101.33 154.25 104.3 151.49 M 104.04 157.88 C 105.5 157.74 106.55 154.77 108.63 152.6 M 104.04 157.88 C 104.87 156.74 105.41 155.11 108.63 152.6 M 109.03 158.24 C 109.98 158.26 111.94 155.08 112.96 153.72 M 109.03 158.24 C 110.21 157.07 110.47 156.25 112.96 153.72 M 114.67 157.85 C 116.17 156.69 117.03 155.95 117.29 154.83 M 114.67 157.85 C 114.92 156.9 115.63 156.35 117.29 154.83 M 119.66 158.21 C 120.25 158.19 121.02 156.58 121.62 155.95 M 119.66 158.21 C 120.56 157.25 121.12 156.44 121.62 155.95 M 125.3 157.81 C 125.6 157.66 125.67 157.64 125.96 157.06 M 125.3 157.81 C 125.44 157.64 125.72 157.4 125.96 157.06" fill="none" stroke="#d5e8d4" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,107,152)" pointer-events="all"/><path d="M 87 157 M 87 157 C 87.08 152.48 86.5 148.7 87 147 M 87 157 C 86.06 153.87 87.31 150.3 87 147 M 87 147 C 105.48 148.18 121.36 153.27 127 157 M 87 147 C 101.07 148.86 117.08 155.11 127 157 M 127 157 C 118.16 157.52 99.22 152.88 87 157 M 127 157 C 112.75 155.96 94.06 156.02 87 157" fill="none" stroke="#82b366" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,152)scale(1,-1)translate(0,-152)rotate(180,107,152)" pointer-events="all"/><path d="M 127 157 L 127 127 L 207 157 Z" fill="none" stroke="none" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,167,142)" pointer-events="all"/><path d="M 126.76 127.28 C 126.76 127.28 126.76 127.28 126.76 127.28 M 126.76 127.28 C 126.76 127.28 126.76 127.28 126.76 127.28 M 127.15 132.92 C 129.24 132.35 130.09 131.02 131.09 128.4 M 127.15 132.92 C 128.09 131.75 129.14 130.55 131.09 128.4 M 126.89 139.32 C 128.68 136.6 130.86 132.17 134.76 130.27 M 126.89 139.32 C 129.4 136.02 130.76 135.54 134.76 130.27 M 127.28 144.96 C 127.12 138.82 134.87 135.31 139.09 131.38 M 127.28 144.96 C 128.13 141 131.51 137.93 139.09 131.38 M 127.02 151.36 C 131.9 142.42 134.13 141.38 142.77 133.25 M 127.02 151.36 C 131.9 144.52 139.19 138.31 142.77 133.25 M 127.42 157.01 C 137.48 148.82 138.05 141.62 147.1 134.36 M 127.42 157.01 C 137.03 148.24 141.21 138.99 147.1 134.36 M 132.4 157.37 C 138.03 147.54 141.92 147.39 150.77 136.23 M 132.4 157.37 C 136.62 151.77 140 146.63 150.77 136.23 M 138.05 156.97 C 147.49 151.56 149.4 144.61 155.1 137.35 M 138.05 156.97 C 146.14 148.75 152.94 139.85 155.1 137.35 M 143.03 157.33 C 146.77 151.1 155.31 144.26 158.78 139.22 M 143.03 157.33 C 145.95 152.59 152.63 147.25 158.78 139.22 M 148.68 156.94 C 152.03 154.66 156.05 141.24 163.11 140.33 M 148.68 156.94 C 152.51 151.72 157.26 144.87 163.11 140.33 M 153.66 157.3 C 154.63 153.86 164.97 143.66 166.79 142.2 M 153.66 157.3 C 159.2 150.35 162.27 147.2 166.79 142.2 M 159.31 156.9 C 165.44 154.85 167.89 146.61 171.12 143.32 M 159.31 156.9 C 162.6 152.82 168.77 146.41 171.12 143.32 M 164.29 157.26 C 166.09 152.06 170.76 151.18 174.79 145.19 M 164.29 157.26 C 166.13 155.34 168.6 152.42 174.79 145.19 M 169.94 156.87 C 171.28 154.16 175.65 150.78 179.12 146.3 M 169.94 156.87 C 172.29 154.64 175.43 152.35 179.12 146.3 M 174.92 157.23 C 177.14 154.3 180.37 154.18 182.8 148.17 M 174.92 157.23 C 177.31 155.63 178.76 152.29 182.8 148.17 M 180.57 156.83 C 182.55 155.91 185.05 155.27 187.13 149.29 M 180.57 156.83 C 183.79 153.58 185.13 151.64 187.13 149.29 M 185.55 157.19 C 187.61 155.51 186.25 153.14 190.8 151.16 M 185.55 157.19 C 186.44 156.61 187.59 154.46 190.8 151.16 M 190.54 157.55 C 190.67 154.93 192.64 154.92 195.13 152.27 M 190.54 157.55 C 191.85 156.41 193.68 154.06 195.13 152.27 M 196.18 157.16 C 196.52 157.13 197.25 156.12 198.81 154.14 M 196.18 157.16 C 196.87 156.09 198.13 155.28 198.81 154.14 M 201.17 157.52 C 202.19 156.83 202.23 156.34 203.14 155.25 M 201.17 157.52 C 201.94 157.15 202.43 156.28 203.14 155.25 M 206.81 157.12 C 206.81 157.12 206.81 157.12 206.81 157.12 M 206.81 157.12 C 206.81 157.12 206.81 157.12 206.81 157.12" fill="none" stroke="#dae8fc" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,167,142)" pointer-events="all"/><path d="M 127 157 M 127 157 C 125.76 151.55 127.34 142.94 127 127 M 127 157 C 126.93 151.15 128.87 144.21 127 127 M 127 127 C 149.91 133.59 180.67 147.84 207 157 M 127 127 C 155.46 134.03 184.1 147.44 207 157 M 207 157 C 186.2 155.29 167.74 157.18 127 157 M 207 157 C 183.39 159.05 157 157.85 127 157" fill="none" stroke="#6c8ebf" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,167,142)" pointer-events="all"/><path d="M 207 157 L 207 127 L 287 157 Z" fill="none" stroke="none" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,247,142)" pointer-events="all"/><path d="M 207.09 126.89 C 207.09 126.89 207.09 126.89 207.09 126.89 M 207.09 126.89 C 207.09 126.89 207.09 126.89 207.09 126.89 M 206.83 133.29 C 208.9 131.51 209.2 129.22 210.77 128.76 M 206.83 133.29 C 207.99 131.15 210.26 130.21 210.77 128.76 M 207.23 138.93 C 208.01 137.89 212.26 135.61 215.1 129.88 M 207.23 138.93 C 208.91 135.4 211.83 133.21 215.1 129.88 M 206.97 145.33 C 210.82 139.92 211.63 140.46 218.77 131.75 M 206.97 145.33 C 211.03 139.13 216.51 133.71 218.77 131.75 M 206.7 151.73 C 216.04 144.77 221.34 137.6 223.11 132.86 M 206.7 151.73 C 211.9 146.28 213.91 143.54 223.11 132.86 M 207.1 157.37 C 210.14 148.82 218.59 149.43 226.78 134.73 M 207.1 157.37 C 213.7 150.08 219.18 142.35 226.78 134.73 M 212.74 156.98 C 219.62 146.61 227.74 142.21 231.11 135.85 M 212.74 156.98 C 218.91 147.58 227.36 141.12 231.11 135.85 M 217.73 157.34 C 226.79 146 232.82 145.53 234.79 137.71 M 217.73 157.34 C 224.38 150.62 230.12 144.55 234.79 137.71 M 223.37 156.94 C 227 153.36 230.34 143.09 239.12 138.83 M 223.37 156.94 C 229.44 151.21 233.33 143.4 239.12 138.83 M 228.36 157.3 C 233.9 150.9 237.23 144.2 242.79 140.7 M 228.36 157.3 C 233.46 151.5 240.92 147.08 242.79 140.7 M 234 156.91 C 239.22 149.65 240.53 143.12 247.12 141.81 M 234 156.91 C 237.83 151.84 244.95 146.98 247.12 141.81 M 238.99 157.27 C 243.61 154.11 243.61 149.03 250.8 143.68 M 238.99 157.27 C 242.44 151.69 246.11 145.56 250.8 143.68 M 244.63 156.87 C 249.48 149.5 254.9 148.65 255.13 144.8 M 244.63 156.87 C 247.79 152.79 252.84 149.29 255.13 144.8 M 249.62 157.23 C 251.05 154.97 257.52 151.22 258.8 146.67 M 249.62 157.23 C 252.29 155.28 255.71 151.86 258.8 146.67 M 255.26 156.84 C 257.06 155.91 256.97 150.85 263.13 147.78 M 255.26 156.84 C 258.66 155.17 259.67 152.25 263.13 147.78 M 260.25 157.2 C 263.99 152.83 263.17 152.93 266.81 149.65 M 260.25 157.2 C 262.36 154.63 264.58 152.62 266.81 149.65 M 265.24 157.56 C 266.46 156.27 268.69 152.36 271.14 150.77 M 265.24 157.56 C 267.23 154.69 270.32 151.65 271.14 150.77 M 270.88 157.16 C 273.08 157.03 272.65 154.82 274.82 152.64 M 270.88 157.16 C 271.79 156.75 272.9 154.55 274.82 152.64 M 275.87 157.52 C 277.8 155.46 278.32 155.36 279.15 153.75 M 275.87 157.52 C 276.94 155.9 277.93 155.36 279.15 153.75 M 281.51 157.13 C 281.4 156.83 281.74 156.77 282.82 155.62 M 281.51 157.13 C 282.03 156.51 282.15 156.09 282.82 155.62 M 286.5 157.49 C 286.67 157.35 286.87 156.97 287.15 156.74 M 286.5 157.49 C 286.71 157.29 286.82 157.14 287.15 156.74" fill="none" stroke="#dae8fc" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,247,142)" pointer-events="all"/><path d="M 207 157 M 207 157 C 210.75 149.54 203.38 136.22 207 127 M 207 157 C 206.98 149.39 208.31 139.31 207 127 M 207 127 C 224.69 128.32 241.69 135.77 287 157 M 207 127 C 229.15 134.06 254.07 144.59 287 157 M 287 157 C 264.68 158.21 249.29 152.02 207 157 M 287 157 C 268.26 155.85 252.7 154.27 207 157" fill="none" stroke="#6c8ebf" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,247,142)" pointer-events="all"/><path d="M 287 157 L 287 127 L 367 157 Z" fill="none" stroke="none" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,327,142)" pointer-events="all"/><path d="M 286.78 127.26 C 286.78 127.26 286.78 127.26 286.78 127.26 M 286.78 127.26 C 286.78 127.26 286.78 127.26 286.78 127.26 M 287.17 132.9 C 289.04 132.31 291.2 129.06 291.11 128.37 M 287.17 132.9 C 288.95 130.84 290.46 129.89 291.11 128.37 M 286.91 139.3 C 286.67 135.13 292.99 135 294.78 130.24 M 286.91 139.3 C 290.53 135.53 292.6 134.03 294.78 130.24 M 287.3 144.94 C 289.79 137.54 293.21 132.23 299.11 131.36 M 287.3 144.94 C 291.69 139.21 293.29 137.77 299.11 131.36 M 287.04 151.34 C 289.94 150.52 294.68 141.4 302.79 133.23 M 287.04 151.34 C 291.42 143.4 298.96 136.88 302.79 133.23 M 287.44 156.98 C 295.39 150.76 299.66 138.64 307.12 134.34 M 287.44 156.98 C 291.94 150.38 298.72 144.16 307.12 134.34 M 292.42 157.34 C 296.87 149.93 297.56 145.5 310.79 136.21 M 292.42 157.34 C 301.71 147.63 307.55 140.08 310.79 136.21 M 298.07 156.95 C 307.53 147.69 309.67 137.7 315.12 137.33 M 298.07 156.95 C 304.06 151.75 308.75 144.5 315.12 137.33 M 303.05 157.31 C 305.85 147.74 311.99 142.04 318.8 139.2 M 303.05 157.31 C 309.12 150.22 311.07 147.55 318.8 139.2 M 308.7 156.91 C 308.43 154.97 319.07 146.98 323.13 140.31 M 308.7 156.91 C 314.4 149.95 320.59 143.96 323.13 140.31 M 313.68 157.27 C 314.56 154.2 322.84 151.34 326.81 142.18 M 313.68 157.27 C 320.42 150.07 323.58 147.53 326.81 142.18 M 319.33 156.88 C 322.97 152.14 327.74 150.22 331.14 143.29 M 319.33 156.88 C 322.95 153.41 327.7 147.55 331.14 143.29 M 324.31 157.24 C 329.63 156.51 327.31 151.7 334.81 145.16 M 324.31 157.24 C 326.7 153.4 329.02 151.76 334.81 145.16 M 329.96 156.84 C 329.64 156.77 336.36 149.17 339.14 146.28 M 329.96 156.84 C 332.96 152.37 336.65 150.61 339.14 146.28 M 334.94 157.2 C 336.68 153.79 338.08 153.4 342.82 148.15 M 334.94 157.2 C 336.96 153.07 339.93 150.57 342.82 148.15 M 339.93 157.56 C 339.79 155.03 342.6 153.22 347.15 149.26 M 339.93 157.56 C 342.8 153.54 345.46 151.8 347.15 149.26 M 345.57 157.17 C 347.85 154.78 348.91 154.6 350.82 151.13 M 345.57 157.17 C 347.19 155.25 348.88 153.2 350.82 151.13 M 350.56 157.53 C 352.76 157.05 352.59 154.68 355.15 152.25 M 350.56 157.53 C 352.3 155.25 353.96 154.22 355.15 152.25 M 356.2 157.14 C 357.35 155.56 357.46 154.82 358.83 154.12 M 356.2 157.14 C 357.36 156.31 357.69 155.45 358.83 154.12 M 361.19 157.5 C 361.53 156.91 362.9 155.58 363.16 155.23 M 361.19 157.5 C 362.07 156.68 362.54 156.28 363.16 155.23 M 366.83 157.1 C 366.83 157.1 366.83 157.1 366.83 157.1 M 366.83 157.1 C 366.83 157.1 366.83 157.1 366.83 157.1" fill="none" stroke="#dae8fc" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,327,142)" pointer-events="all"/><path d="M 287 157 M 287 157 C 287.74 145.53 287.41 133.5 287 127 M 287 157 C 288.23 149.64 288.96 142.4 287 127 M 287 127 C 307.48 132.25 326.72 146.91 367 157 M 287 127 C 308.05 134.09 329.24 141.75 367 157 M 367 157 C 343.16 156.32 322.85 158.07 287 157 M 367 157 C 341.13 155.86 320.4 157.88 287 157" fill="none" stroke="#6c8ebf" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,142)scale(1,-1)translate(0,-142)rotate(180,327,142)" pointer-events="all"/><path d="M 367 157 L 367 77 L 487 157 Z" fill="none" stroke="none" transform="translate(0,117)scale(1,-1)translate(0,-117)rotate(180,427,117)" pointer-events="all"/><path d="M 367.29 76.67 C 367.29 76.67 367.29 76.67 367.29 76.67 M 367.29 76.67 C 367.29 76.67 367.29 76.67 367.29 76.67 M 367.03 83.07 C 368.41 82.6 369.59 81.32 370.31 79.29 M 367.03 83.07 C 367.56 82.36 368.21 81.7 370.31 79.29 M 366.76 89.46 C 370.56 85.34 372.51 85.02 373.98 81.16 M 366.76 89.46 C 368.53 88.25 370.27 84.99 373.98 81.16 M 367.16 95.11 C 367.49 89.53 374.82 91.95 377 83.79 M 367.16 95.11 C 370.03 91.49 373.21 88.79 377 83.79 M 366.9 101.51 C 373.57 99.89 374.77 87.87 380.67 85.66 M 366.9 101.51 C 373.02 94.86 374.7 89.6 380.67 85.66 M 367.29 107.15 C 367.69 103.7 375.89 97.9 383.69 88.28 M 367.29 107.15 C 372.66 101.12 378.77 95.29 383.69 88.28 M 367.03 113.55 C 370.95 107.13 379.84 98.43 387.37 90.15 M 367.03 113.55 C 372.95 104.66 381.85 95.92 387.37 90.15 M 366.77 119.94 C 373.18 109.77 380.22 103.53 390.39 92.77 M 366.77 119.94 C 372.14 113.57 377.4 106.83 390.39 92.77 M 367.16 125.59 C 378.26 113.5 383.34 105.4 394.06 94.64 M 367.16 125.59 C 373.17 115.71 383.08 106.23 394.06 94.64 M 366.9 131.99 C 378.15 121.81 385.45 109.52 397.08 97.27 M 366.9 131.99 C 377.92 120.76 388.79 107.78 397.08 97.27 M 367.3 137.63 C 374.68 129.44 380.41 122.66 400.76 99.14 M 367.3 137.63 C 374.57 129.65 385.28 118.93 400.76 99.14 M 367.04 144.03 C 375.05 129.77 388.69 117.96 403.77 101.76 M 367.04 144.03 C 375.28 136.78 380.11 127.26 403.77 101.76 M 366.77 150.42 C 383.27 131.54 393.19 118.2 407.45 103.63 M 366.77 150.42 C 383.65 131.8 397.63 114.92 407.45 103.63 M 367.17 156.07 C 376.39 140.44 390.21 133.69 410.47 106.26 M 367.17 156.07 C 379.82 144.94 390.67 130.18 410.47 106.26 M 369.53 159.45 C 375.58 149.36 391.12 137.25 414.14 108.13 M 369.53 159.45 C 385.74 143.61 398.54 124.13 414.14 108.13 M 375.17 159.05 C 388.05 140.92 403.64 128.97 417.16 110.75 M 375.17 159.05 C 384.06 151.22 393.1 139.3 417.16 110.75 M 380.16 159.41 C 393.89 146.67 408.91 124.79 420.84 112.62 M 380.16 159.41 C 392.87 147.03 403.32 135.7 420.84 112.62 M 385.8 159.02 C 396.88 141.11 412.27 127.59 423.86 115.24 M 385.8 159.02 C 395.75 149.84 403.3 138.78 423.86 115.24 M 390.79 159.38 C 398.35 150.16 408.95 133.58 427.53 117.11 M 390.79 159.38 C 396.38 148.9 407.45 138.76 427.53 117.11 M 396.43 158.98 C 408.74 147.24 424.62 126.15 430.55 119.74 M 396.43 158.98 C 402.37 148.99 409.72 143.74 430.55 119.74 M 401.42 159.34 C 407.86 147.23 423.86 137.15 434.22 121.61 M 401.42 159.34 C 410.02 151.44 416.87 138.54 434.22 121.61 M 407.06 158.95 C 418.54 149.87 432.01 136.57 437.24 124.23 M 407.06 158.95 C 416 151.97 422.32 142.3 437.24 124.23 M 412.05 159.31 C 423.89 147.85 428.72 141.84 440.92 126.1 M 412.05 159.31 C 416.97 150.57 423.82 141.74 440.92 126.1 M 417.04 159.67 C 428.27 148.66 431.83 140.64 443.94 128.72 M 417.04 159.67 C 424.37 151.12 432.29 138.6 443.94 128.72 M 422.68 159.27 C 431.27 146.57 441.12 134.68 447.61 130.59 M 422.68 159.27 C 427.82 153.15 434.81 142.19 447.61 130.59 M 427.67 159.63 C 438.25 152.16 440.8 139.04 450.63 133.22 M 427.67 159.63 C 434.52 151.07 442.18 141.72 450.63 133.22 M 433.31 159.24 C 438.69 157.09 444.08 149.49 454.31 135.09 M 433.31 159.24 C 440.15 152.49 444.61 147.57 454.31 135.09 M 438.3 159.6 C 443.61 152.67 445.7 151.16 457.32 137.71 M 438.3 159.6 C 446.83 150.05 453.99 142.88 457.32 137.71 M 443.94 159.2 C 451.81 151.22 456.8 144.45 461 139.58 M 443.94 159.2 C 446.92 151.46 452.2 145.57 461 139.58 M 448.93 159.56 C 452.62 156.99 457.06 150.35 464.02 142.21 M 448.93 159.56 C 452.95 154.33 457.57 150.01 464.02 142.21 M 454.57 159.17 C 459.51 153.35 459.66 147.35 467.69 144.08 M 454.57 159.17 C 458.19 155.25 460.72 152.19 467.69 144.08 M 459.56 159.53 C 460.56 156.95 467.29 148.72 470.71 146.7 M 459.56 159.53 C 464.44 154.23 468.91 151.13 470.71 146.7 M 465.2 159.14 C 470.61 156.9 473.54 149.85 474.39 148.57 M 465.2 159.14 C 466.93 156.69 469.93 152.33 474.39 148.57 M 470.19 159.5 C 473.11 158.41 474.13 155.22 477.41 151.19 M 470.19 159.5 C 471.23 157.12 474.11 154.13 477.41 151.19 M 475.83 159.1 C 477.91 157.25 478.34 156.95 481.08 153.06 M 475.83 159.1 C 477.35 158.25 478.59 156.73 481.08 153.06 M 480.82 159.46 C 482.31 158.91 483.16 155.86 484.76 154.93 M 480.82 159.46 C 482.39 157.82 483.72 157.02 484.76 154.93" fill="none" stroke="#ffe6cc" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,117)scale(1,-1)translate(0,-117)rotate(180,427,117)" pointer-events="all"/><path d="M 367 157 M 367 157 C 367.84 127.06 368.67 95.29 367 77 M 367 157 C 365.25 125.47 368.22 94.41 367 77 M 367 77 C 400.49 97.35 440.91 122.78 487 157 M 367 77 C 409.31 100.74 448.28 128.1 487 157 M 487 157 C 445.52 156.98 408.55 158.73 367 157 M 487 157 C 443.66 159.46 396.95 159.21 367 157" fill="none" stroke="#d79b00" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,117)scale(1,-1)translate(0,-117)rotate(180,427,117)" pointer-events="all"/><path d="M 487 157 L 487 77 L 607 157 Z" fill="none" stroke="none" transform="translate(0,117)scale(1,-1)translate(0,-117)rotate(180,547,117)" pointer-events="all"/><path d="M 486.81 77.22 C 486.81 77.22 486.81 77.22 486.81 77.22 M 486.81 77.22 C 486.81 77.22 486.81 77.22 486.81 77.22 M 487.21 82.86 C 488.57 81.25 489.29 79.18 490.49 79.09 M 487.21 82.86 C 488.26 82.09 488.28 81.42 490.49 79.09 M 486.94 89.26 C 489.54 86.91 493.04 84.41 493.5 81.71 M 486.94 89.26 C 488.17 87.96 491.04 85.57 493.5 81.71 M 486.68 95.66 C 492.7 87.94 496.45 85.32 497.18 83.58 M 486.68 95.66 C 490.52 92.22 490.46 89.67 497.18 83.58 M 487.08 101.3 C 487.61 97.44 488.6 99.06 500.2 86.21 M 487.08 101.3 C 489.41 99.59 493.68 93.93 500.2 86.21 M 486.82 107.7 C 492.02 98.68 495.96 96.25 503.87 88.08 M 486.82 107.7 C 490.35 102.03 498.06 97.37 503.87 88.08 M 487.21 113.34 C 492.31 106.48 497.37 101.6 506.89 90.7 M 487.21 113.34 C 496.01 104.44 502.05 94.91 506.89 90.7 M 486.95 119.74 C 492.78 111.58 503.92 103.82 510.57 92.57 M 486.95 119.74 C 490.61 115.12 498.61 107.44 510.57 92.57 M 486.69 126.14 C 493.12 122.38 496.22 116.35 513.59 95.19 M 486.69 126.14 C 491.78 119.95 498.74 112.78 513.59 95.19 M 487.08 131.78 C 491.47 127.44 504.98 115.13 517.26 97.06 M 487.08 131.78 C 498.93 118.83 508.92 103.82 517.26 97.06 M 486.82 138.18 C 497.26 126.88 516.53 108.21 520.28 99.69 M 486.82 138.18 C 495.96 127.96 502.82 119.45 520.28 99.69 M 487.21 143.82 C 500.11 138.09 502 122.98 523.95 101.56 M 487.21 143.82 C 495.78 134.9 501.66 125.88 523.95 101.56 M 486.95 150.22 C 493.05 136.64 504.83 131.49 526.97 104.18 M 486.95 150.22 C 498.74 137.3 509.6 126.99 526.97 104.18 M 486.69 156.62 C 498.84 139.34 518.07 121.28 530.65 106.05 M 486.69 156.62 C 501 142.96 513.44 129.2 530.65 106.05 M 489.71 159.24 C 497.19 150.94 507.8 137.92 533.67 108.67 M 489.71 159.24 C 509 137.27 522.76 120.55 533.67 108.67 M 494.7 159.6 C 506.29 148.32 518.01 135.88 537.34 110.54 M 494.7 159.6 C 508.46 145.11 521.26 130.16 537.34 110.54 M 500.34 159.21 C 514.88 144.87 525.53 133.65 540.36 113.17 M 500.34 159.21 C 511.82 150.52 518.84 137.73 540.36 113.17 M 505.33 159.57 C 515.4 140.48 531.8 127.5 544.04 115.04 M 505.33 159.57 C 519.97 146.58 530.96 133.16 544.04 115.04 M 510.97 159.17 C 526.89 148.46 536.74 135.62 547.71 116.91 M 510.97 159.17 C 523.99 144.47 539.32 128.61 547.71 116.91 M 515.96 159.53 C 526.26 152.37 535.59 135.9 550.73 119.53 M 515.96 159.53 C 522.4 149.73 532.47 141.11 550.73 119.53 M 521.6 159.14 C 527.54 150.96 541.25 137.11 554.4 121.4 M 521.6 159.14 C 532.25 150.21 539.28 138.83 554.4 121.4 M 526.59 159.5 C 533.72 146.41 544.83 134.42 557.42 124.03 M 526.59 159.5 C 534.98 145.66 548.21 136.08 557.42 124.03 M 532.23 159.1 C 543.93 144.69 555.2 133.2 561.1 125.89 M 532.23 159.1 C 544.46 145.81 555.72 134.38 561.1 125.89 M 537.22 159.46 C 547.97 152.48 548.49 143.85 564.12 128.52 M 537.22 159.46 C 542.74 153.59 549.92 148.03 564.12 128.52 M 542.86 159.07 C 555.25 147.65 559.18 134.66 567.79 130.39 M 542.86 159.07 C 553.11 150.07 561.62 138.66 567.79 130.39 M 547.85 159.43 C 553.01 154.58 560.53 142.77 570.81 133.01 M 547.85 159.43 C 554.53 151.44 562.82 139.87 570.81 133.01 M 553.49 159.03 C 555.38 157.35 558.9 152.34 574.49 134.88 M 553.49 159.03 C 558.74 152.18 565.99 143.35 574.49 134.88 M 558.48 159.39 C 563.99 148.64 569.21 147.3 577.5 137.51 M 558.48 159.39 C 562.9 154.01 569.29 150.18 577.5 137.51 M 564.12 159 C 567.32 150.93 571.91 152.41 581.18 139.38 M 564.12 159 C 571.27 151.72 576.09 145.87 581.18 139.38 M 569.11 159.36 C 569.81 156.86 574.07 154.05 584.2 142 M 569.11 159.36 C 575.19 150.83 582.37 144.54 584.2 142 M 574.75 158.96 C 574.59 158.9 580.87 152.1 587.87 143.87 M 574.75 158.96 C 579.59 156.89 581.29 154.07 587.87 143.87 M 579.74 159.32 C 585.51 155.46 584.81 153.56 590.89 146.49 M 579.74 159.32 C 583.55 154.66 585.37 153.24 590.89 146.49 M 585.38 158.93 C 590.61 153.36 593.36 153.02 594.57 148.36 M 585.38 158.93 C 589.2 156.77 591.54 152.11 594.57 148.36 M 590.37 159.29 C 591.33 156.16 594.77 152.56 597.59 150.99 M 590.37 159.29 C 592.83 156.79 594.65 154.92 597.59 150.99 M 595.36 159.65 C 596.07 157.34 600.41 154.4 601.26 152.86 M 595.36 159.65 C 596.45 156.82 599.36 155.97 601.26 152.86 M 601 159.26 C 601.56 157.38 603.71 155.93 604.28 155.48 M 601 159.26 C 602.67 158.22 603.88 156.75 604.28 155.48" fill="none" stroke="#ffe6cc" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,117)scale(1,-1)translate(0,-117)rotate(180,547,117)" pointer-events="all"/><path d="M 487 157 M 487 157 C 485.79 137.52 487.43 116.18 487 77 M 487 157 C 485.05 133.66 486.97 104.98 487 77 M 487 77 C 535.57 112.54 579.98 138.88 607 157 M 487 77 C 530.59 104.82 572.64 134.83 607 157 M 607 157 C 567.39 158.24 521.33 156.7 487 157 M 607 157 C 569.27 158.66 528.83 160.46 487 157" fill="none" stroke="#d79b00" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" transform="translate(0,117)scale(1,-1)translate(0,-117)rotate(180,547,117)" pointer-events="all"/></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>Собственно поиск решения, должен свестись к тому, чтобы уменьшить эту ошибку на всём поддерживаемом интервале. А это от 0 мкс до \( 255\times 262\times 2 \) мс.</p>
+<p>Я разбил весь интервал на несколько, каждый из которых имеет своё разрешение. В итоге получилась следующая программа:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">float</span> p1 <span style="color:#f92672">=</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">064f</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">float</span> p2 <span style="color:#f92672">=</span> 4<span style="color:#f92672">.</span><span style="color:#a6e22e">1f</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">float</span> p3 <span style="color:#f92672">=</span> 262<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">float</span> max <span style="color:#f92672">=</span> p3 <span style="color:#f92672">*</span> 255 <span style="color:#f92672">*</span> 2<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">float</span> totalError <span style="color:#f92672">=</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">float</span> i <span style="color:#f92672">=</span> p1<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;=</span> max<span style="color:#f92672">;</span> i <span style="color:#f92672">+=</span> p1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+	<span style="color:#66d9ef">float</span> t1Resolution <span style="color:#f92672">=</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span><span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">float</span> t2Resolution <span style="color:#f92672">=</span> 0<span style="color:#f92672">.</span><span style="color:#a6e22e">0f</span><span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">int</span> t1Ticks <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">int</span> t2Ticks <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p1 <span style="color:#f92672">&lt;</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">continue</span><span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> 255 <span style="color:#f92672">*</span> p1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		t1Resolution <span style="color:#f92672">=</span> p1<span style="color:#f92672">;</span>
+		t1Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p1<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> 255 <span style="color:#f92672">*</span> p1 <span style="color:#f92672">*</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		t1Resolution <span style="color:#f92672">=</span> p1<span style="color:#f92672">;</span>
+		t2Resolution <span style="color:#f92672">=</span> p1<span style="color:#f92672">;</span>
+		t1Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p1 <span style="color:#f92672">/</span> 2<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> <span style="color:#f92672">(</span>255 <span style="color:#f92672">*</span> p2 <span style="color:#f92672">+</span> 255 <span style="color:#f92672">*</span> p1<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+		t1Resolution <span style="color:#f92672">=</span> p2<span style="color:#f92672">;</span>
+		t2Resolution <span style="color:#f92672">=</span> p1<span style="color:#f92672">;</span>
+		t1Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p2<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> 255 <span style="color:#f92672">*</span> p2 <span style="color:#f92672">*</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		t1Resolution <span style="color:#f92672">=</span> p2<span style="color:#f92672">;</span>
+		t2Resolution <span style="color:#f92672">=</span> p2<span style="color:#f92672">;</span>
+		t1Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p2 <span style="color:#f92672">/</span> 2<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> <span style="color:#f92672">(</span>255 <span style="color:#f92672">*</span> p3 <span style="color:#f92672">+</span> 255 <span style="color:#f92672">*</span> p1<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+		t1Resolution <span style="color:#f92672">=</span> p3<span style="color:#f92672">;</span>
+		t2Resolution <span style="color:#f92672">=</span> p1<span style="color:#f92672">;</span>
+		t1Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p3<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&lt;=</span> <span style="color:#f92672">(</span>255 <span style="color:#f92672">*</span> p3 <span style="color:#f92672">+</span> 255 <span style="color:#f92672">*</span> p2<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+		t1Resolution <span style="color:#f92672">=</span> p3<span style="color:#f92672">;</span>
+		t2Resolution <span style="color:#f92672">=</span> p2<span style="color:#f92672">;</span>
+		t1Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p3<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+		t1Resolution <span style="color:#f92672">=</span> p3<span style="color:#f92672">;</span>
+		t2Resolution <span style="color:#f92672">=</span> p3<span style="color:#f92672">;</span>
+		t1Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">/</span> p3 <span style="color:#f92672">/</span> 2<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>t2Resolution <span style="color:#f92672">!=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		t2Ticks <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">((</span>i <span style="color:#f92672">-</span> t1Resolution <span style="color:#f92672">*</span> t1Ticks<span style="color:#f92672">)</span> <span style="color:#f92672">/</span> t2Resolution<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">float</span> actual <span style="color:#f92672">=</span> t1Resolution <span style="color:#f92672">*</span> t1Ticks <span style="color:#f92672">+</span> t2Resolution <span style="color:#f92672">*</span> t2Ticks<span style="color:#f92672">;</span>
+
+	totalError <span style="color:#f92672">+=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">abs</span><span style="color:#f92672">(</span>i <span style="color:#f92672">-</span> actual<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Правда, в результате ошибка распределена не так, как я ожидал:</p>
+<p><img src="/img/timer-sx127x/2.png" alt=""></p>
+<p>Видно, что начиная с момента \(262\times 255 + 4.1\times 255 \) мс, интервал нельзя достаточно точно представить.</p>
+<p>Работа по добавлению поддержки FSK далека от завершения. Необходимо разобраться с совсем уж мистическими ошибками и протестировать всевозможные варианты работы. На каждом этапе появляются вот такие вот небольшие задачки, которые заставляют подумать над проблемами под совершенно разными углами.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/java/'>Java</a>, <a class='tag' href='/tags/sx127x/'>sx127x</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/ble-server-java/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>BLE сервер на Java</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script type='text/x-mathjax-config'>
+  MathJax.Hub.Config({})
+</script>
+
+<script type='text/javascript' async src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+</body>
+
+</html>
+
