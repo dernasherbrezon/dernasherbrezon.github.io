@@ -7,10 +7,90 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Tue, 04 Apr 2023 19:12:18 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Apr 2023 22:28:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>180-й меридиан</title>
+      <link>https://dernasherbrezon.com/posts/anti-meridian/</link>
+      <pubDate>Fri, 14 Apr 2023 22:28:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/anti-meridian/</guid>
+      <description>georef-lrpt Меня всегда поражало, насколько довольно простые с виду вещи, в реальности могут оказаться достаточно запустанными.
+В далёком 2020 году я описывал процесс наложения данных, полученных со спутника Метеор-М2 на интерактивную карту. Эта задача достаточно сложная и запутанная, поэтому я решил оформить весь алгоритм в виде небольшой консольной утилиты - georef-lrpt. Она создаёт .png изображение и .vrt файл на основе бинарных данных полученных со спутника.
+Запускается программа следующим образом:
+java -jar georef-lrpt.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>180-й меридиан</h1></header>
+      		<div class='container entry-content'>
+  <h2 id="georef-lrpt">georef-lrpt</h2>
+<p>Меня всегда поражало, насколько довольно простые с виду вещи, в реальности могут оказаться достаточно запустанными.</p>
+<p>В далёком 2020 году я описывал <a href="https://dernasherbrezon.com/tags/georeferencing/">процесс наложения</a> данных, полученных со спутника Метеор-М2 на интерактивную карту. Эта задача достаточно сложная и запутанная, поэтому я решил оформить весь алгоритм в виде небольшой консольной утилиты - <a href="https://github.com/dernasherbrezon/georef-lrpt">georef-lrpt</a>. Она создаёт .png изображение и .vrt файл на основе бинарных данных полученных со спутника.</p>
+<p>Запускается программа следующим образом:</p>
+<pre><code>java -jar georef-lrpt.jar --output-dir . --tle-file src/test/resources/2022-12-20.txt --vcdu-files &quot;src/test/resources/*.vcdu&quot;
+</code></pre><p>На вход подаётся TLE и список бинарных файлов <code>.vcdu</code>. Внутри бинарных файлов должны быть VCDU-фреймы в том порядке, в котором были получены со спутника. На выходе получится два файла: <code>2022_12_20_20_25_30.png</code> и <code>2022_12_20_20_25_30.vrt</code>.</p>
+<p>Второй файл - это специальный файл для <a href="https://gdal.org">GDAL</a> в <a href="https://gdal.org/drivers/raster/vrt.html">формате .vrt</a> в котором хранится геопривязка пикселей. Этот файл можно использовать для того, чтобы создать GeoTIFF:</p>
+<pre><code>gdalwarp -tps -overwrite -of GTIFF 2022_12_20_20_25_30.vrt 2022_12_20_20_25_30.tiff
+</code></pre><p>Который потом можно наложить на карту:</p>
+<p><img src="/img/anti-meridian/geotiff-output.png" alt=""></p>
+<p>Выглядит идеально, но я решил скачать ещё данных, чтобы потестировать на граничных значениях и обнаружил интересное:</p>
+<p><img src="/img/anti-meridian/3.png" alt=""></p>
+<p>А что это такое в центре Атлантического океана? А это - несколько дней дебага!</p>
+<h2 id="180-ый-меридиан">180-ый меридиан</h2>
+<p>Если приглядется, то можно увидеть, что небольшой кусочек изображения отображается слева. Видимо он перенёсся с другой стороны из-за того, что Земля круглая. А вот с артефактом посередине немного сложнее. Если выключить слой прозрачности, то будет лучше видно:</p>
+<p><img src="/img/anti-meridian/4.png" alt=""></p>
+<p>Добро пожаловать в проблему 180-го меридиана или, как её называют во всём остальном мире - <a href="https://gis.stackexchange.com/questions/tagged/antimeridian">antimeridian issue</a>.</p>
+<p>Некоторые изображения могут начинаться от 170 меридиана и заканчиваться в -170. А некоторые начинаться в -170 и заканчиваться в 170-ом. Видимо GDAL не знает какой случай где и отображает и так, и эдак. Я попробовал искать опцию &ldquo;wrapOn180=true&rdquo;, которая бы говорила, что разрез приходится на 180-ый меридиан, но почему-то не нашёл ничего похожего в документации. На форумах советуют разрезать изображение на две части вручную.</p>
+<h2 id="алгоритм">Алгоритм</h2>
+<p>Итак, первым делом нужно определить границы изображения. Это делается достаточно легко:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>y <span style="color:#f92672">&gt;</span> top<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	top <span style="color:#f92672">=</span> y<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>y <span style="color:#f92672">&lt;</span> bottom<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	bottom <span style="color:#f92672">=</span> y<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>wrapDetected <span style="color:#f92672">&amp;&amp;</span> previousX <span style="color:#f92672">!=</span> UNDEFINED<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">&lt;</span> 0 <span style="color:#f92672">&amp;&amp;</span> previousX <span style="color:#f92672">&gt;</span> 170<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#75715e">// going north
+</span><span style="color:#75715e"></span>		wrapDetected <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+		right <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>180<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span><span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">&gt;</span> 170<span style="color:#f92672">.</span><span style="color:#a6e22e">0</span> <span style="color:#f92672">&amp;&amp;</span> previousX <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		wrapDetected <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+		left <span style="color:#f92672">=</span> 180<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>wrapDetected<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">&lt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		right <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> right<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		left <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> left<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+	left <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> left<span style="color:#f92672">);</span>
+	right <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> right<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+previousX <span style="color:#f92672">=</span> x<span style="color:#f92672">;</span>
+</code></pre></div><p>Где x и y - это longitude и latitude текущей GCP точки.</p>
+<p>Далее нужно каким-то образом передать полученные координаты в .vrt, чтобы внешние скрипты смогли понять нужно ли делать два изображения или достаточно сделать одно. Если <code>left &gt; right </code>,  то произошёл перенос и нужно делать два.</p>
+<p>И тут меня постигла очередная неудача. Я не смог найти ни одного способа, чтобы задать такие параметры в .vrt. Можно было попробовать добавить мета-поля, но gdalwarp их будет игнорировать. Поэтому я придумал ничего лучше, чем подставить эти значения в название файла. Поэтому вместо <code>2022_12_20_18_44_50.vrt</code> у меня создаётся файл <code>2022_12_20_18_44_50_142_-55_-173_-11.vrt</code>. Внешние скрипты должны распарсить это имя и получить настоящие границы изображения. После этого создать два GeoTIFF файла следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gdalwarp -tps -overwrite -te <span style="color:#ae81ff">142</span> -55 <span style="color:#ae81ff">180</span> -11 -of GTiff 2022_12_20_18_44_50_142_-55_-173_-11.vrt 2022_12_20_18_44_50-left.tiff
+gdalwarp -tps -overwrite -te -180 -55 -173 -11 -of GTiff 2022_12_20_18_44_50_142_-55_-173_-11.vrt 2022_12_20_18_44_50-right.tiff
+</code></pre></div><p>Если добавить левое и правое изображение на карту, то можно получить нужный результат:</p>
+<p><img src="/img/anti-meridian/5.png" alt=""></p>
+<p>А если показать в проекции EPSG:3832 ( PDC Mercator ) и отключить слой прозрачности, то можно увидеть как изображения склеиваются:</p>
+<p><img src="/img/anti-meridian/6.png" alt=""></p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Таймер в sx127x</title>

@@ -5,7 +5,34 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 04 Apr 2023 19:12:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 Apr 2023 22:28:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>gdal</title>
+      <link>https://dernasherbrezon.com/tags/gdal/</link>
+      <pubDate>Fri, 14 Apr 2023 22:28:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/gdal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>geotiff</title>
+      <link>https://dernasherbrezon.com/tags/geotiff/</link>
+      <pubDate>Fri, 14 Apr 2023 22:28:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/geotiff/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ДЗЗ</title>
+      <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</link>
+      <pubDate>Fri, 14 Apr 2023 22:28:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Java</title>
       <link>https://dernasherbrezon.com/tags/java/</link>
@@ -430,24 +457,6 @@
     </item>
     
     <item>
-      <title>gdal</title>
-      <link>https://dernasherbrezon.com/tags/gdal/</link>
-      <pubDate>Thu, 07 May 2020 22:21:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/gdal/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>geotiff</title>
-      <link>https://dernasherbrezon.com/tags/geotiff/</link>
-      <pubDate>Thu, 07 May 2020 22:21:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/geotiff/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>georeferencing</title>
       <link>https://dernasherbrezon.com/tags/georeferencing/</link>
       <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
@@ -462,15 +471,6 @@
       <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/meteor-m/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ДЗЗ</title>
-      <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</link>
-      <pubDate>Mon, 20 Apr 2020 20:52:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</guid>
       <description></description>
     </item>
     

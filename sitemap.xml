@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2023-04-04T19:12:18+00:00</lastmod>
+    <lastmod>2023-04-14T22:28:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
@@ -11,16 +11,28 @@
     <loc>https://dernasherbrezon.com/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</loc>
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
+    <loc>https://dernasherbrezon.com/posts/anti-meridian/</loc>
+    <lastmod>2023-04-14T22:28:18+00:00</lastmod>
+  </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2023-04-04T19:12:18+00:00</lastmod>
+    <lastmod>2023-04-14T22:28:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/gdal/</loc>
+    <lastmod>2023-04-14T22:28:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/geotiff/</loc>
+    <lastmod>2023-04-14T22:28:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2023-04-14T22:28:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</loc>
+    <lastmod>2023-04-14T22:28:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/java/</loc>
     <lastmod>2023-04-04T19:12:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/sx127x/</loc>
-    <lastmod>2023-04-04T19:12:18+00:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
     <lastmod>2023-04-04T19:12:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/timer-sx127x/</loc>
@@ -329,12 +341,6 @@
     <loc>https://dernasherbrezon.com/posts/decoding-fox1d/</loc>
     <lastmod>2020-05-14T21:21:18+01:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/gdal/</loc>
-    <lastmod>2020-05-07T22:21:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/geotiff/</loc>
-    <lastmod>2020-05-07T22:21:18+01:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/posts/gdal2tiles-transparency/</loc>
     <lastmod>2020-05-07T22:21:18+01:00</lastmod>
   </url><url>
@@ -348,9 +354,6 @@
     <lastmod>2020-04-20T20:52:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/georeferencing-tiles/</loc>
-    <lastmod>2020-04-20T20:52:18+01:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/%D0%B4%D0%B7%D0%B7/</loc>
     <lastmod>2020-04-20T20:52:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/georeferencing-geotiff/</loc>
