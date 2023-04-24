@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Я продолжаю разрабатывать библиотеку для работы с чипом sx127x и в этом посте речь пойдёт о тестировании. Но для начала небольшая предыстория. Изначально библиотека поддерживала только LoRa модуляцию и была достаточно небольшой. По сути это была небольшая обёртка над регистрами sx127x, которая позволяла из Си вызывать нужные функции. Основная ценность скорее была в том, чтобы перевести магические числа и SPI протокол в понятные слова из даташита. После того, как я решил добавить поддержку FSK модуляции, библиотека разрослась.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Тестирование sx127x • dernasherbrezon'>
+<meta property='og:description' content='Я продолжаю разрабатывать библиотеку для работы с чипом sx127x и в этом посте речь пойдёт о тестировании. Но для начала небольшая предыстория. Изначально библиотека поддерживала только LoRa модуляцию и была достаточно небольшой. По сути это была небольшая обёртка над регистрами sx127x, которая позволяла из Си вызывать нужные функции. Основная ценность скорее была в том, чтобы перевести магические числа и SPI протокол в понятные слова из даташита. После того, как я решил добавить поддержку FSK модуляции, библиотека разрослась.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/testing-sx127x/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='sx127x'><meta property='article:tag' content='esp32'><meta property='article:tag' content='embedded'><meta property='article:tag' content='c'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2023-04-23T18:15:18&#43;01:00'/><meta property='article:modified_time' content='2023-04-23T18:15:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Тестирование sx127x • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/testing-sx127x/'>
+  
+    <link href="https://dernasherbrezon.com/posts/testing-sx127x/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0208333333333333em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0625em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0625em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0208333333333333em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1041666666666667em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0208333333333333em'>bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0208333333333333em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.3958333333333333em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0833333333333333em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.1041666666666667em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.125em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.125em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0625em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0416666666666667em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0625em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0625em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0625em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0208333333333333em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0833333333333333em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0416666666666667em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1041666666666667em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0625em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0416666666666667em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0416666666666667em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.125em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0416666666666667em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0208333333333333em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1041666666666667em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0208333333333333em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0833333333333333em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1041666666666667em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0416666666666667em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0208333333333333em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0416666666666667em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0208333333333333em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0208333333333333em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0208333333333333em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0833333333333333em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0625em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0416666666666667em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2291666666666667em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.375em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0208333333333333em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0208333333333333em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0208333333333333em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2291666666666667em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0416666666666667em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0416666666666667em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0625em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0208333333333333em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.0625em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0416666666666667em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0416666666666667em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0208333333333333em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0208333333333333em'>String</a>
+      </li><li>
+        <a href='/tags/sx127x/' style='font-size:1.0625em'>sx127x</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0416666666666667em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0208333333333333em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0833333333333333em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0416666666666667em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0416666666666667em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.25em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0833333333333333em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0625em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0416666666666667em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0416666666666667em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0208333333333333em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0625em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3125em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0625em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.375em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.1875em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0416666666666667em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Тестирование sx127x</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2023-04-23T18:15:18&#43;01:00'>23 Apr 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Я продолжаю разрабатывать библиотеку для работы с чипом <a href="https://github.com/dernasherbrezon/sx127x">sx127x</a> и в этом посте речь пойдёт о тестировании. Но для начала небольшая предыстория. Изначально библиотека поддерживала только LoRa модуляцию и была достаточно небольшой. По сути это была небольшая обёртка над регистрами sx127x, которая позволяла из Си вызывать нужные функции. Основная ценность скорее была в том, чтобы перевести магические числа и SPI протокол в понятные слова из даташита. После того, как я решил добавить поддержку FSK модуляции, библиотека разрослась. Нужно было поддержить потоковую обработку входящих сообщений, реагировать на гораздо большее количество прерываний и при этом не сломать старый функционал. В этот момент стало понятно, что нужны тесты.</p>
+<h2 id="юнит-тесты">Юнит тесты</h2>
+<p>Из-за того, что библиотека не зависит от конкретных плат и операционных систем, писать юнит тесты оказалось просто. Достаточно сделать mock-реализацию SPI интерфейса и возвращать ожидаемые данные. Например, регистры sx127x можно эмулировать следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">spi_mock_registers</span>(uint8_t <span style="color:#f92672">*</span>expected, <span style="color:#66d9ef">int</span> code) {
+  sx127x_mock_registers <span style="color:#f92672">=</span> expected;
+  sx127x_mock_expected_code <span style="color:#f92672">=</span> code;
+}
+</code></pre></div><p>А в реализации использовать их вот так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sx127x_spi.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sx127x_spi_read_registers</span>(<span style="color:#66d9ef">int</span> reg, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>spi_device, size_t data_length, uint32_t <span style="color:#f92672">*</span>result) {
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> data_length; i<span style="color:#f92672">++</span>) {
+    <span style="color:#f92672">*</span>result <span style="color:#f92672">=</span> ((<span style="color:#f92672">*</span>result) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>);
+    <span style="color:#f92672">*</span>result <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>result) <span style="color:#f92672">+</span> sx127x_mock_registers[reg <span style="color:#f92672">+</span> i];
+  }
+}
+</code></pre></div><p>Единственное, что нужно учитывать - это специальный регистр 0x00 (FIFO), чтение и запись в который должна работать по-другому. Полную реализацию <a href="https://github.com/dernasherbrezon/sx127x/blob/main/test/sx127x_mock_spi.c">mock SPI</a> можно посмотреть в репозитории.</p>
+<p>Для юнит тестов я использовал библиотеку <a href="https://libcheck.github.io/check/">libcheck</a>, потому что другие мои проекты <a href="https://github.com/dernasherbrezon/sdr-server">sdr-server</a> и <a href="https://github.com/dernasherbrezon/sdr-modem">sdr-modem</a> тоже её используют. Как и любая другая библиотека эта позволяет инициализировать состояние перед каждым тестом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup</span>() {
+  registers <span style="color:#f92672">=</span> (uint8_t <span style="color:#f92672">*</span>)malloc(registers_length <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(uint8_t));
+  memset(registers, <span style="color:#ae81ff">0</span>, registers_length);
+  registers[<span style="color:#ae81ff">0x42</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x12</span>;
+  spi_mock_registers(registers, SX127X_OK);
+  ck_assert_int_eq(SX127X_OK, sx127x_create(NULL, <span style="color:#f92672">&amp;</span>device));
+  spi_mock_write(SX127X_OK);
+}
+</code></pre></div><p>Вызывает тест. Например, тест обработчика CAD прерывания выглядит так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">START_TEST(test_lora_cad) {
+  ck_assert_int_eq(SX127X_OK, sx127x_set_opmod(SX127x_MODE_CAD, SX127x_MODULATION_LORA, device));
+  ck_assert_int_eq(registers[<span style="color:#ae81ff">0x40</span>], <span style="color:#ae81ff">0</span>b10000000);
+  sx127x_lora_cad_set_callback(cad_callback, device);
+  registers[<span style="color:#ae81ff">0x12</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>b00000101;  <span style="color:#75715e">// cad detected
+</span><span style="color:#75715e"></span>  sx127x_handle_interrupt(device);
+  ck_assert_int_eq(<span style="color:#ae81ff">1</span>, cad_status);
+
+  registers[<span style="color:#ae81ff">0x12</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>b00000100;  <span style="color:#75715e">// cad not detected
+</span><span style="color:#75715e"></span>  sx127x_handle_interrupt(device);
+  ck_assert_int_eq(<span style="color:#ae81ff">0</span>, cad_status);
+}
+END_TEST
+</code></pre></div><p>И очищать состояние после каждого теста с помощью фукнции <code>teardown()</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">teardown</span>() {
+  <span style="color:#66d9ef">if</span> (device <span style="color:#f92672">!=</span> NULL) {
+    sx127x_destroy(device);
+    device <span style="color:#f92672">=</span> NULL;
+  }
+  <span style="color:#66d9ef">if</span> (registers <span style="color:#f92672">!=</span> NULL) {
+    free(registers);
+    registers <span style="color:#f92672">=</span> NULL;
+  }
+}
+</code></pre></div><p>В итоге мне удалось написать порядочное количество тестов и добиться <a href="https://sonarcloud.io/component_measures?id=dernasherbrezon_sx127x&amp;metric=coverage&amp;view=list">74.7% покрытия тестами</a>.</p>
+<p><img src="/img/testing-sx127x/1.png" alt=""></p>
+<p>Вообще, несмотря на кажущуюся простоту решения, мне удалось найти несколько довольно досадных ошибок! В основном связанных с тем, что я где-то неправильно сдвигал биты или выставлял не те регистры. Так что время потраченное на написание юнит тестов и их настройку полностью себя оправдало.</p>
+<h2 id="интеграционные-тесты">Интеграционные тесты</h2>
+<p>Юнит тесты всем хороши. Но как понять, что выставленные биты в правильном регистре действительно позволяют отправлять и получать сообщения? На помощь приходят интеграционные тесты. Если бы меня спросили: &ldquo;А как написать интеграционные тесты для Java проекта?&rdquo;, то я бы без запинки ответил, что-нибудь про докер, среду тестирования или <a href="https://dernasherbrezon.com/posts/mock-server/">mock HTTP сервер</a>. Когда же встал вопрос о том, как протестировать железо, то мне потребовалось несколько недель, чтобы разобраться с проблемой.</p>
+<p>Так как у меня есть платы TTGO, то я решил взять ESP-IDF в котором есть поддержка <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/unit-tests.html">юнит</a> и <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/contribute/esp-idf-tests-with-pytest.html">интеграционных</a> тестов. Они скорее ориентированы на тестирования фреймворка, но для сторонних приложений тоже подходят.</p>
+<p>Все мои интеграционные тесты должны быть построены примерно по одному шаблону:</p>
+<ol>
+<li>Первое устройство должно начать слушать эфир</li>
+<li>Второе устройство должно послать сообщение</li>
+<li>Первое устройство должно успешно получить сообщение</li>
+<li>Тест должен проверить, что сообщение получено и оно верное</li>
+</ol>
+<p>ESP-IDF фреймворк предлагает реализовывать такие тесты следующим образом:</p>
+<ol>
+<li>Создать отдельное приложение на Си с тестовыми сценариями</li>
+<li>Использовать <a href="https://docs.pytest.org/en/7.3.x/">pytest</a> + <a href="https://docs.espressif.com/projects/pytest-embedded/en/latest/">pytest-embedded</a> для того, чтобы запускать сценарии в нужной последовательности</li>
+</ol>
+<h3 id="тестовые-сценарии">Тестовые сценарии</h3>
+<p>Тестовые сценарии должны лежать в обычном приложении для ESP32. Оно должно иметь точку входа <code>app_main()</code>, конфигурацию CMake, зависимости и пр. Основной его задачей будет запуск меню библиотеки unity:</p>
+<p><img src="/img/testing-sx127x/2.png" alt=""></p>
+<p><a href="https://github.com/ThrowTheSwitch/Unity">unity</a> - это ещё одна библиотека юнит тестов для Си. Она позволяет запускать их в интерактивном режиме. Если подключиться к устройству по serial интерфейсу, то можно напечатать название теста, нажать &ldquo;Enter&rdquo; и библиотека запустит этот тест. Основная функция выглядит достаточно просто:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unity_test_runner.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;test_lora.c&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">app_main</span>(<span style="color:#66d9ef">void</span>) {
+  unity_run_menu();
+}
+</code></pre></div><p>Я решил вынести тесты в отдельные файлы для удобства. На самом деле ничего не мешает их реализовывать сразу в <code>main.c</code>. Так как <code>unity_run_menu</code> ожидает ввод в бесконечном цикле, то необходимо выключить <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/wdts.html">TWDT</a>. Это специальная мера предосторожности, которая перезапускает приложение, если какой-то таск уходит в бесконечный цикл. Выключается в файле <code>sdkconfig.defaults</code>:</p>
+<pre><code>CONFIG_ESP_TASK_WDT=n
+</code></pre><p>Тесты для отправки сообщения и проверки выглядят следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">TEST_CASE(<span style="color:#e6db74">&#34;sx127x_test_lora_rx_explicit_header&#34;</span>, <span style="color:#e6db74">&#34;[lora]&#34;</span>) {
+  sx127x_rx_set_callback(rx_callback, fixture<span style="color:#f92672">-&gt;</span>device);
+  sx127x_set_opmod(SX127x_MODE_RX_CONT, SX127x_MODULATION_LORA, fixture<span style="color:#f92672">-&gt;</span>device);
+  xSemaphoreTake(fixture<span style="color:#f92672">-&gt;</span>rx_done, portMAX_DELAY);
+  uint8_t expected[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0xCA</span>, <span style="color:#ae81ff">0xFE</span>};
+  TEST_ASSERT_EQUAL_UINT16(<span style="color:#66d9ef">sizeof</span>(expected), fixture<span style="color:#f92672">-&gt;</span>rx_data_length);
+  TEST_ASSERT_EQUAL_UINT8_ARRAY(expected, fixture<span style="color:#f92672">-&gt;</span>rx_data, <span style="color:#66d9ef">sizeof</span>(expected));
+}
+
+TEST_CASE(<span style="color:#e6db74">&#34;sx127x_test_lora_tx_explicit_header&#34;</span>, <span style="color:#e6db74">&#34;[lora]&#34;</span>) {
+  <span style="color:#75715e">// some initialization
+</span><span style="color:#75715e"></span>  sx127x_lora_tx_set_for_transmission(data, <span style="color:#66d9ef">sizeof</span>(data), fixture<span style="color:#f92672">-&gt;</span>device);
+  sx127x_set_opmod(SX127x_MODE_TX, SX127x_MODULATION_LORA, fixture<span style="color:#f92672">-&gt;</span>device);
+  ESP_LOGI(<span style="color:#e6db74">&#34;sx127x_test&#34;</span>, <span style="color:#e6db74">&#34;done. waiting for message&#34;</span>);
+  xSemaphoreTake(fixture<span style="color:#f92672">-&gt;</span>tx_done, portMAX_DELAY);
+}
+</code></pre></div><p>Это скорее даже не тесты, а небольшие куски кода, которые нужно запускать на разных устройствах в определённой последовательности. После компиляции прошивку с одинаковыми тестами нужно загрузить на два разных устройства. На первом устройстве запустить тест <code>sx127x_test_lora_rx_explicit_header</code>, а на втором <code>sx127x_test_lora_tx_explicit_header</code>. Как только сообщение отправится, <code>tx</code> тест сразу же завершится. А <code>rx</code> дождётся получения сообщения и проверит результат. Выглядит достаточно просто, хотя у меня заняло несколько дней в этом разобраться. Меня в первую очередь смутила официальная документация, которая говорит, что нужно использовать макрос <code>TEST_CASE_MULTIPLE_DEVICES</code>. Хотя на самом деле этого ничего не нужно, потому что устройства между собой никак не синхронизированы. И синхронизацию нужно по-любому делать через serial интерфейс вручную. Или с помощью python скрипта.</p>
+<h3 id="pytest">pytest</h3>
+<p>Алгоритм для запуска таких интеграционных тестов может быть автоматизирован с помощью скрипта на python. В моём случае это выглядит как то так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@pytest.mark.supported_targets</span>
+<span style="color:#a6e22e">@pytest.mark.generic</span>
+<span style="color:#a6e22e">@pytest.mark.parametrize</span>(<span style="color:#e6db74">&#39;count&#39;</span>, [
+    <span style="color:#ae81ff">2</span>,
+], indirect<span style="color:#f92672">=</span>True)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_single</span>(dut: Tuple[Dut, Dut]) <span style="color:#f92672">-&gt;</span> None:
+    dut_rx <span style="color:#f92672">=</span> dut[<span style="color:#ae81ff">0</span>]
+    dut_tx <span style="color:#f92672">=</span> dut[<span style="color:#ae81ff">1</span>]
+
+    dut_rx<span style="color:#f92672">.</span>expect(<span style="color:#e6db74">&#39;Press ENTER to see the list of tests&#39;</span>)
+    dut_rx<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;&#34;sx127x_test_lora_rx_explicit_header&#34;&#39;</span>)
+
+    dut_tx<span style="color:#f92672">.</span>expect(<span style="color:#e6db74">&#39;Press ENTER to see the list of tests&#39;</span>)
+    dut_tx<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;&#34;sx127x_test_lora_tx_explicit_header&#34;&#39;</span>)
+    dut_tx<span style="color:#f92672">.</span>expect_unity_test_output()
+
+    dut_rx<span style="color:#f92672">.</span>expect_unity_test_output()
+</code></pre></div><p>Запускается этот скрипт с помощью команды pytest:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pytest --target esp32 --port<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/dev/ttyACM0|/dev/ttyUSB0&#34;</span>
+</code></pre></div><p>Эта команда выполнит следующие шаги:</p>
+<ol>
+<li>Загрузит прошивку на два устройства <code>/dev/ttyACM0</code> и <code>/dev/ttyUSB0</code></li>
+<li>Запустит скрипт</li>
+<li>Скрипт подключится по serial интерфейсу к обоим устройствам</li>
+<li>Запустит тест <code>sx127x_test_lora_rx_explicit_header</code></li>
+<li>Потом тест <code>sx127x_test_lora_tx_explicit_header</code></li>
+<li>Дождётся выполнения тестов на обоих устройствах</li>
+</ol>
+<p><img src="/img/testing-sx127x/3.png" alt=""></p>
+<h2 id="послесловие">Послесловие</h2>
+<p>Тестировать железо можно, но для этого нужно иметь много утилит и инструментов. ESP-IDF из коробки предоставляет хороший набор, который позволяет писать сложные тесты. Посмотрим, хватит ли его функционала для моих нужд. У меня в планах добавить тесты для LoRa, FSK, OOK, различные режимы отправки сообщений с контрольной суммой и без, а так же проверить потребление памяти.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/sx127x/'>sx127x</a>, <a class='tag' href='/tags/esp32/'>esp32</a>, <a class='tag' href='/tags/embedded/'>embedded</a>, <a class='tag' href='/tags/c/'>c</a>, <a class='tag' href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/'>тестирование</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/anti-meridian/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>180-й меридиан</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

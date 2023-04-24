@@ -7,10 +7,162 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 14 Apr 2023 22:28:18 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Apr 2023 18:15:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Тестирование sx127x</title>
+      <link>https://dernasherbrezon.com/posts/testing-sx127x/</link>
+      <pubDate>Sun, 23 Apr 2023 18:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/testing-sx127x/</guid>
+      <description>Я продолжаю разрабатывать библиотеку для работы с чипом sx127x и в этом посте речь пойдёт о тестировании. Но для начала небольшая предыстория. Изначально библиотека поддерживала только LoRa модуляцию и была достаточно небольшой. По сути это была небольшая обёртка над регистрами sx127x, которая позволяла из Си вызывать нужные функции. Основная ценность скорее была в том, чтобы перевести магические числа и SPI протокол в понятные слова из даташита. После того, как я решил добавить поддержку FSK модуляции, библиотека разрослась.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Тестирование sx127x</h1></header>
+      		<div class='container entry-content'>
+  <p>Я продолжаю разрабатывать библиотеку для работы с чипом <a href="https://github.com/dernasherbrezon/sx127x">sx127x</a> и в этом посте речь пойдёт о тестировании. Но для начала небольшая предыстория. Изначально библиотека поддерживала только LoRa модуляцию и была достаточно небольшой. По сути это была небольшая обёртка над регистрами sx127x, которая позволяла из Си вызывать нужные функции. Основная ценность скорее была в том, чтобы перевести магические числа и SPI протокол в понятные слова из даташита. После того, как я решил добавить поддержку FSK модуляции, библиотека разрослась. Нужно было поддержить потоковую обработку входящих сообщений, реагировать на гораздо большее количество прерываний и при этом не сломать старый функционал. В этот момент стало понятно, что нужны тесты.</p>
+<h2 id="юнит-тесты">Юнит тесты</h2>
+<p>Из-за того, что библиотека не зависит от конкретных плат и операционных систем, писать юнит тесты оказалось просто. Достаточно сделать mock-реализацию SPI интерфейса и возвращать ожидаемые данные. Например, регистры sx127x можно эмулировать следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">spi_mock_registers</span>(uint8_t <span style="color:#f92672">*</span>expected, <span style="color:#66d9ef">int</span> code) {
+  sx127x_mock_registers <span style="color:#f92672">=</span> expected;
+  sx127x_mock_expected_code <span style="color:#f92672">=</span> code;
+}
+</code></pre></div><p>А в реализации использовать их вот так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sx127x_spi.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sx127x_spi_read_registers</span>(<span style="color:#66d9ef">int</span> reg, <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>spi_device, size_t data_length, uint32_t <span style="color:#f92672">*</span>result) {
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> data_length; i<span style="color:#f92672">++</span>) {
+    <span style="color:#f92672">*</span>result <span style="color:#f92672">=</span> ((<span style="color:#f92672">*</span>result) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>);
+    <span style="color:#f92672">*</span>result <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>result) <span style="color:#f92672">+</span> sx127x_mock_registers[reg <span style="color:#f92672">+</span> i];
+  }
+}
+</code></pre></div><p>Единственное, что нужно учитывать - это специальный регистр 0x00 (FIFO), чтение и запись в который должна работать по-другому. Полную реализацию <a href="https://github.com/dernasherbrezon/sx127x/blob/main/test/sx127x_mock_spi.c">mock SPI</a> можно посмотреть в репозитории.</p>
+<p>Для юнит тестов я использовал библиотеку <a href="https://libcheck.github.io/check/">libcheck</a>, потому что другие мои проекты <a href="https://github.com/dernasherbrezon/sdr-server">sdr-server</a> и <a href="https://github.com/dernasherbrezon/sdr-modem">sdr-modem</a> тоже её используют. Как и любая другая библиотека эта позволяет инициализировать состояние перед каждым тестом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup</span>() {
+  registers <span style="color:#f92672">=</span> (uint8_t <span style="color:#f92672">*</span>)malloc(registers_length <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(uint8_t));
+  memset(registers, <span style="color:#ae81ff">0</span>, registers_length);
+  registers[<span style="color:#ae81ff">0x42</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x12</span>;
+  spi_mock_registers(registers, SX127X_OK);
+  ck_assert_int_eq(SX127X_OK, sx127x_create(NULL, <span style="color:#f92672">&amp;</span>device));
+  spi_mock_write(SX127X_OK);
+}
+</code></pre></div><p>Вызывает тест. Например, тест обработчика CAD прерывания выглядит так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">START_TEST(test_lora_cad) {
+  ck_assert_int_eq(SX127X_OK, sx127x_set_opmod(SX127x_MODE_CAD, SX127x_MODULATION_LORA, device));
+  ck_assert_int_eq(registers[<span style="color:#ae81ff">0x40</span>], <span style="color:#ae81ff">0</span>b10000000);
+  sx127x_lora_cad_set_callback(cad_callback, device);
+  registers[<span style="color:#ae81ff">0x12</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>b00000101;  <span style="color:#75715e">// cad detected
+</span><span style="color:#75715e"></span>  sx127x_handle_interrupt(device);
+  ck_assert_int_eq(<span style="color:#ae81ff">1</span>, cad_status);
+
+  registers[<span style="color:#ae81ff">0x12</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>b00000100;  <span style="color:#75715e">// cad not detected
+</span><span style="color:#75715e"></span>  sx127x_handle_interrupt(device);
+  ck_assert_int_eq(<span style="color:#ae81ff">0</span>, cad_status);
+}
+END_TEST
+</code></pre></div><p>И очищать состояние после каждого теста с помощью фукнции <code>teardown()</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">teardown</span>() {
+  <span style="color:#66d9ef">if</span> (device <span style="color:#f92672">!=</span> NULL) {
+    sx127x_destroy(device);
+    device <span style="color:#f92672">=</span> NULL;
+  }
+  <span style="color:#66d9ef">if</span> (registers <span style="color:#f92672">!=</span> NULL) {
+    free(registers);
+    registers <span style="color:#f92672">=</span> NULL;
+  }
+}
+</code></pre></div><p>В итоге мне удалось написать порядочное количество тестов и добиться <a href="https://sonarcloud.io/component_measures?id=dernasherbrezon_sx127x&amp;metric=coverage&amp;view=list">74.7% покрытия тестами</a>.</p>
+<p><img src="/img/testing-sx127x/1.png" alt=""></p>
+<p>Вообще, несмотря на кажущуюся простоту решения, мне удалось найти несколько довольно досадных ошибок! В основном связанных с тем, что я где-то неправильно сдвигал биты или выставлял не те регистры. Так что время потраченное на написание юнит тестов и их настройку полностью себя оправдало.</p>
+<h2 id="интеграционные-тесты">Интеграционные тесты</h2>
+<p>Юнит тесты всем хороши. Но как понять, что выставленные биты в правильном регистре действительно позволяют отправлять и получать сообщения? На помощь приходят интеграционные тесты. Если бы меня спросили: &ldquo;А как написать интеграционные тесты для Java проекта?&rdquo;, то я бы без запинки ответил, что-нибудь про докер, среду тестирования или <a href="https://dernasherbrezon.com/posts/mock-server/">mock HTTP сервер</a>. Когда же встал вопрос о том, как протестировать железо, то мне потребовалось несколько недель, чтобы разобраться с проблемой.</p>
+<p>Так как у меня есть платы TTGO, то я решил взять ESP-IDF в котором есть поддержка <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/unit-tests.html">юнит</a> и <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/contribute/esp-idf-tests-with-pytest.html">интеграционных</a> тестов. Они скорее ориентированы на тестирования фреймворка, но для сторонних приложений тоже подходят.</p>
+<p>Все мои интеграционные тесты должны быть построены примерно по одному шаблону:</p>
+<ol>
+<li>Первое устройство должно начать слушать эфир</li>
+<li>Второе устройство должно послать сообщение</li>
+<li>Первое устройство должно успешно получить сообщение</li>
+<li>Тест должен проверить, что сообщение получено и оно верное</li>
+</ol>
+<p>ESP-IDF фреймворк предлагает реализовывать такие тесты следующим образом:</p>
+<ol>
+<li>Создать отдельное приложение на Си с тестовыми сценариями</li>
+<li>Использовать <a href="https://docs.pytest.org/en/7.3.x/">pytest</a> + <a href="https://docs.espressif.com/projects/pytest-embedded/en/latest/">pytest-embedded</a> для того, чтобы запускать сценарии в нужной последовательности</li>
+</ol>
+<h3 id="тестовые-сценарии">Тестовые сценарии</h3>
+<p>Тестовые сценарии должны лежать в обычном приложении для ESP32. Оно должно иметь точку входа <code>app_main()</code>, конфигурацию CMake, зависимости и пр. Основной его задачей будет запуск меню библиотеки unity:</p>
+<p><img src="/img/testing-sx127x/2.png" alt=""></p>
+<p><a href="https://github.com/ThrowTheSwitch/Unity">unity</a> - это ещё одна библиотека юнит тестов для Си. Она позволяет запускать их в интерактивном режиме. Если подключиться к устройству по serial интерфейсу, то можно напечатать название теста, нажать &ldquo;Enter&rdquo; и библиотека запустит этот тест. Основная функция выглядит достаточно просто:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unity_test_runner.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;test_lora.c&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">app_main</span>(<span style="color:#66d9ef">void</span>) {
+  unity_run_menu();
+}
+</code></pre></div><p>Я решил вынести тесты в отдельные файлы для удобства. На самом деле ничего не мешает их реализовывать сразу в <code>main.c</code>. Так как <code>unity_run_menu</code> ожидает ввод в бесконечном цикле, то необходимо выключить <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/wdts.html">TWDT</a>. Это специальная мера предосторожности, которая перезапускает приложение, если какой-то таск уходит в бесконечный цикл. Выключается в файле <code>sdkconfig.defaults</code>:</p>
+<pre><code>CONFIG_ESP_TASK_WDT=n
+</code></pre><p>Тесты для отправки сообщения и проверки выглядят следующим образом:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">TEST_CASE(<span style="color:#e6db74">&#34;sx127x_test_lora_rx_explicit_header&#34;</span>, <span style="color:#e6db74">&#34;[lora]&#34;</span>) {
+  sx127x_rx_set_callback(rx_callback, fixture<span style="color:#f92672">-&gt;</span>device);
+  sx127x_set_opmod(SX127x_MODE_RX_CONT, SX127x_MODULATION_LORA, fixture<span style="color:#f92672">-&gt;</span>device);
+  xSemaphoreTake(fixture<span style="color:#f92672">-&gt;</span>rx_done, portMAX_DELAY);
+  uint8_t expected[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0xCA</span>, <span style="color:#ae81ff">0xFE</span>};
+  TEST_ASSERT_EQUAL_UINT16(<span style="color:#66d9ef">sizeof</span>(expected), fixture<span style="color:#f92672">-&gt;</span>rx_data_length);
+  TEST_ASSERT_EQUAL_UINT8_ARRAY(expected, fixture<span style="color:#f92672">-&gt;</span>rx_data, <span style="color:#66d9ef">sizeof</span>(expected));
+}
+
+TEST_CASE(<span style="color:#e6db74">&#34;sx127x_test_lora_tx_explicit_header&#34;</span>, <span style="color:#e6db74">&#34;[lora]&#34;</span>) {
+  <span style="color:#75715e">// some initialization
+</span><span style="color:#75715e"></span>  sx127x_lora_tx_set_for_transmission(data, <span style="color:#66d9ef">sizeof</span>(data), fixture<span style="color:#f92672">-&gt;</span>device);
+  sx127x_set_opmod(SX127x_MODE_TX, SX127x_MODULATION_LORA, fixture<span style="color:#f92672">-&gt;</span>device);
+  ESP_LOGI(<span style="color:#e6db74">&#34;sx127x_test&#34;</span>, <span style="color:#e6db74">&#34;done. waiting for message&#34;</span>);
+  xSemaphoreTake(fixture<span style="color:#f92672">-&gt;</span>tx_done, portMAX_DELAY);
+}
+</code></pre></div><p>Это скорее даже не тесты, а небольшие куски кода, которые нужно запускать на разных устройствах в определённой последовательности. После компиляции прошивку с одинаковыми тестами нужно загрузить на два разных устройства. На первом устройстве запустить тест <code>sx127x_test_lora_rx_explicit_header</code>, а на втором <code>sx127x_test_lora_tx_explicit_header</code>. Как только сообщение отправится, <code>tx</code> тест сразу же завершится. А <code>rx</code> дождётся получения сообщения и проверит результат. Выглядит достаточно просто, хотя у меня заняло несколько дней в этом разобраться. Меня в первую очередь смутила официальная документация, которая говорит, что нужно использовать макрос <code>TEST_CASE_MULTIPLE_DEVICES</code>. Хотя на самом деле этого ничего не нужно, потому что устройства между собой никак не синхронизированы. И синхронизацию нужно по-любому делать через serial интерфейс вручную. Или с помощью python скрипта.</p>
+<h3 id="pytest">pytest</h3>
+<p>Алгоритм для запуска таких интеграционных тестов может быть автоматизирован с помощью скрипта на python. В моём случае это выглядит как то так:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@pytest.mark.supported_targets</span>
+<span style="color:#a6e22e">@pytest.mark.generic</span>
+<span style="color:#a6e22e">@pytest.mark.parametrize</span>(<span style="color:#e6db74">&#39;count&#39;</span>, [
+    <span style="color:#ae81ff">2</span>,
+], indirect<span style="color:#f92672">=</span>True)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_single</span>(dut: Tuple[Dut, Dut]) <span style="color:#f92672">-&gt;</span> None:
+    dut_rx <span style="color:#f92672">=</span> dut[<span style="color:#ae81ff">0</span>]
+    dut_tx <span style="color:#f92672">=</span> dut[<span style="color:#ae81ff">1</span>]
+
+    dut_rx<span style="color:#f92672">.</span>expect(<span style="color:#e6db74">&#39;Press ENTER to see the list of tests&#39;</span>)
+    dut_rx<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;&#34;sx127x_test_lora_rx_explicit_header&#34;&#39;</span>)
+
+    dut_tx<span style="color:#f92672">.</span>expect(<span style="color:#e6db74">&#39;Press ENTER to see the list of tests&#39;</span>)
+    dut_tx<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;&#34;sx127x_test_lora_tx_explicit_header&#34;&#39;</span>)
+    dut_tx<span style="color:#f92672">.</span>expect_unity_test_output()
+
+    dut_rx<span style="color:#f92672">.</span>expect_unity_test_output()
+</code></pre></div><p>Запускается этот скрипт с помощью команды pytest:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pytest --target esp32 --port<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/dev/ttyACM0|/dev/ttyUSB0&#34;</span>
+</code></pre></div><p>Эта команда выполнит следующие шаги:</p>
+<ol>
+<li>Загрузит прошивку на два устройства <code>/dev/ttyACM0</code> и <code>/dev/ttyUSB0</code></li>
+<li>Запустит скрипт</li>
+<li>Скрипт подключится по serial интерфейсу к обоим устройствам</li>
+<li>Запустит тест <code>sx127x_test_lora_rx_explicit_header</code></li>
+<li>Потом тест <code>sx127x_test_lora_tx_explicit_header</code></li>
+<li>Дождётся выполнения тестов на обоих устройствах</li>
+</ol>
+<p><img src="/img/testing-sx127x/3.png" alt=""></p>
+<h2 id="послесловие">Послесловие</h2>
+<p>Тестировать железо можно, но для этого нужно иметь много утилит и инструментов. ESP-IDF из коробки предоставляет хороший набор, который позволяет писать сложные тесты. Посмотрим, хватит ли его функционала для моих нужд. У меня в планах добавить тесты для LoRa, FSK, OOK, различные режимы отправки сообщений с контрольной суммой и без, а так же проверить потребление памяти.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>180-й меридиан</title>

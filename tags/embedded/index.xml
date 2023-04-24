@@ -5,7 +5,16 @@
     <link>https://dernasherbrezon.com/tags/embedded/</link>
     <description>Recent content in embedded on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Jan 2023 16:33:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Apr 2023 18:15:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Тестирование sx127x</title>
+      <link>https://dernasherbrezon.com/posts/testing-sx127x/</link>
+      <pubDate>Sun, 23 Apr 2023 18:15:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/testing-sx127x/</guid>
+      <description>Я продолжаю разрабатывать библиотеку для работы с чипом sx127x и в этом посте речь пойдёт о тестировании. Но для начала небольшая предыстория. Изначально библиотека поддерживала только LoRa модуляцию и была достаточно небольшой. По сути это была небольшая обёртка над регистрами sx127x, которая позволяла из Си вызывать нужные функции. Основная ценность скорее была в том, чтобы перевести магические числа и SPI протокол в понятные слова из даташита. После того, как я решил добавить поддержку FSK модуляции, библиотека разрослась.</description>
+    </item>
+    
     <item>
       <title>sx127x</title>
       <link>https://dernasherbrezon.com/posts/sx127x/</link>
