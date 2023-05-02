@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/sx127x/</link>
     <description>Recent content in sx127x on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 23 Apr 2023 18:15:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/sx127x/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 May 2023 21:42:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/sx127x/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FSK модуляция в sx127x</title>
+      <link>https://dernasherbrezon.com/posts/fsk-modulation-sx127x/</link>
+      <pubDate>Mon, 01 May 2023 21:42:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fsk-modulation-sx127x/</guid>
+      <description>Я продолжаю работать над библиотекой sx127x. Как только стало понятно как писать интеграционные тесты, я приступил к работе над различными сценариями. sx127x поддерживает достаточно много различных режимов работы, которые неплохо было бы покрыть тестами.
+Чип поддерживает три типа модуляции: LoRa, FSK и OOK. LoRa - это проприетарный протокол, основанный на chirp модуляции. Скорей всего его запрещено анализировать и воспроизводить из-за различных патентов и лицензий. А вот FSK и OOK - отличные кандидаты на исследование.</description>
+    </item>
+    
     <item>
       <title>Тестирование sx127x</title>
       <link>https://dernasherbrezon.com/posts/testing-sx127x/</link>

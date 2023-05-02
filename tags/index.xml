@@ -5,7 +5,16 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 23 Apr 2023 18:15:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 May 2023 21:42:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sx127x</title>
+      <link>https://dernasherbrezon.com/tags/sx127x/</link>
+      <pubDate>Mon, 01 May 2023 21:42:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/sx127x/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>c</title>
       <link>https://dernasherbrezon.com/tags/c/</link>
@@ -30,15 +39,6 @@
       <pubDate>Sun, 23 Apr 2023 18:15:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/esp32/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sx127x</title>
-      <link>https://dernasherbrezon.com/tags/sx127x/</link>
-      <pubDate>Sun, 23 Apr 2023 18:15:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/sx127x/</guid>
       <description></description>
     </item>
     
