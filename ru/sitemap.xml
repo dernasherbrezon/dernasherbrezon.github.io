@@ -182,6 +182,16 @@
   </url><url>
     <loc>https://dernasherbrezon.com/tags/monitoring/</loc>
     <lastmod>2022-01-06T18:30:18+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/monitoring/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/monitoring/"
+                />
   </url><url>
     <loc>https://dernasherbrezon.com/tags/r2lora/</loc>
     <lastmod>2022-01-06T18:30:18+00:00</lastmod>
@@ -249,6 +259,16 @@
   </url><url>
     <loc>https://dernasherbrezon.com/tags/prometheus/</loc>
     <lastmod>2021-08-09T15:52:18+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/prometheus/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/prometheus/"
+                />
   </url><url>
     <loc>https://dernasherbrezon.com/posts/writing-prometheus-exporter/</loc>
     <lastmod>2021-08-09T15:52:18+00:00</lastmod>
@@ -258,6 +278,16 @@
   </url><url>
     <loc>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</loc>
     <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/"
+                />
   </url><url>
     <loc>https://dernasherbrezon.com/tags/plutosdr/</loc>
     <lastmod>2021-08-06T09:47:18+00:00</lastmod>

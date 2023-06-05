@@ -2,8 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://dernasherbrezon.com/en/tags/admin/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+  </url><url>
     <loc>https://dernasherbrezon.com/en/</loc>
-    <lastmod>2020-05-25T17:27:18+01:00</lastmod>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru"
@@ -15,8 +18,37 @@
                 href="https://dernasherbrezon.com/en/"
                 />
   </url><url>
+    <loc>https://dernasherbrezon.com/en/tags/grafana/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/"
+                />
+  </url><url>
+    <loc>https://dernasherbrezon.com/en/tags/monitoring/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/monitoring/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/monitoring/"
+                />
+  </url><url>
     <loc>https://dernasherbrezon.com/en/posts/</loc>
-    <lastmod>2020-05-25T17:27:18+01:00</lastmod>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru"
@@ -28,8 +60,21 @@
                 href="https://dernasherbrezon.com/en/posts/"
                 />
   </url><url>
+    <loc>https://dernasherbrezon.com/en/tags/prometheus/</loc>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/prometheus/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/prometheus/"
+                />
+  </url><url>
     <loc>https://dernasherbrezon.com/en/tags/</loc>
-    <lastmod>2020-05-25T17:27:18+01:00</lastmod>
+    <lastmod>2021-08-07T06:50:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru"

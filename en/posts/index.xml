@@ -7,10 +7,106 @@
     <description>Blog about software development</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 25 May 2020 17:27:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 07 Aug 2021 06:50:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/en/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Monitor Mikrotik routers using Prometheus</title>
+      <link>https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/</link>
+      <pubDate>Sat, 07 Aug 2021 06:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/</guid>
+      <description>To begin with, a few words about why it is necessary to monitor routers. A router, like any other device, has hardware resources that can become depleted. For example, the browser may become slower in opening pages or videos may take longer to load. This can be caused by either the internet service provider or the router. It&amp;rsquo;s possible that too many devices are connected to the router, causing it to slow down, or someone may be downloading excessively in parallel - all of this can be the reason for the slowdown.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Monitor Mikrotik routers using Prometheus</h1></header>
+      		<div class='container entry-content'>
+  <p>To begin with, a few words about why it is necessary to monitor routers. A router, like any other device, has hardware resources that can become depleted. For example, the browser may become slower in opening pages or videos may take longer to load. This can be caused by either the internet service provider or the router. It&rsquo;s possible that too many devices are connected to the router, causing it to slow down, or someone may be downloading excessively in parallel - all of this can be the reason for the slowdown.</p>
+<p>So that&rsquo;s why I decided to monitor my Mikrotik router in the realtime.</p>
+<h2 id="the-concept">The concept</h2>
+<p>I have <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a> that can use a SIM card to connect to a cellular network and provide Wi-Fi.</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/mikrotik_wap_r.jpg" alt="mikrotik_wap_r"></p>
+<p>The general monitoring scheme looks like this:</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/schema.png" alt=""></p>
+<h2 id="mikrotik">Mikrotik</h2>
+<p>To monitor Mikrotik with Prometheus, you need to use a special exporter that converts Mikrotik&rsquo;s <a href="https://ru.wikipedia.org/wiki/SNMP">SNMP</a> metrics into a format that can be read by Prometheus. By default, SNMP is not enabled on Mikrotik, so you will need to enable it first with the following command:</p>
+<pre><code>[admin@MikroTik] /snmp
+[admin@MikroTik] /snmp&gt;  set enabled yes
+</code></pre><h2 id="snmp-exporter">SNMP-exporter</h2>
+<p><a href="https://github.com/prometheus/snmp_exporter">SNMP-exporter</a> is needed to convert metrics from SNMP format into a special format that Prometheus understands. It is installed quite simply:</p>
+<pre><code>wget https://github.com/prometheus/snmp_exporter/releases/download/v0.20.0/snmp_exporter-0.20.0.linux-armv7.tar.gz
+tar xzf snmp_exporter-0.20.0.linux-armv7.tar.gz
+</code></pre><p>The next step will be to create a systemd service that will automatically start on boot. To do this, create the following file:</p>
+<pre><code>sudo vi /etc/systemd/system/snmp_exporter.service
+</code></pre><p>With the following contents:</p>
+<pre><code>[Unit]
+Description=SNMP Exporter
+After=network-online.target
+
+[Service]
+User=pi
+Restart=on-failure
+ExecStart=/usr/local/bin/snmp_exporter --config.file='&lt;path to&gt;/snmp_exporter-0.20.0.linux-armv7/snmp.yml'
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><p>Next, you need to copy snmp_exporter:</p>
+<pre><code>sudo cp ./snmp_exporter-0.20.0.linux-armv7/snmp_exporter /usr/local/bin/snmp_exporter
+</code></pre><p>And start the service:</p>
+<pre><code>sudo systemctl enable snmp_exporter
+sudo systemctl start snmp_exporter
+</code></pre><p>Check the status using the command below:</p>
+<pre><code>sudo systemctl status snmp_exporter
+</code></pre><p>If the service started successfully, the output will be as follows:</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/snmp_exporter.png" alt=""></p>
+<h2 id="prometheus">Prometheus</h2>
+<p>All metrics will be stored in <a href="https://prometheus.io">Prometheus</a>, a special database for storing metrics that can be run locally or in the cloud.</p>
+<p>I won&rsquo;t go into detail on how to configure and start Prometheus, as there are <a href="https://prometheus.io/docs/prometheus/latest/getting_started/">comprehensive instructions</a> available.</p>
+<p>For now, it&rsquo;s enough to configure the connection to the exporter, which is done through the main config file, prometheus.yaml.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  - <span style="color:#f92672">job_name</span>: <span style="color:#ae81ff">mikrotik</span>
+    <span style="color:#f92672">static_configs</span>:
+      - <span style="color:#f92672">targets</span>:
+        - <span style="color:#ae81ff">192.168.1.1</span>  <span style="color:#75715e"># SNMP device.</span>
+    <span style="color:#f92672">metrics_path</span>: <span style="color:#ae81ff">/snmp</span>
+    <span style="color:#f92672">params</span>:
+      <span style="color:#f92672">module</span>: [<span style="color:#ae81ff">mikrotik]</span>
+    <span style="color:#f92672">relabel_configs</span>:
+      - <span style="color:#f92672">source_labels</span>: [<span style="color:#ae81ff">__address__]</span>
+        <span style="color:#f92672">target_label</span>: <span style="color:#ae81ff">__param_target</span>
+      - <span style="color:#f92672">source_labels</span>: [<span style="color:#ae81ff">__param_target]</span>
+        <span style="color:#f92672">target_label</span>: <span style="color:#ae81ff">instance</span>
+      - <span style="color:#f92672">target_label</span>: <span style="color:#ae81ff">__address__</span>
+        <span style="color:#f92672">replacement</span>: <span style="color:#ae81ff">raspberrypi.local:9116</span>
+</code></pre></div><h2 id="grafana">Grafana</h2>
+<p>You can use <a href="https://grafana.com/grafana/dashboards/14420">pre-configured dashboards</a> and instantly import them into Grafana.</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/image.png" alt=""></p>
+<p>However each device is different and most of these dashboards don&rsquo;t work for my device model. For <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a> I manually selected the following parameters:</p>
+<ul>
+<li>Uptime - <code>sysUpTime{instance='$instance'}/100</code></li>
+<li>Load CPU - <code>avg(hrProcessorLoad{instance='$instance'})</code></li>
+<li>Load RAM - <code>(hrStorageUsed{hrStorageIndex='65536',instance='$instance'} * 100 )/(hrStorageSize{hrStorageIndex='65536',instance='$instance'})</code></li>
+<li>Load system disk - <code>(hrStorageUsed{hrStorageIndex='131072',instance='$instance'} * 100 )/(hrStorageSize{hrStorageIndex='131072',instance='$instance'})</code></li>
+<li>In/Out bit/sec - <code>irate(ifHCInOctets{job='mikrotik',ifName=~'$Interface',instance='$instance'}[20s])*8</code></li>
+<li>RSRP (Reference Signal Received Power) level of TLE signal - <code>mtxrLTEModemSignalRSRP</code></li>
+</ul>
+<p>And added them to Grafana panels:</p>
+<p><img src="/img/prometheus-monitoring-mikrotik/grafana.png" alt=""></p>
+<p>It is possible to add any other custom metrics using SNMP. Firstly you need to find their oid (SNMP identifier) using the command below:</p>
+<pre><code>[admin@MikroTik] /interface lte print oid
+</code></pre><p>Then add oid into snmp.yaml:</p>
+<pre><code>pi@rasp-buster:~ $ grep 1.3.6.1.4.1.14988.1.1.16.1.1.4 snmp.yml -B 1
+  - name: mtxrLTEModemSignalRSRP
+    oid: 1.3.6.1.4.1.14988.1.1.16.1.1.4
+</code></pre><p>Once added <code>mtxrLTEModemSignalRSRP</code> metric should be available in Prometheus and Grafana.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Unit tests</title>
