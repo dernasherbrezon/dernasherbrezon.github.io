@@ -1,0 +1,79 @@
+<rss version="2.0" xmlns:yandex="http://news.yandex.ru"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:turbo="http://turbo.yandex.ru" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/posts/</link>
+    <description>Blog about software development</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru</language>
+    <lastBuildDate>Mon, 25 May 2020 17:27:18 +0100</lastBuildDate>
+    
+        <atom:link href="https://dernasherbrezon.com/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item turbo="true">
+      <title>Unit tests</title>
+      <link>https://dernasherbrezon.com/en/posts/unit-tests/</link>
+      <pubDate>Mon, 25 May 2020 17:27:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/unit-tests/</guid>
+      <description>15 years ago, nobody had even heard of unit tests. We just wrote the code once and then relied on manual QA and our sharp eyes to check for any issues. We all lived in perfect harmony and peace. But then came along those damn unit tests, and suddenly the world was split into two warring factions: those who write tests and those who don&amp;rsquo;t.
+Spoiler alert: I&amp;rsquo;m on team auto-tests.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Unit tests</h1></header>
+      		<div class='container entry-content'>
+  <p>15 years ago, nobody had even heard of unit tests. We just wrote the code once and then relied on manual QA and our sharp eyes to check for any issues. We all lived in perfect harmony and peace. But then came along those damn unit tests, and suddenly the world was split into two warring factions: those who write tests and those who don&rsquo;t.</p>
+<p>Spoiler alert: I&rsquo;m on team auto-tests.</p>
+<p>There are so many arguments for and against unit tests out there on the internet. So, I decided to create my own list of arguments in favor of unit tests. Because who doesn&rsquo;t love spending extra time writing code just to make sure it works? It&rsquo;s not like we have better things to do, right?</p>
+<h2 id="1">1</h2>
+<p>Unit tests aren&rsquo;t meant to test every logical condition and possible combination of inputs and outputs. They&rsquo;re just meant to make sure the code runs at least once.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSuccess</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	ObservationRequest req <span style="color:#f92672">=</span> createRequest<span style="color:#f92672">();</span>
+	<span style="color:#66d9ef">int</span> times <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">((</span>req<span style="color:#f92672">.</span><span style="color:#a6e22e">getEndTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">-</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">getStartTimeMillis</span><span style="color:#f92672">())</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">);</span>
+	config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rotator.enabled&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+	service <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RotatorService<span style="color:#f92672">(</span>config<span style="color:#f92672">,</span> predict<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> ScheduleFixedTimesTheadPoolFactory<span style="color:#f92672">(</span>times<span style="color:#f92672">),</span> <span style="color:#66d9ef">new</span> SteppingClock<span style="color:#f92672">(</span>req<span style="color:#f92672">.</span><span style="color:#a6e22e">getStartTimeMillis</span><span style="color:#f92672">(),</span> 1000<span style="color:#f92672">));</span>
+	service<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+	assertNotNull<span style="color:#f92672">(</span>service<span style="color:#f92672">.</span><span style="color:#a6e22e">schedule</span><span style="color:#f92672">(</span>req<span style="color:#f92672">,</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">getStartTimeMillis</span><span style="color:#f92672">()));</span>
+	<span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>BufferedReader r <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>RotatorService<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClassLoader</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;expected/rotctrld-requests.txt&#34;</span><span style="color:#f92672">),</span> StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">)))</span> <span style="color:#f92672">{</span>
+		String curLine <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>curLine <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			assertPosition<span style="color:#f92672">(</span>curLine<span style="color:#f92672">,</span> requestHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequests</span><span style="color:#f92672">().</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>i<span style="color:#f92672">));</span>
+			i<span style="color:#f92672">++;</span>
+		<span style="color:#f92672">}</span>
+		assertEquals<span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> requestHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequests</span><span style="color:#f92672">().</span><span style="color:#a6e22e">size</span><span style="color:#f92672">());</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>I hear this conversation all the time:</p>
+<ul>
+<li>Let&rsquo;s write some unit tests here.</li>
+<li>But we won&rsquo;t be able to cover cases A, B, and C!</li>
+<li>Exactly, it&rsquo;s too complex and we don&rsquo;t have the infrastructure for it. Let&rsquo;s come back to it when we have more time.</li>
+</ul>
+<p>I strongly disagree with this approach. Tests aren&rsquo;t supposed to cover every possible case, A, B, and C. Their main purpose is just to run the code at least once. I&rsquo;ve seen so many cases where developers write code and never actually run it. Having a test is a great way to prove that the code ran at least once and that there aren&rsquo;t any ridiculously stupid mistakes in there.</p>
+<h2 id="2">2</h2>
+<p>Even small libraries should be tested, and in fact, testing them is especially important. Often, small libraries have a clearly defined interface that can be easily tested with unit tests. It&rsquo;s important to ensure that even small pieces of code work correctly and reliably, as they may be used by other programs or systems and any issues could cause unexpected problems downstream. By testing even small libraries, developers can catch and fix any issues early on, before they become bigger problems.</p>
+<p><img src="/img/unit-tests/1.png" alt=""></p>
+<h2 id="3">3</h2>
+<p>Writing tests makes you think about how the code is structured. Usually, a developer is focused on making sure the code works as it should. However, writing tests allows you to understand how the code will be used. I&rsquo;m not a big fan of TDD, but there is some truth to this methodology - you should write code and tests at the same time. This can greatly save time on integrating the code with other components.</p>
+<p><img src="/img/unit-tests/2.png" alt=""></p>
+<p>Also, when writing tests, you start to think: &ldquo;What else can I check?&rdquo; &ldquo;Did I forget anything?&rdquo; This allows you to look at the code from a different angle and come up with a couple of strange usage scenarios that are worth testing. This also includes all kinds of checks for input parameters and boundary conditions.</p>
+<h2 id="4">4</h2>
+<p>Tests allow fixing implementation errors. Suppose all tests pass successfully, but it turns out that the code still works incorrectly. In this case, its implementation is changed, and the tests are run again. There should be no errors.</p>
+<p>This point can be expanded: tests allow updating dependent libraries. Let&rsquo;s say you have the situation: the code depends on a third-party library. A security flaw was found in this library. If there are tests, then you can simply update the version of the dependent library and run the tests. There should be no errors. This is very convenient to use in conjunction with automatic pull request generation systems. For example, GitHub recently learned to scan dependent libraries for various vulnerabilities and automatically create pull requests with updated library versions. If there are tests, such pull requests are automatically built and tested. If there are no errors, then you can update safely.</p>
+<p><img src="/img/unit-tests/3.png" alt=""></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Write tests. And if you don&rsquo;t know how, ask me. I know.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
+    
+  </channel>
+</rss>

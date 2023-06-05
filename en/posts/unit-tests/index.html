@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='15 years ago, nobody had even heard of unit tests. We just wrote the code once and then relied on manual QA and our sharp eyes to check for any issues. We all lived in perfect harmony and peace. But then came along those damn unit tests, and suddenly the world was split into two warring factions: those who write tests and those who don&rsquo;t.
+Spoiler alert: I&rsquo;m on team auto-tests.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Unit tests • dernasherbrezon'>
+<meta property='og:description' content='15 years ago, nobody had even heard of unit tests. We just wrote the code once and then relied on manual QA and our sharp eyes to check for any issues. We all lived in perfect harmony and peace. But then came along those damn unit tests, and suddenly the world was split into two warring factions: those who write tests and those who don&rsquo;t.
+Spoiler alert: I&rsquo;m on team auto-tests.'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/unit-tests/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/unit-tests/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='testing'><meta property='article:published_time' content='2020-05-25T17:27:18&#43;01:00'/><meta property='article:modified_time' content='2020-05-25T17:27:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/unit-tests/3.png'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Unit tests • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/unit-tests/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/unit-tests/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/unit-tests/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/unit-tests/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/unit-tests/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/testing/' style='font-size:1em'>testing</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Unit tests</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-05-25T17:27:18&#43;01:00'>25 May 2020</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>15 years ago, nobody had even heard of unit tests. We just wrote the code once and then relied on manual QA and our sharp eyes to check for any issues. We all lived in perfect harmony and peace. But then came along those damn unit tests, and suddenly the world was split into two warring factions: those who write tests and those who don&rsquo;t.</p>
+<p>Spoiler alert: I&rsquo;m on team auto-tests.</p>
+<p>There are so many arguments for and against unit tests out there on the internet. So, I decided to create my own list of arguments in favor of unit tests. Because who doesn&rsquo;t love spending extra time writing code just to make sure it works? It&rsquo;s not like we have better things to do, right?</p>
+<h2 id="1">1</h2>
+<p>Unit tests aren&rsquo;t meant to test every logical condition and possible combination of inputs and outputs. They&rsquo;re just meant to make sure the code runs at least once.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Test</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSuccess</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+	ObservationRequest req <span style="color:#f92672">=</span> createRequest<span style="color:#f92672">();</span>
+	<span style="color:#66d9ef">int</span> times <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">((</span>req<span style="color:#f92672">.</span><span style="color:#a6e22e">getEndTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">-</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">getStartTimeMillis</span><span style="color:#f92672">())</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">);</span>
+	config<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rotator.enabled&#34;</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+	service <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RotatorService<span style="color:#f92672">(</span>config<span style="color:#f92672">,</span> predict<span style="color:#f92672">,</span> <span style="color:#66d9ef">new</span> ScheduleFixedTimesTheadPoolFactory<span style="color:#f92672">(</span>times<span style="color:#f92672">),</span> <span style="color:#66d9ef">new</span> SteppingClock<span style="color:#f92672">(</span>req<span style="color:#f92672">.</span><span style="color:#a6e22e">getStartTimeMillis</span><span style="color:#f92672">(),</span> 1000<span style="color:#f92672">));</span>
+	service<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+	assertNotNull<span style="color:#f92672">(</span>service<span style="color:#f92672">.</span><span style="color:#a6e22e">schedule</span><span style="color:#f92672">(</span>req<span style="color:#f92672">,</span> req<span style="color:#f92672">.</span><span style="color:#a6e22e">getStartTimeMillis</span><span style="color:#f92672">()));</span>
+	<span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>BufferedReader r <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>RotatorService<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getClassLoader</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getResourceAsStream</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;expected/rotctrld-requests.txt&#34;</span><span style="color:#f92672">),</span> StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">)))</span> <span style="color:#f92672">{</span>
+		String curLine <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>curLine <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			assertPosition<span style="color:#f92672">(</span>curLine<span style="color:#f92672">,</span> requestHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequests</span><span style="color:#f92672">().</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>i<span style="color:#f92672">));</span>
+			i<span style="color:#f92672">++;</span>
+		<span style="color:#f92672">}</span>
+		assertEquals<span style="color:#f92672">(</span>i<span style="color:#f92672">,</span> requestHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">getRequests</span><span style="color:#f92672">().</span><span style="color:#a6e22e">size</span><span style="color:#f92672">());</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>I hear this conversation all the time:</p>
+<ul>
+<li>Let&rsquo;s write some unit tests here.</li>
+<li>But we won&rsquo;t be able to cover cases A, B, and C!</li>
+<li>Exactly, it&rsquo;s too complex and we don&rsquo;t have the infrastructure for it. Let&rsquo;s come back to it when we have more time.</li>
+</ul>
+<p>I strongly disagree with this approach. Tests aren&rsquo;t supposed to cover every possible case, A, B, and C. Their main purpose is just to run the code at least once. I&rsquo;ve seen so many cases where developers write code and never actually run it. Having a test is a great way to prove that the code ran at least once and that there aren&rsquo;t any ridiculously stupid mistakes in there.</p>
+<h2 id="2">2</h2>
+<p>Even small libraries should be tested, and in fact, testing them is especially important. Often, small libraries have a clearly defined interface that can be easily tested with unit tests. It&rsquo;s important to ensure that even small pieces of code work correctly and reliably, as they may be used by other programs or systems and any issues could cause unexpected problems downstream. By testing even small libraries, developers can catch and fix any issues early on, before they become bigger problems.</p>
+<p><img src="/img/unit-tests/1.png" alt=""></p>
+<h2 id="3">3</h2>
+<p>Writing tests makes you think about how the code is structured. Usually, a developer is focused on making sure the code works as it should. However, writing tests allows you to understand how the code will be used. I&rsquo;m not a big fan of TDD, but there is some truth to this methodology - you should write code and tests at the same time. This can greatly save time on integrating the code with other components.</p>
+<p><img src="/img/unit-tests/2.png" alt=""></p>
+<p>Also, when writing tests, you start to think: &ldquo;What else can I check?&rdquo; &ldquo;Did I forget anything?&rdquo; This allows you to look at the code from a different angle and come up with a couple of strange usage scenarios that are worth testing. This also includes all kinds of checks for input parameters and boundary conditions.</p>
+<h2 id="4">4</h2>
+<p>Tests allow fixing implementation errors. Suppose all tests pass successfully, but it turns out that the code still works incorrectly. In this case, its implementation is changed, and the tests are run again. There should be no errors.</p>
+<p>This point can be expanded: tests allow updating dependent libraries. Let&rsquo;s say you have the situation: the code depends on a third-party library. A security flaw was found in this library. If there are tests, then you can simply update the version of the dependent library and run the tests. There should be no errors. This is very convenient to use in conjunction with automatic pull request generation systems. For example, GitHub recently learned to scan dependent libraries for various vulnerabilities and automatically create pull requests with updated library versions. If there are tests, such pull requests are automatically built and tested. If there are no errors, then you can update safely.</p>
+<p><img src="/img/unit-tests/3.png" alt=""></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Write tests. And if you don&rsquo;t know how, ask me. I know.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/testing/'>testing</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

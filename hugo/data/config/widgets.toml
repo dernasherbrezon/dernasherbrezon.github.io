@@ -34,3 +34,6 @@ platforms = ["github","facebook","twitter","instagram","email","codepen","gitlab
 title = "Тэги"                            # default: Plural Name for `taxonomyCloud.taxonomy`
 taxonomy = "tags"                     # default: "tags"
 shuffle = true                        # default: true
+
+[taxonomy_cloud.en]
+title = "Tags"

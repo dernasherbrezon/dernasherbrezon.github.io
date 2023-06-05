@@ -127,6 +127,13 @@ hrefTargetBlank = true
 lang = "ru"
 languageName = "Русский"
 weight = 1
+[languages.en]
+lang = "en"
+languageName = "English"
+weight = 2
+[languages.en.params.info]
+description = "Blog about software development"
+title404 = "Not found"
 
 [markup.goldmark.renderer]
 unsafe= true
