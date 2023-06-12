@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
     <description>Recent content in rtlsdr on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 06 Aug 2021 09:47:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Jun 2023 18:47:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/rtlsdr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Сэмплирование в airspy mini</title>
+      <link>https://dernasherbrezon.com/posts/airspy-sample-rates/</link>
+      <pubDate>Mon, 05 Jun 2023 18:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/airspy-sample-rates/</guid>
+      <description>Введение Я решил немного отвлечься от программирования микроконтроллеров и сделать то, до чего руки давно не доходили: добавить поддержку airspy mini в sdr-server.
+airspy mini - это SDR приёмник, который конвертирует аналоговый радиосигнал в цифровой (АЦП) и передаёт в компьютер для обработки. Как и его ближайший и наиболее распространённый конкурент RTL-SDR v3 он основан на чипе R820T. Его основным отличием является хорошая чувствительность и большой динамический диапазон. Это достигается за счёт того, что каждый сэмпл имеет разрешение 12 бит против 8 бит RTL-SDR.</description>
+    </item>
+    
     <item>
       <title>Задержка в sdr-modem</title>
       <link>https://dernasherbrezon.com/posts/sdr-modem-latency/</link>

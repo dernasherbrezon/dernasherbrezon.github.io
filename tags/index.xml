@@ -5,7 +5,43 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 01 May 2023 21:42:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Jun 2023 18:47:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>dsp</title>
+      <link>https://dernasherbrezon.com/tags/dsp/</link>
+      <pubDate>Mon, 05 Jun 2023 18:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/dsp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rtlsdr</title>
+      <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
+      <pubDate>Mon, 05 Jun 2023 18:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/rtlsdr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sdr-server</title>
+      <link>https://dernasherbrezon.com/tags/sdr-server/</link>
+      <pubDate>Mon, 05 Jun 2023 18:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/sdr-server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>дизайн</title>
+      <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/</link>
+      <pubDate>Mon, 05 Jun 2023 18:47:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>sx127x</title>
       <link>https://dernasherbrezon.com/tags/sx127x/</link>
@@ -277,15 +313,6 @@
     </item>
     
     <item>
-      <title>dsp</title>
-      <link>https://dernasherbrezon.com/tags/dsp/</link>
-      <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/dsp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>testing</title>
       <link>https://dernasherbrezon.com/tags/testing/</link>
       <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
@@ -322,15 +349,6 @@
     </item>
     
     <item>
-      <title>rtlsdr</title>
-      <link>https://dernasherbrezon.com/tags/rtlsdr/</link>
-      <pubDate>Fri, 06 Aug 2021 09:47:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/rtlsdr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>ubuntu</title>
       <link>https://dernasherbrezon.com/tags/ubuntu/</link>
       <pubDate>Sun, 07 Mar 2021 20:45:18 +0000</pubDate>
@@ -354,15 +372,6 @@
       <pubDate>Wed, 16 Dec 2020 14:40:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/jpeg/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>дизайн</title>
-      <link>https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/</link>
-      <pubDate>Wed, 07 Oct 2020 17:23:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/</guid>
       <description></description>
     </item>
     
