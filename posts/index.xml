@@ -7,10 +7,165 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 05 Jun 2023 18:47:18 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Jun 2023 21:19:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Тестирование дисков для Raspberrypi</title>
+      <link>https://dernasherbrezon.com/posts/test-disks-raspberrypi/</link>
+      <pubDate>Wed, 14 Jun 2023 21:19:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/test-disks-raspberrypi/</guid>
+      <description>Порой сидишь себе программируешь никого не трогаешь, а потом внезапно хочется встать и громко возмутиться &amp;ldquo;Да сколько уже можно это терпеть!&amp;rdquo;. Такое случилось и со мной, во время невероятно длинной распаковки ядра линукса в Raspberrypi. Всё началось с того, что мне нужно было померить производительность драйвера для airspy mini, который по-умолчанию устанавливается в Debian buster. Делается это двумя командами. Первая нужна, чтобы найти PID процесса для мониторинга:
+ps aux|grep sdr_server Вторая нужна, чтобы записать статистику вызовов функций в файл для анализа:</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Тестирование дисков для Raspberrypi</h1></header>
+      		<div class='container entry-content'>
+  <p>Порой сидишь себе программируешь никого не трогаешь, а потом внезапно хочется встать и громко возмутиться &ldquo;Да сколько уже можно это терпеть!&rdquo;. Такое случилось и со мной, во время невероятно длинной распаковки ядра линукса в Raspberrypi. Всё началось с того, что мне нужно было померить производительность драйвера для airspy mini, который по-умолчанию устанавливается в Debian buster. Делается это двумя командами. Первая нужна, чтобы найти PID процесса для мониторинга:</p>
+<pre><code>ps aux|grep sdr_server
+</code></pre><p>Вторая нужна, чтобы записать статистику вызовов функций в файл для анализа:</p>
+<pre><code>perf record -F 99 -p 31786  -g -- sleep 10
+</code></pre><p>Однако, в этот раз всё пошло не так:</p>
+<pre><code>/usr/bin/perf: line 13: exec: perf_5.15: not found
+E: linux-perf-5.15 is not installed.
+</code></pre><p>Эта ошибка случается, когда установленная команда <code>perf</code> несовместима с текущим ядром линукса. Такое бывает, когда приезжает новое ядро, оно автоматически устанавливается, а пакет <code>perf</code> не обновляется. К сожалению, в debian не появляется новая версия пакета для новой версии ядра, поэтому приходится собирать его самому. В этом нет ничего сложно, кроме злосчастной распаковки исходников ядра линукса. Она занимает вечность, так как в Raspberrypi по-умолчанию система установлена на sdcard. Но после того, как произошла распаковка, сборка достаточно проста:</p>
+<pre><code>sudo apt install libunwind-dev libbfd-dev libdw-dev libbz2-dev libdwarf-dev
+make -C linux-5.15.32/tools/perf/
+</code></pre><p>Итак, пока шли эти нескончаемые ~40 секунд, я успел проверить почту, посмотреть новости и придумать план: подключить жёсткий диск к Raspberrypi на постоянной основе и вести там свои дела. Но как выбрать правильный? Я решил собрать все диски, которые завалялись у меня дома, и протестировать!</p>
+<h2 id="диски">Диски</h2>
+<p>Диск номер один, тот, который лежал ближе всего - <a href="https://www.bhphotovideo.com/c/product/657297-REG/Transcend_TS320GSJ25M_320GB_StoreJet_25M_Portable.html">Transcend 320GB StoreJet 25M</a>. Ничего особенного. По заверениям производителя поддерживает USB 2.0. Да, это очень старый диск. Почему-то определяется как JMicron JM20329 SATA Bridge. Ну и ладно.</p>
+<pre><code>Bus 001 Device 015: ID 152d:2329 JMicron Technology Corp. / JMicron USA Technology Corp. JM20329 SATA Bridge
+</code></pre><p>Диск номер два, Apple Flash SSD из MacBook Air вставленный в <a href="https://www.aliexpress.com/item/1005004402300323.html?spm=a2g0o.order_detail.order_detail_item.3.18387d56MWOtf4">noname enclosure</a>. Позволяет подключаться по USB-C как обычный жёсткий диск.</p>
+<p>Флэшка от Apacer Technology. Невероятно древняя. Позволяет записывать целый гигабайт данных!</p>
+<pre><code>Bus 001 Device 004: ID 1005:b113 Apacer Technology, Inc. Handy Steno/AH123 / Handy Steno 2.0/HT203
+</code></pre><p>Флэшка от Super Top microSD card reader. Почему-то не смогла определится. Пусть полежит, возможно, её время ещё не пришло.</p>
+<p>Внешний жёсткий диск <a href="https://www.amazon.co.uk/Seagate-Expansion-Portable-PlayStation-STEA2000400/dp/B00TKFEE5S">Seagate 1teap6-500</a>. Где-то написано 5400 RPM и USB 1.1, а где-то 5400 RPM и USB 3.0. Не беда, я же собираюсь протестировать фактическую скорость, зачем мне спецификации?</p>
+<pre><code>Bus 001 Device 009: ID 0bc2:2322 Seagate RSS LLC SRD0NF1 Expansion Portable (STEA)
+</code></pre><p>SD карта <a href="https://www.amazon.co.uk/SanDisk-microSDHC-Memory-Adapter-Performance/dp/B073JWXGNT">SanDisk Ultra 32 GB microSDHC Class 10, U1</a>. Какое сложное название товара и много параметров, наверное, круто.</p>
+<h2 id="тестирование">Тестирование</h2>
+<p>Для тестирования я выбрал утилиту <a href="https://fio.readthedocs.io/en/latest/">fio</a>. Она поддерживает миллион параметров, которые мне совершенно не нужны - то, что нужно. Устанавливается как обычно:</p>
+<pre><code>sudo apt install fio
+</code></pre><p>Далее для каждого диска я делал следующее:</p>
+<ul>
+<li>Подключал диск</li>
+<li>Выполнял измерение <code>fio --name=write --ioengine=posixaio --rw=write --bs=4k --size=1g --numjobs=1 --runtime=30 --time_based --status-interval=1 --output-format=terse --output=file.csv</code></li>
+<li>Копировал файл <code>file.csv</code> в надёжное место</li>
+<li>Отключал диск</li>
+</ul>
+<p>Как видно из команды запуска <code>fio</code>, я тестировал простую последовательную запись. Ничего выдающегося.</p>
+<p>В результате у меня получилось следующее:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/test-disks-raspberrypi/bs_vs_iops.png">
+
+<p>Как говорится &ldquo;Начали за здравие, кончили за упокой&rdquo;. Видимо сначала шла запись в какой-то внутренний буфер, поэтому быстро. А как только он закончился, то сразу стало медленно.</p>
+<p>Как и ожидалось, лучшие результаты показали внешние диски, которые разрабатывались быть внешними дисками.</p>
+<p>Кстати на графике нет Apple Flash SSD, так как у меня не получилось завести его под Raspberrypi. Чего я только не перепробовал: и подключение через хаб с активным питанием, и разные опции ядра вроде <code>usb-storage.quirks=152d:a586:u</code> - ничего не помогло. Этот накопитель потребляет очень много электричества и Raspberrypi просто не может выдать столько через USB порты:</p>
+<pre><code>[643278.399078] usb 1-1.2: USB disconnect, device number 14
+[643390.016152] usb 1-1-port2: over-current change #1
+[643392.321150] usb 1-1-port2: over-current change #2
+[643393.415433] hwmon hwmon1: Undervoltage detected!
+[643399.655459] hwmon hwmon1: Voltage normalised
+[643403.330147] usb 1-1-port2: over-current change #3
+[643422.019032] usb 1-1-port2: over-current change #4
+</code></pre><p>Но если его подключить к Macbook AIR, то наблюдается странное:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/test-disks-raspberrypi/jmicron.png">
+
+<p>Оказывается скорость записи на диск зависит от того, подключен ли ноутбук в сеть или нет! Удивительно.</p>
+<p>А что, если добавить внутренний SSD моего Apple MacBook Air M1? Никто ведь не утверждал, что сравнение будет честным.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/test-disks-raspberrypi/bs_vs_iops_2.png">
+
+<p>Скорость нового SSD в среднем в 3 раза больше, чем старые внешние HDD и в 2 раза больше, чем старый SSD от Apple. Не то, чтобы мне нужна была такая мощь в Raspberrypi, но хочется.</p>
+<p>К слову о мощности, а что, если померить количество IOPS на один миллиампер потребляемого тока? Raspberrypi - это же про низкое потребление в компактном форм-факторе. Легко! Для этого я взял свой <a href="https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/">USB тестер A3-B</a> и померил некоторые диски:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/test-disks-raspberrypi/current_test.png">
+
+<p>Самый энергоэффективной оказалась обычная флэшка. Она потребляет ~90мА. Внешние диски ожидаемо более прожорливые.</p>
+<p>Кстати, seagate при той же скорости записи, что и storejet, тратит гораздо меньше энергии в режиме простоя. Хозяюшке на заметку.</p>
+<p>А если поделить количество IOPS на мА*1000, то получится следующий график:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/test-disks-raspberrypi/current_test2.png">
+
+<p>И опять победила обычная флэшка.</p>
+<p>Тут правда есть один нюанс: когда тест заканчивается, данные продолжают писаться. А значит тратится энергия. Поэтому по-хорошему нужно было бы померить потребление энергии в режиме <code>direct=true</code> при записи файла фиксированного размера. Не очень понятно, будет ли скорость с большим потреблением энергии эффективнее долгой записи, но с малым потреблением энергии. Возможно, это исследование для отдельной статьи.</p>
+<h2 id="выводы">Выводы</h2>
+<p>Всё равно непонятно какой диск подключать. Флэшка выглядит заманчиво, но что, если есть специальные внешние диски рассчитанные на низкое энергопотребление? Возможно, <a href="https://www.amazon.co.uk/WD-Purple-3-5-SATA-5400rpm/dp/B071KVB4F8?th=1">WD purple</a>?</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Сэмплирование в airspy mini</title>

@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 15 Jan 2023 12:59:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Jun 2023 21:19:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Тестирование дисков для Raspberrypi</title>
+      <link>https://dernasherbrezon.com/posts/test-disks-raspberrypi/</link>
+      <pubDate>Wed, 14 Jun 2023 21:19:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/test-disks-raspberrypi/</guid>
+      <description>Порой сидишь себе программируешь никого не трогаешь, а потом внезапно хочется встать и громко возмутиться &amp;ldquo;Да сколько уже можно это терпеть!&amp;rdquo;. Такое случилось и со мной, во время невероятно длинной распаковки ядра линукса в Raspberrypi. Всё началось с того, что мне нужно было померить производительность драйвера для airspy mini, который по-умолчанию устанавливается в Debian buster. Делается это двумя командами. Первая нужна, чтобы найти PID процесса для мониторинга:
+ps aux|grep sdr_server Вторая нужна, чтобы записать статистику вызовов функций в файл для анализа:</description>
+    </item>
+    
     <item>
       <title>sx127x для RaspberryPI</title>
       <link>https://dernasherbrezon.com/posts/lora-raspberrypi/</link>
