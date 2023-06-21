@@ -11,7 +11,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.113,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.144,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.339,
@@ -25,7 +28,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.112,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.144,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.339,
@@ -39,7 +45,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.112,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.144,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.339,
@@ -53,7 +62,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.113,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.144,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.339,
@@ -67,7 +79,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.112,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.144,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.339,
@@ -81,7 +96,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.113,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.185,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.515,
@@ -95,7 +113,10 @@
 		"seagate_rate": 15.237003,
 		"sundisk_current": 0.188,
 		"sundisk_iops": 18527,
-		"sundisk_rate": 98.547874
+		"sundisk_rate": 98.547874,
+		"wd_rpi4_current": 0.225,
+		"wd_rpi4_iops": 20167,
+		"wd_rpi4_rate": 89.63111
 	},
 	{
 		"storejet_current": 0.577,
@@ -109,7 +130,10 @@
 		"seagate_rate": 18.749258,
 		"sundisk_current": 0.188,
 		"sundisk_iops": 18131,
-		"sundisk_rate": 96.44149
+		"sundisk_rate": 96.44149,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 20507,
+		"wd_rpi4_rate": 90.73894
 	},
 	{
 		"storejet_current": 0.58,
@@ -123,7 +147,10 @@
 		"seagate_rate": 21.200317,
 		"sundisk_current": 0.187,
 		"sundisk_iops": 15418,
-		"sundisk_rate": 82.449196
+		"sundisk_rate": 82.449196,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 20610,
+		"wd_rpi4_rate": 91.19469
 	},
 	{
 		"storejet_current": 0.591,
@@ -137,7 +164,10 @@
 		"seagate_rate": 21.01049,
 		"sundisk_current": 0.192,
 		"sundisk_iops": 12236,
-		"sundisk_rate": 63.729168
+		"sundisk_rate": 63.729168,
+		"wd_rpi4_current": 0.221,
+		"wd_rpi4_iops": 20636,
+		"wd_rpi4_rate": 93.375565
 	},
 	{
 		"storejet_current": 0.626,
@@ -151,7 +181,10 @@
 		"seagate_rate": 17.657408,
 		"sundisk_current": 0.193,
 		"sundisk_iops": 10559,
-		"sundisk_rate": 54.709843
+		"sundisk_rate": 54.709843,
+		"wd_rpi4_current": 0.244,
+		"wd_rpi4_iops": 20582,
+		"wd_rpi4_rate": 84.35246
 	},
 	{
 		"storejet_current": 0.6,
@@ -165,7 +198,10 @@
 		"seagate_rate": 16.604036,
 		"sundisk_current": 0.181,
 		"sundisk_iops": 9542,
-		"sundisk_rate": 52.71823
+		"sundisk_rate": 52.71823,
+		"wd_rpi4_current": 0.247,
+		"wd_rpi4_iops": 20384,
+		"wd_rpi4_rate": 82.52631
 	},
 	{
 		"storejet_current": 0.561,
@@ -179,7 +215,10 @@
 		"seagate_rate": 19.129562,
 		"sundisk_current": 0.191,
 		"sundisk_iops": 9117,
-		"sundisk_rate": 47.732983
+		"sundisk_rate": 47.732983,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 20365,
+		"wd_rpi4_rate": 90.11062
 	},
 	{
 		"storejet_current": 0.616,
@@ -193,7 +232,10 @@
 		"seagate_rate": 16.860584,
 		"sundisk_current": 0.19,
 		"sundisk_iops": 8226,
-		"sundisk_rate": 43.294735
+		"sundisk_rate": 43.294735,
+		"wd_rpi4_current": 0.232,
+		"wd_rpi4_iops": 20259,
+		"wd_rpi4_rate": 87.32327
 	},
 	{
 		"storejet_current": 0.591,
@@ -207,7 +249,10 @@
 		"seagate_rate": 15.191654,
 		"sundisk_current": 0.189,
 		"sundisk_iops": 7848,
-		"sundisk_rate": 41.52381
+		"sundisk_rate": 41.52381,
+		"wd_rpi4_current": 0.225,
+		"wd_rpi4_iops": 20305,
+		"wd_rpi4_rate": 90.244446
 	},
 	{
 		"storejet_current": 0.603,
@@ -221,7 +266,10 @@
 		"seagate_rate": 20.313152,
 		"sundisk_current": 0.191,
 		"sundisk_iops": 7387,
-		"sundisk_rate": 38.675392
+		"sundisk_rate": 38.675392,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 20293,
+		"wd_rpi4_rate": 89.79204
 	},
 	{
 		"storejet_current": 0.525,
@@ -235,7 +283,10 @@
 		"seagate_rate": 16.073578,
 		"sundisk_current": 0.191,
 		"sundisk_iops": 6886,
-		"sundisk_rate": 36.052357
+		"sundisk_rate": 36.052357,
+		"wd_rpi4_current": 0.229,
+		"wd_rpi4_iops": 20340,
+		"wd_rpi4_rate": 88.82096
 	},
 	{
 		"storejet_current": 0.615,
@@ -249,7 +300,10 @@
 		"seagate_rate": 17.146473,
 		"sundisk_current": 0.186,
 		"sundisk_iops": 6560,
-		"sundisk_rate": 35.268818
+		"sundisk_rate": 35.268818,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 20352,
+		"wd_rpi4_rate": 90.0531
 	},
 	{
 		"storejet_current": 0.554,
@@ -263,7 +317,10 @@
 		"seagate_rate": 13.6286125,
 		"sundisk_current": 0.186,
 		"sundisk_iops": 6322,
-		"sundisk_rate": 33.989246
+		"sundisk_rate": 33.989246,
+		"wd_rpi4_current": 0.228,
+		"wd_rpi4_iops": 20387,
+		"wd_rpi4_rate": 89.416664
 	},
 	{
 		"storejet_current": 0.578,
@@ -277,7 +334,10 @@
 		"seagate_rate": 18.308468,
 		"sundisk_current": 0.165,
 		"sundisk_iops": 6201,
-		"sundisk_rate": 37.581818
+		"sundisk_rate": 37.581818,
+		"wd_rpi4_current": 0.222,
+		"wd_rpi4_iops": 19002,
+		"wd_rpi4_rate": 85.5946
 	},
 	{
 		"storejet_current": 0.521,
@@ -291,7 +351,10 @@
 		"seagate_rate": 19.12963,
 		"sundisk_current": 0.19,
 		"sundisk_iops": 6056,
-		"sundisk_rate": 31.873684
+		"sundisk_rate": 31.873684,
+		"wd_rpi4_current": 0.221,
+		"wd_rpi4_iops": 19106,
+		"wd_rpi4_rate": 86.45249
 	},
 	{
 		"storejet_current": 0.586,
@@ -305,7 +368,10 @@
 		"seagate_rate": 14.293292,
 		"sundisk_current": 0.183,
 		"sundisk_iops": 5902,
-		"sundisk_rate": 32.251366
+		"sundisk_rate": 32.251366,
+		"wd_rpi4_current": 0.225,
+		"wd_rpi4_iops": 19203,
+		"wd_rpi4_rate": 85.346664
 	},
 	{
 		"storejet_current": 0.585,
@@ -319,7 +385,10 @@
 		"seagate_rate": 17.022598,
 		"sundisk_current": 0.178,
 		"sundisk_iops": 5755,
-		"sundisk_rate": 32.33146
+		"sundisk_rate": 32.33146,
+		"wd_rpi4_current": 0.225,
+		"wd_rpi4_iops": 19277,
+		"wd_rpi4_rate": 85.67555
 	},
 	{
 		"storejet_current": 0.544,
@@ -333,7 +402,10 @@
 		"seagate_rate": 16.240368,
 		"sundisk_current": 0.186,
 		"sundisk_iops": 5561,
-		"sundisk_rate": 29.89785
+		"sundisk_rate": 29.89785,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 19352,
+		"wd_rpi4_rate": 85.62832
 	},
 	{
 		"storejet_current": 0.597,
@@ -347,7 +419,10 @@
 		"seagate_rate": 15.084602,
 		"sundisk_current": 0.191,
 		"sundisk_iops": 5462,
-		"sundisk_rate": 28.596859
+		"sundisk_rate": 28.596859,
+		"wd_rpi4_current": 0.256,
+		"wd_rpi4_iops": 19419,
+		"wd_rpi4_rate": 75.85547
 	},
 	{
 		"storejet_current": 0.574,
@@ -361,7 +436,10 @@
 		"seagate_rate": 16.338799,
 		"sundisk_current": 0.191,
 		"sundisk_iops": 5339,
-		"sundisk_rate": 27.952879
+		"sundisk_rate": 27.952879,
+		"wd_rpi4_current": 0.229,
+		"wd_rpi4_iops": 19470,
+		"wd_rpi4_rate": 85.021835
 	},
 	{
 		"storejet_current": 0.586,
@@ -375,7 +453,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.189,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.234,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.571,
@@ -389,7 +470,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.187,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.241,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.55,
@@ -403,7 +487,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.186,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.225,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.6,
@@ -417,7 +504,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.191,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.227,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.572,
@@ -431,7 +521,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.19,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.569,
@@ -445,7 +538,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.193,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.224,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.576,
@@ -459,7 +555,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.186,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.226,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.591,
@@ -473,7 +572,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.186,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.225,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.603,
@@ -487,7 +589,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.191,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.228,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.581,
@@ -501,7 +606,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.187,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.241,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.603,
@@ -515,7 +623,10 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.167,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.252,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	},
 	{
 		"storejet_current": 0.627,
@@ -529,6 +640,9 @@
 		"seagate_rate": 0,
 		"sundisk_current": 0.182,
 		"sundisk_iops": 0,
-		"sundisk_rate": 0
+		"sundisk_rate": 0,
+		"wd_rpi4_current": 0.249,
+		"wd_rpi4_iops": 0,
+		"wd_rpi4_rate": 0
 	}
 ]

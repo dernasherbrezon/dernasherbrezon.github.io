@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/</link>
     <description>Recent content in тестирование on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 14 Jun 2023 21:19:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Jun 2023 22:01:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Тестирование дисков для Raspberrypi - Часть 2</title>
+      <link>https://dernasherbrezon.com/posts/test-disks-raspberrypi2/</link>
+      <pubDate>Tue, 20 Jun 2023 22:01:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/test-disks-raspberrypi2/</guid>
+      <description>В первой части я так и не понял какой диск мне ставить в Raspberrypi. С одной стороны обычные флэшки очень энергоэффективны, но медленные, а с другой, диски очень быстрые, но потребляют слишком много энергии. Во второй части (и, надеюсь, последней) я решил не выдумывать, а пошёл на The PiHut и купил WD Green SSD 240Gb.
+Тестирование Методология тестирования совсем не изменилась со времён первой части:
+ Подключал диск Выполнял измерение fio --name=write --ioengine=posixaio --rw=write --bs=4k --size=1g --numjobs=1 --runtime=30 --time_based --status-interval=1 --output-format=terse --output=file.</description>
+    </item>
+    
     <item>
       <title>Тестирование дисков для Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/test-disks-raspberrypi/</link>

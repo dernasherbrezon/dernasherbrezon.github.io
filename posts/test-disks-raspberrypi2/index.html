@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='В первой части я так и не понял какой диск мне ставить в Raspberrypi. С одной стороны обычные флэшки очень энергоэффективны, но медленные, а с другой, диски очень быстрые, но потребляют слишком много энергии. Во второй части (и, надеюсь, последней) я решил не выдумывать, а пошёл на The PiHut и купил WD Green SSD 240Gb.
+Тестирование Методология тестирования совсем не изменилась со времён первой части:
+ Подключал диск Выполнял измерение fio --name=write --ioengine=posixaio --rw=write --bs=4k --size=1g --numjobs=1 --runtime=30 --time_based --status-interval=1 --output-format=terse --output=file.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Тестирование дисков для Raspberrypi - Часть 2 • dernasherbrezon'>
+<meta property='og:description' content='В первой части я так и не понял какой диск мне ставить в Raspberrypi. С одной стороны обычные флэшки очень энергоэффективны, но медленные, а с другой, диски очень быстрые, но потребляют слишком много энергии. Во второй части (и, надеюсь, последней) я решил не выдумывать, а пошёл на The PiHut и купил WD Green SSD 240Gb.
+Тестирование Методология тестирования совсем не изменилась со времён первой части:
+ Подключал диск Выполнял измерение fio --name=write --ioengine=posixaio --rw=write --bs=4k --size=1g --numjobs=1 --runtime=30 --time_based --status-interval=1 --output-format=terse --output=file.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/test-disks-raspberrypi2/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='администрирование'><meta property='article:published_time' content='2023-06-20T22:01:18&#43;01:00'/><meta property='article:modified_time' content='2023-06-20T22:01:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Тестирование дисков для Raspberrypi - Часть 2 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/test-disks-raspberrypi2/'>
+  
+    <link href="https://dernasherbrezon.com/posts/test-disks-raspberrypi2/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><script src="/js/chart.min.js"></script>
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0208333333333333em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0625em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0625em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0208333333333333em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1041666666666667em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0208333333333333em'>bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0208333333333333em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.3958333333333333em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0833333333333333em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.125em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.125em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.125em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0625em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0416666666666667em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0625em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0625em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0625em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0208333333333333em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0833333333333333em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0416666666666667em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1041666666666667em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0625em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0416666666666667em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0416666666666667em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.125em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0416666666666667em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0208333333333333em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1041666666666667em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0208333333333333em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0833333333333333em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1041666666666667em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0416666666666667em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0208333333333333em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0416666666666667em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0208333333333333em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0208333333333333em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0208333333333333em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0833333333333333em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0625em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0416666666666667em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2291666666666667em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.4166666666666665em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0208333333333333em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0208333333333333em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0208333333333333em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.25em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0416666666666667em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0416666666666667em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0625em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/sdr-server/' style='font-size:1em'>sdr-server</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0208333333333333em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.0625em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0416666666666667em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0416666666666667em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0208333333333333em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0208333333333333em'>String</a>
+      </li><li>
+        <a href='/tags/sx127x/' style='font-size:1.0833333333333333em'>sx127x</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0416666666666667em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0208333333333333em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0833333333333333em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0416666666666667em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0416666666666667em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2916666666666665em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0833333333333333em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0833333333333333em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0416666666666667em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0416666666666667em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0208333333333333em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0625em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3125em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0625em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.375em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2291666666666667em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0416666666666667em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Тестирование дисков для Raspberrypi - Часть 2</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2023-06-20T22:01:18&#43;01:00'>20 Jun 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>В <a href="https://dernasherbrezon.com/posts/test-disks-raspberrypi/">первой части</a> я так и не понял какой диск мне ставить в Raspberrypi. С одной стороны обычные флэшки очень энергоэффективны, но медленные, а с другой, диски очень быстрые, но потребляют слишком много энергии. Во второй части (и, надеюсь, последней) я решил не выдумывать, а пошёл на <a href="https://thepihut.com/products/wd-green-240gb-2-5-ssd">The PiHut</a> и купил WD Green SSD 240Gb.</p>
+<p><img src="/img/test-disks-raspberrypi2/1.jpg" alt=""></p>
+<h2 id="тестирование">Тестирование</h2>
+<p>Методология тестирования совсем не изменилась со времён первой части:</p>
+<ul>
+<li>Подключал диск</li>
+<li>Выполнял измерение <code>fio --name=write --ioengine=posixaio --rw=write --bs=4k --size=1g --numjobs=1 --runtime=30 --time_based --status-interval=1 --output-format=terse --output=file.csv</code></li>
+<li>Копировал файл <code>file.csv</code> в надёжное место</li>
+<li>Отключал диск</li>
+</ul>
+<p>Если сравнивать со скоростями дисков из предыдущего поста, то получается следующая картина:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="bs_vs_iops" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="bs_vs_iops" download="bs_vs_iops.png" href="" title="Последовательная запись">Скачать</a>
+</small>
+</div>
+<script>
+var bs_vs_iopsData = [{"apacer_bw":63131,"apacer_iops":15815,"jmicron_power_bw":119565,"jmicron_power_iops":29891,"local_disk_bw":73550,"local_disk_iops":18398,"macbook_bw":231679,"macbook_iops":57927,"seagate_bw":39820,"seagate_iops":9965,"storejet_bw":66144,"storejet_iops":16565,"sundisk_bw":74073,"sundisk_iops":18527,"wd_rpi1_bw":10409,"wd_rpi1_iops":2603,"wd_rpi3_bw":74472,"wd_rpi3_iops":18628,"wd_rpi4_bw":80661,"wd_rpi4_iops":20167},{"apacer_bw":62350,"apacer_iops":15589,"jmicron_power_bw":120519,"jmicron_power_iops":30130,"local_disk_bw":69429,"local_disk_iops":17357,"macbook_bw":228754,"macbook_iops":57189,"seagate_bw":50549,"seagate_iops":12637,"storejet_bw":64508,"storejet_iops":16135,"sundisk_bw":72510,"sundisk_iops":18131,"wd_rpi1_bw":9207,"wd_rpi1_iops":2302,"wd_rpi3_bw":72889,"wd_rpi3_iops":18222,"wd_rpi4_bw":82024,"wd_rpi4_iops":20507},{"apacer_bw":59317,"apacer_iops":14830,"jmicron_power_bw":121113,"jmicron_power_iops":30278,"local_disk_bw":51586,"local_disk_iops":12897,"macbook_bw":227937,"macbook_iops":56986,"seagate_bw":53339,"seagate_iops":13335,"storejet_bw":61805,"storejet_iops":15452,"sundisk_bw":61669,"sundisk_iops":15418,"wd_rpi1_bw":9438,"wd_rpi1_iops":2359,"wd_rpi3_bw":66426,"wd_rpi3_iops":16607,"wd_rpi4_bw":82439,"wd_rpi4_iops":20610},{"apacer_bw":43953,"apacer_iops":10989,"jmicron_power_bw":124201,"jmicron_power_iops":31050,"local_disk_bw":39200,"local_disk_iops":9800,"macbook_bw":226938,"macbook_iops":56735,"seagate_bw":48073,"seagate_iops":12018,"storejet_bw":56801,"storejet_iops":14201,"sundisk_bw":48945,"sundisk_iops":12236,"wd_rpi1_bw":9011,"wd_rpi1_iops":2253,"wd_rpi3_bw":61400,"wd_rpi3_iops":15350,"wd_rpi4_bw":82544,"wd_rpi4_iops":20636},{"apacer_bw":34531,"apacer_iops":8633,"jmicron_power_bw":126683,"jmicron_power_iops":31671,"local_disk_bw":23363,"local_disk_iops":5841,"macbook_bw":230591,"macbook_iops":57648,"seagate_bw":45769,"seagate_iops":11442,"storejet_bw":50882,"storejet_iops":12721,"sundisk_bw":42233,"sundisk_iops":10559,"wd_rpi1_bw":8942,"wd_rpi1_iops":2235,"wd_rpi3_bw":56152,"wd_rpi3_iops":14038,"wd_rpi4_bw":82329,"wd_rpi4_iops":20582},{"apacer_bw":28361,"apacer_iops":7090,"jmicron_power_bw":126577,"jmicron_power_iops":31644,"local_disk_bw":25468,"local_disk_iops":6367,"macbook_bw":235809,"macbook_iops":58952,"seagate_bw":42773,"seagate_iops":10693,"storejet_bw":47282,"storejet_iops":11821,"sundisk_bw":38167,"sundisk_iops":9542,"wd_rpi1_bw":9043,"wd_rpi1_iops":2261,"wd_rpi3_bw":52259,"wd_rpi3_iops":13065,"wd_rpi4_bw":81535,"wd_rpi4_iops":20384},{"apacer_bw":24212,"apacer_iops":6053,"jmicron_power_bw":126477,"jmicron_power_iops":31619,"local_disk_bw":22874,"local_disk_iops":5718,"macbook_bw":237021,"macbook_iops":59256,"seagate_bw":41933,"seagate_iops":10483,"storejet_bw":44939,"storejet_iops":11235,"sundisk_bw":36466,"sundisk_iops":9117,"wd_rpi1_bw":8850,"wd_rpi1_iops":2212,"wd_rpi3_bw":49898,"wd_rpi3_iops":12474,"wd_rpi4_bw":81462,"wd_rpi4_iops":20365},{"apacer_bw":21202,"apacer_iops":5301,"jmicron_power_bw":126330,"jmicron_power_iops":31582,"local_disk_bw":14521,"local_disk_iops":3630,"macbook_bw":237397,"macbook_iops":59349,"seagate_bw":39184,"seagate_iops":9796,"storejet_bw":43190,"storejet_iops":10797,"sundisk_bw":32903,"sundisk_iops":8226,"wd_rpi1_bw":8739,"wd_rpi1_iops":2184,"wd_rpi3_bw":48131,"wd_rpi3_iops":12033,"wd_rpi4_bw":81038,"wd_rpi4_iops":20259},{"apacer_bw":18925,"apacer_iops":4731,"jmicron_power_bw":125744,"jmicron_power_iops":31436,"local_disk_bw":17232,"local_disk_iops":4308,"macbook_bw":238589,"macbook_iops":59648,"seagate_bw":39318,"seagate_iops":9829,"storejet_bw":41898,"storejet_iops":10475,"sundisk_bw":31393,"sundisk_iops":7848,"wd_rpi1_bw":8872,"wd_rpi1_iops":2218,"wd_rpi3_bw":47066,"wd_rpi3_iops":11766,"wd_rpi4_bw":81220,"wd_rpi4_iops":20305},{"apacer_bw":17115,"apacer_iops":4279,"jmicron_power_bw":125482,"jmicron_power_iops":31370,"local_disk_bw":18085,"local_disk_iops":4521,"macbook_bw":248012,"macbook_iops":62003,"seagate_bw":38922,"seagate_iops":9730,"storejet_bw":40532,"storejet_iops":10133,"sundisk_bw":29549,"sundisk_iops":7387,"wd_rpi1_bw":8794,"wd_rpi1_iops":2198,"wd_rpi3_bw":45551,"wd_rpi3_iops":11388,"wd_rpi4_bw":81172,"wd_rpi4_iops":20293},{"apacer_bw":15693,"apacer_iops":3923,"jmicron_power_bw":125715,"jmicron_power_iops":31429,"local_disk_bw":17674,"local_disk_iops":4418,"macbook_bw":251739,"macbook_iops":62935,"seagate_bw":38446,"seagate_iops":9612,"storejet_bw":39434,"storejet_iops":9858,"sundisk_bw":27544,"sundisk_iops":6886,"wd_rpi1_bw":8763,"wd_rpi1_iops":2190,"wd_rpi3_bw":44563,"wd_rpi3_iops":11141,"wd_rpi4_bw":81359,"wd_rpi4_iops":20340},{"apacer_bw":14547,"apacer_iops":3637,"jmicron_power_bw":130587,"jmicron_power_iops":32646,"local_disk_bw":17235,"local_disk_iops":4308,"macbook_bw":257995,"macbook_iops":64499,"seagate_bw":37931,"seagate_iops":9482,"storejet_bw":38631,"storejet_iops":9657,"sundisk_bw":26240,"sundisk_iops":6560,"wd_rpi1_bw":8827,"wd_rpi1_iops":2206,"wd_rpi3_bw":43593,"wd_rpi3_iops":10898,"wd_rpi4_bw":81407,"wd_rpi4_iops":20352},{"apacer_bw":13611,"apacer_iops":3403,"jmicron_power_bw":132676,"jmicron_power_iops":33169,"local_disk_bw":16797,"local_disk_iops":4199,"macbook_bw":267300,"macbook_iops":66825,"seagate_bw":37723,"seagate_iops":9431,"storejet_bw":38001,"storejet_iops":9500,"sundisk_bw":25289,"sundisk_iops":6322,"wd_rpi1_bw":8737,"wd_rpi1_iops":2184,"wd_rpi3_bw":43001,"wd_rpi3_iops":10750,"wd_rpi4_bw":81549,"wd_rpi4_iops":20387},{"apacer_bw":12814,"apacer_iops":3203,"jmicron_power_bw":134557,"jmicron_power_iops":33639,"local_disk_bw":14741,"local_disk_iops":3685,"macbook_bw":273298,"macbook_iops":68324,"seagate_bw":36324,"seagate_iops":9081,"storejet_bw":37419,"storejet_iops":9355,"sundisk_bw":24803,"sundisk_iops":6201,"wd_rpi1_bw":8660,"wd_rpi1_iops":2165,"wd_rpi3_bw":42468,"wd_rpi3_iops":10617,"wd_rpi4_bw":76006,"wd_rpi4_iops":19002},{"apacer_bw":12147,"apacer_iops":3037,"jmicron_power_bw":130973,"jmicron_power_iops":32743,"local_disk_bw":16577,"local_disk_iops":4144,"macbook_bw":278090,"macbook_iops":69522,"seagate_bw":37187,"seagate_iops":9297,"storejet_bw":36939,"storejet_iops":9235,"sundisk_bw":24223,"sundisk_iops":6056,"wd_rpi1_bw":8726,"wd_rpi1_iops":2181,"wd_rpi3_bw":42041,"wd_rpi3_iops":10510,"wd_rpi4_bw":76425,"wd_rpi4_iops":19106},{"apacer_bw":11578,"apacer_iops":2894,"jmicron_power_bw":128697,"jmicron_power_iops":32174,"local_disk_bw":16371,"local_disk_iops":4092,"macbook_bw":294633,"macbook_iops":73658,"seagate_bw":36650,"seagate_iops":9162,"storejet_bw":36593,"storejet_iops":9148,"sundisk_bw":23610,"sundisk_iops":5902,"wd_rpi1_bw":8675,"wd_rpi1_iops":2169,"wd_rpi3_bw":41625,"wd_rpi3_iops":10406,"wd_rpi4_bw":76813,"wd_rpi4_iops":19203},{"apacer_bw":11085,"apacer_iops":2771,"jmicron_power_bw":126224,"jmicron_power_iops":31556,"local_disk_bw":15748,"local_disk_iops":3940,"macbook_bw":322519,"macbook_iops":80629,"seagate_bw":36156,"seagate_iops":9039,"storejet_bw":36327,"storejet_iops":9082,"sundisk_bw":23021,"sundisk_iops":5755,"wd_rpi1_bw":8693,"wd_rpi1_iops":2173,"wd_rpi3_bw":41339,"wd_rpi3_iops":10334,"wd_rpi4_bw":77109,"wd_rpi4_iops":19277},{"apacer_bw":10628,"apacer_iops":2657,"jmicron_power_bw":127341,"jmicron_power_iops":31835,"local_disk_bw":14016,"local_disk_iops":3504,"macbook_bw":347353,"macbook_iops":86838,"seagate_bw":35405,"seagate_iops":8851,"storejet_bw":36057,"storejet_iops":9014,"sundisk_bw":22247,"sundisk_iops":5561,"wd_rpi1_bw":8713,"wd_rpi1_iops":2178,"wd_rpi3_bw":40922,"wd_rpi3_iops":10230,"wd_rpi4_bw":77409,"wd_rpi4_iops":19352},{"apacer_bw":10103,"apacer_iops":2525,"jmicron_power_bw":129667,"jmicron_power_iops":32417,"local_disk_bw":15864,"local_disk_iops":3966,"macbook_bw":358123,"macbook_iops":89531,"seagate_bw":35662,"seagate_iops":8915,"storejet_bw":35832,"storejet_iops":8958,"sundisk_bw":21849,"sundisk_iops":5462,"wd_rpi1_bw":8658,"wd_rpi1_iops":2164,"wd_rpi3_bw":40541,"wd_rpi3_iops":10135,"wd_rpi4_bw":77677,"wd_rpi4_iops":19419},{"apacer_bw":3092,"apacer_iops":773,"jmicron_power_bw":131211,"jmicron_power_iops":32802,"local_disk_bw":15389,"local_disk_iops":3847,"macbook_bw":377238,"macbook_iops":94309,"seagate_bw":35880,"seagate_iops":8970,"storejet_bw":35462,"storejet_iops":8865,"sundisk_bw":21358,"sundisk_iops":5339,"wd_rpi1_bw":8638,"wd_rpi1_iops":2159,"wd_rpi3_bw":40227,"wd_rpi3_iops":10057,"wd_rpi4_bw":77880,"wd_rpi4_iops":19470}];
+var bs_vs_iopsdatasource = bs_vs_iopsData.map(function(e) {
+	return e.storejet_iops;
+});var bs_vs_iopsdatasource2 = bs_vs_iopsData.map(function(e) {
+	return e.apacer_iops;
+});var bs_vs_iopsdatasource3 = bs_vs_iopsData.map(function(e) {
+	return e.seagate_iops;
+});var bs_vs_iopsdatasource4 = bs_vs_iopsData.map(function(e) {
+	return e.wd_rpi3_iops;
+});var bs_vs_iopsXAxis = bs_vs_iopsData.map(function(e, index) {
+	return index;
+});var bs_vs_iopsCtx = document.getElementById('bs_vs_iops').getContext('2d');
+const bs_vs_iopsChart = new Chart(bs_vs_iopsCtx, {
+    type: 'line',
+    data: {
+        labels: bs_vs_iopsXAxis,
+        datasets: [{
+        	label: 'apacer',
+            data: bs_vs_iopsdatasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'seagate',
+            data: bs_vs_iopsdatasource3,
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'WD Green',
+            data: bs_vs_iopsdatasource4,
+            borderColor: '#5DD9BE',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#5DD9BE',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'storejet',
+            data: bs_vs_iopsdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'IOPS'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Последовательная запись',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/test-disks-raspberrypi2/bs_vs_iops.png">
+</noscript>
+<p>Ну такое. Скорость чуть выше, но не космическая. И совсем недотягивает до скоростей MacBook. Чтобы, хоть как-то разнообразить сравнение, я решил протестировать SSD на разных версиях Raspberrypi. И вот, что получилось:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="bs_vs_iops2" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="bs_vs_iops2" download="bs_vs_iops2.png" href="" title="Последовательная запись">Скачать</a>
+</small>
+</div>
+<script>
+var bs_vs_iops2Data = [{"apacer_bw":63131,"apacer_iops":15815,"jmicron_power_bw":119565,"jmicron_power_iops":29891,"local_disk_bw":73550,"local_disk_iops":18398,"macbook_bw":231679,"macbook_iops":57927,"seagate_bw":39820,"seagate_iops":9965,"storejet_bw":66144,"storejet_iops":16565,"sundisk_bw":74073,"sundisk_iops":18527,"wd_rpi1_bw":10409,"wd_rpi1_iops":2603,"wd_rpi3_bw":74472,"wd_rpi3_iops":18628,"wd_rpi4_bw":80661,"wd_rpi4_iops":20167},{"apacer_bw":62350,"apacer_iops":15589,"jmicron_power_bw":120519,"jmicron_power_iops":30130,"local_disk_bw":69429,"local_disk_iops":17357,"macbook_bw":228754,"macbook_iops":57189,"seagate_bw":50549,"seagate_iops":12637,"storejet_bw":64508,"storejet_iops":16135,"sundisk_bw":72510,"sundisk_iops":18131,"wd_rpi1_bw":9207,"wd_rpi1_iops":2302,"wd_rpi3_bw":72889,"wd_rpi3_iops":18222,"wd_rpi4_bw":82024,"wd_rpi4_iops":20507},{"apacer_bw":59317,"apacer_iops":14830,"jmicron_power_bw":121113,"jmicron_power_iops":30278,"local_disk_bw":51586,"local_disk_iops":12897,"macbook_bw":227937,"macbook_iops":56986,"seagate_bw":53339,"seagate_iops":13335,"storejet_bw":61805,"storejet_iops":15452,"sundisk_bw":61669,"sundisk_iops":15418,"wd_rpi1_bw":9438,"wd_rpi1_iops":2359,"wd_rpi3_bw":66426,"wd_rpi3_iops":16607,"wd_rpi4_bw":82439,"wd_rpi4_iops":20610},{"apacer_bw":43953,"apacer_iops":10989,"jmicron_power_bw":124201,"jmicron_power_iops":31050,"local_disk_bw":39200,"local_disk_iops":9800,"macbook_bw":226938,"macbook_iops":56735,"seagate_bw":48073,"seagate_iops":12018,"storejet_bw":56801,"storejet_iops":14201,"sundisk_bw":48945,"sundisk_iops":12236,"wd_rpi1_bw":9011,"wd_rpi1_iops":2253,"wd_rpi3_bw":61400,"wd_rpi3_iops":15350,"wd_rpi4_bw":82544,"wd_rpi4_iops":20636},{"apacer_bw":34531,"apacer_iops":8633,"jmicron_power_bw":126683,"jmicron_power_iops":31671,"local_disk_bw":23363,"local_disk_iops":5841,"macbook_bw":230591,"macbook_iops":57648,"seagate_bw":45769,"seagate_iops":11442,"storejet_bw":50882,"storejet_iops":12721,"sundisk_bw":42233,"sundisk_iops":10559,"wd_rpi1_bw":8942,"wd_rpi1_iops":2235,"wd_rpi3_bw":56152,"wd_rpi3_iops":14038,"wd_rpi4_bw":82329,"wd_rpi4_iops":20582},{"apacer_bw":28361,"apacer_iops":7090,"jmicron_power_bw":126577,"jmicron_power_iops":31644,"local_disk_bw":25468,"local_disk_iops":6367,"macbook_bw":235809,"macbook_iops":58952,"seagate_bw":42773,"seagate_iops":10693,"storejet_bw":47282,"storejet_iops":11821,"sundisk_bw":38167,"sundisk_iops":9542,"wd_rpi1_bw":9043,"wd_rpi1_iops":2261,"wd_rpi3_bw":52259,"wd_rpi3_iops":13065,"wd_rpi4_bw":81535,"wd_rpi4_iops":20384},{"apacer_bw":24212,"apacer_iops":6053,"jmicron_power_bw":126477,"jmicron_power_iops":31619,"local_disk_bw":22874,"local_disk_iops":5718,"macbook_bw":237021,"macbook_iops":59256,"seagate_bw":41933,"seagate_iops":10483,"storejet_bw":44939,"storejet_iops":11235,"sundisk_bw":36466,"sundisk_iops":9117,"wd_rpi1_bw":8850,"wd_rpi1_iops":2212,"wd_rpi3_bw":49898,"wd_rpi3_iops":12474,"wd_rpi4_bw":81462,"wd_rpi4_iops":20365},{"apacer_bw":21202,"apacer_iops":5301,"jmicron_power_bw":126330,"jmicron_power_iops":31582,"local_disk_bw":14521,"local_disk_iops":3630,"macbook_bw":237397,"macbook_iops":59349,"seagate_bw":39184,"seagate_iops":9796,"storejet_bw":43190,"storejet_iops":10797,"sundisk_bw":32903,"sundisk_iops":8226,"wd_rpi1_bw":8739,"wd_rpi1_iops":2184,"wd_rpi3_bw":48131,"wd_rpi3_iops":12033,"wd_rpi4_bw":81038,"wd_rpi4_iops":20259},{"apacer_bw":18925,"apacer_iops":4731,"jmicron_power_bw":125744,"jmicron_power_iops":31436,"local_disk_bw":17232,"local_disk_iops":4308,"macbook_bw":238589,"macbook_iops":59648,"seagate_bw":39318,"seagate_iops":9829,"storejet_bw":41898,"storejet_iops":10475,"sundisk_bw":31393,"sundisk_iops":7848,"wd_rpi1_bw":8872,"wd_rpi1_iops":2218,"wd_rpi3_bw":47066,"wd_rpi3_iops":11766,"wd_rpi4_bw":81220,"wd_rpi4_iops":20305},{"apacer_bw":17115,"apacer_iops":4279,"jmicron_power_bw":125482,"jmicron_power_iops":31370,"local_disk_bw":18085,"local_disk_iops":4521,"macbook_bw":248012,"macbook_iops":62003,"seagate_bw":38922,"seagate_iops":9730,"storejet_bw":40532,"storejet_iops":10133,"sundisk_bw":29549,"sundisk_iops":7387,"wd_rpi1_bw":8794,"wd_rpi1_iops":2198,"wd_rpi3_bw":45551,"wd_rpi3_iops":11388,"wd_rpi4_bw":81172,"wd_rpi4_iops":20293},{"apacer_bw":15693,"apacer_iops":3923,"jmicron_power_bw":125715,"jmicron_power_iops":31429,"local_disk_bw":17674,"local_disk_iops":4418,"macbook_bw":251739,"macbook_iops":62935,"seagate_bw":38446,"seagate_iops":9612,"storejet_bw":39434,"storejet_iops":9858,"sundisk_bw":27544,"sundisk_iops":6886,"wd_rpi1_bw":8763,"wd_rpi1_iops":2190,"wd_rpi3_bw":44563,"wd_rpi3_iops":11141,"wd_rpi4_bw":81359,"wd_rpi4_iops":20340},{"apacer_bw":14547,"apacer_iops":3637,"jmicron_power_bw":130587,"jmicron_power_iops":32646,"local_disk_bw":17235,"local_disk_iops":4308,"macbook_bw":257995,"macbook_iops":64499,"seagate_bw":37931,"seagate_iops":9482,"storejet_bw":38631,"storejet_iops":9657,"sundisk_bw":26240,"sundisk_iops":6560,"wd_rpi1_bw":8827,"wd_rpi1_iops":2206,"wd_rpi3_bw":43593,"wd_rpi3_iops":10898,"wd_rpi4_bw":81407,"wd_rpi4_iops":20352},{"apacer_bw":13611,"apacer_iops":3403,"jmicron_power_bw":132676,"jmicron_power_iops":33169,"local_disk_bw":16797,"local_disk_iops":4199,"macbook_bw":267300,"macbook_iops":66825,"seagate_bw":37723,"seagate_iops":9431,"storejet_bw":38001,"storejet_iops":9500,"sundisk_bw":25289,"sundisk_iops":6322,"wd_rpi1_bw":8737,"wd_rpi1_iops":2184,"wd_rpi3_bw":43001,"wd_rpi3_iops":10750,"wd_rpi4_bw":81549,"wd_rpi4_iops":20387},{"apacer_bw":12814,"apacer_iops":3203,"jmicron_power_bw":134557,"jmicron_power_iops":33639,"local_disk_bw":14741,"local_disk_iops":3685,"macbook_bw":273298,"macbook_iops":68324,"seagate_bw":36324,"seagate_iops":9081,"storejet_bw":37419,"storejet_iops":9355,"sundisk_bw":24803,"sundisk_iops":6201,"wd_rpi1_bw":8660,"wd_rpi1_iops":2165,"wd_rpi3_bw":42468,"wd_rpi3_iops":10617,"wd_rpi4_bw":76006,"wd_rpi4_iops":19002},{"apacer_bw":12147,"apacer_iops":3037,"jmicron_power_bw":130973,"jmicron_power_iops":32743,"local_disk_bw":16577,"local_disk_iops":4144,"macbook_bw":278090,"macbook_iops":69522,"seagate_bw":37187,"seagate_iops":9297,"storejet_bw":36939,"storejet_iops":9235,"sundisk_bw":24223,"sundisk_iops":6056,"wd_rpi1_bw":8726,"wd_rpi1_iops":2181,"wd_rpi3_bw":42041,"wd_rpi3_iops":10510,"wd_rpi4_bw":76425,"wd_rpi4_iops":19106},{"apacer_bw":11578,"apacer_iops":2894,"jmicron_power_bw":128697,"jmicron_power_iops":32174,"local_disk_bw":16371,"local_disk_iops":4092,"macbook_bw":294633,"macbook_iops":73658,"seagate_bw":36650,"seagate_iops":9162,"storejet_bw":36593,"storejet_iops":9148,"sundisk_bw":23610,"sundisk_iops":5902,"wd_rpi1_bw":8675,"wd_rpi1_iops":2169,"wd_rpi3_bw":41625,"wd_rpi3_iops":10406,"wd_rpi4_bw":76813,"wd_rpi4_iops":19203},{"apacer_bw":11085,"apacer_iops":2771,"jmicron_power_bw":126224,"jmicron_power_iops":31556,"local_disk_bw":15748,"local_disk_iops":3940,"macbook_bw":322519,"macbook_iops":80629,"seagate_bw":36156,"seagate_iops":9039,"storejet_bw":36327,"storejet_iops":9082,"sundisk_bw":23021,"sundisk_iops":5755,"wd_rpi1_bw":8693,"wd_rpi1_iops":2173,"wd_rpi3_bw":41339,"wd_rpi3_iops":10334,"wd_rpi4_bw":77109,"wd_rpi4_iops":19277},{"apacer_bw":10628,"apacer_iops":2657,"jmicron_power_bw":127341,"jmicron_power_iops":31835,"local_disk_bw":14016,"local_disk_iops":3504,"macbook_bw":347353,"macbook_iops":86838,"seagate_bw":35405,"seagate_iops":8851,"storejet_bw":36057,"storejet_iops":9014,"sundisk_bw":22247,"sundisk_iops":5561,"wd_rpi1_bw":8713,"wd_rpi1_iops":2178,"wd_rpi3_bw":40922,"wd_rpi3_iops":10230,"wd_rpi4_bw":77409,"wd_rpi4_iops":19352},{"apacer_bw":10103,"apacer_iops":2525,"jmicron_power_bw":129667,"jmicron_power_iops":32417,"local_disk_bw":15864,"local_disk_iops":3966,"macbook_bw":358123,"macbook_iops":89531,"seagate_bw":35662,"seagate_iops":8915,"storejet_bw":35832,"storejet_iops":8958,"sundisk_bw":21849,"sundisk_iops":5462,"wd_rpi1_bw":8658,"wd_rpi1_iops":2164,"wd_rpi3_bw":40541,"wd_rpi3_iops":10135,"wd_rpi4_bw":77677,"wd_rpi4_iops":19419},{"apacer_bw":3092,"apacer_iops":773,"jmicron_power_bw":131211,"jmicron_power_iops":32802,"local_disk_bw":15389,"local_disk_iops":3847,"macbook_bw":377238,"macbook_iops":94309,"seagate_bw":35880,"seagate_iops":8970,"storejet_bw":35462,"storejet_iops":8865,"sundisk_bw":21358,"sundisk_iops":5339,"wd_rpi1_bw":8638,"wd_rpi1_iops":2159,"wd_rpi3_bw":40227,"wd_rpi3_iops":10057,"wd_rpi4_bw":77880,"wd_rpi4_iops":19470}];
+var bs_vs_iops2datasource = bs_vs_iops2Data.map(function(e) {
+	return e.wd_rpi1_iops;
+});var bs_vs_iops2datasource2 = bs_vs_iops2Data.map(function(e) {
+	return e.wd_rpi3_iops;
+});var bs_vs_iops2datasource3 = bs_vs_iops2Data.map(function(e) {
+	return e.wd_rpi4_iops;
+});var bs_vs_iops2XAxis = bs_vs_iops2Data.map(function(e, index) {
+	return index;
+});var bs_vs_iops2Ctx = document.getElementById('bs_vs_iops2').getContext('2d');
+const bs_vs_iops2Chart = new Chart(bs_vs_iops2Ctx, {
+    type: 'line',
+    data: {
+        labels: bs_vs_iops2XAxis,
+        datasets: [{
+        	label: 'Raspberrypi 3b\u002b',
+            data: bs_vs_iops2datasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'Raspberrypi 4',
+            data: bs_vs_iops2datasource3,
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'Raspberrypi 1b',
+            data: bs_vs_iops2datasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'IOPS'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Последовательная запись',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/test-disks-raspberrypi2/bs_vs_iops2.png">
+</noscript>
+<p>UAS творит чудеса. Скорость стабильная и высокая. <a href="https://ru.wikipedia.org/wiki/USB_Attached_SCSI">Согласно Википедии</a>, UAS добавляет поддержку каких-то потоков и очередей. Видимо это позволяет эффективнее буферизовать данные перед отправкой. А на принимающей стороне эффективно и параллельно их записывать.</p>
+<pre><code>usb 2-1: new SuperSpeed USB device number 2 using xhci_hcd
+usb 2-1: New USB device found, idVendor=174c, idProduct=55aa, bcdDevice= 1.00
+usb 2-1: New USB device strings: Mfr=2, Product=3, SerialNumber=1
+usb 2-1: Product: USB 3.0 TOSATA
+usb 2-1: Manufacturer: ASMT
+usb 2-1: SerialNumber: 0000000000A3
+scsi host0: uas
+scsi 0:0:0:0: Direct-Access     ASMT     USB 3.0 TOSATA   0    PQ: 0 ANSI: 6
+sd 0:0:0:0: [sda] 468862128 512-byte logical blocks: (240 GB/224 GiB)
+sd 0:0:0:0: [sda] Write Protect is off
+sd 0:0:0:0: [sda] Mode Sense: 43 00 00 00
+sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+sd 0:0:0:0: [sda] Optimal transfer size 33553920 bytes
+</code></pre><p>При подключении к Raspberrypi 3b+ в dmesg появляется сообщение:</p>
+<pre><code>usb 1-1.3: new high-speed USB device number 5 using dwc_otg
+usb 1-1.3: New USB device found, idVendor=174c, idProduct=55aa, bcdDevice= 1.00
+usb 1-1.3: New USB device strings: Mfr=2, Product=3, SerialNumber=1
+usb 1-1.3: Product: USB 3.0 TOSATA
+usb 1-1.3: Manufacturer: ASMT
+usb 1-1.3: SerialNumber: 0000000000A3
+usb 1-1.3: The driver for the USB controller dwc_otg_hcd does not support scatter-gather which is
+usb 1-1.3: required by the UAS driver. Please try an other USB controller if you wish to use UAS.
+usb-storage 1-1.3:1.0: USB Mass Storage device detected
+usb-storage 1-1.3:1.0: Quirks match for vid 174c pid 55aa: 400000
+scsi host0: usb-storage 1-1.3:1.0
+scsi 0:0:0:0: Direct-Access     ASMT     USB 3.0 TOSATA   0    PQ: 0 ANSI: 6
+</code></pre><p>USB2.0 действительно не поддерживает UAS.</p>
+<p>Что интересно, в Raspberrypi 1B, скорость того же самого диска значительно меньше. Такое ощущение, что скорость записи упирается в частоту процессора.</p>
+<h2 id="потребление-энергии">Потребление энергии</h2>
+<p>Во всех трёх Raspberrypi диск потреблял примерно одинаковое количество энергии. А вот, если сравнивать с другими дисками, то получается следующая картина:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="current_test" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="current_test" download="current_test.png" href="" title="IOPS на один миллиампер">Скачать</a>
+</small>
+</div>
+<script>
+var current_testData = [{"apacer_current":0.055,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.191,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.339,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.113,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.144,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.055,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.191,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.339,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.112,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.144,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.055,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.191,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.339,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.112,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.144,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.055,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.191,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.339,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.113,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.144,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.054,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.191,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.339,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.112,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.144,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.054,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.191,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.339,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.113,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.185,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.075,"apacer_iops":15815,"apacer_rate":210.86667,"seagate_current":0.654,"seagate_iops":9965,"seagate_rate":15.237003,"storejet_current":0.515,"storejet_iops":16565,"storejet_rate":32.165047,"sundisk_current":0.188,"sundisk_iops":18527,"sundisk_rate":98.547874,"wd_rpi4_current":0.225,"wd_rpi4_iops":20167,"wd_rpi4_rate":89.63111},{"apacer_current":0.076,"apacer_iops":15589,"apacer_rate":205.11842,"seagate_current":0.674,"seagate_iops":12637,"seagate_rate":18.749258,"storejet_current":0.577,"storejet_iops":16135,"storejet_rate":27.963604,"sundisk_current":0.188,"sundisk_iops":18131,"sundisk_rate":96.44149,"wd_rpi4_current":0.226,"wd_rpi4_iops":20507,"wd_rpi4_rate":90.73894},{"apacer_current":0.078,"apacer_iops":14830,"apacer_rate":190.1282,"seagate_current":0.629,"seagate_iops":13335,"seagate_rate":21.200317,"storejet_current":0.58,"storejet_iops":15452,"storejet_rate":26.641378,"sundisk_current":0.187,"sundisk_iops":15418,"sundisk_rate":82.449196,"wd_rpi4_current":0.226,"wd_rpi4_iops":20610,"wd_rpi4_rate":91.19469},{"apacer_current":0.084,"apacer_iops":10989,"apacer_rate":130.82143,"seagate_current":0.572,"seagate_iops":12018,"seagate_rate":21.01049,"storejet_current":0.591,"storejet_iops":14201,"storejet_rate":24.028765,"sundisk_current":0.192,"sundisk_iops":12236,"sundisk_rate":63.729168,"wd_rpi4_current":0.221,"wd_rpi4_iops":20636,"wd_rpi4_rate":93.375565},{"apacer_current":0.086,"apacer_iops":8633,"apacer_rate":100.38372,"seagate_current":0.648,"seagate_iops":11442,"seagate_rate":17.657408,"storejet_current":0.626,"storejet_iops":12721,"storejet_rate":20.321087,"sundisk_current":0.193,"sundisk_iops":10559,"sundisk_rate":54.709843,"wd_rpi4_current":0.244,"wd_rpi4_iops":20582,"wd_rpi4_rate":84.35246},{"apacer_current":0.087,"apacer_iops":7090,"apacer_rate":81.494255,"seagate_current":0.644,"seagate_iops":10693,"seagate_rate":16.604036,"storejet_current":0.6,"storejet_iops":11821,"storejet_rate":19.701666,"sundisk_current":0.181,"sundisk_iops":9542,"sundisk_rate":52.71823,"wd_rpi4_current":0.247,"wd_rpi4_iops":20384,"wd_rpi4_rate":82.52631},{"apacer_current":0.085,"apacer_iops":6053,"apacer_rate":71.21176,"seagate_current":0.548,"seagate_iops":10483,"seagate_rate":19.129562,"storejet_current":0.561,"storejet_iops":11235,"storejet_rate":20.026737,"sundisk_current":0.191,"sundisk_iops":9117,"sundisk_rate":47.732983,"wd_rpi4_current":0.226,"wd_rpi4_iops":20365,"wd_rpi4_rate":90.11062},{"apacer_current":0.087,"apacer_iops":5301,"apacer_rate":60.931034,"seagate_current":0.581,"seagate_iops":9796,"seagate_rate":16.860584,"storejet_current":0.616,"storejet_iops":10797,"storejet_rate":17.527597,"sundisk_current":0.19,"sundisk_iops":8226,"sundisk_rate":43.294735,"wd_rpi4_current":0.232,"wd_rpi4_iops":20259,"wd_rpi4_rate":87.32327},{"apacer_current":0.086,"apacer_iops":4731,"apacer_rate":55.011627,"seagate_current":0.647,"seagate_iops":9829,"seagate_rate":15.191654,"storejet_current":0.591,"storejet_iops":10475,"storejet_rate":17.724195,"sundisk_current":0.189,"sundisk_iops":7848,"sundisk_rate":41.52381,"wd_rpi4_current":0.225,"wd_rpi4_iops":20305,"wd_rpi4_rate":90.244446},{"apacer_current":0.074,"apacer_iops":4279,"apacer_rate":57.824326,"seagate_current":0.479,"seagate_iops":9730,"seagate_rate":20.313152,"storejet_current":0.603,"storejet_iops":10133,"storejet_rate":16.804312,"sundisk_current":0.191,"sundisk_iops":7387,"sundisk_rate":38.675392,"wd_rpi4_current":0.226,"wd_rpi4_iops":20293,"wd_rpi4_rate":89.79204},{"apacer_current":0.085,"apacer_iops":3923,"apacer_rate":46.152943,"seagate_current":0.598,"seagate_iops":9612,"seagate_rate":16.073578,"storejet_current":0.525,"storejet_iops":9858,"storejet_rate":18.777143,"sundisk_current":0.191,"sundisk_iops":6886,"sundisk_rate":36.052357,"wd_rpi4_current":0.229,"wd_rpi4_iops":20340,"wd_rpi4_rate":88.82096},{"apacer_current":0.075,"apacer_iops":3637,"apacer_rate":48.493332,"seagate_current":0.553,"seagate_iops":9482,"seagate_rate":17.146473,"storejet_current":0.615,"storejet_iops":9657,"storejet_rate":15.702439,"sundisk_current":0.186,"sundisk_iops":6560,"sundisk_rate":35.268818,"wd_rpi4_current":0.226,"wd_rpi4_iops":20352,"wd_rpi4_rate":90.0531},{"apacer_current":0.08,"apacer_iops":3403,"apacer_rate":42.5375,"seagate_current":0.692,"seagate_iops":9431,"seagate_rate":13.6286125,"storejet_current":0.554,"storejet_iops":9500,"storejet_rate":17.148014,"sundisk_current":0.186,"sundisk_iops":6322,"sundisk_rate":33.989246,"wd_rpi4_current":0.228,"wd_rpi4_iops":20387,"wd_rpi4_rate":89.416664},{"apacer_current":0.076,"apacer_iops":3203,"apacer_rate":42.144737,"seagate_current":0.496,"seagate_iops":9081,"seagate_rate":18.308468,"storejet_current":0.578,"storejet_iops":9355,"storejet_rate":16.185122,"sundisk_current":0.165,"sundisk_iops":6201,"sundisk_rate":37.581818,"wd_rpi4_current":0.222,"wd_rpi4_iops":19002,"wd_rpi4_rate":85.5946},{"apacer_current":0.086,"apacer_iops":3037,"apacer_rate":35.313953,"seagate_current":0.486,"seagate_iops":9297,"seagate_rate":19.12963,"storejet_current":0.521,"storejet_iops":9235,"storejet_rate":17.725529,"sundisk_current":0.19,"sundisk_iops":6056,"sundisk_rate":31.873684,"wd_rpi4_current":0.221,"wd_rpi4_iops":19106,"wd_rpi4_rate":86.45249},{"apacer_current":0.085,"apacer_iops":2894,"apacer_rate":34.04706,"seagate_current":0.641,"seagate_iops":9162,"seagate_rate":14.293292,"storejet_current":0.586,"storejet_iops":9148,"storejet_rate":15.610922,"sundisk_current":0.183,"sundisk_iops":5902,"sundisk_rate":32.251366,"wd_rpi4_current":0.225,"wd_rpi4_iops":19203,"wd_rpi4_rate":85.346664},{"apacer_current":0.085,"apacer_iops":2771,"apacer_rate":32.6,"seagate_current":0.531,"seagate_iops":9039,"seagate_rate":17.022598,"storejet_current":0.585,"storejet_iops":9082,"storejet_rate":15.524786,"sundisk_current":0.178,"sundisk_iops":5755,"sundisk_rate":32.33146,"wd_rpi4_current":0.225,"wd_rpi4_iops":19277,"wd_rpi4_rate":85.67555},{"apacer_current":0.08,"apacer_iops":2657,"apacer_rate":33.2125,"seagate_current":0.545,"seagate_iops":8851,"seagate_rate":16.240368,"storejet_current":0.544,"storejet_iops":9014,"storejet_rate":16.569853,"sundisk_current":0.186,"sundisk_iops":5561,"sundisk_rate":29.89785,"wd_rpi4_current":0.226,"wd_rpi4_iops":19352,"wd_rpi4_rate":85.62832},{"apacer_current":0.076,"apacer_iops":2525,"apacer_rate":33.223682,"seagate_current":0.591,"seagate_iops":8915,"seagate_rate":15.084602,"storejet_current":0.597,"storejet_iops":8958,"storejet_rate":15.005025,"sundisk_current":0.191,"sundisk_iops":5462,"sundisk_rate":28.596859,"wd_rpi4_current":0.256,"wd_rpi4_iops":19419,"wd_rpi4_rate":75.85547},{"apacer_current":0.085,"apacer_iops":773,"apacer_rate":9.094118,"seagate_current":0.549,"seagate_iops":8970,"seagate_rate":16.338799,"storejet_current":0.574,"storejet_iops":8865,"storejet_rate":15.444251,"sundisk_current":0.191,"sundisk_iops":5339,"sundisk_rate":27.952879,"wd_rpi4_current":0.229,"wd_rpi4_iops":19470,"wd_rpi4_rate":85.021835},{"apacer_current":0.085,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.586,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.586,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.189,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.234,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.074,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.506,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.571,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.187,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.241,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.086,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.574,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.55,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.186,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.225,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.085,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.582,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.6,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.191,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.227,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.068,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.601,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.572,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.19,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.226,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.086,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.535,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.569,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.193,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.224,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.076,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.587,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.576,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.186,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.226,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.086,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.497,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.591,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.186,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.225,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.085,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.619,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.603,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.191,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.228,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.076,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.668,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.581,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.187,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.241,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.086,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.473,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.603,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.167,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.252,"wd_rpi4_iops":0,"wd_rpi4_rate":0},{"apacer_current":0.085,"apacer_iops":0,"apacer_rate":0,"seagate_current":0.618,"seagate_iops":0,"seagate_rate":0,"storejet_current":0.627,"storejet_iops":0,"storejet_rate":0,"sundisk_current":0.182,"sundisk_iops":0,"sundisk_rate":0,"wd_rpi4_current":0.249,"wd_rpi4_iops":0,"wd_rpi4_rate":0}];
+var current_testdatasource = current_testData.map(function(e) {
+	return e.storejet_rate;
+});var current_testdatasource2 = current_testData.map(function(e) {
+	return e.apacer_rate;
+});var current_testdatasource3 = current_testData.map(function(e) {
+	return e.seagate_rate;
+});var current_testdatasource4 = current_testData.map(function(e) {
+	return e.sundisk_rate;
+});var current_testdatasource5 = current_testData.map(function(e) {
+	return e.wd_rpi4_rate;
+});var current_testXAxis = current_testData.map(function(e, index) {
+	return index;
+});var current_testCtx = document.getElementById('current_test').getContext('2d');
+const current_testChart = new Chart(current_testCtx, {
+    type: 'line',
+    data: {
+        labels: current_testXAxis,
+        datasets: [{
+        	label: 'apacer',
+            data: current_testdatasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'seagate',
+            data: current_testdatasource3,
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'sundisk',
+            data: current_testdatasource4,
+            borderColor: '#5DD9BE',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#5DD9BE',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'WD Green',
+            data: current_testdatasource5,
+            borderColor: '#CF8659',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#CF8659',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'storejet',
+            data: current_testdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'IOPS\/мА'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'IOPS на один миллиампер',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/test-disks-raspberrypi2/current_test.png">
+</noscript>
+<p>За счёт того, что скорость записи в Raspberrypi 4 больше при том же потреблении энергии, WD Green выиграл в общем зачёте!</p>
+<h2 id="выводы">Выводы</h2>
+<p>Буду использовать WD Green.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/raspberrypi/'>raspberrypi</a>, <a class='tag' href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/'>тестирование</a>, <a class='tag' href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/'>администрирование</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/test-disks-raspberrypi/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Тестирование дисков для Raspberrypi</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
+</body>
+
+</html>
+
