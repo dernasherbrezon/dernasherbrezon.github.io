@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/raspberrypi/</link>
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 20 Jun 2023 22:01:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Jun 2023 21:20:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ускорение работы FIR фильтра с помощью SIMD NEON</title>
+      <link>https://dernasherbrezon.com/posts/fir-filter-optimization-simd/</link>
+      <pubDate>Sun, 25 Jun 2023 21:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fir-filter-optimization-simd/</guid>
+      <description>Уже которую неделю я пытаюсь добавить поддержку airspy mini в sdr-server. На этот раз я упёрся в производительность Raspberrypi. При получении сигнала один клиент загружал одно ядро на 80%. Это значит, что sdr-server способен обработать только ~4 параллельных наблюдения. Я скомпилировал и запустил утилиту perf, которая показала интересное - большинство времени тратится внутри драйвера к airspy. На самом деле, там происходит много сложных DSP операций:
+static void remove_dc(iqconverter_float_t *cnv, float *samples, int len) { int i; ALIGNED float avg = cnv-&amp;gt;avg; for (i = 0; i &amp;lt; len; i++) { samples[i] -= avg; avg += SCALE * samples[i]; } cnv-&amp;gt;avg = avg; } Из-за больших скоростей сэмплирования, процессор должен обрабатывать очень много данных перед тем, как выдать пользователю.</description>
+    </item>
+    
     <item>
       <title>Тестирование дисков для Raspberrypi - Часть 2</title>
       <link>https://dernasherbrezon.com/posts/test-disks-raspberrypi2/</link>

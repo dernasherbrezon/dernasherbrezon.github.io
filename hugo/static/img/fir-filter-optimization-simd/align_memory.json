@@ -1,0 +1,22 @@
+[
+	{
+		"type": "TEST_GENERIC",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.042113,
+		"rpi_dot_prod_am_nas_npref_optimized_64": 0.042213
+	},
+	{
+		"type": "TEST_NEON1Q",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.022820,
+		"rpi_dot_prod_am_nas_npref_optimized_64": 0.022856
+	},
+	{
+		"type": "TEST_NEON2Q",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.030391,
+		"rpi_dot_prod_am_nas_npref_optimized_64": 0.030744
+	},
+	{
+		"type": "TEST_NEON4Q",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.034464,
+		"rpi_dot_prod_am_nas_npref_optimized_64": 0.034534
+	}
+]

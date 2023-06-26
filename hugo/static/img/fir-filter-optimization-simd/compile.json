@@ -1,0 +1,17 @@
+[
+	{
+		"type": "No flags",
+		"rpi_dot_prod_generic_nam_nas_npref": 0.213462,
+		"rpi_dot_prod_neon2q_nam_nas_npref": 0.173707
+	},
+	{
+		"type": "armv8-a",
+		"rpi_dot_prod_generic_nam_nas_npref": 0.042399,
+		"rpi_dot_prod_neon2q_nam_nas_npref": 0.030181
+	},
+	{
+		"type": "armv7-a",
+		"rpi_dot_prod_generic_nam_nas_npref": 0.042111,
+		"rpi_dot_prod_neon2q_nam_nas_npref": 0.030217
+	}
+]

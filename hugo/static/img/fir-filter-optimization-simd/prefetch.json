@@ -1,0 +1,30 @@
+[
+	{
+		"type": "TEST_GENERIC",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.042396,
+		"rpi_dot_prod_nam_nas_pref_optimized_64": 0.042111,
+		"m1_dot_prod_nam_nas_npref_optimized_64": 0.002795,
+		"m1_dot_prod_nam_nas_pref_optimized_64": 0.003515
+	},
+	{
+		"type": "TEST_NEON1Q",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.022939,
+		"rpi_dot_prod_nam_nas_pref_optimized_64": 0.021724,
+		"m1_dot_prod_nam_nas_npref_optimized_64": 0.000517,
+		"m1_dot_prod_nam_nas_pref_optimized_64": 0.001430
+	},
+	{
+		"type": "TEST_NEON2Q",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.030307,
+		"rpi_dot_prod_nam_nas_pref_optimized_64": 0.025773,
+		"m1_dot_prod_nam_nas_npref_optimized_64": 0.000779,
+		"m1_dot_prod_nam_nas_pref_optimized_64": 0.001729
+	},
+	{
+		"type": "TEST_NEON4Q",
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.034438,
+		"rpi_dot_prod_nam_nas_pref_optimized_64": 0.027562,
+		"m1_dot_prod_nam_nas_npref_optimized_64": 0.001593,
+		"m1_dot_prod_nam_nas_pref_optimized_64": 0.002517
+	}
+]
