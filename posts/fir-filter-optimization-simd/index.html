@@ -553,7 +553,11 @@ const typesCompareChart = new Chart(typesCompareCtx, {
 <span style="color:#75715e">#else
 </span><span style="color:#75715e"></span>  output <span style="color:#f92672">=</span> malloc(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> output_len);
 <span style="color:#75715e">#endif
-</span></code></pre></div>
+</span></code></pre></div><p>Помимо, собственно, создания выравненного массива данных, при обработке нужно указать процессору, что данные выровнены. Делается это с помощью функции <code>__builtin_assume_aligned</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>aPtr <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>) __builtin_assume_aligned(input, MEMORY_ALIGNMENT);
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>bPtr <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>) __builtin_assume_aligned(taps, MEMORY_ALIGNMENT);
+</code></pre></div><p>Если что-то не будет выровнено, то не беда - процессор это сообщит и программа упадёт с ошибкой <code>Bus error</code>.</p>
+
 
 
 
@@ -584,11 +588,13 @@ const typesCompareChart = new Chart(typesCompareCtx, {
 </small>
 </div>
 <script>
-var typesMemoryData = [{"rpi_dot_prod_am_nas_npref_optimized_64":0.042213,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042113,"type":"TEST_GENERIC"},{"rpi_dot_prod_am_nas_npref_optimized_64":0.022856,"rpi_dot_prod_nam_nas_npref_optimized_64":0.02282,"type":"TEST_NEON1Q"},{"rpi_dot_prod_am_nas_npref_optimized_64":0.030744,"rpi_dot_prod_nam_nas_npref_optimized_64":0.030391,"type":"TEST_NEON2Q"},{"rpi_dot_prod_am_nas_npref_optimized_64":0.034534,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034464,"type":"TEST_NEON4Q"}];
+var typesMemoryData = [{"rpi_dot_prod_am16_nas_npref_optimized_64":0.042213,"rpi_dot_prod_am8_nas_npref_optimized_64":0.042213,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042113,"type":"TEST_GENERIC"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.022499,"rpi_dot_prod_am8_nas_npref_optimized_64":0.022355,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022867,"type":"TEST_NEON1Q"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.024824,"rpi_dot_prod_am8_nas_npref_optimized_64":0.021756,"rpi_dot_prod_nam_nas_npref_optimized_64":0.029926,"type":"TEST_NEON2Q"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.021928,"rpi_dot_prod_am8_nas_npref_optimized_64":0.018982,"rpi_dot_prod_nam_nas_npref_optimized_64":0.040092,"type":"TEST_NEON4Q"}];
 var typesMemorydatasource = typesMemoryData.map(function(e) {
 	return e.rpi_dot_prod_nam_nas_npref_optimized_64;
 });var typesMemorydatasource2 = typesMemoryData.map(function(e) {
-	return e.rpi_dot_prod_am_nas_npref_optimized_64;
+	return e.rpi_dot_prod_am8_nas_npref_optimized_64;
+});var typesMemorydatasource3 = typesMemoryData.map(function(e) {
+	return e.rpi_dot_prod_am16_nas_npref_optimized_64;
 });var typesMemoryXAxis = typesMemoryData.map(function(e) {
 	return '' + e.type;
 });var typesMemoryCtx = document.getElementById('typesMemory').getContext('2d');
@@ -597,11 +603,20 @@ const typesMemoryChart = new Chart(typesMemoryCtx, {
     data: {
         labels: typesMemoryXAxis,
         datasets: [{
-        	label: 'Aligned',
+        	label: 'Aligned 8byte',
             data: typesMemorydatasource2,
             borderColor: '#7fc35e',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+        	label: 'Aligned 16byte',
+            data: typesMemorydatasource3,
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
             fill: true,
             borderWidth: 2,
             tension: 0.2
@@ -691,18 +706,18 @@ const typesMemoryChart = new Chart(typesMemoryCtx, {
 </script><noscript>
 	<img src="/img/fir-filter-optimization-simd/typesMemory.png">
 </noscript>
-<p>Похоже, выравнивание памяти не влияет на производительность. Либо память изначально выделялась уже выровненной.</p>
+<p>Похоже, выравнивание влияет на производительность только при одномоментной загрузке больших объёмов данных из памяти.</p>
 <p>Ещё одним важным фактором может быть длина массивов. Допустим, я загружаю из памяти в регистры по 16 float и параллельно считаю свёртку. Но если длина массива не кратна 16-ти, то остаток можно считать загрузкой 8 или 4 float, либо реализовать на Си. В общем же случае входящий массив может быть не кратен ни 16, ни 8, ни 4, тогда придётся по-любому обсчитывать остаток с помощью кода на Си. А что, если расширить исходные массивы до длины кратной 16, 8 или 4? Процессор будет перемножать нули, складывать с нулями и на результат это не повлияет. При этом остаток будет выполняться такими же быстрыми SIMD инструкциями и код в общем случае будет значительно проще. Выглядеть это может вот так:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">#if defined(TEST_NEON2Q) &amp;&amp; defined(TEST_ALIGN_SIZE)
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span>( input_length <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> ) {
-    final_input_length <span style="color:#f92672">=</span> ((input_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>;
-  }
-  <span style="color:#66d9ef">if</span>( taps_length <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> ) {
-    final_taps_length <span style="color:#f92672">=</span> ((taps_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>;
-    final_taps <span style="color:#f92672">=</span> malloc(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> final_taps_length);
-    memset(final_taps, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> final_taps_length);
-    memcpy(final_taps, taps, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> taps_length);
-  }
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span>( input_length <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> ) {
+  final_input_length <span style="color:#f92672">=</span> ((input_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>;
+}
+<span style="color:#66d9ef">if</span>( taps_length <span style="color:#f92672">%</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> ) {
+  final_taps_length <span style="color:#f92672">=</span> ((taps_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>;
+  final_taps <span style="color:#f92672">=</span> malloc(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> final_taps_length);
+  memset(final_taps, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> final_taps_length);
+  memcpy(final_taps, taps, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> taps_length);
+}
 </code></pre></div><p>Может не очень элегантно, но выполняется один раз и работает как часы.</p>
 
 

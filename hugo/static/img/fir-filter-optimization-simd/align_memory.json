@@ -2,21 +2,25 @@
 	{
 		"type": "TEST_GENERIC",
 		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.042113,
-		"rpi_dot_prod_am_nas_npref_optimized_64": 0.042213
+		"rpi_dot_prod_am8_nas_npref_optimized_64": 0.042213,
+		"rpi_dot_prod_am16_nas_npref_optimized_64": 0.042213
 	},
 	{
 		"type": "TEST_NEON1Q",
-		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.022820,
-		"rpi_dot_prod_am_nas_npref_optimized_64": 0.022856
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.022867,
+		"rpi_dot_prod_am8_nas_npref_optimized_64": 0.022355,
+		"rpi_dot_prod_am16_nas_npref_optimized_64": 0.022499
 	},
 	{
 		"type": "TEST_NEON2Q",
-		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.030391,
-		"rpi_dot_prod_am_nas_npref_optimized_64": 0.030744
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.029926,
+		"rpi_dot_prod_am8_nas_npref_optimized_64": 0.021756,
+		"rpi_dot_prod_am16_nas_npref_optimized_64": 0.024824
 	},
 	{
 		"type": "TEST_NEON4Q",
-		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.034464,
-		"rpi_dot_prod_am_nas_npref_optimized_64": 0.034534
+		"rpi_dot_prod_nam_nas_npref_optimized_64": 0.040092,
+		"rpi_dot_prod_am8_nas_npref_optimized_64": 0.018982,
+		"rpi_dot_prod_am16_nas_npref_optimized_64": 0.021928
 	}
 ]

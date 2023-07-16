@@ -82,24 +82,33 @@ endforeach()
 #endif
 ```
 
-{{< barchartjs url="/static/img/fir-filter-optimization-simd/align_memory.json" id="typesMemory" title="Выравнивание памяти" datasource="rpi_dot_prod_nam_nas_npref_optimized_64" datasourceLabel="Not aligned" datasource2="rpi_dot_prod_am_nas_npref_optimized_64" datasource2Label="Aligned" xAxis="type" yAxisLabel="Millis" yAxisUnit=""  staticSrc="/img/fir-filter-optimization-simd/typesMemory.png">}}
+Помимо, собственно, создания выравненного массива данных, при обработке нужно указать процессору, что данные выровнены. Делается это с помощью функции ```__builtin_assume_aligned```:
 
-Похоже, выравнивание памяти не влияет на производительность. Либо память изначально выделялась уже выровненной.
+```c
+const float *aPtr = (float *) __builtin_assume_aligned(input, MEMORY_ALIGNMENT);
+const float *bPtr = (float *) __builtin_assume_aligned(taps, MEMORY_ALIGNMENT);
+```
+
+Если что-то не будет выровнено, то не беда - процессор это сообщит и программа упадёт с ошибкой ```Bus error```.
+
+{{< barchartjs url="/static/img/fir-filter-optimization-simd/align_memory.json" id="typesMemory" title="Выравнивание памяти" datasource="rpi_dot_prod_nam_nas_npref_optimized_64" datasourceLabel="Not aligned" datasource2="rpi_dot_prod_am8_nas_npref_optimized_64" datasource2Label="Aligned 8byte" datasource3="rpi_dot_prod_am16_nas_npref_optimized_64" datasource3Label="Aligned 16byte" xAxis="type" yAxisLabel="Millis" yAxisUnit=""  staticSrc="/img/fir-filter-optimization-simd/typesMemory.png">}}
+
+Похоже, выравнивание влияет на производительность только при одномоментной загрузке больших объёмов данных из памяти.
 
 Ещё одним важным фактором может быть длина массивов. Допустим, я загружаю из памяти в регистры по 16 float и параллельно считаю свёртку. Но если длина массива не кратна 16-ти, то остаток можно считать загрузкой 8 или 4 float, либо реализовать на Си. В общем же случае входящий массив может быть не кратен ни 16, ни 8, ни 4, тогда придётся по-любому обсчитывать остаток с помощью кода на Си. А что, если расширить исходные массивы до длины кратной 16, 8 или 4? Процессор будет перемножать нули, складывать с нулями и на результат это не повлияет. При этом остаток будет выполняться такими же быстрыми SIMD инструкциями и код в общем случае будет значительно проще. Выглядеть это может вот так:
 
 
 ```C
 #if defined(TEST_NEON2Q) && defined(TEST_ALIGN_SIZE)
-  if( input_length % 8 != 0 ) {
-    final_input_length = ((input_length / 8) + 1) * 8;
-  }
-  if( taps_length % 8 != 0 ) {
-    final_taps_length = ((taps_length / 8) + 1) * 8;
-    final_taps = malloc(sizeof(float) * final_taps_length);
-    memset(final_taps, 0, sizeof(float) * final_taps_length);
-    memcpy(final_taps, taps, sizeof(float) * taps_length);
-  }
+if( input_length % 8 != 0 ) {
+  final_input_length = ((input_length / 8) + 1) * 8;
+}
+if( taps_length % 8 != 0 ) {
+  final_taps_length = ((taps_length / 8) + 1) * 8;
+  final_taps = malloc(sizeof(float) * final_taps_length);
+  memset(final_taps, 0, sizeof(float) * final_taps_length);
+  memcpy(final_taps, taps, sizeof(float) * taps_length);
+}
 ```
 
 Может не очень элегантно, но выполняется один раз и работает как часы.
