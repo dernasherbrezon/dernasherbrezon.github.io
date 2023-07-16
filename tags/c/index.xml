@@ -5,7 +5,17 @@
     <link>https://dernasherbrezon.com/tags/c/</link>
     <description>Recent content in c on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 25 Jun 2023 21:20:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Jul 2023 17:39:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ускорение работы FIR фильтра с помощью SIMD NEON - Часть 2</title>
+      <link>https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/</link>
+      <pubDate>Sat, 15 Jul 2023 17:39:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/</guid>
+      <description>Несмотря на то, что в моей предыдущей статье я улучшил производительность FIR фильтра в несколько раз, мне показалось это недостаточным. Я проанализировал несколько статей, заметок и различных подходов, найденных в Интернет и попробовал добавить для каждой идеи тест в arm-tests.
+Флаги компиляции Первое, что мне бросилось в глаза - это дополнительные флаги оптимизации для компилятора. Сразу несколько статей упоминают флаги -ftree-vectorize -ffast-math -funroll-loops. Я не стал делать отдельный тест, а просто обновил TEST_GENERIC.</description>
+    </item>
+    
     <item>
       <title>Ускорение работы FIR фильтра с помощью SIMD NEON</title>
       <link>https://dernasherbrezon.com/posts/fir-filter-optimization-simd/</link>

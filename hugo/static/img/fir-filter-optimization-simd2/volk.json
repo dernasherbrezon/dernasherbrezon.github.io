@@ -1,0 +1,14 @@
+[
+	{
+		"type": "Not aligned",
+		"rpi_volk": 0.050044
+	},
+	{
+		"type": "8byte aligned",
+		"rpi_volk": 0.068933
+	},
+	{
+		"type": "16byte aligned",
+		"rpi_volk": 0.044860
+	}
+]

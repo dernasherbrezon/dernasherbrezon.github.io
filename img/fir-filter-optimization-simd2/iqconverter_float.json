@@ -1,0 +1,12 @@
+[
+	{
+		"type": "CURRENT",
+		"test_iqconverter_float": 0.027480,
+		"rpi_test_iqconverter_float": 0.269528
+	},
+	{
+		"type": "TUNED",
+		"test_iqconverter_float": 0.016405,
+		"rpi_test_iqconverter_float": 0.239942
+	}
+]

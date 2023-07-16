@@ -1,0 +1,14 @@
+[
+	{
+		"type": "TEST_GENSYMM",
+		"rpi_dot_prod": 0.011698
+	},
+	{
+		"type": "TEST_12_GENERIC",
+		"rpi_dot_prod": 0.008780
+	},
+	{
+		"type": "TEST_12_UNROLL4",
+		"rpi_dot_prod": 0.006998
+	}
+]

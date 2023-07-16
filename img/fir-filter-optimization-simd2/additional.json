@@ -1,0 +1,42 @@
+[
+	{
+		"type": "TEST_GENERIC",
+		"dot_prod_nam_as_npref_optimized_64": 0.000726,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.014066
+	},
+	{
+		"type": "TEST_NEON1Q",
+		"dot_prod_nam_as_npref_optimized_64": 0.000977,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.016751
+	},
+	{
+		"type": "TEST_NEON1QI",
+		"dot_prod_nam_as_npref_optimized_64": 0.000995,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.015218
+	},
+	{
+		"type": "TEST_NEON2QI",
+		"dot_prod_nam_as_npref_optimized_64": 0.001367,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.018522
+	},
+	{
+		"type": "TEST_GENSYMM",
+		"dot_prod_nam_as_npref_optimized_64": 0.000979,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.011698
+	},
+	{
+		"type": "TEST_NEON1QSYMM",
+		"dot_prod_nam_as_npref_optimized_64": 0.001540,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.021516
+	},
+	{
+		"type": "TEST_GENCACHE",
+		"dot_prod_nam_as_npref_optimized_64": 0.000836,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.013506
+	},
+	{
+		"type": "TEST_VOLK",
+		"dot_prod_nam_as_npref_optimized_64": 0.002898,
+		"rpi_dot_prod_nam_as_npref_optimized_64": 0.050044
+	}
+]

@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Несмотря на то, что в моей предыдущей статье я улучшил производительность FIR фильтра в несколько раз, мне показалось это недостаточным. Я проанализировал несколько статей, заметок и различных подходов, найденных в Интернет и попробовал добавить для каждой идеи тест в arm-tests.
+Флаги компиляции Первое, что мне бросилось в глаза - это дополнительные флаги оптимизации для компилятора. Сразу несколько статей упоминают флаги -ftree-vectorize -ffast-math -funroll-loops. Я не стал делать отдельный тест, а просто обновил TEST_GENERIC.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Ускорение работы FIR фильтра с помощью SIMD NEON - Часть 2 • dernasherbrezon'>
+<meta property='og:description' content='Несмотря на то, что в моей предыдущей статье я улучшил производительность FIR фильтра в несколько раз, мне показалось это недостаточным. Я проанализировал несколько статей, заметок и различных подходов, найденных в Интернет и попробовал добавить для каждой идеи тест в arm-tests.
+Флаги компиляции Первое, что мне бросилось в глаза - это дополнительные флаги оптимизации для компилятора. Сразу несколько статей упоминают флаги -ftree-vectorize -ffast-math -funroll-loops. Я не стал делать отдельный тест, а просто обновил TEST_GENERIC.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='C'><meta property='article:tag' content='SIMD'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2023-07-15T17:39:18&#43;01:00'/><meta property='article:modified_time' content='2023-07-15T17:39:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Ускорение работы FIR фильтра с помощью SIMD NEON - Часть 2 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/'>
+  
+    <link href="https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><script src="/js/chart.min.js"></script>
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0208333333333333em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0625em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0625em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0208333333333333em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1041666666666667em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0208333333333333em'>bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0208333333333333em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.4375em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0833333333333333em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.125em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.125em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.125em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0625em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0416666666666667em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0625em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0625em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0625em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0208333333333333em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0833333333333333em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0416666666666667em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1041666666666667em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0625em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0416666666666667em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0416666666666667em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.125em'>lora</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0416666666666667em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0208333333333333em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1041666666666667em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0208333333333333em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0833333333333333em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1041666666666667em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0416666666666667em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0208333333333333em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0416666666666667em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0208333333333333em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0208333333333333em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0208333333333333em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0833333333333333em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0625em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0416666666666667em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2291666666666667em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.4583333333333333em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0208333333333333em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0208333333333333em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0208333333333333em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.25em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0416666666666667em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0416666666666667em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0625em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/sdr-server/' style='font-size:1em'>sdr-server</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0208333333333333em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.1041666666666667em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0416666666666667em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0416666666666667em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0208333333333333em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0208333333333333em'>String</a>
+      </li><li>
+        <a href='/tags/sx127x/' style='font-size:1.0833333333333333em'>sx127x</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0416666666666667em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0208333333333333em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0833333333333333em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0416666666666667em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0416666666666667em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2916666666666665em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0833333333333333em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0833333333333333em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0416666666666667em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0416666666666667em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0208333333333333em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0625em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.3541666666666665em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0625em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.375em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2291666666666667em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0416666666666667em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Ускорение работы FIR фильтра с помощью SIMD NEON - Часть 2</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2023-07-15T17:39:18&#43;01:00'>15 Jul 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Несмотря на то, что в моей <a href="https://dernasherbrezon.com/posts/fir-filter-optimization-simd/">предыдущей статье</a> я улучшил производительность FIR фильтра в несколько раз, мне показалось это недостаточным. Я проанализировал несколько статей, заметок и различных подходов, найденных в Интернет и попробовал добавить для каждой идеи тест в <a href="https://github.com/dernasherbrezon/arm-tests">arm-tests</a>.</p>
+<h2 id="флаги-компиляции">Флаги компиляции</h2>
+<p>Первое, что мне бросилось в глаза - это дополнительные флаги оптимизации для компилятора. Сразу <a href="https://codeforces.com/blog/entry/96344?locale=ru">несколько статей</a> упоминают флаги  <code>-ftree-vectorize -ffast-math -funroll-loops</code>. Я не стал делать отдельный тест, а просто обновил <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L68">TEST_GENERIC</a>.</p>
+<h2 id="двойной-цикл">Двойной цикл</h2>
+<p>Эту идею я нашёл в дипломной работе <a href="http://www.diva-portal.org/smash/get/diva2:1138490/FULLTEXT01.pdf">Performance Optimization of Signal Processing Algorithms for SIMD Architectures</a>, которая показывается чуть ли не первым результатом при поиске в Гугле по запросу &ldquo;оптимизация DSP SIMD&rdquo;. Идея заключается в том, что загрузка регистров из памяти и обработка результатов делается в двух независимых циклах. Код начинает загружать следующий блок данных из памяти в регистры, в то время как начинается вычисление предыдущего блока. Из-за того, что операции загрузки данных и вычисления значений независимы, процессор может их выполнять параллельно. Алгоритм выглядит следующим образом:</p>
+<pre><code>Loop1
+if BufferSize == 0
+	goto endloop
+StartLoop:
+	Loop2
+	Store O1 and O2
+	BufferSize = BufferSize -  16
+	Loop1
+	Store O3 and O4
+	if BufferSize == 0
+		goto endloop
+	goto StartLoop
+	
+endloop:
+Store O1 and O2
+Store O3 and O4
+</code></pre><p>Я реализовал этот алгоритм для float32x4_t - <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L353C15-L353C27">TEST_NEON1QI</a> и для float32x4x2_t - <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L273">TEST_NEON2QI</a>.</p>
+<p>Утверждается, что этот алгоритм в 2.635 быстрее авто-векторизированного кода.</p>
+<p>Кстати, дипломная работа содержит кладезь различных идей для измерения производительности в целом, а так же оптимизации более сложных DSP алгоритмов. Читается на одном дыхании, так что кайне рекомендую.</p>
+<h2 id="симметричный-фильтр">Симметричный фильтр</h2>
+<p>Следующую идею я нашёл в <a href="https://github.com/airspy/airspyone_host/blob/master/libairspy/src/iqconverter_float.c#L330">коде драйвера к airspy</a>. Из-за того, что многие FIR фильтры симметричны относительно центра, то можно воспользоваться этим и уменьшить количество операций умножения. Например, применение фильтра с пятью коэффициентами:</p>
+<pre><code>result[i] = A*X1 + B*X2 + C*X3 + D*X2 + E*X1
+</code></pre><p>можно преобразовать в:</p>
+<pre><code>result[i] = (A + E)*X1 + (B + D)*X2 + C*X3
+</code></pre><p>Это позволит сократить количество умножений в ~2 раза. Правда, не очень понятно будет ли экономия на умножении больше, чем прыжки по памяти туда-сюда. Чтобы это проверить, я реализовал несколько тестов:</p>
+<ul>
+<li><a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L97">TEST_GENSYMM</a> - наивная реализация. Выполнять алгоритм выше в цикле <code>(int)(n/2)</code> раз</li>
+<li><a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L121">TEST_NEON1QSYMM</a> - то же самое, но с помощью интристиков.</li>
+<li><a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L470">TEST_GENCACHE</a> - та же идея, но вручную развёрнутый цикл.</li>
+</ul>
+<h2 id="volk">Volk</h2>
+<p>А зачем самому что-то придумывать, если уже кто-то это реализовал? Именно в этом и заключается идея использовать готовый код из библиотеки <a href="https://github.com/gnuradio/volk">volk</a>. В <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L516">TEST_VOLK</a> я просто вызывал функцию <code>volk_32f_x2_dot_prod_32f</code> с нужными параметрами.</p>
+<h2 id="результаты">Результаты</h2>
+<p>Для сравнения я добавил победителя предыдущего раунда оптимизации - TEST_NEON1Q:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="typesCompare" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="typesCompare" download="typesCompare.png" href="" title="Алгоритмы">Скачать</a>
+</small>
+</div>
+<script>
+var typesCompareData = [{"dot_prod_nam_as_npref_optimized_64":0.000726,"rpi_dot_prod_nam_as_npref_optimized_64":0.014066,"type":"TEST_GENERIC"},{"dot_prod_nam_as_npref_optimized_64":0.000977,"rpi_dot_prod_nam_as_npref_optimized_64":0.016751,"type":"TEST_NEON1Q"},{"dot_prod_nam_as_npref_optimized_64":0.000995,"rpi_dot_prod_nam_as_npref_optimized_64":0.015218,"type":"TEST_NEON1QI"},{"dot_prod_nam_as_npref_optimized_64":0.001367,"rpi_dot_prod_nam_as_npref_optimized_64":0.018522,"type":"TEST_NEON2QI"},{"dot_prod_nam_as_npref_optimized_64":0.000979,"rpi_dot_prod_nam_as_npref_optimized_64":0.011698,"type":"TEST_GENSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.00154,"rpi_dot_prod_nam_as_npref_optimized_64":0.021516,"type":"TEST_NEON1QSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.000836,"rpi_dot_prod_nam_as_npref_optimized_64":0.013506,"type":"TEST_GENCACHE"},{"dot_prod_nam_as_npref_optimized_64":0.002898,"rpi_dot_prod_nam_as_npref_optimized_64":0.050044,"type":"TEST_VOLK"}];
+var typesComparedatasource = typesCompareData.map(function(e) {
+	return e.rpi_dot_prod_nam_as_npref_optimized_64;
+});var typesCompareXAxis = typesCompareData.map(function(e) {
+	return '' + e.type;
+});var typesCompareCtx = document.getElementById('typesCompare').getContext('2d');
+const typesCompareChart = new Chart(typesCompareCtx, {
+    type: 'bar',
+    data: {
+        labels: typesCompareXAxis,
+        datasets: [{
+            label: 'Raspberrypi',
+            data: typesComparedatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Алгоритмы',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/typesCompare.png">
+</noscript>
+<p>Результаты меня сильно удивили. Во-первых, обычная реализация на Си оказалась быстрее на 17% вручную оптимизированного кода на интристиках. Видимо, разворачивание циклов действительно творит чудеса. Во-вторых, использование симметрии фильтра ещё быстрее. Видимо весь массив попадает в быстрый кэш и прыжки вперёд-назад не влияют на производительность. Это даёт 31% прироста производительсноти по сравнению с TEST_NEON1Q. В-третьих, крайне медленная реализация в библиотеке VOLK. Я несколько раз проверил конфигурацию, и там действительно стоит использование NEON:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat ~/.volk/volk_config 
+<span style="color:#75715e">#this file is generated by volk_profile.</span>
+<span style="color:#75715e">#the function name is followed by the preferred architecture.</span>
+volk_32f_x2_dot_prod_32f a_neonasm neon
+</code></pre></div><p>Я попробовал реализации с разным выравниванием памяти, но это не помогло:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="volkGraph" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="volkGraph" download="volkGraph.png" href="" title="VOLK">Скачать</a>
+</small>
+</div>
+<script>
+var volkGraphData = [{"rpi_volk":0.050044,"type":"Not aligned"},{"rpi_volk":0.068933,"type":"8byte aligned"},{"rpi_volk":0.04486,"type":"16byte aligned"}];
+var volkGraphdatasource = volkGraphData.map(function(e) {
+	return e.rpi_volk;
+});var volkGraphXAxis = volkGraphData.map(function(e) {
+	return '' + e.type;
+});var volkGraphCtx = document.getElementById('volkGraph').getContext('2d');
+const volkGraphChart = new Chart(volkGraphCtx, {
+    type: 'bar',
+    data: {
+        labels: volkGraphXAxis,
+        datasets: [{
+            label: 'Raspberrypi',
+            data: volkGraphdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'VOLK',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/volkGraph.png">
+</noscript>
+<p>Вероятно, парни намудрили что-то с выбором нужной реализации и компиляцией. Если выбрать <code>generic</code> реализацию, то она значительно быстрее, чем <code>neon</code>, но даже близко не подходит к <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L68">TEST_GENERIC</a>, несмотря на то, что код абсолютно одинаковый.</p>
+<h2 id="выводы">Выводы</h2>
+<p>А выводы всё те же, что и для любой другой оптимизации кода:</p>
+<ul>
+<li>алгоритм должен быть оптимизирован в первую очередь</li>
+<li>если это не помогло, то попробовать разные опции компилятора</li>
+<li>если и это не помогло, то написать код с помощью интристиков</li>
+<li>если и этого не хватило, то попробовать написать на ассемблере</li>
+</ul>
+<p>Проблема в том, что оптимизация кода на ассемблере - это <a href="https://ru.wikipedia.org/wiki/NP-%D0%BF%D0%BE%D0%BB%D0%BD%D0%B0%D1%8F_%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0">NP-полная задача</a>. Для того, чтобы её решить, нужна хорошая интуиция. А чтобы получить такую интуицию, нужно очень много времени заниматься исключительно оптимизацией кода. А вот времени как раз обычно и не хватает.</p>
+<h2 id="бонус">Бонус</h2>
+<p>А чем же закончилась история с оптимизацией драйвера к airspy? А там используется half-band фильтр. Его особенность заключается в том, что почти половина его коэффициентов равна 0. Это позволяет сократить количество операций сложения и умножения почти в 2 раза. Только посмотрите насколько он быстрее TEST_GENSYMM:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="dot_prod_12" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="dot_prod_12" download="dot_prod_12.png" href="" title="Half-Band фильтр">Скачать</a>
+</small>
+</div>
+<script>
+var dot_prod_12Data = [{"rpi_dot_prod":0.011698,"type":"TEST_GENSYMM"},{"rpi_dot_prod":0.00878,"type":"TEST_12_GENERIC"},{"rpi_dot_prod":0.006998,"type":"TEST_12_UNROLL4"}];
+var dot_prod_12datasource = dot_prod_12Data.map(function(e) {
+	return e.rpi_dot_prod;
+});var dot_prod_12XAxis = dot_prod_12Data.map(function(e) {
+	return '' + e.type;
+});var dot_prod_12Ctx = document.getElementById('dot_prod_12').getContext('2d');
+const dot_prod_12Chart = new Chart(dot_prod_12Ctx, {
+    type: 'bar',
+    data: {
+        labels: dot_prod_12XAxis,
+        datasets: [{
+            label: 'Raspberrypi',
+            data: dot_prod_12datasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Half-Band фильтр',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/dot_prod_12.png">
+</noscript>
+<p>А если вручную развернуть несколько циклов, то скорость увеличится на 41%!</p>
+<h2 id="бонус-2">Бонус 2</h2>
+<p>Фильтр - это не единственная операция, которая выполняется в драйвере airspy! Внутри происходит несколько операций:</p>
+<ul>
+<li>удаление <a href="https://en.wikipedia.org/wiki/DC_bias">DC смещения</a> из сигнала</li>
+<li><a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D0%93%D0%B8%D0%BB%D1%8C%D0%B1%D0%B5%D1%80%D1%82%D0%B0">преобразование Гильберта</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Half-band_filter">децимация сигнала в 2 раза</a></li>
+</ul>
+<p>В коде драйвера каждая операция выполняется в отдельном методе с дополнительными накладными расходами. Например, в кольцевом буфере данные копируются из начала в конец через каждые 47*32 сэмпла:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">--</span>fir_index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+{
+	fir_index <span style="color:#f92672">=</span> fir_len <span style="color:#f92672">*</span> (SIZE_FACTOR <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+	memcpy(fir_queue <span style="color:#f92672">+</span> fir_index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, fir_queue, (fir_len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+}
+</code></pre></div><p>Мне непонятен выбор буфера именно такой длины. Что мешало сделать его такой же длины, что и буфера, получаемые из USB?</p>
+<p>Ещё одним местом для оптимизации может быть кольцевой буфер с задержкой. В нём есть логический переход, который можно оптимизировать, если использовать массив такой же длины, что и входящий. Для этого нужно заменить код:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>)
+{
+	res <span style="color:#f92672">=</span> cnv<span style="color:#f92672">-&gt;</span>delay_line[index];
+	cnv<span style="color:#f92672">-&gt;</span>delay_line[index] <span style="color:#f92672">=</span> samples[i];
+	samples[i] <span style="color:#f92672">=</span> res;
+
+	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">++</span>index <span style="color:#f92672">&gt;=</span> half_len)
+	{
+		index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	}
+}
+</code></pre></div><p>На:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">samples[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> avg;
+avg <span style="color:#f92672">+=</span> SCALE <span style="color:#f92672">*</span>  cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">24</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>(cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> hbc);
+...	
+samples[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>];
+cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">-=</span> avg;
+avg <span style="color:#f92672">+=</span> SCALE <span style="color:#f92672">*</span>  cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>];
+cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">24</span>] <span style="color:#f92672">=</span>  cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">*</span> hbc;
+</code></pre></div><p>Идея заключается в том, чтобы считать элемент и помещать в промежуточный массив по нужному смещению. При этом текущий брать из промежуточного с текущим смещением.</p>
+<p>В результате этих оптимизаций, код <a href="https://github.com/dernasherbrezon/airspyone_host/blob/neon_tuning/libairspy/src/iqconverter_float_tuned.c#L118">стал ещё менее читаемым</a>, зато чуть более быстрым:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="iqconverterFloat" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="iqconverterFloat" download="iqconverterFloat.png" href="" title="Оптимизации Airspy">Скачать</a>
+</small>
+</div>
+<script>
+var iqconverterFloatData = [{"rpi_test_iqconverter_float":0.269528,"test_iqconverter_float":0.02748,"type":"CURRENT"},{"rpi_test_iqconverter_float":0.239942,"test_iqconverter_float":0.016405,"type":"TUNED"}];
+var iqconverterFloatdatasource = iqconverterFloatData.map(function(e) {
+	return e.rpi_test_iqconverter_float;
+});var iqconverterFloatdatasource2 = iqconverterFloatData.map(function(e) {
+	return e.test_iqconverter_float;
+});var iqconverterFloatXAxis = iqconverterFloatData.map(function(e) {
+	return '' + e.type;
+});var iqconverterFloatCtx = document.getElementById('iqconverterFloat').getContext('2d');
+const iqconverterFloatChart = new Chart(iqconverterFloatCtx, {
+    type: 'bar',
+    data: {
+        labels: iqconverterFloatXAxis,
+        datasets: [{
+        	label: 'Apple M1',
+            data: iqconverterFloatdatasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'Raspberrypi',
+            data: iqconverterFloatdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,type: 'logarithmic',title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Оптимизации Airspy',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/iqconverterFloat.png">
+</noscript>
+<p>На графике видно, что производительность увеличилась. Для Apple M1 на 41%, а для RaspberryPI на 11%. Цифры не очень впечатляющие. Это всё из-за алгоритма удаления DC смещения. В нём каждый последующий элемент зависит от предыдущего. Таким образом распараллелить вычисление с помощью SIMD не получится.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/raspberrypi/'>raspberrypi</a>, <a class='tag' href='/tags/c/'>c</a>, <a class='tag' href='/tags/simd/'>SIMD</a>, <a class='tag' href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/'>производительность</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/fir-filter-optimization-simd/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Ускорение работы FIR фильтра с помощью SIMD NEON</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
+</body>
+
+</html>
+

@@ -7,10 +7,646 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 25 Jun 2023 21:20:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jul 2023 17:39:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Ускорение работы FIR фильтра с помощью SIMD NEON - Часть 2</title>
+      <link>https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/</link>
+      <pubDate>Sat, 15 Jul 2023 17:39:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/</guid>
+      <description>Несмотря на то, что в моей предыдущей статье я улучшил производительность FIR фильтра в несколько раз, мне показалось это недостаточным. Я проанализировал несколько статей, заметок и различных подходов, найденных в Интернет и попробовал добавить для каждой идеи тест в arm-tests.
+Флаги компиляции Первое, что мне бросилось в глаза - это дополнительные флаги оптимизации для компилятора. Сразу несколько статей упоминают флаги -ftree-vectorize -ffast-math -funroll-loops. Я не стал делать отдельный тест, а просто обновил TEST_GENERIC.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Ускорение работы FIR фильтра с помощью SIMD NEON - Часть 2</h1></header>
+      		<div class='container entry-content'>
+  <p>Несмотря на то, что в моей <a href="https://dernasherbrezon.com/posts/fir-filter-optimization-simd/">предыдущей статье</a> я улучшил производительность FIR фильтра в несколько раз, мне показалось это недостаточным. Я проанализировал несколько статей, заметок и различных подходов, найденных в Интернет и попробовал добавить для каждой идеи тест в <a href="https://github.com/dernasherbrezon/arm-tests">arm-tests</a>.</p>
+<h2 id="флаги-компиляции">Флаги компиляции</h2>
+<p>Первое, что мне бросилось в глаза - это дополнительные флаги оптимизации для компилятора. Сразу <a href="https://codeforces.com/blog/entry/96344?locale=ru">несколько статей</a> упоминают флаги  <code>-ftree-vectorize -ffast-math -funroll-loops</code>. Я не стал делать отдельный тест, а просто обновил <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L68">TEST_GENERIC</a>.</p>
+<h2 id="двойной-цикл">Двойной цикл</h2>
+<p>Эту идею я нашёл в дипломной работе <a href="http://www.diva-portal.org/smash/get/diva2:1138490/FULLTEXT01.pdf">Performance Optimization of Signal Processing Algorithms for SIMD Architectures</a>, которая показывается чуть ли не первым результатом при поиске в Гугле по запросу &ldquo;оптимизация DSP SIMD&rdquo;. Идея заключается в том, что загрузка регистров из памяти и обработка результатов делается в двух независимых циклах. Код начинает загружать следующий блок данных из памяти в регистры, в то время как начинается вычисление предыдущего блока. Из-за того, что операции загрузки данных и вычисления значений независимы, процессор может их выполнять параллельно. Алгоритм выглядит следующим образом:</p>
+<pre><code>Loop1
+if BufferSize == 0
+	goto endloop
+StartLoop:
+	Loop2
+	Store O1 and O2
+	BufferSize = BufferSize -  16
+	Loop1
+	Store O3 and O4
+	if BufferSize == 0
+		goto endloop
+	goto StartLoop
+	
+endloop:
+Store O1 and O2
+Store O3 and O4
+</code></pre><p>Я реализовал этот алгоритм для float32x4_t - <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L353C15-L353C27">TEST_NEON1QI</a> и для float32x4x2_t - <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L273">TEST_NEON2QI</a>.</p>
+<p>Утверждается, что этот алгоритм в 2.635 быстрее авто-векторизированного кода.</p>
+<p>Кстати, дипломная работа содержит кладезь различных идей для измерения производительности в целом, а так же оптимизации более сложных DSP алгоритмов. Читается на одном дыхании, так что кайне рекомендую.</p>
+<h2 id="симметричный-фильтр">Симметричный фильтр</h2>
+<p>Следующую идею я нашёл в <a href="https://github.com/airspy/airspyone_host/blob/master/libairspy/src/iqconverter_float.c#L330">коде драйвера к airspy</a>. Из-за того, что многие FIR фильтры симметричны относительно центра, то можно воспользоваться этим и уменьшить количество операций умножения. Например, применение фильтра с пятью коэффициентами:</p>
+<pre><code>result[i] = A*X1 + B*X2 + C*X3 + D*X2 + E*X1
+</code></pre><p>можно преобразовать в:</p>
+<pre><code>result[i] = (A + E)*X1 + (B + D)*X2 + C*X3
+</code></pre><p>Это позволит сократить количество умножений в ~2 раза. Правда, не очень понятно будет ли экономия на умножении больше, чем прыжки по памяти туда-сюда. Чтобы это проверить, я реализовал несколько тестов:</p>
+<ul>
+<li><a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L97">TEST_GENSYMM</a> - наивная реализация. Выполнять алгоритм выше в цикле <code>(int)(n/2)</code> раз</li>
+<li><a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L121">TEST_NEON1QSYMM</a> - то же самое, но с помощью интристиков.</li>
+<li><a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L470">TEST_GENCACHE</a> - та же идея, но вручную развёрнутый цикл.</li>
+</ul>
+<h2 id="volk">Volk</h2>
+<p>А зачем самому что-то придумывать, если уже кто-то это реализовал? Именно в этом и заключается идея использовать готовый код из библиотеки <a href="https://github.com/gnuradio/volk">volk</a>. В <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L516">TEST_VOLK</a> я просто вызывал функцию <code>volk_32f_x2_dot_prod_32f</code> с нужными параметрами.</p>
+<h2 id="результаты">Результаты</h2>
+<p>Для сравнения я добавил победителя предыдущего раунда оптимизации - TEST_NEON1Q:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="typesCompare" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="typesCompare" download="typesCompare.png" href="" title="Алгоритмы">Скачать</a>
+</small>
+</div>
+<script>
+var typesCompareData = [{"dot_prod_nam_as_npref_optimized_64":0.000726,"rpi_dot_prod_nam_as_npref_optimized_64":0.014066,"type":"TEST_GENERIC"},{"dot_prod_nam_as_npref_optimized_64":0.000977,"rpi_dot_prod_nam_as_npref_optimized_64":0.016751,"type":"TEST_NEON1Q"},{"dot_prod_nam_as_npref_optimized_64":0.000995,"rpi_dot_prod_nam_as_npref_optimized_64":0.015218,"type":"TEST_NEON1QI"},{"dot_prod_nam_as_npref_optimized_64":0.001367,"rpi_dot_prod_nam_as_npref_optimized_64":0.018522,"type":"TEST_NEON2QI"},{"dot_prod_nam_as_npref_optimized_64":0.000979,"rpi_dot_prod_nam_as_npref_optimized_64":0.011698,"type":"TEST_GENSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.00154,"rpi_dot_prod_nam_as_npref_optimized_64":0.021516,"type":"TEST_NEON1QSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.000836,"rpi_dot_prod_nam_as_npref_optimized_64":0.013506,"type":"TEST_GENCACHE"},{"dot_prod_nam_as_npref_optimized_64":0.002898,"rpi_dot_prod_nam_as_npref_optimized_64":0.050044,"type":"TEST_VOLK"}];
+var typesComparedatasource = typesCompareData.map(function(e) {
+	return e.rpi_dot_prod_nam_as_npref_optimized_64;
+});var typesCompareXAxis = typesCompareData.map(function(e) {
+	return '' + e.type;
+});var typesCompareCtx = document.getElementById('typesCompare').getContext('2d');
+const typesCompareChart = new Chart(typesCompareCtx, {
+    type: 'bar',
+    data: {
+        labels: typesCompareXAxis,
+        datasets: [{
+            label: 'Raspberrypi',
+            data: typesComparedatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Алгоритмы',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/typesCompare.png">
+</noscript>
+<p>Результаты меня сильно удивили. Во-первых, обычная реализация на Си оказалась быстрее на 17% вручную оптимизированного кода на интристиках. Видимо, разворачивание циклов действительно творит чудеса. Во-вторых, использование симметрии фильтра ещё быстрее. Видимо весь массив попадает в быстрый кэш и прыжки вперёд-назад не влияют на производительность. Это даёт 31% прироста производительсноти по сравнению с TEST_NEON1Q. В-третьих, крайне медленная реализация в библиотеке VOLK. Я несколько раз проверил конфигурацию, и там действительно стоит использование NEON:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat ~/.volk/volk_config 
+<span style="color:#75715e">#this file is generated by volk_profile.</span>
+<span style="color:#75715e">#the function name is followed by the preferred architecture.</span>
+volk_32f_x2_dot_prod_32f a_neonasm neon
+</code></pre></div><p>Я попробовал реализации с разным выравниванием памяти, но это не помогло:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="volkGraph" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="volkGraph" download="volkGraph.png" href="" title="VOLK">Скачать</a>
+</small>
+</div>
+<script>
+var volkGraphData = [{"rpi_volk":0.050044,"type":"Not aligned"},{"rpi_volk":0.068933,"type":"8byte aligned"},{"rpi_volk":0.04486,"type":"16byte aligned"}];
+var volkGraphdatasource = volkGraphData.map(function(e) {
+	return e.rpi_volk;
+});var volkGraphXAxis = volkGraphData.map(function(e) {
+	return '' + e.type;
+});var volkGraphCtx = document.getElementById('volkGraph').getContext('2d');
+const volkGraphChart = new Chart(volkGraphCtx, {
+    type: 'bar',
+    data: {
+        labels: volkGraphXAxis,
+        datasets: [{
+            label: 'Raspberrypi',
+            data: volkGraphdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'VOLK',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/volkGraph.png">
+</noscript>
+<p>Вероятно, парни намудрили что-то с выбором нужной реализации и компиляцией. Если выбрать <code>generic</code> реализацию, то она значительно быстрее, чем <code>neon</code>, но даже близко не подходит к <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L68">TEST_GENERIC</a>, несмотря на то, что код абсолютно одинаковый.</p>
+<h2 id="выводы">Выводы</h2>
+<p>А выводы всё те же, что и для любой другой оптимизации кода:</p>
+<ul>
+<li>алгоритм должен быть оптимизирован в первую очередь</li>
+<li>если это не помогло, то попробовать разные опции компилятора</li>
+<li>если и это не помогло, то написать код с помощью интристиков</li>
+<li>если и этого не хватило, то попробовать написать на ассемблере</li>
+</ul>
+<p>Проблема в том, что оптимизация кода на ассемблере - это <a href="https://ru.wikipedia.org/wiki/NP-%D0%BF%D0%BE%D0%BB%D0%BD%D0%B0%D1%8F_%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0">NP-полная задача</a>. Для того, чтобы её решить, нужна хорошая интуиция. А чтобы получить такую интуицию, нужно очень много времени заниматься исключительно оптимизацией кода. А вот времени как раз обычно и не хватает.</p>
+<h2 id="бонус">Бонус</h2>
+<p>А чем же закончилась история с оптимизацией драйвера к airspy? А там используется half-band фильтр. Его особенность заключается в том, что почти половина его коэффициентов равна 0. Это позволяет сократить количество операций сложения и умножения почти в 2 раза. Только посмотрите насколько он быстрее TEST_GENSYMM:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="dot_prod_12" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="dot_prod_12" download="dot_prod_12.png" href="" title="Half-Band фильтр">Скачать</a>
+</small>
+</div>
+<script>
+var dot_prod_12Data = [{"rpi_dot_prod":0.011698,"type":"TEST_GENSYMM"},{"rpi_dot_prod":0.00878,"type":"TEST_12_GENERIC"},{"rpi_dot_prod":0.006998,"type":"TEST_12_UNROLL4"}];
+var dot_prod_12datasource = dot_prod_12Data.map(function(e) {
+	return e.rpi_dot_prod;
+});var dot_prod_12XAxis = dot_prod_12Data.map(function(e) {
+	return '' + e.type;
+});var dot_prod_12Ctx = document.getElementById('dot_prod_12').getContext('2d');
+const dot_prod_12Chart = new Chart(dot_prod_12Ctx, {
+    type: 'bar',
+    data: {
+        labels: dot_prod_12XAxis,
+        datasets: [{
+            label: 'Raspberrypi',
+            data: dot_prod_12datasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Half-Band фильтр',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/dot_prod_12.png">
+</noscript>
+<p>А если вручную развернуть несколько циклов, то скорость увеличится на 41%!</p>
+<h2 id="бонус-2">Бонус 2</h2>
+<p>Фильтр - это не единственная операция, которая выполняется в драйвере airspy! Внутри происходит несколько операций:</p>
+<ul>
+<li>удаление <a href="https://en.wikipedia.org/wiki/DC_bias">DC смещения</a> из сигнала</li>
+<li><a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D0%93%D0%B8%D0%BB%D1%8C%D0%B1%D0%B5%D1%80%D1%82%D0%B0">преобразование Гильберта</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Half-band_filter">децимация сигнала в 2 раза</a></li>
+</ul>
+<p>В коде драйвера каждая операция выполняется в отдельном методе с дополнительными накладными расходами. Например, в кольцевом буфере данные копируются из начала в конец через каждые 47*32 сэмпла:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">--</span>fir_index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+{
+	fir_index <span style="color:#f92672">=</span> fir_len <span style="color:#f92672">*</span> (SIZE_FACTOR <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+	memcpy(fir_queue <span style="color:#f92672">+</span> fir_index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, fir_queue, (fir_len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+}
+</code></pre></div><p>Мне непонятен выбор буфера именно такой длины. Что мешало сделать его такой же длины, что и буфера, получаемые из USB?</p>
+<p>Ещё одним местом для оптимизации может быть кольцевой буфер с задержкой. В нём есть логический переход, который можно оптимизировать, если использовать массив такой же длины, что и входящий. Для этого нужно заменить код:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>)
+{
+	res <span style="color:#f92672">=</span> cnv<span style="color:#f92672">-&gt;</span>delay_line[index];
+	cnv<span style="color:#f92672">-&gt;</span>delay_line[index] <span style="color:#f92672">=</span> samples[i];
+	samples[i] <span style="color:#f92672">=</span> res;
+
+	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">++</span>index <span style="color:#f92672">&gt;=</span> half_len)
+	{
+		index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	}
+}
+</code></pre></div><p>На:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">samples[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> avg;
+avg <span style="color:#f92672">+=</span> SCALE <span style="color:#f92672">*</span>  cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">24</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>(cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> hbc);
+...	
+samples[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">=</span> cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>];
+cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">-=</span> avg;
+avg <span style="color:#f92672">+=</span> SCALE <span style="color:#f92672">*</span>  cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>];
+cnv<span style="color:#f92672">-&gt;</span>delay_line[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">24</span>] <span style="color:#f92672">=</span>  cnv<span style="color:#f92672">-&gt;</span>fir_queue[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">46</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">*</span> hbc;
+</code></pre></div><p>Идея заключается в том, чтобы считать элемент и помещать в промежуточный массив по нужному смещению. При этом текущий брать из промежуточного с текущим смещением.</p>
+<p>В результате этих оптимизаций, код <a href="https://github.com/dernasherbrezon/airspyone_host/blob/neon_tuning/libairspy/src/iqconverter_float_tuned.c#L118">стал ещё менее читаемым</a>, зато чуть более быстрым:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="iqconverterFloat" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="iqconverterFloat" download="iqconverterFloat.png" href="" title="Оптимизации Airspy">Скачать</a>
+</small>
+</div>
+<script>
+var iqconverterFloatData = [{"rpi_test_iqconverter_float":0.269528,"test_iqconverter_float":0.02748,"type":"CURRENT"},{"rpi_test_iqconverter_float":0.239942,"test_iqconverter_float":0.016405,"type":"TUNED"}];
+var iqconverterFloatdatasource = iqconverterFloatData.map(function(e) {
+	return e.rpi_test_iqconverter_float;
+});var iqconverterFloatdatasource2 = iqconverterFloatData.map(function(e) {
+	return e.test_iqconverter_float;
+});var iqconverterFloatXAxis = iqconverterFloatData.map(function(e) {
+	return '' + e.type;
+});var iqconverterFloatCtx = document.getElementById('iqconverterFloat').getContext('2d');
+const iqconverterFloatChart = new Chart(iqconverterFloatCtx, {
+    type: 'bar',
+    data: {
+        labels: iqconverterFloatXAxis,
+        datasets: [{
+        	label: 'Apple M1',
+            data: iqconverterFloatdatasource2,
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'Raspberrypi',
+            data: iqconverterFloatdatasource,
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {x: {
+                title: {
+                    display: true,
+                    text: ''
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                    	
+                        return this.getLabelForValue(value) + ' ';
+                    }}
+        	},y: {
+                beginAtZero: true,type: 'logarithmic',title: {
+                    display: true,
+                    text: 'Millis'
+                },
+                ticks: {
+                    
+                    callback: function(value, index, ticks) {
+                        return value + ' ';
+                    }}
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Оптимизации Airspy',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function(context) {
+                        return context[0].label + ' ';
+            		},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ';
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/fir-filter-optimization-simd2/iqconverterFloat.png">
+</noscript>
+<p>На графике видно, что производительность увеличилась. Для Apple M1 на 41%, а для RaspberryPI на 11%. Цифры не очень впечатляющие. Это всё из-за алгоритма удаления DC смещения. В нём каждый последующий элемент зависит от предыдущего. Таким образом распараллелить вычисление с помощью SIMD не получится.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Ускорение работы FIR фильтра с помощью SIMD NEON</title>
