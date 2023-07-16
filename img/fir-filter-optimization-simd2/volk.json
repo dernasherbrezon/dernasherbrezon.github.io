@@ -5,10 +5,10 @@
 	},
 	{
 		"type": "8byte aligned",
-		"rpi_volk": 0.068933
+		"rpi_volk": 0.032257
 	},
 	{
 		"type": "16byte aligned",
-		"rpi_volk": 0.044860
+		"rpi_volk": 0.035115
 	}
 ]

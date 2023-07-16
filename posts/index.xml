@@ -228,7 +228,7 @@ volk_32f_x2_dot_prod_32f a_neonasm neon
 </small>
 </div>
 <script>
-var volkGraphData = [{"rpi_volk":0.050044,"type":"Not aligned"},{"rpi_volk":0.068933,"type":"8byte aligned"},{"rpi_volk":0.04486,"type":"16byte aligned"}];
+var volkGraphData = [{"rpi_volk":0.050044,"type":"Not aligned"},{"rpi_volk":0.032257,"type":"8byte aligned"},{"rpi_volk":0.035115,"type":"16byte aligned"}];
 var volkGraphdatasource = volkGraphData.map(function(e) {
 	return e.rpi_volk;
 });var volkGraphXAxis = volkGraphData.map(function(e) {
@@ -367,7 +367,7 @@ const volkGraphChart = new Chart(volkGraphCtx, {
 </small>
 </div>
 <script>
-var dot_prod_12Data = [{"rpi_dot_prod":0.011698,"type":"TEST_GENSYMM"},{"rpi_dot_prod":0.00878,"type":"TEST_12_GENERIC"},{"rpi_dot_prod":0.006998,"type":"TEST_12_UNROLL4"}];
+var dot_prod_12Data = [{"rpi_dot_prod":0.011698,"type":"TEST_GENSYMM"},{"rpi_dot_prod":0.006306,"type":"TEST_12_GENERIC"},{"rpi_dot_prod":0.005869,"type":"TEST_12_UNROLL4"}];
 var dot_prod_12datasource = dot_prod_12Data.map(function(e) {
 	return e.rpi_dot_prod;
 });var dot_prod_12XAxis = dot_prod_12Data.map(function(e) {
