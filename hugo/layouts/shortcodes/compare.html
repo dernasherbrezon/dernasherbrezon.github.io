@@ -1,0 +1,10 @@
+{{ $id := .Get "id" }}
+{{ $before := .Get "before" }}
+{{ $after := .Get "after" }}
+<div id="{{ $id }}">
+  <img src="{{ $before }}" alt="BEFORE" />
+  <img src="{{ $after }}" alt="AFTER" />
+</div>
+<script>
+	new ImageCompare(document.getElementById("{{ $id }}")).mount();
+</script>

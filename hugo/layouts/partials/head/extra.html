@@ -7,3 +7,7 @@
 {{- if eq .Params.chartjs true -}}
 <script src="{{ print "/js/chart.min.js" | relURL }}"></script>
 {{- end -}}
+{{- if eq .Params.compareImages true -}}
+<link href="{{ print "/css/image-compare-viewer.min.css" | relURL }}" rel="stylesheet" />
+<script src="{{ print "/js/image-compare-viewer.min.js" | relURL }}"></script>
+{{- end -}}

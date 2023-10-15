@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</link>
     <description>Recent content in спутники on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 28 Oct 2022 20:52:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Oct 2023 13:50:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Практическое применение фильтра Байера</title>
+      <link>https://dernasherbrezon.com/posts/bayer-filter/</link>
+      <pubDate>Sun, 15 Oct 2023 13:50:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/bayer-filter/</guid>
+      <description>Введение Недавно я обнаружил, что спутник RoseyCubesat-1 отправляет изображения из космоса и, конечно же, мне захотелось их декодировать. К сожалению, официального описания формата я не нашёл. Зато нашёл вполне работающий декодер на GitHub. Пакеты с камеры имеют тип 0xA40C и отлично встраиваются в уже существующий декодер: RoseyCubesatBeacon.
+Каждый пакет со спутника содержит:
+   Название Размер (байт) Описание     sequenceId 2 Всегда 0. Можно игнорировать   isPreview 1 Позволяет понять изображение - это небольшое превью размером 48х36 или полноценное - 480х360   elementId 2 Порядковый номер пакета в изображении   data 80 Массив байт с данными изображения.</description>
+    </item>
+    
     <item>
       <title>AMSAT-UK 2022</title>
       <link>https://dernasherbrezon.com/posts/amsat-uk-2022/</link>
