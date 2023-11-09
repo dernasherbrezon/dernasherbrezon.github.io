@@ -5,7 +5,34 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 15 Oct 2023 13:50:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 Nov 2023 22:25:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>esp32</title>
+      <link>https://dernasherbrezon.com/tags/esp32/</link>
+      <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/esp32/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lora</title>
+      <link>https://dernasherbrezon.com/tags/lora/</link>
+      <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/lora/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lora-at</title>
+      <link>https://dernasherbrezon.com/tags/lora-at/</link>
+      <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/lora-at/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Java</title>
       <link>https://dernasherbrezon.com/tags/java/</link>
@@ -133,15 +160,6 @@
     </item>
     
     <item>
-      <title>esp32</title>
-      <link>https://dernasherbrezon.com/tags/esp32/</link>
-      <pubDate>Sun, 23 Apr 2023 18:15:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/esp32/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>gdal</title>
       <link>https://dernasherbrezon.com/tags/gdal/</link>
       <pubDate>Fri, 14 Apr 2023 22:28:18 +0000</pubDate>
@@ -174,15 +192,6 @@
       <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/bluetooth/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>lora</title>
-      <link>https://dernasherbrezon.com/tags/lora/</link>
-      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/lora/</guid>
       <description></description>
     </item>
     

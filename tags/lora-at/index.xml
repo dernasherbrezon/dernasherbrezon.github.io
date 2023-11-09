@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lora-at on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/lora-at/</link>
+    <description>Recent content in lora-at on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 05 Nov 2023 22:25:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora-at/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LoRa AT</title>
+      <link>https://dernasherbrezon.com/posts/lora-at/</link>
+      <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-at/</guid>
+      <description>История С момента моей последней статьи про LoRa прошло слишком много времени. За это время у меня появился проект lora-at, про который я бы хотел написать в этой статье. И начну я, пожалуй, с истории о том, как он появился.
+Изначально я планировал создать небольшую прошивку для приёма сигналов со спутников по протоколу LoRa. За основу я взял tinyGS, которая делала почти всё, что мне было нужно. tinyGS позволял составлять расписание пролётов спутников, принимать пакеты со спутников и пересылать их на центральный сервер.</description>
+    </item>
+    
+  </channel>
+</rss>
