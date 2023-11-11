@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 05 Nov 2023 22:25:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Nov 2023 21:58:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
       <link>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</link>
@@ -26,6 +26,17 @@
 Правда иногда приходится покупать различные лицензии или железо для исследований, а также оплачивать хостинг хобби проектов.
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
  </description>
+    </item>
+    
+    <item>
+      <title>Тестирование в ESP-IDF</title>
+      <link>https://dernasherbrezon.com/posts/testing-in-esp-idf/</link>
+      <pubDate>Fri, 10 Nov 2023 21:58:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/testing-in-esp-idf/</guid>
+      <description>Неотъемлемой частью любого современного проекта является тестирование. Мой старый-новый проект lora-at - не исключение. После того, как я смигрировал его с PlatformIO на ESP-IDF, мне пришлось переписать все тесты.
+Изначально тесты мокировали работу с чипом sx127x, компилировались под Linux/MacOS и проверяли вход-выход at_handler. В текущий версии такой подход не сработает:
+ Во-первых, at_handler стал зависить от множества других компонент. Появилась поддержка экрана, режима глубокого сна и тд. Старые тесты это не учитывали.</description>
     </item>
     
     <item>

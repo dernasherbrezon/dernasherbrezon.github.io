@@ -7,10 +7,128 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 05 Nov 2023 22:25:18 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 10 Nov 2023 21:58:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Тестирование в ESP-IDF</title>
+      <link>https://dernasherbrezon.com/posts/testing-in-esp-idf/</link>
+      <pubDate>Fri, 10 Nov 2023 21:58:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/testing-in-esp-idf/</guid>
+      <description>Неотъемлемой частью любого современного проекта является тестирование. Мой старый-новый проект lora-at - не исключение. После того, как я смигрировал его с PlatformIO на ESP-IDF, мне пришлось переписать все тесты.
+Изначально тесты мокировали работу с чипом sx127x, компилировались под Linux/MacOS и проверяли вход-выход at_handler. В текущий версии такой подход не сработает:
+ Во-первых, at_handler стал зависить от множества других компонент. Появилась поддержка экрана, режима глубокого сна и тд. Старые тесты это не учитывали.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Тестирование в ESP-IDF</h1></header>
+      		<div class='container entry-content'>
+  <p>Неотъемлемой частью любого современного проекта является тестирование. Мой <a href="https://dernasherbrezon.com/posts/lora-at/">старый-новый проект lora-at</a> - не исключение. После того, как я смигрировал его с PlatformIO на ESP-IDF, мне пришлось переписать все тесты.</p>
+<p><a href="https://github.com/dernasherbrezon/lora-at/blob/7cba855415422f44db5b2759d54e6f59af0f0639/test/test_at/test_AtHandler.cpp">Изначально</a> тесты мокировали работу с чипом sx127x, компилировались под Linux/MacOS и проверяли вход-выход at_handler. В текущий версии такой подход не сработает:</p>
+<ul>
+<li>Во-первых, at_handler стал зависить от множества других компонент. Появилась поддержка экрана, режима глубокого сна и тд. Старые тесты это не учитывали.</li>
+<li>Во-вторых, появились зависимости на внутренние компоненты ESP-IDF, которые пока не компилируются под Linux/MacOS. То же логирование <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/host-apps.html">работать не будет</a>.</li>
+<li>В-третьих, много логики появилось именно в компонентах, связанных с железом. Их бы тоже неплохо было бы протестировать.</li>
+</ul>
+<p>Пришлось открывать <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/unit-tests.html">документацию ESP-IDF</a> и вдумчиво исследовать возможности.</p>
+<h2 id="юнит-тестирование">Юнит тестирование</h2>
+<p>ESP-IDF позволяет писать юнит тесты с помощью библиотеки unity. Достаточно создать папку test и подключить её в CMakeLists.txt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">idf_component_register(<span style="color:#e6db74">SRC_DIRS</span> <span style="color:#e6db74">&#34;.&#34;</span>
+                       <span style="color:#e6db74">INCLUDE_DIRS</span> <span style="color:#e6db74">&#34;.&#34;</span>
+                       <span style="color:#e6db74">REQUIRES</span> <span style="color:#e6db74">unity</span>)<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>На самом деле нет. В официальной документации опущено, как мне кажется, достаточно важное НО: полученные юнит тесты нужно подключать к приложению unit-test-app, которое находится в <code>esp-idf/tools/unit-test-app</code>. И вообще, это приложение, скорее всего, используется для тестирования самого фреймворка. При должном старании можно запустить собственные тесты из этого приложения, но выглядит это достаточно неудобно. Опять же подцепятся все тесты фреймворка, будут долго компилироваться - совсем не то, что хочется.</p>
+<p>Вместо этого можно самому написать приложение. По сути unit-test-app - это обычное приложение под ESP32, которое имеет <code>void app_main(void)</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unity.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">app_main</span>(<span style="color:#66d9ef">void</span>) {
+  unity_run_menu();
+}
+</code></pre></div><p>Обязательная конфигурация в sdkconfig. Без неё прошивка будет постоянно падать.</p>
+<pre><code>CONFIG_ESP_TASK_WDT=n
+</code></pre><p>Тесты регистрируются в глобальном списке и доступны для выполнения. Функция <code>unity_run_menu</code> на самом деле не запускает тесты, а запускает меню, в котором, подключившись по UART интерфейсу, можно выбрать нужный тест и запустить. Результат запуска всё равно передаётся назад по UART, так что совсем не важно как запускаются тесты. А вот возможность запустить вручную каждый тест - это удобно.</p>
+<p><img src="/img/testing-in-esp-idf/1.png" alt=""></p>
+<p>Ещё стоит сказать, что ESP-IDF значительно расширяет <a href="https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityGettingStartedGuide.md">unity</a>, позволяя писать вот такие конструкции:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">TEST_CASE(<span style="color:#e6db74">&#34;success&#34;</span>, <span style="color:#e6db74">&#34;[at_timer]&#34;</span>) {
+  <span style="color:#75715e">// test case
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Вместо стандартного:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_function_should_doBlahAndBlah</span>(<span style="color:#66d9ef">void</span>) {
+    <span style="color:#75715e">//test stuff
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+    UNITY_BEGIN();
+    RUN_TEST(test_function_should_doBlahAndBlah);
+    <span style="color:#66d9ef">return</span> UNITY_END();
+}
+</code></pre></div><p>Из недостатков unity - нельзя для каждого теста определять <code>void setUp()</code> и <code>void tearDown()</code>. Каждый тест в ESP-IDF находится в своём компоненте и, в принципе, они друг от друга не зависят. Однако, из-за того, что в итоге они линкуются в один проект unit-test-app, названия функций нельзя дублировать.</p>
+<h2 id="valgrind-у-себя-дома">Valgrind у себя дома</h2>
+<p>В Linux есть такая замечательная программа, как <a href="https://valgrind.org">Valgrind</a>. С её помощью можно искать утечки памяти. Однако, Valgrind не поддерживает микроконтроллеры, и непонятно что делать в таком случае. На помощь приходит внутренний инструментарий ESP-IDF - <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/heap_debug.html">Heap Memory Debugging</a>. Идея заключается в следующем:</p>
+<ul>
+<li>для каждого тест кейса в методе <code>setUp</code> включать анализ потребления памяти <code>heap_trace_start(HEAP_TRACE_LEAKS)</code>.</li>
+<li>а при завершении теста в методе <code>void tearDown()</code> выключать и считать разницу выделенных объектов:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">tearDown</span>() {
+  ESP_ERROR_CHECK(heap_trace_stop());
+  heap_trace_dump();
+  TEST_ASSERT_MESSAGE(heap_trace_get_count() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;memory leak&#34;</span>);
+}
+</code></pre></div><p>Дополнительно необходимо включить поддержку Heap Memory Debugging в sdkconfig:</p>
+<pre><code>CONFIG_HEAP_POISONING_DISABLED=y
+CONFIG_HEAP_TRACING_STANDALONE=y
+CONFIG_HEAP_TRACING=y
+CONFIG_HEAP_TRACING_STACK_DEPTH=2
+</code></pre><p>Первые несколько простеньких тестов сработали отлично. Но вот когда пришла очередь более сложных, появились утечки памяти:</p>
+<pre><code>Running success...
+I (158592) lora-at: inactivity timer started: 0.03s
+I (158622) lora-at: inactivity timer stopped
+1 allocations trace (100 entry buffer)
+12 bytes (@ 0x3ffb5800) allocated CPU 0 ccount 0xe877f00c caller 0x400d3588:0x400d395c
+0x400d3588: get_desc_for_int at /mnt/disk/esp/esp-idf/components/esp_hw_support/intr_alloc.c:147
+
+0x400d395c: esp_intr_alloc_intrstatus at /mnt/disk/esp/esp-idf/components/esp_hw_support/intr_alloc.c:552
+
+12 bytes 'leaked' in trace (1 allocations)
+total allocations 6 total frees 7
+/mnt/disk/tmp/tmp.IgQEOLXRBb/components/at_timer/test/test_at_timer.c:18:success:FAIL:Function [at_timer].  memory leak
+Test ran in 69ms
+</code></pre><p>Утечки памяти происходят внутри самого ESP-IDF! Благо он опенсорс и можно разобраться почему:</p>
+<pre><code>//Theoretically, we could free the vector_desc... not sure if that's worth the few bytes of memory
+//we save.(We can also not use the same exit path for empty shared ints anymore if we delete
+//the desc.) For now, just mark it as free.
+</code></pre><p>Да, мистер Jeroen Domburg, несколько байтов на самом деле - это 12 байт. Если так подумать, то он прав, внутренние структуры инициализируются только один раз для каждого прерывания, а потом переиспользуются. Если по-честному удалять выделенную память, то может так получиться, что прерывание создаётся в цикле и сразу освобождается. Постоянная инициализация и освобождение памяти будут вести к фрагментации. А это плохо. С другой стороны можно было сразу выделать сколько нужно памяти на внутренние структуры, но тогда будет использоваться памяти больше, чем нужно. А это тоже плохо. Но решать-то вопрос как-то нужно! А вдруг память течёт в моём коде? Или будет течь? Я не придумал ничего более лучшего, чем прогрев внутреннего состояния драйвера перед стартом программы:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">app_main</span>(<span style="color:#66d9ef">void</span>) {
+  i2c_driver_install(I2C_NUM_1, I2C_MODE_MASTER, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+  i2c_driver_delete(I2C_NUM_1);
+}
+</code></pre></div><p>В таком же ключе пришлось прогревать логи, nvs и структуры для работы с таймерами. Зато в результате я могу отлавливать утечки памяти в своём коде.</p>
+<h2 id="интеграционные-тесты">Интеграционные тесты</h2>
+<p>Интеграционные тесты очень похожи на те, которые я писал для тестирования <a href="https://dernasherbrezon.com/posts/testing-sx127x/">библиотеки sx127x</a>. Напомню, что основная идея была в том, чтобы с помощью питона и библиотеки pytest-embedded посылать команды в приёмник и передатчик, получать результат работы и сравнивать с ожидаемым. Для lora-at даже не пришлось писать отдельного приложения для обработки команд - оно само по себе приложение для обработки AT команд! Вот что в результате получилось:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@pytest.mark.generic</span>
+<span style="color:#a6e22e">@pytest.mark.parametrize</span>(<span style="color:#e6db74">&#39;count&#39;</span>, [
+    <span style="color:#ae81ff">2</span>,
+], indirect<span style="color:#f92672">=</span>True)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_common_at_commands</span>(dut: Tuple[Dut, Dut]) <span style="color:#f92672">-&gt;</span> None:
+    dut_tx <span style="color:#f92672">=</span> dut[<span style="color:#ae81ff">0</span>]
+    dut_rx <span style="color:#f92672">=</span> dut[<span style="color:#ae81ff">1</span>]
+    
+    dut_rx<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;AT+LORARX=436703003,250000,10,5,18,10,8,4,1,1,1,0&#39;</span>)
+    dut_rx<span style="color:#f92672">.</span>expect(<span style="color:#e6db74">&#39;OK&#39;</span>, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+    dut_tx<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;AT+LORATX=CAFE,436703003,250000,10,5,18,10,8,4,1,1,1,0&#39;</span>)
+    dut_tx<span style="color:#f92672">.</span>expect(<span style="color:#e6db74">&#39;OK&#39;</span>, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+    dut_rx<span style="color:#f92672">.</span>expect(<span style="color:#e6db74">&#39;received frame&#39;</span>, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)    
+</code></pre></div><p>Сначала RX устройство начинает слушать эфир, потом TX устройство передаёт в эфир пакет, а затем ожидается, что RX устройство приняло пакет. В таком ключе я написал несколько десятков тест кейсов. Единственное, с чем не разобрался - это таймаут. Несмотря на то, что я следую документации и явно указываю таймауты ожидания ответа, pytest почему-то ждёт несколько минут прежде, чем упасть. Хотя при этом он пишет, что упал по указанному мною таймауту. Магия питона не иначе.</p>
+<h2 id="результаты">Результаты</h2>
+<p>В результате получился вполне тестируемый код. Вся инфраструктура для тестов настроена и работает. Большинство функциональности оттестировано. Время переходить к самому вкусному - тестирование потребления энергии с помощью <a href="https://www.nordicsemi.com/Products/Development-hardware/Power-Profiler-Kit-2">Power Profiler Kit II</a>.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>LoRa AT</title>

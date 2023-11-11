@@ -6,6 +6,7 @@ tags:
   - lora
   - lora-at
   - esp32
+  - esp-idf
 ---
 
 ## История
