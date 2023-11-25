@@ -5,7 +5,16 @@
     <link>https://dernasherbrezon.com/tags/c/</link>
     <description>Recent content in c on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 15 Jul 2023 17:39:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Nov 2023 09:08:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Power Profiler Kit 2</title>
+      <link>https://dernasherbrezon.com/posts/power-profiler-kit2/</link>
+      <pubDate>Fri, 24 Nov 2023 09:08:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/power-profiler-kit2/</guid>
+      <description>Переписав LoRa At на С я уменьшил размер прошивки в два раза! Однако, это хоть и выглядит впечатляюще, но на самом деле не так важно. Если старая и новая версии помещаются на чипе, то какая разница сколько места они занимают? Поэтому показатель хоть и хороший, но мало применим на практике. А вот энергопотребление - это другое. Низкое энергопотребление важно при работе от солнечных батарей. Именно поэтому я решил исследовать эту тему по-подробнее.</description>
+    </item>
+    
     <item>
       <title>Ускорение работы FIR фильтра с помощью SIMD NEON - Часть 2</title>
       <link>https://dernasherbrezon.com/posts/fir-filter-optimization-simd2/</link>
