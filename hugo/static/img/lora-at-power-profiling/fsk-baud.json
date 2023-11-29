@@ -1,0 +1,57 @@
+[
+	{
+		"baud": 1200,
+		"latencyMs": 1759,
+		"chargemC": 88.64
+	},
+	{
+		"baud": 2400,
+		"latencyMs": 880,
+		"chargemC": 43.71
+	},
+	{
+		"baud": 4800,
+		"latencyMs": 439.3,
+		"chargemC": 21.71
+	},
+	{
+		"baud": 9600,
+		"latencyMs": 216,
+		"chargemC": 10.78
+	},
+	{
+		"baud": 19200,
+		"latencyMs": 109,
+		"chargemC": 5.35
+	},
+	{
+		"baud": 38400,
+		"latencyMs": 57.47,
+		"chargemC": 2.86
+	},
+	{
+		"baud": 76800,
+		"latencyMs": 36.13,
+		"chargemC": 1.88
+	},
+	{
+		"baud": 153600,
+		"chargemC": 0.76131,
+		"latencyMs": 15.36
+	},
+	{
+		"baud": 200000,
+		"chargemC": 0.68371,
+		"latencyMs": 13.77
+	},
+	{
+		"baud": 250000,
+		"chargemC": 0.54466,
+		"latencyMs": 11.07
+	},
+	{
+		"baud": 300000,
+		"chargemC": 0.45491,
+		"latencyMs": 9.2
+	}
+]

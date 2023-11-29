@@ -1,0 +1,1198 @@
+[
+  {
+    "time": 0,
+    "uartSymbol": 27.413147
+  },
+  {
+    "time": 12.93,
+    "uartSymbol": 27.421265
+  },
+  {
+    "time": 25.87,
+    "uartSymbol": 27.404213
+  },
+  {
+    "time": 38.82,
+    "uartSymbol": 27.421974
+  },
+  {
+    "time": 51.75,
+    "uartSymbol": 27.429174
+  },
+  {
+    "time": 64.7,
+    "uartSymbol": 27.412504
+  },
+  {
+    "time": 77.63,
+    "uartSymbol": 27.430809
+  },
+  {
+    "time": 90.57,
+    "uartSymbol": 34.28473
+  },
+  {
+    "time": 103.5,
+    "uartSymbol": 47.19581
+  },
+  {
+    "time": 116.45,
+    "uartSymbol": 54.188885
+  },
+  {
+    "time": 129.38,
+    "uartSymbol": 65.51075
+  },
+  {
+    "time": 142.33,
+    "uartSymbol": 65.7117
+  },
+  {
+    "time": 155.26,
+    "uartSymbol": 139.12411
+  },
+  {
+    "time": 168.2,
+    "uartSymbol": 189.90567
+  },
+  {
+    "time": 181.14,
+    "uartSymbol": 195.86853
+  },
+  {
+    "time": 194.08,
+    "uartSymbol": 128.7311
+  },
+  {
+    "time": 207.01,
+    "uartSymbol": 99.17734
+  },
+  {
+    "time": 219.95,
+    "uartSymbol": 98.68086
+  },
+  {
+    "time": 232.89,
+    "uartSymbol": 101.778854
+  },
+  {
+    "time": 245.83,
+    "uartSymbol": 101.906296
+  },
+  {
+    "time": 258.78,
+    "uartSymbol": 101.510124
+  },
+  {
+    "time": 271.71,
+    "uartSymbol": 102.01862
+  },
+  {
+    "time": 284.66,
+    "uartSymbol": 101.49762
+  },
+  {
+    "time": 297.58,
+    "uartSymbol": 102.38649
+  },
+  {
+    "time": 310.53,
+    "uartSymbol": 102.468544
+  },
+  {
+    "time": 323.46,
+    "uartSymbol": 101.51983
+  },
+  {
+    "time": 336.41,
+    "uartSymbol": 101.894165
+  },
+  {
+    "time": 349.34,
+    "uartSymbol": 102.61581
+  },
+  {
+    "time": 362.29,
+    "uartSymbol": 101.15017
+  },
+  {
+    "time": 375.22,
+    "uartSymbol": 102.05761
+  },
+  {
+    "time": 388.16,
+    "uartSymbol": 101.68339
+  },
+  {
+    "time": 401.09,
+    "uartSymbol": 102.43646
+  },
+  {
+    "time": 414.04,
+    "uartSymbol": 101.56852
+  },
+  {
+    "time": 426.97,
+    "uartSymbol": 102.0472
+  },
+  {
+    "time": 439.91,
+    "uartSymbol": 101.547874
+  },
+  {
+    "time": 452.85,
+    "uartSymbol": 102.023384
+  },
+  {
+    "time": 465.79,
+    "uartSymbol": 101.61526
+  },
+  {
+    "time": 478.74,
+    "uartSymbol": 102.058815
+  },
+  {
+    "time": 491.66,
+    "uartSymbol": 100.946045
+  },
+  {
+    "time": 504.6,
+    "uartSymbol": 101.31236
+  },
+  {
+    "time": 517.54,
+    "uartSymbol": 101.54771
+  },
+  {
+    "time": 530.49,
+    "uartSymbol": 101.516266
+  },
+  {
+    "time": 543.42,
+    "uartSymbol": 102.0665
+  },
+  {
+    "time": 556.37,
+    "uartSymbol": 102.44009
+  },
+  {
+    "time": 569.3,
+    "uartSymbol": 102.49217
+  },
+  {
+    "time": 582.25,
+    "uartSymbol": 102.033676
+  },
+  {
+    "time": 595.17,
+    "uartSymbol": 101.77261
+  },
+  {
+    "time": 608.12,
+    "uartSymbol": 102.233315
+  },
+  {
+    "time": 621.05,
+    "uartSymbol": 102.04425
+  },
+  {
+    "time": 634,
+    "uartSymbol": 101.74381
+  },
+  {
+    "time": 646.93,
+    "uartSymbol": 102.03318
+  },
+  {
+    "time": 659.87,
+    "uartSymbol": 102.1077
+  },
+  {
+    "time": 672.82,
+    "uartSymbol": 101.866264
+  },
+  {
+    "time": 685.75,
+    "uartSymbol": 101.657166
+  },
+  {
+    "time": 698.68,
+    "uartSymbol": 80.06176
+  },
+  {
+    "time": 711.62,
+    "uartSymbol": 70.968834
+  },
+  {
+    "time": 724.57,
+    "uartSymbol": 69.73417
+  },
+  {
+    "time": 737.5,
+    "uartSymbol": 61.337574
+  },
+  {
+    "time": 750.45,
+    "uartSymbol": 35.742626
+  },
+  {
+    "time": 763.38,
+    "uartSymbol": 59.194855
+  },
+  {
+    "time": 776.33,
+    "uartSymbol": 97.69237
+  },
+  {
+    "time": 789.25,
+    "uartSymbol": 97.92356
+  },
+  {
+    "time": 802.2,
+    "uartSymbol": 97.00393
+  },
+  {
+    "time": 815.13,
+    "uartSymbol": 98.097946
+  },
+  {
+    "time": 828.08,
+    "uartSymbol": 97.897446
+  },
+  {
+    "time": 841.01,
+    "uartSymbol": 97.83732
+  },
+  {
+    "time": 853.96,
+    "uartSymbol": 97.57972
+  },
+  {
+    "time": 866.89,
+    "uartSymbol": 98.014244
+  },
+  {
+    "time": 879.83,
+    "uartSymbol": 97.71092
+  },
+  {
+    "time": 892.76,
+    "uartSymbol": 97.450005
+  },
+  {
+    "time": 905.71,
+    "uartSymbol": 98.04031
+  },
+  {
+    "time": 918.64,
+    "uartSymbol": 98.13963
+  },
+  {
+    "time": 931.58,
+    "uartSymbol": 97.67863
+  },
+  {
+    "time": 944.53,
+    "uartSymbol": 97.62639
+  },
+  {
+    "time": 957.46,
+    "uartSymbol": 97.92652
+  },
+  {
+    "time": 970.41,
+    "uartSymbol": 97.73874
+  },
+  {
+    "time": 983.34,
+    "uartSymbol": 97.93702
+  },
+  {
+    "time": 996.28,
+    "uartSymbol": 97.950325
+  },
+  {
+    "time": 1009.21,
+    "uartSymbol": 98.21804
+  },
+  {
+    "time": 1022.16,
+    "uartSymbol": 97.428986
+  },
+  {
+    "time": 1035.09,
+    "uartSymbol": 97.84944
+  },
+  {
+    "time": 1048.04,
+    "uartSymbol": 97.950935
+  },
+  {
+    "time": 1060.97,
+    "uartSymbol": 97.38958
+  },
+  {
+    "time": 1073.91,
+    "uartSymbol": 97.11891
+  },
+  {
+    "time": 1086.85,
+    "uartSymbol": 97.7792
+  },
+  {
+    "time": 1099.79,
+    "uartSymbol": 98.28893
+  },
+  {
+    "time": 1112.72,
+    "uartSymbol": 97.55456
+  },
+  {
+    "time": 1125.66,
+    "uartSymbol": 98.19837
+  },
+  {
+    "time": 1138.6,
+    "uartSymbol": 98.51089
+  },
+  {
+    "time": 1151.54,
+    "uartSymbol": 96.96231
+  },
+  {
+    "time": 1164.49,
+    "uartSymbol": 98.1391
+  },
+  {
+    "time": 1177.42,
+    "uartSymbol": 98.187454
+  },
+  {
+    "time": 1190.35,
+    "uartSymbol": 98.26341
+  },
+  {
+    "time": 1203.29,
+    "uartSymbol": 97.77008
+  },
+  {
+    "time": 1216.24,
+    "uartSymbol": 97.95224
+  },
+  {
+    "time": 1229.17,
+    "uartSymbol": 98.1372
+  },
+  {
+    "time": 1242.12,
+    "uartSymbol": 97.420334
+  },
+  {
+    "time": 1255.05,
+    "uartSymbol": 98.28267
+  },
+  {
+    "time": 1268,
+    "uartSymbol": 97.83657
+  },
+  {
+    "time": 1280.93,
+    "uartSymbol": 97.86487
+  },
+  {
+    "time": 1293.87,
+    "uartSymbol": 97.9115
+  },
+  {
+    "time": 1306.8,
+    "uartSymbol": 98.198265
+  },
+  {
+    "time": 1319.75,
+    "uartSymbol": 98.19824
+  },
+  {
+    "time": 1332.68,
+    "uartSymbol": 97.323265
+  },
+  {
+    "time": 1345.62,
+    "uartSymbol": 98.28436
+  },
+  {
+    "time": 1358.57,
+    "uartSymbol": 98.09207
+  },
+  {
+    "time": 1371.5,
+    "uartSymbol": 97.817604
+  },
+  {
+    "time": 1384.45,
+    "uartSymbol": 97.90036
+  },
+  {
+    "time": 1397.37,
+    "uartSymbol": 98.15662
+  },
+  {
+    "time": 1410.32,
+    "uartSymbol": 97.758705
+  },
+  {
+    "time": 1423.25,
+    "uartSymbol": 97.77551
+  },
+  {
+    "time": 1436.2,
+    "uartSymbol": 98.10439
+  },
+  {
+    "time": 1449.13,
+    "uartSymbol": 97.969154
+  },
+  {
+    "time": 1462.08,
+    "uartSymbol": 97.63706
+  },
+  {
+    "time": 1475.01,
+    "uartSymbol": 98.0572
+  },
+  {
+    "time": 1487.95,
+    "uartSymbol": 98.14727
+  },
+  {
+    "time": 1500.88,
+    "uartSymbol": 97.96866
+  },
+  {
+    "time": 1513.83,
+    "uartSymbol": 97.50936
+  },
+  {
+    "time": 1526.76,
+    "uartSymbol": 98.334885
+  },
+  {
+    "time": 1539.71,
+    "uartSymbol": 97.97939
+  },
+  {
+    "time": 1552.64,
+    "uartSymbol": 97.310585
+  },
+  {
+    "time": 1565.58,
+    "uartSymbol": 98.052
+  },
+  {
+    "time": 1578.53,
+    "uartSymbol": 98.18495
+  },
+  {
+    "time": 1591.46,
+    "uartSymbol": 97.9523
+  },
+  {
+    "time": 1604.39,
+    "uartSymbol": 97.29779
+  },
+  {
+    "time": 1617.33,
+    "uartSymbol": 97.64174
+  },
+  {
+    "time": 1630.28,
+    "uartSymbol": 97.40451
+  },
+  {
+    "time": 1643.21,
+    "uartSymbol": 97.52411
+  },
+  {
+    "time": 1656.16,
+    "uartSymbol": 98.01136
+  },
+  {
+    "time": 1669.09,
+    "uartSymbol": 98.07513
+  },
+  {
+    "time": 1682.04,
+    "uartSymbol": 97.51204
+  },
+  {
+    "time": 1694.96,
+    "uartSymbol": 98.19422
+  },
+  {
+    "time": 1707.91,
+    "uartSymbol": 98.46036
+  },
+  {
+    "time": 1720.84,
+    "uartSymbol": 97.91646
+  },
+  {
+    "time": 1733.79,
+    "uartSymbol": 97.94215
+  },
+  {
+    "time": 1746.72,
+    "uartSymbol": 98.2849
+  },
+  {
+    "time": 1759.67,
+    "uartSymbol": 98.40458
+  },
+  {
+    "time": 1772.6,
+    "uartSymbol": 97.64566
+  },
+  {
+    "time": 1785.54,
+    "uartSymbol": 97.80009
+  },
+  {
+    "time": 1798.47,
+    "uartSymbol": 98.093834
+  },
+  {
+    "time": 1811.42,
+    "uartSymbol": 97.468475
+  },
+  {
+    "time": 1824.35,
+    "uartSymbol": 97.916885
+  },
+  {
+    "time": 1837.29,
+    "uartSymbol": 98.20724
+  },
+  {
+    "time": 1850.24,
+    "uartSymbol": 98.367874
+  },
+  {
+    "time": 1863.17,
+    "uartSymbol": 97.127174
+  },
+  {
+    "time": 1876.12,
+    "uartSymbol": 97.64641
+  },
+  {
+    "time": 1889.04,
+    "uartSymbol": 98.562584
+  },
+  {
+    "time": 1901.99,
+    "uartSymbol": 97.341446
+  },
+  {
+    "time": 1914.92,
+    "uartSymbol": 98.56268
+  },
+  {
+    "time": 1927.87,
+    "uartSymbol": 98.25946
+  },
+  {
+    "time": 1940.8,
+    "uartSymbol": 98.082565
+  },
+  {
+    "time": 1953.75,
+    "uartSymbol": 97.5373
+  },
+  {
+    "time": 1966.68,
+    "uartSymbol": 98.153694
+  },
+  {
+    "time": 1979.62,
+    "uartSymbol": 98.07586
+  },
+  {
+    "time": 1992.55,
+    "uartSymbol": 97.36233
+  },
+  {
+    "time": 2005.5,
+    "uartSymbol": 98.23961
+  },
+  {
+    "time": 2018.43,
+    "uartSymbol": 97.90806
+  },
+  {
+    "time": 2031.37,
+    "uartSymbol": 97.85126
+  },
+  {
+    "time": 2044.32,
+    "uartSymbol": 98.04049
+  },
+  {
+    "time": 2057.25,
+    "uartSymbol": 98.22681
+  },
+  {
+    "time": 2070.2,
+    "uartSymbol": 98.137184
+  },
+  {
+    "time": 2083.13,
+    "uartSymbol": 97.46046
+  },
+  {
+    "time": 2096.07,
+    "uartSymbol": 98.12297
+  },
+  {
+    "time": 2109,
+    "uartSymbol": 98.14961
+  },
+  {
+    "time": 2121.95,
+    "uartSymbol": 97.498116
+  },
+  {
+    "time": 2134.88,
+    "uartSymbol": 98.09786
+  },
+  {
+    "time": 2147.83,
+    "uartSymbol": 98.05014
+  },
+  {
+    "time": 2160.76,
+    "uartSymbol": 97.949425
+  },
+  {
+    "time": 2173.71,
+    "uartSymbol": 97.48496
+  },
+  {
+    "time": 2186.64,
+    "uartSymbol": 98.020805
+  },
+  {
+    "time": 2199.58,
+    "uartSymbol": 98.06768
+  },
+  {
+    "time": 2212.51,
+    "uartSymbol": 97.51035
+  },
+  {
+    "time": 2225.46,
+    "uartSymbol": 98.11417
+  },
+  {
+    "time": 2238.39,
+    "uartSymbol": 98.36859
+  },
+  {
+    "time": 2251.33,
+    "uartSymbol": 97.870346
+  },
+  {
+    "time": 2264.28,
+    "uartSymbol": 97.824394
+  },
+  {
+    "time": 2277.21,
+    "uartSymbol": 98.41788
+  },
+  {
+    "time": 2290.14,
+    "uartSymbol": 98.03263
+  },
+  {
+    "time": 2303.08,
+    "uartSymbol": 97.73642
+  },
+  {
+    "time": 2316.03,
+    "uartSymbol": 98.2752
+  },
+  {
+    "time": 2328.96,
+    "uartSymbol": 97.85607
+  },
+  {
+    "time": 2341.91,
+    "uartSymbol": 97.541016
+  },
+  {
+    "time": 2354.84,
+    "uartSymbol": 97.797844
+  },
+  {
+    "time": 2367.79,
+    "uartSymbol": 98.374306
+  },
+  {
+    "time": 2380.72,
+    "uartSymbol": 97.82684
+  },
+  {
+    "time": 2393.66,
+    "uartSymbol": 97.659485
+  },
+  {
+    "time": 2406.59,
+    "uartSymbol": 98.40569
+  },
+  {
+    "time": 2419.54,
+    "uartSymbol": 98.453926
+  },
+  {
+    "time": 2432.47,
+    "uartSymbol": 97.66196
+  },
+  {
+    "time": 2445.42,
+    "uartSymbol": 98.19075
+  },
+  {
+    "time": 2458.35,
+    "uartSymbol": 97.686066
+  },
+  {
+    "time": 2471.29,
+    "uartSymbol": 97.69147
+  },
+  {
+    "time": 2484.24,
+    "uartSymbol": 98.14451
+  },
+  {
+    "time": 2497.17,
+    "uartSymbol": 98.2425
+  },
+  {
+    "time": 2510.1,
+    "uartSymbol": 98.219765
+  },
+  {
+    "time": 2523.04,
+    "uartSymbol": 97.75864
+  },
+  {
+    "time": 2535.99,
+    "uartSymbol": 97.804306
+  },
+  {
+    "time": 2548.92,
+    "uartSymbol": 98.2473
+  },
+  {
+    "time": 2561.87,
+    "uartSymbol": 97.52778
+  },
+  {
+    "time": 2574.8,
+    "uartSymbol": 98.65393
+  },
+  {
+    "time": 2587.74,
+    "uartSymbol": 98.29131
+  },
+  {
+    "time": 2600.67,
+    "uartSymbol": 98.287636
+  },
+  {
+    "time": 2613.62,
+    "uartSymbol": 97.9904
+  },
+  {
+    "time": 2626.55,
+    "uartSymbol": 98.372574
+  },
+  {
+    "time": 2639.5,
+    "uartSymbol": 98.5405
+  },
+  {
+    "time": 2652.43,
+    "uartSymbol": 97.67324
+  },
+  {
+    "time": 2665.38,
+    "uartSymbol": 98.138626
+  },
+  {
+    "time": 2678.32,
+    "uartSymbol": 98.41318
+  },
+  {
+    "time": 2691.25,
+    "uartSymbol": 97.98769
+  },
+  {
+    "time": 2704.18,
+    "uartSymbol": 98.02891
+  },
+  {
+    "time": 2717.13,
+    "uartSymbol": 98.16574
+  },
+  {
+    "time": 2730.07,
+    "uartSymbol": 97.94041
+  },
+  {
+    "time": 2743,
+    "uartSymbol": 97.40696
+  },
+  {
+    "time": 2755.95,
+    "uartSymbol": 98.102104
+  },
+  {
+    "time": 2768.88,
+    "uartSymbol": 98.11466
+  },
+  {
+    "time": 2781.83,
+    "uartSymbol": 97.591125
+  },
+  {
+    "time": 2794.75,
+    "uartSymbol": 98.15122
+  },
+  {
+    "time": 2807.7,
+    "uartSymbol": 98.14139
+  },
+  {
+    "time": 2820.63,
+    "uartSymbol": 98.062836
+  },
+  {
+    "time": 2833.58,
+    "uartSymbol": 97.67665
+  },
+  {
+    "time": 2846.51,
+    "uartSymbol": 98.37499
+  },
+  {
+    "time": 2859.46,
+    "uartSymbol": 98.227486
+  },
+  {
+    "time": 2872.39,
+    "uartSymbol": 97.778725
+  },
+  {
+    "time": 2885.34,
+    "uartSymbol": 98.50294
+  },
+  {
+    "time": 2898.26,
+    "uartSymbol": 98.19961
+  },
+  {
+    "time": 2911.21,
+    "uartSymbol": 97.84267
+  },
+  {
+    "time": 2924.14,
+    "uartSymbol": 97.70872
+  },
+  {
+    "time": 2937.09,
+    "uartSymbol": 98.170876
+  },
+  {
+    "time": 2950.03,
+    "uartSymbol": 98.25695
+  },
+  {
+    "time": 2962.96,
+    "uartSymbol": 97.98402
+  },
+  {
+    "time": 2975.91,
+    "uartSymbol": 98.50682
+  },
+  {
+    "time": 2988.84,
+    "uartSymbol": 98.60793
+  },
+  {
+    "time": 3001.78,
+    "uartSymbol": 98.08628
+  },
+  {
+    "time": 3014.71,
+    "uartSymbol": 98.08119
+  },
+  {
+    "time": 3027.66,
+    "uartSymbol": 98.63528
+  },
+  {
+    "time": 3040.59,
+    "uartSymbol": 98.12499
+  },
+  {
+    "time": 3053.54,
+    "uartSymbol": 98.296074
+  },
+  {
+    "time": 3066.47,
+    "uartSymbol": 98.32149
+  },
+  {
+    "time": 3079.42,
+    "uartSymbol": 98.117905
+  },
+  {
+    "time": 3092.34,
+    "uartSymbol": 97.79515
+  },
+  {
+    "time": 3105.29,
+    "uartSymbol": 98.49516
+  },
+  {
+    "time": 3118.22,
+    "uartSymbol": 98.50344
+  },
+  {
+    "time": 3131.17,
+    "uartSymbol": 97.814316
+  },
+  {
+    "time": 3144.1,
+    "uartSymbol": 98.330345
+  },
+  {
+    "time": 3157.04,
+    "uartSymbol": 98.61328
+  },
+  {
+    "time": 3169.99,
+    "uartSymbol": 98.54513
+  },
+  {
+    "time": 3182.92,
+    "uartSymbol": 97.919624
+  },
+  {
+    "time": 3195.85,
+    "uartSymbol": 98.256386
+  },
+  {
+    "time": 3208.79,
+    "uartSymbol": 98.52371
+  },
+  {
+    "time": 3221.74,
+    "uartSymbol": 97.69272
+  },
+  {
+    "time": 3234.67,
+    "uartSymbol": 98.59302
+  },
+  {
+    "time": 3247.62,
+    "uartSymbol": 102.66484
+  },
+  {
+    "time": 3260.55,
+    "uartSymbol": 57.750572
+  },
+  {
+    "time": 3273.5,
+    "uartSymbol": 29.073116
+  },
+  {
+    "time": 3286.43,
+    "uartSymbol": 29.04173
+  },
+  {
+    "time": 3299.37,
+    "uartSymbol": 63.34001
+  },
+  {
+    "time": 3312.3,
+    "uartSymbol": 29.053885
+  },
+  {
+    "time": 3325.25,
+    "uartSymbol": 29.011936
+  },
+  {
+    "time": 3338.18,
+    "uartSymbol": 29.012224
+  },
+  {
+    "time": 3351.13,
+    "uartSymbol": 55.388412
+  },
+  {
+    "time": 3364.07,
+    "uartSymbol": 29.01414
+  },
+  {
+    "time": 3377,
+    "uartSymbol": 29.018963
+  },
+  {
+    "time": 3389.93,
+    "uartSymbol": 29.000193
+  },
+  {
+    "time": 3402.88,
+    "uartSymbol": 52.347534
+  },
+  {
+    "time": 3415.82,
+    "uartSymbol": 28.992983
+  },
+  {
+    "time": 3428.75,
+    "uartSymbol": 29.017023
+  },
+  {
+    "time": 3441.7,
+    "uartSymbol": 33.88869
+  },
+  {
+    "time": 3454.63,
+    "uartSymbol": 50.463116
+  },
+  {
+    "time": 3467.58,
+    "uartSymbol": 29.025751
+  },
+  {
+    "time": 3480.51,
+    "uartSymbol": 28.989157
+  },
+  {
+    "time": 3493.45,
+    "uartSymbol": 42.236794
+  },
+  {
+    "time": 3506.38,
+    "uartSymbol": 37.610676
+  },
+  {
+    "time": 3519.33,
+    "uartSymbol": 28.99999
+  },
+  {
+    "time": 3532.26,
+    "uartSymbol": 29.01711
+  },
+  {
+    "time": 3545.21,
+    "uartSymbol": 52.056076
+  },
+  {
+    "time": 3558.14,
+    "uartSymbol": 42.100113
+  },
+  {
+    "time": 3571.09,
+    "uartSymbol": 47.296097
+  },
+  {
+    "time": 3584.03,
+    "uartSymbol": 35.466187
+  },
+  {
+    "time": 3596.96,
+    "uartSymbol": 63.461784
+  },
+  {
+    "time": 3609.89,
+    "uartSymbol": 29.688063
+  },
+  {
+    "time": 3622.84,
+    "uartSymbol": 29.01382
+  },
+  {
+    "time": 3635.78,
+    "uartSymbol": 28.989819
+  },
+  {
+    "time": 3648.71,
+    "uartSymbol": 62.74908
+  },
+  {
+    "time": 3661.66,
+    "uartSymbol": 43.202778
+  },
+  {
+    "time": 3674.59,
+    "uartSymbol": 28.997631
+  },
+  {
+    "time": 3687.53,
+    "uartSymbol": 28.992632
+  },
+  {
+    "time": 3700.46,
+    "uartSymbol": 59.85674
+  },
+  {
+    "time": 3713.41,
+    "uartSymbol": 29.000408
+  },
+  {
+    "time": 3726.34,
+    "uartSymbol": 28.966722
+  },
+  {
+    "time": 3739.29,
+    "uartSymbol": 28.981033
+  },
+  {
+    "time": 3752.22,
+    "uartSymbol": 63.909924
+  },
+  {
+    "time": 3765.17,
+    "uartSymbol": 41.4828
+  },
+  {
+    "time": 3778.1,
+    "uartSymbol": 28.986217
+  },
+  {
+    "time": 3791.04,
+    "uartSymbol": 29.984118
+  },
+  {
+    "time": 3803.97,
+    "uartSymbol": 68.48624
+  },
+  {
+    "time": 3816.92,
+    "uartSymbol": 28.990686
+  },
+  {
+    "time": 3829.85,
+    "uartSymbol": 28.976233
+  },
+  {
+    "time": 3842.79,
+    "uartSymbol": 39.526516
+  },
+  {
+    "time": 3855.74,
+    "uartSymbol": 45.997505
+  }
+]
