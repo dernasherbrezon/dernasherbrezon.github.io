@@ -11,6 +11,10 @@
 {{ $datasource4Label := .Get "datasource4Label" }}
 {{ $datasource5 := .Get "datasource5" }}
 {{ $datasource5Label := .Get "datasource5Label" }}
+{{ $datasource6 := .Get "datasource6" }}
+{{ $datasource6Label := .Get "datasource6Label" }}
+{{ $datasource7 := .Get "datasource7" }}
+{{ $datasource7Label := .Get "datasource7Label" }}
 {{ $yAxisLabel := .Get "yAxisLabel" }}
 {{ $yAxisUnit := .Get "yAxisUnit" }}
 {{ $yAxisLogarithmic := .Get "yAxisLogarithmic" }}
@@ -114,6 +118,38 @@ const {{ $id | safeJS }}Chart = new Chart({{ $id | safeJS }}Ctx, {
             borderColor: '#CF8659',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#CF8659',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },
+        	{{- end -}}
+    	{{- if $datasource6 -}}
+        {
+        	label: '{{ $datasource6Label }}',
+            data: {{ $id | safeJS }}Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: '{{ $datasource6 }}'
+            },
+            borderColor: '#800080',
+            backgroundColor: 'rgba(229,204,229, 0.1)',
+            pointBackgroundColor: '#800080',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },
+        	{{- end -}}
+    	{{- if $datasource7 -}}
+        {
+        	label: '{{ $datasource7Label }}',
+            data: {{ $id | safeJS }}Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: '{{ $datasource7 }}'
+            },
+            borderColor: '#FFC0CB',
+            backgroundColor: 'rgba(255,229,234, 0.1)',
+            pointBackgroundColor: '#FFC0CB',
             fill: true,
             borderWidth: 2,
             tension: 0.2
