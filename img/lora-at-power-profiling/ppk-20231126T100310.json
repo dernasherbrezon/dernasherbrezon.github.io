@@ -1,0 +1,614 @@
+[
+  {
+    "time": 0,
+    "uartSymbol": 26.87
+  },
+  {
+    "time": 0.01,
+    "uartSymbol": 27.02
+  },
+  {
+    "time": 0.02,
+    "uartSymbol": 27.02
+  },
+  {
+    "time": 0.03,
+    "uartSymbol": 26.92
+  },
+  {
+    "time": 0.04,
+    "uartSymbol": 27.02
+  },
+  {
+    "time": 0.05,
+    "uartSymbol": 26.87
+  },
+  {
+    "time": 0.06,
+    "uartSymbol": 27.12
+  },
+  {
+    "time": 0.07,
+    "uartSymbol": 28.21
+  },
+  {
+    "time": 0.08,
+    "uartSymbol": 29.42
+  },
+  {
+    "time": 0.09,
+    "uartSymbol": 30.73
+  },
+  {
+    "time": 0.1,
+    "uartSymbol": 32.7
+  },
+  {
+    "time": 0.11,
+    "uartSymbol": 35.17
+  },
+  {
+    "time": 0.12,
+    "uartSymbol": 36.87
+  },
+  {
+    "time": 0.13,
+    "uartSymbol": 37.6
+  },
+  {
+    "time": 0.14,
+    "uartSymbol": 37.86
+  },
+  {
+    "time": 0.15,
+    "uartSymbol": 37.92
+  },
+  {
+    "time": 0.16,
+    "uartSymbol": 36.82
+  },
+  {
+    "time": 0.17,
+    "uartSymbol": 35.79
+  },
+  {
+    "time": 0.18,
+    "uartSymbol": 35.06
+  },
+  {
+    "time": 0.19,
+    "uartSymbol": 34.5
+  },
+  {
+    "time": 0.2,
+    "uartSymbol": 33.73
+  },
+  {
+    "time": 0.2,
+    "uartSymbol": 33.01
+  },
+  {
+    "time": 0.21,
+    "uartSymbol": 32.5
+  },
+  {
+    "time": 0.22,
+    "uartSymbol": 31.99
+  },
+  {
+    "time": 0.23,
+    "uartSymbol": 31.54
+  },
+  {
+    "time": 0.25,
+    "uartSymbol": 31.23
+  },
+  {
+    "time": 0.26,
+    "uartSymbol": 30.62
+  },
+  {
+    "time": 0.27,
+    "uartSymbol": 30.17
+  },
+  {
+    "time": 0.28,
+    "uartSymbol": 29.52
+  },
+  {
+    "time": 0.29,
+    "uartSymbol": 29.11
+  },
+  {
+    "time": 0.3,
+    "uartSymbol": 28.61
+  },
+  {
+    "time": 0.31,
+    "uartSymbol": 28.41
+  },
+  {
+    "time": 0.32,
+    "uartSymbol": 27.92
+  },
+  {
+    "time": 0.33,
+    "uartSymbol": 27.57
+  },
+  {
+    "time": 0.34,
+    "uartSymbol": 27.17
+  },
+  {
+    "time": 0.35,
+    "uartSymbol": 27.22
+  },
+  {
+    "time": 0.36,
+    "uartSymbol": 26.97
+  },
+  {
+    "time": 0.37,
+    "uartSymbol": 26.67
+  },
+  {
+    "time": 0.38,
+    "uartSymbol": 26.62
+  },
+  {
+    "time": 0.39,
+    "uartSymbol": 26.52
+  },
+  {
+    "time": 0.4,
+    "uartSymbol": 26.33
+  },
+  {
+    "time": 0.41,
+    "uartSymbol": 26.38
+  },
+  {
+    "time": 0.42,
+    "uartSymbol": 26.03
+  },
+  {
+    "time": 0.43,
+    "uartSymbol": 25.83
+  },
+  {
+    "time": 0.44,
+    "uartSymbol": 25.83
+  },
+  {
+    "time": 0.45,
+    "uartSymbol": 26.03
+  },
+  {
+    "time": 0.45,
+    "uartSymbol": 25.88
+  },
+  {
+    "time": 0.46,
+    "uartSymbol": 25.78
+  },
+  {
+    "time": 0.47,
+    "uartSymbol": 25.63
+  },
+  {
+    "time": 0.48,
+    "uartSymbol": 25.39
+  },
+  {
+    "time": 0.5,
+    "uartSymbol": 25.59
+  },
+  {
+    "time": 0.51,
+    "uartSymbol": 25.59
+  },
+  {
+    "time": 0.52,
+    "uartSymbol": 25.49
+  },
+  {
+    "time": 0.53,
+    "uartSymbol": 25.39
+  },
+  {
+    "time": 0.54,
+    "uartSymbol": 25.44
+  },
+  {
+    "time": 0.55,
+    "uartSymbol": 25.49
+  },
+  {
+    "time": 0.56,
+    "uartSymbol": 25.24
+  },
+  {
+    "time": 0.57,
+    "uartSymbol": 24.99
+  },
+  {
+    "time": 0.58,
+    "uartSymbol": 25.24
+  },
+  {
+    "time": 0.59,
+    "uartSymbol": 25.49
+  },
+  {
+    "time": 0.6,
+    "uartSymbol": 25.54
+  },
+  {
+    "time": 0.61,
+    "uartSymbol": 25.44
+  },
+  {
+    "time": 0.62,
+    "uartSymbol": 25.54
+  },
+  {
+    "time": 0.63,
+    "uartSymbol": 25.49
+  },
+  {
+    "time": 0.64,
+    "uartSymbol": 25.44
+  },
+  {
+    "time": 0.65,
+    "uartSymbol": 25.44
+  },
+  {
+    "time": 0.66,
+    "uartSymbol": 25.39
+  },
+  {
+    "time": 0.67,
+    "uartSymbol": 25.39
+  },
+  {
+    "time": 0.68,
+    "uartSymbol": 25.44
+  },
+  {
+    "time": 0.69,
+    "uartSymbol": 25.68
+  },
+  {
+    "time": 0.7,
+    "uartSymbol": 25.39
+  },
+  {
+    "time": 0.7,
+    "uartSymbol": 25.54
+  },
+  {
+    "time": 0.71,
+    "uartSymbol": 25.63
+  },
+  {
+    "time": 0.72,
+    "uartSymbol": 25.78
+  },
+  {
+    "time": 0.73,
+    "uartSymbol": 25.73
+  },
+  {
+    "time": 0.75,
+    "uartSymbol": 25.83
+  },
+  {
+    "time": 0.76,
+    "uartSymbol": 25.83
+  },
+  {
+    "time": 0.77,
+    "uartSymbol": 25.88
+  },
+  {
+    "time": 0.78,
+    "uartSymbol": 25.88
+  },
+  {
+    "time": 0.79,
+    "uartSymbol": 25.93
+  },
+  {
+    "time": 0.8,
+    "uartSymbol": 25.93
+  },
+  {
+    "time": 0.81,
+    "uartSymbol": 26.23
+  },
+  {
+    "time": 0.82,
+    "uartSymbol": 26.18
+  },
+  {
+    "time": 0.83,
+    "uartSymbol": 26.43
+  },
+  {
+    "time": 0.84,
+    "uartSymbol": 26.33
+  },
+  {
+    "time": 0.85,
+    "uartSymbol": 26.28
+  },
+  {
+    "time": 0.86,
+    "uartSymbol": 26.28
+  },
+  {
+    "time": 0.87,
+    "uartSymbol": 26.43
+  },
+  {
+    "time": 0.88,
+    "uartSymbol": 26.28
+  },
+  {
+    "time": 0.89,
+    "uartSymbol": 26.38
+  },
+  {
+    "time": 0.9,
+    "uartSymbol": 26.47
+  },
+  {
+    "time": 0.91,
+    "uartSymbol": 26.28
+  },
+  {
+    "time": 0.92,
+    "uartSymbol": 26.33
+  },
+  {
+    "time": 0.93,
+    "uartSymbol": 26.47
+  },
+  {
+    "time": 0.94,
+    "uartSymbol": 26.47
+  },
+  {
+    "time": 0.95,
+    "uartSymbol": 26.33
+  },
+  {
+    "time": 0.95,
+    "uartSymbol": 26.38
+  },
+  {
+    "time": 0.96,
+    "uartSymbol": 26.38
+  },
+  {
+    "time": 0.97,
+    "uartSymbol": 26.72
+  },
+  {
+    "time": 0.98,
+    "uartSymbol": 26.72
+  },
+  {
+    "time": 1,
+    "uartSymbol": 26.72
+  },
+  {
+    "time": 1.01,
+    "uartSymbol": 26.87
+  },
+  {
+    "time": 1.02,
+    "uartSymbol": 27.22
+  },
+  {
+    "time": 1.03,
+    "uartSymbol": 27.42
+  },
+  {
+    "time": 1.04,
+    "uartSymbol": 27.67
+  },
+  {
+    "time": 1.05,
+    "uartSymbol": 27.87
+  },
+  {
+    "time": 1.06,
+    "uartSymbol": 28.16
+  },
+  {
+    "time": 1.07,
+    "uartSymbol": 28.71
+  },
+  {
+    "time": 1.08,
+    "uartSymbol": 28.96
+  },
+  {
+    "time": 1.09,
+    "uartSymbol": 29.32
+  },
+  {
+    "time": 1.1,
+    "uartSymbol": 29.82
+  },
+  {
+    "time": 1.11,
+    "uartSymbol": 30.07
+  },
+  {
+    "time": 1.12,
+    "uartSymbol": 30.37
+  },
+  {
+    "time": 1.13,
+    "uartSymbol": 30.57
+  },
+  {
+    "time": 1.14,
+    "uartSymbol": 30.93
+  },
+  {
+    "time": 1.15,
+    "uartSymbol": 31.23
+  },
+  {
+    "time": 1.16,
+    "uartSymbol": 31.43
+  },
+  {
+    "time": 1.17,
+    "uartSymbol": 31.23
+  },
+  {
+    "time": 1.18,
+    "uartSymbol": 31.18
+  },
+  {
+    "time": 1.19,
+    "uartSymbol": 30.78
+  },
+  {
+    "time": 1.2,
+    "uartSymbol": 30.88
+  },
+  {
+    "time": 1.2,
+    "uartSymbol": 31.13
+  },
+  {
+    "time": 1.21,
+    "uartSymbol": 31.03
+  },
+  {
+    "time": 1.22,
+    "uartSymbol": 30.88
+  },
+  {
+    "time": 1.23,
+    "uartSymbol": 30.62
+  },
+  {
+    "time": 1.25,
+    "uartSymbol": 30.42
+  },
+  {
+    "time": 1.26,
+    "uartSymbol": 30.62
+  },
+  {
+    "time": 1.27,
+    "uartSymbol": 30.57
+  },
+  {
+    "time": 1.28,
+    "uartSymbol": 30.73
+  },
+  {
+    "time": 1.29,
+    "uartSymbol": 30.52
+  },
+  {
+    "time": 1.3,
+    "uartSymbol": 30.22
+  },
+  {
+    "time": 1.31,
+    "uartSymbol": 29.82
+  },
+  {
+    "time": 1.32,
+    "uartSymbol": 29.82
+  },
+  {
+    "time": 1.33,
+    "uartSymbol": 29.67
+  },
+  {
+    "time": 1.34,
+    "uartSymbol": 29.82
+  },
+  {
+    "time": 1.35,
+    "uartSymbol": 29.57
+  },
+  {
+    "time": 1.36,
+    "uartSymbol": 29.37
+  },
+  {
+    "time": 1.37,
+    "uartSymbol": 29.11
+  },
+  {
+    "time": 1.38,
+    "uartSymbol": 29.01
+  },
+  {
+    "time": 1.39,
+    "uartSymbol": 29.01
+  },
+  {
+    "time": 1.4,
+    "uartSymbol": 28.76
+  },
+  {
+    "time": 1.41,
+    "uartSymbol": 28.76
+  },
+  {
+    "time": 1.42,
+    "uartSymbol": 28.71
+  },
+  {
+    "time": 1.43,
+    "uartSymbol": 28.56
+  },
+  {
+    "time": 1.44,
+    "uartSymbol": 28.61
+  },
+  {
+    "time": 1.45,
+    "uartSymbol": 28.36
+  },
+  {
+    "time": 1.45,
+    "uartSymbol": 28.46
+  },
+  {
+    "time": 1.46,
+    "uartSymbol": 28.21
+  },
+  {
+    "time": 1.47,
+    "uartSymbol": 28.21
+  },
+  {
+    "time": 1.48,
+    "uartSymbol": 28.31
+  },
+  {
+    "time": 1.5,
+    "uartSymbol": 28.11
+  },
+  {
+    "time": 1.51,
+    "uartSymbol": 27.97
+  },
+  {
+    "time": 1.52,
+    "uartSymbol": 28.01
+  }
+]

@@ -7,10 +7,422 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 24 Nov 2023 09:08:18 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Тестирование потребления энергии в lora-at</title>
+      <link>https://dernasherbrezon.com/posts/lora-at-power-profiling/</link>
+      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-at-power-profiling/</guid>
+      <description>Как следует разобравшись с тем, как работает Power Profiler Kit 2 (PPK2), я решил протестировать разные режимы работы. На самом деле lora-at - не такое уж и простое приложение. В нём есть работа с bluetooth и чипом sx127x, обработка команд с UART шины и режим глубокого сна. Есть, где развернуться.
+Методология измерений Перед тем как начинать что-то измерять, необходимо определиться с тем, как это будет измеряться.
+Во-первых, я собираюсь использовать PPK2 по-максимуму.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Тестирование потребления энергии в lora-at</h1></header>
+      		<div class='container entry-content'>
+  <p>Как следует разобравшись с тем, <a href="https://dernasherbrezon.com/posts/power-profiler-kit2/">как работает Power Profiler Kit 2 (PPK2)</a>, я решил протестировать разные режимы работы. На самом деле <a href="https://github.com/dernasherbrezon/lora-at">lora-at</a> - не такое уж и простое приложение. В нём есть работа с bluetooth и чипом sx127x, обработка команд с UART шины и режим глубокого сна. Есть, где развернуться.</p>
+<h2 id="методология-измерений">Методология измерений</h2>
+<p>Перед тем как начинать что-то измерять, необходимо определиться с тем, как это будет измеряться.</p>
+<p><strong>Во-первых</strong>, я собираюсь <a href="https://dernasherbrezon.com/posts/power-profiler-kit2/">использовать PPK2</a> по-максимуму. Некоторые тесты требует десятки измерений и делать их вручную не имеет смысла. Я написал небольшой скрипт, который позволял отправлять разные AT команды на устройство, а потом выбирать данные из .CSV файла и группировать нужным образом. Так вот, чтобы понять когда началось измерение, а когда закончилось, я использовал встроенный логический анализатор.</p>
+<p><strong>Во-вторых</strong>, некоторые процессы протекают быстро и потребляют много энергии, а некоторые - медленно и потребляют мало энергии. Сравнивать среднее потребление тока в таком случае некорректно. Там, где имеет смысл сравнивать такие процессы, я сравнивал величину заряда. Она измеряется в кулонах. Кулон (Кл) — это величина заряда, прошедшего через сечение проводника при силе тока 1 А за время 1 с. PPK2 интегрирует график по времени и может очень быстро отображать потраченный заряд за выбранный интервал. Прям чувствуется атмосфера лабы по физике.</p>
+<p><strong>В-третьих</strong>, параметров, которые могут влиять на потребление энергии, очень много. Для этого я фиксировал одни и менял другие. Такой подход позволил хоть как-то сравнивать и анализировать результаты. Например, для всех тестов я использовал <a href="https://heltec.org/project/wifi-lora-32/">Heltec LoRa 32 v2</a>, который работал на частоте 80Мгц.</p>
+<p><strong>В-четвёртых</strong>, PPK2 сэмплирует со скоростью 100Кгц, что генерирует достаточно большое количество данных. Все эти точки невозможно отобразить на графике, поэтому я брал среднее за некоторый интервал. Это не влияет на результирующее значение потраченного заряда, но немного сглаживает сам график.</p>
+<p><strong>В-пятых</strong>, измеряется потребление энергии всей платы, а не конкретных компонент.</p>
+<h2 id="sx127x">sx127x</h2>
+<p>Начать, пожалуй, лучше всего с самого основного - чипа sx127x. Он поддерживает разные типы модуляции, приём и передачу данных, их скорость, усилители мощности и многое другое. Я решил померить лишь те, которые теоретически могут повлиять на потребление энергии. И даже после этого, тестов оказалось приличное количество.</p>
+<h4 id="получение-данных">Получение данных</h4>
+<p>Для тестирования приёмника, я настроил второй модуль, который отправляет короткое сообщение:</p>
+<pre><code>AT+LORATX=CAFE,433200012,125000,9,5,18,10,8,4,0,0,1,0
+</code></pre><p>А измеряемый модуль принимает:</p>
+<pre><code>AT+LORARX=433200012,125000,9,5,18,10,8,4,0,0,1,0
+</code></pre><p>После чего, то же самое для FSK модуляции:</p>
+<pre><code>AT+FSKTX=CAFE,433200012,4800,5000,4,12AD,0,2,1,4,0,0
+</code></pre><p>И приём:</p>
+<pre><code>AT+FSKRX=433200012,4800,5000,4,12AD,0,2,1,4,5000,20000
+</code></pre><p>В итоге получился следующий график:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>На нём видно, что:</p>
+<ul>
+<li>LoRa гораздо быстрее обрабатывает сообщение: <strong>13.6</strong>мс против <strong>19</strong>мс</li>
+<li>Более энергоэффектиное. За счёт скорости обработки общее потребление <strong>511</strong>мкКл против <strong>775</strong>мкКл</li>
+<li>Пиковое потребление чуть ниже</li>
+</ul>
+<p>На самом деле такое сравнение некорректно. Потребление энергии напрямую зависит от скорости передачи данных. Чем выше скорость, тем быстрее обрабатывается сообщение и меньше тратится энергии.</p>
+<h4 id="cad-режим">CAD режим</h4>
+<p>В sx127x есть специальный режим, который называется CAD (Channel Activity Detection). Он используется для оптимизации энергопотребления приёмника. Идея заключается в следующем:</p>
+<ul>
+<li>приёмник включается на полную мощность на определённое время</li>
+<li>после чего переходит в режим пониженного энергопотребления и пытается проанализировать полученный сигнал</li>
+<li>если обнаружена преамбула пакета, то чип генерирует прерывание и можно переключаться в обычным режим приёма</li>
+<li>если преамбула не обнаружена, то чип выжидает некоторое время в режиме низкого энергопотребления и возвращается к шагу 1</li>
+</ul>
+<p>Диаграмма выглядит следующим образом:</p>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 460 202"><defs/><g><path d="M 40 40 L 80 40 L 80 0 L 400 0" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 40 120 L 360 120 L 360 80 L 400 80" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 40 200 L 80 200 L 80 160 L 200 160 L 200 180 L 360 180 L 360 200 L 400 200" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 360 180 L 400 180" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" stroke-dasharray="2 6" pointer-events="stroke"/><path d="M 200 160 L 400 160" fill="none" stroke="rgb(0, 0, 0)" stroke-width="2" stroke-miterlimit="10" stroke-dasharray="2 6" pointer-events="stroke"/><rect x="0" y="160" width="80" height="40" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 180px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font style="font-size: 10px;">Consumption</font></div></div></div></foreignObject><text x="40" y="184" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Consumption</text></switch></g><rect x="0" y="80" width="80" height="40" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 100px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font style="font-size: 10px;">CadDone</font></div></div></div></foreignObject><text x="40" y="104" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">CadDone</text></switch></g><rect x="0" y="0" width="80" height="40" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 20px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font style="font-size: 10px;">NSS</font></div></div></div></foreignObject><text x="40" y="24" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">NSS</text></switch></g><path d="M 86.37 80 L 353.63 80" fill="none" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 81.12 80 L 88.12 76.5 L 86.37 80 L 88.12 83.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><path d="M 358.88 80 L 351.88 83.5 L 353.63 80 L 351.88 76.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><rect x="80" y="60" width="280" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 70px; margin-left: 81px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 10px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">CAD duration</div></div></div></foreignObject><text x="220" y="73" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="10px" text-anchor="middle">CAD duration</text></switch></g><path d="M 86.37 180 L 193.63 180" fill="none" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 81.12 180 L 88.12 176.5 L 86.37 180 L 88.12 183.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><path d="M 198.88 180 L 191.88 183.5 L 193.63 180 L 191.88 176.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><rect x="90" y="166" width="100" height="10" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 98px; height: 1px; padding-top: 171px; margin-left: 91px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 10px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Time in RX mode</div></div></div></foreignObject><text x="140" y="174" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="10px" text-anchor="middle">Time in RX mode</text></switch></g><rect x="400" y="172.5" width="60" height="15" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 58px; height: 1px; padding-top: 180px; margin-left: 401px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font style="font-size: 10px;">IDDC_L</font></div></div></div></foreignObject><text x="430" y="184" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">IDDC_L</text></switch></g><rect x="400" y="151" width="60" height="15" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 58px; height: 1px; padding-top: 159px; margin-left: 401px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font style="font-size: 10px;">IDDR_L</font></div></div></div></foreignObject><text x="430" y="162" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">IDDR_L</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>При этом, согласно спецификации, потребление может уменьшаться чуть ли не в два раза:</p>
+<table>
+<thead>
+  <tr>
+    <th>Bandwidth (kHz)</th>
+    <th>Full Rx, IDDR_L (mA)</th>
+    <th>Processing, IDDC_L (mA)</th>
+  </tr>	
+</thead>
+<tbody>
+  <tr>
+    <td>7.8 to 41.7</td>
+    <td>11</td>
+    <td>5.2</td>
+  </tr>	
+  <tr>
+    <td>62.5</td>
+    <td>11</td>
+    <td>5.6</td>
+  </tr>	
+  <tr>
+    <td>125</td>
+    <td>11.5</td>
+    <td>6</td>
+  </tr>	
+  <tr>
+    <td>250</td>
+    <td>12.4</td>
+    <td>6.8</td>
+  </tr>	
+  <tr>
+    <td>500</td>
+    <td>13.8</td>
+    <td>8.3</td>
+  </tr>	
+</tbody>
+</table>
+<p>Запустить приём в CAD режиме можно следующей командой:</p>
+<pre><code>AT+LORACADRX=433200012,125000,9,5,18,10,8,4,0,0,1,0
+</code></pre><p>В итоге мне удалось получить:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>Тут сходу видно несколько интересных вещей:</p>
+<ul>
+<li>Почему-то потребление тока в режиме поиска преамбулы чуть больше, чем в обычном режиме</li>
+<li>Разница между активным режимом и пассивным <strong>~6</strong>мА, что действительно похоже на правду при <strong>125</strong>кГц</li>
+<li>После выхода из CAD режима и перед переходом обратно проходит примерно <strong>2</strong>мс. Это время нужно ESP32, чтобы обработать прерывание и опять перейти в CAD режим. Поскольку CAD режим заканчивается тем, что переходит в STANDBY режим, потребление энергии существенно ниже. 2мс на обработку прерывания - это очень много. Если в это время начнётся передача сообщения, то приёмник может пропустить его начало. Контрольная сумма не совпадёт и всё сообщение не будет принято. С другой стороны, на практике всё работает отлично.</li>
+</ul>
+<p>Если сравнивать энергопотребление, то CAD режим всё-таки более эффективный:</p>
+<ul>
+<li>Потраченый заряд <strong>1.41</strong>мКл против <strong>1.52</strong>мКл за <strong>40</strong>мс</li>
+<li>Средний ток <strong>35.27</strong>мА против <strong>37.85</strong>мА</li>
+</ul>
+<h4 id="отправка-данных">Отправка данных</h4>
+<p>Потребление тока при отправке данных зависит от:</p>
+<ul>
+<li>скорости передачи</li>
+<li>типа модуляции</li>
+<li>мощности передатчика</li>
+<li>длины сообщения</li>
+</ul>
+<p>Чтобы упростить тестирование, я отправлял сообщение длиной 255 байт мощностью 4dbm. При этом менял скорость передачи и тип модуляции. Вот пример команды для тестирования FSK:</p>
+<pre><code>AT+FSKTX=000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfe,433200012,1200,5000,4,12AD,0,2,1,4,240,0
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>На графике видна однозначная зависимость. Чем больше скорость передачи, тем меньше тратится энергии. Кстати, график к районе 76800 бод не всегда был такой. Когда я впервые замерил скорость, оказалось, что она в два раза меньше, чем при 38400 бод. И её увеличение вообще никак не влияло на потребление. Немного повозившись, я нашёл багу в коде. При чтении из UART происходило переполнение uint16_t и устанавливалась гораздо меньшая скорость. Упс!</p>
+<p>С отправкой данных в режиме LoRa всё гораздо сложнее. На скорость могут влиять: bandwidth, spreading factor и coding rate. Например, последний контролирует сколько бит используется для кодов коррекции ошибок. Чем больше, тем надёжнее передача, но при этом дольше передаются данные.</p>
+<p>Я зафиксировал <code>coding rate=4</code> и менял лишь bandwidth и spreading factor:</p>
+<pre><code>AT+LORATX=000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfe,433200012,500000,6,5,18,8,0,1,0,255,4,240,0
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>Небольшой анализ результатов:</p>
+<ul>
+<li>Чем больше spreading factor, тем дольше передаётся сообщение и тем больше тратится энергии</li>
+<li>Самая быстрая передача данных в LoRa (коэффициент 6 и ширина канала 500Кгц) тратит энергии больше, чем самая быстрая передача FSK (скорость 300Кбод)</li>
+</ul>
+<p>В следующем тесте я сделал наоборот: зафиксировал скорость передачи данных и менял выходную мощность от -4 до 20.</p>
+<pre><code>AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,-4,240,0
+AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,-3,240,0
+...
+AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,17,240,1
+AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,20,240,1
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>Интересно, почему при более высоком уровне мощности графики начинают пересекаться? Я передавал абсолютно одинаковое сообщение с одинаковыми параметрами. Время на передачу было одного и то же. Значит потраченный заряд должен линейно зависить от тока. Но вместо этого зависимость нелинейная.</p>
+<p>Кстати, при 7dbm потребление тока достаточно ровное. А вот при 10dbm уже нет. Шумит внутренний усилитель мощности?</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>Помимо разных уровней мощности, в чипе есть три разных физических пина, к которым может подключаться антенна: RFO_LF, RFO_HF и PA_BOOST. +20dbm может передаваться только по PA_BOOST. Но если передавать +7dbm, то есть ли разница какой пин использовать?</p>
+<pre><code>AT+LORATX=CA,168000012,125000,9,5,18,8,0,1,1,0,7,240,0
+AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,7,240,0
+AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,7,240,1
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>Да, разница есть.</p>
+<ul>
+<li>Если сравнивать RFO_LF и RFO_HF, то видно, что потребление тока на частоте 168Мгц выше. Видимо, на этих частотах антенна <a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D1%8D%D1%84%D1%84%D0%B8%D1%86%D0%B8%D0%B5%D0%BD%D1%82_%D1%81%D1%82%D0%BE%D1%8F%D1%87%D0%B5%D0%B9_%D0%B2%D0%BE%D0%BB%D0%BD%D1%8B">не согласована</a> больше.</li>
+<li>Потребление тока при передаче через отдельный усилитель мощности и PA_BOOST пин больше, чем при передаче через RFO_HF. Наверное, разница уходит на питание того самого усилителя.</li>
+</ul>
+<h4 id="токовая-защита-усилителя">Токовая защита усилителя</h4>
+<p>В чипе есть защита усилителя от превышения выходящего тока. При этом приговариваются слова про батарею, химические компоненты и пиковое потребление тока. Поначалу я ничего не понял. Немного почитав теорию, стало чуть более понятно. Усилитель рассчитан на импеданс антенны <strong>50</strong>Ом. Если импеданс не совпадает, либо перестал совпадать (антенна заржавела), то для генерации заданного уровня мощности, будет тратится всё больше и больше тока. Это может привести к тому, что усилитель может перегореть. Я сравнил отправку сообщения: без защиты (240мА), с небольшим ограничением (140мА), с максимальным ограничением (45мА).</p>
+<pre><code>AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,240,1
+AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,140,1
+AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,45,1
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>Плата потребляет постоянное количество тока независимо от установленной защиты. Но это не значит, что защита не работает. Возможно, нужно измерять фактическую передаваемую мощность на антенне. К сожалению, у меня нет нужного оборудования, чтобы это проверить.</p>
+<h2 id="сравнение-с-c-версией">Сравнение с C++ версией</h2>
+<p>Как я уже писал, <a href="https://github.com/dernasherbrezon/lora-at">lora-at</a> изначально была реализована на C++ с помощью библиотек разного уровня качества. Моя теория заключалась в том, что переписав проект на С, я бы смог достичь более высокой эффективности и простоты. Одна из целей была достигнута - сборка проекта стала занимать меньше времени и размер прошивки уменьшился в два раза. Но что насчёт энергопотребления?</p>
+<p>Работа чипа sx127x не зависит от выбранного языка, но вот всё остальное может теоретически отличаться.</p>
+<h3 id="подключение-по-bluetooth">Подключение по bluetooth</h3>
+<p>Одно из основных отличий первой версии от второй является работа с bluetooth. Если в первой версии использовалась С++ библиотека поверх Bluedroid, то во второй версии я использовал Nimble. В документации сказано, что Nimble - это более легковесная реализация BLE протокола. Но так ли это на самом деле? И есть ли разница в скорости работы? Это очень легко проверить. Для этого можно использовать команду:</p>
+<pre><code>AT+BLUETOOTH=B8:27:EB:6C:7C:F8
+</code></pre><p>Эта команда сделает следующее:</p>
+<ul>
+<li>запустит подключение к bluetooth серверу по адресу <code>B8:27:EB:6C:7C:F8</code></li>
+<li>выполнит поиск нужного GATT сервиса и характеристики</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<p>Тут стоит отметить, что у меня не всегда получалось подключиться к серверу! В какой-то момент мне пришлось поднести плату поближе к RaspberryPI. Тут-то и обнаружилось, что чем ближе к bluetooth серверу, тем быстрее происходит подключение. Даже если я использовал разные версии приложения, то время на подключение было очень разным. Что давало сильный разброс в результатах. Например, с 3-х метров С-код мог потратить <strong>386.8</strong>мКл, а C++ вообще не подключиться. Или с одного метра С++ тратил <strong>308.3</strong>мКл, а С-код - <strong>150.2</strong>мКл. В общем, так себе получился тест.</p>
+<h3 id="глубокий-сон">Глубокий сон</h3>
+<p>Глубокий сон - это особый режим работы, при котором отключена вся периферия и ESP32 работает потребляя минимальное количество энергии. В этом режиме невозможно сделать ничего полезного, поэтому глубокий сон обычно чередуется активной фазой. В активной фазе устройство делает полезные операции, после чего опять уходит в сон. Чем меньше активная фаза, тем меньше энергии будет потреблять устройство в конечном итоге. В lora-at можно конфигурировать интервал глубокого сна. Например, команда ниже задаст конфигурацию: после 15 секунд бездействия перейти на 15 секунд в режим глубокого сна.</p>
+<pre><code>AT+DSCONFIG=15000,15000
+</code></pre><p>Во время активной фазы lora-at подключается по bluetooth к серверу, получает расписание следующего включения и снова засыпает.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<ul>
+<li>Потребление энергии сильно зависит от скорости подключения к bluetooth серверу. Причём иногда это занимает 2 секунды, а иногда 7. Из-за такой нестабильности сложно делать какие-то выводы</li>
+<li>Потребление энергии достаточно сильно варьируется: от <strong>474.6</strong>мКл (С++ версия) до <strong>179.2</strong>мКл (С версия)</li>
+<li>Время старта C++ чуть меньше. <strong>~500</strong>мс против <strong>~664</strong>мс. Однако, мне ни разу не удалось получить меньше 7 секунд для подключения С++ версии. Возможно, она пропускала какое-то bluetooth событие и вынуждена была ожидать перепосылку от сервера.</li>
+</ul>
+<p>Потребление энергии в режиме глубокого сна - <strong>1.7</strong>мА. Это примерно в миллион раз больше, чем теоретический минимум ESP32. Я потратил примерно 2 недели, чтобы разобраться в чём проблема. После всех ухищрений мне удалось уменьшить потребление до <strong>10</strong>мкА.</p>
+<h3 id="работа-на-пониженной-частоте">Работа на пониженной частоте</h3>
+<p>ESP32 может работать как на частоте 240Мгц, так и на 80Мгц. Очевидно, это уменьшает потребление энергии, за счёт более медленной работы. Но куда нам спешить, когда SPI шина работает на частоте 3Мгц?</p>
+<table>
+<thead>
+	<tr>
+		<th>Режим работы</th>
+		<th>Среднее потребление тока (C)</th>
+		<th>Среднее потребление тока (C++)</th>		
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>240Мгц</td>
+		<td>48.27</td>
+		<td>73.36</td>
+	</tr>
+	<tr>
+		<td>160Мгц</td>
+		<td>35.81</td>
+		<td>50.64</td>
+	</tr>
+	<tr>
+		<td>80Мгц</td>
+		<td><strong>26.38</strong></td>
+		<td>39.44</td>
+	</tr>
+</tbody>
+</table>
+<ul>
+<li>Как и ожидалось, чем меньше частота микроконтроллера, тем меньше потребление энергии</li>
+<li>Иногда у меня получалось получить ещё более низкие значения, но я не смог понять как их воспроизвести</li>
+</ul>
+<p>Кстати, разница между С и С++ версией связана с тем, как обрабатываются события. В С-версии вся обработка происходит в отдельных тасках FreeRTOS. Основной таск вообще перестаёт работать:</p>
+<pre><code>I (595) main_task: Returned from app_main()
+</code></pre><p>А вот С++ версия проверяет события в бесконечном цикле. Если добавить похожий цикл в С-версию, то потребление энергии будет одинаковым:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">uint64_t counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+uint64_t active <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000000</span>;
+<span style="color:#66d9ef">while</span> (true) {
+  counter<span style="color:#f92672">++</span>;
+  <span style="color:#66d9ef">if</span> (counter <span style="color:#f92672">==</span> active) {
+    counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    vTaskDelay(pdMS_TO_TICKS(<span style="color:#ae81ff">5000</span>));
+  }
+}
+</code></pre></div><h4 id="обработка-прерываний-uart">Обработка прерываний UART</h4>
+<p>Мне настолько понравилось разбираться в потреблении энергии, что я решил измерить совершенно странные вещи. Например, мне стало интересно сколько энергии тратится на обработку полученного символа по UART. Сильно увеличенный график выглядит следующим образом:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+
+<ul>
+<li>Каждое нажатие вызывает скачок потребления тока примерно на <strong>10м</strong>А и длится примерно <strong>1.4</strong>мс</li>
+<li>Не очень понятно почему два скачка</li>
+<li>Если положить в буфер сразу несколько символов с помощью CMD+V, то это сгенерирует одно прерывание и очень похожий график</li>
+</ul>
+<p>Если за <strong>1.4</strong>мс потрачено <strong>37.32</strong>мкКл, а в режиме простоя за это же время тратится <strong>35.11</strong>мкКл, то нажатие на кнопку обошлось в <strong>2.21</strong>мкКл.</p>
+<h2 id="выводы">Выводы</h2>
+<ul>
+<li>С-код в среднем более энергоэффективен за счёт использования задач FreeRTOS, а не бесконечного цикла</li>
+<li>По графику потребления энергии можно находить баги в коде</li>
+<li>Bluetooth Low Energy - не самый предсказуемый в плане потребления энергии протокол</li>
+<li>Даже если код перехода в глубокий сон вызван правильным образом - это не гарантирует того, что устройство действительно потребляет мало энергии. Нужно мерить!</li>
+</ul>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Power Profiler Kit 2</title>

@@ -106,9 +106,9 @@
       </li><li>
         <a href='/tags/embedded/' style='font-size:1.1224489795918366em'>embedded</a>
       </li><li>
-        <a href='/tags/esp-idf/' style='font-size:1.0204081632653061em'>esp-idf</a>
+        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>esp-idf</a>
       </li><li>
-        <a href='/tags/esp32/' style='font-size:1.1428571428571428em'>esp32</a>
+        <a href='/tags/esp32/' style='font-size:1.163265306122449em'>esp32</a>
       </li><li>
         <a href='/tags/flot/' style='font-size:1em'>flot</a>
       </li><li>
@@ -154,9 +154,9 @@
       </li><li>
         <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
       </li><li>
-        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>lora</a>
+        <a href='/tags/lora/' style='font-size:1.163265306122449em'>lora</a>
       </li><li>
-        <a href='/tags/lora-at/' style='font-size:1.0408163265306123em'>lora-at</a>
+        <a href='/tags/lora-at/' style='font-size:1.0612244897959184em'>lora-at</a>
       </li><li>
         <a href='/tags/lrpt/' style='font-size:1.0408163265306123em'>lrpt</a>
       </li><li>
@@ -188,7 +188,7 @@
       </li><li>
         <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>plutosdr</a>
       </li><li>
-        <a href='/tags/ppk2/' style='font-size:1em'>PPK2</a>
+        <a href='/tags/ppk2/' style='font-size:1.0204081632653061em'>PPK2</a>
       </li><li>
         <a href='/tags/prometheus/' style='font-size:1.0204081632653061em'>prometheus</a>
       </li><li>
@@ -459,6 +459,15 @@ Collection time: 2022-01-06 14:29:26.689485
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="razernaga" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -466,19 +475,20 @@ Collection time: 2022-01-06 14:29:26.689485
 </small>
 </div>
 <script>
-var razernagaData = [{"current":0.105,"voltage":5.09},{"current":0.107,"voltage":5.09},{"current":0.11,"voltage":5.08},{"current":0.113,"voltage":5.09},{"current":0.118,"voltage":5.09},{"current":0.119,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.107,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.09,"voltage":5.09},{"current":0.092,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.103,"voltage":5.09},{"current":0.111,"voltage":5.09},{"current":0.118,"voltage":5.08},{"current":0.117,"voltage":5.08}];
-var razernagadatasource = razernagaData.map(function(e) {
-	return e.current;
-});var razernagaXAxis = razernagaData.map(function(e, index) {
-	return index;
-});var razernagaCtx = document.getElementById('razernaga').getContext('2d');
+var razernagaData = [{"current":0.105,"voltage":5.09},{"current":0.107,"voltage":5.09},{"current":0.11,"voltage":5.08},{"current":0.113,"voltage":5.09},{"current":0.118,"voltage":5.09},{"current":0.119,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.107,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.09,"voltage":5.09},{"current":0.092,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.103,"voltage":5.09},{"current":0.111,"voltage":5.09},{"current":0.118,"voltage":5.08},{"current":0.117,"voltage":5.08}];razernagaData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var razernagaCtx = document.getElementById('razernaga').getContext('2d');
 const razernagaChart = new Chart(razernagaCtx, {
     type: 'line',
     data: {
-        labels: razernagaXAxis,
         datasets: [{
             label: 'Ток',
-            data: razernagadatasource,
+            data: razernagaData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -488,6 +498,7 @@ const razernagaChart = new Chart(razernagaCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -504,17 +515,16 @@ const razernagaChart = new Chart(razernagaCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,title: {
+                beginAtZero: true,
+                position: 'left',title: {
                     display: true,
                     text: 'Ток'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' мA';
                     }}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -535,8 +545,8 @@ const razernagaChart = new Chart(razernagaCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
+                        var unit = "мA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -574,6 +584,15 @@ const razernagaChart = new Chart(razernagaCtx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="raspberrypi3b" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -581,19 +600,20 @@ const razernagaChart = new Chart(razernagaCtx, {
 </small>
 </div>
 <script>
-var raspberrypi3bData = [{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.299,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.303,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14}];
-var raspberrypi3bdatasource = raspberrypi3bData.map(function(e) {
-	return e.current;
-});var raspberrypi3bXAxis = raspberrypi3bData.map(function(e, index) {
-	return index;
-});var raspberrypi3bCtx = document.getElementById('raspberrypi3b').getContext('2d');
+var raspberrypi3bData = [{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.299,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.303,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14}];raspberrypi3bData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var raspberrypi3bCtx = document.getElementById('raspberrypi3b').getContext('2d');
 const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
     type: 'line',
     data: {
-        labels: raspberrypi3bXAxis,
         datasets: [{
             label: 'Ток',
-            data: raspberrypi3bdatasource,
+            data: raspberrypi3bData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -603,6 +623,7 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -619,17 +640,16 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,title: {
+                beginAtZero: true,
+                position: 'left',title: {
                     display: true,
                     text: 'Ток'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' мA';
                     }}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -650,8 +670,8 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
+                        var unit = "мA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -689,6 +709,15 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="r2loraTinygs" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -696,30 +725,32 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
 </small>
 </div>
 <script>
-var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}];
-var r2loraTinygsdatasource = r2loraTinygsData.map(function(e) {
-	return e.r2loraCurrent;
-});var r2loraTinygsdatasource2 = r2loraTinygsData.map(function(e) {
-	return e.tinygsCurrent;
-});var r2loraTinygsXAxis = r2loraTinygsData.map(function(e, index) {
-	return index;
-});var r2loraTinygsCtx = document.getElementById('r2loraTinygs').getContext('2d');
+var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}];r2loraTinygsData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var r2loraTinygsCtx = document.getElementById('r2loraTinygs').getContext('2d');
 const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
     type: 'line',
     data: {
-        labels: r2loraTinygsXAxis,
         datasets: [{
         	label: 'tinyGS',
-            data: r2loraTinygsdatasource2,
+            data: r2loraTinygsData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'tinygsCurrent'
+            },
             borderColor: '#7fc35e',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
             fill: true,
-            borderWidth: 2,
-            tension: 0.2
+            borderWidth: 2,tension: 0.2
         },{
             label: 'r2lora',
-            data: r2loraTinygsdatasource,
+            data: r2loraTinygsData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'r2loraCurrent'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -729,6 +760,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -745,17 +777,16 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,title: {
+                beginAtZero: true,
+                position: 'left',title: {
                     display: true,
                     text: 'Ток'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' мA';
                     }}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -776,8 +807,8 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
+                        var unit = "мA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -815,6 +846,15 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="tinygsIdleBlack" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -822,30 +862,32 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 </small>
 </div>
 <script>
-var tinygsIdleBlackData = [{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.127,"fullVoltage":5.01},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5.01},{"disabledCurrent":0.118,"disabledVoltage":5,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.107,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.141,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.138,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.151,"fullVoltage":4.99},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.131,"fullVoltage":5},{"disabledCurrent":0.117,"disabledVoltage":5,"fullCurrent":0.14,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.158,"fullVoltage":4.99},{"disabledCurrent":0.111,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.172,"fullVoltage":4.98},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.135,"fullVoltage":5}];
-var tinygsIdleBlackdatasource = tinygsIdleBlackData.map(function(e) {
-	return e.disabledCurrent;
-});var tinygsIdleBlackdatasource2 = tinygsIdleBlackData.map(function(e) {
-	return e.fullCurrent;
-});var tinygsIdleBlackXAxis = tinygsIdleBlackData.map(function(e, index) {
-	return index;
-});var tinygsIdleBlackCtx = document.getElementById('tinygsIdleBlack').getContext('2d');
+var tinygsIdleBlackData = [{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.127,"fullVoltage":5.01},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5.01},{"disabledCurrent":0.118,"disabledVoltage":5,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.107,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.141,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.138,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.151,"fullVoltage":4.99},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.131,"fullVoltage":5},{"disabledCurrent":0.117,"disabledVoltage":5,"fullCurrent":0.14,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.158,"fullVoltage":4.99},{"disabledCurrent":0.111,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.172,"fullVoltage":4.98},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.135,"fullVoltage":5}];tinygsIdleBlackData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var tinygsIdleBlackCtx = document.getElementById('tinygsIdleBlack').getContext('2d');
 const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
     type: 'line',
     data: {
-        labels: tinygsIdleBlackXAxis,
         datasets: [{
         	label: 'Полная яркость',
-            data: tinygsIdleBlackdatasource2,
+            data: tinygsIdleBlackData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'fullCurrent'
+            },
             borderColor: '#7fc35e',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
             fill: true,
-            borderWidth: 2,
-            tension: 0.2
+            borderWidth: 2,tension: 0.2
         },{
             label: 'Отключена яркость',
-            data: tinygsIdleBlackdatasource,
+            data: tinygsIdleBlackData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'disabledCurrent'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -855,6 +897,7 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -871,17 +914,16 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,title: {
+                beginAtZero: true,
+                position: 'left',title: {
                     display: true,
                     text: 'Ток'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' мA';
                     }}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -902,8 +944,8 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
+                        var unit = "мA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -941,6 +983,15 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="firmware" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -948,19 +999,20 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
 </small>
 </div>
 <script>
-var firmwareData = [{"current":0.033,"voltage":5.02},{"current":0.033,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.026,"voltage":5.02},{"current":0.026,"voltage":5.03},{"current":0.027,"voltage":5.01},{"current":0.027,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.027,"voltage":5.03},{"current":0.029,"voltage":5.03},{"current":0.026,"voltage":5.03},{"current":0.031,"voltage":5.03},{"current":0.028,"voltage":5.03},{"current":0.026,"voltage":5.02}];
-var firmwaredatasource = firmwareData.map(function(e) {
-	return e.current;
-});var firmwareXAxis = firmwareData.map(function(e, index) {
-	return index;
-});var firmwareCtx = document.getElementById('firmware').getContext('2d');
+var firmwareData = [{"current":0.033,"voltage":5.02},{"current":0.033,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.026,"voltage":5.02},{"current":0.026,"voltage":5.03},{"current":0.027,"voltage":5.01},{"current":0.027,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.027,"voltage":5.03},{"current":0.029,"voltage":5.03},{"current":0.026,"voltage":5.03},{"current":0.031,"voltage":5.03},{"current":0.028,"voltage":5.03},{"current":0.026,"voltage":5.02}];firmwareData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var firmwareCtx = document.getElementById('firmware').getContext('2d');
 const firmwareChart = new Chart(firmwareCtx, {
     type: 'line',
     data: {
-        labels: firmwareXAxis,
         datasets: [{
             label: 'Ток',
-            data: firmwaredatasource,
+            data: firmwareData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -970,6 +1022,7 @@ const firmwareChart = new Chart(firmwareCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -986,17 +1039,16 @@ const firmwareChart = new Chart(firmwareCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,title: {
+                beginAtZero: true,
+                position: 'left',title: {
                     display: true,
                     text: 'Ток'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' мA';
                     }}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -1017,8 +1069,8 @@ const firmwareChart = new Chart(firmwareCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
+                        var unit = "мA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -1056,6 +1108,15 @@ const firmwareChart = new Chart(firmwareCtx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="wifi" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -1063,19 +1124,20 @@ const firmwareChart = new Chart(firmwareCtx, {
 </small>
 </div>
 <script>
-var wifiData = [{"current":0.054,"voltage":5.02},{"current":0.054,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.033,"voltage":5.03},{"current":0.046,"voltage":5.02},{"current":0.135,"voltage":5},{"current":0.146,"voltage":4.99},{"current":0.134,"voltage":5},{"current":0.132,"voltage":5},{"current":0.142,"voltage":5},{"current":0.133,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.133,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.145,"voltage":5},{"current":0.139,"voltage":5},{"current":0.133,"voltage":5},{"current":0.153,"voltage":4.99},{"current":0.146,"voltage":5},{"current":0.145,"voltage":5},{"current":0.154,"voltage":4.99},{"current":0.144,"voltage":5},{"current":0.068,"voltage":5.02}];
-var wifidatasource = wifiData.map(function(e) {
-	return e.current;
-});var wifiXAxis = wifiData.map(function(e, index) {
-	return index;
-});var wifiCtx = document.getElementById('wifi').getContext('2d');
+var wifiData = [{"current":0.054,"voltage":5.02},{"current":0.054,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.033,"voltage":5.03},{"current":0.046,"voltage":5.02},{"current":0.135,"voltage":5},{"current":0.146,"voltage":4.99},{"current":0.134,"voltage":5},{"current":0.132,"voltage":5},{"current":0.142,"voltage":5},{"current":0.133,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.133,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.145,"voltage":5},{"current":0.139,"voltage":5},{"current":0.133,"voltage":5},{"current":0.153,"voltage":4.99},{"current":0.146,"voltage":5},{"current":0.145,"voltage":5},{"current":0.154,"voltage":4.99},{"current":0.144,"voltage":5},{"current":0.068,"voltage":5.02}];wifiData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var wifiCtx = document.getElementById('wifi').getContext('2d');
 const wifiChart = new Chart(wifiCtx, {
     type: 'line',
     data: {
-        labels: wifiXAxis,
         datasets: [{
             label: 'Ток',
-            data: wifidatasource,
+            data: wifiData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -1085,6 +1147,7 @@ const wifiChart = new Chart(wifiCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -1101,17 +1164,16 @@ const wifiChart = new Chart(wifiCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,title: {
+                beginAtZero: true,
+                position: 'left',title: {
                     display: true,
                     text: 'Ток'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' мA';
                     }}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -1132,8 +1194,8 @@ const wifiChart = new Chart(wifiCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
+                        var unit = "мA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -1173,6 +1235,15 @@ const wifiChart = new Chart(wifiCtx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="full" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -1180,19 +1251,20 @@ const wifiChart = new Chart(wifiCtx, {
 </small>
 </div>
 <script>
-var fullData = [{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.298,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.493,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.485,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.429,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.432,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.448,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.433,"voltage":5.16},{"current":0.43,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.377,"voltage":5.15},{"current":0.383,"voltage":5.15},{"current":0.364,"voltage":5.15},{"current":0.357,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.356,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.354,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.344,"voltage":5.15}];
-var fulldatasource = fullData.map(function(e) {
-	return e.current;
-});var fullXAxis = fullData.map(function(e, index) {
-	return index;
-});var fullCtx = document.getElementById('full').getContext('2d');
+var fullData = [{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.298,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.493,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.485,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.429,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.432,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.448,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.433,"voltage":5.16},{"current":0.43,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.377,"voltage":5.15},{"current":0.383,"voltage":5.15},{"current":0.364,"voltage":5.15},{"current":0.357,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.356,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.354,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.344,"voltage":5.15}];fullData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var fullCtx = document.getElementById('full').getContext('2d');
 const fullChart = new Chart(fullCtx, {
     type: 'line',
     data: {
-        labels: fullXAxis,
         datasets: [{
             label: 'Ток',
-            data: fulldatasource,
+            data: fullData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -1202,6 +1274,7 @@ const fullChart = new Chart(fullCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -1218,17 +1291,16 @@ const fullChart = new Chart(fullCtx, {
             mode: 'index',
         },
         scales: {y: {
-                beginAtZero: true,title: {
+                beginAtZero: true,
+                position: 'left',title: {
                     display: true,
                     text: 'Ток'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' мA';
                     }}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -1249,8 +1321,8 @@ const fullChart = new Chart(fullCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' мA';
+                        var unit = "мA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;

@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/lora/</link>
     <description>Recent content in lora on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 05 Nov 2023 22:25:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Тестирование потребления энергии в lora-at</title>
+      <link>https://dernasherbrezon.com/posts/lora-at-power-profiling/</link>
+      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-at-power-profiling/</guid>
+      <description>Как следует разобравшись с тем, как работает Power Profiler Kit 2 (PPK2), я решил протестировать разные режимы работы. На самом деле lora-at - не такое уж и простое приложение. В нём есть работа с bluetooth и чипом sx127x, обработка команд с UART шины и режим глубокого сна. Есть, где развернуться.
+Методология измерений Перед тем как начинать что-то измерять, необходимо определиться с тем, как это будет измеряться.
+Во-первых, я собираюсь использовать PPK2 по-максимуму.</description>
+    </item>
+    
     <item>
       <title>LoRa AT</title>
       <link>https://dernasherbrezon.com/posts/lora-at/</link>

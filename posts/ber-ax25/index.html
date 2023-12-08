@@ -104,9 +104,9 @@
       </li><li>
         <a href='/tags/embedded/' style='font-size:1.1224489795918366em'>embedded</a>
       </li><li>
-        <a href='/tags/esp-idf/' style='font-size:1.0204081632653061em'>esp-idf</a>
+        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>esp-idf</a>
       </li><li>
-        <a href='/tags/esp32/' style='font-size:1.1428571428571428em'>esp32</a>
+        <a href='/tags/esp32/' style='font-size:1.163265306122449em'>esp32</a>
       </li><li>
         <a href='/tags/flot/' style='font-size:1em'>flot</a>
       </li><li>
@@ -152,9 +152,9 @@
       </li><li>
         <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
       </li><li>
-        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>lora</a>
+        <a href='/tags/lora/' style='font-size:1.163265306122449em'>lora</a>
       </li><li>
-        <a href='/tags/lora-at/' style='font-size:1.0408163265306123em'>lora-at</a>
+        <a href='/tags/lora-at/' style='font-size:1.0612244897959184em'>lora-at</a>
       </li><li>
         <a href='/tags/lrpt/' style='font-size:1.0408163265306123em'>lrpt</a>
       </li><li>
@@ -186,7 +186,7 @@
       </li><li>
         <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>plutosdr</a>
       </li><li>
-        <a href='/tags/ppk2/' style='font-size:1em'>PPK2</a>
+        <a href='/tags/ppk2/' style='font-size:1.0204081632653061em'>PPK2</a>
       </li><li>
         <a href='/tags/prometheus/' style='font-size:1.0204081632653061em'>prometheus</a>
       </li><li>
@@ -416,6 +416,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="ax25Ber" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -423,36 +432,32 @@
 </small>
 </div>
 <script>
-var ax25BerData = [{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":0,"fskBer":0.158655},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":0.5,"fskBer":0.144742},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":1,"fskBer":0.130927},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":1.5,"fskBer":0.117318},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":2,"fskBer":0.104029},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":2.5,"fskBer":0.09118},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":3,"fskBer":0.078896},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":3.5,"fskBer":0.067296},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":4,"fskBer":0.056495},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":4.5,"fskBer":0.046595},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":5,"fskBer":0.037679},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":5.5,"fskBer":0.029806},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":6,"fskBer":0.023007},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":6.5,"fskBer":0.017279},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.1717557251908397,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.1375,"ebno":7,"fskBer":0.012587},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.13931297709923665,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.075,"ebno":7.5,"fskBer":0.008861},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.0916030534351145,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.075,"ebno":8,"fskBer":0.006004},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.05343511450381679,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0,"ebno":8.5,"fskBer":0.003899},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.022900763358778626,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0,"ebno":9,"fskBer":0.002413},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.01717557251908397,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":9.5,"fskBer":0.001416},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.011450381679389313,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":10,"fskBer":0.000783},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.0057251908396946565,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":10.5,"fskBer":0.000405},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.0057251908396946565,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":11,"fskBer":0.000194},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":11.5,"fskBer":0.000086},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":12,"fskBer":0.000034},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":12.5,"fskBer":0.000012},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":13,"fskBer":0.000004},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":13.5,"fskBer":0.000001},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":14,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":14.5,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":15,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":15.5,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":16,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":16.5,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":17,"fskBer":0}];
-var ax25Berdatasource = ax25BerData.map(function(e) {
-	return e.fskBer;
-});var ax25Berdatasource2 = ax25BerData.map(function(e) {
-	return e.ax25Byte20Checksum;
-});var ax25Berdatasource3 = ax25BerData.map(function(e) {
-	return e.ax25Byte20NoChecksum;
-});var ax25Berdatasource4 = ax25BerData.map(function(e) {
-	return e.ax25Byte131Checksum;
-});var ax25Berdatasource5 = ax25BerData.map(function(e) {
-	return e.ax25Byte131NoChecksum;
-});var ax25BerXAxis = ax25BerData.map(function(e) {
-	return '' + e.ebno;
+var ax25BerData = [{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":0,"fskBer":0.158655},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":0.5,"fskBer":0.144742},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":1,"fskBer":0.130927},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":1.5,"fskBer":0.117318},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":2,"fskBer":0.104029},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":2.5,"fskBer":0.09118},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":3,"fskBer":0.078896},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":3.5,"fskBer":0.067296},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":4,"fskBer":0.056495},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":4.5,"fskBer":0.046595},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":5,"fskBer":0.037679},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":5.5,"fskBer":0.029806},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":6,"fskBer":0.023007},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":1,"ebno":6.5,"fskBer":0.017279},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.1717557251908397,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.1375,"ebno":7,"fskBer":0.012587},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.13931297709923665,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.075,"ebno":7.5,"fskBer":0.008861},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.0916030534351145,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.075,"ebno":8,"fskBer":0.006004},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.05343511450381679,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0,"ebno":8.5,"fskBer":0.003899},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.022900763358778626,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0,"ebno":9,"fskBer":0.002413},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.01717557251908397,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":9.5,"fskBer":0.001416},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.011450381679389313,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":10,"fskBer":0.000783},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.0057251908396946565,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":10.5,"fskBer":0.000405},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.0057251908396946565,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":11,"fskBer":0.000194},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":11.5,"fskBer":0.000086},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":12,"fskBer":0.000034},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":12.5,"fskBer":0.000012},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":13,"fskBer":0.000004},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":13.5,"fskBer":0.000001},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":14,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":14.5,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":15,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":15.5,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":16,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":16.5,"fskBer":0},{"ax25Byte131Checksum":0,"ax25Byte131NoChecksum":0,"ax25Byte20Checksum":0,"ax25Byte20NoChecksum":0,"ebno":17,"fskBer":0}];var xAxisKey = 'ebno';
+ax25BerData.forEach(function(e, index) {
+	e.ebno = '' + e.ebno;
 });var ax25BerCtx = document.getElementById('ax25Ber').getContext('2d');
 const ax25BerChart = new Chart(ax25BerCtx, {
     type: 'line',
     data: {
-        labels: ax25BerXAxis,
         datasets: [{
         	label: 'Length 20 Checksum',
-            data: ax25Berdatasource2,
+            data: ax25BerData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte20Checksum'
+            },
             borderColor: '#7fc35e',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
             fill: true,
-            borderWidth: 2,
-            tension: 0.2
+            borderWidth: 2,tension: 0.2
         },{
         	label: 'Length 20 No Checksum',
-            data: ax25Berdatasource3,
+            data: ax25BerData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte20NoChecksum'
+            },
             borderColor: '#4161CC',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#4161CC',
@@ -461,7 +466,11 @@ const ax25BerChart = new Chart(ax25BerCtx, {
             tension: 0.2
         },{
         	label: 'Length 131 Checksum',
-            data: ax25Berdatasource4,
+            data: ax25BerData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte131Checksum'
+            },
             borderColor: '#5DD9BE',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#5DD9BE',
@@ -470,7 +479,11 @@ const ax25BerChart = new Chart(ax25BerCtx, {
             tension: 0.2
         },{
         	label: 'Length 131 No Checksum',
-            data: ax25Berdatasource5,
+            data: ax25BerData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte131NoChecksum'
+            },
             borderColor: '#CF8659',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#CF8659',
@@ -479,7 +492,11 @@ const ax25BerChart = new Chart(ax25BerCtx, {
             tension: 0.2
         },{
             label: 'FSK',
-            data: ax25Berdatasource,
+            data: ax25BerData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'fskBer'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -489,6 +506,7 @@ const ax25BerChart = new Chart(ax25BerCtx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -516,17 +534,16 @@ const ax25BerChart = new Chart(ax25BerCtx, {
                         return this.getLabelForValue(value) + ' dB';
                     }, maxTicksLimit: "11"}
         	},y: {
-                beginAtZero: true,max: "1",type: 'logarithmic',title: {
+                beginAtZero: true,
+                position: 'left',max: "1",type: 'logarithmic',title: {
                     display: true,
                     text: 'Bit Error Rate'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' ';
                     }, maxTicksLimit: "10"}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -549,8 +566,8 @@ const ax25BerChart = new Chart(ax25BerCtx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' ';
+                        var unit = "";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -606,6 +623,15 @@ const ax25BerChart = new Chart(ax25BerCtx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="ax25Ber2" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -613,36 +639,32 @@ const ax25BerChart = new Chart(ax25BerCtx, {
 </small>
 </div>
 <script>
-var ax25Ber2Data = [{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9840625,"ebno":0,"fskBer":0.158655},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.97925,"ebno":0.5,"fskBer":0.144742},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.98975,"ebno":1,"fskBer":0.130927},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":1.5,"fskBer":0.117318},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":2,"fskBer":0.104029},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9894375,"ebno":2.5,"fskBer":0.09118},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.984625,"ebno":3,"fskBer":0.078896},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":3.5,"fskBer":0.067296},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":4,"fskBer":0.056495},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":4.5,"fskBer":0.046595},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":5,"fskBer":0.037679},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9879375,"ebno":5.5,"fskBer":0.029806},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.9927862595419847,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":6,"fskBer":0.023007},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.947625,"ebno":6.5,"fskBer":0.017279},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.9751526717557252,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.905125,"ebno":7,"fskBer":0.012587},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.8884446564885496,"ax25Byte20Checksum":0.99,"ax25Byte20NoChecksum":0.77825,"ebno":7.5,"fskBer":0.008861},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.7935973282442748,"ax25Byte20Checksum":0.99,"ax25Byte20NoChecksum":0.715375,"ebno":8,"fskBer":0.006004},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.6203721374045802,"ax25Byte20Checksum":0.96,"ax25Byte20NoChecksum":0.5909375,"ebno":8.5,"fskBer":0.003899},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.47770038167938933,"ax25Byte20Checksum":0.95,"ax25Byte20NoChecksum":0.51475,"ebno":9,"fskBer":0.002413},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.31206106870229006,"ax25Byte20Checksum":0.68,"ax25Byte20NoChecksum":0.2965,"ebno":9.5,"fskBer":0.001416},{"ax25Byte131Checksum":0.96,"ax25Byte131NoChecksum":0.21568702290076336,"ax25Byte20Checksum":0.53,"ax25Byte20NoChecksum":0.2109375,"ebno":10,"fskBer":0.000783},{"ax25Byte131Checksum":0.89,"ax25Byte131NoChecksum":0.1688740458015267,"ax25Byte20Checksum":0.37,"ax25Byte20NoChecksum":0.163375,"ebno":10.5,"fskBer":0.000405},{"ax25Byte131Checksum":0.7,"ax25Byte131NoChecksum":0.14463740458015267,"ax25Byte20Checksum":0.27,"ax25Byte20NoChecksum":0.1105625,"ebno":11,"fskBer":0.000194},{"ax25Byte131Checksum":0.41,"ax25Byte131NoChecksum":0.09211832061068702,"ax25Byte20Checksum":0.16,"ax25Byte20NoChecksum":0.0775625,"ebno":11.5,"fskBer":0.000086},{"ax25Byte131Checksum":0.22,"ax25Byte131NoChecksum":0.0908206106870229,"ax25Byte20Checksum":0.11,"ax25Byte20NoChecksum":0.0758125,"ebno":12,"fskBer":0.000034},{"ax25Byte131Checksum":0.12,"ax25Byte131NoChecksum":0.07028625954198474,"ax25Byte20Checksum":0.08,"ax25Byte20NoChecksum":0.0554375,"ebno":12.5,"fskBer":0.000012},{"ax25Byte131Checksum":0.09,"ax25Byte131NoChecksum":0.08005725190839695,"ax25Byte20Checksum":0.08,"ax25Byte20NoChecksum":0.0650625,"ebno":13,"fskBer":0.000004},{"ax25Byte131Checksum":0.09,"ax25Byte131NoChecksum":0.08005725190839695,"ax25Byte20Checksum":0.09,"ax25Byte20NoChecksum":0.0750625,"ebno":13.5,"fskBer":0.000001},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":14,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":14.5,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":15,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":15.5,"fskBer":0},{"ax25Byte131Checksum":0.05,"ax25Byte131NoChecksum":0.05,"ax25Byte20Checksum":0.04,"ax25Byte20NoChecksum":0.0346875,"ebno":16,"fskBer":0},{"ax25Byte131Checksum":0.04,"ax25Byte131NoChecksum":0.04,"ax25Byte20Checksum":0.04,"ax25Byte20NoChecksum":0.0346875,"ebno":16.5,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":17,"fskBer":0}];
-var ax25Ber2datasource = ax25Ber2Data.map(function(e) {
-	return e.fskBer;
-});var ax25Ber2datasource2 = ax25Ber2Data.map(function(e) {
-	return e.ax25Byte20Checksum;
-});var ax25Ber2datasource3 = ax25Ber2Data.map(function(e) {
-	return e.ax25Byte20NoChecksum;
-});var ax25Ber2datasource4 = ax25Ber2Data.map(function(e) {
-	return e.ax25Byte131Checksum;
-});var ax25Ber2datasource5 = ax25Ber2Data.map(function(e) {
-	return e.ax25Byte131NoChecksum;
-});var ax25Ber2XAxis = ax25Ber2Data.map(function(e) {
-	return '' + e.ebno;
+var ax25Ber2Data = [{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9840625,"ebno":0,"fskBer":0.158655},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.97925,"ebno":0.5,"fskBer":0.144742},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.98975,"ebno":1,"fskBer":0.130927},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":1.5,"fskBer":0.117318},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":2,"fskBer":0.104029},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9894375,"ebno":2.5,"fskBer":0.09118},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.984625,"ebno":3,"fskBer":0.078896},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":3.5,"fskBer":0.067296},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":4,"fskBer":0.056495},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":4.5,"fskBer":0.046595},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":5,"fskBer":0.037679},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9879375,"ebno":5.5,"fskBer":0.029806},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.9927862595419847,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.9946875,"ebno":6,"fskBer":0.023007},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":1,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.947625,"ebno":6.5,"fskBer":0.017279},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.9751526717557252,"ax25Byte20Checksum":1,"ax25Byte20NoChecksum":0.905125,"ebno":7,"fskBer":0.012587},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.8884446564885496,"ax25Byte20Checksum":0.99,"ax25Byte20NoChecksum":0.77825,"ebno":7.5,"fskBer":0.008861},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.7935973282442748,"ax25Byte20Checksum":0.99,"ax25Byte20NoChecksum":0.715375,"ebno":8,"fskBer":0.006004},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.6203721374045802,"ax25Byte20Checksum":0.96,"ax25Byte20NoChecksum":0.5909375,"ebno":8.5,"fskBer":0.003899},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.47770038167938933,"ax25Byte20Checksum":0.95,"ax25Byte20NoChecksum":0.51475,"ebno":9,"fskBer":0.002413},{"ax25Byte131Checksum":1,"ax25Byte131NoChecksum":0.31206106870229006,"ax25Byte20Checksum":0.68,"ax25Byte20NoChecksum":0.2965,"ebno":9.5,"fskBer":0.001416},{"ax25Byte131Checksum":0.96,"ax25Byte131NoChecksum":0.21568702290076336,"ax25Byte20Checksum":0.53,"ax25Byte20NoChecksum":0.2109375,"ebno":10,"fskBer":0.000783},{"ax25Byte131Checksum":0.89,"ax25Byte131NoChecksum":0.1688740458015267,"ax25Byte20Checksum":0.37,"ax25Byte20NoChecksum":0.163375,"ebno":10.5,"fskBer":0.000405},{"ax25Byte131Checksum":0.7,"ax25Byte131NoChecksum":0.14463740458015267,"ax25Byte20Checksum":0.27,"ax25Byte20NoChecksum":0.1105625,"ebno":11,"fskBer":0.000194},{"ax25Byte131Checksum":0.41,"ax25Byte131NoChecksum":0.09211832061068702,"ax25Byte20Checksum":0.16,"ax25Byte20NoChecksum":0.0775625,"ebno":11.5,"fskBer":0.000086},{"ax25Byte131Checksum":0.22,"ax25Byte131NoChecksum":0.0908206106870229,"ax25Byte20Checksum":0.11,"ax25Byte20NoChecksum":0.0758125,"ebno":12,"fskBer":0.000034},{"ax25Byte131Checksum":0.12,"ax25Byte131NoChecksum":0.07028625954198474,"ax25Byte20Checksum":0.08,"ax25Byte20NoChecksum":0.0554375,"ebno":12.5,"fskBer":0.000012},{"ax25Byte131Checksum":0.09,"ax25Byte131NoChecksum":0.08005725190839695,"ax25Byte20Checksum":0.08,"ax25Byte20NoChecksum":0.0650625,"ebno":13,"fskBer":0.000004},{"ax25Byte131Checksum":0.09,"ax25Byte131NoChecksum":0.08005725190839695,"ax25Byte20Checksum":0.09,"ax25Byte20NoChecksum":0.0750625,"ebno":13.5,"fskBer":0.000001},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":14,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":14.5,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":15,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":15.5,"fskBer":0},{"ax25Byte131Checksum":0.05,"ax25Byte131NoChecksum":0.05,"ax25Byte20Checksum":0.04,"ax25Byte20NoChecksum":0.0346875,"ebno":16,"fskBer":0},{"ax25Byte131Checksum":0.04,"ax25Byte131NoChecksum":0.04,"ax25Byte20Checksum":0.04,"ax25Byte20NoChecksum":0.0346875,"ebno":16.5,"fskBer":0},{"ax25Byte131Checksum":0.06,"ax25Byte131NoChecksum":0.06,"ax25Byte20Checksum":0.06,"ax25Byte20NoChecksum":0.0546875,"ebno":17,"fskBer":0}];var xAxisKey = 'ebno';
+ax25Ber2Data.forEach(function(e, index) {
+	e.ebno = '' + e.ebno;
 });var ax25Ber2Ctx = document.getElementById('ax25Ber2').getContext('2d');
 const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
     type: 'line',
     data: {
-        labels: ax25Ber2XAxis,
         datasets: [{
         	label: 'Length 20 Checksum',
-            data: ax25Ber2datasource2,
+            data: ax25Ber2Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte20Checksum'
+            },
             borderColor: '#7fc35e',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
             fill: true,
-            borderWidth: 2,
-            tension: 0.2
+            borderWidth: 2,tension: 0.2
         },{
         	label: 'Length 20 No Checksum',
-            data: ax25Ber2datasource3,
+            data: ax25Ber2Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte20NoChecksum'
+            },
             borderColor: '#4161CC',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#4161CC',
@@ -651,7 +673,11 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
             tension: 0.2
         },{
         	label: 'Length 131 Checksum',
-            data: ax25Ber2datasource4,
+            data: ax25Ber2Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte131Checksum'
+            },
             borderColor: '#5DD9BE',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#5DD9BE',
@@ -660,7 +686,11 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
             tension: 0.2
         },{
         	label: 'Length 131 No Checksum',
-            data: ax25Ber2datasource5,
+            data: ax25Ber2Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'ax25Byte131NoChecksum'
+            },
             borderColor: '#CF8659',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#CF8659',
@@ -669,7 +699,11 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
             tension: 0.2
         },{
             label: 'FSK',
-            data: ax25Ber2datasource,
+            data: ax25Ber2Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'fskBer'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -679,6 +713,7 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -706,17 +741,16 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
                         return this.getLabelForValue(value) + ' dB';
                     }, maxTicksLimit: "11"}
         	},y: {
-                beginAtZero: true,max: "1",type: 'logarithmic',title: {
+                beginAtZero: true,
+                position: 'left',max: "1",type: 'logarithmic',title: {
                     display: true,
                     text: 'Bit Error Rate'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' ';
                     }, maxTicksLimit: "10"}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -739,8 +773,8 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' ';
+                        var unit = "";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;
@@ -787,6 +821,15 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
 
 
 
+
+
+
+
+
+
+
+
+
 <canvas id="ax25Ber3" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -794,36 +837,32 @@ const ax25Ber2Chart = new Chart(ax25Ber2Ctx, {
 </small>
 </div>
 <script>
-var ax25Ber3Data = [{"ebno":0,"fskBer":0.15865525393145696,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":0.5,"fskBer":0.14474212146104393,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":1,"fskBer":0.1309272963463169,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":1.5,"fskBer":0.11731779978548318,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":2,"fskBer":0.1040286363052162,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":2.5,"fskBer":0.09118037349115199,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":3,"fskBer":0.07889586912978602,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":3.5,"fskBer":0.06729612929213863,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":4,"fskBer":0.05649530051362306,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":4.5,"fskBer":0.04659512487725431,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":5,"fskBer":0.03767898814746325,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":5.5,"fskBer":0.029806226789021444,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":6,"fskBer":0.02300713589277829,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":6.5,"fskBer":0.017279468541572376,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":7,"fskBer":0.012587034122355586,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":7.5,"fskBer":0.008861051096347865,"prepend0":0.999,"prepend3":0.999,"prepend6":0.998,"prepend9":0.998},{"ebno":8,"fskBer":0.006004385813621199,"prepend0":0.987,"prepend3":0.989,"prepend6":0.991,"prepend9":0.992},{"ebno":8.5,"fskBer":0.0038986290439469748,"prepend0":0.959,"prepend3":0.943,"prepend6":0.962,"prepend9":0.962},{"ebno":9,"fskBer":0.0024133110011664415,"prepend0":0.898,"prepend3":0.88,"prepend6":0.878,"prepend9":0.89},{"ebno":9.5,"fskBer":0.001416119261884248,"prepend0":0.793,"prepend3":0.745,"prepend6":0.733,"prepend9":0.763},{"ebno":10,"fskBer":0.0007827011290012748,"prepend0":0.618,"prepend3":0.579,"prepend6":0.53,"prepend9":0.561},{"ebno":10.5,"fskBer":0.00040456251202240215,"prepend0":0.481,"prepend3":0.409,"prepend6":0.354,"prepend9":0.37},{"ebno":11,"fskBer":0.00019398540032568773,"prepend0":0.343,"prepend3":0.27,"prepend6":0.21,"prepend9":0.203},{"ebno":11.5,"fskBer":0.00008551058184999764,"prepend0":0.25,"prepend3":0.17,"prepend6":0.122,"prepend9":0.117},{"ebno":12,"fskBer":0.00003430259232262812,"prepend0":0.196,"prepend3":0.113,"prepend6":0.055,"prepend9":0.073},{"ebno":12.5,"fskBer":0.000012380617585204551,"prepend0":0.165,"prepend3":0.083,"prepend6":0.025,"prepend9":0.033},{"ebno":13,"fskBer":0.000003969252944222963,"prepend0":0.152,"prepend3":0.07,"prepend6":0.01,"prepend9":0.015},{"ebno":13.5,"fskBer":0.0000011142642546405037,"prepend0":0.141,"prepend3":0.064,"prepend6":0.005,"prepend9":0.006},{"ebno":14,"fskBer":0,"prepend0":0.132,"prepend3":0.063,"prepend6":0.004,"prepend9":0.003},{"ebno":14.5,"fskBer":0,"prepend0":0.128,"prepend3":0.062,"prepend6":0.003,"prepend9":0.002},{"ebno":15,"fskBer":0,"prepend0":0.124,"prepend3":0.068,"prepend6":0.003,"prepend9":0.001},{"ebno":15.5,"fskBer":0,"prepend0":0.12,"prepend3":0.067,"prepend6":0.004,"prepend9":0.001},{"ebno":16,"fskBer":0,"prepend0":0.118,"prepend3":0.07,"prepend6":0.003,"prepend9":0},{"ebno":16.5,"fskBer":0,"prepend0":0.116,"prepend3":0.073,"prepend6":0.003,"prepend9":0},{"ebno":17,"fskBer":0,"prepend0":0.117,"prepend3":0.07,"prepend6":0.001,"prepend9":0}];
-var ax25Ber3datasource = ax25Ber3Data.map(function(e) {
-	return e.fskBer;
-});var ax25Ber3datasource2 = ax25Ber3Data.map(function(e) {
-	return e.prepend0;
-});var ax25Ber3datasource3 = ax25Ber3Data.map(function(e) {
-	return e.prepend3;
-});var ax25Ber3datasource4 = ax25Ber3Data.map(function(e) {
-	return e.prepend6;
-});var ax25Ber3datasource5 = ax25Ber3Data.map(function(e) {
-	return e.prepend9;
-});var ax25Ber3XAxis = ax25Ber3Data.map(function(e) {
-	return '' + e.ebno;
+var ax25Ber3Data = [{"ebno":0,"fskBer":0.15865525393145696,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":0.5,"fskBer":0.14474212146104393,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":1,"fskBer":0.1309272963463169,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":1.5,"fskBer":0.11731779978548318,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":2,"fskBer":0.1040286363052162,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":2.5,"fskBer":0.09118037349115199,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":3,"fskBer":0.07889586912978602,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":3.5,"fskBer":0.06729612929213863,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":4,"fskBer":0.05649530051362306,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":4.5,"fskBer":0.04659512487725431,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":5,"fskBer":0.03767898814746325,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":5.5,"fskBer":0.029806226789021444,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":6,"fskBer":0.02300713589277829,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":6.5,"fskBer":0.017279468541572376,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":7,"fskBer":0.012587034122355586,"prepend0":1,"prepend3":1,"prepend6":1,"prepend9":1},{"ebno":7.5,"fskBer":0.008861051096347865,"prepend0":0.999,"prepend3":0.999,"prepend6":0.998,"prepend9":0.998},{"ebno":8,"fskBer":0.006004385813621199,"prepend0":0.987,"prepend3":0.989,"prepend6":0.991,"prepend9":0.992},{"ebno":8.5,"fskBer":0.0038986290439469748,"prepend0":0.959,"prepend3":0.943,"prepend6":0.962,"prepend9":0.962},{"ebno":9,"fskBer":0.0024133110011664415,"prepend0":0.898,"prepend3":0.88,"prepend6":0.878,"prepend9":0.89},{"ebno":9.5,"fskBer":0.001416119261884248,"prepend0":0.793,"prepend3":0.745,"prepend6":0.733,"prepend9":0.763},{"ebno":10,"fskBer":0.0007827011290012748,"prepend0":0.618,"prepend3":0.579,"prepend6":0.53,"prepend9":0.561},{"ebno":10.5,"fskBer":0.00040456251202240215,"prepend0":0.481,"prepend3":0.409,"prepend6":0.354,"prepend9":0.37},{"ebno":11,"fskBer":0.00019398540032568773,"prepend0":0.343,"prepend3":0.27,"prepend6":0.21,"prepend9":0.203},{"ebno":11.5,"fskBer":0.00008551058184999764,"prepend0":0.25,"prepend3":0.17,"prepend6":0.122,"prepend9":0.117},{"ebno":12,"fskBer":0.00003430259232262812,"prepend0":0.196,"prepend3":0.113,"prepend6":0.055,"prepend9":0.073},{"ebno":12.5,"fskBer":0.000012380617585204551,"prepend0":0.165,"prepend3":0.083,"prepend6":0.025,"prepend9":0.033},{"ebno":13,"fskBer":0.000003969252944222963,"prepend0":0.152,"prepend3":0.07,"prepend6":0.01,"prepend9":0.015},{"ebno":13.5,"fskBer":0.0000011142642546405037,"prepend0":0.141,"prepend3":0.064,"prepend6":0.005,"prepend9":0.006},{"ebno":14,"fskBer":0,"prepend0":0.132,"prepend3":0.063,"prepend6":0.004,"prepend9":0.003},{"ebno":14.5,"fskBer":0,"prepend0":0.128,"prepend3":0.062,"prepend6":0.003,"prepend9":0.002},{"ebno":15,"fskBer":0,"prepend0":0.124,"prepend3":0.068,"prepend6":0.003,"prepend9":0.001},{"ebno":15.5,"fskBer":0,"prepend0":0.12,"prepend3":0.067,"prepend6":0.004,"prepend9":0.001},{"ebno":16,"fskBer":0,"prepend0":0.118,"prepend3":0.07,"prepend6":0.003,"prepend9":0},{"ebno":16.5,"fskBer":0,"prepend0":0.116,"prepend3":0.073,"prepend6":0.003,"prepend9":0},{"ebno":17,"fskBer":0,"prepend0":0.117,"prepend3":0.07,"prepend6":0.001,"prepend9":0}];var xAxisKey = 'ebno';
+ax25Ber3Data.forEach(function(e, index) {
+	e.ebno = '' + e.ebno;
 });var ax25Ber3Ctx = document.getElementById('ax25Ber3').getContext('2d');
 const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
     type: 'line',
     data: {
-        labels: ax25Ber3XAxis,
         datasets: [{
         	label: 'Prepend 0',
-            data: ax25Ber3datasource2,
+            data: ax25Ber3Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'prepend0'
+            },
             borderColor: '#7fc35e',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#7fc35e',
             fill: true,
-            borderWidth: 2,
-            tension: 0.2
+            borderWidth: 2,tension: 0.2
         },{
         	label: 'Prepend 3',
-            data: ax25Ber3datasource3,
+            data: ax25Ber3Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'prepend3'
+            },
             borderColor: '#4161CC',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#4161CC',
@@ -832,7 +871,11 @@ const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
             tension: 0.2
         },{
         	label: 'Prepend 6',
-            data: ax25Ber3datasource4,
+            data: ax25Ber3Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'prepend6'
+            },
             borderColor: '#5DD9BE',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#5DD9BE',
@@ -841,7 +884,11 @@ const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
             tension: 0.2
         },{
         	label: 'Prepend 9',
-            data: ax25Ber3datasource5,
+            data: ax25Ber3Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'prepend9'
+            },
             borderColor: '#CF8659',
             backgroundColor: 'rgba(49, 76, 37, 0.1)',
             pointBackgroundColor: '#CF8659',
@@ -850,7 +897,11 @@ const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
             tension: 0.2
         },{
             label: 'FSK',
-            data: ax25Ber3datasource,
+            data: ax25Ber3Data,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'fskBer'
+            },
             borderColor: '#ffcd00',
             backgroundColor: 'rgba(255, 205, 0, 0.1)',
             pointBackgroundColor: '#ffcd00',
@@ -860,6 +911,7 @@ const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
         }]
     },
     options: {
+    	stacked: false,
     	elements: {
     		point: {
     		      radius: 0,
@@ -887,17 +939,16 @@ const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
                         return this.getLabelForValue(value) + ' dB';
                     }, maxTicksLimit: "11"}
         	},y: {
-                beginAtZero: true,max: "1",type: 'logarithmic',title: {
+                beginAtZero: true,
+                position: 'left',max: "1",type: 'logarithmic',title: {
                     display: true,
                     text: 'Bit Error Rate'
                 },
                 ticks: {
-                    
                     callback: function(value, index, ticks) {
                         return value + ' ';
                     }, maxTicksLimit: "10"}
-            }
-        },
+            }},
         plugins: {
             title: {
                 display: true,
@@ -920,8 +971,8 @@ const ax25Ber3Chart = new Chart(ax25Ber3Ctx, {
                             label += ': ';
                         }
                         
-                        if (context.parsed.y !== null) {
-                        	label += context.parsed.y + ' ';
+                        var unit = "";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
                         }
                         
                         return label;

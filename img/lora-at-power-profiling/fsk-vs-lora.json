@@ -1,0 +1,1137 @@
+[
+  {
+    "time": 0,
+    "lora2bytes": 36.62,
+    "fsk2bytes": 37.23
+  },
+  {
+    "time": 0.05,
+    "lora2bytes": 38.18,
+    "fsk2bytes": 39.22
+  },
+  {
+    "time": 0.12,
+    "lora2bytes": 39.54,
+    "fsk2bytes": 41.02
+  },
+  {
+    "time": 0.17,
+    "lora2bytes": 40.57,
+    "fsk2bytes": 42.27
+  },
+  {
+    "time": 0.23,
+    "lora2bytes": 41.49,
+    "fsk2bytes": 43.45
+  },
+  {
+    "time": 0.3,
+    "lora2bytes": 42.38,
+    "fsk2bytes": 44.67
+  },
+  {
+    "time": 0.35,
+    "lora2bytes": 42.77,
+    "fsk2bytes": 45.28
+  },
+  {
+    "time": 0.42,
+    "lora2bytes": 43.22,
+    "fsk2bytes": 46.26
+  },
+  {
+    "time": 0.48,
+    "lora2bytes": 43.45,
+    "fsk2bytes": 48.13
+  },
+  {
+    "time": 0.53,
+    "lora2bytes": 43.62,
+    "fsk2bytes": 48.77
+  },
+  {
+    "time": 0.6,
+    "lora2bytes": 43.72,
+    "fsk2bytes": 49.34
+  },
+  {
+    "time": 0.66,
+    "lora2bytes": 43.82,
+    "fsk2bytes": 48.52
+  },
+  {
+    "time": 0.71,
+    "lora2bytes": 43.73,
+    "fsk2bytes": 48.53
+  },
+  {
+    "time": 0.78,
+    "lora2bytes": 43.89,
+    "fsk2bytes": 48.71
+  },
+  {
+    "time": 0.83,
+    "lora2bytes": 43.98,
+    "fsk2bytes": 47.92
+  },
+  {
+    "time": 0.89,
+    "lora2bytes": 44,
+    "fsk2bytes": 47.79
+  },
+  {
+    "time": 0.96,
+    "lora2bytes": 44.2,
+    "fsk2bytes": 48.27
+  },
+  {
+    "time": 1.01,
+    "lora2bytes": 44.56,
+    "fsk2bytes": 48.17
+  },
+  {
+    "time": 1.08,
+    "lora2bytes": 44.62,
+    "fsk2bytes": 46.86
+  },
+  {
+    "time": 1.14,
+    "lora2bytes": 44.57,
+    "fsk2bytes": 45.66
+  },
+  {
+    "time": 1.19,
+    "lora2bytes": 44.67,
+    "fsk2bytes": 45.04
+  },
+  {
+    "time": 1.26,
+    "lora2bytes": 44.89,
+    "fsk2bytes": 43.94
+  },
+  {
+    "time": 1.32,
+    "lora2bytes": 45.91,
+    "fsk2bytes": 44.02
+  },
+  {
+    "time": 1.37,
+    "lora2bytes": 46.64,
+    "fsk2bytes": 44.23
+  },
+  {
+    "time": 1.44,
+    "lora2bytes": 47.19,
+    "fsk2bytes": 44.53
+  },
+  {
+    "time": 1.5,
+    "lora2bytes": 48.03,
+    "fsk2bytes": 45.26
+  },
+  {
+    "time": 1.55,
+    "lora2bytes": 47.11,
+    "fsk2bytes": 46.63
+  },
+  {
+    "time": 1.62,
+    "lora2bytes": 46.72,
+    "fsk2bytes": 45.68
+  },
+  {
+    "time": 1.67,
+    "lora2bytes": 46.61,
+    "fsk2bytes": 43.71
+  },
+  {
+    "time": 1.73,
+    "lora2bytes": 46.9,
+    "fsk2bytes": 43.96
+  },
+  {
+    "time": 1.8,
+    "lora2bytes": 46.43,
+    "fsk2bytes": 44.37
+  },
+  {
+    "time": 1.85,
+    "lora2bytes": 44.05,
+    "fsk2bytes": 44.15
+  },
+  {
+    "time": 1.92,
+    "lora2bytes": 42.35,
+    "fsk2bytes": 44.72
+  },
+  {
+    "time": 1.98,
+    "lora2bytes": 41.63,
+    "fsk2bytes": 45.3
+  },
+  {
+    "time": 2.03,
+    "lora2bytes": 41.25,
+    "fsk2bytes": 44.59
+  },
+  {
+    "time": 2.1,
+    "lora2bytes": 40.54,
+    "fsk2bytes": 44.98
+  },
+  {
+    "time": 2.16,
+    "lora2bytes": 39.43,
+    "fsk2bytes": 46.03
+  },
+  {
+    "time": 2.21,
+    "lora2bytes": 38.26,
+    "fsk2bytes": 44.97
+  },
+  {
+    "time": 2.28,
+    "lora2bytes": 36.99,
+    "fsk2bytes": 43.84
+  },
+  {
+    "time": 2.33,
+    "lora2bytes": 36.45,
+    "fsk2bytes": 44.79
+  },
+  {
+    "time": 2.39,
+    "lora2bytes": 36.3,
+    "fsk2bytes": 45.26
+  },
+  {
+    "time": 2.46,
+    "lora2bytes": 36.17,
+    "fsk2bytes": 45.08
+  },
+  {
+    "time": 2.51,
+    "lora2bytes": 35.47,
+    "fsk2bytes": 44.61
+  },
+  {
+    "time": 2.58,
+    "lora2bytes": 35.88,
+    "fsk2bytes": 45.88
+  },
+  {
+    "time": 2.64,
+    "lora2bytes": 35.85,
+    "fsk2bytes": 46.32
+  },
+  {
+    "time": 2.69,
+    "lora2bytes": 36.11,
+    "fsk2bytes": 44.86
+  },
+  {
+    "time": 2.76,
+    "lora2bytes": 37.12,
+    "fsk2bytes": 45.45
+  },
+  {
+    "time": 2.82,
+    "lora2bytes": 37.58,
+    "fsk2bytes": 46.06
+  },
+  {
+    "time": 2.87,
+    "lora2bytes": 36.92,
+    "fsk2bytes": 45.08
+  },
+  {
+    "time": 2.94,
+    "lora2bytes": 35.71,
+    "fsk2bytes": 44.96
+  },
+  {
+    "time": 3,
+    "lora2bytes": 34.84,
+    "fsk2bytes": 44.73
+  },
+  {
+    "time": 3.05,
+    "lora2bytes": 35.11,
+    "fsk2bytes": 46.17
+  },
+  {
+    "time": 3.12,
+    "lora2bytes": 35.56,
+    "fsk2bytes": 45.56
+  },
+  {
+    "time": 3.17,
+    "lora2bytes": 35.72,
+    "fsk2bytes": 44.35
+  },
+  {
+    "time": 3.23,
+    "lora2bytes": 35.85,
+    "fsk2bytes": 43.82
+  },
+  {
+    "time": 3.3,
+    "lora2bytes": 36.59,
+    "fsk2bytes": 44.04
+  },
+  {
+    "time": 3.35,
+    "lora2bytes": 36.7,
+    "fsk2bytes": 44.09
+  },
+  {
+    "time": 3.42,
+    "lora2bytes": 36.19,
+    "fsk2bytes": 45.43
+  },
+  {
+    "time": 3.48,
+    "lora2bytes": 35.96,
+    "fsk2bytes": 46.1
+  },
+  {
+    "time": 3.53,
+    "lora2bytes": 36.61,
+    "fsk2bytes": 45.75
+  },
+  {
+    "time": 3.6,
+    "lora2bytes": 37.64,
+    "fsk2bytes": 45.79
+  },
+  {
+    "time": 3.66,
+    "lora2bytes": 37.55,
+    "fsk2bytes": 45.81
+  },
+  {
+    "time": 3.71,
+    "lora2bytes": 36.74,
+    "fsk2bytes": 44.83
+  },
+  {
+    "time": 3.78,
+    "lora2bytes": 36.26,
+    "fsk2bytes": 45.26
+  },
+  {
+    "time": 3.83,
+    "lora2bytes": 36.22,
+    "fsk2bytes": 45.71
+  },
+  {
+    "time": 3.89,
+    "lora2bytes": 36.1,
+    "fsk2bytes": 45.47
+  },
+  {
+    "time": 3.96,
+    "lora2bytes": 36.04,
+    "fsk2bytes": 43.8
+  },
+  {
+    "time": 4.01,
+    "lora2bytes": 36.2,
+    "fsk2bytes": 43.81
+  },
+  {
+    "time": 4.08,
+    "lora2bytes": 35.95,
+    "fsk2bytes": 43.67
+  },
+  {
+    "time": 4.14,
+    "lora2bytes": 35.35,
+    "fsk2bytes": 44.74
+  },
+  {
+    "time": 4.19,
+    "lora2bytes": 36,
+    "fsk2bytes": 44.22
+  },
+  {
+    "time": 4.26,
+    "lora2bytes": 36.83,
+    "fsk2bytes": 44.2
+  },
+  {
+    "time": 4.32,
+    "lora2bytes": 37.25,
+    "fsk2bytes": 44.44
+  },
+  {
+    "time": 4.37,
+    "lora2bytes": 38.36,
+    "fsk2bytes": 44.7
+  },
+  {
+    "time": 4.44,
+    "lora2bytes": 37.61,
+    "fsk2bytes": 44.99
+  },
+  {
+    "time": 4.5,
+    "lora2bytes": 37.34,
+    "fsk2bytes": 45.3
+  },
+  {
+    "time": 4.55,
+    "lora2bytes": 36.53,
+    "fsk2bytes": 46.17
+  },
+  {
+    "time": 4.62,
+    "lora2bytes": 36.96,
+    "fsk2bytes": 45.73
+  },
+  {
+    "time": 4.67,
+    "lora2bytes": 36.38,
+    "fsk2bytes": 44.93
+  },
+  {
+    "time": 4.73,
+    "lora2bytes": 35.87,
+    "fsk2bytes": 46.03
+  },
+  {
+    "time": 4.8,
+    "lora2bytes": 36.01,
+    "fsk2bytes": 45.23
+  },
+  {
+    "time": 4.85,
+    "lora2bytes": 35.99,
+    "fsk2bytes": 44.6
+  },
+  {
+    "time": 4.92,
+    "lora2bytes": 37.29,
+    "fsk2bytes": 45.62
+  },
+  {
+    "time": 4.98,
+    "lora2bytes": 38.53,
+    "fsk2bytes": 45.58
+  },
+  {
+    "time": 5.03,
+    "lora2bytes": 38.27,
+    "fsk2bytes": 45.08
+  },
+  {
+    "time": 5.1,
+    "lora2bytes": 38.55,
+    "fsk2bytes": 44.99
+  },
+  {
+    "time": 5.16,
+    "lora2bytes": 38.67,
+    "fsk2bytes": 45.26
+  },
+  {
+    "time": 5.21,
+    "lora2bytes": 38.01,
+    "fsk2bytes": 44.24
+  },
+  {
+    "time": 5.28,
+    "lora2bytes": 37.02,
+    "fsk2bytes": 44.58
+  },
+  {
+    "time": 5.33,
+    "lora2bytes": 35.64,
+    "fsk2bytes": 45.18
+  },
+  {
+    "time": 5.39,
+    "lora2bytes": 35.54,
+    "fsk2bytes": 44.07
+  },
+  {
+    "time": 5.46,
+    "lora2bytes": 35.65,
+    "fsk2bytes": 42.64
+  },
+  {
+    "time": 5.51,
+    "lora2bytes": 35.56,
+    "fsk2bytes": 42.53
+  },
+  {
+    "time": 5.58,
+    "lora2bytes": 35.49,
+    "fsk2bytes": 41.66
+  },
+  {
+    "time": 5.64,
+    "lora2bytes": 36.97,
+    "fsk2bytes": 39.64
+  },
+  {
+    "time": 5.69,
+    "lora2bytes": 37.49,
+    "fsk2bytes": 38.45
+  },
+  {
+    "time": 5.76,
+    "lora2bytes": 36.79,
+    "fsk2bytes": 37.79
+  },
+  {
+    "time": 5.82,
+    "lora2bytes": 36.71,
+    "fsk2bytes": 37.2
+  },
+  {
+    "time": 5.87,
+    "lora2bytes": 36.67,
+    "fsk2bytes": 36.81
+  },
+  {
+    "time": 5.94,
+    "lora2bytes": 37.14,
+    "fsk2bytes": 37.16
+  },
+  {
+    "time": 6,
+    "lora2bytes": 38,
+    "fsk2bytes": 37.64
+  },
+  {
+    "time": 6.05,
+    "lora2bytes": 37.43,
+    "fsk2bytes": 38.21
+  },
+  {
+    "time": 6.12,
+    "lora2bytes": 36.32,
+    "fsk2bytes": 39.64
+  },
+  {
+    "time": 6.17,
+    "lora2bytes": 35.49,
+    "fsk2bytes": 38.59
+  },
+  {
+    "time": 6.23,
+    "lora2bytes": 35.57,
+    "fsk2bytes": 36.76
+  },
+  {
+    "time": 6.3,
+    "lora2bytes": 35.31,
+    "fsk2bytes": 37.06
+  },
+  {
+    "time": 6.35,
+    "lora2bytes": 35.21,
+    "fsk2bytes": 37.6
+  },
+  {
+    "time": 6.42,
+    "lora2bytes": 36.67,
+    "fsk2bytes": 37.59
+  },
+  {
+    "time": 6.48,
+    "lora2bytes": 37.28,
+    "fsk2bytes": 38.35
+  },
+  {
+    "time": 6.53,
+    "lora2bytes": 36.92,
+    "fsk2bytes": 38.63
+  },
+  {
+    "time": 6.6,
+    "lora2bytes": 37.08,
+    "fsk2bytes": 38.1
+  },
+  {
+    "time": 6.66,
+    "lora2bytes": 36.85,
+    "fsk2bytes": 38.23
+  },
+  {
+    "time": 6.71,
+    "lora2bytes": 36.25,
+    "fsk2bytes": 39.39
+  },
+  {
+    "time": 6.78,
+    "lora2bytes": 37.08,
+    "fsk2bytes": 38.48
+  },
+  {
+    "time": 6.83,
+    "lora2bytes": 37.3,
+    "fsk2bytes": 37.96
+  },
+  {
+    "time": 6.89,
+    "lora2bytes": 37.21,
+    "fsk2bytes": 37.76
+  },
+  {
+    "time": 6.96,
+    "lora2bytes": 37.74,
+    "fsk2bytes": 37.65
+  },
+  {
+    "time": 7.01,
+    "lora2bytes": 37.48,
+    "fsk2bytes": 37.67
+  },
+  {
+    "time": 7.08,
+    "lora2bytes": 37.22,
+    "fsk2bytes": 37.16
+  },
+  {
+    "time": 7.14,
+    "lora2bytes": 37.19,
+    "fsk2bytes": 37.27
+  },
+  {
+    "time": 7.19,
+    "lora2bytes": 37.23,
+    "fsk2bytes": 37.98
+  },
+  {
+    "time": 7.26,
+    "lora2bytes": 37.12,
+    "fsk2bytes": 38.88
+  },
+  {
+    "time": 7.32,
+    "lora2bytes": 37.47,
+    "fsk2bytes": 39.43
+  },
+  {
+    "time": 7.37,
+    "lora2bytes": 36.69,
+    "fsk2bytes": 38.8
+  },
+  {
+    "time": 7.44,
+    "lora2bytes": 36.21,
+    "fsk2bytes": 37.99
+  },
+  {
+    "time": 7.5,
+    "lora2bytes": 35.43,
+    "fsk2bytes": 38.36
+  },
+  {
+    "time": 7.55,
+    "lora2bytes": 35.56,
+    "fsk2bytes": 38.04
+  },
+  {
+    "time": 7.62,
+    "lora2bytes": 35.35,
+    "fsk2bytes": 38.09
+  },
+  {
+    "time": 7.67,
+    "lora2bytes": 35.16,
+    "fsk2bytes": 37.76
+  },
+  {
+    "time": 7.73,
+    "lora2bytes": 33.82,
+    "fsk2bytes": 39.44
+  },
+  {
+    "time": 7.8,
+    "lora2bytes": 34.55,
+    "fsk2bytes": 39.19
+  },
+  {
+    "time": 7.85,
+    "lora2bytes": 35.24,
+    "fsk2bytes": 39.95
+  },
+  {
+    "time": 7.92,
+    "lora2bytes": 35.61,
+    "fsk2bytes": 39.61
+  },
+  {
+    "time": 7.98,
+    "lora2bytes": 35.94,
+    "fsk2bytes": 37.74
+  },
+  {
+    "time": 8.03,
+    "lora2bytes": 35.88,
+    "fsk2bytes": 36.94
+  },
+  {
+    "time": 8.1,
+    "lora2bytes": 34.79,
+    "fsk2bytes": 36.62
+  },
+  {
+    "time": 8.16,
+    "lora2bytes": 35.86,
+    "fsk2bytes": 36.98
+  },
+  {
+    "time": 8.21,
+    "lora2bytes": 36.02,
+    "fsk2bytes": 37.36
+  },
+  {
+    "time": 8.28,
+    "lora2bytes": 35.98,
+    "fsk2bytes": 38.72
+  },
+  {
+    "time": 8.33,
+    "lora2bytes": 37.78,
+    "fsk2bytes": 38.61
+  },
+  {
+    "time": 8.39,
+    "lora2bytes": 37.88,
+    "fsk2bytes": 38.7
+  },
+  {
+    "time": 8.46,
+    "lora2bytes": 37.27,
+    "fsk2bytes": 38.08
+  },
+  {
+    "time": 8.51,
+    "lora2bytes": 37.08,
+    "fsk2bytes": 37.86
+  },
+  {
+    "time": 8.58,
+    "lora2bytes": 36.95,
+    "fsk2bytes": 39.16
+  },
+  {
+    "time": 8.64,
+    "lora2bytes": 36.75,
+    "fsk2bytes": 38.41
+  },
+  {
+    "time": 8.69,
+    "lora2bytes": 36.33,
+    "fsk2bytes": 37.36
+  },
+  {
+    "time": 8.76,
+    "lora2bytes": 36.37,
+    "fsk2bytes": 37.25
+  },
+  {
+    "time": 8.82,
+    "lora2bytes": 36.15,
+    "fsk2bytes": 37.15
+  },
+  {
+    "time": 8.87,
+    "lora2bytes": 37.21,
+    "fsk2bytes": 38.13
+  },
+  {
+    "time": 8.94,
+    "lora2bytes": 36.83,
+    "fsk2bytes": 38.69
+  },
+  {
+    "time": 9,
+    "lora2bytes": 36.31,
+    "fsk2bytes": 38.51
+  },
+  {
+    "time": 9.05,
+    "lora2bytes": 36.64,
+    "fsk2bytes": 38.5
+  },
+  {
+    "time": 9.12,
+    "lora2bytes": 37.33,
+    "fsk2bytes": 38
+  },
+  {
+    "time": 9.17,
+    "lora2bytes": 37.46,
+    "fsk2bytes": 37.8
+  },
+  {
+    "time": 9.23,
+    "lora2bytes": 37.08,
+    "fsk2bytes": 37.71
+  },
+  {
+    "time": 9.3,
+    "lora2bytes": 36.44,
+    "fsk2bytes": 38.71
+  },
+  {
+    "time": 9.35,
+    "lora2bytes": 36.8,
+    "fsk2bytes": 39.22
+  },
+  {
+    "time": 9.42,
+    "lora2bytes": 37.28,
+    "fsk2bytes": 39.23
+  },
+  {
+    "time": 9.48,
+    "lora2bytes": 36.13,
+    "fsk2bytes": 39.46
+  },
+  {
+    "time": 9.53,
+    "lora2bytes": 35.93,
+    "fsk2bytes": 39.34
+  },
+  {
+    "time": 9.6,
+    "lora2bytes": 36.39,
+    "fsk2bytes": 39.19
+  },
+  {
+    "time": 9.66,
+    "lora2bytes": 36.71,
+    "fsk2bytes": 39.06
+  },
+  {
+    "time": 9.71,
+    "lora2bytes": 36.32,
+    "fsk2bytes": 38.98
+  },
+  {
+    "time": 9.78,
+    "lora2bytes": 35.89,
+    "fsk2bytes": 37.74
+  },
+  {
+    "time": 9.83,
+    "lora2bytes": 36.69,
+    "fsk2bytes": 36.9
+  },
+  {
+    "time": 9.89,
+    "lora2bytes": 38.02,
+    "fsk2bytes": 36.67
+  },
+  {
+    "time": 9.96,
+    "lora2bytes": 38.21,
+    "fsk2bytes": 36.64
+  },
+  {
+    "time": 10.01,
+    "lora2bytes": 38.61,
+    "fsk2bytes": 35.41
+  },
+  {
+    "time": 10.08,
+    "lora2bytes": 38.61,
+    "fsk2bytes": 36.18
+  },
+  {
+    "time": 10.14,
+    "lora2bytes": 37.96,
+    "fsk2bytes": 36.84
+  },
+  {
+    "time": 10.19,
+    "lora2bytes": 36.78,
+    "fsk2bytes": 37.37
+  },
+  {
+    "time": 10.26,
+    "lora2bytes": 36.56,
+    "fsk2bytes": 36.77
+  },
+  {
+    "time": 10.32,
+    "lora2bytes": 36.88,
+    "fsk2bytes": 37.18
+  },
+  {
+    "time": 10.37,
+    "lora2bytes": 36.38,
+    "fsk2bytes": 37.53
+  },
+  {
+    "time": 10.44,
+    "lora2bytes": 36.08,
+    "fsk2bytes": 38.43
+  },
+  {
+    "time": 10.5,
+    "lora2bytes": 36.21,
+    "fsk2bytes": 40.02
+  },
+  {
+    "time": 10.55,
+    "lora2bytes": 36.28,
+    "fsk2bytes": 39.64
+  },
+  {
+    "time": 10.62,
+    "lora2bytes": 36.45,
+    "fsk2bytes": 38.76
+  },
+  {
+    "time": 10.67,
+    "lora2bytes": 37.49,
+    "fsk2bytes": 37.96
+  },
+  {
+    "time": 10.73,
+    "lora2bytes": 37.75,
+    "fsk2bytes": 38.89
+  },
+  {
+    "time": 10.8,
+    "lora2bytes": 36.62,
+    "fsk2bytes": 37.75
+  },
+  {
+    "time": 10.85,
+    "lora2bytes": 34.78,
+    "fsk2bytes": 37.83
+  },
+  {
+    "time": 10.92,
+    "lora2bytes": 34.83,
+    "fsk2bytes": 38.71
+  },
+  {
+    "time": 10.98,
+    "lora2bytes": 34.93,
+    "fsk2bytes": 38.32
+  },
+  {
+    "time": 11.03,
+    "lora2bytes": 35.81,
+    "fsk2bytes": 37.85
+  },
+  {
+    "time": 11.1,
+    "lora2bytes": 35.57,
+    "fsk2bytes": 38.21
+  },
+  {
+    "time": 11.16,
+    "lora2bytes": 35.79,
+    "fsk2bytes": 38.41
+  },
+  {
+    "time": 11.21,
+    "lora2bytes": 36.77,
+    "fsk2bytes": 38.19
+  },
+  {
+    "time": 11.28,
+    "lora2bytes": 36.92,
+    "fsk2bytes": 38.24
+  },
+  {
+    "time": 11.33,
+    "lora2bytes": 36.2,
+    "fsk2bytes": 38.28
+  },
+  {
+    "time": 11.39,
+    "lora2bytes": 35.74,
+    "fsk2bytes": 37.62
+  },
+  {
+    "time": 11.46,
+    "lora2bytes": 37.28,
+    "fsk2bytes": 38.33
+  },
+  {
+    "time": 11.51,
+    "lora2bytes": 37.43,
+    "fsk2bytes": 39.76
+  },
+  {
+    "time": 11.58,
+    "lora2bytes": 36.6,
+    "fsk2bytes": 39.81
+  },
+  {
+    "time": 11.64,
+    "lora2bytes": 35.21,
+    "fsk2bytes": 38.61
+  },
+  {
+    "time": 11.69,
+    "lora2bytes": 35.69,
+    "fsk2bytes": 38.11
+  },
+  {
+    "time": 11.76,
+    "lora2bytes": 36.12,
+    "fsk2bytes": 37.6
+  },
+  {
+    "time": 11.82,
+    "lora2bytes": 36.15,
+    "fsk2bytes": 36.77
+  },
+  {
+    "time": 11.87,
+    "lora2bytes": 36.97,
+    "fsk2bytes": 37.07
+  },
+  {
+    "time": 11.94,
+    "lora2bytes": 37.86,
+    "fsk2bytes": 37.78
+  },
+  {
+    "time": 12,
+    "lora2bytes": 37.4,
+    "fsk2bytes": 37.96
+  },
+  {
+    "time": 12.05,
+    "lora2bytes": 36.73,
+    "fsk2bytes": 38.63
+  },
+  {
+    "time": 12.12,
+    "lora2bytes": 36.28,
+    "fsk2bytes": 39.98
+  },
+  {
+    "time": 12.17,
+    "lora2bytes": 37.55,
+    "fsk2bytes": 38.49
+  },
+  {
+    "time": 12.23,
+    "lora2bytes": 38.26,
+    "fsk2bytes": 37.04
+  },
+  {
+    "time": 12.3,
+    "lora2bytes": 37.44,
+    "fsk2bytes": 37.19
+  },
+  {
+    "time": 12.35,
+    "lora2bytes": 36.88,
+    "fsk2bytes": 37.8
+  },
+  {
+    "time": 12.42,
+    "lora2bytes": 36.05,
+    "fsk2bytes": 37.51
+  },
+  {
+    "time": 12.48,
+    "lora2bytes": 36.45,
+    "fsk2bytes": 38.26
+  },
+  {
+    "time": 12.53,
+    "lora2bytes": 36.69,
+    "fsk2bytes": 38.47
+  },
+  {
+    "time": 12.6,
+    "lora2bytes": 36.14,
+    "fsk2bytes": 37.92
+  },
+  {
+    "time": 12.66,
+    "lora2bytes": 35.57,
+    "fsk2bytes": 38.48
+  },
+  {
+    "time": 12.71,
+    "lora2bytes": 36.53,
+    "fsk2bytes": 39.01
+  },
+  {
+    "time": 12.78,
+    "lora2bytes": 37.13,
+    "fsk2bytes": 37.56
+  },
+  {
+    "time": 12.83,
+    "lora2bytes": 36.02,
+    "fsk2bytes": 36.9
+  },
+  {
+    "time": 12.89,
+    "lora2bytes": 33.77,
+    "fsk2bytes": 37.68
+  },
+  {
+    "time": 12.96,
+    "lora2bytes": 32.74,
+    "fsk2bytes": 37.93
+  },
+  {
+    "time": 13.01,
+    "lora2bytes": 32.21,
+    "fsk2bytes": 39.4
+  },
+  {
+    "time": 13.08,
+    "lora2bytes": 32.22,
+    "fsk2bytes": 38.89
+  },
+  {
+    "time": 13.14,
+    "lora2bytes": 32.68,
+    "fsk2bytes": 37.38
+  },
+  {
+    "time": 13.19,
+    "lora2bytes": 33.26,
+    "fsk2bytes": 38.61
+  },
+  {
+    "time": 13.26,
+    "lora2bytes": 33.95,
+    "fsk2bytes": 39.43
+  },
+  {
+    "time": 13.32,
+    "lora2bytes": 34.33,
+    "fsk2bytes": 38.5
+  },
+  {
+    "time": 13.37,
+    "lora2bytes": 34.6,
+    "fsk2bytes": 37.8
+  },
+  {
+    "time": 13.44,
+    "lora2bytes": 35.25,
+    "fsk2bytes": 37.98
+  },
+  {
+    "time": 13.5,
+    "lora2bytes": 35.54,
+    "fsk2bytes": 38.05
+  },
+  {
+    "time": 13.55,
+    "lora2bytes": 35.81,
+    "fsk2bytes": 37.03
+  }
+]
