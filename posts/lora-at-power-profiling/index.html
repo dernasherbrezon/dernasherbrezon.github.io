@@ -539,7 +539,7 @@ const fskVsLoraChart = new Chart(fskVsLoraCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/static/img/lora-at-power-profiling/fskVsLora.png">
 </noscript>
 <p>На нём видно, что:</p>
 <ul>
@@ -749,7 +749,7 @@ const cadChart = new Chart(cadCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/cad.png">
 </noscript>
 <p>Тут сходу видно несколько интересных вещей:</p>
 <ul>
@@ -936,7 +936,7 @@ const fskBaudChart = new Chart(fskBaudCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/fskBaud.png">
 </noscript>
 <p>На графике видна однозначная зависимость. Чем больше скорость передачи, тем меньше тратится энергии. Кстати, график к районе 76800 бод не всегда был такой. Когда я впервые замерил скорость, оказалось, что она в два раза меньше, чем при 38400 бод. И её увеличение вообще никак не влияло на потребление. Немного повозившись, я нашёл багу в коде. При чтении из UART происходило переполнение uint16_t и устанавливалась гораздо меньшая скорость. Упс!</p>
 <p>С отправкой данных в режиме LoRa всё гораздо сложнее. На скорость могут влиять: bandwidth, spreading factor и coding rate. Например, последний контролирует сколько бит используется для кодов коррекции ошибок. Чем больше, тем надёжнее передача, но при этом дольше передаются данные.</p>
@@ -1154,7 +1154,7 @@ const loraBandwidthSfChart = new Chart(loraBandwidthSfCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/loraBandwidthSf.png">
 </noscript>
 <p>Небольшой анализ результатов:</p>
 <ul>
@@ -1331,7 +1331,7 @@ const loraPowerChart = new Chart(loraPowerCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/loraPower.png">
 </noscript>
 <p>Интересно, почему при более высоком уровне мощности графики начинают пересекаться? Я передавал абсолютно одинаковое сообщение с одинаковыми параметрами. Время на передачу было одного и то же. Значит потраченный заряд должен линейно зависить от тока. Но вместо этого зависимость нелинейная.</p>
 <p>Кстати, при 7dbm потребление тока достаточно ровное. А вот при 10dbm уже нет. Шумит внутренний усилитель мощности?</p>
@@ -1482,7 +1482,7 @@ const txNoiseChart = new Chart(txNoiseCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/txNoise.png">
 </noscript>
 <p>Помимо разных уровней мощности, в чипе есть три разных физических пина, к которым может подключаться антенна: RFO_LF, RFO_HF и PA_BOOST. +20dbm может передаваться только по PA_BOOST. Но если передавать +7dbm, то есть ли разница какой пин использовать?</p>
 <pre><code>AT+LORATX=CA,168000012,125000,9,5,18,8,0,1,1,0,7,240,0
@@ -1648,7 +1648,7 @@ const txpinChart = new Chart(txpinCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/txpin.png">
 </noscript>
 <p>Да, разница есть.</p>
 <ul>
@@ -1820,7 +1820,7 @@ const ocp2Chart = new Chart(ocp2Ctx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/ocp2.png">
 </noscript>
 <p>Плата потребляет постоянное количество тока независимо от установленной защиты. Но это не значит, что защита не работает. Возможно, нужно измерять фактическую передаваемую мощность на антенне. К сожалению, у меня нет нужного оборудования, чтобы это проверить.</p>
 <h2 id="сравнение-с-c-версией">Сравнение с C++ версией</h2>
@@ -1994,7 +1994,7 @@ const bluetooth2Chart = new Chart(bluetooth2Ctx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/bluetooth2.png">
 </noscript>
 <p>Тут стоит отметить, что у меня не всегда получалось подключиться к серверу! В какой-то момент мне пришлось поднести плату поближе к RaspberryPI. Тут-то и обнаружилось, что чем ближе к bluetooth серверу, тем быстрее происходит подключение. Даже если я использовал разные версии приложения, то время на подключение было очень разным. Что давало сильный разброс в результатах. Например, с 3-х метров С-код мог потратить <strong>386.8</strong>мКл, а C++ вообще не подключиться. Или с одного метра С++ тратил <strong>308.3</strong>мКл, а С-код - <strong>150.2</strong>мКл. В общем, так себе получился тест.</p>
 <h3 id="глубокий-сон">Глубокий сон</h3>
@@ -2148,7 +2148,7 @@ const dsCycleChart = new Chart(dsCycleCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/dsCycle.png">
 </noscript>
 <ul>
 <li>Потребление энергии сильно зависит от скорости подключения к bluetooth серверу. Причём иногда это занимает 2 секунды, а иногда 7. Из-за такой нестабильности сложно делать какие-то выводы</li>
@@ -2337,7 +2337,7 @@ const uartSymbol2Chart = new Chart(uartSymbol2Ctx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="/img/lora-at-power-profiling/uartSymbol2.png">
 </noscript>
 <ul>
 <li>Каждое нажатие вызывает скачок потребления тока примерно на <strong>10м</strong>А и длится примерно <strong>1.4</strong>мс</li>

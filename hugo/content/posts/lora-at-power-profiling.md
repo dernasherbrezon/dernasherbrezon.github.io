@@ -59,7 +59,7 @@ AT+FSKRX=433200012,4800,5000,4,12AD,0,2,1,4,5000,20000
 
 В итоге получился следующий график:
 
-{{< chartjs url="/static/img/lora-at-power-profiling/fsk-vs-lora.json" id="fskVsLora" title="Сравнение FSK и LoRa" datasource="fsk2bytes" datasourceLabel="FSK" datasource2="lora2bytes" datasource2Label="LoRa" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/fsk-vs-lora.json" id="fskVsLora" title="Сравнение FSK и LoRa" datasource="fsk2bytes" datasourceLabel="FSK" datasource2="lora2bytes" datasource2Label="LoRa" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/static/img/lora-at-power-profiling/fskVsLora.png" >}}
 
 На нём видно, что:
 
@@ -129,7 +129,7 @@ AT+LORACADRX=433200012,125000,9,5,18,10,8,4,0,0,1,0
 
 В итоге мне удалось получить:
 
-{{< chartjs url="/static/img/lora-at-power-profiling/cad.json" id="cad" title="Сравнение обычного и CAD режимов" datasource="cad" datasourceLabel="CAD режим" datasource2="normal" datasource2Label="Обычный режим" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/cad.json" id="cad" title="Сравнение обычного и CAD режимов" datasource="cad" datasourceLabel="CAD режим" datasource2="normal" datasource2Label="Обычный режим" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/img/lora-at-power-profiling/cad.png" >}}
 
 Тут сходу видно несколько интересных вещей:
 
@@ -170,7 +170,7 @@ y2AxisLabel="Заряд"
 y2AxisUnit="мКл"
 xAxis="baud" 
 xAxisLabel="Бод"
-xAxisUnit="" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+xAxisUnit="" staticSrc="/img/lora-at-power-profiling/fskBaud.png" >}}
 
 На графике видна однозначная зависимость. Чем больше скорость передачи, тем меньше тратится энергии. Кстати, график к районе 76800 бод не всегда был такой. Когда я впервые замерил скорость, оказалось, что она в два раза меньше, чем при 38400 бод. И её увеличение вообще никак не влияло на потребление. Немного повозившись, я нашёл багу в коде. При чтении из UART происходило переполнение uint16_t и устанавливалась гораздо меньшая скорость. Упс!
 
@@ -191,7 +191,7 @@ datasource6="sf10" datasource6Label="sf10"
 datasource7="sf11" datasource7Label="sf11" 
 datasource="sf12" datasourceLabel="sf12" 
 yAxisLabel="Заряд" yAxisUnit="мКл" 
-xAxis="bandwidth" xAxisLabel="Bandwidth" xAxisUnit="Гц" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+xAxis="bandwidth" xAxisLabel="Bandwidth" xAxisUnit="Гц" staticSrc="/img/lora-at-power-profiling/loraBandwidthSf.png" >}}
 
 Небольшой анализ результатов:
 
@@ -219,13 +219,13 @@ y2AxisLabel="Заряд"
 y2AxisUnit="мКл"
 xAxis="level" 
 xAxisLabel="Уровень"
-xAxisUnit="" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+xAxisUnit="" staticSrc="/img/lora-at-power-profiling/loraPower.png" >}}
 
 Интересно, почему при более высоком уровне мощности графики начинают пересекаться? Я передавал абсолютно одинаковое сообщение с одинаковыми параметрами. Время на передачу было одного и то же. Значит потраченный заряд должен линейно зависить от тока. Но вместо этого зависимость нелинейная.
 
 Кстати, при 7dbm потребление тока достаточно ровное. А вот при 10dbm уже нет. Шумит внутренний усилитель мощности?
 
-{{< chartjs url="/static/img/lora-at-power-profiling/txnoise.json" id="txNoise" title="7dbm и 10dbm" datasource="7dbm" datasourceLabel="7dbm" datasource2="10dbm" datasource2Label="10dbm" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/txnoise.json" id="txNoise" title="7dbm и 10dbm" datasource="7dbm" datasourceLabel="7dbm" datasource2="10dbm" datasource2Label="10dbm" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/lora-at-power-profiling/txNoise.png" >}}
 
 Помимо разных уровней мощности, в чипе есть три разных физических пина, к которым может подключаться антенна: RFO_LF, RFO_HF и PA_BOOST. +20dbm может передаваться только по PA_BOOST. Но если передавать +7dbm, то есть ли разница какой пин использовать?
 
@@ -235,7 +235,7 @@ AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,7,240,0
 AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,7,240,1
 ```
 
-{{< chartjs url="/static/img/lora-at-power-profiling/txpin.json" id="txpin" title="Зависимость уровня потребления тока от пина" datasource="lf7dbm" datasourceLabel="RFO_LF" datasource2="hf7dbm" datasource2Label="RFO_HF" datasource3="boost7dbm" datasource3Label="PA_BOOST" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/txpin.json" id="txpin" title="Зависимость уровня потребления тока от пина" datasource="lf7dbm" datasourceLabel="RFO_LF" datasource2="hf7dbm" datasource2Label="RFO_HF" datasource3="boost7dbm" datasource3Label="PA_BOOST" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/lora-at-power-profiling/txpin.png" >}}
 
 Да, разница есть.
 
@@ -252,7 +252,7 @@ AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,140,1
 AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,45,1
 ```
 
-{{< chartjs url="/static/img/lora-at-power-profiling/ocp2.json" id="ocp2" title="Токовая защита усилителя" datasource="ocp240" datasourceLabel="240мА" datasource2="ocp140" datasource2Label="140мА" datasource3="ocp45" datasource3Label="45мА" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/ocp2.json" id="ocp2" title="Токовая защита усилителя" datasource="ocp240" datasourceLabel="240мА" datasource2="ocp140" datasource2Label="140мА" datasource3="ocp45" datasource3Label="45мА" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/lora-at-power-profiling/ocp2.png" >}}
 
 Плата потребляет постоянное количество тока независимо от установленной защиты. Но это не значит, что защита не работает. Возможно, нужно измерять фактическую передаваемую мощность на антенне. К сожалению, у меня нет нужного оборудования, чтобы это проверить.
 
@@ -275,7 +275,7 @@ AT+BLUETOOTH=B8:27:EB:6C:7C:F8
  * запустит подключение к bluetooth серверу по адресу ```B8:27:EB:6C:7C:F8```
  * выполнит поиск нужного GATT сервиса и характеристики
 
-{{< chartjs url="/static/img/lora-at-power-profiling/ble.json" id="bluetooth2" title="Потребление тока при подключении к bluetooth серверу" datasource="blec" datasourceLabel="С" datasource2="blecpp" datasource2Label="С++" datasource3="blec2" datasource3Label="С около RPi" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/ble.json" id="bluetooth2" title="Потребление тока при подключении к bluetooth серверу" datasource="blec" datasourceLabel="С" datasource2="blecpp" datasource2Label="С++" datasource3="blec2" datasource3Label="С около RPi" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/img/lora-at-power-profiling/bluetooth2.png" >}}
 
 Тут стоит отметить, что у меня не всегда получалось подключиться к серверу! В какой-то момент мне пришлось поднести плату поближе к RaspberryPI. Тут-то и обнаружилось, что чем ближе к bluetooth серверу, тем быстрее происходит подключение. Даже если я использовал разные версии приложения, то время на подключение было очень разным. Что давало сильный разброс в результатах. Например, с 3-х метров С-код мог потратить **386.8**мКл, а C++ вообще не подключиться. Или с одного метра С++ тратил **308.3**мКл, а С-код - **150.2**мКл. В общем, так себе получился тест.
 
@@ -289,7 +289,7 @@ AT+DSCONFIG=15000,15000
 
 Во время активной фазы lora-at подключается по bluetooth к серверу, получает расписание следующего включения и снова засыпает.
 
-{{< chartjs url="/static/img/lora-at-power-profiling/ds-cycle.json" id="dsCycle" title="Активная фаза" datasource="dsc" datasourceLabel="Версия С" datasource2="dscpp" datasource2Label="Версия С++" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/ds-cycle.json" id="dsCycle" title="Активная фаза" datasource="dsc" datasourceLabel="Версия С" datasource2="dscpp" datasource2Label="Версия С++" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="" staticSrc="/img/lora-at-power-profiling/dsCycle.png" >}}
 
  * Потребление энергии сильно зависит от скорости подключения к bluetooth серверу. Причём иногда это занимает 2 секунды, а иногда 7. Из-за такой нестабильности сложно делать какие-то выводы
  * Потребление энергии достаточно сильно варьируется: от **474.6**мКл (С++ версия) до **179.2**мКл (С версия)
@@ -355,7 +355,7 @@ while (true) {
 
 Мне настолько понравилось разбираться в потреблении энергии, что я решил измерить совершенно странные вещи. Например, мне стало интересно сколько энергии тратится на обработку полученного символа по UART. Сильно увеличенный график выглядит следующим образом:
 
-{{< chartjs url="/static/img/lora-at-power-profiling/ppk-20231126T100310.json" id="uartSymbol2" title="Потребление тока при передаче символа" datasource="uartSymbol" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/img/smart-usb-meter-a3-b/razernaga2.png" >}}
+{{< chartjs url="/static/img/lora-at-power-profiling/ppk-20231126T100310.json" id="uartSymbol2" title="Потребление тока при передаче символа" datasource="uartSymbol" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" xAxis="time" xAxisLabel="Время" xAxisUnit="мс" staticSrc="/img/lora-at-power-profiling/uartSymbol2.png" >}}
 
  * Каждое нажатие вызывает скачок потребления тока примерно на **10м**А и длится примерно **1.4**мс
  * Не очень понятно почему два скачка
