@@ -5,7 +5,6 @@ draft: false
 videos: [ https://youtu.be/_DowEhVwboI ]
 tags:
   - esp32
-  - lora
   - r2lora
 ---
 Эта статья продолжает цикл разработки проекта [r2lora](https://github.com/dernasherbrezon/r2lora). Предыдущие статьи:
