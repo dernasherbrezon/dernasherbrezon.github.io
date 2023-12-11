@@ -3,7 +3,6 @@ title: "Сравнение различных флагов компиляции 
 date: 2021-09-23T21:20:18+01:00
 draft: false
 tags:
-  - c
   - raspberrypi
   - производительность
   - testing
