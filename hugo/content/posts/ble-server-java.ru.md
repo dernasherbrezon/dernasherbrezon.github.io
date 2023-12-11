@@ -4,7 +4,6 @@ date: 2023-01-17T08:22:17+01:00
 draft: false
 tags:
   - java
-  - lora
   - bluetooth
   - r2cloud
 ---
