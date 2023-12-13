@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='In one of my previous posts, I began optimizing the power consumption of ESP32 and LoRa. The idea was to put the microcontroller to sleep and wake it up only when data received. But how to know when to wake up? It all depends on the specific application. If you need to transmit data at regular intervals, you can hardcode it in the firmware. But what if data needs to be received at unpredictable intervals?'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='BLE server using Java • dernasherbrezon'>
+<meta property='og:description' content='In one of my previous posts, I began optimizing the power consumption of ESP32 and LoRa. The idea was to put the microcontroller to sleep and wake it up only when data received. But how to know when to wake up? It all depends on the specific application. If you need to transmit data at regular intervals, you can hardcode it in the firmware. But what if data needs to be received at unpredictable intervals?'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/ble-server-java/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='bluetooth'><meta property='article:tag' content='r2cloud'><meta property='article:published_time' content='2023-01-17T08:22:17&#43;01:00'/><meta property='article:modified_time' content='2023-01-17T08:22:17&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>BLE server using Java • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/ble-server-java/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/ble-server-java/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/ble-server-java/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/ble-server-java/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/ble-server-java/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>BLE server using Java</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2023-01-17T08:22:17&#43;01:00'>17 Jan 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>In one of my <a href="https://dernasherbrezon.com/en/posts/lora-deep-sleep/">previous posts</a>, I began optimizing the power consumption of ESP32 and LoRa. The idea was to put the microcontroller to sleep and wake it up only when data received. But how to know when to wake up? It all depends on the specific application. If you need to transmit data at regular intervals, you can hardcode it in the firmware. But what if data needs to be received at unpredictable intervals? In my project <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>, that&rsquo;s precisely the case.</p>
+<h2 id="workflow">Workflow</h2>
+<p>r2cloud creates a schedule for satellite passes based on various parameters. As soon as a satellite is in the field of view, data reception begins. Once the satellite goes below the horizon, the signal is processed and sent to the server.</p>
+<p>ESP32 needs to receive the start time of the next observation from the server and then go to sleep. Upon waking up, it needs to fetch the parameters again and start receiving the signal. The workflow can be described with a sequence diagram:</p>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 422 762"><defs/><g><rect x="140" y="0" width="100" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><path d="M 190 40 L 190 760" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="all"/><g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px"><text x="189.5" y="24.5">ESP32</text></g><rect x="185" y="70" width="10" height="120" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><path d="M 195 140 L 250 140 L 250 170 L 201.37 170" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 196.12 170 L 203.12 166.5 L 201.37 170 L 203.12 173.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 195 320 L 250 320 L 250 350 L 201.37 350" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 196.12 350 L 203.12 346.5 L 201.37 350 L 203.12 353.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="185" y="390" width="10" height="160" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><path d="M 185 440 L 63.12 440.16" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 56.12 440.17 L 63.11 436.66 L 63.12 443.66 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="185" y="600" width="10" height="120" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><path d="M 185 610 L 63.12 610.16" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 56.12 610.17 L 63.11 606.66 L 63.12 613.66 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="11px"><rect fill="rgb(255, 255, 255)" stroke="none" x="74" y="595" width="94" height="14" stroke-width="0"/><text x="119.5" y="604.58">Stop RX and sleep</text></g><rect x="60" y="280" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 295px; margin-left: 61px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Wake up <span style="font-size: 11px; background-color: rgb(255, 255, 255);">and start RX</span></div></div></div></foreignObject><text x="120" y="299" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Wake up and start RX</text></switch></g><rect x="320" y="0" width="100" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><path d="M 370 40 L 370 760" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="all"/><g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px"><text x="369.5" y="24.5">r2cloud</text></g><path d="M 190 260 L 356.88 260" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 363.88 260 L 356.88 263.5 L 356.88 256.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="365" y="70" width="10" height="690" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><path d="M 195 90 L 340 90 Q 350 90 352.89 90 L 355.77 90" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 362.77 90.01 L 355.77 93.5 L 355.77 86.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 365 120.04 L 203.12 120.04" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 196.12 120.04 L 203.12 116.54 L 203.12 123.54 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="0" y="0" width="100" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><path d="M 50 40 L 50 760" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="all"/><g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px"><text x="49.5" y="24.5">sx127x</text></g><rect x="45" y="290" width="10" height="340" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><rect x="185" y="250" width="10" height="110" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><rect x="60" y="370" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 385px; margin-left: 61px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">New packet interrupt</div></div></div></foreignObject><text x="120" y="389" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">New packet interrupt</text></switch></g><path d="M 55 400 L 176.88 400" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 183.88 400 L 176.88 403.5 L 176.88 396.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 55 480 L 176.88 480" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 183.88 480 L 176.88 483.5 L 176.88 476.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="60" y="450" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 465px; margin-left: 61px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Packet data</div></div></div></foreignObject><text x="120" y="469" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Packet data</text></switch></g><path d="M 195.28 490 L 290 490 Q 300 490 310 490 L 356.88 490" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 363.88 490 L 356.88 493.5 L 356.88 486.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="220" y="460" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 475px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Packet data</div></div></div></foreignObject><text x="280" y="479" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Packet data</text></switch></g><path d="M 195 510 L 250 510 L 250 540 L 201.37 540" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 196.12 540 L 203.12 536.5 L 201.37 540 L 203.12 543.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 195 630 L 356.88 630" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 363.88 630 L 356.88 633.5 L 356.88 626.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="215" y="600" width="130" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 615px; margin-left: 280px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: nowrap;">Get next observation</div></div></div></foreignObject><text x="280" y="619" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Get next observation</text></switch></g><path d="M 195 680 L 250 680 L 250 710 L 201.37 710" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 196.12 710 L 203.12 706.5 L 201.37 710 L 203.12 713.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 360 660 L 203.12 660" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 196.12 660 L 203.12 656.5 L 203.12 663.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="11px"><rect fill="rgb(255, 255, 255)" stroke="none" x="253" y="645" width="50" height="14" stroke-width="0"/><text x="277" y="654.5">in 2 hours</text></g><rect x="220" y="90" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 105px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">In 10 minutes</div></div></div></foreignObject><text x="280" y="109" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">In 10 minutes</text></switch></g><rect x="220" y="60" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 75px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Get next observation</div></div></div></foreignObject><text x="280" y="79" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Get next observation</text></switch></g><rect x="260" y="140" width="70" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 68px; height: 1px; padding-top: 155px; margin-left: 261px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Sleep for<br style="border-color: var(--border-color);" /><span style="">10 minutes</span></div></div></div></foreignObject><text x="295" y="159" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Sleep for...</text></switch></g><rect x="220" y="230" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 245px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Get next observation</div></div></div></foreignObject><text x="280" y="249" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Get next observation</text></switch></g><path d="M 365 289.42 L 203.12 289.42" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 196.12 289.42 L 203.12 285.92 L 203.12 292.92 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="220" y="260" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 275px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Now</div></div></div></foreignObject><text x="280" y="279" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Now</text></switch></g><rect x="250" y="310" width="110" height="50" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 108px; height: 1px; padding-top: 335px; margin-left: 251px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Sleep until <br style="border-color: var(--border-color);" /><span style="">end of observation </span><br style="border-color: var(--border-color);" /><span style="">or interrupt</span></div></div></div></foreignObject><text x="305" y="339" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Sleep until...</text></switch></g><path d="M 183.93 310.06 L 150 310 L 62.34 309.74" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 57.09 309.72 L 64.1 306.24 L 62.34 309.74 L 64.08 313.24 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="60" y="410" width="120" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 425px; margin-left: 61px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Read packet</div></div></div></foreignObject><text x="120" y="429" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Read packet</text></switch></g><rect x="250" y="500" width="110" height="50" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 108px; height: 1px; padding-top: 525px; margin-left: 251px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Sleep until <br style="border-color: var(--border-color);" /><span style="">end of observation </span><br style="border-color: var(--border-color);" /><span style="">or interrupt</span></div></div></div></foreignObject><text x="305" y="529" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Sleep until...</text></switch></g><rect x="250" y="680" width="70" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 68px; height: 1px; padding-top: 695px; margin-left: 251px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Sleep for <br style="border-color: var(--border-color);" /><span style="">2 hours</span></div></div></div></foreignObject><text x="285" y="699" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Sleep for...</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>In this diagram, communication between ESP32 and r2cloud is minimized to save energy. Additionally, the microcontroller acts as an active component that initiates all interactions, solving the problem of polling data, timeouts, and more.</p>
+<p>Now, the next step is to determine how ESP32 should receive data from the server. There are several options:</p>
+<ul>
+<li>Wired connection through a serial interface. However, this defeats the purpose of deep sleep and energy savings, as a wired connection can also provide power.</li>
+<li>LoRa. This seems enticing. ESP32 receives data from the satellite and retransmits it. A <a href="https://dernasherbrezon.com/en/posts/lora-raspberrypi/">LoRa module on RaspberryPI</a> receives the data and sends it to r2cloud. But this requires purchasing a separate LoRa module, soldering, and configuration, making the system more complex.</li>
+<li>Bluetooth. Available on both ESP32 and RaspberryPI.</li>
+<li>Wi-Fi. To send a small message, one needs to connect to an access point, encrypt the data, and send it. Not only does this consume a lot of energy, but it also requires a separate access point.</li>
+</ul>
+<p>I decided to explore Bluetooth and see what can be achieved.</p>
+<h2 id="ble">BLE</h2>
+<p>BLE (Bluetooth Low Energy) is a wireless technology with low power consumption. Its main idea is that two devices do not have to keep the connection constantly active, thereby saving energy. Instead, there are special &ldquo;profiles&rdquo; - GAP and GATT, which provide a software model for sending short messages between two devices. From a programmer&rsquo;s perspective, it looks as if the two devices are connected and active.</p>
+<p>Every device that wants to provide access to its capabilities via BLE must create a tree-like structure of properties, methods, and services in memory. This structure is defined in the GATT (Generic Attribute Profile) specification.</p>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 617 291" style="background-color: rgb(255, 255, 255);"><defs/><g><rect x="45" y="255" width="560" height="30" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 558px; height: 1px; padding-top: 270px; margin-left: 46px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Bluetooth radio</div></div></div></foreignObject><text x="325" y="274" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Bluetooth radio</text></switch></g><rect x="45" y="215" width="560" height="30" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 558px; height: 1px; padding-top: 230px; margin-left: 46px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Baseband</div></div></div></foreignObject><text x="325" y="234" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Baseband</text></switch></g><rect x="45" y="175" width="560" height="30" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 558px; height: 1px; padding-top: 190px; margin-left: 46px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Low Energy Link Layer (LE LL)</div></div></div></foreignObject><text x="325" y="194" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Low Energy Link Layer (LE LL)</text></switch></g><rect x="45" y="135" width="560" height="30" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 558px; height: 1px; padding-top: 150px; margin-left: 46px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Host Controller Interface (HCI)</div></div></div></foreignObject><text x="325" y="154" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Host Controller Interface (HCI)</text></switch></g><path d="M 25 125 L 615 125" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke"/><rect x="45" y="85" width="560" height="30" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 558px; height: 1px; padding-top: 100px; margin-left: 46px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Logical Link Control and Adaptation Protocol (L2CAP)</div></div></div></foreignObject><text x="325" y="104" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Logical Link Control and Adaptation Protocol (L2CAP)</text></switch></g><rect x="45" y="45" width="270" height="30" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 268px; height: 1px; padding-top: 60px; margin-left: 46px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Low Energy Attribute Protocol (ATT)</div></div></div></foreignObject><text x="180" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Low Energy Attribute Protocol (ATT)</text></switch></g><rect x="325" y="45" width="280" height="30" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 60px; margin-left: 326px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Low Energy Security Manager Protocol (SMP)</div></div></div></foreignObject><text x="465" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Low Energy Security Manager Protocol (SMP)</text></switch></g><rect x="45" y="5" width="270" height="30" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 268px; height: 1px; padding-top: 20px; margin-left: 46px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Generic Attribute Profile (GATT)</div></div></div></foreignObject><text x="180" y="24" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Generic Attribute Profile (GATT)</text></switch></g><rect x="325" y="5" width="280" height="30" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 20px; margin-left: 326px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Generic Access Profile (GAP)</div></div></div></foreignObject><text x="465" y="24" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Generic Access Profile (GAP)</text></switch></g><rect x="-65" y="195" width="160" height="30" fill="none" stroke="none" transform="rotate(-90,15,210)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 15 210)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 210px; margin-left: -64px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font style="font-size: 18px;">Controller</font></div></div></div></foreignObject><text x="15" y="214" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Controller</text></switch></g><rect x="-45" y="45" width="120" height="30" fill="none" stroke="none" transform="rotate(-90,15,60)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 15 60)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 60px; margin-left: -44px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font style="font-size: 18px;">Host</font></div></div></div></foreignObject><text x="15" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Host</text></switch></g><path d="M 185 168.63 L 185 121.37" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 185 173.88 L 181.5 166.88 L 185 168.63 L 188.5 166.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 185 116.12 L 188.5 123.12 L 185 121.37 L 181.5 123.12 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>As an example, I connected to my watch using the program <a href="https://www.nordicsemi.com/Products/Development-tools/nrf-connect-for-desktop">nRF Connect</a>:</p>
+<p><img src="/img/ble-server-java/1.png" alt=""></p>
+<p>On the right, you can see part of the public information that the device publishes:</p>
+<ul>
+<li>Service &ldquo;Device information&rdquo;
+<ul>
+<li>Characteristic &ldquo;Model Number String&rdquo;</li>
+<li>Characteristic &ldquo;Manufacturer Name String&rdquo;</li>
+</ul>
+</li>
+</ul>
+<p>I need to create very similar structure on RaspberryPI and expose it for ESP32. However here come some difficulties due to different operating systems and APIs.</p>
+<h2 id="bluez">Bluez</h2>
+<p>To work with Bluetooth in Linux, a complete stack called <a href="https://github.com/bluez/bluez">bluez</a> is used. In this context, the stack implies a set of drivers for Linux and implementations of various Bluetooth profiles that can operate at different levels of the OSI model. This also includes various programs for managing Bluetooth, such as hcitool or gatttool.</p>
+<p>In my case, the most interesting bluez profiles are GAP and GATT. The first is a lightweight device discovery protocol, and the second is a way to organize objects and fields in a tree.</p>
+<p>bluez allows you to control the device using D-Bus interfaces and objects.</p>
+<h2 id="d-bus">D-Bus</h2>
+<p>D-Bus is a system for interprocess communication in Linux. It serves as a kind of central bus through which applications can send signals, invoke methods, and retrieve properties from one another.</p>
+<p><img src="/img/ble-server-java/4.png" alt=""></p>
+<p>bluez creates a tree of objects and properties in D-Bus for each connected device. By working with these objects, you can receive or send data to the devices. It&rsquo;s a bit intricate, but this approach allows you to connect several different Bluetooth devices to one physical Bluetooth chip and work with each of them independently.</p>
+<p>In the screenshot above, you can see that bluez created a D-Bus object <code>org.bluez.Device1</code> for the connected device <code>78:DD:08:A3:A7:52</code>. This device provides access to several services and their properties:</p>
+<ul>
+<li>service0001
+<ul>
+<li>characteristic0006</li>
+</ul>
+</li>
+<li>service0010
+<ul>
+<li>characteristic0012</li>
+</ul>
+</li>
+<li>service0100</li>
+<li>service0200
+<ul>
+<li>characteristic0204</li>
+<li>characteristic0212</li>
+</ul>
+</li>
+<li>service0680</li>
+</ul>
+<p>In this example, the remote device provides access to its services. But what if you need to do the opposite: expose access to RaspberryPI? For this, you need to write an application that registers the necessary services in bluez.</p>
+<h2 id="gatt-server">GATT Server</h2>
+<p>In general, the scheme looks like this:</p>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 522 422"><defs/><g><path d="M 140 350 L 140 370 L 40 370 L 40 260" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><rect x="120" y="41" width="40" height="309" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 38px; height: 1px; padding-top: 196px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">bluez</div></div></div></foreignObject><text x="140" y="199" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">bluez</text></switch></g><rect x="200" y="0" width="200" height="420" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><rect x="340" y="0" width="60" height="30" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 58px; height: 1px; padding-top: 15px; margin-left: 341px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">D-Bus</div></div></div></foreignObject><text x="370" y="19" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">D-Bus</text></switch></g><path d="M 440 180 L 386.37 180" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 381.12 180 L 388.12 176.5 L 386.37 180 L 388.12 183.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 480 200 L 480 300 L 386.37 300" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 381.12 300 L 388.12 296.5 L 386.37 300 L 388.12 303.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 480 160 L 480 60 L 386.37 60" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 381.12 60 L 388.12 56.5 L 386.37 60 L 388.12 63.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 480 200 L 480 370 L 386.37 370" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 381.12 370 L 388.12 366.5 L 386.37 370 L 388.12 373.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="440" y="160" width="80" height="40" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 180px; margin-left: 441px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Application</div></div></div></foreignObject><text x="480" y="184" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Application</text></switch></g><path d="M 220 60 L 190 60 L 166.37 60.37" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 161.12 60.45 L 168.06 56.84 L 166.37 60.37 L 168.17 63.84 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="220" y="40" width="160" height="40" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 60px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Service Manager</div></div></div></foreignObject><text x="300" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Service Manager</text></switch></g><path d="M 220 300 L 190 300 L 165.53 300.2" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 160.28 300.24 L 167.25 296.69 L 165.53 300.2 L 167.31 303.68 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="220" y="280" width="160" height="40" fill="#dae8fc" stroke="#6c8ebf" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 300px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Advertising Manager</div></div></div></foreignObject><text x="300" y="304" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Advertising Manager</text></switch></g><rect x="220" y="90" width="160" height="180" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 180px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><div style="border-color: var(--border-color); text-align: left;">Service1:</div><div style="border-color: var(--border-color); text-align: left;"><ul style="border-color: var(--border-color);"><li style="border-color: var(--border-color);">Characteristic1</li><ul style="border-color: var(--border-color);"><li style="border-color: var(--border-color);">Description1</li></ul><li style="border-color: var(--border-color);">Characretistic2</li><ul style="border-color: var(--border-color);"><li style="border-color: var(--border-color);">Description1</li></ul></ul></div><div style="border-color: var(--border-color); text-align: left;">Service2:</div><div style="border-color: var(--border-color); text-align: left;"><ul style="border-color: var(--border-color);"><li style="border-color: var(--border-color);">Characteristic1</li></ul></div><div style="border-color: var(--border-color); text-align: left;">ServiceN:</div></div></div></div></foreignObject><text x="300" y="184" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Service1:...</text></switch></g><path d="M 0 160 L 40 200 L 80 160 M 40 160 L 40 260" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="220" y="340" width="160" height="60" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 370px; margin-left: 221px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><div style=""><div style="text-align: left;"><br /></div></div></div></div></div></foreignObject><text x="300" y="374" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">&#xa;</text></switch></g><rect x="220" y="340" width="160" height="60" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe flex-start; width: 158px; height: 1px; padding-top: 347px; margin-left: 222px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><div style="border-color: var(--border-color); caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; text-align: left;"> Advertisement:</div><div style="border-color: var(--border-color); caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: center; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none;"><ul style="border-color: var(--border-color);"><li style="border-color: var(--border-color); text-align: left;">Service1</li></ul></div></div></div></div></foreignObject><text x="222" y="359" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">Advertisement:...</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>The application must create a structure of services and their properties in D-Bus:</p>
+<ul>
+<li>Services must implement the interface <code>org.bluez.GattService1</code></li>
+<li>Properties must implement the interface <code>org.bluez.GattCharacteristic1</code></li>
+</ul>
+<p>Despite the fact that the interface names look very similar to regular Java objects, they have nothing in common with Java. They are simply strings from the bluez specification.</p>
+<p>Once the objects are created, you need to find the Service Manager object in D-Bus and register the application with it. The Service Manager is a D-Bus object that implements the interface <code>org.bluez.GattManager1</code>.</p>
+<p>Next, somehow inform all devices in the vicinity about the services supported by RaspberryPI. To do this:</p>
+<ul>
+<li>Create a D-Bus object of type <code>org.bluez.LEAdvertisement1</code>, which includes a list of services available to external devices</li>
+<li>Register this object in the Advertising Manager</li>
+</ul>
+<h2 id="integration-with-java">Integration with Java</h2>
+<p>So, the task boils down to connecting to D-Bus and registering the necessary services. By default, you can only connect to D-Bus through <a href="https://en.wikipedia.org/wiki/Unix_domain_socket">unix domain socket (UDS)</a>: <code>/var/run/dbus/system_bus_socket</code>. In Java, UDS support appeared only in version 16. Working with them is very similar to regular sockets:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ServerSocketChannel serverChannel <span style="color:#f92672">=</span> ServerSocketChannel
+  <span style="color:#f92672">.</span><span style="color:#a6e22e">open</span><span style="color:#f92672">(</span>StandardProtocolFamily<span style="color:#f92672">.</span><span style="color:#a6e22e">UNIX</span><span style="color:#f92672">);</span>
+serverChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">bind</span><span style="color:#f92672">(</span>socketAddress<span style="color:#f92672">);</span>
+SocketChannel channel <span style="color:#f92672">=</span> serverChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    readSocketMessage<span style="color:#f92672">(</span>channel<span style="color:#f92672">)</span>
+      <span style="color:#f92672">.</span><span style="color:#a6e22e">ifPresent</span><span style="color:#f92672">(</span>message <span style="color:#f92672">-&gt;</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">printf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[Client message] %s&#34;</span><span style="color:#f92672">,</span> message<span style="color:#f92672">));</span>
+    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>100<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>But better use existing library like <a href="https://github.com/hypfvieh">hypfvieh</a>. It will provide a nice dbus abstraction and expose all required APIs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>bluez-dbus<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;version&gt;</span>0.1.4<span style="color:#f92672">&lt;/version&gt;</span>
+	<span style="color:#f92672">&lt;exclusions&gt;</span>
+		<span style="color:#f92672">&lt;exclusion&gt;</span>
+			<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+			<span style="color:#f92672">&lt;artifactId&gt;</span>dbus-java<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;/exclusion&gt;</span>
+	<span style="color:#f92672">&lt;/exclusions&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>dbus-java-core<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;version&gt;</span>4.2.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.github.hypfvieh<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>dbus-java-transport-native-unixsocket<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;version&gt;</span>4.2.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>The final code might look like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// connect to dbus
+</span><span style="color:#75715e"></span>dbusConn <span style="color:#f92672">=</span> DBusConnectionBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">forAddress</span><span style="color:#f92672">(</span>address<span style="color:#f92672">).</span><span style="color:#a6e22e">withShared</span><span style="color:#f92672">(</span><span style="color:#66d9ef">false</span><span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+<span style="color:#75715e">// find bluez
+</span><span style="color:#75715e"></span>ObjectManager adapter <span style="color:#f92672">=</span> dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">getRemoteObject</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.bluez&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">,</span> ObjectManager<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// find service manager from all registered services
+</span><span style="color:#75715e"></span>DBusPath serviceManagerPath <span style="color:#f92672">=</span> getServiceManagerPath<span style="color:#f92672">(</span>adapter<span style="color:#f92672">);</span>
+<span style="color:#75715e">// find service manager and advertising manager
+</span><span style="color:#75715e"></span>serviceManager <span style="color:#f92672">=</span> dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">getRemoteObject</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.bluez&#34;</span><span style="color:#f92672">,</span> serviceManagerPath<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">(),</span> GattManager1<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+advertisingManager <span style="color:#f92672">=</span> dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">getRemoteObject</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.bluez&#34;</span><span style="color:#f92672">,</span> serviceManagerPath<span style="color:#f92672">.</span><span style="color:#a6e22e">getPath</span><span style="color:#f92672">(),</span> LEAdvertisingManager1<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">// create hierarchy of characteristics and services
+</span><span style="color:#75715e"></span>application <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BleApplication<span style="color:#f92672">(</span>allServices<span style="color:#f92672">);</span>
+<span style="color:#75715e">// export them into D-Bus
+</span><span style="color:#75715e"></span>exportAll<span style="color:#f92672">(</span>dbusConn<span style="color:#f92672">,</span> application<span style="color:#f92672">);</span>
+<span style="color:#75715e">// register application in bluez
+</span><span style="color:#75715e"></span>serviceManager<span style="color:#f92672">.</span><span style="color:#a6e22e">RegisterApplication</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DBusPath<span style="color:#f92672">(</span>application<span style="color:#f92672">.</span><span style="color:#a6e22e">getObjectPath</span><span style="color:#f92672">()),</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;());</span>
+<span style="color:#75715e">// create advertisement object
+</span><span style="color:#75715e"></span>advertisement <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BleAdvertisement<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/org/bluez/r2cloud/advertisement0&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;r2cloud&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;peripheral&#34;</span><span style="color:#f92672">,</span> LORA_SERVICE_UUID<span style="color:#f92672">);</span>
+<span style="color:#75715e">// and export it to D-Bus
+</span><span style="color:#75715e"></span>dbusConn<span style="color:#f92672">.</span><span style="color:#a6e22e">exportObject</span><span style="color:#f92672">(</span>advertisement<span style="color:#f92672">);</span>
+<span style="color:#75715e">// register advertisement in bluez
+</span><span style="color:#75715e"></span>advertisingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">RegisterAdvertisement</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> DBusPath<span style="color:#f92672">(</span>advertisement<span style="color:#f92672">.</span><span style="color:#a6e22e">getObjectPath</span><span style="color:#f92672">()),</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;());</span>
+</code></pre></div><h2 id="integration-with-r2cloud">Integration with r2cloud</h2>
+<p>The final step will be the direct implementation of the protocol between ESP32 and r2cloud. I decided to create one service with two properties:</p>
+<ul>
+<li>Schedule. When read, it returns the parameters of the next observation. Writing to this property signifies the receipt of a packet. It might seem a bit strange, but it greatly simplifies the code on the ESP32 side.</li>
+<li>Status. Used to obtain the battery level and Bluetooth signal strength.</li>
+</ul>
+<p>These parameters can be added to monitoring or simply displayed in the UI:</p>
+<p><img src="/img/ble-server-java/6.png" alt=""></p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/java/'>java</a>, <a class='tag' href='/en/tags/bluetooth/'>bluetooth</a>, <a class='tag' href='/en/tags/r2cloud/'>r2cloud</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/lora-raspberrypi/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>sx127x for RaspberryPI</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/lora-at/'>
+        <span class='screen-reader-text'>Next post: </span>lora-at<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

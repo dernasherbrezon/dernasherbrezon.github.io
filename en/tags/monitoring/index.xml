@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/en/tags/monitoring/</link>
     <description>Recent content in monitoring on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Aug 2021 06:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jan 2022 18:30:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>USB-tester A3-B</title>
+      <link>https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/</link>
+      <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/</guid>
+      <description>Not long ago, I acquired a USB tester A3-B.
+This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:
+ Measure current consumption in different modes:  Sleep Active work Standby   Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.</description>
+    </item>
+    
     <item>
       <title>Monitor Mikrotik routers using Prometheus</title>
       <link>https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/</link>

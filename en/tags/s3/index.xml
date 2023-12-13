@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>s3 on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/tags/s3/</link>
+    <description>Recent content in s3 on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 18 Aug 2015 13:55:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/s3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Distributing Java application</title>
+      <link>https://dernasherbrezon.com/en/posts/java-dist/</link>
+      <pubDate>Tue, 18 Aug 2015 13:55:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/java-dist/</guid>
+      <description>Surprisingly, but a fact - distributing Java applications in the 21st century is still a huge hassle. Developers still come up with methods like rsync/copy-paste/wget to install Java applications on servers. And only monstrous enterprise production-ready platforms sometimes allow a bit more - rolling back the application to a previous version. In this article, I would like to talk about an accessible and straightforward way of organizing distribution.
+deb и apt In the world, there are many truly gigantic repositories of applications and tools for their distribution.</description>
+    </item>
+    
+  </channel>
+</rss>

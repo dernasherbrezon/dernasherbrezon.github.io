@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Interesting fact - all applications located in the standard Debian or Ubuntu repositories are compiled with default options. This leads to interesting consequences. For example, programmers do not use SIMD instructions and rely on the compiler. The compiler cannot always optimize the code for a specific processor. As a result, all the super-fast capabilities of processors and incredible SIMD operations are not used.
+Debian developers explain this feature by stating that enabling support for extended registers does not provide significant acceleration.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='CPU-specific APT repositories • dernasherbrezon'>
+<meta property='og:description' content='Interesting fact - all applications located in the standard Debian or Ubuntu repositories are compiled with default options. This leads to interesting consequences. For example, programmers do not use SIMD instructions and rely on the compiler. The compiler cannot always optimize the code for a specific processor. As a result, all the super-fast capabilities of processors and incredible SIMD operations are not used.
+Debian developers explain this feature by stating that enabling support for extended registers does not provide significant acceleration.'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/apt-for-cpu/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='apt'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='peformance'><meta property='article:tag' content='admin'><meta property='article:tag' content='raspberrypi'><meta property='article:published_time' content='2021-09-25T13:17:18&#43;01:00'/><meta property='article:modified_time' content='2021-09-25T13:17:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>CPU-specific APT repositories • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/apt-for-cpu/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/apt-for-cpu/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/apt-for-cpu/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/apt-for-cpu/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/apt-for-cpu/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>CPU-specific APT repositories</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2021-09-25T13:17:18&#43;01:00'>25 Sep 2021</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Interesting fact - all applications located in the standard Debian or Ubuntu repositories are compiled with default options. This leads to interesting consequences. For example, programmers do not use SIMD instructions and rely on the compiler. The compiler cannot always optimize the code for a specific processor. As a result, all the super-fast capabilities of processors and incredible SIMD operations are not used.</p>
+<p>Debian developers explain this feature by stating that <a href="https://wiki.debian.org/ArmHardFloatPort/VfpComparison#NEON">enabling support for extended registers does not provide significant acceleration</a>. And often, this is true. Developers will not write assembly code to optimize applications for a specific processor. Moreover, not many applications need it. And even if you write more optimized code, it&rsquo;s unclear how to deliver it to the user. It becomes a vicious circle: operating systems have no incentive to maintain binary package infrastructure to improve performance by 5-10%. And developers will not write optimized code because there is no infrastructure.</p>
+<p>Nevertheless, there are separate libraries that are optimized specifically for different processor versions and make the most of their capabilities. For example, <a href="https://www.libvolk.org">volk</a> provides a set of functions optimized for digital signal processing. If the processor supports an optimized implementation and such an implementation is written, volk chooses it. If not, a simple C implementation is used. So, there is no need to write code for each type of processor. This is good, but there remains another problem - the distribution of such libraries.</p>
+<p>I solved this problem last week. However, before moving on to the solution, it is necessary to understand &ldquo;how does the distribution of APT packages work?&rdquo;</p>
+<h2 id="apt-repositories">APT Repositories</h2>
+<p><img src="/img/apt-for-cpu/1.png" alt=""></p>
+<p>I will try to describe the Debian repository scheme, but this works exactly the same for Ubuntu. So, each distribution has a code name. This code name is given to different versions of the operating system. In the context of compilation, this means that different versions will have different versions of GCC and different versions of libc. This often implies that a package compiled in one version of the operating system may not work in another. Sometimes this is not the case, but generally, it is advisable to build the package for each OS version.</p>
+<p>Each OS version has a list of architectures it supports. In the diagram above, I only listed two: armhf and amd64. In reality, Debian supports many more. The architecture in the context of application compilation is an averaged processor type. For example, amd64 includes all 64-bit processors, not just those from AMD. The same goes for armhf. armhf is a &ldquo;regular&rdquo; 32-bit processor on the ARM architecture.</p>
+<p>To have binary applications for each processor, you need to go even further and add another level.</p>
+<p><img src="/img/apt-for-cpu/2.png" alt=""></p>
+<p>Separate repositories can be created for different versions of ARM processors: cortex-a7, cortex-a53, etc. You also need to have some common &ldquo;generic&rdquo; version. This is in case the CPU is not supported. Each package must be built for different processors and with default parameters for the &ldquo;generic&rdquo; version. On the client side, connecting a CPU-specific repository could be done like this (pseudocode):</p>
+<pre><code>deb http://s3.amazonaws.com/r2cloud/cpu-$(lscpu model or generic if not supported) $(lsb_release --codename --short) main
+</code></pre><p>Unfortunately, standard APT repositories do not support such detailed logical separation, so it can be done at the physical level. It&rsquo;s enough to create several different repositories under different URLs. It could look like this:</p>
+<p><img src="/img/apt-for-cpu/3.png" alt=""></p>
+<p>So, there are several physical repositories, each of which contains:</p>
+<ul>
+<li>several OS versions</li>
+<li>several architectures</li>
+<li>only one type of processor</li>
+</ul>
+<p>The good news is that there are not so many types of processors. The doubly good news is that there are not so many applications optimized for multiple processors. It turns out that such repositories would be relatively small.</p>
+<h2 id="gcc-flags">GCC Flags</h2>
+<p>In <a href="https://dernasherbrezon.com/en/posts/compare-compile-flags-raspberrypi/">my previous article</a>, I described the compilation options for the very first Raspberry Pi, which has the ARM arm1176jzf-s processor. However, other versions of Raspberry Pi contain different processors. That&rsquo;s why code compiled for one processor will not run on another:</p>
+<p><img src="/img/apt-for-cpu/4.png" alt=""></p>
+<p>By the way, compilation flags for ARM processors must be specified because GCC does not include support for NEON extended registers by default. However, for Intel x86_64, it&rsquo;s not necessary to include them because they are available by default. Here is a list of flags that need to be included for different versions of Raspberry Pi.</p>
+<table>
+	<thead>
+		<tr>
+			<th>Raspberry pi</th>
+			<th>Flags</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Raspberry pi 1B</td>
+			<td>-mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard</td>
+		</tr>
+		<tr>
+			<td>Raspberry pi 2 model B</td>
+			<td>-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard</td>
+		</tr>
+		<tr>
+			<td>Raspberry pi 3</td>
+			<td>-mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard</td>
+		</tr>
+		<tr>
+			<td>Raspberry pi 4</td>
+			<td>-mcpu=cortex-a72 -mfpu=neon-fp-armv8 -mfloat-abi=hard</td>
+		</tr>
+	</tbody>
+</table>
+<h2 id="implementation">Implementation</h2>
+<p>After figuring out how to build and distribute binaries across different repositories, the next step was to implement it. For different APT repositories, I created several S3 buckets. Each of them contains only binaries specific to a particular processor. As a result, the <a href="https://leosatdata.com/apt">r2cloud</a> project now has two types of repositories:</p>
+<ul>
+<li><a href="http://s3.amazonaws.com/r2cloud">http://s3.amazonaws.com/r2cloud</a> - contains applications that are not critical to the processor type. There is still a division into armhf and amd64.</li>
+<li><a href="http://s3.amazonaws.com/r2cloud/cpu-">http://s3.amazonaws.com/r2cloud/cpu-</a>* - these repositories contain applications compiled for specific processors.</li>
+</ul>
+<p>To build applications for a specific processor type, I wrote a small bash script. In it, the processor architecture is determined (armhf or amd64):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">CURRENT_ARCH<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span>
+</code></pre></div><p>After that, the list of supported processors:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CURRENT_ARCH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;armhf&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	supported_cores<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;arm1176jzf-s cortex-a53 cortex-a7 cortex-a72 generic&#34;</span>
+<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CURRENT_ARCH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;amd64&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	supported_cores<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;generic&#34;</span>
+<span style="color:#66d9ef">else</span>
+	echo <span style="color:#e6db74">&#34;unknown arch: </span><span style="color:#e6db74">${</span>CURRENT_ARCH<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+	exit <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>If the application needs to be built depending on the processor (all), the build is started for each of the processors. If not (one), the application is built for the standard repository:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CORE_BUILD<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;all&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	<span style="color:#66d9ef">for</span> i in <span style="color:#e6db74">${</span>supported_cores<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">do</span>
+		build_core $i
+	<span style="color:#66d9ef">done</span>
+<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CORE_BUILD<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;one&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+	build_core
+<span style="color:#66d9ef">else</span>
+	echo <span style="color:#e6db74">&#34;unknown core_build: </span><span style="color:#e6db74">${</span>CORE_BUILD<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+	exit <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><h2 id="results">Results</h2>
+<p>As a result, the build process takes a little more time. To scale further, something more serious than a regular bash script is needed. This is sufficient for my needs and allows for a significant simplification and acceleration of applications on the Raspberry Pi. The board itself is not very fast, so such optimization is extremely important.</p>
+<p>Now I have infrastructure for delivering applications depending on the processor. Potentially I can extends this even further to support such exotic things GPU. Raspberry Pi contains VideoCore IV graphics core, which can multiply matrices and vectors very quickly. And this is extremely useful for digital signal processing.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/apt/'>apt</a>, <a class='tag' href='/en/tags/peformance/'>peformance</a>, <a class='tag' href='/en/tags/admin/'>admin</a>, <a class='tag' href='/en/tags/raspberrypi/'>raspberrypi</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/compare-compile-flags-raspberrypi/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Compare different compilation flags for RaspberryPi</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/programming-esp32/'>
+        <span class='screen-reader-text'>Next post: </span>Creating a project for ESP32<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

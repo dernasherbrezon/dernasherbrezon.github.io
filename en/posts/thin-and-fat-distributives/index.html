@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='This week, I finally migrated all my projects to Ubuntu 18.04 and thin .deb distributions. I started this project at the beginning of the year and completed it only now, almost 8 months later. The migration itself deserves a separate article with complaints and rhetorical questions. Here, I want to briefly describe the confrontation between thin and fat distributions, share my perspective on this story, and provide some analysis. Let&rsquo;s dive in!'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Fat and thin distributions • dernasherbrezon'>
+<meta property='og:description' content='This week, I finally migrated all my projects to Ubuntu 18.04 and thin .deb distributions. I started this project at the beginning of the year and completed it only now, almost 8 months later. The migration itself deserves a separate article with complaints and rhetorical questions. Here, I want to briefly describe the confrontation between thin and fat distributions, share my perspective on this story, and provide some analysis. Let&rsquo;s dive in!'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/thin-and-fat-distributives/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='maven'><meta property='article:tag' content='admin'><meta property='article:published_time' content='2020-08-26T22:31:18&#43;01:00'/><meta property='article:modified_time' content='2020-08-26T22:31:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Fat and thin distributions • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/thin-and-fat-distributives/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/thin-and-fat-distributives/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/thin-and-fat-distributives/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/thin-and-fat-distributives/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/thin-and-fat-distributives/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Fat and thin distributions</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-08-26T22:31:18&#43;01:00'>26 Aug 2020</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>This week, I finally migrated all my projects to Ubuntu 18.04 and thin .deb distributions. I started this project at the beginning of the year and completed it only now, almost 8 months later. The migration itself deserves a separate article with complaints and rhetorical questions. Here, I want to briefly describe the confrontation between thin and fat distributions, share my perspective on this story, and provide some analysis. Let&rsquo;s dive in!</p>
+<h2 id="distributions">Distributions</h2>
+<p>Almost immediately after writing the first version of any program, the question arises of how to distribute it. In 2020, there are several fairly standard ways:</p>
+<ul>
+<li>Docker image. The program is compiled, and all dependent libraries are placed in the <a href="https://docs.docker.com/storage/storagedriver/">storage layer</a></li>
+<li>Zip file. All necessary files are simply placed in an archive.</li>
+<li>Debian package. I wrote a bit about how to build it in <a href="https://dernasherbrezon.com/en/posts/java-dist/">one of my articles</a></li>
+</ul>
+<p>While Docker images are straightforward, deciding what to include in a zip file or Debian package is not always obvious. There are two diametrically opposed strategies.</p>
+<h2 id="fat-distributions">Fat Distributions</h2>
+<p>The idea is quite simple: let&rsquo;s put all the necessary files and dependent libraries needed for the application to run into the archive. The advantages of this approach include:</p>
+<ul>
+<li>Almost no dependency on the external environment. It doesn&rsquo;t matter what libraries are already installed in the operating system; the application will bring its own libraries with the required versions.</li>
+<li>No dependency on other applications. This follows from the fact that all dependencies are inside the fat distribution.</li>
+<li>Simplicity. Just download one distribution and run it with <code>java -jar fatApp.jar</code>.</li>
+</ul>
+<p>The disadvantages include:</p>
+<ul>
+<li>The distribution is very heavy. Because all dependencies are included, the distribution size significantly increases. This affects installation speed (you need to download the distribution from the apt repository or artifactory) and build speed, as well as repository upload speed.</li>
+<li>As a result, the binary repository size increases significantly. You need to plan a strategy for cleaning up old versions. For example, Docker recently faced the problem of a bloated Docker Hub repository and <a href="https://www.docker.com/pricing/retentionfaq">decided to delete unused Docker images</a>. Deleting old and unused dependencies is a complex and non-trivial task.</li>
+</ul>
+<p>A prominent supporter of fat distributions is the <a href="https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/html/build-tool-plugins-maven-plugin.html">spring boot</a> project. During the  <code>package</code> phase, they build a fat distribution that can be run with a single command:</p>
+<pre><code>$ mvn package
+$ java -jar target/mymodule-0.0.1-SNAPSHOT.jar
+</code></pre><h2 id="thin-distributions">Thin Distributions</h2>
+<p>Thin distributions are intended to address the issues of fat distributions, but they have their own downsides:</p>
+<ul>
+<li>Relative complexity. There is no consensus on how to correctly build a slim distribution and deploy it for execution</li>
+<li>Dependency on other applications. In a classic thin distribution, dependencies are installed in the operating system. But what if one application needs one version of a library, and another application needs a different version? Developers of Linux-like operating systems try to find the least common denominator for thousands of applications and libraries. This is a complex and labor-intensive procedure.</li>
+</ul>
+<p>The advantages are straightforward:</p>
+<ul>
+<li>Applications are very lightweight. They can be deployed quickly, and often there is no need to worry about the size of the binary repository.</li>
+<li>Dependencies are reused between applications. While not very relevant for the Java world, it is in demand for the C/C++ world. The idea is that a library is loaded into memory only once and then used by different applications. This reduces memory consumption and application load time.</li>
+</ul>
+<p>As I mentioned before, strong advocates of thin distributions are operating systems. Despite the fact that the Ubuntu team decided to create fat distributions (snap packages), the community greeted this idea very coolly and with a dose of skepticism.</p>
+<h2 id="thin-distributions-for-java">Thin Distributions for Java</h2>
+<p>In all my projects, I gradually moved away from fat distributions and switched to slim ones. This was important for me for several reasons:</p>
+<ul>
+<li>Large binary repositories are expensive to maintain. For hobby projects that don&rsquo;t generate income, paying for gigabytes of distributions is costly.</li>
+<li>Build and repository upload speed. I often work on trains, planes, hotels, where connection speed is limited. Downloading 100 MB of fat distributions can take hours. Meanwhile, downloading ~200 KB takes seconds. It is very convenient and increases productivity.</li>
+</ul>
+<p>Since there is no consensus on how to create slim distributions, I decided to create my own. To do this, I wrote a small Maven plugin - <a href="https://github.com/dernasherbrezon/deps-maven-plugin">deps-maven-plugin</a>. During the build, it creates three files:</p>
+<ul>
+<li>repositories.txt - a list of all Maven repositories available in the project.</li>
+<li>dependencies.txt - a list of all project dependencies.</li>
+<li>script.sh - a fixed script inside the plugin.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;plugin&gt;</span>
+	<span style="color:#f92672">&lt;groupId&gt;</span>com.aerse.maven<span style="color:#f92672">&lt;/groupId&gt;</span>
+	<span style="color:#f92672">&lt;artifactId&gt;</span>deps-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+	<span style="color:#f92672">&lt;configuration&gt;</span>
+		<span style="color:#f92672">&lt;repositories&gt;</span>${project.build.directory}/deps/repositories.txt<span style="color:#f92672">&lt;/repositories&gt;</span>
+		<span style="color:#f92672">&lt;dependencies&gt;</span>${project.build.directory}/deps/dependencies.txt<span style="color:#f92672">&lt;/dependencies&gt;</span>
+		<span style="color:#f92672">&lt;script&gt;</span>${project.build.directory}/deps/script.sh<span style="color:#f92672">&lt;/script&gt;</span>
+		<span style="color:#f92672">&lt;excludes&gt;</span>
+			<span style="color:#f92672">&lt;exclude&gt;</span>com.example:*:*<span style="color:#f92672">&lt;exclude&gt;</span>
+		<span style="color:#f92672">&lt;/excludes&gt;</span>
+	<span style="color:#f92672">&lt;/configuration&gt;</span>
+<span style="color:#f92672">&lt;/plugin&gt;</span>
+</code></pre></div><p>The idea is quite simple: after unpacking the thin distribution, you need to call script.sh and pass it the two generated files. It will download them and place them in the specified folder. This will be the folder with all the dependencies.</p>
+<p>Keep in mind that all dependencies must be available in public Maven repositories. If not, you can exclude them in the <code>excludes</code> section and place them inside the thin artifact.</p>
+<p>But what if the artifact changes its version or is removed from the list of dependencies? It&rsquo;s simple: script.sh builds the intersection of dependencies needed in the folder and those already present there. If dependencies have already been downloaded, they will not be downloaded again. If dependencies are no longer used (present in the folder but absent in dependencies.txt), they are deleted from the folder.</p>
+<p>After the script finishes, you can run the application. For example, here are the paths for r2cloud:</p>
+<pre><code>java -cp /home/pi/r2cloud/lib/*:/usr/share/java/r2cloud/* ru.r2cloud.R2Cloud
+</code></pre><p>The <code>/home/pi/r2cloud/lib/</code> folder contains the application itself, while the  <code>/usr/share/java/r2cloud/</code> folder contains all the application&rsquo;s dependencies.</p>
+<h2 id="results">Results</h2>
+<p>In addition to the obvious advantages of thin distributions, there are some less obvious ones. For example, they significantly save traffic when updating r2cloud via a 3G modem. Also, over time, I accumulated about 564.11 MB of r2cloud distributions. This is <a href="https://travis-ci.org/github/dernasherbrezon/r2cloud">about 600</a> builds!</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/java/'>java</a>, <a class='tag' href='/en/tags/maven/'>maven</a>, <a class='tag' href='/en/tags/admin/'>admin</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/unit-tests/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Unit tests</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/dynamic-libraries-rpath/'>
+        <span class='screen-reader-text'>Next post: </span>Dynamic libraries, RPATH and Conan<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='One of the fundamental questions that every programmer must periodically answer is &ldquo;whether to use existing library or write your own.&rdquo; It&rsquo;s impossible to give a definitive answer to this question once and for all. You have to sit down and analyze each specific case. Recently, I faced such a situation, as I described in my previous post, where I explained how I reduced the LoRa current consumption to 16mA. If the goal is just to experiment and test some theory about the hardware, it was enough to modify the source code of existing arduino-LoRa.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='sx127x • dernasherbrezon'>
+<meta property='og:description' content='One of the fundamental questions that every programmer must periodically answer is &ldquo;whether to use existing library or write your own.&rdquo; It&rsquo;s impossible to give a definitive answer to this question once and for all. You have to sit down and analyze each specific case. Recently, I faced such a situation, as I described in my previous post, where I explained how I reduced the LoRa current consumption to 16mA. If the goal is just to experiment and test some theory about the hardware, it was enough to modify the source code of existing arduino-LoRa.'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/sx127x/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='lora'><meta property='article:tag' content='esp32'><meta property='article:tag' content='embedded'><meta property='article:tag' content='sx127x'><meta property='article:published_time' content='2023-01-07T16:33:18&#43;01:00'/><meta property='article:modified_time' content='2023-01-07T16:33:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>sx127x • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/sx127x/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/sx127x/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/sx127x/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/sx127x/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/sx127x/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>sx127x</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2023-01-07T16:33:18&#43;01:00'>07 Jan 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>One of the fundamental questions that every programmer must periodically answer is &ldquo;whether to use existing library or write your own.&rdquo; It&rsquo;s impossible to give a definitive answer to this question once and for all. You have to sit down and analyze each specific case. Recently, I faced such a situation, as I described in my <a href="https://dernasherbrezon.com/en/posts/lora-deep-sleep/">previous post</a>, where I explained how I reduced the LoRa current consumption to 16mA. If the goal is just to experiment and test some theory about the hardware, it was enough to modify the source code of existing <a href="https://github.com/sandeepmistry/arduino-LoRa">arduino-LoRa</a>. But to make such solution robust and production-ready, something more substantial is needed.</p>
+<p>And here comes the question: should you take a ready-made library or write your own?</p>
+<h2 id="existing-libraries">Existing Libraries</h2>
+<p>I checked several libraries: <a href="https://github.com/sandeepmistry/arduino-LoRa">arduino-LoRa</a>, <a href="https://github.com/jgromes/RadioLib">RadioLib</a>, <a href="https://github.com/fifteenhex/sx127x">sx127x by fifteenhex</a>, <a href="https://github.com/morransmith/sx127x">sx127x by morransmith</a>, <a href="https://github.com/Inteform/esp32-lora-library">esp32-lora-library</a>, <a href="https://github.com/nopnop2002/esp-idf-sx127x">esp-idf-sx127x</a>, and it turned out that none of them satisfies my requirements! All of them assume that the chip should be put into sleep mode and back to idle. Essentially resetting everything that was in the FIFO buffer. But after returning from deep sleep this buffer will contain received message! Before rushing to write my own library, I could make a pull request with what I need. But even then, I&rsquo;m not sure about the result: my change is too low-level and contradicts the concept of many libraries.</p>
+<p>In general, after reviewing existing libraries for Arduino and ESP32, it seemed to me that they were written by enthusiasts who poorly understand programming. Take, for example, <a href="https://github.com/sandeepmistry/arduino-LoRa">arduino-LoRa</a>. A library with not a single line of comments has over 1300 stars on Github and is de facto the standard library for working with LoRa. In addition, it combines SPI initialization, working with individual pins, and the logic of controlling the sx127x chip. Surprisingly, only one method out of more than 30 returns an error code. The rest return void.</p>
+<p>In this regard, <a href="https://github.com/jgromes/RadioLib">RadioLib</a> is written slightly better. It has a separate entity called Module, which abstracts the work with SPI. However, it doesn&rsquo;t do it completely.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int16_t</span> SX127x<span style="color:#f92672">::</span>begin(<span style="color:#66d9ef">uint8_t</span> chipVersion, <span style="color:#66d9ef">uint8_t</span> syncWord, <span style="color:#66d9ef">uint16_t</span> preambleLength) {
+  <span style="color:#75715e">// set module properties
+</span><span style="color:#75715e"></span>  _mod<span style="color:#f92672">-&gt;</span>init(RADIOLIB_USE_SPI);
+  Module<span style="color:#f92672">::</span>pinMode(_mod<span style="color:#f92672">-&gt;</span>getIrq(), INPUT);
+  Module<span style="color:#f92672">::</span>pinMode(_mod<span style="color:#f92672">-&gt;</span>getGpio(), INPUT);
+  ...
+}
+</code></pre></div><p>The <code>pinMode</code> method is not part of the SPI protocol, and why it was added to <code>Module</code> remains a mystery. In general, pin control is not part of the sx127x chip specification and should not be part of the library.</p>
+<p>Moreover, RadioLib is an extremely convoluted library. Despite having a physical abstraction of the SPI interface called <code>Module</code>, there is also a separate entity called <code>PhysicalLayer</code> in it. The class hierarchy in RadioLib is clearly overcomplicated. For example, here is how the inheritance looks:</p>
+<pre><code>PhysicalLayer -&gt; SX127x -&gt; SX1278 -&gt; SX1276
+</code></pre><p>This implies that during initialization, you need to know the chip model and create either the SX1278 or SX1276 class depending on it.</p>
+<p>All of this turned out to be enough to start developing my own library. And it was not in vain because many blatantly strange things were revealed in many implementations.</p>
+<h2 id="sx127x">sx127x</h2>
+<p>To be honest, I didn&rsquo;t come up with the library&rsquo;s name right away, but from the very beginning, I knew how it should work:</p>
+<ul>
+<li>The library should translate the chip documentation into C code. It should not make any assumptions about how it will be used or in what order its methods will be called. With this approach, working with it will be a bit more verbose, but functions can be combined as needed and called from separate threads or tasks. In my case, I can initialize access to the chip without overwriting data when coming out of deep sleep.</li>
+<li>The library should be written in C and be well-documented, preferably with references to the chip documentation. Calling C from C++ is not a problem, but calling C++ from C is very difficult. Besides, I prefer C.</li>
+<li>The library should not depend on other libraries. The SPI interface is available in the standard ESP library, and that&rsquo;s the only thing that should be needed.</li>
+</ul>
+<p>As a result, I succeeded:</p>
+<p><a href="https://github.com/dernasherbrezon/sx127x">https://github.com/dernasherbrezon/sx127x</a></p>
+<h2 id="implementation-details">Implementation Details</h2>
+<p>When I started working on the library, I only had a general idea of how the chip works. In short, you need to initialize the SPI device and set the necessary registers via SPI. There are many registers, and depending on the operating mode (LoRa or FSK), the same registers mean different things. However, as I worked on the library and read the documentation, I learned more and more and was increasingly amazed at how poorly designed standard libraries are.</p>
+<h3 id="header-mode">Header mode</h3>
+<p>It turns out that in the LoRa protocol, there is a concept of &ldquo;explicit header&rdquo; and &ldquo;implicit header.&rdquo; &ldquo;Explicit header&rdquo; is a mode where a header is added to each message sent to the network. The receiver, in turn, receives such a header and understands the message parameters:</p>
+<ul>
+<li>message length</li>
+<li>whether checksum is used or not</li>
+<li>parameters for FEC decoding</li>
+</ul>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" viewBox="-0.5 -0.5 618 141"><defs/><g><rect x="8" y="40" width="120" height="40" fill="#000000" stroke="#000000" pointer-events="all" transform="translate(2,3)" opacity="0.25"/><rect x="8" y="40" width="120" height="40" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 60px; margin-left: 9px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Preamble</div></div></div></foreignObject><text x="68" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Preamble</text></switch></g><rect x="128" y="40" width="120" height="20" fill="#000000" stroke="#000000" pointer-events="all" transform="translate(2,3)" opacity="0.25"/><rect x="128" y="40" width="120" height="20" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 50px; margin-left: 129px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Header</div></div></div></foreignObject><text x="188" y="54" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Header</text></switch></g><rect x="248" y="40" width="40" height="20" fill="#000000" stroke="#000000" pointer-events="all" transform="translate(2,3)" opacity="0.25"/><rect x="248" y="40" width="40" height="20" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 38px; height: 1px; padding-top: 50px; margin-left: 249px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">CRC</div></div></div></foreignObject><text x="268" y="54" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">CRC</text></switch></g><rect x="128" y="60" width="160" height="20" fill="#000000" stroke="#000000" pointer-events="all" transform="translate(2,3)" opacity="0.25"/><rect x="128" y="60" width="160" height="20" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 70px; margin-left: 129px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">(explicit mode only)</div></div></div></foreignObject><text x="208" y="74" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">(explicit mode only)</text></switch></g><rect x="288" y="40" width="240" height="40" fill="#000000" stroke="#000000" pointer-events="all" transform="translate(2,3)" opacity="0.25"/><rect x="288" y="40" width="240" height="40" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 238px; height: 1px; padding-top: 60px; margin-left: 289px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Payload</div></div></div></foreignObject><text x="408" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Payload</text></switch></g><rect x="528" y="40" width="80" height="40" fill="#000000" stroke="#000000" pointer-events="all" transform="translate(2,3)" opacity="0.25"/><rect x="528" y="40" width="80" height="40" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 60px; margin-left: 529px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Payload<br />CRC</div></div></div></foreignObject><text x="568" y="64" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Payload...</text></switch></g><path d="M 14.37 20 L 121.63 20" fill="none" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 9.12 20 L 16.12 16.5 L 14.37 20 L 16.12 23.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><path d="M 126.88 20 L 119.88 23.5 L 121.63 20 L 119.88 16.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><rect x="8" y="0" width="120" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 10px; margin-left: 9px;"><div data-drawio-colors="color: #6C8EBF; " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(108, 142, 191); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">nPreamble Symbols</div></div></div></foreignObject><text x="68" y="14" fill="#6C8EBF" font-family="Helvetica" font-size="12px" text-anchor="middle">nPreamble Symbols</text></switch></g><path d="M 134.37 20 L 281.63 20" fill="none" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 129.12 20 L 136.12 16.5 L 134.37 20 L 136.12 23.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><path d="M 286.88 20 L 279.88 23.5 L 281.63 20 L 279.88 16.5 Z" fill="#6c8ebf" stroke="#6c8ebf" stroke-miterlimit="10" pointer-events="all"/><rect x="128" y="0" width="160" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 10px; margin-left: 129px;"><div data-drawio-colors="color: #6C8EBF; " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(108, 142, 191); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">nHeader Symbols</div></div></div></foreignObject><text x="208" y="14" fill="#6C8EBF" font-family="Helvetica" font-size="12px" text-anchor="middle">nHeader Symbols</text></switch></g><path d="M 134.37 100 L 281.63 100" fill="none" stroke="#d79b00" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 129.12 100 L 136.12 96.5 L 134.37 100 L 136.12 103.5 Z" fill="#d79b00" stroke="#d79b00" stroke-miterlimit="10" pointer-events="all"/><path d="M 286.88 100 L 279.88 103.5 L 281.63 100 L 279.88 96.5 Z" fill="#d79b00" stroke="#d79b00" stroke-miterlimit="10" pointer-events="all"/><rect x="128" y="100" width="160" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 110px; margin-left: 129px;"><div data-drawio-colors="color: #D79B00; " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(215, 155, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">CR = 4/8</div></div></div></foreignObject><text x="208" y="114" fill="#D79B00" font-family="Helvetica" font-size="12px" text-anchor="middle">CR = 4/8</text></switch></g><path d="M 294.37 100 L 601.63 100" fill="none" stroke="#d79b00" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 289.12 100 L 296.12 96.5 L 294.37 100 L 296.12 103.5 Z" fill="#d79b00" stroke="#d79b00" stroke-miterlimit="10" pointer-events="all"/><path d="M 606.88 100 L 599.88 103.5 L 601.63 100 L 599.88 96.5 Z" fill="#d79b00" stroke="#d79b00" stroke-miterlimit="10" pointer-events="all"/><rect x="288" y="100" width="320" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 318px; height: 1px; padding-top: 110px; margin-left: 289px;"><div data-drawio-colors="color: #D79B00; " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(215, 155, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">CR = Coding Rate</div></div></div></foreignObject><text x="448" y="114" fill="#D79B00" font-family="Helvetica" font-size="12px" text-anchor="middle">CR = Coding Rate</text></switch></g><path d="M 14.37 120 L 601.63 120" fill="none" stroke="#82b366" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 9.12 120 L 16.12 116.5 L 14.37 120 L 16.12 123.5 Z" fill="#82b366" stroke="#82b366" stroke-miterlimit="10" pointer-events="all"/><path d="M 606.88 120 L 599.88 123.5 L 601.63 120 L 599.88 116.5 Z" fill="#82b366" stroke="#82b366" stroke-miterlimit="10" pointer-events="all"/><rect x="8" y="120" width="600" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 598px; height: 1px; padding-top: 130px; margin-left: 9px;"><div data-drawio-colors="color: #82B366; " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(130, 179, 102); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">SF = Spreading Factor</div></div></div></foreignObject><text x="308" y="134" fill="#82B366" font-family="Helvetica" font-size="12px" text-anchor="middle">SF = Spreading Factor</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>It turns out that these parameters do not need to be configured on the receiver!</p>
+<p>In implicit header mode, it is not transmitted, and it is assumed that the transmitter and receiver have agreed on the parameters in advance, and there is no need to transmit them. Why is such a mode needed? Well, firstly, to transmit messages faster. In some countries, there is a restriction on the time during which a signal can be transmitted in the ISM band (frequencies typically used by LoRa). The faster the message is transmitted, the more data can be transmitted in a unit of time. Secondly, by transmitting messages quickly, you can save energy.</p>
+<p>sx127x explicitly supports both modes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @brief Set implicit header.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * sx127x can send packets for explicit header or without it (implicit). In implicit mode receiver should be configured with pre-defined values using this function.
+</span><span style="color:#75715e"> * In explicit mode, all information is sent in the header. Thus no configuration needed.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @param header Pre-defined packet information. If NULL, then assume explicit header in RX mode. For TX explicit mode please use sx127x_set_tx_explcit_header function.
+</span><span style="color:#75715e"> * @param device Pointer to variable to hold the device handle
+</span><span style="color:#75715e"> * @return
+</span><span style="color:#75715e"> *         - ESP_ERR_INVALID_ARG   if parameter is invalid
+</span><span style="color:#75715e"> *         - ESP_OK                on success
+</span><span style="color:#75715e"> */</span>
+esp_err_t <span style="color:#a6e22e">sx127x_set_implicit_header</span>(sx127x_implicit_header_t <span style="color:#f92672">*</span>header, sx127x <span style="color:#f92672">*</span>device);
+</code></pre></div><h3 id="tx-power">TX power</h3>
+<p>TX power configuration in sx127x chip is quite tricky. The chip has two pins to which an antenna can be connected:</p>
+<ul>
+<li>RFO</li>
+<li>PA_BOOST</li>
+</ul>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 611 581"><defs/><g><rect x="90" y="95" width="395" height="390" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><ellipse cx="120" cy="125" rx="10" ry="10" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><rect x="160" y="95" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" pointer-events="all"/><rect x="200" y="95" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" pointer-events="all"/><rect x="240" y="95" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" pointer-events="all"/><rect x="280" y="95" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" pointer-events="all"/><rect x="320" y="95" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" pointer-events="all"/><rect x="360" y="95" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" pointer-events="all"/><rect x="400" y="95" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" pointer-events="all"/><rect x="105" y="150" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,115,175)" pointer-events="all"/><rect x="105" y="190" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,115,215)" pointer-events="all"/><rect x="105" y="230" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,115,255)" pointer-events="all"/><rect x="105" y="270" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,115,295)" pointer-events="all"/><rect x="105" y="309" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,115,334)" pointer-events="all"/><rect x="105" y="349" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,115,374)" pointer-events="all"/><rect x="105" y="389" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,115,414)" pointer-events="all"/><rect x="160" y="435" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(180,170,460)" pointer-events="all"/><rect x="200" y="435" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(180,210,460)" pointer-events="all"/><rect x="240" y="435" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(180,250,460)" pointer-events="all"/><rect x="280" y="435" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(180,290,460)" pointer-events="all"/><rect x="320" y="435" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(180,330,460)" pointer-events="all"/><rect x="360" y="435" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(180,370,460)" pointer-events="all"/><rect x="450" y="150.5" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,460,175.5)" pointer-events="all"/><rect x="450" y="190.5" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,460,215.5)" pointer-events="all"/><rect x="450" y="230.5" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,460,255.5)" pointer-events="all"/><rect x="450" y="270.5" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,460,295.5)" pointer-events="all"/><rect x="450" y="309.5" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,460,334.5)" pointer-events="all"/><rect x="450" y="349.5" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,460,374.5)" pointer-events="all"/><rect x="450" y="389.5" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(90,460,414.5)" pointer-events="all"/><rect x="400" y="435" width="20" height="50" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-dasharray="3 3" transform="rotate(180,410,460)" pointer-events="all"/><path d="M 190 165 L 420 165 L 420 425 L 160 425 L 160 195 Z" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 258px; height: 1px; padding-top: 295px; margin-left: 161px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">0 GND</div></div></div></foreignObject><text x="290" y="299" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">0 GND</text></switch></g><rect x="125" y="40" width="90" height="20" fill="none" stroke="none" transform="rotate(-90,170,50)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 170 93.00000000000011)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 93px; margin-left: 170px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  28 RFO_LF</div></div></div></foreignObject><text x="170" y="97" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  28 RFO_LF</text></switch></g><rect x="162.5" y="37.5" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,210,47.5)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 210 93.00000000000011)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 93px; margin-left: 210px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  27 PA_BOOST</div></div></div></foreignObject><text x="210" y="97" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  27 PA_BOOST</text></switch></g><rect x="202.5" y="37" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,250,47)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 250 92.50000000000011)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 93px; margin-left: 250px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  26 GND</div></div></div></foreignObject><text x="250" y="96" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  26 GND</text></switch></g><rect x="243" y="37" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,290.5,47)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 290.5 92.50000000000011)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 93px; margin-left: 291px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  25 VR_PA</div></div></div></foreignObject><text x="291" y="96" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  25 VR_PA</text></switch></g><rect x="282" y="37" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,329.5,47)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 329.5 92.50000000000011)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 93px; margin-left: 330px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  24 VBAT_RF</div></div></div></foreignObject><text x="330" y="96" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  24 VBAT_RF</text></switch></g><rect x="322.5" y="37" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,370,47)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 370 92.50000000000011)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 93px; margin-left: 370px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  23 GND</div></div></div></foreignObject><text x="370" y="96" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  23 GND</text></switch></g><rect x="362.5" y="37" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,410,47)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 410 92.50000000000011)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 93px; margin-left: 410px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  22 RFO_HF</div></div></div></foreignObject><text x="410" y="96" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  22 RFO_HF</text></switch></g><rect x="485" y="165" width="90" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 175px; margin-left: 487px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  21 RFI_HF</div></div></div></foreignObject><text x="487" y="179" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  21 RFI_HF</text></switch></g><rect x="0" y="205" width="90" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 215px; margin-left: 2px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">2 VR_ANA</div></div></div></foreignObject><text x="2" y="219" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">2 VR_ANA</text></switch></g><rect x="0" y="245" width="90" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 255px; margin-left: 2px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">3 VBAT_ANA</div></div></div></foreignObject><text x="2" y="259" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">3 VBAT_ANA</text></switch></g><rect x="0" y="285" width="90" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 295px; margin-left: 2px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">4 VR_DIG</div></div></div></foreignObject><text x="2" y="299" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">4 VR_DIG</text></switch></g><rect x="0" y="324.5" width="90" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 335px; margin-left: 2px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">5 XTA</div></div></div></foreignObject><text x="2" y="338" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">5 XTA</text></switch></g><rect x="0" y="364.5" width="90" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 375px; margin-left: 2px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">6 XTB</div></div></div></foreignObject><text x="2" y="378" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">6 XTB</text></switch></g><rect x="0" y="404.5" width="90" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 415px; margin-left: 2px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">7 NRESET</div></div></div></foreignObject><text x="2" y="418" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">7 NRESET</text></switch></g><rect x="485" y="205.5" width="125" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 123px; height: 1px; padding-top: 216px; margin-left: 487px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  20 RXTX / RFMOD</div></div></div></foreignObject><text x="487" y="219" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  20 RXTX / RFMOD</text></switch></g><rect x="485" y="245.5" width="125" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 123px; height: 1px; padding-top: 256px; margin-left: 487px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  19 NSS</div></div></div></foreignObject><text x="487" y="259" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  19 NSS</text></switch></g><rect x="485" y="285.5" width="125" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 123px; height: 1px; padding-top: 296px; margin-left: 487px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  18 MOSI</div></div></div></foreignObject><text x="487" y="299" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  18 MOSI</text></switch></g><rect x="485" y="324.5" width="125" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 123px; height: 1px; padding-top: 335px; margin-left: 487px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  17 MISO</div></div></div></foreignObject><text x="487" y="338" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  17 MISO</text></switch></g><rect x="485" y="364.5" width="125" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 123px; height: 1px; padding-top: 375px; margin-left: 487px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  16 CLK</div></div></div></foreignObject><text x="487" y="378" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  16 CLK</text></switch></g><rect x="485" y="404.5" width="125" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 123px; height: 1px; padding-top: 415px; margin-left: 487px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">  15 GND</div></div></div></foreignObject><text x="487" y="418" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">  15 GND</text></switch></g><rect x="125" y="485" width="90" height="20" fill="none" stroke="none" transform="rotate(-90,170,495)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 170 538.0000000000002)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 88px; height: 1px; padding-top: 538px; margin-left: 170px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">8 DIO0</div></div></div></foreignObject><text x="170" y="542" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">8 DIO0</text></switch></g><rect x="162.5" y="483" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,210,493)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 210 538.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 539px; margin-left: 210px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">9 DIO1</div></div></div></foreignObject><text x="210" y="542" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">9 DIO1</text></switch></g><rect x="202.5" y="485" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,250,495)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 250 540.5000000000002)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 541px; margin-left: 250px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">10 DIO2</div></div></div></foreignObject><text x="250" y="544" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">10 DIO2</text></switch></g><rect x="243" y="485" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,290.5,495)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 290.5 540.5000000000002)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 541px; margin-left: 291px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">11 DIO3</div></div></div></foreignObject><text x="291" y="544" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">11 DIO3</text></switch></g><rect x="282.5" y="485" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,330,495)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 330 540.5000000000002)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 541px; margin-left: 330px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">12 DIO4</div></div></div></foreignObject><text x="330" y="544" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">12 DIO4</text></switch></g><rect x="322.5" y="485" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,370,495)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 370 540.5000000000002)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 541px; margin-left: 370px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">13 DIO5</div></div></div></foreignObject><text x="370" y="544" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">13 DIO5</text></switch></g><rect x="362.5" y="522" width="95" height="20" fill="none" stroke="none" transform="rotate(-90,410,532)" pointer-events="all"/><g transform="translate(-0.5 -0.5)rotate(-90 410 577.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 93px; height: 1px; padding-top: 578px; margin-left: 410px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: left;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">14 VBAT_DIAG</div></div></div></foreignObject><text x="410" y="581" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">14 VBAT_DIAG</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>Through RFO, it is possible to achieve a power gain of 15dBm, while through PA_BOOST, it can go up to 20dBm. In the official documentation, there is a recommendation to limit the maximum current consumption for different power gain levels. I struggled for a long time to understand why this is necessary and came up with the following explanation. The power amplifier consumes current to increase the incoming signal by a factor of X. The power of the outgoing signal depends not only on the current and voltage but also on the resistance. Now imagine a situation where the antenna, with an impedance of 50 ohms, malfunctions. Or there is corrosion on the contact between the antenna and the chip. Or someone connected an antenna with 75 ohms impedance. In such cases, to achieve the same 20dBm with the same 3.3V voltage, a much higher current needs to be supplied. If the current consumption is not limited, the entire system will consume more energy at best. At worst, the chip or contacts may burn out. In the sx127x library, when configuring the power amplifier, the maximum current consumption is simultaneously limited. However, the current consumption can be overridden using a special method:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * @brief Configure overload current protection (OCP) for PA.
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @param onoff Enable or disable OCP
+</span><span style="color:#75715e"> * @param milliamps Maximum current in milliamps
+</span><span style="color:#75715e"> * @param device Pointer to variable to hold the device handle
+</span><span style="color:#75715e"> * @return
+</span><span style="color:#75715e"> *         - ESP_ERR_INVALID_ARG   if parameter is invalid
+</span><span style="color:#75715e"> *         - ESP_OK                on success
+</span><span style="color:#75715e"> */</span>
+esp_err_t <span style="color:#a6e22e">sx127x_set_ocp</span>(sx127x_ocp_t onoff, uint8_t milliamps, sx127x <span style="color:#f92672">*</span>device);
+</code></pre></div><h3 id="working-with-interrupts">Working with interrupts</h3>
+<p>Interrupt handling, as it turns out, is one of the most complex concepts poorly implemented in almost all libraries except sx127x. The LoRa chip actively utilizes interrupts. When the chip receives a message, an interrupt is generated. When the message is sent, another interrupt is generated. When frequency hopping requires a frequency switch, yet another interrupt is generated. In LoRa chips, there are about 12 types of interrupts in total. To receive these interrupts, specific chip pins must be connected to the processor.</p>
+<p>In most libraries, the interrupt mechanism is hidden within the library. This is extremely poor design for several reasons:</p>
+<ul>
+<li>There is no way to handle interrupts asynchronously using FreeRTOS tasks. Typically, the implementation looks like this:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">start <span style="color:#f92672">=</span> Module<span style="color:#f92672">::</span>micros();
+<span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>Module<span style="color:#f92672">::</span>digitalRead(_mod<span style="color:#f92672">-&gt;</span>getIrq())) {
+  Module<span style="color:#f92672">::</span>yield();
+  <span style="color:#66d9ef">if</span>(Module<span style="color:#f92672">::</span>micros() <span style="color:#f92672">-</span> start <span style="color:#f92672">&gt;</span> timeout) {
+    clearIRQFlags();
+    <span style="color:#66d9ef">return</span>(ERR_TX_TIMEOUT);
+  }
+}
+</code></pre></div><p>The SPI bus is constantly loaded with polling, the processor runs at maximum speed and consumes energy, and all other tasks are blocked. In the code above, the interrupt is not effectively handled; instead, a register is simply read to determine if the data transmission has completed.</p>
+<ul>
+<li>The code becomes tightly coupled between the chip&rsquo;s logic and interrupt handling in a specific framework. In arduino-LoRa, for example, the callback function is called within the ISR. If the function takes a long time to execute or outputs to UART, the application will crash.</li>
+</ul>
+<p>In sx127x, I decided to remove any mention of interrupts, ISRs, and FreeRTOS tasks. To configure the interrupt from the chip, the library is not needed. It is enough to write:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">ESP_ERROR_CHECK(gpio_isr_handler_add((gpio_num_t)DIO0, handle_interrupt_fromisr, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)device));
+</code></pre></div><p>How the interrupt handler will be implemented should be decided by the application. It could be the same endless loop, a separate task in FreeRTOS, or something else. The main thing is that the <code>sx127x_handle_interrupt</code> function is called in this loop - it will process the interrupt register, understand which interrupt occurred, and call the corresponding callback.</p>
+<h3 id="error-handling">Error Handling</h3>
+<p>Sending or receiving data through SPI can result in an error, be it a timeout, an incorrect argument when forming a message, or something else. When working with the LoRa chip, almost every method involves sending and receiving small messages through SPI. Thus, theoretically, each method can return an error.</p>
+<p>Since my library is written in C, I decided not to invent anything new and adopted the universally accepted error handling through return codes. That&rsquo;s why almost every function returns the value <code>esp_err_t</code>. If a function is expected to return a value, it is returned through a pointer parameter.</p>
+<p>As much as one might want to deny it, error handling always increases code size and decreases readability. The only thing that can be done is to try to ease the pain, for example, by making error handling consistent.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">esp_err_t code <span style="color:#f92672">=</span> sx127x_set_bandwidth(bw, device);
+<span style="color:#66d9ef">if</span> (code <span style="color:#f92672">!=</span> ESP_OK) {
+  <span style="color:#66d9ef">return</span> code;
+}
+code <span style="color:#f92672">=</span> sx127x_set_implicit_header(NULL, device);
+<span style="color:#66d9ef">if</span> (code <span style="color:#f92672">!=</span> ESP_OK) {
+  <span style="color:#66d9ef">return</span> code;
+}
+</code></pre></div><h3 id="documentation">Documentation</h3>
+<p>I noticed a peculiar feature: writing documentation contributes to writing better code. It is during the documentation process for each function that I began to understand where a function is unnecessary, where parameters need to be added, where there is no consistency, and where a complete overhaul is needed. This exercise turned out to be helpful in taking a step back and understanding what could be improved in the project.</p>
+<p>I have read a lot of code from the standard ESP library and believe that it has very good documentation. Since my library is supported only on ESP, it made sense to format the documentation in the same style.</p>
+<p><img src="/img/sx127x/3.png" alt=""></p>
+<h3 id="distribution">Distribution</h3>
+<p>A library that is difficult to use is of no use to anyone. That&rsquo;s why it is worth considering how other developers will embed it.</p>
+<p>I faced certain difficulties with this. The thing is, before this, I only dealt with PlatformIO. In PlatformIO, a library for ESP could easily depend on the Arduino API. In theory, there is no problem with this since Espressif has released compatibility layers between ESP and Arduino, but it doesn&rsquo;t look neat.</p>
+<p>In the end, I rewrote the library as follows:</p>
+<ul>
+<li>It does not depend on the Arduino API.</li>
+<li>Usage examples depend only on the ESP API.</li>
+<li>The code structure corresponds to the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html#example-project">ESP component</a></li>
+</ul>
+<p>As a result, it can be used either as a component in esp-idf or as a regular library from the PlatformIO registry:</p>
+<p><a href="https://registry.platformio.org/libraries/dernasherbrezon/sx127x">https://registry.platformio.org/libraries/dernasherbrezon/sx127x</a></p>
+<h2 id="future-plans">Future plans</h2>
+<p>Surprisingly, but true: after all the work I&rsquo;ve done, there is still room for improvement in the library.</p>
+<p><strong>Firstly</strong>, support for FSK and OOK modulations can be added. They significantly complicate the API and I haven&rsquo;t figured out yet how to make it simple.</p>
+<p><strong>Secondly</strong>, support for other types of interrupts can be added. I only have TTGO and Heltec boards, so I can only test interrupts on the DIO0 pin. Still, if you buy a separate module, you can use all pins and all types of interrupts. That would be fun.</p>
+<p><strong>Thirdly</strong>, abstracting the SPI operation into a separate file is possible. This would allow using the library with Raspberry PI, Arduino, or any other chip. To achieve this, it would be necessary to implement the SPI for a specific platform.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/c/'>c</a>, <a class='tag' href='/en/tags/lora/'>lora</a>, <a class='tag' href='/en/tags/esp32/'>esp32</a>, <a class='tag' href='/en/tags/embedded/'>embedded</a>, <a class='tag' href='/en/tags/sx127x/'>sx127x</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/lora-deep-sleep/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Optimizing LoRa power consumption</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/lora-raspberrypi/'>
+        <span class='screen-reader-text'>Next post: </span>sx127x for RaspberryPI<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

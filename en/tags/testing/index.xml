@@ -5,7 +5,28 @@
     <link>https://dernasherbrezon.com/en/tags/testing/</link>
     <description>Recent content in testing on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 25 May 2020 17:27:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 01 Jan 2022 20:30:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Setting up a project in PlatformIO</title>
+      <link>https://dernasherbrezon.com/en/posts/configuring-platformio/</link>
+      <pubDate>Sat, 01 Jan 2022 20:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/configuring-platformio/</guid>
+      <description>In the previous post I described the general design of r2lora and selected tools for development. Now we can focus on configuring the project and breaking it down into individual modules. PlatformIO integrates well with a variety of different tools and allows you to do complex things almost as easily as in Java.
+Dependency Management A challenge in every C/C++ project is dependency management. There is no standard way to handle this in the language and ecosystem.</description>
+    </item>
+    
+    <item>
+      <title>Compare different compilation flags for RaspberryPi</title>
+      <link>https://dernasherbrezon.com/en/posts/compare-compile-flags-raspberrypi/</link>
+      <pubDate>Thu, 23 Sep 2021 21:20:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/compare-compile-flags-raspberrypi/</guid>
+      <description>Recently, I came across the very first version of the RaspberryPi, and I decided to experiment a bit with this old hardware.
+I was curious about how the performance of the volk library would differ depending on various compilation flags.
+arm1176jzf-s Firstly, it is necessary to determine the processor. As known, RaspberryPi uses a system-on-the-chip (SoC) from Broadcom. It is even written on the processor itself: Broadcom BCM2835. Inside this chip, there are several logical components:</description>
+    </item>
+    
     <item>
       <title>Unit tests</title>
       <link>https://dernasherbrezon.com/en/posts/unit-tests/</link>

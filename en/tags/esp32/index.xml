@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>esp32 on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/tags/esp32/</link>
+    <description>Recent content in esp32 on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Power consumption in lora-at</title>
+      <link>https://dernasherbrezon.com/en/posts/lora-at-power-profiling/</link>
+      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/lora-at-power-profiling/</guid>
+      <description>Having thoroughly understood how Power Profiler Kit 2 (PPK2) works, I decided to test power consumption under different conditions. In fact, lora-at is not such a simple application. It works with bluetooth and the sx127x chip, processes commands from the UART bus and has a deep sleep mode. So there is a plenty of things to look for.
+Measurement methodology Before you start measuring something, you need to decide how it will be measured.</description>
+    </item>
+    
+    <item>
+      <title>lora-at</title>
+      <link>https://dernasherbrezon.com/en/posts/lora-at/</link>
+      <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/lora-at/</guid>
+      <description>Background It&amp;rsquo;s been too long since my last post about LoRa. During this time, I created a project lora-at, which I would like to write about in this post. But before I deep dive into the meety details, I little background on how it started.
+Initially, I planned to create a small firmware for receiving signals from satellites using LoRa protocol. I used tinyGS as a basis, which did almost everything I needed.</description>
+    </item>
+    
+    <item>
+      <title>sx127x</title>
+      <link>https://dernasherbrezon.com/en/posts/sx127x/</link>
+      <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/sx127x/</guid>
+      <description>One of the fundamental questions that every programmer must periodically answer is &amp;ldquo;whether to use existing library or write your own.&amp;rdquo; It&amp;rsquo;s impossible to give a definitive answer to this question once and for all. You have to sit down and analyze each specific case. Recently, I faced such a situation, as I described in my previous post, where I explained how I reduced the LoRa current consumption to 16mA. If the goal is just to experiment and test some theory about the hardware, it was enough to modify the source code of existing arduino-LoRa.</description>
+    </item>
+    
+    <item>
+      <title>Optimizing LoRa power consumption</title>
+      <link>https://dernasherbrezon.com/en/posts/lora-deep-sleep/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/lora-deep-sleep/</guid>
+      <description>In recent months, I have been working on reducing power consumption in the lora-at project. The idea is to create a self-sufficient receiver, place it on the balcony, and receive signals from satellites 24/7. Easier said than done, especially for those who have never optimized code for low power consumption or designed electrical circuits. Of course, you could install the largest solar panel, receive signals only during the day, and not worry about it.</description>
+    </item>
+    
+    <item>
+      <title>USB-tester A3-B</title>
+      <link>https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/</link>
+      <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/</guid>
+      <description>Not long ago, I acquired a USB tester A3-B.
+This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:
+ Measure current consumption in different modes:  Sleep Active work Standby   Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.</description>
+    </item>
+    
+    <item>
+      <title>Creating FOTA component</title>
+      <link>https://dernasherbrezon.com/en/posts/fota-for-r2lora/</link>
+      <pubDate>Sun, 02 Jan 2022 21:04:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/fota-for-r2lora/</guid>
+      <description>This post continues the development cycle of the r2lora project. Previous articles:
+ Creating a project for ESP32 Setting up a project in PlatformIO  FOTA is an abbreviation for Firmware-Over-The-Air. This is a special component that updates the application if a new version is available.
+Design Auto-update can be done in several ways:
+ The special component starts listening on TCP/UDP port. To update, you need to send the firmware to this port from any other device running on the network.</description>
+    </item>
+    
+    <item>
+      <title>Setting up a project in PlatformIO</title>
+      <link>https://dernasherbrezon.com/en/posts/configuring-platformio/</link>
+      <pubDate>Sat, 01 Jan 2022 20:30:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/configuring-platformio/</guid>
+      <description>In the previous post I described the general design of r2lora and selected tools for development. Now we can focus on configuring the project and breaking it down into individual modules. PlatformIO integrates well with a variety of different tools and allows you to do complex things almost as easily as in Java.
+Dependency Management A challenge in every C/C++ project is dependency management. There is no standard way to handle this in the language and ecosystem.</description>
+    </item>
+    
+    <item>
+      <title>Creating a project for ESP32</title>
+      <link>https://dernasherbrezon.com/en/posts/programming-esp32/</link>
+      <pubDate>Fri, 31 Dec 2021 01:30:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/programming-esp32/</guid>
+      <description>Recently, the LoRa data transmission protocol has been gaining popularity. Several satellites actively use it, and there is a whole network for signal reception - tinyGS. Of course, I couldn&amp;rsquo;t miss such a trend, so I started exploring how to connect the LoRa protocol to r2cloud. Unfortunately, it&amp;rsquo;s a closed protocol, so you can&amp;rsquo;t demodulate it with the standard rtl-sdr. To receive the signal, you need to use a special chip that will output a ready-made packet.</description>
+    </item>
+    
+  </channel>
+</rss>

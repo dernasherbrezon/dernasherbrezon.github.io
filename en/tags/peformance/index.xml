@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>peformance on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/tags/peformance/</link>
+    <description>Recent content in peformance on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 25 Sep 2021 13:17:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/peformance/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CPU-specific APT repositories</title>
+      <link>https://dernasherbrezon.com/en/posts/apt-for-cpu/</link>
+      <pubDate>Sat, 25 Sep 2021 13:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/apt-for-cpu/</guid>
+      <description>Interesting fact - all applications located in the standard Debian or Ubuntu repositories are compiled with default options. This leads to interesting consequences. For example, programmers do not use SIMD instructions and rely on the compiler. The compiler cannot always optimize the code for a specific processor. As a result, all the super-fast capabilities of processors and incredible SIMD operations are not used.
+Debian developers explain this feature by stating that enabling support for extended registers does not provide significant acceleration.</description>
+    </item>
+    
+  </channel>
+</rss>

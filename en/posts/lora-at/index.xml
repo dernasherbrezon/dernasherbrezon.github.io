@@ -1,0 +1,16 @@
+<rss version="2.0" xmlns:yandex="http://news.yandex.ru"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:turbo="http://turbo.yandex.ru" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/posts/lora-at/</link>
+    <description>Blog about software development</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru</language>
+    <lastBuildDate>Sun, 05 Nov 2023 22:25:18 +0100</lastBuildDate>
+    
+        <atom:link href="https://dernasherbrezon.com/en/posts/lora-at/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>

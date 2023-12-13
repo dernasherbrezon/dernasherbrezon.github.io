@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/tags/java/</link>
+    <description>Recent content in java on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BLE server using Java</title>
+      <link>https://dernasherbrezon.com/en/posts/ble-server-java/</link>
+      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/ble-server-java/</guid>
+      <description>In one of my previous posts, I began optimizing the power consumption of ESP32 and LoRa. The idea was to put the microcontroller to sleep and wake it up only when data received. But how to know when to wake up? It all depends on the specific application. If you need to transmit data at regular intervals, you can hardcode it in the firmware. But what if data needs to be received at unpredictable intervals?</description>
+    </item>
+    
+    <item>
+      <title>Fat and thin distributions</title>
+      <link>https://dernasherbrezon.com/en/posts/thin-and-fat-distributives/</link>
+      <pubDate>Wed, 26 Aug 2020 22:31:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/thin-and-fat-distributives/</guid>
+      <description>This week, I finally migrated all my projects to Ubuntu 18.04 and thin .deb distributions. I started this project at the beginning of the year and completed it only now, almost 8 months later. The migration itself deserves a separate article with complaints and rhetorical questions. Here, I want to briefly describe the confrontation between thin and fat distributions, share my perspective on this story, and provide some analysis. Let&amp;rsquo;s dive in!</description>
+    </item>
+    
+    <item>
+      <title>Distributing Java application</title>
+      <link>https://dernasherbrezon.com/en/posts/java-dist/</link>
+      <pubDate>Tue, 18 Aug 2015 13:55:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/java-dist/</guid>
+      <description>Surprisingly, but a fact - distributing Java applications in the 21st century is still a huge hassle. Developers still come up with methods like rsync/copy-paste/wget to install Java applications on servers. And only monstrous enterprise production-ready platforms sometimes allow a bit more - rolling back the application to a previous version. In this article, I would like to talk about an accessible and straightforward way of organizing distribution.
+deb и apt In the world, there are many truly gigantic repositories of applications and tools for their distribution.</description>
+    </item>
+    
+  </channel>
+</rss>

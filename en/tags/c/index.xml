@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>c on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/tags/c/</link>
+    <description>Recent content in c on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 24 Nov 2023 09:08:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Power Profiler Kit 2</title>
+      <link>https://dernasherbrezon.com/en/posts/power-profiler-kit2/</link>
+      <pubDate>Fri, 24 Nov 2023 09:08:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/power-profiler-kit2/</guid>
+      <description>After I re-wrote lora-at in C, I reduced the size of the firmware by half! However, although this looks impressive, it is actually not that important. If both versions fit on a chip, then size doesn&amp;rsquo;t make too much difference. Energy consumption is another matter. Low power consumption is important when operating from solar panels. That is why I decided to explore this topic in more detail.
+Previously, I used the A3-B USB tester, but it is not suitable for measuring current consumption in microcontrollers.</description>
+    </item>
+    
+    <item>
+      <title>sx127x for RaspberryPI</title>
+      <link>https://dernasherbrezon.com/en/posts/lora-raspberrypi/</link>
+      <pubDate>Sun, 15 Jan 2023 12:59:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/lora-raspberrypi/</guid>
+      <description>Continuing work on the new sx127x library, I decided to add Linux support, specifically for Raspberry Pi. Besides the practical need, I wanted to understand how programming for microcontrollers differs from regular operating systems.
+I designed the library quite well from the beginning, so migrating to Linux required only a few changes:
+ Abandoning esp_err.h and using return codes of type int Separating SPI operations into a separate header and redefining for different platforms.</description>
+    </item>
+    
+    <item>
+      <title>sx127x</title>
+      <link>https://dernasherbrezon.com/en/posts/sx127x/</link>
+      <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/sx127x/</guid>
+      <description>One of the fundamental questions that every programmer must periodically answer is &amp;ldquo;whether to use existing library or write your own.&amp;rdquo; It&amp;rsquo;s impossible to give a definitive answer to this question once and for all. You have to sit down and analyze each specific case. Recently, I faced such a situation, as I described in my previous post, where I explained how I reduced the LoRa current consumption to 16mA. If the goal is just to experiment and test some theory about the hardware, it was enough to modify the source code of existing arduino-LoRa.</description>
+    </item>
+    
+    <item>
+      <title>Optimizing LoRa power consumption</title>
+      <link>https://dernasherbrezon.com/en/posts/lora-deep-sleep/</link>
+      <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/lora-deep-sleep/</guid>
+      <description>In recent months, I have been working on reducing power consumption in the lora-at project. The idea is to create a self-sufficient receiver, place it on the balcony, and receive signals from satellites 24/7. Easier said than done, especially for those who have never optimized code for low power consumption or designed electrical circuits. Of course, you could install the largest solar panel, receive signals only during the day, and not worry about it.</description>
+    </item>
+    
+    <item>
+      <title>Dynamic libraries, RPATH and Conan</title>
+      <link>https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/</link>
+      <pubDate>Thu, 18 Feb 2021 23:11:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/</guid>
+      <description>This article is more of a summary of what I learned in the last week about dynamic libraries, RPATH, and Conan.
+Introduction No one in their right mind would start learning how libraries are linked in MacOS. So, first, I&amp;rsquo;ll try to outline the problem I was trying to solve.
+So, back in the old days when computer hard drives were small, computer memory was scarce, people came up with the idea of reusing libraries.</description>
+    </item>
+    
+  </channel>
+</rss>

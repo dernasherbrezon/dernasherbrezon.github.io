@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='This article is more of a summary of what I learned in the last week about dynamic libraries, RPATH, and Conan.
+Introduction No one in their right mind would start learning how libraries are linked in MacOS. So, first, I&rsquo;ll try to outline the problem I was trying to solve.
+So, back in the old days when computer hard drives were small, computer memory was scarce, people came up with the idea of reusing libraries.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Dynamic libraries, RPATH and Conan • dernasherbrezon'>
+<meta property='og:description' content='This article is more of a summary of what I learned in the last week about dynamic libraries, RPATH, and Conan.
+Introduction No one in their right mind would start learning how libraries are linked in MacOS. So, first, I&rsquo;ll try to outline the problem I was trying to solve.
+So, back in the old days when computer hard drives were small, computer memory was scarce, people came up with the idea of reusing libraries.'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:published_time' content='2021-02-18T23:11:18Z'/><meta property='article:modified_time' content='2021-02-18T23:11:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Dynamic libraries, RPATH and Conan • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/dynamic-libraries-rpath/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/dynamic-libraries-rpath/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Dynamic libraries, RPATH and Conan</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2021-02-18T23:11:18Z'>18 Feb 2021</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>This article is more of a summary of what I learned in the last week about dynamic libraries, RPATH, and Conan.</p>
+<h2 id="introduction">Introduction</h2>
+<p>No one in their right mind would start learning how libraries are linked in MacOS. So, first, I&rsquo;ll try to outline the problem I was trying to solve.</p>
+<p>So, back in the old days when computer hard drives were small, computer memory was scarce, people came up with the idea of reusing libraries. How does it work? Suppose we have 2 applications:</p>
+<ul>
+<li>A calculator depending on libraries:
+<ul>
+<li>math</li>
+<li>ncurses</li>
+</ul>
+</li>
+<li>A task scheduler depending on libraries:
+<ul>
+<li>pthread</li>
+<li>ncurses</li>
+</ul>
+</li>
+</ul>
+<p>Upon launch of these two applications, the operating system would load the necessary libraries into memory. However, since the <code>ncurses</code> library would be loaded once, the operating system wouldn&rsquo;t load it again. Instead, the &ldquo;task scheduler&rdquo; application would get a reference to the memory of the already loaded library. This is safe enough because the library cannot change (I intentionally simplify the situation with global variables and thread-safe guarantees). So application loaded two libraries, but operating system loaded only one (Resident memory vs Shared memory). The more applications use the same libraries, the faster the application startup and the lower the memory consumption.</p>
+<p>In addition to saving memory, such reuse improved the maintainability of the operating system. Suppose a vulnerability is found in one of the libraries (ncurses). To fix it, you only need to update the library in one place. All applications using that library would automatically receive the security update. This is particularly important if some applications (e.g., &ldquo;task scheduler&rdquo;) are infrequently updated or abandoned by their creators.</p>
+<p>An alternative to this approach is thick distributions. I&rsquo;ve already written about the pros and cons of <a href="https://dernasherbrezon.com/en/posts/thin-and-fat-distributives/">thin and fat distributions</a> for Java. In general, for C/C++, the arguments are quite similar. However, historically, operating system applications have been thin distributions. <a href="https://fedoraproject.org/wiki/Bundled_Libraries?rd=Packaging:Bundled_Libraries">Many operating systems</a> still <a href="https://www.debian.org/doc/debian-policy/ch-source.html#s-embeddedfiles">require applications to be delivered</a> as thin distributions.</p>
+<p>Most arguments for and against thin distributions made sense 20 years ago. Now, when memory and disk size are not as critical, new arguments against thin distributions are emerging:</p>
+<ul>
+<li>The number of libraries and applications has become so large that maintainers of popular systems are no longer able to deliver packages with the latest library versions. Often they freeze a stable version and release small security updates.</li>
+<li>Again, due to the number of libraries and dependencies between them, it has become more difficult to find a list of versions that would suit most applications. If the calculator uses ncurses version 1.0, and the &ldquo;task scheduler&rdquo; uses ncurses version 2.0, it&rsquo;s unclear which version of ncurses to install. apt, rpm, yum allow installing only one version of a library. You can&rsquo;t install versions 1.0 and 2.0 simultaneously. If these versions are incompatible, you&rsquo;ll have to choose which application to include in the operating system.</li>
+<li>Constantly updating the version of the entire operating system is necessary. After all, new versions of libraries will not appear. And writing code, half of which is adorned with <code>#if NCURSES = 1.0 ... #else if NCURSES = 2.0 ... #endif</code>  is not something anyone wants.</li>
+</ul>
+<p>All of this flashed through my mind in a matter of seconds when I was thinking about how to fix &ldquo;<a href="https://github.com/dernasherbrezon/sdr-server/issues/3">Compiling issue - rtlsdr_set_bias_tee</a>&rdquo; in sdr-server.</p>
+<h2 id="conanhttpsconanio"><a href="https://conan.io">Conan</a></h2>
+<p>Weighing all the pros and cons, I decided to go the route of thick distributions. For this, I decided to delve into the trendy technology that everyone is talking about - <a href="https://conan.io">Conan</a> by JFrog.</p>
+<p><img src="/img/dynamic-libraries-rpath/conan-install_flow.png" alt="conan-install_flow"></p>
+<p>The main idea of the project is that the compiled libraries are already on a central server. To use them, you just need to connect them to the project. Conan will download them and correctly substitute the paths. This is done with a small config:</p>
+<pre><code>[requires]
+rtlsdr/0.6.4
+volk/2.4.1
+
+[build_requires]
+check/0.15.2@r2cloud/stable
+
+[generators]
+cmake
+</code></pre><p>After that, include Conan in CMakeLists.txt:</p>
+<pre><code>include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+</code></pre><p>Then, in the <code>build</code> Then, in the <code>install</code> command:</p>
+<pre><code>#: conan install ..
+</code></pre><p>This command will download dependencies, put them in the local repository, and generate a CMake config that includes all dependent libraries. After that, all that remains is to link these libraries to the executable file:</p>
+<pre><code>target_link_libraries(sdr_server ${CONAN_LIBS})
+</code></pre><p>And build the project:</p>
+<pre><code>cmake ..
+</code></pre><p>That was all in theory. In practice, everything is completely different.</p>
+<h2 id="practice">Practice</h2>
+<p>In practice, there are very few libraries in <a href="https://conan.io/center/">conan-center</a> Moreover, those that exist are, for some reason, <a href="https://github.com/conan-io/conan-center-index/pull/4582">incorrectly built</a>. I was, in general, prepared for this, so I gathered my thoughts and began to delve into all the nuances of linking libraries, their distribution, and how it is implemented in Conan.</p>
+<p>So, to understand how to correctly build a library, it is necessary to understand how it is linked with the program. To do this, you need to take a couple of steps back.</p>
+<p>In CMake, there are two completely different concepts: build and install. I even drew a picture to reinforce this important knowledge:</p>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 401 262"><defs/><g><path d="M 160 260 L 160 20" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><rect x="0" y="0" width="120" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 10px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Build</div></div></div></foreignObject><text x="60" y="14" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Build</text></switch></g><rect x="200" y="0" width="200" height="20" fill="none" stroke="none" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 10px; margin-left: 201px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Install</div></div></div></foreignObject><text x="300" y="14" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">Install</text></switch></g><rect x="0" y="60" width="120" height="40" fill="#ffe6cc" stroke="#d79b00" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 80px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">app/build/</div></div></div></foreignObject><text x="60" y="84" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">app/build/</text></switch></g><rect x="0" y="100" width="120" height="160" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 180px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">app<br />app_sharedLib.dylib<br />configs</div></div></div></foreignObject><text x="60" y="184" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">app...</text></switch></g><rect x="200" y="60" width="200" height="40" fill="#ffe6cc" stroke="#d79b00" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 80px; margin-left: 201px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">/usr/bin/app</div></div></div></foreignObject><text x="300" y="84" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">/usr/bin/app</text></switch></g><rect x="200" y="140" width="200" height="40" fill="#ffe6cc" stroke="#d79b00" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 160px; margin-left: 201px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">/usr/local/lib/app_sharedLib.dylib</div></div></div></foreignObject><text x="300" y="164" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">/usr/local/lib/app_sharedLib.dylib</text></switch></g><rect x="200" y="220" width="200" height="40" fill="#ffe6cc" stroke="#d79b00" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 240px; margin-left: 201px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">/usr/local/include/app</div></div></div></foreignObject><text x="300" y="244" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">/usr/local/include/app</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>During the &ldquo;build&rdquo; phase, the application is compiled, and artifacts are generated from it. During the &ldquo;install&rdquo; phase, these artifacts are copied to the correct location within the operating system. There is a very important thing here: the separation into two phases is quite conditional. It&rsquo;s not Maven, where there are clear rules for when and what should be executed. In most cases, the build folder after compilation is a dump of various files scattered across folders. Some libraries even <a href="https://github.com/gnuradio/volk/blob/master/CMakeLists.txt#L283">tidy up</a> public header files and libraries only during the &ldquo;install&rdquo; phase. Despite such disorder during the &ldquo;build&rdquo; phase, any developer expects that the application can be run on success. This is a very important point to understand the correct linking of dynamic libraries.</p>
+<p>Next, I will try to describe how Conan embeds dependencies in different phases.</p>
+<h3 id="compilation">Compilation</h3>
+<p>The simplest step. Conan uses paths from the local cache and passes them to the compiler:</p>
+<pre><code>[ 37%] Building C object CMakeFiles/perf_xlating.dir/test/perf_xlating.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc \
+ -I/Users/dernasherbrezon/.conan/data/check/0.15.2/r2cloud/stable/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/include \
+ -I/Users/dernasherbrezon/.conan/data/rtlsdr/0.6.4/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/include \
+ -I/Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/include \
+ -I/usr/local/include -std=c99 -O3 -DNDEBUG  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk -std=gnu99 -o CMakeFiles/perf_xlating.dir/test/perf_xlating.c.o -c /Users/dernasherbrezon/git/sdr-server/test/perf_xlating.c
+</code></pre><p>In this case, the cache is located at <code>/Users/dernasherbrezon/.conan/data/</code> and the libraries <code>rtlsdr, volk &amp; check</code> are used.</p>
+<h3 id="linking">Linking</h3>
+<p>Linking is the same: paths from the local cache are used during linking.</p>
+<pre><code>[ 40%] Linking C executable bin/perf_xlating
+/usr/local/Cellar/cmake/3.19.4/bin/cmake -E cmake_link_script CMakeFiles/perf_xlating.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -std=c99 -O3 -DNDEBUG  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/perf_xlating.dir/test/perf_xlating.c.o -o bin/perf_xlating  \
+ -L/Users/dernasherbrezon/.conan/data/check/0.15.2/r2cloud/stable/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib \
+ -L/Users/dernasherbrezon/.conan/data/rtlsdr/0.6.4/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib \
+ -L/Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib \
+ lib/libsdr_serverLib.a \
+ -lcheck -lrtlsdr -lvolk /Library/Developer/CommandLineTools/SDKs/MacOSX11.0.sdk/usr/lib/libz.tbd /usr/local/lib/libconfig.dylib -lpthread -lm 
+</code></pre><h3 id="running-after-build">Running after build</h3>
+<p>The application will run without any problems, but here, a surprise awaits: absolute paths to dependent libraries. During linking, paths to libraries are specified in the executable file.</p>
+<pre><code>otool -l bin/perf_xlating|grep -B 2 volk
+          cmd LC_LOAD_DYLIB
+      cmdsize 152
+         name /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib (offset 24)
+</code></pre><p>Such programs simply won&rsquo;t work on another computer due to absolute paths.</p>
+<h3 id="running-after-install">Running after install</h3>
+<p>The application simply won&rsquo;t run. To make it run, you need to place all dependent libraries next to the binary. In Conan, this is done easily. Just add the following to the  <code>conanfile.txt</code> file:</p>
+<pre><code>[imports]
+bin, *.dll -&gt; ./bin 
+lib, *.dylib* -&gt; ./lib
+lib, *.so* -&gt; ./lib
+</code></pre><p>This section will be executed during the <code>conan import ..</code> command and will copy all libraries from the local cache to the application directory. For example, <code>/Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib</code> -&gt; <code>sdr-server/build/lib/libvolk.2.4.dylib</code>.</p>
+<p>The next step is to change absolute paths to relative ones inside the executable file. And here is where RPATH comes into play. This is a special section in the executable file that contains directories in which to search for dynamic libraries. In this section, you can place a value with a special variable <code>@executable_path</code> to make the linker start searching for libraries relative to the executable file. The algorithm will be as follows:</p>
+<ol>
+<li>Load the executable file.</li>
+<li>For each library name, take its path. If it contains the keyword @rpath, then</li>
+<li>Find the RPATH section in the executable file. If it exists, then</li>
+<li>Check the value of the section. If it contains @executable_path, then substitute the current path to the binary</li>
+<li>In the obtained path, look for the library.</li>
+</ol>
+<p>In MacOS, things are a bit more complicated. The library contains inside it the path where it is located:</p>
+<pre><code>otool -l /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib|grep -A 2 LC_ID_DYLIB
+          cmd LC_ID_DYLIB
+      cmdsize 152
+         name /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib (offset 24)
+</code></pre><p>This looks very strange. Apparently, during linking, this path is copied from the library to the executable file. Of course, in such libraries, you also need to replace absolute paths with relative ones. This can be done with a special program:</p>
+<pre><code>install_name_tool -id @rpath/libvolk.2.4.dylib /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib
+</code></pre><p>Now the path contains the special label @rpath:</p>
+<pre><code>otool -l /Users/dernasherbrezon/.conan/data/volk/2.4.1/_/_/package/6a83d7f783e7ee89a83cf2fe72b5f5f67538e2a6/lib/libvolk.2.4.dylib|grep -A 2 LC_ID_DYLIB
+          cmd LC_ID_DYLIB
+      cmdsize 56
+         name @rpath/libvolk.2.4.dylib (offset 24)
+</code></pre><p>This label will be substituted from the RPATH section of the executable file. Now the dependencies look like this:</p>
+<pre><code>otool -L bin/perf_xlating 
+bin/perf_xlating:
+	@rpath/libcheck.0.dylib (compatibility version 0.0.0, current version 0.15.2)
+	@rpath/librtlsdr.0.dylib (compatibility version 0.0.0, current version 0.6.4)
+	@rpath/libvolk.2.4.dylib (compatibility version 2.4.0, current version 0.0.0)
+</code></pre><p>The last step is to set the RPATH section to start using relative paths to libraries.</p>
+<pre><code>install_name_tool -add_rpath @executable_path/../lib bin/perf_xlating
+</code></pre><p>After all these manipulations, you can check the result. Since library search occurs at runtime, to find out the resulting paths, you need to run the program:</p>
+<pre><code>DYLD_PRINT_LIBRARIES=YES bin/perf_xlating 
+dyld: loaded: &lt;7AB49406-C965-3CD7-99E5-398BC69A6567&gt; /&lt;edited&gt;/sdr-server/build/bin/perf_xlating
+dyld: loaded: &lt;26F34288-9251-3468-9ED9-10A595F04DED&gt; /&lt;edited&gt;/sdr-server/build/bin/../lib/libcheck.0.dylib
+dyld: loaded: &lt;C8BA4B0A-EE3A-3322-9B14-1C68CFCF977B&gt; /&lt;edited&gt;/sdr-server/build/bin/../lib/librtlsdr.0.dylib
+dyld: loaded: &lt;24DC8413-C299-3CD5-ADDD-5785C39B6084&gt; /&lt;edited&gt;/sdr-server/build/bin/../lib/libvolk.2.4.dylib
+...
+</code></pre><p>Perfect.</p>
+<p>For Linux, the steps are roughly the same, just simpler. You don&rsquo;t need to specify paths inside the libraries themselves.</p>
+<p>A few words about CMake. The <code>install_name_tool</code> program can be replaced with CMake commands. Unfortunately, CMake has a dozen different parameters that implicitly affect the result.</p>
+<pre><code>CMAKE_INSTALL_RPATH
+CMAKE_BUILD_WITH_INSTALL_RPATH
+CMAKE_INSTALL_RPATH_USE_LINK_PATH
+CMAKE_BUILD_RPATH
+CMAKE_SKIP_BUILD_RPATH
+INSTALL_RPATH
+BUILD_RPATH
+</code></pre><p>I couldn&rsquo;t get CMake to set the correct RPATH in the executable file. Perhaps Conan <a href="https://docs.conan.io/en/latest/howtos/manage_shared_libraries/rpaths.html">implicitly overwrites</a> certain variables, thereby breaking the algorithm.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Spending a week on learning, creating a pull request in Conan, volk, and libcheck, I ultimately decided to do everything the old-fashioned way. The idea of thick distributions is good, but the infrastructure is not ready for it yet. Whether the infrastructure for C/C++ projects with its CMake, Make, pkgconf, autotools, Conan will ever be ready is a big question.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/c/'>c</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/thin-and-fat-distributives/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Fat and thin distributions</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/prometheus-monitoring-mikrotik/'>
+        <span class='screen-reader-text'>Next post: </span>Monitor Mikrotik routers using Prometheus<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>r2cloud on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/en/tags/r2cloud/</link>
+    <description>Recent content in r2cloud on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/r2cloud/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BLE server using Java</title>
+      <link>https://dernasherbrezon.com/en/posts/ble-server-java/</link>
+      <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/en/posts/ble-server-java/</guid>
+      <description>In one of my previous posts, I began optimizing the power consumption of ESP32 and LoRa. The idea was to put the microcontroller to sleep and wake it up only when data received. But how to know when to wake up? It all depends on the specific application. If you need to transmit data at regular intervals, you can hardcode it in the firmware. But what if data needs to be received at unpredictable intervals?</description>
+    </item>
+    
+  </channel>
+</rss>

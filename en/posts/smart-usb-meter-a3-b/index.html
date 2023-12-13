@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Not long ago, I acquired a USB tester A3-B.
+This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:
+ Measure current consumption in different modes:  Sleep Active work Standby   Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='USB-tester A3-B • dernasherbrezon'>
+<meta property='og:description' content='Not long ago, I acquired a USB tester A3-B.
+This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:
+ Measure current consumption in different modes:  Sleep Active work Standby   Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/smart-usb-meter-a3-b/a3-b.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='r2lora'><meta property='article:tag' content='esp32'><meta property='article:tag' content='bluetooth'><meta property='article:published_time' content='2022-01-06T18:30:18Z'/><meta property='article:modified_time' content='2022-01-06T18:30:18Z'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/smart-usb-meter-a3-b/a3-b.jpg'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>USB-tester A3-B • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><script src="/js/chart.min.js"></script>
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>USB-tester A3-B</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2022-01-06T18:30:18Z'>06 Jan 2022</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Not long ago, I acquired a USB tester A3-B.</p>
+<p>This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:</p>
+<ul>
+<li>Measure current consumption in different modes:
+<ul>
+<li>Sleep</li>
+<li>Active work</li>
+<li>Standby</li>
+</ul>
+</li>
+<li>Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.</li>
+<li>Measure total consumption over a period.</li>
+<li>Determine the type of charging: fast, slow.</li>
+<li>Assess the quality of the charging device. Some devices may be labeled as 10 watts, but they actually deliver only 5 watts.</li>
+</ul>
+<p>I find this device particularly interesting because it can measure the current consumption of ESP32 and Raspberry Pi. Some of my stations operate on solar panels, and optimizing power consumption is important.</p>
+<p>As a developer of r2lora and r2cloud, it&rsquo;s crucial for me to optimize my own code for low power consumption, and a device like this helps with that.</p>
+<p>But reading the indicators directly from the screen can be challenging. This is where Bluetooth comes to the rescue.</p>
+<blockquote>
+<p>Everything becomes better at once if you add Bluetooth.</p>
+<p>Leonard Hofstadter</p>
+</blockquote>
+<p>Through Bluetooth, you can obtain all the parameters displayed on the screen. Since they are in digital form, they can be processed programmatically to create beautiful graphs.</p>
+<h2 id="bluetooth">Bluetooth</h2>
+<p><a href="https://www.amazon.co.uk/dp/B07DCS11GM">On the product page</a>, it&rsquo;s stated that A3-B supports Bluetooth and can only be connected to it through an Android app. So data can be available for external applications. Now it remains to understand how.</p>
+<p>Here GitHub comes to the rescue. It turns out that enthusiasts have long figured out the protocol and have written a bunch of programs. To start, you need to find the device and pair it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bluetoothctl scan on
+</code></pre></div><p>This command will display all nearby Bluetooth devices:</p>
+<p><img src="/img/smart-usb-meter-a3-b/discovery.png" alt=""></p>
+<p>A3-B is identified as 2 devices: E-test BLE and E-test SPP. BLE is <a href="https://en.wikipedia.org/wiki/Bluetooth_Low_Energy">bluetooth low energy</a> and SPP is <a href="https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Serial_Port_Profile_(SPP)">serial port profile</a>. All communication will go through the serial port, so you need to connect to the SPP device.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo rfcomm bind <span style="color:#ae81ff">0</span> B3:BA:D5:A7:1F:E1 <span style="color:#ae81ff">2</span>
+</code></pre></div><p>This command will create the device <code>/dev/rfcomm0</code>, bind the Bluetooth device to it, and select port number 2. The port number is crucial. The device provides several ports by default, but only port 2 can be used to receive data. It&rsquo;s possible that the other ports are used for device reprogramming.</p>
+<p>You can check the connection using the <a href="https://github.com/rfinnie/rdserialtool">rdserialtool</a> project:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./rdserialtool  --debug --device um24c --serial-device /dev/rfcomm0
+</code></pre></div><p>If the connection is successful, the console will display the following:</p>
+<pre><code>2022-01-06 14:29:21,918 INFO: rdserialtool 0.2.1
+2022-01-06 14:29:21,918 INFO: Copyright (C) 2019 Ryan Finnie
+2022-01-06 14:29:21,919 INFO: 
+2022-01-06 14:29:21,919 INFO: Connecting to UM24C /dev/rfcomm0
+2022-01-06 14:29:21,919 DEBUG: Serial: Connecting to /dev/rfcomm0
+2022-01-06 14:29:21,920 INFO: Connection established
+2022-01-06 14:29:21,921 INFO: 
+2022-01-06 14:29:22,221 DEBUG: Serial: SEND begin (b'\xf0')
+2022-01-06 14:29:22,222 DEBUG: Serial: SEND end (1 bytes)
+2022-01-06 14:29:22,222 DEBUG: Serial: RECV begin
+2022-01-06 14:29:26,688 DEBUG: Serial: RECV end (b'\tc\x01\xf6\x002\x00\x00\x00\xfb\x00\x18\x00K\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x012\x00\x00\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x03\x00\x003\xb8\x00\x01\x00\x03\x00\x05\x00\x00\x03\xec\x00\x00\xff\xf1')
+2022-01-06 14:29:26,690 DEBUG: Start: 0x0963, end: 0xfff1
+2022-01-06 14:29:26,692 DEBUG: DUMP: b'\tc\x01\xf5\x002\x00\x00\x00\xfb\x00\x18\x00K\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x012\x00\x00\x00\x00\x00\x00\x01\x93\x00\x00\x07\xe0\x00\x03\x00\x003\xb8\x00\x01\x00\x03\x00\x05\x00\x00\x03\xec\x00\x00\xff\xf1'
+USB:  5.02V,  0.050A,  0.251W,  100.4Ω
+Data:  3.06V(+),  0.00V(-), charging mode: Unknown / Normal
+Recording (on) :    0.403Ah,    2.016Wh,  13240 sec at &gt;= 0.03A
+Data groups:
+    *0:    0.403Ah,    2.016Wh       5:    0.000Ah,    0.000Wh
+     1:    0.000Ah,    0.000Wh       6:    0.000Ah,    0.000Wh
+     2:    0.000Ah,    0.000Wh       7:    0.000Ah,    0.000Wh
+     3:    0.000Ah,    0.000Wh       8:    0.000Ah,    0.000Wh
+     4:    0.000Ah,    0.000Wh       9:    0.000Ah,    0.000Wh
+UM24C, temperature:  24C ( 75F)
+Screen: 0/6, brightness: 5/5, timeout: 3 min
+Collection time: 2022-01-06 14:29:26.689485
+</code></pre><p>Indeed, this project outputs either too much data or data in JSON format. Therefore, I opted for another project - <a href="https://github.com/davatorium/um25c-client">um25c-client</a>. It connects to the device and outputs the current voltage and current value every second. These data can be conveniently imported into .csv and analyzed.</p>
+<h2 id="analysis-of-everything-around">Analysis of Everything Around</h2>
+<p>Most devices connect via USB, so you can measure literally everything! I started with fairly benign things. The <a href="https://www.razer.com/gaming-mice/razer-naga-x/RZ01-03590100-R3U1">Razer Naga X</a> mouse has an average consumption of about 110mA:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="razernaga" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="razernaga" download="razernaga.png" href="" title="Razer Naga X">Download</a>
+</small>
+</div>
+<script>
+var razernagaData = [{"current":0.105,"voltage":5.09},{"current":0.107,"voltage":5.09},{"current":0.11,"voltage":5.08},{"current":0.113,"voltage":5.09},{"current":0.118,"voltage":5.09},{"current":0.119,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.107,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.09,"voltage":5.09},{"current":0.092,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.103,"voltage":5.09},{"current":0.111,"voltage":5.09},{"current":0.118,"voltage":5.08},{"current":0.117,"voltage":5.08}];razernagaData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var razernagaCtx = document.getElementById('razernaga').getContext('2d');
+const razernagaChart = new Chart(razernagaCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Current',
+            data: razernagaData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'Current'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' mA';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'Razer Naga X',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "mA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+</noscript>
+<p>Raspberry Pi 3b has an average standby consumption of 300mA.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="raspberrypi3b" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="raspberrypi3b" download="raspberrypi3b.png" href="" title="Raspberry PI 3b">Download</a>
+</small>
+</div>
+<script>
+var raspberrypi3bData = [{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.299,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.303,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14}];raspberrypi3bData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var raspberrypi3bCtx = document.getElementById('raspberrypi3b').getContext('2d');
+const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Current',
+            data: raspberrypi3bData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'Current'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' mA';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'Raspberry PI 3b',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "mA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
+</noscript>
+<p>Next, a comparison of the power consumption of <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> and <a href="http://tinygs.com">tinyGS</a>. projects. Both run on the same <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&amp;Id=1326&amp;FId=t3:50060:3">TTGO LoRa32</a> board:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="r2loraTinygs" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="r2loraTinygs" download="r2loraTinygs.png" href="" title="tinyGS vs r2lora">Download</a>
+</small>
+</div>
+<script>
+var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}];r2loraTinygsData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var r2loraTinygsCtx = document.getElementById('r2loraTinygs').getContext('2d');
+const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+        	label: 'tinyGS',
+            data: r2loraTinygsData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'tinygsCurrent'
+            },
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,tension: 0.2
+        },{
+            label: 'r2lora',
+            data: r2loraTinygsData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'r2loraCurrent'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'Current'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' mA';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'tinyGS vs r2lora',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "mA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
+</noscript>
+<p>The r2lora project is much simpler than tinyGS, hence lower energy consumption. I also opted for a simple UI with a single screen, no clock, etc. If you set the tinyGS screen brightness to 0, you get the following values:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="tinygsIdleBlack" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="tinygsIdleBlack" download="tinygsIdleBlack.png" href="" title="tinyGS full and 0 brightness">Download</a>
+</small>
+</div>
+<script>
+var tinygsIdleBlackData = [{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.127,"fullVoltage":5.01},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5.01},{"disabledCurrent":0.118,"disabledVoltage":5,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.107,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.141,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.138,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.151,"fullVoltage":4.99},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.131,"fullVoltage":5},{"disabledCurrent":0.117,"disabledVoltage":5,"fullCurrent":0.14,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.158,"fullVoltage":4.99},{"disabledCurrent":0.111,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.172,"fullVoltage":4.98},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.135,"fullVoltage":5}];tinygsIdleBlackData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var tinygsIdleBlackCtx = document.getElementById('tinygsIdleBlack').getContext('2d');
+const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+        	label: 'Full brightness',
+            data: tinygsIdleBlackData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'fullCurrent'
+            },
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,tension: 0.2
+        },{
+            label: '0 brightness',
+            data: tinygsIdleBlackData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'disabledCurrent'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'Current'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' mA';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'tinyGS full and 0 brightness',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "mA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
+</noscript>
+<p>It helped, but not much. The average consumption is around 100mA.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="firmware" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="firmware" download="firmware.png" href="" title="Upload firmware">Download</a>
+</small>
+</div>
+<script>
+var firmwareData = [{"current":0.033,"voltage":5.02},{"current":0.033,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.026,"voltage":5.02},{"current":0.026,"voltage":5.03},{"current":0.027,"voltage":5.01},{"current":0.027,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.027,"voltage":5.03},{"current":0.029,"voltage":5.03},{"current":0.026,"voltage":5.03},{"current":0.031,"voltage":5.03},{"current":0.028,"voltage":5.03},{"current":0.026,"voltage":5.02}];firmwareData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var firmwareCtx = document.getElementById('firmware').getContext('2d');
+const firmwareChart = new Chart(firmwareCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Current',
+            data: firmwareData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'Current'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' mA';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'Upload firmware',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "mA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/smart-usb-meter-a3-b/firmware2.png">
+</noscript>
+<p>Loading new firmware consumes about 30mA. Funny.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="wifi" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="wifi" download="wifi.png" href="" title="Connecting to WiFi">Download</a>
+</small>
+</div>
+<script>
+var wifiData = [{"current":0.054,"voltage":5.02},{"current":0.054,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.033,"voltage":5.03},{"current":0.046,"voltage":5.02},{"current":0.135,"voltage":5},{"current":0.146,"voltage":4.99},{"current":0.134,"voltage":5},{"current":0.132,"voltage":5},{"current":0.142,"voltage":5},{"current":0.133,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.133,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.145,"voltage":5},{"current":0.139,"voltage":5},{"current":0.133,"voltage":5},{"current":0.153,"voltage":4.99},{"current":0.146,"voltage":5},{"current":0.145,"voltage":5},{"current":0.154,"voltage":4.99},{"current":0.144,"voltage":5},{"current":0.068,"voltage":5.02}];wifiData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var wifiCtx = document.getElementById('wifi').getContext('2d');
+const wifiChart = new Chart(wifiCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Current',
+            data: wifiData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'Current'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' mA';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'Connecting to WiFi',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "mA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/smart-usb-meter-a3-b/wifi2.png">
+</noscript>
+<p>By the way, during the initial WiFi connection, the current consumption increases to ~150mA, for both r2lora and tinyGS. As soon as the IP address is obtained, the consumption sharply returns to normal.</p>
+<p>I also measured the power consumption during LoRa signal reception. It either does not change or changes within the range of measurement error.</p>
+<p>And here&rsquo;s an interesting energy consumption graph when connecting ESP32 to Raspberry Pi via USB:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="full" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="full" download="full.png" href="" title="Connecting r2lora to RaspberryPI">Download</a>
+</small>
+</div>
+<script>
+var fullData = [{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.298,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.493,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.485,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.429,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.432,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.448,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.433,"voltage":5.16},{"current":0.43,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.377,"voltage":5.15},{"current":0.383,"voltage":5.15},{"current":0.364,"voltage":5.15},{"current":0.357,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.356,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.354,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.344,"voltage":5.15}];fullData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var fullCtx = document.getElementById('full').getContext('2d');
+const fullChart = new Chart(fullCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'Current',
+            data: fullData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'current'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'Current'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' mA';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'Connecting r2lora to RaspberryPI',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "mA";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="/img/smart-usb-meter-a3-b/full2.png">
+</noscript>
+<p>Immediately upon connection, the consumption jumps sharply to 500mA. Then there is the connection of ESP32 to the WiFi access point, and then normal operation. At the same time, the voltage from 5.140V jumps to 5.160V and normalizes at 5.140V.</p>
+<h2 id="conclusions">Conclusions</h2>
+<p>A3-B allows not only theorizing about power consumption but also capturing consumption over time and making various conclusions based on actual data.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/monitoring/'>monitoring</a>, <a class='tag' href='/en/tags/r2lora/'>r2lora</a>, <a class='tag' href='/en/tags/esp32/'>esp32</a>, <a class='tag' href='/en/tags/bluetooth/'>bluetooth</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/fota-for-r2lora/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Creating FOTA component</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/lora-deep-sleep/'>
+        <span class='screen-reader-text'>Next post: </span>Optimizing LoRa power consumption<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
+</body>
+
+</html>
+

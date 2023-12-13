@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Background It&rsquo;s been too long since my last post about LoRa. During this time, I created a project lora-at, which I would like to write about in this post. But before I deep dive into the meety details, I little background on how it started.
+Initially, I planned to create a small firmware for receiving signals from satellites using LoRa protocol. I used tinyGS as a basis, which did almost everything I needed.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='lora-at • dernasherbrezon'>
+<meta property='og:description' content='Background It&rsquo;s been too long since my last post about LoRa. During this time, I created a project lora-at, which I would like to write about in this post. But before I deep dive into the meety details, I little background on how it started.
+Initially, I planned to create a small firmware for receiving signals from satellites using LoRa protocol. I used tinyGS as a basis, which did almost everything I needed.'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/lora-at/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='lora'><meta property='article:tag' content='lora-at'><meta property='article:tag' content='esp32'><meta property='article:tag' content='esp-idf'><meta property='article:published_time' content='2023-11-05T22:25:18&#43;01:00'/><meta property='article:modified_time' content='2023-11-05T22:25:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>lora-at • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/lora-at/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/lora-at/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/lora-at/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/lora-at/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/lora-at/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>lora-at</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2023-11-05T22:25:18&#43;01:00'>05 Nov 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <h2 id="background">Background</h2>
+<p>It&rsquo;s been too long since my last post about LoRa. During this time, I created a project <a href="https://github.com/dernasherbrezon/lora-at">lora-at</a>, which I would like to write about in this post. But before I deep dive into the meety details, I little background on how it started.</p>
+<p>Initially, I planned to create a small firmware for receiving signals from satellites using LoRa protocol. I used <a href="https://github.com/G4lile0/tinyGS">tinyGS</a> as a basis, which did almost everything I needed. tinyGS support scheduling satellite observations, receive packets from satellites and send them to a central server. I needed something more lightweight and not integrated with any servers. It was enough to have a simple REST API service, that can be controlled via HTTP. As a result, I created <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> project. It proved to be more <a href="https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/">energy efficient</a> than tinyGS and supported <a href="https://dernasherbrezon.com/en/posts/fota-for-r2lora/">over-the-air updates</a>.</p>
+<p>However, after several field tests, it became clear that using a REST API and a web server is not the best idea. First, you need to set up Wi-Fi access point. And for this you need either a router or a Raspberry PI in access point mode. The router cannot be started in the field without a 12V battery. Raspberry PI cannot always operate in access point mode. Sometimes you want to bring it home, connect it to your home network and send all the received data to <a href="https://leosatdata.com">leosatdata.com</a>. All these problems can be solved, but in my opinion, the result will look cumbersome for such a simple task as transferring several bytes from one device to another.</p>
+<p>It was then that the idea came to me to control the LoRa transceiver via the UART interface. It is used to upload new firmware to the device and view the logs. So why not use it to send commands as well?</p>
+<h2 id="design">Design</h2>
+<p>I am finishing second version of lora-at. The first one was written in C++, used many of r2lora&rsquo;s ideas and worked. However, there were also several rather unpleasant moments. First, it used the RadioLib library, which <a href="https://dernasherbrezon.com/en/posts/sx127x/">did not support</a> waking up from sleep mode correctly. Secondly, the code was written using the <a href="https://github.com/espressif/arduino-esp32">Arduino framework ported to the ESP32</a>. This framework is quite simple and designed for beginners. With its help, you can make a working prototype relatively quickly, but I wanted to use the full power of the ESP32. For example, a typical Arduino handler looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">loop</span>() {
+  <span style="color:#66d9ef">if</span> (lora<span style="color:#f92672">-&gt;</span>isReceivingData()) {
+    LoRaFrame <span style="color:#f92672">*</span>frame <span style="color:#f92672">=</span> lora<span style="color:#f92672">-&gt;</span>loop();
+    <span style="color:#66d9ef">if</span> (frame <span style="color:#f92672">!=</span> NULL) {
+      client<span style="color:#f92672">-&gt;</span>sendData(frame);
+      handler<span style="color:#f92672">-&gt;</span>addFrame(frame);
+    }
+  }
+  <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>It’s not clear why make an endless loop if the ESP32 has FreeRTOS, which allows you to process asynchronous events using interrupts and tasks. Thirdly, C++. Long compilation, a mishmash of concepts, interfaces, system and auxiliary libraries - all this does not give confidence in the written code.</p>
+<p>I wanted:</p>
+<ul>
+<li>C</li>
+<li>Use ESP32 API and abstractions as low as possible</li>
+<li>Own <a href="https://github.com/dernasherbrezon/sx127x">sx127x</a></li>
+<li>Interrupts and handlers in separate FreeRTOS tasks</li>
+</ul>
+<p>The remaining functional requirements are:</p>
+<ul>
+<li>Support AT commands via UART interface. They must control every aspect of the system</li>
+<li>Storing configuration in flash memory</li>
+<li>Deep sleep support and <a href="https://dernasherbrezon.com/en/posts/ble-server-java/">Bluetooth integration</a></li>
+<li>Support for LoRa and FSK modulations</li>
+<li>Sending and receiving data in batch mode. Maximum packet size 255 bytes</li>
+</ul>
+<p>The design is not fundamentally different from r2lora:</p>
+<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 441 441"><defs/><g><path d="M 200 20 L 220 20 L 220 140 L 353.63 140" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 358.88 140 L 351.88 143.5 L 353.63 140 L 351.88 136.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="120" y="0" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 20px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">at_config</div></div></div></foreignObject><text x="160" y="24" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">at_config</text></switch></g><rect x="360" y="120" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 140px; margin-left: 361px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">at_handler</div></div></div></foreignObject><text x="400" y="144" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">at_handler</text></switch></g><path d="M 200 100 L 220 100 L 220 140 L 353.63 140" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 358.88 140 L 351.88 143.5 L 353.63 140 L 351.88 136.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="120" y="80" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 100px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">at_timer</div></div></div></foreignObject><text x="160" y="104" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">at_timer</text></switch></g><path d="M 200 180 L 220 180 L 220 140 L 353.63 140" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 358.88 140 L 351.88 143.5 L 353.63 140 L 351.88 136.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="120" y="160" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 180px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">at_util</div></div></div></foreignObject><text x="160" y="184" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">at_util</text></switch></g><path d="M 320 260 L 340 260 L 340 140 L 353.63 140" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 358.88 140 L 351.88 143.5 L 353.63 140 L 351.88 136.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="240" y="240" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 260px; margin-left: 241px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">ble_client</div></div></div></foreignObject><text x="280" y="264" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">ble_client</text></switch></g><rect x="120" y="400" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 420px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">deep_sleep</div></div></div></foreignObject><text x="160" y="424" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">deep_sleep</text></switch></g><path d="M 200 340 L 340 340 L 340 140 L 353.63 140" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 358.88 140 L 351.88 143.5 L 353.63 140 L 351.88 136.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="120" y="320" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 340px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">display</div></div></div></foreignObject><text x="160" y="344" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">display</text></switch></g><path d="M 200 260 L 233.63 260" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 238.88 260 L 231.88 263.5 L 233.63 260 L 231.88 256.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><path d="M 200 250 L 220 250 L 220 140 L 353.63 140" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 358.88 140 L 351.88 143.5 L 353.63 140 L 351.88 136.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="120" y="240" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 260px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">sx127x_util</div></div></div></foreignObject><text x="160" y="264" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">sx127x_util</text></switch></g><path d="M 80 260 L 113.63 260" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 118.88 260 L 111.88 263.5 L 113.63 260 L 111.88 256.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="0" y="240" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 260px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">sx127x</div></div></div></foreignObject><text x="40" y="264" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">sx127x</text></switch></g><path d="M 80 340 L 113.63 340" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 118.88 340 L 111.88 343.5 L 113.63 340 L 111.88 336.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/><rect x="0" y="320" width="80" height="40" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 340px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">ssd1306</div></div></div></foreignObject><text x="40" y="344" fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px" text-anchor="middle">ssd1306</text></switch></g></g><switch><g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/><a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank"><text text-anchor="middle" font-size="10px" x="50%" y="100%">Text is not SVG - cannot display</text></a></switch></svg>
+</div>
+<p>Each subsystem must be in a separate component and together they must be controlled by <code>at_handler</code> - an AT command handler.</p>
+<p>I changed the language, why stopping now? I decided to switch to <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/">ESP-IDF</a>. After all, this is an officially supported development environment for the ESP32. This means that all other libraries and frameworks are based on it. And it is quite low-level.</p>
+<h2 id="esp-idf">ESP-IDF</h2>
+<p>My main complaint with PlatformIO and <a href="https://github.com/espressif/arduino-esp32">arduino-esp32</a> is that they add layers of abstraction that are not always good. This helps with quick assemble the prototype, but often at the expense of the overall project structure and maintainability. For example, a LoRa chip is connected via an SPI bus. It probably needs to be initialized, some function to send a command to the chip, receive a response and process it. If a problem occurs somewhere, then it is very important to understand where and when. And, reading fairly low-level code, this is easy to understand. However, a typical code example for arduino-esp32:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>LoRa.begin(<span style="color:#ae81ff">915E6</span>)) {
+  Serial.println(<span style="color:#e6db74">&#34;Starting LoRa failed!&#34;</span>);
+  <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>);
+}
+</code></pre></div><p>What is this? Constructor? Singleton? Where is the SPI bus initialization? What pins are used? But looks how cool it is to initialize everything on a single line.</p>
+<p>As it turned out, despite the fact that ESP-IDF is quite low-level, it has quite easy to understand abstractions and very familiar working tools. This framework determines how the project should be assembled, how it should be tested, the API for internal ESP32 components, where and how to get dependencies - in general, everything that is needed for development. The official website has <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html#ide">integrations with Eclipse and VSCode</a>, but I decided to try <a href="https://www.jetbrains.com/clion/">CLion</a>. Fortunately, I already bought it and used to develop other projects. At some point, CLion started to support initialization from an environment file. This is quite handy when working with ESP-IDF. Once everythying is configured CLion will run the standard <code>export.sh</code> script and receive all the information about which compiler is used, where to get different sources and header files, etc.</p>
+<p><img src="/img/lora-at/1.png" alt=""></p>
+<p>Among the unobvious advantages: CLion allows you to upload a project to a remote host and compile it there. VSCode can do it too, but it requires the latest version of Python and NodeJS. Both are terribly slow on RaspberryPI. CLion doesn&rsquo;t have this problem. Apparently it has a very lightweight way of working with remote hosts.</p>
+<p><img src="/img/lora-at/3.png" alt=""></p>
+<h3 id="dependency-management">Dependency management</h3>
+<p>Dependency management in ESP-IDF is very similar to NodeJS. They are downloaded as source code to a special folder and compiled when building the project. Dependencies can be added using the command:</p>
+<pre><code>idf.py add-dependency dernasherbrezon/sx127x
+</code></pre><p>After this <del>node_modules</del> managed_components folder appears with the necessary dependencies.</p>
+<p>lora-at uses only two external dependencies:</p>
+<ul>
+<li><a href="https://github.com/dernasherbrezon/sx127x/tree/main">dernasherbrezon/sx127x</a> - to work with sx127x chip</li>
+<li><a href="https://github.com/espressif/esp-bsp/tree/master/components/ssd1306">espressif/ssd1306</a> - to work with OLED screen</li>
+</ul>
+<p>In addition to external ones, it is possible to connect components of the framework itself or own. This is done using CMakeLists.txt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmake" data-lang="cmake">idf_component_register(<span style="color:#e6db74">SRCS</span> <span style="color:#e6db74">&#34;ble_client.c&#34;</span>
+        <span style="color:#e6db74">INCLUDE_DIRS</span> <span style="color:#e6db74">&#34;.&#34;</span>
+        <span style="color:#e6db74">REQUIRES</span> <span style="color:#e6db74">bt</span> <span style="color:#e6db74">nvs_flash</span> <span style="color:#e6db74">sx127x_util</span>)<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Once the dependencies are declared, they can be used in the project:</p>
+<pre><code>#include &lt;nvs_flash.h&gt;
+</code></pre><p>This is slightly different from the PlatformIO approach, where you can immediately include the header file, and the IDE itself will find the necessary dependencies and connect it. I am a supporter of everything explicit, so the ESP-IDF approach appeals to me more.</p>
+<p>The framework components I used:</p>
+<ul>
+<li>bt - to work with Bluetooth</li>
+<li>nvs_flash - for working with flash memory. lora-at uses it to store the configuration and load from it after a reboot</li>
+<li>driver - for working with the SPI bus, which controls the sx127x chip. There is also a driver for working with GPIO</li>
+</ul>
+<h3 id="project-structure">Project structure</h3>
+<p>The project structure is very similar to PlatformIO, where each module is separated into a separate component. Each of them is separately compiled and configured.</p>
+<p><img src="/img/lora-at/4.png" alt=""></p>
+<p>They are all added as dependencies to the central <code>main</code> component, which contains the entry point:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">app_main</span>(<span style="color:#66d9ef">void</span>) {
+	<span style="color:#75715e">// do the stuff
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="configuration">Configuration</h3>
+<p>There are two ways to configure a project:</p>
+<ul>
+<li>using AT commands. Suitable for options that may change from time to time</li>
+<li>using KConfig. Static configuration at compile time</li>
+</ul>
+<p>Couple words about KConfig. It is a fairly powerful system that PlatformIO do not have. In order to add own configuration, create a KConfig file in a special format. I will not dwell on its structure, especially since everything is described in great detail in the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/kconfig.html">official documentation</a>. After the file is created, launch the configurator itself using the command:</p>
+<pre><code>idf.py menuconfig
+</code></pre><p>The result will be an interface very similar to the Linux kernel configurator:</p>
+<p><img src="/img/lora-at/5.png" alt=""></p>
+<p>When I launched it for the first time, I was extremely surprised. If you examine the available options, it becomes clear that absolutely everything can be configured: from the size of the partitions to the Bluetooth stack. This configurator picks up not only the application configuration, but also the framework itself. And in general, this is logical - after all, the application is compiled together with the framework and then uploaded to the device in one binary.</p>
+<p>Another thing that pleasantly surprised me was the very good documentation! If you select an option and press <code>?</code>, an option documentation will appear: what this option is about, what choices exist, and so on. Such a thorough approach is extremely contagious, so for lora-at I also added the most detailed description of each parameter.</p>
+<p><img src="/img/lora-at/6.png" alt=""></p>
+<p>After the configurator runs, an sdkconfig file containing the configuration will appear in the project root.</p>
+<pre><code>...
+CONFIG_MIN_FREQUENCY=25000000
+CONFIG_MAX_FREQUENCY=1700000000
+...
+</code></pre><p>When compiled, it becomes sdkconfig.h, which can be used in any component.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#define CONFIG_MIN_FREQUENCY 25000000
+</span><span style="color:#75715e">#define CONFIG_MAX_FREQUENCY 1700000000
+</span></code></pre></div><p>PlatformIO has quite convenient functionality for configuring various <a href="https://docs.platformio.org/en/latest/projectconf/sections/env/index.html">environments</a>. In r2lora it was used for quickstart a specific board. ESP32 and sx127x can be soldered differently on different boards. This results in the GPIO pin numbers slightly mismatching. I created a pin configuration in advance for the most commonly used boards and assigned each board its own &ldquo;environment&rdquo;. When compiling, it was enough to indicate the required environment for which the firmware was built.</p>
+<p>I did something similar in ESP-IDF. The framework allows you to create various default settings in advance in the form of sdkconfig files. For example, I created: <code>sdkconfig.ttgo-lora32-v2</code>, <code>sdkconfig.ttgo-lora32-v1</code> &amp;etc. In them I redefined the pins for the corresponding boards. They can be used during the build using the command:</p>
+<pre><code>SDKCONFIG_DEFAULTS=&quot;sdkconfig.ttgo-lora32-v2&quot; idf.py build
+</code></pre><p>If a more complex configuration is required, then it is possible to use multiple files. But for lora-at this turned out to be quite enough.</p>
+<h2 id="implementation">Implementation</h2>
+<p>Most of the components that were in r2cloud had to be significantly rewritten. Because of the low-level API I was using, most of components now contain a little bit more code. If previously I was using the following code to get the data from flash disk:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">Preferences preferences;
+preferences.begin(<span style="color:#e6db74">&#34;lora-at&#34;</span>, true);
+size_t chip_index <span style="color:#f92672">=</span> preferences.getUChar(<span style="color:#e6db74">&#34;chip_index&#34;</span>);
+preferences.end();
+</code></pre></div><p>But now it looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">nvs_handle_t out_handle;
+esp_err_t err <span style="color:#f92672">=</span> nvs_open(<span style="color:#e6db74">&#34;lora-at&#34;</span>, NVS_READONLY, <span style="color:#f92672">&amp;</span>out_handle);
+<span style="color:#66d9ef">if</span>( err <span style="color:#f92672">==</span> ESP_ERR_NVS_NOT_FOUND ) {
+  <span style="color:#66d9ef">return</span> EPS_OK;
+} 
+<span style="color:#66d9ef">if</span>( err <span style="color:#f92672">!=</span> ESP_OK ) {
+  <span style="color:#66d9ef">return</span> err;
+} 
+err <span style="color:#f92672">=</span> nvs_get_u64(out_handle, <span style="color:#e6db74">&#34;period&#34;</span>, <span style="color:#f92672">&amp;</span>result<span style="color:#f92672">-&gt;</span>deep_sleep_period_micros);
+<span style="color:#66d9ef">if</span>( err <span style="color:#f92672">!=</span> ESP_OK <span style="color:#f92672">&amp;&amp;</span> err <span style="color:#f92672">!=</span> ESP_ERR_NVS_NOT_FOUND ) {
+  <span style="color:#66d9ef">return</span> err;
+} 
+nvs_close(out_handle);
+</code></pre></div><p>Code looks more complex, but only at the first glance. It just has error handling and explicit calls to nvs functions. In the C++ example, it is not clear what <code>Preferences</code> is. Why did they renamed <code>nvs</code>? Why couldn&rsquo;t the class names be made closer to the C API? Why did they somehow decide to rename fixed-length types like uint32_t to UInt?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">getUInt</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> key, <span style="color:#66d9ef">uint32_t</span> defaultValue <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>);
+</code></pre></div><p>While the original API was much cleaner:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C">esp_err_t <span style="color:#a6e22e">nvs_get_u32</span>(nvs_handle_t handle, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> key, uint32_t<span style="color:#f92672">*</span> out_value);
+</code></pre></div><p>So many questions, and so few answers.</p>
+<p>Despite the fact that the C API is more concise, I had to tinker with some components. Mainly due to the fact that I did not understand how this or that technology works, and the C++ API hid it from me.</p>
+<h3 id="bluetooth">Bluetooth</h3>
+<p>Probably the most difficult component I had to write. Initially, I opened the ESP32 Bluetooth tutorial and started implementing the necessary functions. However, at some point I came across a comment in the <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/bluetooth.html">documentation</a>: &ldquo;If you only need interaction via the BLE protocol, then it is better to take NimBLE. It is more lightweight and requires less code compared to Bluedroid&rdquo;. Well. I had to figure out what NimBLE is and how it differs from Bluedroid.</p>
+<p>It turns out that Bluedroid is a full-fledged implementation of both &ldquo;classic&rdquo; Bluetooth and Bluetooth Low Energy (BLE). And, since it supports both modes, its API is more complex. NimBLE only implements BLE and is therefore more lightweight. ESP-IDF supports both implementations and you can select the one you need at the configuration stage. This is done using sdkconfig:</p>
+<pre><code>CONFIG_BT_ENABLED=y
+CONFIG_BT_NIMBLE_ENABLED=y
+CONFIG_BT_CONTROLLER_ENABLED=y
+</code></pre><p>The API itself didn&rsquo;t seem easier to me. Both are built on callbacks, where a handler function is passed for each operation, which is then asynchronously called in a separate FreeRTOS task. Ironically, for lora-at, asynchrony is not particularly necessary, since all commands must be guaranteed to complete before the device goes into sleep mode. Typical code looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ble_client_disc_svc_fn</span>(<span style="color:#75715e">/* some arguments */</span>) {
+  <span style="color:#66d9ef">if</span>( error<span style="color:#f92672">-&gt;</span>status <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> ) {
+      client<span style="color:#f92672">-&gt;</span>semaphore_result <span style="color:#f92672">=</span> ESP_OK;
+  } <span style="color:#66d9ef">else</span> {
+  	 <span style="color:#75715e">// handle error properly
+</span><span style="color:#75715e"></span>      client<span style="color:#f92672">-&gt;</span>semaphore_result <span style="color:#f92672">=</span> ESP_ERR_TIMEOUT;
+  }
+  xSemaphoreGive(client<span style="color:#f92672">-&gt;</span>semaphore);
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+esp_err_t <span style="color:#a6e22e">ble_client_find_service</span>(<span style="color:#75715e">/* some arguments */</span>) {
+  client<span style="color:#f92672">-&gt;</span>semaphore_result <span style="color:#f92672">=</span> ESP_FAIL;
+  esp_err_t code <span style="color:#f92672">=</span> ble_gattc_disc_svc_by_uuid(conn_handle, remote_svc_uuid, ble_client_disc_svc_fn, client);
+  <span style="color:#66d9ef">if</span>( code <span style="color:#f92672">!=</span> ESP_OK ) {
+  	<span style="color:#66d9ef">return</span> code;
+  }
+  WAIT_FOR_SEMAPHORE(<span style="color:#e6db74">&#34;...&#34;</span>);
+  <span style="color:#66d9ef">return</span> client<span style="color:#f92672">-&gt;</span>semaphore_result;
+}
+</code></pre></div><h3 id="uart">UART</h3>
+<p>The second most difficult component was reading commands from the UART. If previously it was possible to read one character at a time in a loop:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">size_t AtHandler<span style="color:#f92672">::</span>read_line(Stream <span style="color:#f92672">*</span>in) {
+  size_t result <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+  <span style="color:#66d9ef">while</span> (in<span style="color:#f92672">-&gt;</span>available() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+    <span style="color:#66d9ef">char</span> inByte <span style="color:#f92672">=</span> in<span style="color:#f92672">-&gt;</span>read();
+    result<span style="color:#f92672">++</span>;
+    <span style="color:#75715e">// if char is \n, then return result
+</span><span style="color:#75715e"></span>  }
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>Working through interrupts requires a little more complex code. First, you need to initialize one of the four UART buses:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">uart_config_t uart_config <span style="color:#f92672">=</span> {
+    .baud_rate <span style="color:#f92672">=</span> CONFIG_AT_UART_BAUD_RATE,
+    .data_bits <span style="color:#f92672">=</span> UART_DATA_8_BITS,
+    .parity <span style="color:#f92672">=</span> UART_PARITY_DISABLE,
+    .stop_bits <span style="color:#f92672">=</span> UART_STOP_BITS_1,
+    .flow_ctrl <span style="color:#f92672">=</span> UART_HW_FLOWCTRL_DISABLE,
+    .source_clk <span style="color:#f92672">=</span> UART_SCLK_DEFAULT,
+};
+uart_driver_install(result<span style="color:#f92672">-&gt;</span>uart_port_num, CONFIG_AT_UART_BUFFER_LENGTH <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, CONFIG_AT_UART_BUFFER_LENGTH <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">20</span>, <span style="color:#f92672">&amp;</span>result<span style="color:#f92672">-&gt;</span>uart_queue, <span style="color:#ae81ff">0</span>);
+uart_param_config(result<span style="color:#f92672">-&gt;</span>uart_port_num, <span style="color:#f92672">&amp;</span>uart_config);
+uart_set_pin(result<span style="color:#f92672">-&gt;</span>uart_port_num, CONFIG_AT_UART_TX_PIN, CONFIG_AT_UART_RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+uart_enable_pattern_det_baud_intr(result<span style="color:#f92672">-&gt;</span>uart_port_num, <span style="color:#e6db74">&#39;\n&#39;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+uart_pattern_queue_reset(result<span style="color:#f92672">-&gt;</span>uart_port_num, <span style="color:#ae81ff">20</span>);
+</code></pre></div><p>Secondly, you need to initialize the FreeRTOS task and start reading data from <code>uart_queue</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">uart_at_handler_process</span>(uart_at_handler_t <span style="color:#f92672">*</span>handler) {
+  <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+    <span style="color:#66d9ef">if</span> (xQueueReceive(handler<span style="color:#f92672">-&gt;</span>uart_queue, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>) <span style="color:#f92672">&amp;</span>event, (TickType_t) portMAX_DELAY)) {
+      <span style="color:#66d9ef">switch</span> (event.type) {
+        <span style="color:#66d9ef">case</span> UART_DATA:
+        	<span style="color:#75715e">// handle using uart_read_bytes
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">case</span> UART_PATTERN_DET:
+         <span style="color:#75715e">// handle using uart_read_bytes
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">case</span> UART_FIFO_OVF:
+         <span style="color:#75715e">// handle
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">case</span> UART_BUFFER_FULL:
+         <span style="color:#75715e">// handle
+</span><span style="color:#75715e"></span>	}
+	<span style="color:#75715e">// determine if data contains new line
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (found) {
+	  <span style="color:#75715e">// call at handler
+</span><span style="color:#75715e"></span>	}
+  }
+}
+
+xTaskCreate(uart_at_handler_process, <span style="color:#e6db74">&#34;uart_rx_task&#34;</span>, <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span>, handler, configMAX_PRIORITIES, NULL);
+</code></pre></div><p>Manual control made me think about how UART works at a low level, learn that there are as many as 4 buses and write more efficient code. As a side bonus, I was able to reconfigure the UART to different GPIOs, and power the device itself from the <a href="https://en.wikipedia.org/wiki/JST_connector">JST connector</a>. This made it possible to connect the <a href="https://www.nordicsemi.com/Products/Development-hardware/Power-Profiler-Kit-2">Power Profiler Kit II</a> and measure energy consumption. The whole process took about 10 minutes. Of these, I spent 5 minutes looking for a USB-to-UART cable and 3 minutes choosing which pins were best to use.</p>
+<h2 id="results">Results</h2>
+<p>The second version works just great! Comparing the performance of C and C++ code is probably pointless, most likely because it is not so important in the world of microcontrollers. But the energy consumption will be very interesting to see. But more on that in the next article. For now, just a comparison of firmware sizes:</p>
+<pre><code>$ ls -lh ./build/lora-at.bin 
+-rw-r--r-- 1 pi pi 665K Nov  5 22:09 ./build/lora-at.bin
+</code></pre><p>And C++ version:</p>
+<pre><code>$ ls -lh .pio/build/ttgo-lora32-v2/firmware.bin
+-rw-r--r-- 1 pi pi 1.1M Nov  9 20:39 .pio/build/ttgo-lora32-v2/firmware.bin
+</code></pre><p>The C version is almost 2 times smaller!</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/lora/'>lora</a>, <a class='tag' href='/en/tags/lora-at/'>lora-at</a>, <a class='tag' href='/en/tags/esp32/'>esp32</a>, <a class='tag' href='/en/tags/esp-idf/'>esp-idf</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/ble-server-java/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>BLE server using Java</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/power-profiler-kit2/'>
+        <span class='screen-reader-text'>Next post: </span>Power Profiler Kit 2<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

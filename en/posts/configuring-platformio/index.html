@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='In the previous post I described the general design of r2lora and selected tools for development. Now we can focus on configuring the project and breaking it down into individual modules. PlatformIO integrates well with a variety of different tools and allows you to do complex things almost as easily as in Java.
+Dependency Management A challenge in every C/C&#43;&#43; project is dependency management. There is no standard way to handle this in the language and ecosystem.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Setting up a project in PlatformIO • dernasherbrezon'>
+<meta property='og:description' content='In the previous post I described the general design of r2lora and selected tools for development. Now we can focus on configuring the project and breaking it down into individual modules. PlatformIO integrates well with a variety of different tools and allows you to do complex things almost as easily as in Java.
+Dependency Management A challenge in every C/C&#43;&#43; project is dependency management. There is no standard way to handle this in the language and ecosystem.'>
+<meta property='og:url' content='https://dernasherbrezon.com/en/posts/configuring-platformio/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='esp32'><meta property='article:tag' content='lora'><meta property='article:tag' content='r2lora'><meta property='article:tag' content='testing'><meta property='article:published_time' content='2022-01-01T20:30:18Z'/><meta property='article:modified_time' content='2022-01-01T20:30:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Setting up a project in PlatformIO • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/en/posts/configuring-platformio/'>
+  
+    <link href="https://dernasherbrezon.com/en/posts/configuring-platformio/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  <link rel='alternate' hreflang='en' href='https://dernasherbrezon.com/en/posts/configuring-platformio/'><link rel='alternate' hreflang='ru' href='https://dernasherbrezon.com/posts/configuring-platformio/'><link rel='alternate' hreflang='x-default' href='https://dernasherbrezon.com/posts/configuring-platformio/'>
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/en/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/en/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Blog about software development
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+      </li><li>
+        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+      </li><li>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+      </li><li>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+      </li><li>
+        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+      </li><li>
+        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+      </li><li>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+      </li><li>
+        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+      </li><li>
+        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+      </li><li>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+      </li><li>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+      </li><li>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+      </li><li>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+      </li><li>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+      </li><li>
+        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+      </li><li>
+        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+      </li><li>
+        <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
+      </li><li>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+      </li><li>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+      </li><li>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+      </li><li>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+      </li><li>
+        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+      </li><li>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+      </li><li>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Blog about software development</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Setting up a project in PlatformIO</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2022-01-01T20:30:18Z'>01 Jan 2022</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>In the <a href="https://dernasherbrezon.com/en/posts/programming-esp32/">previous post</a> I described the general design of r2lora and selected tools for development. Now we can focus on configuring the project and breaking it down into individual modules. <a href="https://platformio.org">PlatformIO</a> integrates well with a variety of different tools and allows you to do complex things almost as easily as in Java.</p>
+<h2 id="dependency-management">Dependency Management</h2>
+<p>A challenge in every C/C++ project is dependency management. There is no standard way to handle this in the language and ecosystem. Everyone does it in their own way. The well-known tool in certain circles is <a href="https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/">Conan</a>, but it lacks a wide range of libraries. Operating systems have libraries, but they are not suitable for microcontrollers, and their versions are determined by the operating systems, not the applications.</p>
+<p>PlatformIO has its own library repository, which is conveniently integrated into the platform.</p>
+<p><img src="/img/configuring-platformio/libs.png" alt=""></p>
+<p>Here, you can filter libraries by microcontroller type, framework, purpose, and many other parameters. This is incredibly useful because there are a great variety of microcontrollers, all of which are different. Different architectures, different sets of registers, different memory sizes. The fact that PlatformIO takes this into account from the start allows you to somehow deal with the chaos.</p>
+<p>To add a dependency to the project, you need to write the following:</p>
+<pre><code>[env]
+lib_deps = 
+	jgromes/RadioLib@^4.6.0
+	prampec/IotWebConf@^3.2.0
+	bblanchon/ArduinoJson@^6.18.5
+	thingpulse/ESP8266 and ESP32 OLED driver for SSD1306 displays@^4.2.1
+</code></pre><p>This adds 4 libraries:</p>
+<ul>
+<li><a href="https://github.com/jgromes/RadioLib">jgromes/RadioLib</a> - a library for working with the LoRa chip. It provides a universal interface for sending and receiving data and hides some of the implementation details of the chips.</li>
+<li><a href="https://github.com/prampec/IotWebConf">prampec/IotWebConf</a> - a library for configuration. It sets up an access point, stores system configuration in non-volatile memory, and handles the initial configuration of the system.</li>
+<li><a href="https://github.com/bblanchon/ArduinoJson">bblanchon/ArduinoJson</a> - JSON serialization and deserialization.</li>
+<li><a href="https://github.com/ThingPulse/esp8266-oled-ssd1306">thingpulse/ESP8266 and ESP32 OLED driver for SSD1306 displays</a> - a convenient library for working with the built-in display.</li>
+</ul>
+<p>All dependencies are simply downloaded from the git repository and placed in a special folder inside the project. Essentially, this is very similar to working with dependencies in npm. These dependencies are compiled as part of the project into a single binary - firmware.bin, which is then flashed to the microcontroller. If certain library functions are not used, they do not end up in the final distribution. This is especially relevant for microcontrollers, as their memory size is usually small. For example, the <a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v2.html">TTGO LoRa32-OLED V2</a> board has only 4MB of built-in flash memory and 320KB of RAM. And this is considered quite a lot.</p>
+<h2 id="boards">Boards</h2>
+<p>When it comes to boards, PlatformIO has a special entity - &ldquo;board.&rdquo; Each board is characterized by the type of processor, clock frequency, RAM size, and many other parameters. If the project plans to support different boards, you just need to declare them in the configuration, and PlatformIO will then build a separate firmware for each of them.</p>
+<pre><code>[env:ttgo-lora32-v2]
+platform = espressif32
+board = ttgo-lora32-v2
+build_flags = 
+    ${env.build_flags}
+	-DPIN_CS=18
+	-DPIN_DI0=26
+	-DPIN_RST=23
+	-DPIN_OLED_SDA=21
+	-DPIN_OLED_SCL=22
+</code></pre><p>In the example above, I declared a configuration <code>ttgo-lora32-v2</code> that should be used to build the application for the ttgo-lora32-v2 board with additional compilation flags. <code>${env.build_flags}</code> inherits the common <code>build_flags</code> configuration from the <code>env</code> declaration. The other parameters are specific to the particular board. Because each board has fixed pin numbers, they can be declared directly in the configuration.</p>
+<p>r2lora supports all boards that use the LoRa chip:</p>
+<ul>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v2.html">ttgo-lora32-v2</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v1.html">ttgo-lora32-v1</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-lora32-v21.html">ttgo-lora32-v21</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/heltec_wifi_lora_32.html">heltec_wifi_lora_32</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/heltec_wifi_lora_32_V2.html">heltec_wifi_lora_32_V2</a></li>
+<li><a href="https://docs.platformio.org/en/latest/boards/espressif32/ttgo-t-beam.html">ttgo-t-beam</a></li>
+</ul>
+<p>Nothing prevents you from manually attaching a <a href="https://www.amazon.co.uk/SX1278-DRF1278F-Arduino-wireless-module/dp/B079QZXP5D">LoRa chip</a> to the board. In this case, it is sufficient to declare a new environment and specify each of the pins.</p>
+<p>Each board can have its own set of libraries and its own build folder:</p>
+<p><img src="/img/configuring-platformio/envs.png" alt=""></p>
+<h2 id="platform-and-framework">Platform and Framework</h2>
+<p>In addition to boards, PlatformIO has the concepts of platform and framework. The platform usually corresponds to the type of microcontroller. In the case of ESP32, it is espressif32. Sometimes a microcontroller may support different architectures, in which case each of them has its own platform ID. The closest analogy is arm64 or armhf, except that the platform describes a specific chip. I attempted something similar when compiling applications <a href="https://dernasherbrezon.com/en/posts/apt-for-cpu/">for specific processors</a>.</p>
+<p>All boards that contain LoRa chips are based on ESP32, so <code>platform = espressif32</code>.</p>
+<p>The framework is something like an SDK, usually provided by the microcontroller manufacturer. Typically, with one SDK, you can develop for different models of microcontrollers. Sometimes there are universal SDKs. For ESP32, you can develop using <code>framework = espidf</code> or <code>framework = arduino</code>.I chose arduino because many libraries are written using the Arduino API. Despite the fact that ESP32 is not directly compatible with Arduino, there is an intermediate layer <code>framework-arduinoespressif32</code> that converts Arduino API calls into ESP32 calls. It&rsquo;s a bit suboptimal, but ESP32 is powerful enough, and not many people are concerned about it.</p>
+<h2 id="project-structure">Project Structure</h2>
+<p>When using <code>framework = arduino</code>, the project should be structured as follows:</p>
+<p><img src="/img/configuring-platformio/project.png" alt=""></p>
+<p>Inside the <code>src</code> folder are the source files and the entry point into the program. Usually, this is the <code>main</code> with the methods <code>void loop()</code> and <code>void setup()</code>. You can program in C or C++. However, if some libraries are written in C++ and do not support inclusion from C, you will have to write in C++ (sigh!).</p>
+<p>There is also a <code>lib</code>. folder. It should contain small components of the application that need to be tested. It looks like this:</p>
+<ul>
+<li>PlatformIO will take each subfolder inside <code>lib</code> and compile it.</li>
+<li>Link it with the tests.</li>
+<li>Build firmware.bin.</li>
+<li>Flash it to the board and get the test results.</li>
+</ul>
+<h2 id="project-testing">Project Testing</h2>
+<p>PlatformIO allows you to run tests directly on the microcontroller! Tests can be divided into separate test suites, and within each, you can create several unit tests. Each test suite is a separate firmware with a single entry point and is uploaded to the microcontroller in the standard way.</p>
+<p>In the screenshot above, I created several test suites:</p>
+<ul>
+<li>api - testing the REST API interface.</li>
+<li>embedded (lora) - testing the LoRa module. It&rsquo;s sufficient to start reception and stop it. It checks for the correct pin configuration and chip usage.</li>
+<li>fota - testing <a href="https://en.wikipedia.org/wiki/Over-the-air_update">Firmware-Over-The-Air (FOTA)</a>. A relatively complex test that is not launched by default. It downloads a new firmware from S3 and applies it.</li>
+<li>util - testing a small utility class.</li>
+</ul>
+<p>I didn&rsquo;t bother achieving 80% code coverage with tests (it&rsquo;s not easy to calculate it just like that!), so I tried to test the code as much as possible. Whatever didn&rsquo;t work, well, it didn&rsquo;t work.</p>
+<p>Each test suite contains several unit tests. To write unit tests, the <a href="https://github.com/ThrowTheSwitch/Unity">unity</a>. library is used. Since a unit test should run only once, the  <code>loop</code> method should not do anything useful. For example, it can blink an LED:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">loop</span>() {
+  digitalWrite(<span style="color:#ae81ff">13</span>, HIGH);
+  delay(<span style="color:#ae81ff">100</span>);
+  digitalWrite(<span style="color:#ae81ff">13</span>, LOW);
+  delay(<span style="color:#ae81ff">500</span>);
+}
+</code></pre></div><p>All the logic should be in the <code>setup</code> method:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup</span>() {
+  <span style="color:#75715e">// NOTE!!! Wait for &gt;2 secs
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// if board doesn&#39;t support software reset via Serial.DTR/RTS
+</span><span style="color:#75715e"></span>  delay(<span style="color:#ae81ff">2000</span>);
+
+  UNITY_BEGIN();
+  RUN_TEST(test_success_start);
+  RUN_TEST(test_no_request);
+  RUN_TEST(test_invalid_json);
+  RUN_TEST(test_begin_failed);
+  RUN_TEST(test_success_stop_even_if_not_running);
+  RUN_TEST(test_pull);
+  RUN_TEST(test_frames_after_stop);
+  RUN_TEST(test_cant_tx_during_receive);
+  RUN_TEST(test_invalid_tx_request);
+  RUN_TEST(test_empty_tx_request);
+  RUN_TEST(test_invalid_lora_tx_code);
+  RUN_TEST(test_invalid_tx_data_request);
+  RUN_TEST(test_success_tx);
+  UNITY_END();
+}
+</code></pre></div><p>In the example above, I added several unit tests to the test suite. Each unit test is a separate function:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_success_start</span>(<span style="color:#66d9ef">void</span>) {
+  ApiHandler handler(<span style="color:#f92672">&amp;</span>web, <span style="color:#f92672">&amp;</span>mock, NULL, NULL);
+  String output;
+  <span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> handler.handleStart(VALID_RX_REQUEST, <span style="color:#f92672">&amp;</span>output);
+  TEST_ASSERT_EQUAL_INT(<span style="color:#ae81ff">200</span>, code);
+  assertStatus(<span style="color:#f92672">&amp;</span>output, <span style="color:#e6db74">&#34;SUCCESS&#34;</span>);
+}
+</code></pre></div><p>There shouldn&rsquo;t be anything unexpected here. It&rsquo;s a standard test that you might encounter even in a Java project.</p>
+<p>You can run either individual test suites or all of them together.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pio test --test-port /dev/ttyACM0 -e ttgo-lora32-v2 -f fota
+</code></pre></div><p>As a result, PlatformIO will display various statistics on the screen:</p>
+<p><img src="/img/configuring-platformio/unittests.png" alt=""></p>
+<p>More detailed documentation can be found on the project&rsquo;s website: <a href="https://docs.platformio.org/en/latest//plus/unit-testing.html">unit testing</a>.</p>
+<h2 id="next-steps">Next Steps</h2>
+<p>After understanding the project structure well enough, you can proceed directly to the implementation.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/esp32/'>esp32</a>, <a class='tag' href='/en/tags/lora/'>lora</a>, <a class='tag' href='/en/tags/r2lora/'>r2lora</a>, <a class='tag' href='/en/tags/testing/'>testing</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/en/posts/programming-esp32/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Creating a project for ESP32</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/en/posts/fota-for-r2lora/'>
+        <span class='screen-reader-text'>Next post: </span>Creating FOTA component<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'en',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+
