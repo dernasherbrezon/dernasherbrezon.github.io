@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/lora/</link>
     <description>Recent content in lora on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Dec 2023 17:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Оптимизация энергопотребления LoRa - Часть 2</title>
+      <link>https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/</link>
+      <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/</guid>
+      <description>Тестируя энергопотребление lora-at, я обнаружил, что плата в режиме глубокого сна потребляет около 1.7мА. Это примерно в миллион раз больше, чем теоретический минимум ESP32. Такое поведение совершенно нельзя оставлять без внимания, поэтому я потратил около трёх недель, чтобы разобраться в причинах.
+Симптомы С помощью PPK2 я установил, что после перехода в спящий режим, потребление энергии около 1.7мА:
+При этом очевидно, что переход в спящий режим происходит: потребление уменьшается с ~30мА до 1.</description>
+    </item>
+    
     <item>
       <title>Тестирование потребления энергии в lora-at</title>
       <link>https://dernasherbrezon.com/posts/lora-at-power-profiling/</link>
@@ -18,7 +29,7 @@
     </item>
     
     <item>
-      <title>LoRa AT</title>
+      <title>lora-at</title>
       <link>https://dernasherbrezon.com/posts/lora-at/</link>
       <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
       

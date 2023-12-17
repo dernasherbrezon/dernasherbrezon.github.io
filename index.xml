@@ -5,7 +5,7 @@
     <link>https://dernasherbrezon.com/</link>
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Dec 2023 17:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
       <link>https://dernasherbrezon.com/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/</link>
@@ -26,6 +26,17 @@
 Правда иногда приходится покупать различные лицензии или железо для исследований, а также оплачивать хостинг хобби проектов.
 Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).
  </description>
+    </item>
+    
+    <item>
+      <title>Оптимизация энергопотребления LoRa - Часть 2</title>
+      <link>https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/</link>
+      <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/</guid>
+      <description>Тестируя энергопотребление lora-at, я обнаружил, что плата в режиме глубокого сна потребляет около 1.7мА. Это примерно в миллион раз больше, чем теоретический минимум ESP32. Такое поведение совершенно нельзя оставлять без внимания, поэтому я потратил около трёх недель, чтобы разобраться в причинах.
+Симптомы С помощью PPK2 я установил, что после перехода в спящий режим, потребление энергии около 1.7мА:
+При этом очевидно, что переход в спящий режим происходит: потребление уменьшается с ~30мА до 1.</description>
     </item>
     
     <item>
@@ -60,7 +71,7 @@
     </item>
     
     <item>
-      <title>LoRa AT</title>
+      <title>lora-at</title>
       <link>https://dernasherbrezon.com/posts/lora-at/</link>
       <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
       

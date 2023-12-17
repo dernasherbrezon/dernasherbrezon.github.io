@@ -5,20 +5,20 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Dec 2023 17:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>esp-idf</title>
-      <link>https://dernasherbrezon.com/tags/esp-idf/</link>
-      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
+      <title>c</title>
+      <link>https://dernasherbrezon.com/tags/c/</link>
+      <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
       
-      <guid>https://dernasherbrezon.com/tags/esp-idf/</guid>
+      <guid>https://dernasherbrezon.com/tags/c/</guid>
       <description></description>
     </item>
     
     <item>
       <title>esp32</title>
       <link>https://dernasherbrezon.com/tags/esp32/</link>
-      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
+      <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/esp32/</guid>
       <description></description>
@@ -27,9 +27,18 @@
     <item>
       <title>lora</title>
       <link>https://dernasherbrezon.com/tags/lora/</link>
-      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
+      <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/lora/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>esp-idf</title>
+      <link>https://dernasherbrezon.com/tags/esp-idf/</link>
+      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/esp-idf/</guid>
       <description></description>
     </item>
     
@@ -48,15 +57,6 @@
       <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/ppk2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>c</title>
-      <link>https://dernasherbrezon.com/tags/c/</link>
-      <pubDate>Fri, 24 Nov 2023 09:08:18 +0000</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/c/</guid>
       <description></description>
     </item>
     

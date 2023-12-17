@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Тестируя энергопотребление lora-at, я обнаружил, что плата в режиме глубокого сна потребляет около 1.7мА. Это примерно в миллион раз больше, чем теоретический минимум ESP32. Такое поведение совершенно нельзя оставлять без внимания, поэтому я потратил около трёх недель, чтобы разобраться в причинах.
+Симптомы С помощью PPK2 я установил, что после перехода в спящий режим, потребление энергии около 1.7мА:
+При этом очевидно, что переход в спящий режим происходит: потребление уменьшается с ~30мА до 1.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Оптимизация энергопотребления LoRa - Часть 2 • dernasherbrezon'>
+<meta property='og:description' content='Тестируя энергопотребление lora-at, я обнаружил, что плата в режиме глубокого сна потребляет около 1.7мА. Это примерно в миллион раз больше, чем теоретический минимум ESP32. Такое поведение совершенно нельзя оставлять без внимания, поэтому я потратил около трёх недель, чтобы разобраться в причинах.
+Симптомы С помощью PPK2 я установил, что после перехода в спящий режим, потребление энергии около 1.7мА:
+При этом очевидно, что переход в спящий режим происходит: потребление уменьшается с ~30мА до 1.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='lora'><meta property='article:tag' content='esp32'><meta property='article:published_time' content='2023-12-13T17:50:18&#43;01:00'/><meta property='article:modified_time' content='2023-12-13T17:50:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.81.0" />
+
+  <title>Оптимизация энергопотребления LoRa - Часть 2 • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/'>
+  
+    <link href="https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0204081632653061em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0612244897959184em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0612244897959184em'>apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0204081632653061em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1020408163265305em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0204081632653061em'>bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0204081632653061em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.4489795918367347em'>c</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0816326530612246em'>deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.1224489795918366em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.1224489795918366em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>esp-idf</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.183673469387755em'>esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0612244897959184em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0408163265306123em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0612244897959184em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0612244897959184em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0612244897959184em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0204081632653061em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0816326530612246em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0408163265306123em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1020408163265305em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0612244897959184em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0408163265306123em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0408163265306123em'>junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>lora</a>
+      </li><li>
+        <a href='/tags/lora-at/' style='font-size:1.0612244897959184em'>lora-at</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0408163265306123em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0204081632653061em'>matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1020408163265305em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0204081632653061em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0816326530612246em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1020408163265305em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0408163265306123em'>open source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0204081632653061em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0408163265306123em'>opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0204081632653061em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>plutosdr</a>
+      </li><li>
+        <a href='/tags/ppk2/' style='font-size:1.0204081632653061em'>PPK2</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0204081632653061em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0816326530612246em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0612244897959184em'>r2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>r2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2244897959183674em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.4489795918367347em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0204081632653061em'>REST</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0204081632653061em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0204081632653061em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2448979591836735em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0408163265306123em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0408163265306123em'>satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0612244897959184em'>sdr-modem</a>
+      </li><li>
+        <a href='/tags/sdr-server/' style='font-size:1em'>sdr-server</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0204081632653061em'>security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.1020408163265305em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0408163265306123em'>sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0408163265306123em'>spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0204081632653061em'>ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0204081632653061em'>String</a>
+      </li><li>
+        <a href='/tags/sx127x/' style='font-size:1.0816326530612246em'>sx127x</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0408163265306123em'>testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0204081632653061em'>travis-ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0816326530612246em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0408163265306123em'>valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0408163265306123em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2857142857142856em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0816326530612246em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0816326530612246em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0408163265306123em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0408163265306123em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0204081632653061em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0612244897959184em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.346938775510204em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0612244897959184em'>разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3877551020408163em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2653061224489797em'>тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0408163265306123em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Оптимизация энергопотребления LoRa - Часть 2</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2023-12-13T17:50:18&#43;01:00'>13 Dec 2023</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Тестируя <a href="https://dernasherbrezon.com/posts/lora-at-power-profiling/">энергопотребление lora-at</a>, я обнаружил, что плата в режиме глубокого сна потребляет около 1.7мА. Это примерно в миллион раз больше, чем теоретический минимум ESP32. Такое поведение совершенно нельзя оставлять без внимания, поэтому я потратил около трёх недель, чтобы разобраться в причинах.</p>
+<h2 id="симптомы">Симптомы</h2>
+<p>С помощью PPK2 я установил, что после перехода в спящий режим, потребление энергии около 1.7мА:</p>
+<p><img src="/img/troubleshoot-deep-sleep/heltec-arduino-baseline.png" alt=""></p>
+<p>При этом очевидно, что переход в спящий режим происходит: потребление уменьшается с ~30мА до 1.7мА. Видимо проблема где-то на самой плате.</p>
+<p>Я также подключаю питание через JST коннектор, значит дополнительная энергия не тратится на USB-serial чипе.</p>
+<p>Ни один светодиод не работает, значит проблема не в них.</p>
+<h2 id="поиск-проблемы">Поиск проблемы</h2>
+<p>Обычно решение подобных проблем достаточно простое: первая ссылка в Google. Однако, в этот раз всё оказалось гораздо сложнее. Первая ссылка в Google ведёт на крайне <a href="https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series/issues/6">длинное и пространное обсуждение</a> проблемы на github. Из которого становится ясно, что:</p>
+<ul>
+<li>Нужно явно выключить OLED экран</li>
+<li>Если перепаять пару коннекторов в USB, то можно уменьшить до 4мА</li>
+<li>Если в SPI протоколе пин CS (SS) в состоянии LOW (нет сигнала), то sx127x чип ожидает команду и тратит энергию</li>
+<li>Меньше 1.7мА получить невозможно, так как CS пин - это не RTC пин. А значит его нельзя сделать HIGH в режиме глубокого сна</li>
+<li>У кого-то получилось сделать 19мкА, но непонятно как</li>
+<li>У кого-то получилось уменьшить энергопотребление выставив пинам 4-20 значение INPUT</li>
+</ul>
+<p>Всё это крайне противоречиво, но раз у кого-то получилось, значит это теоретически возможно.</p>
+<p>Поскольку все примеры в обсуждении были с использованием Arduino фреймворка, то я написал небольшое приложение, чтобы воспроизвести решение.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>LoRa.begin(BAND, false)) {
+	Serial.println(<span style="color:#e6db74">&#34;init failed&#34;</span>);
+}
+LoRa.sleep();
+SPI.end();
+pinMode(SCK, INPUT);
+pinMode(MISO, INPUT);
+pinMode(MOSI, INPUT);
+pinMode(SS, INPUT);
+pinMode(<span style="color:#ae81ff">15</span>, INPUT);
+pinMode(<span style="color:#ae81ff">16</span>, INPUT);
+pinMode(<span style="color:#ae81ff">17</span>, INPUT);
+pinMode(<span style="color:#ae81ff">26</span>, INPUT);
+pinMode(<span style="color:#ae81ff">14</span>, INPUT);
+esp_deep_sleep_start();
+</code></pre></div><p>И на удивление оно сработало! Плата стала потреблять <strong>~13</strong>мкА. Значит проблема не в плате, а в моём коде.</p>
+<h2 id="дифференциальный-анализ">Дифференциальный анализ</h2>
+<p>Итак, пришло время дифференциального анализа. У меня есть две программы: одна позволяет экономить энергию, другая нет. Нужно лишь их сравнить и найти разницу. Что может быть проще?</p>
+<p>На самом деле не всё так просто. Дело в том, что первая программа:</p>
+<ul>
+<li>написана на С++</li>
+<li>использует библиотеку LoRa.cpp, которая</li>
+<li>использует библиотеку SPI.cpp, которая</li>
+<li>основана на arduino-espressif</li>
+<li>собирается platformio</li>
+</ul>
+<p>А вторая:</p>
+<ul>
+<li>написана на С</li>
+<li>использует библиотеку sx127x, которая</li>
+<li>использует spi драйвер из ESP32, который</li>
+<li>основан на esp-idf фреймворке</li>
+<li>собирается esp-idf</li>
+</ul>
+<p>И между ними нет ничего общего.</p>
+<p>Дальше идёт много аналитики, поэтому слабонерным и кормящим мамам лучше не читать.</p>
+<p>Итак, раз у нас есть две программы, в которых нет ничего общего, то это нужно исправить! Для этого я сделал программу, которая:</p>
+<ul>
+<li>инициализирует spi драйвер</li>
+<li>инициализирует чип с помощью библиотеки sx127x</li>
+<li>переводит его в спящий режим</li>
+<li>отключает spi шину и</li>
+<li>переходит в спящий режим</li>
+</ul>
+<p>При этом собирал и запускал я её в platformio. В результате ошибка воспроизвелась. Плата по-прежнему потребляла 1.7мА. Из этого следует, что проблема не в языке программирования и не в инструменте сборки. Уже прогресс!</p>
+<p>Получается проблема либо в spi драйвере, либо в <a href="https://github.com/dernasherbrezon/sx127x">моей библиотеке</a>.</p>
+<p>Следующим шагом я решил глянуть в исходники SPI.cpp и сравнить с методами <code>spi_bus_remove_device</code> и <code>spi_bus_free</code>, которые ответственны за де-инициализацию spi шины.</p>
+<p>Но здесь меня постигла неудача. Дело в том, что SPI.cpp основан на arduino-espressif. А тот работает напрямую с регистрами процессора и не использует внутри spi драйвер. В итоге я нашёл пару подозрительных мест:</p>
+<ul>
+<li>во многих местах spi драйвера используется GPIO матрица</li>
+<li>в arduino-espressif напрямую меняются регистры процессора</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">...
+spi<span style="color:#f92672">-&gt;</span>dev<span style="color:#f92672">-&gt;</span>pin.val <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+spi<span style="color:#f92672">-&gt;</span>dev<span style="color:#f92672">-&gt;</span>user.val <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+spi<span style="color:#f92672">-&gt;</span>dev<span style="color:#f92672">-&gt;</span>user1.val <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+...
+</code></pre></div><p>В попытках разобраться, что такое GPIO матрица и как на уровне железа работают регистры, я потратил пару недель. Что самое обидное - это не помогло. Да, мне пришлось заглянуть в datasheet ESP32 и прочитать про GPIO matrix, да, я теперь лучше понимаю, что это такое. Но вот потребляет ли эта матрица дополнительную энергию в спящем режиме или нет, я не знаю.</p>
+<p>В какой-то момент я открыл несколько интересных вещей:</p>
+<ul>
+<li>во-первых, пины, на которые припаяен чип sx127x, выходят наружу и их можно померить. То есть это не какие-то логические пины, которые спрятаны внутри самого микроконтроллера</li>
+<li>а во-вторых, с помощью PPK2 можно померить работу протокола SPI!</li>
+</ul>
+<p>Но и тут у меня случилась частичная неудача. Я смог посмотреть работу SPI протокола для программы на C. Выглядит, кстати, это вот так:</p>
+<p><img src="/img/power-profiler-kit2/logic-analyzer.png" alt=""></p>
+<p>С помощью этого графика мне удалось увидеть, что CS пин переходит в состояние LOW в спящем режиме. Миф развеян - этот пин необязательно должен быть RTC пином.</p>
+<p>А вот с другой стороны мне не удалось посмотреть на работу SPI протокола для С++ программы. Почему-то в arduino-espressif нельзя установить частоту шины в 50кГц. Вполне возможно это сделано для совместимости с Arduino.</p>
+<p>В поисках идей я ещё раз прочитал даташит на sx127x, но в этот раз уделил больше внимания энергопотреблению. Там меня заинтересовала строчка: потребление тока в режиме простоя - типичное - <strong>1.6</strong>мА, максимальное - <strong>1.8</strong>мА. Выглядит, как будто, мой случай. Правда, это не сильно помогает: проблема может быть как и в неправильной работе SPI шины, так и в моём коде. Для сравнения в спящем режиме чип должен потреблять максимум <strong>1</strong>мкА.</p>
+<p>В какой-то момент я понял, что сильно закопался в поиске низкоуровневых различий и решил вернуться к дифференциальному анализу.</p>
+<p>Следующая идея заключалась в том, что в рамках одной программы поочерёдно запускать С++ код и С код. При этом каждый из них должен сначала полностью инициализировать SPI шину и чип, а потом де-инициализировать. Это позволит понять - есть ли ещё какие-то блоки или функции, которые использует С код и не выключает. Если есть, то С++ код не будет их выключать (потому что он энергоэффективный и не использует их) и потребление тока будет 1.7мА.</p>
+<p><img src="/img/troubleshoot-deep-sleep/ppk-20231124T173238.png" alt=""></p>
+<p>В итоге оказалось, что потребление всегда большое после работы С кода. Это с одной стороны хорошо, а с другой - совершенно не помогает понять, где именно проблема.</p>
+<p>Шла третья неделя и я уже отчаялся. Я даже задал вопрос на <a href="https://www.esp32.com/viewtopic.php?f=13&amp;t=36952">официальном форуме</a>. Мне никто не ответил, тогда я решил задать вопрос ChatGPT. Разумеется он мне не помог, зато я знатно посмеялся с его ответов.</p>
+<p>Следующая идея, которая мне пришла в голову заключалась в следующем:</p>
+<ul>
+<li>инициализировать SPI.cpp</li>
+<li>инициализировать LoRa.cpp</li>
+<li>де-инициализировать. Если в этот момент перейти в режим сна, то потребление будет низким</li>
+<li>инициализировать spi драйвер</li>
+<li>де-инициализировать spi драйвер</li>
+<li>перейти в режим сна</li>
+</ul>
+<p>Таким образом я хотел проверить, есть ли что-то внутри spi драйвера, что не выключается. Оказалось, что нет! Потребление минимальное даже после включения и выключения spi драйвера. Это значит, что проблема либо в том как spi драйвер работает с чипом, либо в моей библиотеке.</p>
+<h2 id="катарсис">Катарсис</h2>
+<p>Далее историки обычно пишут, что решение проблемы пришло во сне, либо в душе. Я почему-то решил, что проблема связана с чипом sx127x. Внутри моей библиотеки инициализация достаточно простая: прочитать и проверить версию чипа. А вот в С++ версии много чего:</p>
+<ul>
+<li>проверка версии чипа</li>
+<li>переход в спящий режим</li>
+<li>установка частоты передачи сигнала</li>
+<li>инициализация буфера для входящих/исходящих сообщений</li>
+<li>инициализация LoRa - spreading factor, bandwidth, coding rate</li>
+<li>и многое другое</li>
+</ul>
+<p>Я решил полностью повторить все вызовы, даже если они не имеют никакого смысла. И в результате потребление энергии стало <strong>~13</strong>мкА! Победа! Ну а дальше было дело техники: я убирал ненужные вызовы и смотрел на потребление энергии. В итоге осталось следующее:</p>
+<ul>
+<li>инициализация чипа</li>
+<li>переход в спящий режим</li>
+<li>переход в режим ожидания</li>
+<li>переход в спящий режим</li>
+</ul>
+<p>Получается, что внутри чипа есть некая логика по выключению и она срабатывает только при переходе из режима ожидания.</p>
+<h2 id="послесловие">Послесловие</h2>
+<p>Помимо перевода LoRa чипа в спящий режим, нужно выключить OLED экран. Для этого нужно сделать пины плавающими и отключить любые прерывания. Я написал следующую вспомогательную функцию:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">disable_pin</span>(<span style="color:#66d9ef">int</span> pin) {
+  gpio_config_t conf <span style="color:#f92672">=</span> {
+      .pin_bit_mask <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1ULL</span> <span style="color:#f92672">&lt;&lt;</span> (gpio_num_t)pin), 
+      .mode <span style="color:#f92672">=</span> GPIO_MODE_INPUT,                   
+      .pull_up_en <span style="color:#f92672">=</span> GPIO_PULLUP_DISABLE,         
+      .pull_down_en <span style="color:#f92672">=</span> GPIO_PULLDOWN_DISABLE,     
+      .intr_type <span style="color:#f92672">=</span> GPIO_INTR_DISABLE};
+  ESP_ERROR_CHECK(gpio_config(<span style="color:#f92672">&amp;</span>conf));
+}
+</code></pre></div><p>С помощью этой функции можно выключить пины sx127x и OLED экрана:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">disable_pin(SCK);
+disable_pin(MISO);
+disable_pin(MOSI);
+disable_pin(SS);
+disable_pin(<span style="color:#ae81ff">4</span>);
+disable_pin(<span style="color:#ae81ff">15</span>);
+</code></pre></div><p>В результате у меня получилось потребление энергии в режиме сна: <strong>~13</strong>мкА. В <a href="https://dernasherbrezon.com/posts/lora-deep-sleep/">статье по оптимизации</a> энергопотребления для солнечной панели я брал <strong>6</strong>мА для режима сна. И в результате у меня получалось <strong>656.15</strong>Втч за день. Если же принять <strong>~13</strong>мкА, то получится:</p>
+<pre><code>323 мин * 16 мА + 1127 мин * 0.013 мА = 5168 мАмин + 14.65 мАмин =
+= 86.37 мАч * 3.3В = 0.285 Втч
+</code></pre><p>Если учесть, что одна солнечная панель производит <strong>0.396</strong>Втч, то её должно хватить на целый день!</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/c/'>c</a>, <a class='tag' href='/tags/lora/'>lora</a>, <a class='tag' href='/tags/esp32/'>esp32</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/lora-at-power-profiling/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Тестирование потребления энергии в lora-at</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+
