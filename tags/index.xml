@@ -5,22 +5,31 @@
     <link>https://dernasherbrezon.com/tags/</link>
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 13 Dec 2023 17:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 Dec 2023 21:33:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>esp32</title>
+      <link>https://dernasherbrezon.com/tags/esp32/</link>
+      <pubDate>Mon, 25 Dec 2023 21:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/esp32/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lora-at</title>
+      <link>https://dernasherbrezon.com/tags/lora-at/</link>
+      <pubDate>Mon, 25 Dec 2023 21:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/tags/lora-at/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>c</title>
       <link>https://dernasherbrezon.com/tags/c/</link>
       <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/c/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>esp32</title>
-      <link>https://dernasherbrezon.com/tags/esp32/</link>
-      <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/esp32/</guid>
       <description></description>
     </item>
     
@@ -39,15 +48,6 @@
       <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/tags/esp-idf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>lora-at</title>
-      <link>https://dernasherbrezon.com/tags/lora-at/</link>
-      <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
-      
-      <guid>https://dernasherbrezon.com/tags/lora-at/</guid>
       <description></description>
     </item>
     

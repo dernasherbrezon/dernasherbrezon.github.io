@@ -5,7 +5,18 @@
     <link>https://dernasherbrezon.com/tags/esp32/</link>
     <description>Recent content in esp32 on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 13 Dec 2023 17:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 Dec 2023 21:33:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/esp32/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Оптимизация энергопотребления в lora-at</title>
+      <link>https://dernasherbrezon.com/posts/lora-at-deep-sleep-2/</link>
+      <pubDate>Mon, 25 Dec 2023 21:33:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/lora-at-deep-sleep-2/</guid>
+      <description>При начале работы по оптимизации энергопотребления LoRa, я даже не представлял, насколько глубокой может быть эта тема. В предыдущих частях я рассказывал о:
+ переходе в режим глубокого сна поиске и отключении ненужной нагрузки  В этот раз возникла идея оптимизации цикла глубокого сна. Если кратко, то работа в режиме глубокого сна выглядит следующим образом:
+ Если приложение не активно в течение определенного времени, то Перейти в режим глубокого сна на определенное время Через определенный интервал времени ESP32 просыпается Выполняет полезную работу и возвращается к шагу 2  Шаги с второго по четвертый образуют цикл глубокого сна.</description>
+    </item>
+    
     <item>
       <title>Оптимизация энергопотребления LoRa - Часть 2</title>
       <link>https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/</link>
