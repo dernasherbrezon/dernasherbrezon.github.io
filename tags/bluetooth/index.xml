@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>bluetooth on dernasherbrezon</title>
+    <title>Bluetooth on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/bluetooth/</link>
-    <description>Recent content in bluetooth on dernasherbrezon</description>
+    <description>Recent content in Bluetooth on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/bluetooth/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/bluetooth/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>BLE сервер на Java</title>
       <link>https://dernasherbrezon.com/posts/ble-server-java/</link>
       <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/ble-server-java/</guid>
       <description>В одном из предыдущих постов я начал оптимизировать энергопотребление ESP32 и LoRa. Идея заключалась в том, чтобы переводить микроконтроллер в режим сна и просыпаться только тогда, когда необходимо получить данные. Но как узнать в какой момент времени нужно просыпаться? Вот тут всё зависит от конкретного приложения. Если необходимо передавать данные с одинаковым интервалом, то его можно захардкодить в прошивке. А что делать, если получение данных нужно делать через заранее неизвестные промежутки времени?</description>
     </item>
-    
     <item>
       <title>USB тестер A3-B</title>
       <link>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</link>
       <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/</guid>
-      <description>Совсем недавно я приобрёл USB тестер A3-B.
-Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:
- измерять потребление тока в разных режимах:  сна активной работы простоя   измерять потребление во времени. Дисплей умеет переключаться в режим построения графика и показывать, как меняется потребление в течении некоторого времени.</description>
+      <description>Совсем недавно я приобрёл USB тестер A3-B.&#xA;Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:&#xA;измерять потребление тока в разных режимах: сна активной работы простоя измерять потребление во времени. Дисплей умеет переключаться в режим построения графика и показывать, как меняется потребление в течении некоторого времени. измерять общее потребление за промежуток времени.</description>
     </item>
-    
   </channel>
 </rss>

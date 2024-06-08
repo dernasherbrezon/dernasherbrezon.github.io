@@ -5,26 +5,22 @@
     <link>https://dernasherbrezon.com/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/</link>
     <description>Recent content in перевод on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 30 Jun 2019 22:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sun, 30 Jun 2019 22:22:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Динамический диапазон rtl-sdr</title>
       <link>https://dernasherbrezon.com/posts/dynamic-range/</link>
       <pubDate>Sun, 30 Jun 2019 22:22:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/dynamic-range/</guid>
-      <description>Ниже я сделал перевод одной замечательной заметки Mile Kokotov о динамическом диапазоне rtl-sdr. Это очень важный показатель, которым я заинтересовался и решил разобраться. Возможно кому-нибудь это тоже будет полезно.
- Большинство людей думает, что наиболее важной характеристикой радиоприёмника является чувствительность, но это не совсем так. Вообще, спроектировать и произвести приёмник с высокой чувствительностью не проблема. Гораздо сложнее для инженеров спроектировать приёмник с большим динамическим диапазоном, который смог бы принимать как очень слабые сигналы, так и очень сильные одновременно.</description>
+      <description>Ниже я сделал перевод одной замечательной заметки Mile Kokotov о динамическом диапазоне rtl-sdr. Это очень важный показатель, которым я заинтересовался и решил разобраться. Возможно кому-нибудь это тоже будет полезно.&#xA;Большинство людей думает, что наиболее важной характеристикой радиоприёмника является чувствительность, но это не совсем так. Вообще, спроектировать и произвести приёмник с высокой чувствительностью не проблема. Гораздо сложнее для инженеров спроектировать приёмник с большим динамическим диапазоном, который смог бы принимать как очень слабые сигналы, так и очень сильные одновременно.</description>
     </item>
-    
     <item>
       <title>Спецификация конструкции CubeSat</title>
       <link>https://dernasherbrezon.com/posts/cubespec/</link>
       <pubDate>Tue, 24 Sep 2013 13:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/cubespec/</guid>
-      <description>1. Введение. CubeSat (Cube Satellite - кубический спутник, КубСат) - это малые спутники (пикоспутники) модульной кубической формы. Самый маленький имеет длину ребра 10 см и массу до 1.33кг. Более крупные спутники имеют форму и массу, кратные 1.5x, 2x, 3x одиночных модулей, состыкованным друг с другом по одной линии.
-1.1 История создания Проект CubeSat был начат в 1999 году совместными усилиями профессора Джорди Пьюг-Суари (Prof. Jordi Puig-Suari) из Калифорнийского Политехнического Университета (California Polytechnic State University), Сан Луис Обиспо (San Luis Obispo), профессором Бобом Твиггсом (Prof.</description>
+      <description>1. Введение. CubeSat (Cube Satellite - кубический спутник, КубСат) - это малые спутники (пикоспутники) модульной кубической формы. Самый маленький имеет длину ребра 10 см и массу до 1.33кг. Более крупные спутники имеют форму и массу, кратные 1.5x, 2x, 3x одиночных модулей, состыкованным друг с другом по одной линии.&#xA;1.1 История создания Проект CubeSat был начат в 1999 году совместными усилиями профессора Джорди Пьюг-Суари (Prof. Jordi Puig-Suari) из Калифорнийского Политехнического Университета (California Polytechnic State University), Сан Луис Обиспо (San Luis Obispo), профессором Бобом Твиггсом (Prof.</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>eclipse on dernasherbrezon</title>
+    <title>Eclipse on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/eclipse/</link>
-    <description>Recent content in eclipse on dernasherbrezon</description>
+    <description>Recent content in Eclipse on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 10 Jan 2009 13:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/eclipse/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sat, 10 Jan 2009 13:14:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/eclipse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Интеграция Eclipse и Maven</title>
       <link>https://dernasherbrezon.com/posts/eclipse-maven/</link>
       <pubDate>Sat, 10 Jan 2009 13:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/eclipse-maven/</guid>
-      <description>Maven в Eclipse - это очень удобно.
-Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например, следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&amp;rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&amp;rsquo;шный стандартно в output folder для Eclipse&amp;rsquo;a, а maven&amp;rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
+      <description>Maven в Eclipse - это очень удобно.&#xA;Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например, следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&amp;rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&amp;rsquo;шный стандартно в output folder для Eclipse&amp;rsquo;a, а maven&amp;rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
     </item>
-    
   </channel>
 </rss>

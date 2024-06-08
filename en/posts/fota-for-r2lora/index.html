@@ -3,21 +3,21 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='This post continues the development cycle of the r2lora project. Previous articles:
- Creating a project for ESP32 Setting up a project in PlatformIO  FOTA is an abbreviation for Firmware-Over-The-Air. This is a special component that updates the application if a new version is available.
+Creating a project for ESP32 Setting up a project in PlatformIO FOTA is an abbreviation for Firmware-Over-The-Air. This is a special component that updates the application if a new version is available.
 Design Auto-update can be done in several ways:
- The special component starts listening on TCP/UDP port. To update, you need to send the firmware to this port from any other device running on the network.'>
+The special component starts listening on TCP/UDP port. To update, you need to send the firmware to this port from any other device running on the network.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Creating FOTA component • dernasherbrezon'>
 <meta property='og:description' content='This post continues the development cycle of the r2lora project. Previous articles:
- Creating a project for ESP32 Setting up a project in PlatformIO  FOTA is an abbreviation for Firmware-Over-The-Air. This is a special component that updates the application if a new version is available.
+Creating a project for ESP32 Setting up a project in PlatformIO FOTA is an abbreviation for Firmware-Over-The-Air. This is a special component that updates the application if a new version is available.
 Design Auto-update can be done in several ways:
- The special component starts listening on TCP/UDP port. To update, you need to send the firmware to this port from any other device running on the network.'>
+The special component starts listening on TCP/UDP port. To update, you need to send the firmware to this port from any other device running on the network.'>
 <meta property='og:url' content='https://dernasherbrezon.com/en/posts/fota-for-r2lora/'>
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='og:video' content='https://youtu.be/_DowEhVwboI'><meta property='article:section' content='posts'><meta property='article:tag' content='esp32'><meta property='article:tag' content='r2lora'><meta property='article:published_time' content='2022-01-02T21:04:18Z'/><meta property='article:modified_time' content='2022-01-02T21:04:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.81.0" />
+<meta name="generator" content="Hugo 0.124.0">
 
   <title>Creating FOTA component • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/en/posts/fota-for-r2lora/'>
@@ -69,57 +69,57 @@ Design Auto-update can be done in several ways:
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
-        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>admin</a>
+        <a href='/en/tags/admin/' style='font-size:1.4285714285714286em'>Admin</a>
       </li><li>
-        <a href='/en/tags/apt/' style='font-size:1em'>apt</a>
+        <a href='/en/tags/apt/' style='font-size:1em'>Apt</a>
       </li><li>
-        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>bluetooth</a>
+        <a href='/en/tags/bluetooth/' style='font-size:1.1428571428571428em'>Bluetooth</a>
       </li><li>
-        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>c</a>
+        <a href='/en/tags/c/' style='font-size:1.5714285714285714em'>C</a>
       </li><li>
-        <a href='/en/tags/deb/' style='font-size:1em'>deb</a>
+        <a href='/en/tags/deb/' style='font-size:1em'>Deb</a>
       </li><li>
-        <a href='/en/tags/dsp/' style='font-size:1em'>dsp</a>
+        <a href='/en/tags/dsp/' style='font-size:1em'>Dsp</a>
       </li><li>
-        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+        <a href='/en/tags/embedded/' style='font-size:1.1428571428571428em'>Embedded</a>
       </li><li>
-        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>esp-idf</a>
+        <a href='/en/tags/esp-idf/' style='font-size:1.1428571428571428em'>Esp-Idf</a>
       </li><li>
-        <a href='/en/tags/esp32/' style='font-size:2em'>esp32</a>
+        <a href='/en/tags/esp32/' style='font-size:2em'>Esp32</a>
       </li><li>
-        <a href='/en/tags/grafana/' style='font-size:1em'>grafana</a>
+        <a href='/en/tags/grafana/' style='font-size:1em'>Grafana</a>
       </li><li>
-        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>java</a>
+        <a href='/en/tags/java/' style='font-size:1.2857142857142856em'>Java</a>
       </li><li>
-        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>lora</a>
+        <a href='/en/tags/lora/' style='font-size:1.8571428571428572em'>Lora</a>
       </li><li>
-        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>lora-at</a>
+        <a href='/en/tags/lora-at/' style='font-size:1.2857142857142856em'>Lora-At</a>
       </li><li>
-        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>maven</a>
+        <a href='/en/tags/maven/' style='font-size:1.1428571428571428em'>Maven</a>
       </li><li>
-        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>monitoring</a>
+        <a href='/en/tags/monitoring/' style='font-size:1.1428571428571428em'>Monitoring</a>
       </li><li>
-        <a href='/en/tags/peformance/' style='font-size:1em'>peformance</a>
+        <a href='/en/tags/peformance/' style='font-size:1em'>Peformance</a>
       </li><li>
-        <a href='/en/tags/performance/' style='font-size:1em'>performance</a>
+        <a href='/en/tags/performance/' style='font-size:1em'>Performance</a>
       </li><li>
         <a href='/en/tags/ppk2/' style='font-size:1.1428571428571428em'>PPK2</a>
       </li><li>
-        <a href='/en/tags/prometheus/' style='font-size:1em'>prometheus</a>
+        <a href='/en/tags/prometheus/' style='font-size:1em'>Prometheus</a>
       </li><li>
-        <a href='/en/tags/r2cloud/' style='font-size:1em'>r2cloud</a>
+        <a href='/en/tags/r2cloud/' style='font-size:1em'>R2cloud</a>
       </li><li>
-        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>r2lora</a>
+        <a href='/en/tags/r2lora/' style='font-size:1.4285714285714286em'>R2lora</a>
       </li><li>
-        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>raspberrypi</a>
+        <a href='/en/tags/raspberrypi/' style='font-size:1.2857142857142856em'>Raspberrypi</a>
       </li><li>
-        <a href='/en/tags/s3/' style='font-size:1em'>s3</a>
+        <a href='/en/tags/s3/' style='font-size:1em'>S3</a>
       </li><li>
-        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>sx127x</a>
+        <a href='/en/tags/sx127x/' style='font-size:1.1428571428571428em'>Sx127x</a>
       </li><li>
-        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>testing</a>
+        <a href='/en/tags/testing/' style='font-size:1.2857142857142856em'>Testing</a>
       </li><li>
-        <a href='/en/tags/ubuntu/' style='font-size:1em'>ubuntu</a>
+        <a href='/en/tags/ubuntu/' style='font-size:1em'>Ubuntu</a>
       </li></ul>
 </div>
 
@@ -225,16 +225,16 @@ Design Auto-update can be done in several ways:
 <li>firmware files</li>
 </ul>
 <p>The index file has the following structure:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
-    {
-        <span style="color:#f92672">&#34;board&#34;</span>: <span style="color:#e6db74">&#34;ttgo-lora32-v2&#34;</span>,
-        <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.1&#34;</span>,
-        <span style="color:#f92672">&#34;filename&#34;</span>: <span style="color:#e6db74">&#34;/fotatest/ttgo-lora32-v2-1.1.bin.zz&#34;</span>,
-        <span style="color:#f92672">&#34;size&#34;</span>: <span style="color:#ae81ff">203984</span>,
-        <span style="color:#f92672">&#34;md5Checksum&#34;</span>: <span style="color:#e6db74">&#34;6c0931332848636087c599a1ad9c06a8&#34;</span>
-    }
-]
-</code></pre></div><p>It contains an array of json objects that describe each board. Due to the fact that each board is different, the repository must store the same version of firmware for each of the boards. Each firmware is described by the following required fields:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;board&#34;</span>: <span style="color:#e6db74">&#34;ttgo-lora32-v2&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;1.1&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;filename&#34;</span>: <span style="color:#e6db74">&#34;/fotatest/ttgo-lora32-v2-1.1.bin.zz&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;size&#34;</span>: <span style="color:#ae81ff">203984</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;md5Checksum&#34;</span>: <span style="color:#e6db74">&#34;6c0931332848636087c599a1ad9c06a8&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>It contains an array of json objects that describe each board. Due to the fact that each board is different, the repository must store the same version of firmware for each of the boards. Each firmware is described by the following required fields:</p>
 <table>
 <thead>
 <tr>
@@ -311,59 +311,59 @@ Checksum of the firmware file BEFORE compression. Algorithm: MD5
 <p>The FOTA repository is accessed using HTTP, so it can be deployed anywhere. In my case it is Amazon S3.</p>
 <h2 id="algorithm">Algorithm</h2>
 <p>First of all, the <a href="https://github.com/dernasherbrezon/r2lora/blob/main/lib/fota/Fota.cpp#L13">FOTA component</a> downloads the index file.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>begin(hostname, port, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>indexFile)) {
-  log_e(<span style="color:#e6db74">&#34;unable to begin&#34;</span>);
-  <span style="color:#66d9ef">return</span> FOTA_UNKNOWN_ERROR;
-}
-<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified.isEmpty()) {
-  <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>addHeader(<span style="color:#e6db74">&#34;If-Modified-Since&#34;</span>, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified);
-}
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>headers[] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Last-Modified&#34;</span>};
-<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>collectHeaders(headers, <span style="color:#ae81ff">1</span>);
-<span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>GET();
-</code></pre></div><p>At the same time, r2lora remember the time the file was last updated. If the file has not changed, then the server should return HTTP 304. That will help saving a little on traffic and parsing the json file. To access the repository, I use the standard <code>HTTPClient`` and </code>HTTPClient.h``` that comes with the Arduino framework.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>begin(hostname, port, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>indexFile)) {
+</span></span><span style="display:flex;"><span>  log_e(<span style="color:#e6db74">&#34;unable to begin&#34;</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> FOTA_UNKNOWN_ERROR;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified.isEmpty()) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>addHeader(<span style="color:#e6db74">&#34;If-Modified-Since&#34;</span>, <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>lastModified);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>headers[] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Last-Modified&#34;</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>collectHeaders(headers, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> code <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>client<span style="color:#f92672">-&gt;</span>GET();
+</span></span></code></pre></div><p>At the same time, r2lora remember the time the file was last updated. If the file has not changed, then the server should return HTTP 304. That will help saving a little on traffic and parsing the json file. To access the repository, I use the standard <code>HTTPClient`` and </code>HTTPClient.h``` that comes with the Arduino framework.</p>
 <p>Next, the component must find firmware information for the current board. PlatformIO passes the name of the board during compilation via the parameter <code>ARDUINO_VARIANT</code>.</p>
 <p>If the information is found and the version does not match the current one, FOTA will download the firmware file from the server. The download algorithm is quite tricky. Firmware can&rsquo;t fully fit into memory, so it needs to be downloaded directly into the specific nvs partition using small buffer. I used special class <code>Update</code> from <code>Update.h</code>. It writes the new version to a special partition on flash memory, checks the checksum of the received file and sets the new partition as boot.</p>
 <p>In addition, the FOTA component supports a special callback method. It can be used to update progress bar on the screen.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc) {
-  Update.onProgress(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc);
-}
-</code></pre></div><p>This lambda function receives the current number of downloaded bytes and the total number of bytes as input. The output to the screen is quite trivial:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">updater<span style="color:#f92672">-&gt;</span>setOnUpdate([](size_t current, size_t total) {
-  display<span style="color:#f92672">-&gt;</span>setStatus(<span style="color:#e6db74">&#34;UPDATING&#34;</span>);
-  display<span style="color:#f92672">-&gt;</span>setProgress((<span style="color:#66d9ef">uint8_t</span>)((<span style="color:#66d9ef">float</span>)current <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">/</span> total));
-  display<span style="color:#f92672">-&gt;</span>update();
-});
-</code></pre></div><p>Once the file is completely downloaded and the checksum is verified, its time to reboot the board:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">if</span> (reboot) {
-  log_i(<span style="color:#e6db74">&#34;update completed. rebooting&#34;</span>);
-  ESP.restart();
-} <span style="color:#66d9ef">else</span> {
-  log_i(<span style="color:#e6db74">&#34;update completed&#34;</span>);
-}
-</code></pre></div><h2 id="zlib">zlib</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc) {
+</span></span><span style="display:flex;"><span>  Update.onProgress(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>onUpdateFunc);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This lambda function receives the current number of downloaded bytes and the total number of bytes as input. The output to the screen is quite trivial:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>updater<span style="color:#f92672">-&gt;</span>setOnUpdate([](size_t current, size_t total) {
+</span></span><span style="display:flex;"><span>  display<span style="color:#f92672">-&gt;</span>setStatus(<span style="color:#e6db74">&#34;UPDATING&#34;</span>);
+</span></span><span style="display:flex;"><span>  display<span style="color:#f92672">-&gt;</span>setProgress((<span style="color:#66d9ef">uint8_t</span>)((<span style="color:#66d9ef">float</span>)current <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">/</span> total));
+</span></span><span style="display:flex;"><span>  display<span style="color:#f92672">-&gt;</span>update();
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>Once the file is completely downloaded and the checksum is verified, its time to reboot the board:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (reboot) {
+</span></span><span style="display:flex;"><span>  log_i(<span style="color:#e6db74">&#34;update completed. rebooting&#34;</span>);
+</span></span><span style="display:flex;"><span>  ESP.restart();
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>  log_i(<span style="color:#e6db74">&#34;update completed&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="zlib">zlib</h2>
 <p>I would also like to dwell on archiving/unarchiving. ESP32 does not support <a href="https://zlib.net">zlib</a>. Therefore, you need to either port zlib to the ESP32 yourself, or look for a more lightweight alternative. And there it is - <a href="https://github.com/richgel999/miniz">miniz</a>. The great thing about that the ROM already contains an implementation of the basic functions of miniz. So using miniz does not affect the size of the firmware.</p>
 <p>Uncompression consists of several steps. First, you need to initialize the helper structures for miniz:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">tinfl_init(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>inflator);
-</code></pre></div><p>Secondly, create two intermediate buffers.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextCompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>compressedBuffer;
-<span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextUncompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer;
-</code></pre></div><p>One buffer is where the compressed data needs to be written, and the other buffer is where miniz will put the decompressed data. It is important to allocate at least 32768 bytes for the output array. This is not described in the documentation, but for some reason miniz requires a buffer of this size. If you select less, then unzipping will fail with status -1.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>tinfl_init(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>inflator);
+</span></span></code></pre></div><p>Secondly, create two intermediate buffers.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextCompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>compressedBuffer;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>nextUncompressedBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer;
+</span></span></code></pre></div><p>One buffer is where the compressed data needs to be written, and the other buffer is where miniz will put the decompressed data. It is important to allocate at least 32768 bytes for the output array. This is not described in the documentation, but for some reason miniz requires a buffer of this size. If you select less, then unzipping will fail with status -1.</p>
 <p>Next is to make sure that there is enough data in the incoming buffer for work, and at the same time that there is room in the outgoing buffer for new data.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">size_t inBytes <span style="color:#f92672">=</span> actuallyRead;
-size_t outBytes <span style="color:#f92672">=</span> availableOut;
-status <span style="color:#f92672">=</span> tinfl_decompress(inflator, (<span style="color:#66d9ef">const</span> mz_uint8 <span style="color:#f92672">*</span>)nextCompressedBuffer, <span style="color:#f92672">&amp;</span>inBytes,
-                          <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, nextUncompressedBuffer, <span style="color:#f92672">&amp;</span>outBytes,
-                          flags);
-actuallyRead <span style="color:#f92672">-=</span> inBytes;
-nextCompressedBuffer <span style="color:#f92672">=</span> nextCompressedBuffer <span style="color:#f92672">+</span> inBytes;
-
-availableOut <span style="color:#f92672">-=</span> outBytes;
-nextUncompressedBuffer <span style="color:#f92672">=</span> nextUncompressedBuffer <span style="color:#f92672">+</span> outBytes;
-</code></pre></div><p>Once the outgoing buffer is completely full, it can written to flash:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">size_t actuallyWrote <span style="color:#f92672">=</span> Update.write(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, bytesInTheOutput);
-</code></pre></div><p>However, when I ran the test, I received the following error:</p>
-<pre><code>[I][Fota.cpp:191] downloadAndApplyFirmware(): downloading new firmware: 203984 bytes
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>size_t inBytes <span style="color:#f92672">=</span> actuallyRead;
+</span></span><span style="display:flex;"><span>size_t outBytes <span style="color:#f92672">=</span> availableOut;
+</span></span><span style="display:flex;"><span>status <span style="color:#f92672">=</span> tinfl_decompress(inflator, (<span style="color:#66d9ef">const</span> mz_uint8 <span style="color:#f92672">*</span>)nextCompressedBuffer, <span style="color:#f92672">&amp;</span>inBytes,
+</span></span><span style="display:flex;"><span>                          <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, nextUncompressedBuffer, <span style="color:#f92672">&amp;</span>outBytes,
+</span></span><span style="display:flex;"><span>                          flags);
+</span></span><span style="display:flex;"><span>actuallyRead <span style="color:#f92672">-=</span> inBytes;
+</span></span><span style="display:flex;"><span>nextCompressedBuffer <span style="color:#f92672">=</span> nextCompressedBuffer <span style="color:#f92672">+</span> inBytes;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>availableOut <span style="color:#f92672">-=</span> outBytes;
+</span></span><span style="display:flex;"><span>nextUncompressedBuffer <span style="color:#f92672">=</span> nextUncompressedBuffer <span style="color:#f92672">+</span> outBytes;
+</span></span></code></pre></div><p>Once the outgoing buffer is completely full, it can written to flash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>size_t actuallyWrote <span style="color:#f92672">=</span> Update.write(<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>uncompressedBuffer, bytesInTheOutput);
+</span></span></code></pre></div><p>However, when I ran the test, I received the following error:</p>
+<pre tabindex="0"><code>[I][Fota.cpp:191] downloadAndApplyFirmware(): downloading new firmware: 203984 bytes
 ***ERROR*** A stack overflow in task loopTask has been detected.
 abort() was called at PC 0x40088a50 on core 1
 
@@ -377,19 +377,19 @@ Backtrace: 0x400887bc:0x3ffaee10 0x40088a39:0x3ffaee30 0x40088a50:0x3ffaee50 0x4
   #4  0x4008c1fc:0x3ffaee90 in _frxt_dispatch at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/portasm.S:406
   #5  0x4008c1b2:0x00a42700 in _frxt_int_exit at /home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/freertos/portasm.S:206
 </code></pre><p>How is that possible to receive <code>stack overflow</code> here? I don&rsquo;t even have recursion. It turns out you can&rsquo;t initialize like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">tinfl_decompressor inflator;
-</code></pre></div><p>This will create a structure on the function call stack. And the size of this structure is larger than the available stack memory. Microcontrollers. For the same reason you cannot write:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">uint8_t</span> uncompressedBuffer[<span style="color:#ae81ff">32768</span>];
-</code></pre></div><p>Otherwise it will be:</p>
-<pre><code>[E][WiFiClient.cpp:62] fillBuffer(): Not enough memory to allocate buffer
-[E][WiFiClient.cpp:439] read(): fail on fd 61, errno: 11, &quot;No more processes&quot;
-Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>tinfl_decompressor inflator;
+</span></span></code></pre></div><p>This will create a structure on the function call stack. And the size of this structure is larger than the available stack memory. Microcontrollers. For the same reason you cannot write:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">uint8_t</span> uncompressedBuffer[<span style="color:#ae81ff">32768</span>];
+</span></span></code></pre></div><p>Otherwise it will be:</p>
+<pre tabindex="0"><code>[E][WiFiClient.cpp:62] fillBuffer(): Not enough memory to allocate buffer
+[E][WiFiClient.cpp:439] read(): fail on fd 61, errno: 11, &#34;No more processes&#34;
+Guru Meditation Error: Core  1 panic&#39;ed (LoadProhibited). Exception was unhandled.
 </code></pre><p>The solution is simple - you need to allocate objects in heap using malloc or new.</p>
 <p>After I fixed all these exceptions, I discovered that zlib is not the same as gzip. They have different headers. Therefore, creating firmware with the following command simply will not work:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gzip firmware.bin
-</code></pre></div><p>miniz will not be able to unpack. The inside is still the same Deflate, but the file headers are different. You can use various hacks and replace the gzip header, but I found this unreliable. Instead I used a special program called <a href="https://zlib.net/pigz/">pigz</a> that can create zlib files:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pigz --zlib firmware.bin
-</code></pre></div><p>A little inconvenient, but it works.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gzip firmware.bin
+</span></span></code></pre></div><p>miniz will not be able to unpack. The inside is still the same Deflate, but the file headers are different. You can use various hacks and replace the gzip header, but I found this unreliable. Instead I used a special program called <a href="https://zlib.net/pigz/">pigz</a> that can create zlib files:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pigz --zlib firmware.bin
+</span></span></code></pre></div><p>A little inconvenient, but it works.</p>
 <h2 id="testing">Testing</h2>
 <p>Code needs to be tested, and FOTA is no exception. But how can you test updating yourself? After all, after the update you need to restart the program and the test result will definitely disappear. Here I made some exceptions to the classic unit testing:</p>
 <ul>
@@ -403,30 +403,30 @@ Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandle
 <li>added many index files with various possible errors</li>
 </ul>
 <p>An example unit test is below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_non_existing_file</span>() {
-  Fota fota;
-  fota.init(<span style="color:#e6db74">&#34;1.0&#34;</span>, <span style="color:#e6db74">&#34;apt.r2server.ru&#34;</span>, <span style="color:#ae81ff">80</span>, <span style="color:#e6db74">&#34;/fotatest/missingfile.json&#34;</span>, <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>, ARDUINO_VARIANT);
-  TEST_ASSERT_EQUAL(FOTA_INVALID_SERVER_RESPONSE, fota.loop(false));
-}
-</code></pre></div><p>FOTA initializes and attempts to check for an update. <code>missingfile.json</code> is a pre-generated file with an expected error that I uploaded to S3.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_non_existing_file</span>() {
+</span></span><span style="display:flex;"><span>  Fota fota;
+</span></span><span style="display:flex;"><span>  fota.init(<span style="color:#e6db74">&#34;1.0&#34;</span>, <span style="color:#e6db74">&#34;apt.r2server.ru&#34;</span>, <span style="color:#ae81ff">80</span>, <span style="color:#e6db74">&#34;/fotatest/missingfile.json&#34;</span>, <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>, ARDUINO_VARIANT);
+</span></span><span style="display:flex;"><span>  TEST_ASSERT_EQUAL(FOTA_INVALID_SERVER_RESPONSE, fota.loop(false));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>FOTA initializes and attempts to check for an update. <code>missingfile.json</code> is a pre-generated file with an expected error that I uploaded to S3.</p>
 <p>Another inconvenience was connecting to WiFi before performing the test. After all, in order to download from S3 you need a fully initialized Internet connection. PlatformIO allows you to pass environment variables to the build:</p>
-<pre><code>build_flags = -DWIFI_SSID=\&quot;${sysenv.WIFI_SSID}\&quot; -DWIFI_PASSWORD=\&quot;${sysenv.WIFI_PASSWORD}\&quot;
+<pre tabindex="0"><code>build_flags = -DWIFI_SSID=\&#34;${sysenv.WIFI_SSID}\&#34; -DWIFI_PASSWORD=\&#34;${sysenv.WIFI_PASSWORD}\&#34;
 </code></pre><p>They are used in the code as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#ifndef WIFI_SSID
-</span><span style="color:#75715e">#define WIFI_SSID &#34;&#34;
-</span><span style="color:#75715e">#endif
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#ifndef WIFI_PASSWORD
-</span><span style="color:#75715e">#define WIFI_PASSWORD &#34;&#34;
-</span><span style="color:#75715e">#endif
-</span><span style="color:#75715e"></span>
-WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-<span style="color:#66d9ef">while</span> (WiFi.status() <span style="color:#f92672">!=</span> WL_CONNECTED) {
-  delay(<span style="color:#ae81ff">500</span>);
-}
-</code></pre></div><p>If, when building the test, the environment variables contained the login and password for the local access point, then they will be compiled into the test firmware and used before executing all tests.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#ifndef WIFI_SSID
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define WIFI_SSID &#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ifndef WIFI_PASSWORD
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define WIFI_PASSWORD &#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (WiFi.status() <span style="color:#f92672">!=</span> WL_CONNECTED) {
+</span></span><span style="display:flex;"><span>  delay(<span style="color:#ae81ff">500</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If, when building the test, the environment variables contained the login and password for the local access point, then they will be compiled into the test firmware and used before executing all tests.</p>
 <p>The final step will be to disable this test by default. I don&rsquo;t expect anyone who wants to build a project will test FOTA, and I don&rsquo;t really want to run a test every time I build. For this purpose, PlatformIO has support for disabling tests!</p>
-<pre><code>test_ignore = fota, testfirmware
+<pre tabindex="0"><code>test_ignore = fota, testfirmware
 </code></pre><p><code>testfirmware</code> - this is another test that is not really a test, but the same program that does nothing and is used to test FOTA.</p>
 <p>This all sounds very complicated, but the component itself is quite complex and does a lot of things that I would like to check automatically. I found so many bugs when I was writing these tests! But now the update works perfectly.</p>
 
@@ -439,14 +439,23 @@ WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   
 <footer class='entry-footer'>
-  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  <div class='container sep-before'><div class='last-updated'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34" />
+  <polygon points="18 2 22 6 12 16 8 16 8 12 18 2" />
+
+</svg>
+<span class='screen-reader-text'>Last updated: </span>
+      <time class='entry-date' datetime='2022-01-02T21:04:18Z'>02 Jan 2022</time>
+    </div><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
   <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
   <line x1="7" y1="7" x2="7" y2="7"/>
 
 </svg>
-<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/esp32/'>esp32</a>, <a class='tag' href='/en/tags/r2lora/'>r2lora</a></div>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/en/tags/esp32/'>Esp32</a>, <a class='tag' href='/en/tags/r2lora/'>R2lora</a></div>
 
   </div>
 </footer>
@@ -550,7 +559,7 @@ WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2024 dernasherbrezon </p>
 </div>
 
         </div>

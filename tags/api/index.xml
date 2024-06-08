@@ -5,47 +5,36 @@
     <link>https://dernasherbrezon.com/tags/api/</link>
     <description>Recent content in api on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 18 Mar 2020 19:37:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/api/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Wed, 18 Mar 2020 19:37:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/api/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Тестирование REST клиентов</title>
       <link>https://dernasherbrezon.com/posts/mock-server/</link>
       <pubDate>Wed, 18 Mar 2020 19:37:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/mock-server/</guid>
-      <description>Последние несколько дней я работал над декодированием сигналов со спутника SMOG-P. Помимо декодирования самого протокола я решил заморочиться и написать полноценную интеграцию между r2server и gnd.bme.hu.
-Gnd bme - это сайт, на котором отображаются последние пакеты, принятые со спутника, общая информация о том, как декодировать сигнал.
-Но самое интересное заключается в том, что этот сайт предоставляет небольшой API, чтобы можно было программно отправлять им данные. На самом сайте нет описания этого API, но я внимательно посмотрел исходники и нашёл в них всё необходимое.</description>
+      <description>Последние несколько дней я работал над декодированием сигналов со спутника SMOG-P. Помимо декодирования самого протокола я решил заморочиться и написать полноценную интеграцию между r2server и gnd.bme.hu.&#xA;Gnd bme - это сайт, на котором отображаются последние пакеты, принятые со спутника, общая информация о том, как декодировать сигнал.&#xA;Но самое интересное заключается в том, что этот сайт предоставляет небольшой API, чтобы можно было программно отправлять им данные. На самом сайте нет описания этого API, но я внимательно посмотрел исходники и нашёл в них всё необходимое.</description>
     </item>
-    
     <item>
       <title>Переиспользование компонентов в JSP</title>
       <link>https://dernasherbrezon.com/posts/jsp-tagfile/</link>
       <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/jsp-tagfile/</guid>
-      <description>Несмотря на то, что технологии JSP уже почти 20 лет, она по-прежнему не перестаёт удивлять своей продуманностью. В частности, мне очень нравится как реализовано переиспользование компонентов. Если вкратце, то в JSP есть несколько способов.
-include Позволяет вставлять в страницу кусок другой страницы. Обычно используется, если нужно переиспользовать блоки без параметров. Например:
-&amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/header.jsp&amp;#34;%&amp;gt; &amp;lt;div class=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;h1&amp;gt;Hello world!&amp;lt;/h1&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/footer.jsp&amp;#34;%&amp;gt; Тэги Позволяют создавать блоки с параметрами. Сами тэги описываются в java коде.</description>
+      <description>Несмотря на то, что технологии JSP уже почти 20 лет, она по-прежнему не перестаёт удивлять своей продуманностью. В частности, мне очень нравится как реализовано переиспользование компонентов. Если вкратце, то в JSP есть несколько способов.&#xA;include Позволяет вставлять в страницу кусок другой страницы. Обычно используется, если нужно переиспользовать блоки без параметров. Например:&#xA;&amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/header.jsp&amp;#34;%&amp;gt; &amp;lt;div class=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;h1&amp;gt;Hello world!&amp;lt;/h1&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/footer.jsp&amp;#34;%&amp;gt; Тэги Позволяют создавать блоки с параметрами. Сами тэги описываются в java коде.</description>
     </item>
-    
     <item>
       <title>Создание VueJS компонента</title>
       <link>https://dernasherbrezon.com/posts/creating-vuejs-component/</link>
       <pubDate>Sat, 23 Nov 2019 17:33:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/creating-vuejs-component/</guid>
       <description>Введение Мне очень нравится идея маленьких переиспользуемых компонент. Если передо мной встаёт задача добавить какой-нибудь функционал, я прежде всего трачу некоторое время на поиск уже существующего решения. Так и в этот раз. Немногие знают, что r2cloud - это полноценный REST сервер. А значит им можно управлять программно. Сейчас существует только один клиент для него - r2cloud-ui. Это приложение VueJS, которое предоставляет UI для управления. Однако, вся мощь REST сервисов заключается в том, что с ними можно взаимодействовать программно с помощью различных языков программирования.</description>
     </item>
-    
     <item>
       <title>Подписанные ссылки</title>
       <link>https://dernasherbrezon.com/posts/signed-urls/</link>
       <pubDate>Wed, 01 May 2019 18:22:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/signed-urls/</guid>
-      <description>Почти все REST сервисы имеют аутентификацию. Есть несколько способов её сделать:
- basic. В каждый запрос добавляется заголовок &amp;ldquo;Authorization&amp;rdquo; с логином и паролем.  GET / HTTP/1.1 Host: example.org Authorization: Basic Zm9vOmJhcg==  token. REST сервис обменивает логин и пароль на специальный токен аутентификации. Клиент должен все последующие запросы делать с этим токеном.  GET / HTTP/1.1 Host: example.org Authorization: Bearer 9yro9yueihfw497y33497y3oeiruhfvskdgjhfaowidayuh Аутентификация на основе токенов наиболее безопасная и гибкая. Токены можно отзывать и обновлять, в них можно класть дополнительную информацию.</description>
+      <description>Почти все REST сервисы имеют аутентификацию. Есть несколько способов её сделать:&#xA;basic. В каждый запрос добавляется заголовок &amp;ldquo;Authorization&amp;rdquo; с логином и паролем. GET / HTTP/1.1 Host: example.org Authorization: Basic Zm9vOmJhcg== token. REST сервис обменивает логин и пароль на специальный токен аутентификации. Клиент должен все последующие запросы делать с этим токеном. GET / HTTP/1.1 Host: example.org Authorization: Bearer 9yro9yueihfw497y33497y3oeiruhfvskdgjhfaowidayuh Аутентификация на основе токенов наиболее безопасная и гибкая. Токены можно отзывать и обновлять, в них можно класть дополнительную информацию.</description>
     </item>
-    
   </channel>
 </rss>

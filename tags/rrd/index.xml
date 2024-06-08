@@ -5,27 +5,22 @@
     <link>https://dernasherbrezon.com/tags/rrd/</link>
     <description>Recent content in rrd on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 08 Jun 2019 14:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/rrd/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sat, 08 Jun 2019 14:22:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/rrd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Время в Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/time-raspberrypi/</link>
       <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/time-raspberrypi/</guid>
-      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой-то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
-Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.Sample.update(Sample.java:194)  Что же это означает?</description>
+      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой-то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:&#xA;Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.Sample.update(Sample.java:194) Что же это означает?</description>
     </item>
-    
     <item>
       <title>Мониторинг Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</guid>
-      <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:
- самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.
-Самодостаточность автоматически означает, что данные надо хранить локально.</description>
+      <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:&#xA;самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?. Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.&#xA;Самодостаточность автоматически означает, что данные надо хранить локально. Отображать их надо в браузере, потому что уже есть вэб-админка для этого.</description>
     </item>
-    
   </channel>
 </rss>

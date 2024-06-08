@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='prometheus'><meta property='article:tag' content='java'><meta property='article:tag' content='monitoring'><meta property='article:published_time' content='2021-08-09T15:52:18Z'/><meta property='article:modified_time' content='2021-08-09T15:52:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.81.0" />
+<meta name="generator" content="Hugo 0.124.0">
 
   <title>Создание Prometheus exporter • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/writing-prometheus-exporter/'>
@@ -36,7 +36,7 @@
 <body class='page type-posts has-sidebar'>
 
   <div class='site'><div id='sidebar' class='sidebar'>
-  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+  <a class='screen-reader-text' href='#main-menu'></a>
 
   <div class='container'><section class='widget widget-about sep-after'>
   <header>
@@ -58,9 +58,9 @@
   </header>
 
 </section>
-<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
     <div class='container'>
-      <ul><li class='item'>
+      <ul><li class='item has-current'>
   <a href='/posts/'>Все записи</a></li><li class='item'>
   <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
   <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
@@ -76,43 +76,43 @@
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/abbreviated-jpeg/' style='font-size:1.0204081632653061em'>abbreviated jpeg</a>
       </li><li>
-        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+        <a href='/tags/acme/' style='font-size:1em'>Acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0612244897959184em'>api</a>
       </li><li>
-        <a href='/tags/apt/' style='font-size:1.0612244897959184em'>apt</a>
+        <a href='/tags/apt/' style='font-size:1.0612244897959184em'>Apt</a>
       </li><li>
-        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+        <a href='/tags/awgn/' style='font-size:1em'>Awgn</a>
       </li><li>
         <a href='/tags/bash/' style='font-size:1.0204081632653061em'>bash</a>
       </li><li>
         <a href='/tags/ber/' style='font-size:1.1020408163265305em'>ber</a>
       </li><li>
-        <a href='/tags/bluetooth/' style='font-size:1.0204081632653061em'>bluetooth</a>
+        <a href='/tags/bluetooth/' style='font-size:1.0204081632653061em'>Bluetooth</a>
       </li><li>
         <a href='/tags/bpsk/' style='font-size:1.0204081632653061em'>bpsk</a>
       </li><li>
-        <a href='/tags/c/' style='font-size:1.4489795918367347em'>c</a>
+        <a href='/tags/c/' style='font-size:1.4489795918367347em'>C</a>
       </li><li>
-        <a href='/tags/deb/' style='font-size:1.0816326530612246em'>deb</a>
+        <a href='/tags/deb/' style='font-size:1.0816326530612246em'>Deb</a>
       </li><li>
-        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+        <a href='/tags/docker/' style='font-size:1em'>Docker</a>
       </li><li>
         <a href='/tags/dsp/' style='font-size:1.1224489795918366em'>dsp</a>
       </li><li>
-        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+        <a href='/tags/eclipse/' style='font-size:1em'>Eclipse</a>
       </li><li>
         <a href='/tags/embedded/' style='font-size:1.1224489795918366em'>embedded</a>
       </li><li>
-        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>esp-idf</a>
+        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>Esp-Idf</a>
       </li><li>
-        <a href='/tags/esp32/' style='font-size:1.2040816326530612em'>esp32</a>
+        <a href='/tags/esp32/' style='font-size:1.2040816326530612em'>Esp32</a>
       </li><li>
-        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+        <a href='/tags/flot/' style='font-size:1em'>Flot</a>
       </li><li>
         <a href='/tags/fsk/' style='font-size:1.0612244897959184em'>fsk</a>
       </li><li>
-        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+        <a href='/tags/gc/' style='font-size:1em'>Gc</a>
       </li><li>
         <a href='/tags/gdal/' style='font-size:1.0408163265306123em'>gdal</a>
       </li><li>
@@ -122,7 +122,7 @@
       </li><li>
         <a href='/tags/gnuradio/' style='font-size:1.0612244897959184em'>gnuradio</a>
       </li><li>
-        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+        <a href='/tags/hibernate/' style='font-size:1em'>Hibernate</a>
       </li><li>
         <a href='/tags/j2ee/' style='font-size:1.0204081632653061em'>j2ee</a>
       </li><li>
@@ -134,31 +134,31 @@
       </li><li>
         <a href='/tags/jetty/' style='font-size:1.0408163265306123em'>jetty</a>
       </li><li>
-        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+        <a href='/tags/jmeter/' style='font-size:1em'>Jmeter</a>
       </li><li>
         <a href='/tags/jpeg/' style='font-size:1.1020408163265305em'>jpeg</a>
       </li><li>
         <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
       </li><li>
-        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+        <a href='/tags/jquery/' style='font-size:1em'>Jquery</a>
       </li><li>
         <a href='/tags/jsp/' style='font-size:1.0612244897959184em'>jsp</a>
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.0408163265306123em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.0408163265306123em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.0408163265306123em'>Junit</a>
       </li><li>
-        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>Letsencrypt</a>
       </li><li>
         <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
       </li><li>
-        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>lora</a>
+        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>Lora</a>
       </li><li>
-        <a href='/tags/lora-at/' style='font-size:1.0816326530612246em'>lora-at</a>
+        <a href='/tags/lora-at/' style='font-size:1.0816326530612246em'>Lora-At</a>
       </li><li>
         <a href='/tags/lrpt/' style='font-size:1.0408163265306123em'>lrpt</a>
       </li><li>
-        <a href='/tags/matlab/' style='font-size:1.0204081632653061em'>matlab</a>
+        <a href='/tags/matlab/' style='font-size:1.0204081632653061em'>Matlab</a>
       </li><li>
         <a href='/tags/maven/' style='font-size:1.1020408163265305em'>maven</a>
       </li><li>
@@ -170,21 +170,21 @@
       </li><li>
         <a href='/tags/monitoring/' style='font-size:1.1020408163265305em'>monitoring</a>
       </li><li>
-        <a href='/tags/open-source/' style='font-size:1.0408163265306123em'>open source</a>
+        <a href='/tags/open-source/' style='font-size:1.0408163265306123em'>Open Source</a>
       </li><li>
         <a href='/tags/openapi/' style='font-size:1.0204081632653061em'>openapi</a>
       </li><li>
-        <a href='/tags/opencl/' style='font-size:1.0408163265306123em'>opencl</a>
+        <a href='/tags/opencl/' style='font-size:1.0408163265306123em'>Opencl</a>
       </li><li>
-        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+        <a href='/tags/openstack/' style='font-size:1em'>Openstack</a>
       </li><li>
-        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>Openstack Swift</a>
       </li><li>
         <a href='/tags/orekit/' style='font-size:1.0204081632653061em'>orekit</a>
       </li><li>
-        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+        <a href='/tags/pipe/' style='font-size:1em'>Pipe</a>
       </li><li>
-        <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>plutosdr</a>
+        <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>Plutosdr</a>
       </li><li>
         <a href='/tags/ppk2/' style='font-size:1.0204081632653061em'>PPK2</a>
       </li><li>
@@ -192,17 +192,17 @@
       </li><li>
         <a href='/tags/r2cloud/' style='font-size:1.0816326530612246em'>r2cloud</a>
       </li><li>
-        <a href='/tags/r2lora/' style='font-size:1.0612244897959184em'>r2lora</a>
+        <a href='/tags/r2lora/' style='font-size:1.0612244897959184em'>R2lora</a>
       </li><li>
-        <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>r2weather</a>
+        <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>R2weather</a>
       </li><li>
         <a href='/tags/radio/' style='font-size:1.2244897959183674em'>Радио</a>
       </li><li>
         <a href='/tags/raspberrypi/' style='font-size:1.4489795918367347em'>raspberrypi</a>
       </li><li>
-        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+        <a href='/tags/refactoring/' style='font-size:1em'>Refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.0204081632653061em'>REST</a>
+        <a href='/tags/rest/' style='font-size:1.0204081632653061em'>Rest</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.0204081632653061em'>rrd</a>
       </li><li>
@@ -212,55 +212,55 @@
       </li><li>
         <a href='/tags/rtlspectrum/' style='font-size:1.0408163265306123em'>rtlSpectrum</a>
       </li><li>
-        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+        <a href='/tags/s3/' style='font-size:1em'>S3</a>
       </li><li>
-        <a href='/tags/satnogs/' style='font-size:1.0408163265306123em'>satnogs</a>
+        <a href='/tags/satnogs/' style='font-size:1.0408163265306123em'>Satnogs</a>
       </li><li>
-        <a href='/tags/sdr-modem/' style='font-size:1.0612244897959184em'>sdr-modem</a>
+        <a href='/tags/sdr-modem/' style='font-size:1.0612244897959184em'>Sdr-Modem</a>
       </li><li>
-        <a href='/tags/sdr-server/' style='font-size:1em'>sdr-server</a>
+        <a href='/tags/sdr-server/' style='font-size:1em'>Sdr-Server</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1.0204081632653061em'>security</a>
+        <a href='/tags/security/' style='font-size:1.0204081632653061em'>Security</a>
       </li><li>
-        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+        <a href='/tags/selectel/' style='font-size:1em'>Selectel</a>
       </li><li>
         <a href='/tags/simd/' style='font-size:1.1020408163265305em'>SIMD</a>
       </li><li>
-        <a href='/tags/sonarcube/' style='font-size:1.0408163265306123em'>sonarcube</a>
+        <a href='/tags/sonarcube/' style='font-size:1.0408163265306123em'>Sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1.0408163265306123em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.0408163265306123em'>Spring</a>
       </li><li>
-        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+        <a href='/tags/sqnr/' style='font-size:1em'>Sqnr</a>
       </li><li>
-        <a href='/tags/ssdv/' style='font-size:1.0204081632653061em'>ssdv</a>
+        <a href='/tags/ssdv/' style='font-size:1.0204081632653061em'>Ssdv</a>
       </li><li>
         <a href='/tags/string/' style='font-size:1.0204081632653061em'>String</a>
       </li><li>
-        <a href='/tags/sx127x/' style='font-size:1.0816326530612246em'>sx127x</a>
+        <a href='/tags/sx127x/' style='font-size:1.0816326530612246em'>Sx127x</a>
       </li><li>
-        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+        <a href='/tags/systemd/' style='font-size:1em'>Systemd</a>
       </li><li>
-        <a href='/tags/testing/' style='font-size:1.0408163265306123em'>testing</a>
+        <a href='/tags/testing/' style='font-size:1.0408163265306123em'>Testing</a>
       </li><li>
-        <a href='/tags/travis-ci/' style='font-size:1.0204081632653061em'>travis-ci</a>
+        <a href='/tags/travis-ci/' style='font-size:1.0204081632653061em'>Travis-Ci</a>
       </li><li>
         <a href='/tags/ubuntu/' style='font-size:1.0816326530612246em'>ubuntu</a>
       </li><li>
-        <a href='/tags/valgrind/' style='font-size:1.0408163265306123em'>valgrind</a>
+        <a href='/tags/valgrind/' style='font-size:1.0408163265306123em'>Valgrind</a>
       </li><li>
-        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+        <a href='/tags/validator/' style='font-size:1em'>Validator</a>
       </li><li>
         <a href='/tags/vuejs/' style='font-size:1.0408163265306123em'>vuejs</a>
       </li><li>
-        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+        <a href='/tags/yourkit/' style='font-size:1em'>Yourkit</a>
       </li><li>
-        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2857142857142856em'>администрирование</a>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.3061224489795917em'>администрирование</a>
       </li><li>
         <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0816326530612246em'>ДЗЗ</a>
       </li><li>
         <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0816326530612246em'>дизайн</a>
       </li><li>
-        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>Идеи</a>
       </li><li>
         <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0408163265306123em'>космонавтика</a>
       </li><li>
@@ -272,13 +272,13 @@
       </li><li>
         <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.346938775510204em'>производительность</a>
       </li><li>
-        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0612244897959184em'>разработка</a>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0612244897959184em'>Разработка</a>
       </li><li>
-        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>Спецификация</a>
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3877551020408163em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2653061224489797em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2653061224489797em'>Тестирование</a>
       </li><li>
         <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0408163265306123em'>фильтры</a>
       </li></ul>
@@ -289,12 +289,12 @@
 </div>
 
   <div class='sidebar-overlay'></div>
-</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
   <div class='container'>
-    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+    <a class='screen-reader-text' href='#content'></a>
 
 <button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
-  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='screen-reader-text'></span>
   <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
@@ -313,8 +313,8 @@
 </svg>
 </span>
 </button>
-    <ul><li class='item'>
-        <a href='/posts/'>Все записи</a>
+    <ul><li class='item current'>
+        <a aria-current='page' href='/posts/'>Все записи</a>
       </li><li class='item'>
         <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
       </li><li class='item'>
@@ -353,7 +353,7 @@
   <line x1="3" y1="10" x2="21" y2="10"/>
 
 </svg>
-<span class='screen-reader-text'>Posted on </span>
+<span class='screen-reader-text'> </span>
   <time class='entry-date' datetime='2021-08-09T15:52:18Z'>09 Aug 2021</time>
 </span>
 
@@ -373,9 +373,9 @@
   <p>Prometheus - база данных для хранения метрик. Туда можно записать метрики производительности системы, <a href="https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/">роутеров</a>, Java-приложений и многое другое. Если приложение не поддерживает протокол Prometheus для экспорта метрик, то можно взять один из <a href="https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exporters.md">готовых exporter&rsquo;ов</a>. Exporter - это небольшой прокси сервер, который берёт метрики из приложения в одном формате и выдаёт метрики в Prometheus формате. Но что, если готового exporter&rsquo;а нет? Не беда - его можно написать!</p>
 <h2 id="8430ft">8430FT</h2>
 <p>8430FT - это LTE-модем, который может раздавать интернет через Wi-Fi. Важной особенностью этого модема является возможность подключить внешнюю антенну. Это особенно актуально в удалённых местах, где базовые станции находятся далеко. Используя большую направленную антенну можно очень хорошо усилить сигнал.</p>
-<p><img src="/img/writing-prometheus-exporter/8430FT.jpg" alt=""></p>
+<p><img src="/img/writing-prometheus-exporter/8430FT.jpg"></p>
 <p>8430FT - это совсем небольшой модем в формате USB стика, который можно воткнуть в компьютер или напрямую в USB блока питания. Если зайти в админку, то можно найти несколько графиков и статус работы модема. Это хорошо, так как метрики точно доступны в модеме и каким-то образом их можно получить.</p>
-<p><img src="/img/writing-prometheus-exporter/8430FT_admin.png" alt=""></p>
+<p><img src="/img/writing-prometheus-exporter/8430FT_admin.png"></p>
 <p>Эти графики нарисованы неплохо, но если присмотреться, то возникает несколько вопросов. Например, почему скорость изображена в виде спидометра? Для автомобилей - это стандарт, а вот для скорости интернет соединения этот способ не очень подходит. Какая будет максимальная скорость? Модем может подключиться как к 4G, так и 3G. У них разные скорости и непонятно как рисовать спидометр. Даже на скриншоте видно, что стрелки находятся всегда на нуле, несмотря на то, что трафик идёт.</p>
 <p>8430FT - не выдаёт информацию через SNMP. Это очень плохо, потому что придётся писать свой собственный Prometheus exporter, а не использовать готовый <a href="https://github.com/prometheus/snmp_exporter">snmp_exporter</a>. С одной стороны понятно: 8430FT - пользовательское устройство и только самые отъявленные гики будут его мониторить с помощью промышленных решений. С другой, дать хоть какой-нибудь доступ на устройство можно было бы. Хотя бы для отладки web интерфейса.</p>
 <p>Я попробовал найти хоть бы какие-нибудь открытые порты на 8430FT и нашёл только два:</p>
@@ -385,48 +385,57 @@
 </ul>
 <p>Внутри модема используется операционная система <a href="https://en.wikipedia.org/wiki/Nucleus_RTOS">nucleus RTOS</a>. Забавный факт, но ничего полезного он не дал.</p>
 <p>Если открыть web developer console, то в запросах можно увидеть следующее:</p>
-<p><img src="/img/writing-prometheus-exporter/8430FT_api.png" alt=""></p>
+<p><img src="/img/writing-prometheus-exporter/8430FT_api.png"></p>
 <p>Для получения статуса устройства и статистики используется json-подобный протокол. Ну хоть html не придётся парсить. Протокол получается даже ещё проще, так как каждый запрос содержит в себе токен digest аутентификации. И этого знания о протоколе достаточно, чтобы написать exporter.</p>
 <h2 id="8430ft_exporter">8430ft_exporter</h2>
 <p>Следующим шагом будет выбор языка, на котором можно написать exporter. Дело в том, что сам Prometheus написан на Go и большинство exporter&rsquo;ов написаны на нём же. В принципе, можно написать на любом языке. Главное, чтобы это был web-сервис, который бы выдавал метрики в особом текстовом формате. К счастью, для Java существует официальная библиотека, которая сильно упрощает написание таких сервисов.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
-	<span style="color:#f92672">&lt;groupId&gt;</span>io.prometheus<span style="color:#f92672">&lt;/groupId&gt;</span>
-	<span style="color:#f92672">&lt;artifactId&gt;</span>simpleclient_httpserver<span style="color:#f92672">&lt;/artifactId&gt;</span>
-	<span style="color:#f92672">&lt;version&gt;</span>0.11.0<span style="color:#f92672">&lt;/version&gt;</span>
-<span style="color:#f92672">&lt;/dependency&gt;</span>
-</code></pre></div><p>После того как она подключена нужно реализовать некий Collector:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ModemCollector</span> <span style="color:#66d9ef">extends</span> Collector <span style="color:#f92672">{</span>
-	<span style="color:#a6e22e">@Override</span>
-	<span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>MetricFamilySamples<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">collect</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-		<span style="color:#f92672">...</span>
-	<span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>На каждое обращение, он будет делать запрос к модему по http, парсить и возвращать метрики в списке <code>List&lt;MetricFamilySamples&gt;</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;groupId&gt;</span>io.prometheus<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;artifactId&gt;</span>simpleclient_httpserver<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;version&gt;</span>0.11.0<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>После того как она подключена нужно реализовать некий Collector:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ModemCollector</span> <span style="color:#66d9ef">extends</span> Collector {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">public</span> List<span style="color:#f92672">&lt;</span>MetricFamilySamples<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">collect</span>() {
+</span></span><span style="display:flex;"><span>		...
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>На каждое обращение, он будет делать запрос к модему по http, парсить и возвращать метрики в списке <code>List&lt;MetricFamilySamples&gt;</code>.</p>
 <p>Далее, надо будет зарегистрировать этот Collector в глобальном registry метрик:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">collector<span style="color:#f92672">.</span><span style="color:#a6e22e">register</span><span style="color:#f92672">();</span>
-</code></pre></div><p>И поднять web-сервер, который подцепит этот registry:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">new</span> HTTPServer<span style="color:#f92672">(</span>host<span style="color:#f92672">,</span> port<span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-</code></pre></div><p>Далее можно уже сфокусироваться непосредственно на самих метриках. Не все метрики одинаково полезны. Например, 8430FT может выдавать метрики curUpSpeed и curDnSpeed. Скорость аплоада и скачивания соответственно. Их удобно вывести в web интерфейсе, но импортировать в Prometheus не имеет смысла. На каком интервале измерялась скорость? Это количество байт отправленных за последнюю секунду или среднее количество байт отправленных за последнюю минуту? Обычно такие метрики вычисляются во время отрисовки графиков. Если пользователь выбрал такой интервал, что один пиксель соответствует одной секунде, значит надо взять количество байт в секундном интервале и поделить на длину интервала. А если пиксель соответствует 5 минутам, то нужно брать все байты отправленные в течение минуты и делить на минуту. Тогда скорость бит/с будет правильно высчитываться в обоих случаях.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>collector.<span style="color:#a6e22e">register</span>();
+</span></span></code></pre></div><p>И поднять web-сервер, который подцепит этот registry:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">new</span> HTTPServer(host, port, <span style="color:#66d9ef">true</span>);
+</span></span></code></pre></div><p>Далее можно уже сфокусироваться непосредственно на самих метриках. Не все метрики одинаково полезны. Например, 8430FT может выдавать метрики curUpSpeed и curDnSpeed. Скорость аплоада и скачивания соответственно. Их удобно вывести в web интерфейсе, но импортировать в Prometheus не имеет смысла. На каком интервале измерялась скорость? Это количество байт отправленных за последнюю секунду или среднее количество байт отправленных за последнюю минуту? Обычно такие метрики вычисляются во время отрисовки графиков. Если пользователь выбрал такой интервал, что один пиксель соответствует одной секунде, значит надо взять количество байт в секундном интервале и поделить на длину интервала. А если пиксель соответствует 5 минутам, то нужно брать все байты отправленные в течение минуты и делить на минуту. Тогда скорость бит/с будет правильно высчитываться в обоих случаях.</p>
 <p>Команда Prometheus написала <a href="https://prometheus.io/docs/instrumenting/writing_exporters/">неплохой гайд</a> о том, как правильно писать exporter, какие метрики стоит экспортировать и как правильно давать им имена.</p>
 <p>После того как модуль написан, его можно анонсировать, сделав pull request к <a href="https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exporters.md">странице документации</a>. Также можно зарезервировать порт для нового exporter&rsquo;а на <a href="https://github.com/prometheus/prometheus/wiki/Default-port-allocations">специальной странице</a>. Несмотря на то, что порты можно задавать извне, очень удобно иметь множество различных exporter на одной физической машине с портами по-умолчанию.</p>
-<p><img src="/img/writing-prometheus-exporter/share.png" alt=""></p>
+<p><img src="/img/writing-prometheus-exporter/share.png"></p>
 <h2 id="результат">Результат</h2>
 <p>В результате у меня получился небольшой проект - <a href="https://github.com/dernasherbrezon/8430ft_exporter">8430ft_exporter</a>. Он может экспортировать метрики модема, на основе которых можно собрать вот такой дашборд:</p>
-<p><img src="/img/writing-prometheus-exporter/dashboard.png" alt=""></p>
+<p><img src="/img/writing-prometheus-exporter/dashboard.png"></p>
 <p>Параметр RSSI сигнала очень полезный - он позволяет оценить качество 4G антенны и её направление. А вместе со скоростью интернета позволяет понять зависимость скорости от уровня сигнала.</p>
 
 </div>
 
   
 <footer class='entry-footer'>
-  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  <div class='container sep-before'><div class='last-updated'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34" />
+  <polygon points="18 2 22 6 12 16 8 16 8 12 18 2" />
+
+</svg>
+<span class='screen-reader-text'>: </span>
+      <time class='entry-date' datetime='2021-08-09T15:52:18Z'>09 Aug 2021</time>
+    </div><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
   <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
   <line x1="7" y1="7" x2="7" y2="7"/>
 
 </svg>
-<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/prometheus/'>prometheus</a>, <a class='tag' href='/tags/java/'>Java</a>, <a class='tag' href='/tags/monitoring/'>monitoring</a></div>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/prometheus/'>prometheus</a>, <a class='tag' href='/tags/java/'>Java</a>, <a class='tag' href='/tags/monitoring/'>monitoring</a></div>
 
   </div>
 </footer>
@@ -444,11 +453,11 @@
   <polyline points="10 18 4 12 10 6"/>
 
 </svg>
- Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Мониторинг Mikrotik роутеров с помощью Prometheus</a>
+ </span>
+        <span class='screen-reader-text'>: </span>Мониторинг Mikrotik роутеров с помощью Prometheus</a>
     </div><div class='next-entry sep-before'>
       <a href='/posts/compare-compile-flags-raspberrypi/'>
-        <span class='screen-reader-text'>Next post: </span>Сравнение различных флагов компиляции для Raspberrypi<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+        <span class='screen-reader-text'>: </span>Сравнение различных флагов компиляции для Raspberrypi<span aria-hidden='true'> <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
   <line x1="4" y1="12" x2="20" y2="12"/>
@@ -493,10 +502,10 @@
       </main>
 
       <footer id='footer' class='footer'>
-        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
     <ul><li>
         <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
       <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
@@ -505,7 +514,7 @@
 </a>
       </li><li>
         <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
   <title>Twitter icon</title>
@@ -515,14 +524,14 @@
 </a>
       </li><li>
         <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
 </svg>
 </a>
       </li><li>
         <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
 </svg>
@@ -530,7 +539,7 @@
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2024 dernasherbrezon </p>
 </div>
 
         </div>

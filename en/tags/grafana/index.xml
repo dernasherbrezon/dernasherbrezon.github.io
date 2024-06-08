@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>grafana on dernasherbrezon</title>
+    <title>Grafana on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/en/tags/grafana/</link>
-    <description>Recent content in grafana on dernasherbrezon</description>
+    <description>Recent content in Grafana on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Aug 2021 06:50:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/grafana/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 07 Aug 2021 06:50:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/en/tags/grafana/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Monitor Mikrotik routers using Prometheus</title>
       <link>https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/</link>
       <pubDate>Sat, 07 Aug 2021 06:50:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/</guid>
       <description>To begin with, a few words about why it is necessary to monitor routers. A router, like any other device, has hardware resources that can become depleted. For example, the browser may become slower in opening pages or videos may take longer to load. This can be caused by either the internet service provider or the router. It&amp;rsquo;s possible that too many devices are connected to the router, causing it to slow down, or someone may be downloading excessively in parallel - all of this can be the reason for the slowdown.</description>
     </item>
-    
   </channel>
 </rss>

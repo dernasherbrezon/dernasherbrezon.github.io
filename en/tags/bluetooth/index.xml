@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>bluetooth on dernasherbrezon</title>
+    <title>Bluetooth on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/en/tags/bluetooth/</link>
-    <description>Recent content in bluetooth on dernasherbrezon</description>
+    <description>Recent content in Bluetooth on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/bluetooth/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/en/tags/bluetooth/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>BLE server using Java</title>
       <link>https://dernasherbrezon.com/en/posts/ble-server-java/</link>
       <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/ble-server-java/</guid>
       <description>In one of my previous posts, I began optimizing the power consumption of ESP32 and LoRa. The idea was to put the microcontroller to sleep and wake it up only when data received. But how to know when to wake up? It all depends on the specific application. If you need to transmit data at regular intervals, you can hardcode it in the firmware. But what if data needs to be received at unpredictable intervals?</description>
     </item>
-    
     <item>
       <title>USB-tester A3-B</title>
       <link>https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/</link>
       <pubDate>Thu, 06 Jan 2022 18:30:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/</guid>
-      <description>Not long ago, I acquired a USB tester A3-B.
-This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:
- Measure current consumption in different modes:  Sleep Active work Standby   Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.</description>
+      <description>Not long ago, I acquired a USB tester A3-B.&#xA;This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:&#xA;Measure current consumption in different modes: Sleep Active work Standby Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.</description>
     </item>
-    
   </channel>
 </rss>

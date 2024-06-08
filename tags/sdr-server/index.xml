@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>sdr-server on dernasherbrezon</title>
+    <title>Sdr-Server on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/sdr-server/</link>
-    <description>Recent content in sdr-server on dernasherbrezon</description>
+    <description>Recent content in Sdr-Server on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 05 Jun 2023 18:47:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/sdr-server/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Mon, 05 Jun 2023 18:47:18 +0000</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/sdr-server/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Сэмплирование в airspy mini</title>
       <link>https://dernasherbrezon.com/posts/airspy-sample-rates/</link>
       <pubDate>Mon, 05 Jun 2023 18:47:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/airspy-sample-rates/</guid>
-      <description>Введение Я решил немного отвлечься от программирования микроконтроллеров и сделать то, до чего руки давно не доходили: добавить поддержку airspy mini в sdr-server.
-airspy mini - это SDR приёмник, который конвертирует аналоговый радиосигнал в цифровой (АЦП) и передаёт в компьютер для обработки. Как и его ближайший и наиболее распространённый конкурент RTL-SDR v3 он основан на чипе R820T. Его основным отличием является хорошая чувствительность и большой динамический диапазон. Это достигается за счёт того, что каждый сэмпл имеет разрешение 12 бит против 8 бит RTL-SDR.</description>
+      <description>Введение Я решил немного отвлечься от программирования микроконтроллеров и сделать то, до чего руки давно не доходили: добавить поддержку airspy mini в sdr-server.&#xA;airspy mini - это SDR приёмник, который конвертирует аналоговый радиосигнал в цифровой (АЦП) и передаёт в компьютер для обработки. Как и его ближайший и наиболее распространённый конкурент RTL-SDR v3 он основан на чипе R820T. Его основным отличием является хорошая чувствительность и большой динамический диапазон. Это достигается за счёт того, что каждый сэмпл имеет разрешение 12 бит против 8 бит RTL-SDR.</description>
     </item>
-    
   </channel>
 </rss>

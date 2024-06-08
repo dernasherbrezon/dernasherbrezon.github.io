@@ -5,53 +5,43 @@
     <link>https://dernasherbrezon.com/tags/r2cloud/</link>
     <description>Recent content in r2cloud on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/r2cloud/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Tue, 17 Jan 2023 08:22:17 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/r2cloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>BLE сервер на Java</title>
       <link>https://dernasherbrezon.com/posts/ble-server-java/</link>
       <pubDate>Tue, 17 Jan 2023 08:22:17 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/ble-server-java/</guid>
       <description>В одном из предыдущих постов я начал оптимизировать энергопотребление ESP32 и LoRa. Идея заключалась в том, чтобы переводить микроконтроллер в режим сна и просыпаться только тогда, когда необходимо получить данные. Но как узнать в какой момент времени нужно просыпаться? Вот тут всё зависит от конкретного приложения. Если необходимо передавать данные с одинаковым интервалом, то его можно захардкодить в прошивке. А что делать, если получение данных нужно делать через заранее неизвестные промежутки времени?</description>
     </item>
-    
     <item>
       <title>AMSAT-UK 2022</title>
       <link>https://dernasherbrezon.com/posts/amsat-uk-2022/</link>
       <pubDate>Fri, 28 Oct 2022 20:52:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/amsat-uk-2022/</guid>
       <description>В этом году я съездил на AMSAT-UK 2022 и выступил там с речью. Рассказал о том, как увеличивал количество данных, получаемых со спутников, разные трюки и планы.</description>
     </item>
-    
     <item>
       <title>Open source cubesat workshop 2020</title>
       <link>https://dernasherbrezon.com/posts/oscw-2020/</link>
       <pubDate>Thu, 14 Jan 2021 20:20:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/oscw-2020/</guid>
       <description>Под конец 2020 я принял участие в Open Source Cubeset Workshop и рассказал о том, как в одиночку разрабатывать опенсорс проект.</description>
     </item>
-    
     <item>
       <title>r2weather - Открытые метеоснимки из космоса</title>
       <link>https://dernasherbrezon.com/posts/r2weather/</link>
       <pubDate>Sun, 26 Jul 2020 14:05:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/r2weather/</guid>
-      <description>В последнее время я очень много писал про r2weather. В том числе про различные технические особенности реализации. В этой же статье я хочу описать общую схему работы.
-Введение За Землёй наблюдает множество метеорологических спутников. Основная их задача - получение различных метеосников поверхности Земли. Эти данные используются в различных моделях. Например, чтобы предсказывать погоду, таяние полярных льдов или плотность распределения плактона в прибрежных водах.
-Одним из таких спутников является Метеор-М №2. Помимо множества разных камер, на нём установлена камера МСУ-МР.</description>
+      <description>В последнее время я очень много писал про r2weather. В том числе про различные технические особенности реализации. В этой же статье я хочу описать общую схему работы.&#xA;Введение За Землёй наблюдает множество метеорологических спутников. Основная их задача - получение различных метеосников поверхности Земли. Эти данные используются в различных моделях. Например, чтобы предсказывать погоду, таяние полярных льдов или плотность распределения плактона в прибрежных водах.&#xA;Одним из таких спутников является Метеор-М №2. Помимо множества разных камер, на нём установлена камера МСУ-МР.</description>
     </item>
-    
     <item>
       <title>Fosdem 2020</title>
       <link>https://dernasherbrezon.com/posts/fosdem-2020/</link>
       <pubDate>Sun, 02 Feb 2020 21:50:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/fosdem-2020/</guid>
       <description>В этом году я съездил на Fosdem 2020 и выступил там с речью. Рассказал о r2cloud и отлично пообщался с многими знакомыми.</description>
     </item>
-    
   </channel>
 </rss>

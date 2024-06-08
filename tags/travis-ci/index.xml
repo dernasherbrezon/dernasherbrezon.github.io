@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>travis-ci on dernasherbrezon</title>
+    <title>Travis-Ci on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/travis-ci/</link>
-    <description>Recent content in travis-ci on dernasherbrezon</description>
+    <description>Recent content in Travis-Ci on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 24 Dec 2019 18:29:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/travis-ci/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Tue, 24 Dec 2019 18:29:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/travis-ci/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Настройка проекта на Си</title>
       <link>https://dernasherbrezon.com/posts/setting-up-c/</link>
       <pubDate>Tue, 24 Dec 2019 18:29:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/setting-up-c/</guid>
       <description>У меня есть небольшой проект на Си, который позволяет сделать приватный apt репозиторий в облачном хранилище Selectel - apt-transport-swift. Почему именно на Си? Во-первых, я думал, что знаю Си. Во-вторых, в моём представлении все системные утилиты для массового пользования должны быть написаны на низкоуровневом языке. Это значит, что для запуска приложения у меня должны быть минимальное количество зависимостей и минимальное потребление памяти. Ведь я не знаю на каком железе будет запущена моя программа.</description>
     </item>
-    
     <item>
       <title>Тестирование debian пакетов в Travis-CI</title>
       <link>https://dernasherbrezon.com/posts/test-deb-travis/</link>
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/test-deb-travis/</guid>
-      <description>Возникла передо мной такая задача: тестирование debian пакета. И требования:
- пакет устанавливает и стартует systemd сервис. используются native armhf библиотеки  Тестирование должно включать в себя:
- установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации  Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов.</description>
+      <description>Возникла передо мной такая задача: тестирование debian пакета. И требования:&#xA;пакет устанавливает и стартует systemd сервис. используются native armhf библиотеки Тестирование должно включать в себя:&#xA;установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов.</description>
     </item>
-    
   </channel>
 </rss>

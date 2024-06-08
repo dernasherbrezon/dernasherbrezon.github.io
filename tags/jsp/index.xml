@@ -5,50 +5,36 @@
     <link>https://dernasherbrezon.com/tags/jsp/</link>
     <description>Recent content in jsp on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 15 Dec 2019 07:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/jsp/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sun, 15 Dec 2019 07:14:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/jsp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Сравнение JSP и VueJS</title>
       <link>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</link>
       <pubDate>Sun, 15 Dec 2019 07:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</guid>
       <description>Споры о том, насколько SPA лучше или хуже проверенных серверных технологий, не утихают до сих пор. Сторонники SPA (React, Angular, VueJS) в один голос говорят насколько это просто и удобно. Сторонники серверных технологий (PHP, JSP, ASP) ничего не говорят, потому что их мало и они заняты разработкой. Из-за того, что оба подхода достаточно разные, то и сравнивать их очень сложно. Зачастую сравнение сваливается во вкусовщину, так как нет людей, которые бы разрабатывали как с помощью одних, так и с помощью других.</description>
     </item>
-    
     <item>
       <title>Переиспользование компонентов в JSP</title>
       <link>https://dernasherbrezon.com/posts/jsp-tagfile/</link>
       <pubDate>Sun, 08 Dec 2019 19:18:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/jsp-tagfile/</guid>
-      <description>Несмотря на то, что технологии JSP уже почти 20 лет, она по-прежнему не перестаёт удивлять своей продуманностью. В частности, мне очень нравится как реализовано переиспользование компонентов. Если вкратце, то в JSP есть несколько способов.
-include Позволяет вставлять в страницу кусок другой страницы. Обычно используется, если нужно переиспользовать блоки без параметров. Например:
-&amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/header.jsp&amp;#34;%&amp;gt; &amp;lt;div class=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;h1&amp;gt;Hello world!&amp;lt;/h1&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/footer.jsp&amp;#34;%&amp;gt; Тэги Позволяют создавать блоки с параметрами. Сами тэги описываются в java коде.</description>
+      <description>Несмотря на то, что технологии JSP уже почти 20 лет, она по-прежнему не перестаёт удивлять своей продуманностью. В частности, мне очень нравится как реализовано переиспользование компонентов. Если вкратце, то в JSP есть несколько способов.&#xA;include Позволяет вставлять в страницу кусок другой страницы. Обычно используется, если нужно переиспользовать блоки без параметров. Например:&#xA;&amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/header.jsp&amp;#34;%&amp;gt; &amp;lt;div class=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;h1&amp;gt;Hello world!&amp;lt;/h1&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;%@ include file=&amp;#34;/WEB-INF/jsp/footer.jsp&amp;#34;%&amp;gt; Тэги Позволяют создавать блоки с параметрами. Сами тэги описываются в java коде.</description>
     </item>
-    
     <item>
       <title>Работа с Json в 2019 году</title>
       <link>https://dernasherbrezon.com/posts/json-in-2019/</link>
       <pubDate>Wed, 04 Dec 2019 22:29:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/json-in-2019/</guid>
-      <description>Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, недолго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.
-Но что-то пошло не так&amp;hellip;
-Вот ключевое место лога:
-Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;amp;lt;init&amp;amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597) Оказывается, gson зависит от пакета java.</description>
+      <description>Введение В работе над своей небольшой библиотечкой jsp-openapi мне понадобилось сериализировать Java объекты в JSON. Я, недолго думая, подключил свою любимую библиотеку gson и пошёл дальше. Проект успешно проходил тест и собирался локально. Следующим моим шагом, как обычно, должна была стать сборка в travis-ci и подключение в sonarcloud.&#xA;Но что-то пошло не так&amp;hellip;&#xA;Вот ключевое место лога:&#xA;Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;amp;lt;init&amp;amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597) Оказывается, gson зависит от пакета java.</description>
     </item>
-    
     <item>
       <title>Тестирование JSP тэгов</title>
       <link>https://dernasherbrezon.com/posts/jsp-tag-testing/</link>
       <pubDate>Sat, 02 Mar 2019 12:48:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/jsp-tag-testing/</guid>
-      <description>Недавно для себя открыл совершенно бесплатный для open source проектов sonarcloud. Я верю, что статичный анализ кода - это очень полезная штука, поэтому сразу же решил перевести свои наиболее популярные проекты туда.
-Среди них был достаточно маленький проект jtimeago. Это небольшая библиотека jsp тэгов для вывода дат.
-После добавления проекта через travis, я увидел, что jtimeago полностью зеленый.
-Если зайти на страницу проекта в sonarcloud, то видно, что все показатели хорошие за исключением нескольких мелких code smells.</description>
+      <description>Недавно для себя открыл совершенно бесплатный для open source проектов sonarcloud. Я верю, что статичный анализ кода - это очень полезная штука, поэтому сразу же решил перевести свои наиболее популярные проекты туда.&#xA;Среди них был достаточно маленький проект jtimeago. Это небольшая библиотека jsp тэгов для вывода дат.&#xA;После добавления проекта через travis, я увидел, что jtimeago полностью зеленый.&#xA;Если зайти на страницу проекта в sonarcloud, то видно, что все показатели хорошие за исключением нескольких мелких code smells.</description>
     </item>
-    
   </channel>
 </rss>

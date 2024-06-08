@@ -1,40 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>lora-at on dernasherbrezon</title>
+    <title>Lora-At on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/en/tags/lora-at/</link>
-    <description>Recent content in lora-at on dernasherbrezon</description>
+    <description>Recent content in Lora-At on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/lora-at/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/en/tags/lora-at/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Power consumption in lora-at</title>
       <link>https://dernasherbrezon.com/en/posts/lora-at-power-profiling/</link>
       <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/lora-at-power-profiling/</guid>
-      <description>Having thoroughly understood how Power Profiler Kit 2 (PPK2) works, I decided to test power consumption under different conditions. In fact, lora-at is not such a simple application. It works with bluetooth and the sx127x chip, processes commands from the UART bus and has a deep sleep mode. So there is a plenty of things to look for.
-Measurement methodology Before you start measuring something, you need to decide how it will be measured.</description>
+      <description>Having thoroughly understood how Power Profiler Kit 2 (PPK2) works, I decided to test power consumption under different conditions. In fact, lora-at is not such a simple application. It works with bluetooth and the sx127x chip, processes commands from the UART bus and has a deep sleep mode. So there is a plenty of things to look for.&#xA;Measurement methodology Before you start measuring something, you need to decide how it will be measured.</description>
     </item>
-    
     <item>
       <title>Power Profiler Kit 2</title>
       <link>https://dernasherbrezon.com/en/posts/power-profiler-kit2/</link>
       <pubDate>Fri, 24 Nov 2023 09:08:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/power-profiler-kit2/</guid>
-      <description>After I re-wrote lora-at in C, I reduced the size of the firmware by half! However, although this looks impressive, it is actually not that important. If both versions fit on a chip, then size doesn&amp;rsquo;t make too much difference. Energy consumption is another matter. Low power consumption is important when operating from solar panels. That is why I decided to explore this topic in more detail.
-Previously, I used the A3-B USB tester, but it is not suitable for measuring current consumption in microcontrollers.</description>
+      <description>After I re-wrote lora-at in C, I reduced the size of the firmware by half! However, although this looks impressive, it is actually not that important. If both versions fit on a chip, then size doesn&amp;rsquo;t make too much difference. Energy consumption is another matter. Low power consumption is important when operating from solar panels. That is why I decided to explore this topic in more detail.&#xA;Previously, I used the A3-B USB tester, but it is not suitable for measuring current consumption in microcontrollers.</description>
     </item>
-    
     <item>
       <title>lora-at</title>
       <link>https://dernasherbrezon.com/en/posts/lora-at/</link>
       <pubDate>Sun, 05 Nov 2023 22:25:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/lora-at/</guid>
-      <description>Background It&amp;rsquo;s been too long since my last post about LoRa. During this time, I created a project lora-at, which I would like to write about in this post. But before I deep dive into the meety details, I little background on how it started.
-Initially, I planned to create a small firmware for receiving signals from satellites using LoRa protocol. I used tinyGS as a basis, which did almost everything I needed.</description>
+      <description>Background It&amp;rsquo;s been too long since my last post about LoRa. During this time, I created a project lora-at, which I would like to write about in this post. But before I deep dive into the meety details, I little background on how it started.&#xA;Initially, I planned to create a small firmware for receiving signals from satellites using LoRa protocol. I used tinyGS as a basis, which did almost everything I needed.</description>
     </item>
-    
   </channel>
 </rss>

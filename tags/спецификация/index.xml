@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>спецификация on dernasherbrezon</title>
+    <title>Спецификация on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/</link>
-    <description>Recent content in спецификация on dernasherbrezon</description>
+    <description>Recent content in Спецификация on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 24 Sep 2013 13:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Tue, 24 Sep 2013 13:14:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Спецификация конструкции CubeSat</title>
       <link>https://dernasherbrezon.com/posts/cubespec/</link>
       <pubDate>Tue, 24 Sep 2013 13:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/cubespec/</guid>
-      <description>1. Введение. CubeSat (Cube Satellite - кубический спутник, КубСат) - это малые спутники (пикоспутники) модульной кубической формы. Самый маленький имеет длину ребра 10 см и массу до 1.33кг. Более крупные спутники имеют форму и массу, кратные 1.5x, 2x, 3x одиночных модулей, состыкованным друг с другом по одной линии.
-1.1 История создания Проект CubeSat был начат в 1999 году совместными усилиями профессора Джорди Пьюг-Суари (Prof. Jordi Puig-Suari) из Калифорнийского Политехнического Университета (California Polytechnic State University), Сан Луис Обиспо (San Luis Obispo), профессором Бобом Твиггсом (Prof.</description>
+      <description>1. Введение. CubeSat (Cube Satellite - кубический спутник, КубСат) - это малые спутники (пикоспутники) модульной кубической формы. Самый маленький имеет длину ребра 10 см и массу до 1.33кг. Более крупные спутники имеют форму и массу, кратные 1.5x, 2x, 3x одиночных модулей, состыкованным друг с другом по одной линии.&#xA;1.1 История создания Проект CubeSat был начат в 1999 году совместными усилиями профессора Джорди Пьюг-Суари (Prof. Jordi Puig-Suari) из Калифорнийского Политехнического Университета (California Polytechnic State University), Сан Луис Обиспо (San Luis Obispo), профессором Бобом Твиггсом (Prof.</description>
     </item>
-    
   </channel>
 </rss>

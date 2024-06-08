@@ -5,24 +5,22 @@
     <link>https://dernasherbrezon.com/tags/bpsk/</link>
     <description>Recent content in bpsk on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 16 Aug 2019 10:22:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/bpsk/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Fri, 16 Aug 2019 10:22:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/bpsk/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Расчёт вероятности ошибки для BPSK демодулятора</title>
       <link>https://dernasherbrezon.com/posts/jradio-ber-bpsk/</link>
       <pubDate>Fri, 16 Aug 2019 10:22:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/jradio-ber-bpsk/</guid>
       <description>Введение Спустя несколько недель я наконец-то закончил одну очень важную задачу - расчёт вероятности ошибки в BSPK демодуляторе. Почему это важно? Демодулятор работает с сигналом, который проходит через физическую среду. В этой среде возможны сильные или слабые возмущения, которые непосредственно влияют на сигнал. И принимаемый сигнал может меняться со временем от хорошего до плохого и обратно. Из-за этого нельзя однозначно сказать демодулятор &amp;ldquo;работает&amp;rdquo; или &amp;ldquo;не работает&amp;rdquo;. Чтобы оценить его эффективность, необходимо симулировать среду передачи данных и сказать сколько ошибок он выдаёт при разных возмущениях среды.</description>
     </item>
-    
     <item>
       <title>Расчёт вероятности ошибки для BPSK</title>
       <link>https://dernasherbrezon.com/posts/ber-bpsk/</link>
       <pubDate>Sun, 05 May 2019 18:22:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/ber-bpsk/</guid>
       <description>Введение Моя сеть приёма сигналов со спутников r2cloud постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого.</description>
     </item>
-    
   </channel>
 </rss>

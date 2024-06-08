@@ -5,30 +5,22 @@
     <link>https://dernasherbrezon.com/tags/string/</link>
     <description>Recent content in String on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 11 Aug 2012 15:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/string/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sat, 11 Aug 2012 15:14:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/string/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Производительность функции split</title>
       <link>https://dernasherbrezon.com/posts/splitperf/</link>
       <pubDate>Sat, 11 Aug 2012 15:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/splitperf/</guid>
-      <description>В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.
-Для тестирования выбраны следующие кандидаты:
- JDK Guava Apache commons-lang Custom  Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.
-Поскольку Guava поддерживает lazy вычисление, то была добавлена ещё одна комбинация: отложенная итерация по результатам и непосредственная итерация.
-В результате получились следующие значения:</description>
+      <description>В одном из проектов в очередной раз пришлось писать собственную реализацию split строки, в связи с этим заинтересовался о производительности различных решений.&#xA;Для тестирования выбраны следующие кандидаты:&#xA;JDK Guava Apache commons-lang Custom Проводилось тестирование следующих параметров в различных комбинациях: короткая строка большое количество итераций, длинная строка малое количество итераций.&#xA;Поскольку Guava поддерживает lazy вычисление, то была добавлена ещё одна комбинация: отложенная итерация по результатам и непосредственная итерация.&#xA;В результате получились следующие значения:</description>
     </item>
-    
     <item>
       <title>Выбор быстрого алгоритма поиска подстроки</title>
       <link>https://dernasherbrezon.com/posts/substring/</link>
       <pubDate>Mon, 11 Jun 2012 13:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/substring/</guid>
-      <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:
- ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;quot;$1&amp;quot; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring  Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.
-У меня было чувство, что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
+      <description>Есть такая задача: отфильтровать строки в множестве файлов. Вариантов решения я вижу несколько:&#xA;ReplaceAll. String.replaceAll(&amp;ldquo;pattern&amp;rdquo;,&amp;quot;$1&amp;quot; + 1); Pattern. Pattern p = Pattern.compile(&amp;ldquo;pattern&amp;rdquo;); and etc. Ручной способ через indexOf и substring Первый способ можно сразу отбросить так как он медленный: на каждый файл будет компилироваться pattern. На следующих двух можно остановиться поподробнее.&#xA;У меня было чувство, что ручной способ всегда быстрее, хоть и немного дольше в реализации. Я написал небольшой тест, чтобы проверить насколько быстрее.</description>
     </item>
-    
   </channel>
 </rss>

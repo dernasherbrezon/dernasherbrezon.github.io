@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>refactoring on dernasherbrezon</title>
+    <title>Refactoring on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/refactoring/</link>
-    <description>Recent content in refactoring on dernasherbrezon</description>
+    <description>Recent content in Refactoring on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 11 May 2009 13:14:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/refactoring/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Mon, 11 May 2009 13:14:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/refactoring/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Рефакторинг старых систем</title>
       <link>https://dernasherbrezon.com/posts/refactoring-legacy/</link>
       <pubDate>Mon, 11 May 2009 13:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/refactoring-legacy/</guid>
-      <description>Навеяно http://www.amazon.com/Working-Effectively-Legacy-Robert-Martin/dp/0131177052
-Мне достаточно часто приходилось работать с наследными системами. Поэтому выработал некоторые свои собственные интересные практики при работе с такими системами.
- Зачастую имена классов, методов и переменных не отражают сути. В таких случаях обычно переименовывают их. Однако в наследных системах такого делать не рекомендуется. Даже при использовании мощных инструментов в современных IDE. Это связано с тем что в конечном итоге подобные системы собираются своими скриптами сборки, зачастую такими же запутанными и очень confuse&amp;rsquo;ными, как и сам код.</description>
+      <description>Навеяно http://www.amazon.com/Working-Effectively-Legacy-Robert-Martin/dp/0131177052&#xA;Мне достаточно часто приходилось работать с наследными системами. Поэтому выработал некоторые свои собственные интересные практики при работе с такими системами.&#xA;Зачастую имена классов, методов и переменных не отражают сути. В таких случаях обычно переименовывают их. Однако в наследных системах такого делать не рекомендуется. Даже при использовании мощных инструментов в современных IDE. Это связано с тем что в конечном итоге подобные системы собираются своими скриптами сборки, зачастую такими же запутанными и очень confuse&amp;rsquo;ными, как и сам код.</description>
     </item>
-    
   </channel>
 </rss>

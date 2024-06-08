@@ -5,26 +5,22 @@
     <link>https://dernasherbrezon.com/en/tags/ppk2/</link>
     <description>Recent content in PPK2 on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/ppk2/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/en/tags/ppk2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Power consumption in lora-at</title>
       <link>https://dernasherbrezon.com/en/posts/lora-at-power-profiling/</link>
       <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/lora-at-power-profiling/</guid>
-      <description>Having thoroughly understood how Power Profiler Kit 2 (PPK2) works, I decided to test power consumption under different conditions. In fact, lora-at is not such a simple application. It works with bluetooth and the sx127x chip, processes commands from the UART bus and has a deep sleep mode. So there is a plenty of things to look for.
-Measurement methodology Before you start measuring something, you need to decide how it will be measured.</description>
+      <description>Having thoroughly understood how Power Profiler Kit 2 (PPK2) works, I decided to test power consumption under different conditions. In fact, lora-at is not such a simple application. It works with bluetooth and the sx127x chip, processes commands from the UART bus and has a deep sleep mode. So there is a plenty of things to look for.&#xA;Measurement methodology Before you start measuring something, you need to decide how it will be measured.</description>
     </item>
-    
     <item>
       <title>Power Profiler Kit 2</title>
       <link>https://dernasherbrezon.com/en/posts/power-profiler-kit2/</link>
       <pubDate>Fri, 24 Nov 2023 09:08:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/power-profiler-kit2/</guid>
-      <description>After I re-wrote lora-at in C, I reduced the size of the firmware by half! However, although this looks impressive, it is actually not that important. If both versions fit on a chip, then size doesn&amp;rsquo;t make too much difference. Energy consumption is another matter. Low power consumption is important when operating from solar panels. That is why I decided to explore this topic in more detail.
-Previously, I used the A3-B USB tester, but it is not suitable for measuring current consumption in microcontrollers.</description>
+      <description>After I re-wrote lora-at in C, I reduced the size of the firmware by half! However, although this looks impressive, it is actually not that important. If both versions fit on a chip, then size doesn&amp;rsquo;t make too much difference. Energy consumption is another matter. Low power consumption is important when operating from solar panels. That is why I decided to explore this topic in more detail.&#xA;Previously, I used the A3-B USB tester, but it is not suitable for measuring current consumption in microcontrollers.</description>
     </item>
-    
   </channel>
 </rss>

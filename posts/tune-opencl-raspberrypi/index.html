@@ -11,7 +11,7 @@
 <meta property='og:site_name' content='dernasherbrezon'>
 <meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='opencl'><meta property='article:tag' content='c'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2021-11-06T14:11:18&#43;01:00'/><meta property='article:modified_time' content='2021-11-06T14:11:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
-<meta name="generator" content="Hugo 0.81.0" />
+<meta name="generator" content="Hugo 0.124.0">
 
   <title>Оптимизация OpenCL на RaspberryPI • dernasherbrezon</title>
   <link rel='canonical' href='https://dernasherbrezon.com/posts/tune-opencl-raspberrypi/'>
@@ -34,7 +34,7 @@
 <body class='page type-posts has-sidebar'>
 
   <div class='site'><div id='sidebar' class='sidebar'>
-  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+  <a class='screen-reader-text' href='#main-menu'></a>
 
   <div class='container'><section class='widget widget-about sep-after'>
   <header>
@@ -56,9 +56,9 @@
   </header>
 
 </section>
-<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
     <div class='container'>
-      <ul><li class='item'>
+      <ul><li class='item has-current'>
   <a href='/posts/'>Все записи</a></li><li class='item'>
   <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
   <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
@@ -74,43 +74,43 @@
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/abbreviated-jpeg/' style='font-size:1.0204081632653061em'>abbreviated jpeg</a>
       </li><li>
-        <a href='/tags/acme/' style='font-size:1em'>acme</a>
+        <a href='/tags/acme/' style='font-size:1em'>Acme</a>
       </li><li>
         <a href='/tags/api/' style='font-size:1.0612244897959184em'>api</a>
       </li><li>
-        <a href='/tags/apt/' style='font-size:1.0612244897959184em'>apt</a>
+        <a href='/tags/apt/' style='font-size:1.0612244897959184em'>Apt</a>
       </li><li>
-        <a href='/tags/awgn/' style='font-size:1em'>awgn</a>
+        <a href='/tags/awgn/' style='font-size:1em'>Awgn</a>
       </li><li>
         <a href='/tags/bash/' style='font-size:1.0204081632653061em'>bash</a>
       </li><li>
         <a href='/tags/ber/' style='font-size:1.1020408163265305em'>ber</a>
       </li><li>
-        <a href='/tags/bluetooth/' style='font-size:1.0204081632653061em'>bluetooth</a>
+        <a href='/tags/bluetooth/' style='font-size:1.0204081632653061em'>Bluetooth</a>
       </li><li>
         <a href='/tags/bpsk/' style='font-size:1.0204081632653061em'>bpsk</a>
       </li><li>
-        <a href='/tags/c/' style='font-size:1.4489795918367347em'>c</a>
+        <a href='/tags/c/' style='font-size:1.4489795918367347em'>C</a>
       </li><li>
-        <a href='/tags/deb/' style='font-size:1.0816326530612246em'>deb</a>
+        <a href='/tags/deb/' style='font-size:1.0816326530612246em'>Deb</a>
       </li><li>
-        <a href='/tags/docker/' style='font-size:1em'>docker</a>
+        <a href='/tags/docker/' style='font-size:1em'>Docker</a>
       </li><li>
         <a href='/tags/dsp/' style='font-size:1.1224489795918366em'>dsp</a>
       </li><li>
-        <a href='/tags/eclipse/' style='font-size:1em'>eclipse</a>
+        <a href='/tags/eclipse/' style='font-size:1em'>Eclipse</a>
       </li><li>
         <a href='/tags/embedded/' style='font-size:1.1224489795918366em'>embedded</a>
       </li><li>
-        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>esp-idf</a>
+        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>Esp-Idf</a>
       </li><li>
-        <a href='/tags/esp32/' style='font-size:1.2040816326530612em'>esp32</a>
+        <a href='/tags/esp32/' style='font-size:1.2040816326530612em'>Esp32</a>
       </li><li>
-        <a href='/tags/flot/' style='font-size:1em'>flot</a>
+        <a href='/tags/flot/' style='font-size:1em'>Flot</a>
       </li><li>
         <a href='/tags/fsk/' style='font-size:1.0612244897959184em'>fsk</a>
       </li><li>
-        <a href='/tags/gc/' style='font-size:1em'>gc</a>
+        <a href='/tags/gc/' style='font-size:1em'>Gc</a>
       </li><li>
         <a href='/tags/gdal/' style='font-size:1.0408163265306123em'>gdal</a>
       </li><li>
@@ -120,7 +120,7 @@
       </li><li>
         <a href='/tags/gnuradio/' style='font-size:1.0612244897959184em'>gnuradio</a>
       </li><li>
-        <a href='/tags/hibernate/' style='font-size:1em'>hibernate</a>
+        <a href='/tags/hibernate/' style='font-size:1em'>Hibernate</a>
       </li><li>
         <a href='/tags/j2ee/' style='font-size:1.0204081632653061em'>j2ee</a>
       </li><li>
@@ -132,31 +132,31 @@
       </li><li>
         <a href='/tags/jetty/' style='font-size:1.0408163265306123em'>jetty</a>
       </li><li>
-        <a href='/tags/jmeter/' style='font-size:1em'>jmeter</a>
+        <a href='/tags/jmeter/' style='font-size:1em'>Jmeter</a>
       </li><li>
         <a href='/tags/jpeg/' style='font-size:1.1020408163265305em'>jpeg</a>
       </li><li>
         <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
       </li><li>
-        <a href='/tags/jquery/' style='font-size:1em'>jquery</a>
+        <a href='/tags/jquery/' style='font-size:1em'>Jquery</a>
       </li><li>
         <a href='/tags/jsp/' style='font-size:1.0612244897959184em'>jsp</a>
       </li><li>
         <a href='/tags/jstl/' style='font-size:1.0408163265306123em'>jstl</a>
       </li><li>
-        <a href='/tags/junit/' style='font-size:1.0408163265306123em'>junit</a>
+        <a href='/tags/junit/' style='font-size:1.0408163265306123em'>Junit</a>
       </li><li>
-        <a href='/tags/letsencrypt/' style='font-size:1em'>letsencrypt</a>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>Letsencrypt</a>
       </li><li>
         <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
       </li><li>
-        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>lora</a>
+        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>Lora</a>
       </li><li>
-        <a href='/tags/lora-at/' style='font-size:1.0816326530612246em'>lora-at</a>
+        <a href='/tags/lora-at/' style='font-size:1.0816326530612246em'>Lora-At</a>
       </li><li>
         <a href='/tags/lrpt/' style='font-size:1.0408163265306123em'>lrpt</a>
       </li><li>
-        <a href='/tags/matlab/' style='font-size:1.0204081632653061em'>matlab</a>
+        <a href='/tags/matlab/' style='font-size:1.0204081632653061em'>Matlab</a>
       </li><li>
         <a href='/tags/maven/' style='font-size:1.1020408163265305em'>maven</a>
       </li><li>
@@ -168,21 +168,21 @@
       </li><li>
         <a href='/tags/monitoring/' style='font-size:1.1020408163265305em'>monitoring</a>
       </li><li>
-        <a href='/tags/open-source/' style='font-size:1.0408163265306123em'>open source</a>
+        <a href='/tags/open-source/' style='font-size:1.0408163265306123em'>Open Source</a>
       </li><li>
         <a href='/tags/openapi/' style='font-size:1.0204081632653061em'>openapi</a>
       </li><li>
-        <a href='/tags/opencl/' style='font-size:1.0408163265306123em'>opencl</a>
+        <a href='/tags/opencl/' style='font-size:1.0408163265306123em'>Opencl</a>
       </li><li>
-        <a href='/tags/openstack/' style='font-size:1em'>openstack</a>
+        <a href='/tags/openstack/' style='font-size:1em'>Openstack</a>
       </li><li>
-        <a href='/tags/openstack-swift/' style='font-size:1em'>openstack swift</a>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>Openstack Swift</a>
       </li><li>
         <a href='/tags/orekit/' style='font-size:1.0204081632653061em'>orekit</a>
       </li><li>
-        <a href='/tags/pipe/' style='font-size:1em'>pipe</a>
+        <a href='/tags/pipe/' style='font-size:1em'>Pipe</a>
       </li><li>
-        <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>plutosdr</a>
+        <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>Plutosdr</a>
       </li><li>
         <a href='/tags/ppk2/' style='font-size:1.0204081632653061em'>PPK2</a>
       </li><li>
@@ -190,17 +190,17 @@
       </li><li>
         <a href='/tags/r2cloud/' style='font-size:1.0816326530612246em'>r2cloud</a>
       </li><li>
-        <a href='/tags/r2lora/' style='font-size:1.0612244897959184em'>r2lora</a>
+        <a href='/tags/r2lora/' style='font-size:1.0612244897959184em'>R2lora</a>
       </li><li>
-        <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>r2weather</a>
+        <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>R2weather</a>
       </li><li>
         <a href='/tags/radio/' style='font-size:1.2244897959183674em'>Радио</a>
       </li><li>
         <a href='/tags/raspberrypi/' style='font-size:1.4489795918367347em'>raspberrypi</a>
       </li><li>
-        <a href='/tags/refactoring/' style='font-size:1em'>refactoring</a>
+        <a href='/tags/refactoring/' style='font-size:1em'>Refactoring</a>
       </li><li>
-        <a href='/tags/rest/' style='font-size:1.0204081632653061em'>REST</a>
+        <a href='/tags/rest/' style='font-size:1.0204081632653061em'>Rest</a>
       </li><li>
         <a href='/tags/rrd/' style='font-size:1.0204081632653061em'>rrd</a>
       </li><li>
@@ -210,55 +210,55 @@
       </li><li>
         <a href='/tags/rtlspectrum/' style='font-size:1.0408163265306123em'>rtlSpectrum</a>
       </li><li>
-        <a href='/tags/s3/' style='font-size:1em'>s3</a>
+        <a href='/tags/s3/' style='font-size:1em'>S3</a>
       </li><li>
-        <a href='/tags/satnogs/' style='font-size:1.0408163265306123em'>satnogs</a>
+        <a href='/tags/satnogs/' style='font-size:1.0408163265306123em'>Satnogs</a>
       </li><li>
-        <a href='/tags/sdr-modem/' style='font-size:1.0612244897959184em'>sdr-modem</a>
+        <a href='/tags/sdr-modem/' style='font-size:1.0612244897959184em'>Sdr-Modem</a>
       </li><li>
-        <a href='/tags/sdr-server/' style='font-size:1em'>sdr-server</a>
+        <a href='/tags/sdr-server/' style='font-size:1em'>Sdr-Server</a>
       </li><li>
-        <a href='/tags/security/' style='font-size:1.0204081632653061em'>security</a>
+        <a href='/tags/security/' style='font-size:1.0204081632653061em'>Security</a>
       </li><li>
-        <a href='/tags/selectel/' style='font-size:1em'>selectel</a>
+        <a href='/tags/selectel/' style='font-size:1em'>Selectel</a>
       </li><li>
         <a href='/tags/simd/' style='font-size:1.1020408163265305em'>SIMD</a>
       </li><li>
-        <a href='/tags/sonarcube/' style='font-size:1.0408163265306123em'>sonarcube</a>
+        <a href='/tags/sonarcube/' style='font-size:1.0408163265306123em'>Sonarcube</a>
       </li><li>
-        <a href='/tags/spring/' style='font-size:1.0408163265306123em'>spring</a>
+        <a href='/tags/spring/' style='font-size:1.0408163265306123em'>Spring</a>
       </li><li>
-        <a href='/tags/sqnr/' style='font-size:1em'>sqnr</a>
+        <a href='/tags/sqnr/' style='font-size:1em'>Sqnr</a>
       </li><li>
-        <a href='/tags/ssdv/' style='font-size:1.0204081632653061em'>ssdv</a>
+        <a href='/tags/ssdv/' style='font-size:1.0204081632653061em'>Ssdv</a>
       </li><li>
         <a href='/tags/string/' style='font-size:1.0204081632653061em'>String</a>
       </li><li>
-        <a href='/tags/sx127x/' style='font-size:1.0816326530612246em'>sx127x</a>
+        <a href='/tags/sx127x/' style='font-size:1.0816326530612246em'>Sx127x</a>
       </li><li>
-        <a href='/tags/systemd/' style='font-size:1em'>systemd</a>
+        <a href='/tags/systemd/' style='font-size:1em'>Systemd</a>
       </li><li>
-        <a href='/tags/testing/' style='font-size:1.0408163265306123em'>testing</a>
+        <a href='/tags/testing/' style='font-size:1.0408163265306123em'>Testing</a>
       </li><li>
-        <a href='/tags/travis-ci/' style='font-size:1.0204081632653061em'>travis-ci</a>
+        <a href='/tags/travis-ci/' style='font-size:1.0204081632653061em'>Travis-Ci</a>
       </li><li>
         <a href='/tags/ubuntu/' style='font-size:1.0816326530612246em'>ubuntu</a>
       </li><li>
-        <a href='/tags/valgrind/' style='font-size:1.0408163265306123em'>valgrind</a>
+        <a href='/tags/valgrind/' style='font-size:1.0408163265306123em'>Valgrind</a>
       </li><li>
-        <a href='/tags/validator/' style='font-size:1em'>validator</a>
+        <a href='/tags/validator/' style='font-size:1em'>Validator</a>
       </li><li>
         <a href='/tags/vuejs/' style='font-size:1.0408163265306123em'>vuejs</a>
       </li><li>
-        <a href='/tags/yourkit/' style='font-size:1em'>yourkit</a>
+        <a href='/tags/yourkit/' style='font-size:1em'>Yourkit</a>
       </li><li>
-        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2857142857142856em'>администрирование</a>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.3061224489795917em'>администрирование</a>
       </li><li>
         <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0816326530612246em'>ДЗЗ</a>
       </li><li>
         <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0816326530612246em'>дизайн</a>
       </li><li>
-        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>идеи</a>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>Идеи</a>
       </li><li>
         <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0408163265306123em'>космонавтика</a>
       </li><li>
@@ -270,13 +270,13 @@
       </li><li>
         <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.346938775510204em'>производительность</a>
       </li><li>
-        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0612244897959184em'>разработка</a>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0612244897959184em'>Разработка</a>
       </li><li>
-        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>спецификация</a>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>Спецификация</a>
       </li><li>
         <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3877551020408163em'>спутники</a>
       </li><li>
-        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2653061224489797em'>тестирование</a>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2653061224489797em'>Тестирование</a>
       </li><li>
         <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0408163265306123em'>фильтры</a>
       </li></ul>
@@ -287,12 +287,12 @@
 </div>
 
   <div class='sidebar-overlay'></div>
-</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
   <div class='container'>
-    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+    <a class='screen-reader-text' href='#content'></a>
 
 <button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
-  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='screen-reader-text'></span>
   <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
@@ -311,8 +311,8 @@
 </svg>
 </span>
 </button>
-    <ul><li class='item'>
-        <a href='/posts/'>Все записи</a>
+    <ul><li class='item current'>
+        <a aria-current='page' href='/posts/'>Все записи</a>
       </li><li class='item'>
         <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
       </li><li class='item'>
@@ -351,7 +351,7 @@
   <line x1="3" y1="10" x2="21" y2="10"/>
 
 </svg>
-<span class='screen-reader-text'>Posted on </span>
+<span class='screen-reader-text'> </span>
   <time class='entry-date' datetime='2021-11-06T14:11:18&#43;01:00'>06 Nov 2021</time>
 </span>
 
@@ -371,125 +371,125 @@
   <p>Это третья статья в цикле про мои похождения в области распределённых вычислений. <a href="https://dernasherbrezon.com/posts/opencl-raspberrypi/">Первая статья</a> была про то, зачем вообще нужен OpenCL и распределённые вычисления. <a href="https://dernasherbrezon.com/posts/install-opencl-raspberrypi/">Вторая статья</a> про то, как настроить OpenCL для Raspberrypi, чем отличаются различные режимы работы и драйвера. Эта статья будет про оптимизацию OpenCL кода. Самое важное, что нужно понять: сможет ли GPU заменить или хотя бы приблизиться по производительности к CPU при выполнении <a href="https://dernasherbrezon.com/posts/simd-for-dsp/">Frequency Xlating FIR фильтра</a>.</p>
 <h2 id="измерения">Измерения</h2>
 <p>Прежде, чем оптимизировать что-то, необходимо научиться измерять. А измерять скорость работы программы можно по-разному. Я пошёл самой простой дорогой:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> total_executions <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>;
-clock_t begin <span style="color:#f92672">=</span> clock();
-<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> total_executions; i<span style="color:#f92672">++</span>) {
-    fir_filter_naive_process(input, input_len, <span style="color:#f92672">&amp;</span>output, <span style="color:#f92672">&amp;</span>output_len, filter);
-}
-clock_t end <span style="color:#f92672">=</span> clock();
-<span style="color:#66d9ef">double</span> time_spent <span style="color:#f92672">=</span> (<span style="color:#66d9ef">double</span>) (end <span style="color:#f92672">-</span> begin) <span style="color:#f92672">/</span> CLOCKS_PER_SEC;
-printf(<span style="color:#e6db74">&#34;average time: %f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, time_spent <span style="color:#f92672">/</span> total_executions);
-</code></pre></div><p>Вызвать критичный участок кода N раз, замерить общее время выполнения, поделить на количество вызовов, получить среднее время выполнения. Этого вполне достаточно, чтобы сравнивать скорость работы между разными реализациями. В дальнейшем измерения нужно будет немного усложнить, но для начала этого вполне хватит.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> total_executions <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">clock_t</span> begin <span style="color:#f92672">=</span> <span style="color:#a6e22e">clock</span>();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> total_executions; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fir_filter_naive_process</span>(input, input_len, <span style="color:#f92672">&amp;</span>output, <span style="color:#f92672">&amp;</span>output_len, filter);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">clock_t</span> end <span style="color:#f92672">=</span> <span style="color:#a6e22e">clock</span>();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> time_spent <span style="color:#f92672">=</span> (<span style="color:#66d9ef">double</span>) (end <span style="color:#f92672">-</span> begin) <span style="color:#f92672">/</span> CLOCKS_PER_SEC;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;average time: %f</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, time_spent <span style="color:#f92672">/</span> total_executions);
+</span></span></code></pre></div><p>Вызвать критичный участок кода N раз, замерить общее время выполнения, поделить на количество вызовов, получить среднее время выполнения. Этого вполне достаточно, чтобы сравнивать скорость работы между разными реализациями. В дальнейшем измерения нужно будет немного усложнить, но для начала этого вполне хватит.</p>
 <p>Я запустил тест <a href="https://github.com/dernasherbrezon/clDsp-test/blob/main/test/perf_fir_filter_naive.c">наивной реализации</a> и получил следующую цифру:</p>
-<pre><code>average time: 0.050191
+<pre tabindex="0"><code>average time: 0.050191
 </code></pre><p>Это будет отправной точкой всех дальнейших оптимизаций.</p>
 <h2 id="оптимизация-opencl">Оптимизация OpenCL</h2>
 <p>Итак, самое сочное. Как оптимизировать OpenCL код? Я не имел ни малейшего понятия. Именно поэтому пришлось обратиться к Google, который выдал мне <a href="https://downloads.ti.com/mctools/esd/docs/opencl/optimization/host_code.html">отличнейший гайд</a> от TexasInstruments. Код, который там используется совсем не применим к нашей задаче, но идеи вполне можно попробовать.</p>
 <h3 id="использование-1-work-item-для-1-work-group">Использование 1 work-item для 1 work-group</h3>
 <p>Первым же советом Texas Instruments было забыть все эти разбиения на work-item и work-group и сделать по-простому: 1 work-item для 1 work-group. По сути они советуют в каждом QPU выполнять только один work-item. Но этот work-item может считать не одно значение, а сразу несколько. В этом есть смысл, так как входящие данные будут строго локализованы для каждого ядра, а значит и cache hit будет значительно выше. Для фильтра это так же имеет смысл, так как каждый следующий результат использует почти те же самые входящие данные, что и предыдущий.</p>
 <p>Код kernel будет выглядеть следующим образом:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> output_len; i<span style="color:#f92672">++</span>) {
-    <span style="color:#66d9ef">int</span> output_offset <span style="color:#f92672">=</span> (get_global_id(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">*</span> output_len <span style="color:#f92672">+</span> i) <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;
-    <span style="color:#66d9ef">int</span> input_offset <span style="color:#f92672">=</span> output_offset <span style="color:#f92672">*</span> decimation;
-    <span style="color:#66d9ef">float</span> real0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-    <span style="color:#66d9ef">float</span> imag0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> taps_len; j<span style="color:#f92672">++</span>) {
-        real0 <span style="color:#f92672">+=</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j]) <span style="color:#f92672">-</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]);
-        imag0 <span style="color:#f92672">+=</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">+</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j]);
-    }
-    output[output_offset] <span style="color:#f92672">=</span> real0;
-    output[output_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> imag0;
-}
-</code></pre></div><p>Здесь видно, что каждый kernel будет считать <code>output_len</code> результатов. Тест производительности показал:</p>
-<pre><code>average time: 0.050315
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> output_len; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> output_offset <span style="color:#f92672">=</span> (<span style="color:#a6e22e">get_global_id</span>(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">*</span> output_len <span style="color:#f92672">+</span> i) <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> input_offset <span style="color:#f92672">=</span> output_offset <span style="color:#f92672">*</span> decimation;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> real0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> imag0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> taps_len; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        real0 <span style="color:#f92672">+=</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j]) <span style="color:#f92672">-</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>        imag0 <span style="color:#f92672">+=</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">+</span> (input[input_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> taps[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> j]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    output[output_offset] <span style="color:#f92672">=</span> real0;
+</span></span><span style="display:flex;"><span>    output[output_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> imag0;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Здесь видно, что каждый kernel будет считать <code>output_len</code> результатов. Тест производительности показал:</p>
+<pre tabindex="0"><code>average time: 0.050315
 </code></pre><p>И&hellip; Скорость почти не поменялась. Как же так? Чтобы понять, как именно отработал kernel, нужно больше метрик. К счастью, VC4CL позволяет выводить внутренние метрики GPU. Для этого нужно выставить переменную <code>VC4CL_DEBUG</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo VC4CL_DEBUG<span style="color:#f92672">=</span>perf  ./perf_fir_filter_naive
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Performance counters <span style="color:#66d9ef">for</span> kernel execution: fir_filter_process
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Elapsed time: 49195us
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Clock speed: <span style="color:#ae81ff">0</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction count: <span style="color:#ae81ff">373</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Explicit uniform count: <span style="color:#ae81ff">5</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: QPUs used: <span style="color:#ae81ff">12</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Kernel repetition count: <span style="color:#ae81ff">17</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Execution cycles: <span style="color:#ae81ff">117059316</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Idle cycles: <span style="color:#ae81ff">3367764868</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache lookups: <span style="color:#ae81ff">29264829</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache misses: <span style="color:#ae81ff">390</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache hits: <span style="color:#ae81ff">20723</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache misses: <span style="color:#ae81ff">11539</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU cache misses: <span style="color:#ae81ff">31824</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU stall cycles: <span style="color:#ae81ff">59361392</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU words loaded: <span style="color:#ae81ff">31713024</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache lookups: <span style="color:#ae81ff">2880</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache misses: <span style="color:#ae81ff">48</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA read stall cycles: <span style="color:#ae81ff">0</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA write stall cycles: <span style="color:#ae81ff">0</span>
-</code></pre></div><p>И для улучшенной версии:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo VC4CL_DEBUG<span style="color:#f92672">=</span>perf  ./perf_fir_filter
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Performance counters <span style="color:#66d9ef">for</span> kernel execution: fir_filter_process
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Elapsed time: 49248us
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Clock speed: <span style="color:#ae81ff">0</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction count: <span style="color:#ae81ff">432</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Explicit uniform count: <span style="color:#ae81ff">6</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: QPUs used: <span style="color:#ae81ff">12</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Kernel repetition count: <span style="color:#ae81ff">1</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Execution cycles: <span style="color:#ae81ff">113019828</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Idle cycles: <span style="color:#ae81ff">1836058716</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache lookups: <span style="color:#ae81ff">28254957</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache misses: <span style="color:#ae81ff">234</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache hits: <span style="color:#ae81ff">10484</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache misses: <span style="color:#ae81ff">67396</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU cache misses: <span style="color:#ae81ff">77622</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU stall cycles: <span style="color:#ae81ff">63784900</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU words loaded: <span style="color:#ae81ff">31713024</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache lookups: <span style="color:#ae81ff">203</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache misses: <span style="color:#ae81ff">24</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA read stall cycles: <span style="color:#ae81ff">0</span>
-<span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA write stall cycles: <span style="color:#ae81ff">0</span>
-</code></pre></div><p>И, судя по метрикам, кэш наивной реализации гораздо более эффективен! L2 cache hits в 2 раза больше! Правда, на общий результат это не сильно повлияло.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo VC4CL_DEBUG<span style="color:#f92672">=</span>perf  ./perf_fir_filter_naive
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Performance counters <span style="color:#66d9ef">for</span> kernel execution: fir_filter_process
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Elapsed time: 49195us
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Clock speed: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction count: <span style="color:#ae81ff">373</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Explicit uniform count: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: QPUs used: <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Kernel repetition count: <span style="color:#ae81ff">17</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Execution cycles: <span style="color:#ae81ff">117059316</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Idle cycles: <span style="color:#ae81ff">3367764868</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache lookups: <span style="color:#ae81ff">29264829</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache misses: <span style="color:#ae81ff">390</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache hits: <span style="color:#ae81ff">20723</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache misses: <span style="color:#ae81ff">11539</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU cache misses: <span style="color:#ae81ff">31824</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU stall cycles: <span style="color:#ae81ff">59361392</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU words loaded: <span style="color:#ae81ff">31713024</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache lookups: <span style="color:#ae81ff">2880</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache misses: <span style="color:#ae81ff">48</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA read stall cycles: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA write stall cycles: <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>И для улучшенной версии:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo VC4CL_DEBUG<span style="color:#f92672">=</span>perf  ./perf_fir_filter
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Performance counters <span style="color:#66d9ef">for</span> kernel execution: fir_filter_process
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Elapsed time: 49248us
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Clock speed: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction count: <span style="color:#ae81ff">432</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Explicit uniform count: <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: QPUs used: <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Kernel repetition count: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Execution cycles: <span style="color:#ae81ff">113019828</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Idle cycles: <span style="color:#ae81ff">1836058716</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache lookups: <span style="color:#ae81ff">28254957</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Instruction cache misses: <span style="color:#ae81ff">234</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache hits: <span style="color:#ae81ff">10484</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: L2 cache misses: <span style="color:#ae81ff">67396</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU cache misses: <span style="color:#ae81ff">77622</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU stall cycles: <span style="color:#ae81ff">63784900</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: TMU words loaded: <span style="color:#ae81ff">31713024</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache lookups: <span style="color:#ae81ff">203</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: Uniform cache misses: <span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA read stall cycles: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>VC4CL<span style="color:#f92672">](</span>VC4CL Queue Han<span style="color:#f92672">)</span>: VPM DMA write stall cycles: <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>И, судя по метрикам, кэш наивной реализации гораздо более эффективен! L2 cache hits в 2 раза больше! Правда, на общий результат это не сильно повлияло.</p>
 <h3 id="расширенные-типы">Расширенные типы</h3>
 <p>Хорошо, а что насчёт расширенных типов? В OpenCL есть поддержка float8 и float16. Правда, я не совсем уверен, сможет ли VC4C правильно скомпилировать такой код. И даже если сможет, то будет ли он быстрее? В Videocore IV нет 256-битных SIMD регистров, поэтому одновременное умножение 8 разных float вряд ли возможно. С другой стороны в каждом QPU есть потоки и можно выполнять две операции параллельно. Единственный способ это проверить - написать и запустить код. В OpenCL есть забавный синтаксис для SIMD операций: можно обратится к чётным и нечётным элементам вектора. Перемножение комплексных чисел можно записать вот так:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">__global float8 <span style="color:#f92672">*</span>in <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)(input <span style="color:#f92672">+</span> input_offset);
-__global float8 <span style="color:#f92672">*</span>tap <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)taps;
-float4 real0 <span style="color:#f92672">=</span> (float4)(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>);
-float4 imag0 <span style="color:#f92672">=</span> (float4)(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>);
-<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> taps_len <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>; j<span style="color:#f92672">++</span>) {
-    real0 <span style="color:#f92672">+=</span> in<span style="color:#f92672">-&gt;</span>even <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>even <span style="color:#f92672">-</span> in<span style="color:#f92672">-&gt;</span>odd <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>odd;
-    imag0 <span style="color:#f92672">+=</span> in<span style="color:#f92672">-&gt;</span>even <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>odd <span style="color:#f92672">+</span> in<span style="color:#f92672">-&gt;</span>odd <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>even;
-    in<span style="color:#f92672">++</span>;
-    tap<span style="color:#f92672">++</span>;
-}
-output[output_offset] <span style="color:#f92672">=</span> real0.s0 <span style="color:#f92672">+</span> real0.s1 <span style="color:#f92672">+</span> real0.s2 <span style="color:#f92672">+</span> real0.s3;
-output[output_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> imag0.s0 <span style="color:#f92672">+</span> imag0.s1 <span style="color:#f92672">+</span> imag0.s2 <span style="color:#f92672">+</span> imag0.s3;            
-</code></pre></div><p>Правда, с этим кодом небольшая беда: он работает чуть хуже, чем портянка кода ниже: 0.017572 против 0.017017.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">__global float8 <span style="color:#f92672">*</span>in <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)(input <span style="color:#f92672">+</span> input_offset);
-__global float8 <span style="color:#f92672">*</span>tap <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)taps;
-<span style="color:#66d9ef">float</span> real0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#66d9ef">float</span> imag0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#66d9ef">float</span> real1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#66d9ef">float</span> imag1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#66d9ef">float</span> real2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#66d9ef">float</span> imag2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#66d9ef">float</span> real3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#66d9ef">float</span> imag3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
-<span style="color:#75715e">// taps_len guaranteed divided by 4
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> taps_len <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>; j<span style="color:#f92672">++</span>) {
-    real0 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s0 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s0) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s1 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s1);
-    imag0 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s0 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s1) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s1 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s0);
-
-    real1 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s2 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s2) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s3 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s3);
-    imag1 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s2 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s3) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s3 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s2);
-
-    real2 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s4 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s4) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s5 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s5);
-    imag2 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s4 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s5) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s5 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s4);
-
-    real3 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s6 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s6) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s7 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s7);
-    imag3 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s6 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s7) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s7 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s6);
-
-    in<span style="color:#f92672">++</span>;
-    tap<span style="color:#f92672">++</span>;
-}
-</code></pre></div><p>Что же тут происходит?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>__global float8 <span style="color:#f92672">*</span>in <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)(input <span style="color:#f92672">+</span> input_offset);
+</span></span><span style="display:flex;"><span>__global float8 <span style="color:#f92672">*</span>tap <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)taps;
+</span></span><span style="display:flex;"><span>float4 real0 <span style="color:#f92672">=</span> (float4)(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>);
+</span></span><span style="display:flex;"><span>float4 imag0 <span style="color:#f92672">=</span> (float4)(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">0.0f</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> taps_len <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    real0 <span style="color:#f92672">+=</span> in<span style="color:#f92672">-&gt;</span>even <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>even <span style="color:#f92672">-</span> in<span style="color:#f92672">-&gt;</span>odd <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>odd;
+</span></span><span style="display:flex;"><span>    imag0 <span style="color:#f92672">+=</span> in<span style="color:#f92672">-&gt;</span>even <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>odd <span style="color:#f92672">+</span> in<span style="color:#f92672">-&gt;</span>odd <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>even;
+</span></span><span style="display:flex;"><span>    in<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    tap<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>output[output_offset] <span style="color:#f92672">=</span> real0.s0 <span style="color:#f92672">+</span> real0.s1 <span style="color:#f92672">+</span> real0.s2 <span style="color:#f92672">+</span> real0.s3;
+</span></span><span style="display:flex;"><span>output[output_offset <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> imag0.s0 <span style="color:#f92672">+</span> imag0.s1 <span style="color:#f92672">+</span> imag0.s2 <span style="color:#f92672">+</span> imag0.s3;            
+</span></span></code></pre></div><p>Правда, с этим кодом небольшая беда: он работает чуть хуже, чем портянка кода ниже: 0.017572 против 0.017017.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>__global float8 <span style="color:#f92672">*</span>in <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)(input <span style="color:#f92672">+</span> input_offset);
+</span></span><span style="display:flex;"><span>__global float8 <span style="color:#f92672">*</span>tap <span style="color:#f92672">=</span> (__global float8<span style="color:#f92672">*</span>)taps;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> real0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> imag0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> real1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> imag1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> real2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> imag2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> real3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> imag3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0f</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// taps_len guaranteed divided by 4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> taps_len <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    real0 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s0 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s0) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s1 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s1);
+</span></span><span style="display:flex;"><span>    imag0 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s0 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s1) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s1 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s0);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    real1 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s2 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s2) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s3 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s3);
+</span></span><span style="display:flex;"><span>    imag1 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s2 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s3) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s3 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s2);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    real2 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s4 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s4) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s5 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s5);
+</span></span><span style="display:flex;"><span>    imag2 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s4 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s5) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s5 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s4);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    real3 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s6 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s6) <span style="color:#f92672">-</span> (in<span style="color:#f92672">-&gt;</span>s7 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s7);
+</span></span><span style="display:flex;"><span>    imag3 <span style="color:#f92672">+=</span> (in<span style="color:#f92672">-&gt;</span>s6 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s7) <span style="color:#f92672">+</span> (in<span style="color:#f92672">-&gt;</span>s7 <span style="color:#f92672">*</span> tap<span style="color:#f92672">-&gt;</span>s6);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    in<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    tap<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Что же тут происходит?</p>
 <ol>
 <li>Все данные преобразовываются к типу float 8.</li>
 <li>Вместо двух аккумуляторов <code>float real</code> и <code>float imag</code> используется 8. Не уверен, что это хорошая идея, так как в VideoCore IV есть только 4 регистра аккумулятора. Но с другой стороны, я не контролирую ассемблерный код, поэтому сложно сказать, как это будет скомпилировано.</li>
@@ -501,68 +501,68 @@ __global float8 <span style="color:#f92672">*</span>tap <span style="color:#f926
 <h3 id="использование-mapunmap-вместо-копирования-данных">Использование map/unmap вместо копирования данных</h3>
 <p>Следующая идея заключается в том, чтобы использовать более быстрые буферы (в случае с железками TexasInstruments - это MSMC), к которым OpenCL может дать доступ напрямую. В случае с явным копированием (функция <code>clEnqueueWriteBuffer</code>) данные будут копироваться из пользовательского процесса в буферы устройства. Если же использовать функции <code>clEnqueueMapBuffer</code> и <code>clEnqueueUnmapMemObject</code>, то необходимые для обработки данные можно создавать напрямую в памяти GPU. По идее, это должно сэкономить одно копирование данных.</p>
 <p>Вместо:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">memcpy(filter<span style="color:#f92672">-&gt;</span>working_buffer <span style="color:#f92672">+</span> filter<span style="color:#f92672">-&gt;</span>history_offset, input, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span> complex) <span style="color:#f92672">*</span> input_len);
-ret <span style="color:#f92672">=</span> clEnqueueWriteBuffer(filter<span style="color:#f92672">-&gt;</span>command_queue, filter<span style="color:#f92672">-&gt;</span>input_obj, CL_TRUE, <span style="color:#ae81ff">0</span>, working_len <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span> complex), filter<span style="color:#f92672">-&gt;</span>working_buffer, <span style="color:#ae81ff">0</span>, NULL, NULL);
-</code></pre></div><p>Можно сразу делать:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">filter<span style="color:#f92672">-&gt;</span>working_buffer <span style="color:#f92672">=</span> clEnqueueMapBuffer(filter<span style="color:#f92672">-&gt;</span>command_queue, filter<span style="color:#f92672">-&gt;</span>input_obj, CL_TRUE, CL_MAP_WRITE, <span style="color:#ae81ff">0</span>, filter<span style="color:#f92672">-&gt;</span>working_len_total, <span style="color:#ae81ff">0</span>, NULL, NULL, <span style="color:#f92672">&amp;</span>ret);
-memcpy(filter<span style="color:#f92672">-&gt;</span>working_buffer <span style="color:#f92672">+</span> filter<span style="color:#f92672">-&gt;</span>history_offset, input, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span> complex) <span style="color:#f92672">*</span> input_len);
-ret <span style="color:#f92672">=</span> clEnqueueUnmapMemObject(filter<span style="color:#f92672">-&gt;</span>command_queue, filter<span style="color:#f92672">-&gt;</span>input_obj, filter<span style="color:#f92672">-&gt;</span>working_buffer, <span style="color:#ae81ff">0</span>, NULL, NULL);
-</code></pre></div><p>Экономится одно копирование памяти. Результат выполнения теста: 0.014397. Почти не отличается. А что же насчёт других типов памяти, которые поддерживает VC4CL? mailbox - это память по-умолчанию, VC4CL_MEMORY_CMA не работает:</p>
-<pre><code>Message from syslogd@rasp-buster at Nov  6 23:22:25 ...
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">memcpy</span>(filter<span style="color:#f92672">-&gt;</span>working_buffer <span style="color:#f92672">+</span> filter<span style="color:#f92672">-&gt;</span>history_offset, input, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span> complex) <span style="color:#f92672">*</span> input_len);
+</span></span><span style="display:flex;"><span>ret <span style="color:#f92672">=</span> <span style="color:#a6e22e">clEnqueueWriteBuffer</span>(filter<span style="color:#f92672">-&gt;</span>command_queue, filter<span style="color:#f92672">-&gt;</span>input_obj, CL_TRUE, <span style="color:#ae81ff">0</span>, working_len <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span> complex), filter<span style="color:#f92672">-&gt;</span>working_buffer, <span style="color:#ae81ff">0</span>, NULL, NULL);
+</span></span></code></pre></div><p>Можно сразу делать:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>filter<span style="color:#f92672">-&gt;</span>working_buffer <span style="color:#f92672">=</span> <span style="color:#a6e22e">clEnqueueMapBuffer</span>(filter<span style="color:#f92672">-&gt;</span>command_queue, filter<span style="color:#f92672">-&gt;</span>input_obj, CL_TRUE, CL_MAP_WRITE, <span style="color:#ae81ff">0</span>, filter<span style="color:#f92672">-&gt;</span>working_len_total, <span style="color:#ae81ff">0</span>, NULL, NULL, <span style="color:#f92672">&amp;</span>ret);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">memcpy</span>(filter<span style="color:#f92672">-&gt;</span>working_buffer <span style="color:#f92672">+</span> filter<span style="color:#f92672">-&gt;</span>history_offset, input, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span> complex) <span style="color:#f92672">*</span> input_len);
+</span></span><span style="display:flex;"><span>ret <span style="color:#f92672">=</span> <span style="color:#a6e22e">clEnqueueUnmapMemObject</span>(filter<span style="color:#f92672">-&gt;</span>command_queue, filter<span style="color:#f92672">-&gt;</span>input_obj, filter<span style="color:#f92672">-&gt;</span>working_buffer, <span style="color:#ae81ff">0</span>, NULL, NULL);
+</span></span></code></pre></div><p>Экономится одно копирование памяти. Результат выполнения теста: 0.014397. Почти не отличается. А что же насчёт других типов памяти, которые поддерживает VC4CL? mailbox - это память по-умолчанию, VC4CL_MEMORY_CMA не работает:</p>
+<pre tabindex="0"><code>Message from syslogd@rasp-buster at Nov  6 23:22:25 ...
  kernel:[  655.225825] bde0: b1f8be04 b1f8bdf0 7f13db60 7f13d9cc b46130c0 00000000 b1f8be1c b1f8be08
 </code></pre><p>А при VC4CL_MEMORY_VCSM просто нельзя выделить нужное количество памяти:</p>
-<pre><code>clCreateBuffer: -61
+<pre tabindex="0"><code>clCreateBuffer: -61
 </code></pre><h3 id="использование-локального-буфера">Использование локального буфера</h3>
 <p>Ещё TexasInstruments советуют попробовать использовать локальные буфера. Работает это так: результат всех вычислений складывать в локальный буфер, а потом его полностью копировать из локальной памяти в глобальную. По их заверениям скорость может увеличиться в 3 раза. Код должен выглядеть следующим образом:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">__kernel <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fir_filter_process</span>(__global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> input, __global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> taps, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> taps_len, __global <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> decimation, local <span style="color:#66d9ef">float</span><span style="color:#f92672">*</span> temp) {
-...
-    <span style="color:#66d9ef">int</span> lid <span style="color:#f92672">=</span> get_local_id(<span style="color:#ae81ff">0</span>);
-    <span style="color:#66d9ef">int</span> lsz <span style="color:#f92672">=</span> get_local_size(<span style="color:#ae81ff">0</span>);
-	...
-    temp[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> lid] <span style="color:#f92672">=</span> real0.s0 <span style="color:#f92672">+</span> real0.s1 <span style="color:#f92672">+</span> real0.s2 <span style="color:#f92672">+</span> real0.s3 <span style="color:#f92672">+</span> real0.s4 <span style="color:#f92672">+</span> real0.s5 <span style="color:#f92672">+</span> real0.s6 <span style="color:#f92672">+</span> real0.s7;
-    temp[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> lid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> imag0.s0 <span style="color:#f92672">+</span> imag0.s1 <span style="color:#f92672">+</span> imag0.s2 <span style="color:#f92672">+</span> imag0.s3 <span style="color:#f92672">+</span> imag0.s4 <span style="color:#f92672">+</span> imag0.s5 <span style="color:#f92672">+</span> imag0.s6 <span style="color:#f92672">+</span> imag0.s7;
-    event_t ev <span style="color:#f92672">=</span> async_work_group_copy(<span style="color:#f92672">&amp;</span>output[get_global_id(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>], temp, lsz <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
-    wait_group_events(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>ev);
-}	
-</code></pre></div><p>В метод передаётся переменная <code>temp</code>, которая инициализирована в локальной памяти. После этого результат записывается в эту переменную, а потом методом <code>async_work_group_copy</code> копируется в глобальную память. В результате получается: 0.014826. То есть скорость выполнения почти не поменялась.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>__kernel <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fir_filter_process</span>(__global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> input, __global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> taps, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> taps_len, __global <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> decimation, local <span style="color:#66d9ef">float</span><span style="color:#f92672">*</span> temp) {
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> lid <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_local_id</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> lsz <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_local_size</span>(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	...
+</span></span><span style="display:flex;"><span>    temp[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> lid] <span style="color:#f92672">=</span> real0.s0 <span style="color:#f92672">+</span> real0.s1 <span style="color:#f92672">+</span> real0.s2 <span style="color:#f92672">+</span> real0.s3 <span style="color:#f92672">+</span> real0.s4 <span style="color:#f92672">+</span> real0.s5 <span style="color:#f92672">+</span> real0.s6 <span style="color:#f92672">+</span> real0.s7;
+</span></span><span style="display:flex;"><span>    temp[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> lid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> imag0.s0 <span style="color:#f92672">+</span> imag0.s1 <span style="color:#f92672">+</span> imag0.s2 <span style="color:#f92672">+</span> imag0.s3 <span style="color:#f92672">+</span> imag0.s4 <span style="color:#f92672">+</span> imag0.s5 <span style="color:#f92672">+</span> imag0.s6 <span style="color:#f92672">+</span> imag0.s7;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">event_t</span> ev <span style="color:#f92672">=</span> <span style="color:#a6e22e">async_work_group_copy</span>(<span style="color:#f92672">&amp;</span>output[<span style="color:#a6e22e">get_global_id</span>(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>], temp, lsz <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">wait_group_events</span>(<span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>ev);
+</span></span><span style="display:flex;"><span>}	
+</span></span></code></pre></div><p>В метод передаётся переменная <code>temp</code>, которая инициализирована в локальной памяти. После этого результат записывается в эту переменную, а потом методом <code>async_work_group_copy</code> копируется в глобальную память. В результате получается: 0.014826. То есть скорость выполнения почти не поменялась.</p>
 <h3 id="использование-препроцессора">Использование препроцессора</h3>
 <p>OpenCL поддерживает такую &ldquo;замечательную&rdquo; штуку из языка С как препроцессор. В моём случае, можно часть аргументов функции передать через препроцессор во время компиляции программы. Если <code>taps_len</code> достаточно небольшой, то компилятор сможет развернуть цикл и тем самым ускорить выполнение программы. В тесте у меня размер фильтра 2432, так что я не рассчитываю на какое-либо ускорение. После необходимых изменений, код стал выглядеть следующим образом:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#ifndef TAPS_LEN
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">#define TAPS_LEN 3
-</span><span style="color:#75715e">#endif
-</span><span style="color:#75715e">#ifndef DECIMATION
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">#define DECIMATION 1
-</span><span style="color:#75715e">#endif
-</span><span style="color:#75715e"></span>
-__kernel <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fir_filter_process</span>(__global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> input, __global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> taps, __global <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output) {
-...
-}
-</code></pre></div><p>А компиляция kernel теперь выглядит так:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">snprintf(source_str, MAX_SOURCE_SIZE, <span style="color:#e6db74">&#34;-DTAPS_LEN=%d -DDECIMATION=%d&#34;</span>, result<span style="color:#f92672">-&gt;</span>taps_len, result<span style="color:#f92672">-&gt;</span>decimation);
-ret <span style="color:#f92672">=</span> clBuildProgram(program, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>result<span style="color:#f92672">-&gt;</span>device_id, source_str, NULL, NULL);
-</code></pre></div><p>После запуска соответствующего теста, время составило: 0.014072. Чуть-чуть быстрее, но несущественно.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#ifndef TAPS_LEN
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">#define TAPS_LEN 3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#ifndef DECIMATION
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">#define DECIMATION 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>__kernel <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fir_filter_process</span>(__global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> input, __global <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">restrict</span> taps, __global <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output) {
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>А компиляция kernel теперь выглядит так:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">snprintf</span>(source_str, MAX_SOURCE_SIZE, <span style="color:#e6db74">&#34;-DTAPS_LEN=%d -DDECIMATION=%d&#34;</span>, result<span style="color:#f92672">-&gt;</span>taps_len, result<span style="color:#f92672">-&gt;</span>decimation);
+</span></span><span style="display:flex;"><span>ret <span style="color:#f92672">=</span> <span style="color:#a6e22e">clBuildProgram</span>(program, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>result<span style="color:#f92672">-&gt;</span>device_id, source_str, NULL, NULL);
+</span></span></code></pre></div><p>После запуска соответствующего теста, время составило: 0.014072. Чуть-чуть быстрее, но несущественно.</p>
 <p>На этом я решил остановиться и закодировать алгоритм с помощью <a href="https://www.libvolk.org">volk</a>, чтобы было с чем сравнивать.</p>
 <h2 id="cpu">CPU</h2>
 <p>Итак, чтобы сравнивать производительность с CPU, нужно закодировать абсолютно тот же алгоритм. Я не стал повторять весь этот муторный путь с оптимизациями и наивными реализациями, а сразу <a href="https://github.com/dernasherbrezon/clDsp-test/blob/main/src/fir_filter_volk.c">написал код так</a>, как он работает в <a href="https://github.com/dernasherbrezon/sdr-server">sdr-server</a> (ну, почти так).</p>
 <p>Тест производительности выглядит абсолютно так же, как и для OpenCL кода. Параметры фильтра, размер входящих данных. Результат запуска: 0.002152. Ну что я могу сказать? В ~6.5 раз быстрее. ARM ядро работает на частоте 1.2Ггц, а GPU - на частоте 400Мгц. В 3 раза медленнее. Но и параллелизм в GPU больше! 12 потоков против одного.</p>
 <h2 id="100-cpu-во-время-работы-gpu">100% CPU во время работы GPU</h2>
 <p>Во время запуска тестов я обнаружил, что CPU полностью загружен:</p>
-<p><img src="/img/tune-opencl-raspberrypi/1.png" alt=""></p>
+<p><img src="/img/tune-opencl-raspberrypi/1.png"></p>
 <p>Я бы ожидал, что процессор будет загружен на 20% или 10%, но это не так. Если запустить perf, то можно увидеть следующее:</p>
-<p><img src="/img/tune-opencl-raspberrypi/2.png" alt=""></p>
+<p><img src="/img/tune-opencl-raspberrypi/2.png"></p>
 <p>Почти всё время проводится вот в <a href="https://github.com/doe300/VC4CL/blob/4bf06c9032afa01ce148ce587d7b800e52529770/src/hal/V3D.cpp#L221">этом участке кода</a>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">while</span>(true)
-{
-    <span style="color:#66d9ef">if</span>(((basePointer[V3D_SRQCS] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>) <span style="color:#f92672">==</span> numQPUs)
-        <span style="color:#66d9ef">return</span> true;
-    <span style="color:#66d9ef">if</span>(std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>duration_cast<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>milliseconds<span style="color:#f92672">&gt;</span>(
-           std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now() <span style="color:#f92672">-</span> start) <span style="color:#f92672">&gt;</span> timeout)
-        <span style="color:#66d9ef">break</span>;
-    <span style="color:#75715e">// TODO sleep some time?? so CPU is not fully used for waiting
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// e.g. sleep for the theoretical execution time of the kernel (e.g. #instructions / QPU clock) and then
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// begin active waiting
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>Если честно, то я не верю, что в чипе нет никакой синхронизации между GPU и CPU. Постоянно проверять результаты и вызывать достаточно дорогую функцию получения времени - не очень хорошая идея.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">while</span>(true)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(((basePointer[V3D_SRQCS] <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>) <span style="color:#f92672">==</span> numQPUs)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>duration_cast<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>milliseconds<span style="color:#f92672">&gt;</span>(
+</span></span><span style="display:flex;"><span>           std<span style="color:#f92672">::</span>chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now() <span style="color:#f92672">-</span> start) <span style="color:#f92672">&gt;</span> timeout)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// TODO sleep some time?? so CPU is not fully used for waiting
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// e.g. sleep for the theoretical execution time of the kernel (e.g. #instructions / QPU clock) and then
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// begin active waiting
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>Если честно, то я не верю, что в чипе нет никакой синхронизации между GPU и CPU. Постоянно проверять результаты и вызывать достаточно дорогую функцию получения времени - не очень хорошая идея.</p>
 <h2 id="выводы">Выводы</h2>
 <p>Из хороших новостей: удалось ускорить код в ~3.5 раза.
 Из плохих новостей: это всё равно в ~6.5 раз медленнее CPU.
@@ -580,7 +580,7 @@ ret <span style="color:#f92672">=</span> clBuildProgram(program, <span style="co
   <line x1="7" y1="7" x2="7" y2="7"/>
 
 </svg>
-<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/raspberrypi/'>raspberrypi</a>, <a class='tag' href='/tags/opencl/'>opencl</a>, <a class='tag' href='/tags/c/'>c</a>, <a class='tag' href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/'>производительность</a></div>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/raspberrypi/'>raspberrypi</a>, <a class='tag' href='/tags/opencl/'>Opencl</a>, <a class='tag' href='/tags/c/'>C</a>, <a class='tag' href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/'>производительность</a></div>
 
   </div>
 </footer>
@@ -598,11 +598,11 @@ ret <span style="color:#f92672">=</span> clBuildProgram(program, <span style="co
   <polyline points="10 18 4 12 10 6"/>
 
 </svg>
- Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Установка OpenCL на RaspberryPI</a>
+ </span>
+        <span class='screen-reader-text'>: </span>Установка OpenCL на RaspberryPI</a>
     </div><div class='next-entry sep-before'>
       <a href='/posts/gauge-and-counter-explained/'>
-        <span class='screen-reader-text'>Next post: </span>Счётчики и датчики<span aria-hidden='true'>Next <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+        <span class='screen-reader-text'>: </span>Счётчики и датчики<span aria-hidden='true'> <svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
   <line x1="4" y1="12" x2="20" y2="12"/>
@@ -647,10 +647,10 @@ ret <span style="color:#f92672">=</span> clBuildProgram(program, <span style="co
       </main>
 
       <footer id='footer' class='footer'>
-        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
     <ul><li>
         <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Github account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
       <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
@@ -659,7 +659,7 @@ ret <span style="color:#f92672">=</span> clBuildProgram(program, <span style="co
 </a>
       </li><li>
         <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     
   <title>Twitter icon</title>
@@ -669,14 +669,14 @@ ret <span style="color:#f92672">=</span> clBuildProgram(program, <span style="co
 </a>
       </li><li>
         <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
 </svg>
 </a>
       </li><li>
         <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
-          <span class='screen-reader-text'>Open Telegram account in new tab</span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
     
     <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
 </svg>
@@ -684,7 +684,7 @@ ret <span style="color:#f92672">=</span> clBuildProgram(program, <span style="co
       </li></ul>
   </nav>
 </section><div class='copyright'>
-  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2023 dernasherbrezon </p>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2024 dernasherbrezon </p>
 </div>
 
         </div>

@@ -5,26 +5,22 @@
     <link>https://dernasherbrezon.com/tags/prometheus/</link>
     <description>Recent content in prometheus on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 09 Aug 2021 15:52:18 +0000</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Mon, 09 Aug 2021 15:52:18 +0000</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Создание Prometheus exporter</title>
       <link>https://dernasherbrezon.com/posts/writing-prometheus-exporter/</link>
       <pubDate>Mon, 09 Aug 2021 15:52:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/writing-prometheus-exporter/</guid>
-      <description>Prometheus - база данных для хранения метрик. Туда можно записать метрики производительности системы, роутеров, Java-приложений и многое другое. Если приложение не поддерживает протокол Prometheus для экспорта метрик, то можно взять один из готовых exporter&amp;rsquo;ов. Exporter - это небольшой прокси сервер, который берёт метрики из приложения в одном формате и выдаёт метрики в Prometheus формате. Но что, если готового exporter&amp;rsquo;а нет? Не беда - его можно написать!
-8430FT 8430FT - это LTE-модем, который может раздавать интернет через Wi-Fi.</description>
+      <description>Prometheus - база данных для хранения метрик. Туда можно записать метрики производительности системы, роутеров, Java-приложений и многое другое. Если приложение не поддерживает протокол Prometheus для экспорта метрик, то можно взять один из готовых exporter&amp;rsquo;ов. Exporter - это небольшой прокси сервер, который берёт метрики из приложения в одном формате и выдаёт метрики в Prometheus формате. Но что, если готового exporter&amp;rsquo;а нет? Не беда - его можно написать!&#xA;8430FT 8430FT - это LTE-модем, который может раздавать интернет через Wi-Fi.</description>
     </item>
-    
     <item>
       <title>Мониторинг Mikrotik роутеров с помощью Prometheus</title>
       <link>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</link>
       <pubDate>Sat, 07 Aug 2021 06:50:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/</guid>
-      <description>Для начала вообще пара слов о том, зачем мониторить роутеры. Роутер, как и любое другое устройство, имеет аппаратные ресурсы, которые могут закончиться. Например, браузер стал медленнее открывать страницы или видео стало медленнее загружаться. Это может быть как из-за провайдера, так и из-за роутера. Возможно, к роутеру подключено слишком много устройств, и он стал медленнее, или параллельно кто-то качает слишком много - всё это может быть причиной замедления.
-Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке.</description>
+      <description>Для начала вообще пара слов о том, зачем мониторить роутеры. Роутер, как и любое другое устройство, имеет аппаратные ресурсы, которые могут закончиться. Например, браузер стал медленнее открывать страницы или видео стало медленнее загружаться. Это может быть как из-за провайдера, так и из-за роутера. Возможно, к роутеру подключено слишком много устройств, и он стал медленнее, или параллельно кто-то качает слишком много - всё это может быть причиной замедления.&#xA;Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке.</description>
     </item>
-    
   </channel>
 </rss>

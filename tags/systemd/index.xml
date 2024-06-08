@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>systemd on dernasherbrezon</title>
+    <title>Systemd on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/systemd/</link>
-    <description>Recent content in systemd on dernasherbrezon</description>
+    <description>Recent content in Systemd on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 04 Nov 2017 13:51:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/systemd/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sat, 04 Nov 2017 13:51:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/systemd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Тестирование debian пакетов в Travis-CI</title>
       <link>https://dernasherbrezon.com/posts/test-deb-travis/</link>
       <pubDate>Sat, 04 Nov 2017 13:51:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/test-deb-travis/</guid>
-      <description>Возникла передо мной такая задача: тестирование debian пакета. И требования:
- пакет устанавливает и стартует systemd сервис. используются native armhf библиотеки  Тестирование должно включать в себя:
- установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации  Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов.</description>
+      <description>Возникла передо мной такая задача: тестирование debian пакета. И требования:&#xA;пакет устанавливает и стартует systemd сервис. используются native armhf библиотеки Тестирование должно включать в себя:&#xA;установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов.</description>
     </item>
-    
   </channel>
 </rss>

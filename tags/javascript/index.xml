@@ -5,54 +5,43 @@
     <link>https://dernasherbrezon.com/tags/javascript/</link>
     <description>Recent content in javascript on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 27 Apr 2022 22:19:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Wed, 27 Apr 2022 22:19:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Отслеживание спутников с помощью Javascript и D3</title>
       <link>https://dernasherbrezon.com/posts/satellite-d3/</link>
       <pubDate>Wed, 27 Apr 2022 22:19:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/satellite-d3/</guid>
       <description>В следующем месяце я планирую поехать на фестиваль Electromagnetic field. Ну, а чтобы не ехать с пустыми руками, я решил взять с собой поворотное устройство и сделать стенд, на котором будет работать r2cloud. Просто поворачивающейся антенны мне показалось недостаточно, поэтому я придумал дать доступ к r2cloud, где каждый желающий может посмотреть за каким спутником ведётся наблюдение, какие данные получены, какие спутники на подлёте. К сожалению, в r2cloud нет понятия ролей и нельзя создать пользователя с правами &amp;ldquo;только чтение&amp;rdquo;.</description>
     </item>
-    
     <item>
       <title>Динамические графики в Hugo</title>
       <link>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</link>
       <pubDate>Mon, 10 Jan 2022 12:14:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</guid>
-      <description>У Вас никогда не было желания подвигать мышкой на графике в интернете? Вот есть какой-нибудь график, и прям хочется навести курсор на минимальное значение или максимальное? Или посмотреть, как быстро менялось значение по времени просто сравнив начало и конец? У меня постоянно. Проблема в том, что большинство графиков в интернете - это картинки. Картинки, которые сгенерированы в Excel, да ещё и в ужасном разрешении.
-Да, что говорить - я сам создаю такие графики.</description>
+      <description>У Вас никогда не было желания подвигать мышкой на графике в интернете? Вот есть какой-нибудь график, и прям хочется навести курсор на минимальное значение или максимальное? Или посмотреть, как быстро менялось значение по времени просто сравнив начало и конец? У меня постоянно. Проблема в том, что большинство графиков в интернете - это картинки. Картинки, которые сгенерированы в Excel, да ещё и в ужасном разрешении.&#xA;Да, что говорить - я сам создаю такие графики.</description>
     </item>
-    
     <item>
       <title>Сравнение JSP и VueJS</title>
       <link>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</link>
       <pubDate>Sun, 15 Dec 2019 07:14:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/compare-jsp-vuejs/</guid>
       <description>Споры о том, насколько SPA лучше или хуже проверенных серверных технологий, не утихают до сих пор. Сторонники SPA (React, Angular, VueJS) в один голос говорят насколько это просто и удобно. Сторонники серверных технологий (PHP, JSP, ASP) ничего не говорят, потому что их мало и они заняты разработкой. Из-за того, что оба подхода достаточно разные, то и сравнивать их очень сложно. Зачастую сравнение сваливается во вкусовщину, так как нет людей, которые бы разрабатывали как с помощью одних, так и с помощью других.</description>
     </item>
-    
     <item>
       <title>Создание VueJS компонента</title>
       <link>https://dernasherbrezon.com/posts/creating-vuejs-component/</link>
       <pubDate>Sat, 23 Nov 2019 17:33:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/creating-vuejs-component/</guid>
       <description>Введение Мне очень нравится идея маленьких переиспользуемых компонент. Если передо мной встаёт задача добавить какой-нибудь функционал, я прежде всего трачу некоторое время на поиск уже существующего решения. Так и в этот раз. Немногие знают, что r2cloud - это полноценный REST сервер. А значит им можно управлять программно. Сейчас существует только один клиент для него - r2cloud-ui. Это приложение VueJS, которое предоставляет UI для управления. Однако, вся мощь REST сервисов заключается в том, что с ними можно взаимодействовать программно с помощью различных языков программирования.</description>
     </item>
-    
     <item>
       <title>Мониторинг Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</link>
       <pubDate>Mon, 31 Jul 2017 12:45:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/raspberrypi-monitoring/</guid>
-      <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:
- самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.
-Самодостаточность автоматически означает, что данные надо хранить локально.</description>
+      <description>Возникла передо мной такая задача: сделать мониторинг Raspberry PI. И требования:&#xA;самодостаточность. Возможность показывать статус и исторические данные без доступа в интернет; работа в Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?. Анализ требований Здесь и далее под мониторингом системы я буду понимать сбор time series данных. Например, JVM heap size или количество обработанных сообщений за интервал.&#xA;Самодостаточность автоматически означает, что данные надо хранить локально. Отображать их надо в браузере, потому что уже есть вэб-админка для этого.</description>
     </item>
-    
   </channel>
 </rss>

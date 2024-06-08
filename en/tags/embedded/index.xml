@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>embedded on dernasherbrezon</title>
+    <title>Embedded on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/en/tags/embedded/</link>
-    <description>Recent content in embedded on dernasherbrezon</description>
+    <description>Recent content in Embedded on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 07 Jan 2023 16:33:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/en/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 07 Jan 2023 16:33:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/en/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>sx127x</title>
       <link>https://dernasherbrezon.com/en/posts/sx127x/</link>
       <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/sx127x/</guid>
       <description>One of the fundamental questions that every programmer must periodically answer is &amp;ldquo;whether to use existing library or write your own.&amp;rdquo; It&amp;rsquo;s impossible to give a definitive answer to this question once and for all. You have to sit down and analyze each specific case. Recently, I faced such a situation, as I described in my previous post, where I explained how I reduced the LoRa current consumption to 16mA. If the goal is just to experiment and test some theory about the hardware, it was enough to modify the source code of existing arduino-LoRa.</description>
     </item>
-    
     <item>
       <title>Optimizing LoRa power consumption</title>
       <link>https://dernasherbrezon.com/en/posts/lora-deep-sleep/</link>
       <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/en/posts/lora-deep-sleep/</guid>
       <description>In recent months, I have been working on reducing power consumption in the lora-at project. The idea is to create a self-sufficient receiver, place it on the balcony, and receive signals from satellites 24/7. Easier said than done, especially for those who have never optimized code for low power consumption or designed electrical circuits. Of course, you could install the largest solar panel, receive signals only during the day, and not worry about it.</description>
     </item>
-    
   </channel>
 </rss>

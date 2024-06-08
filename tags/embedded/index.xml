@@ -5,76 +5,57 @@
     <link>https://dernasherbrezon.com/tags/embedded/</link>
     <description>Recent content in embedded on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 23 Apr 2023 18:15:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sun, 23 Apr 2023 18:15:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Тестирование sx127x</title>
       <link>https://dernasherbrezon.com/posts/testing-sx127x/</link>
       <pubDate>Sun, 23 Apr 2023 18:15:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/testing-sx127x/</guid>
       <description>Я продолжаю разрабатывать библиотеку для работы с чипом sx127x, и в этом посте речь пойдёт о тестировании. Но для начала небольшая предыстория. Изначально библиотека поддерживала только LoRa модуляцию и была достаточно небольшой. По сути это была небольшая обёртка над регистрами sx127x, которая позволяла из Си вызывать нужные функции. Основная ценность скорее была в том, чтобы перевести магические числа и SPI протокол в понятные слова из даташита. После того как я решил добавить поддержку FSK модуляции, библиотека разрослась.</description>
     </item>
-    
     <item>
       <title>sx127x</title>
       <link>https://dernasherbrezon.com/posts/sx127x/</link>
       <pubDate>Sat, 07 Jan 2023 16:33:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/sx127x/</guid>
-      <description>Один из фундаментальных вопросов, на который каждый программист должен периодически отвечать - &amp;ldquo;стоит ли взять готовую библиотеку или написать свою?&amp;rdquo;. Однозначно ответить на этот вопрос раз и навсегда не получится. Надо каждый раз садится и разбираться в каждом конкретном случае. Вот и мне недавно выпал этот случай.
-В прошлом посте я писал как уменьшил потребление тока LoRa до 16мА. Однако, для этого мне пришлось модифицировать уже существующую библиотеку arduino-LoRa. Для того, чтобы провести эксперимент и проверить теорию, этого вполне достаточно, но для полноценного инженерного решения нужно что-то более основательное.</description>
+      <description>Один из фундаментальных вопросов, на который каждый программист должен периодически отвечать - &amp;ldquo;стоит ли взять готовую библиотеку или написать свою?&amp;rdquo;. Однозначно ответить на этот вопрос раз и навсегда не получится. Надо каждый раз садится и разбираться в каждом конкретном случае. Вот и мне недавно выпал этот случай.&#xA;В прошлом посте я писал как уменьшил потребление тока LoRa до 16мА. Однако, для этого мне пришлось модифицировать уже существующую библиотеку arduino-LoRa. Для того, чтобы провести эксперимент и проверить теорию, этого вполне достаточно, но для полноценного инженерного решения нужно что-то более основательное.</description>
     </item>
-    
     <item>
       <title>Оптимизация энергопотребления LoRa</title>
       <link>https://dernasherbrezon.com/posts/lora-deep-sleep/</link>
       <pubDate>Sat, 10 Dec 2022 21:17:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/lora-deep-sleep/</guid>
       <description>Последние несколько месяцев я работаю над уменьшением энергопотребления в проекте lora-at. Идея заключается в том, чтобы сделать энергонезависимый приёмник, положить его на балконе и 24/7 принимать сигналы со спутников. Легче сказать, чем сделать. Особенно для того, кто никогда не оптимизировал код по низкое энергопотребление и не проектировал электрические цепи. Конечно, можно поставить самую большую солнечную панель, принимать сигналы только днём и не заморачиваться. Но мне такой подход показался недостойным звания инженера, поэтому я принял вызов и принялся проектировать.</description>
     </item>
-    
     <item>
       <title>Время в Raspberrypi - 3</title>
       <link>https://dernasherbrezon.com/posts/time-raspberrypi-3/</link>
       <pubDate>Wed, 19 Aug 2020 18:30:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/time-raspberrypi-3/</guid>
-      <description>&amp;ldquo;Да сколько уже можно про время в Raspberrypi?!&amp;rdquo; - скажут некоторые. Однако, несмотря на две предыдущие статьи, мне есть о чём написать. Опять.
-Как я уже неоднократно писал, время можно получить двумя способами:
- подключившись к интернету используя RTC модуль  На некоторых станциях у меня стоит RTC модуль, на некоторых нет. Но я не особо переживал по этому поводу, так как станции имели постоянное подключение к интернету.
-Запах приключений Всё работало очень хорошо и стабильно, до тех пор пока я не обратил на странное поведения в логах.</description>
+      <description>&amp;ldquo;Да сколько уже можно про время в Raspberrypi?!&amp;rdquo; - скажут некоторые. Однако, несмотря на две предыдущие статьи, мне есть о чём написать. Опять.&#xA;Как я уже неоднократно писал, время можно получить двумя способами:&#xA;подключившись к интернету используя RTC модуль На некоторых станциях у меня стоит RTC модуль, на некоторых нет. Но я не особо переживал по этому поводу, так как станции имели постоянное подключение к интернету.&#xA;Запах приключений Всё работало очень хорошо и стабильно, до тех пор пока я не обратил на странное поведения в логах.</description>
     </item>
-    
     <item>
       <title>Время в Raspberrypi - 2</title>
       <link>https://dernasherbrezon.com/posts/time-raspberrypi-2/</link>
       <pubDate>Thu, 11 Jun 2020 21:35:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/time-raspberrypi-2/</guid>
       <description>Прошёл почти год с момента написания оригинальной статьи про время в Raspberrypi, и вот я уже снова столкнулся с этой проблемой. На этот раз мне захотелось сделать мобильную станцию слежения за спутниками вместе с поворотным устройством. Мобильность в данном случае означает то, что я могу принести станцию в поле, поймать несколько сигналов во время чтения книги, отнести домой и залить результаты в https://r2server.ru. Проблема оказалась там, где её никто не ждал.</description>
     </item>
-    
     <item>
       <title>Время в Raspberrypi</title>
       <link>https://dernasherbrezon.com/posts/time-raspberrypi/</link>
       <pubDate>Sat, 08 Jun 2019 14:22:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/time-raspberrypi/</guid>
-      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой-то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:
-Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.Sample.update(Sample.java:194)  Что же это означает?</description>
+      <description>Разобраться со временем в Raspberrypi (RPi) меня сподвиг один достаточно неприятный баг. В какой-то момент моя базовая станция r2cloud просто переставала отправлять данные на сервер. В логах приложения при этом появляется следующая ошибка:&#xA;Jun 07 09:17:51 raspberrypi java[472]: java.lang.IllegalArgumentException: Bad sample time: 1559899071. Last update time was 1559902330, at least one second step is required Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.RrdDb.store(RrdDb.java:799) Jun 07 09:17:51 raspberrypi java[472]: at com.aerse.core.Sample.update(Sample.java:194) Что же это означает?</description>
     </item>
-    
     <item>
       <title>Управление сертификатами с помощью протокола ACME</title>
       <link>https://dernasherbrezon.com/posts/java-acme/</link>
       <pubDate>Sun, 10 Sep 2017 16:45:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/java-acme/</guid>
-      <description>Возникла передо мной такая задача: автоматический выпуск сертификатов для Web приложения. И требования:
- CA должны доверять все браузеры т.е. самоподписанные сертификаты не подходят; желательно бесплатно; Выпуск надо делать программно с помощью Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?.  Наверное многие уже слышали про бесплатные сертификаты от LetsEncrypt и certbot. А можно ли certbot заменить Java?
-ACME Многие, конечно, любят LetsEncrypt за бесплатные сертификаты, которые, фактически, позволят перевести весь вэб на https.</description>
+      <description>Возникла передо мной такая задача: автоматический выпуск сертификатов для Web приложения. И требования:&#xA;CA должны доверять все браузеры т.е. самоподписанные сертификаты не подходят; желательно бесплатно; Выпуск надо делать программно с помощью Java Embedded compact1 profile. Это всё по следам Java и без 16Gb памяти?. Наверное многие уже слышали про бесплатные сертификаты от LetsEncrypt и certbot. А можно ли certbot заменить Java?&#xA;ACME Многие, конечно, любят LetsEncrypt за бесплатные сертификаты, которые, фактически, позволят перевести весь вэб на https.</description>
     </item>
-    
   </channel>
 </rss>

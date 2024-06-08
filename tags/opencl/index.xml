@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>opencl on dernasherbrezon</title>
+    <title>Opencl on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/opencl/</link>
-    <description>Recent content in opencl on dernasherbrezon</description>
+    <description>Recent content in Opencl on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 06 Nov 2021 14:11:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/opencl/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sat, 06 Nov 2021 14:11:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/opencl/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Оптимизация OpenCL на RaspberryPI</title>
       <link>https://dernasherbrezon.com/posts/tune-opencl-raspberrypi/</link>
       <pubDate>Sat, 06 Nov 2021 14:11:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/tune-opencl-raspberrypi/</guid>
       <description>Это третья статья в цикле про мои похождения в области распределённых вычислений. Первая статья была про то, зачем вообще нужен OpenCL и распределённые вычисления. Вторая статья про то, как настроить OpenCL для Raspberrypi, чем отличаются различные режимы работы и драйвера. Эта статья будет про оптимизацию OpenCL кода. Самое важное, что нужно понять: сможет ли GPU заменить или хотя бы приблизиться по производительности к CPU при выполнении Frequency Xlating FIR фильтра.</description>
     </item>
-    
     <item>
       <title>Установка OpenCL на RaspberryPI</title>
       <link>https://dernasherbrezon.com/posts/install-opencl-raspberrypi/</link>
       <pubDate>Fri, 05 Nov 2021 18:13:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/install-opencl-raspberrypi/</guid>
-      <description>В предыдущей статье я описал основные причины, почему OpenCL вообще нужен, как выглядит типичная программа и какие классы задач стоит считать на GPU. В этой же статье я постараюсь описать установку и настройку OpenCL для RaspberryPI.
-VC4CL Проект VC4CL реализует OpenCL 1.2 API для Raspberrypi. Так как OpenCL компилирует kernel во время инициализации основной (host) программы, то нам понадобится компилятор!
-Компилятор называется VC4C. Этот компилятор основан на LLVM. Он компилирует kernel в промежуточное представление SPIR-V, которое уже стандартными средствами LLVM проверяется и переводится в ассемблерный код для конкретного GPU.</description>
+      <description>В предыдущей статье я описал основные причины, почему OpenCL вообще нужен, как выглядит типичная программа и какие классы задач стоит считать на GPU. В этой же статье я постараюсь описать установку и настройку OpenCL для RaspberryPI.&#xA;VC4CL Проект VC4CL реализует OpenCL 1.2 API для Raspberrypi. Так как OpenCL компилирует kernel во время инициализации основной (host) программы, то нам понадобится компилятор!&#xA;Компилятор называется VC4C. Этот компилятор основан на LLVM. Он компилирует kernel в промежуточное представление SPIR-V, которое уже стандартными средствами LLVM проверяется и переводится в ассемблерный код для конкретного GPU.</description>
     </item>
-    
     <item>
       <title>OpenCL для RaspberryPI</title>
       <link>https://dernasherbrezon.com/posts/opencl-raspberrypi/</link>
       <pubDate>Mon, 01 Nov 2021 18:13:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/opencl-raspberrypi/</guid>
       <description>Изначально у меня не было планов писать код под GPU. Обработка сигналов спутников на Java вполне возможна. И я продолжаю развивать это направление. Код на Java позволяет достаточно быстро написать обработчик сигнала и внедрить в работающую систему. Также с помощью Java гораздо удобнее обрабатывать неструктурированные или слабо структурированные данные. К таким данным обычно относятся различные высокоуровневые протоколы. Однако, есть и недостатки - скорость. Java не очень подходит для быстрой обработки однотипных данных.</description>
     </item>
-    
   </channel>
 </rss>

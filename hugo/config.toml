@@ -124,11 +124,11 @@ hrefTargetBlank = true
 [languages]
 # edit this block for your own language
 [languages.ru]
-lang = "ru"
+languageCode = "ru"
 languageName = "Русский"
 weight = 1
 [languages.en]
-lang = "en"
+languageCode = "en"
 languageName = "English"
 weight = 2
 [languages.en.params.info]

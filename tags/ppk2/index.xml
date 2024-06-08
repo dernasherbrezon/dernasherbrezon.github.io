@@ -5,26 +5,22 @@
     <link>https://dernasherbrezon.com/tags/ppk2/</link>
     <description>Recent content in PPK2 on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/ppk2/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Sat, 25 Nov 2023 23:28:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/ppk2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Тестирование потребления энергии в lora-at</title>
       <link>https://dernasherbrezon.com/posts/lora-at-power-profiling/</link>
       <pubDate>Sat, 25 Nov 2023 23:28:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/lora-at-power-profiling/</guid>
-      <description>Как следует разобравшись с тем, как работает Power Profiler Kit 2 (PPK2), я решил протестировать разные режимы работы. На самом деле lora-at - не такое уж и простое приложение. В нём есть работа с bluetooth и чипом sx127x, обработка команд с UART шины и режим глубокого сна. Есть, где развернуться.
-Методология измерений Перед тем как начинать что-то измерять, необходимо определиться с тем, как это будет измеряться.
-Во-первых, я собираюсь использовать PPK2 по-максимуму.</description>
+      <description>Как следует разобравшись с тем, как работает Power Profiler Kit 2 (PPK2), я решил протестировать разные режимы работы. На самом деле lora-at - не такое уж и простое приложение. В нём есть работа с bluetooth и чипом sx127x, обработка команд с UART шины и режим глубокого сна. Есть, где развернуться.&#xA;Методология измерений Перед тем как начинать что-то измерять, необходимо определиться с тем, как это будет измеряться.&#xA;Во-первых, я собираюсь использовать PPK2 по-максимуму.</description>
     </item>
-    
     <item>
       <title>Power Profiler Kit 2</title>
       <link>https://dernasherbrezon.com/posts/power-profiler-kit2/</link>
       <pubDate>Fri, 24 Nov 2023 09:08:18 +0000</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/power-profiler-kit2/</guid>
       <description>Переписав LoRa At на С я уменьшил размер прошивки в два раза! Однако, это хоть и выглядит впечатляюще, но на самом деле не так важно. Если старая и новая версии помещаются на чипе, то какая разница сколько места они занимают? Поэтому показатель хоть и хороший, но мало применим на практике. А вот энергопотребление - это другое. Низкое энергопотребление важно при работе от солнечных батарей. Именно поэтому я решил исследовать эту тему по-подробнее.</description>
     </item>
-    
   </channel>
 </rss>

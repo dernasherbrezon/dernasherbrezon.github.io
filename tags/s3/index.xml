@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>s3 on dernasherbrezon</title>
+    <title>S3 on dernasherbrezon</title>
     <link>https://dernasherbrezon.com/tags/s3/</link>
-    <description>Recent content in s3 on dernasherbrezon</description>
+    <description>Recent content in S3 on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 18 Aug 2015 13:55:18 +0100</lastBuildDate><atom:link href="https://dernasherbrezon.com/tags/s3/index.xml" rel="self" type="application/rss+xml" />
+    <language>ru</language>
+    <lastBuildDate>Tue, 18 Aug 2015 13:55:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/s3/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Дистрибьюция Java приложений</title>
       <link>https://dernasherbrezon.com/posts/java-dist/</link>
       <pubDate>Tue, 18 Aug 2015 13:55:18 +0100</pubDate>
-      
       <guid>https://dernasherbrezon.com/posts/java-dist/</guid>
-      <description>Удивительно, но факт - дистрибьюция Java приложений в 21 веке по прежнему огромный костыль. Разработчики до сих пор придумывают способы вроде rsync/copy-paste/wget для установки java приложений на сервер. И только монструозные enterprise production ready платформы иногда позволяют сделать чуть больше - откатить приложение на предыдущую версию. В этой статье я хотел бы рассказать о доступном и простом способе организации дистрибьюции.
-deb и apt В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции.</description>
+      <description>Удивительно, но факт - дистрибьюция Java приложений в 21 веке по прежнему огромный костыль. Разработчики до сих пор придумывают способы вроде rsync/copy-paste/wget для установки java приложений на сервер. И только монструозные enterprise production ready платформы иногда позволяют сделать чуть больше - откатить приложение на предыдущую версию. В этой статье я хотел бы рассказать о доступном и простом способе организации дистрибьюции.&#xA;deb и apt В мире существует множество действительно гигантских репозиториев приложений и инструментов по их дистрибьюции.</description>
     </item>
-    
   </channel>
 </rss>
