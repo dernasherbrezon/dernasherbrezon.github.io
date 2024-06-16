@@ -6,8 +6,15 @@
     <description>Recent content in embedded on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 23 Apr 2023 18:15:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 09 Jun 2024 20:53:18 +0000</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Осциллограф ds1054z</title>
+      <link>https://dernasherbrezon.com/posts/ds1054z/</link>
+      <pubDate>Sun, 09 Jun 2024 20:53:18 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/posts/ds1054z/</guid>
+      <description>Недавно у меня появился цифровой осциллограф ds1054z. Смотрите какой красавец!&#xA;Помимо того, что он классно смотрится на рабочем столе, он умеет делать много интересного! Например, с помощью него я собираюсь проанализировать багу в чипе sx1276 и понять как её исправить. Но прежде всего нужно разобраться в том, как он работает.&#xA;Немного теории Последний раз я видел осциллограф вживую 20 лет назад: у него была электронно-лучевая трубка, какие-то зелёные линии, много ручек и переключателей.</description>
+    </item>
     <item>
       <title>Тестирование sx127x</title>
       <link>https://dernasherbrezon.com/posts/testing-sx127x/</link>
