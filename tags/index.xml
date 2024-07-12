@@ -6,8 +6,36 @@
     <description>Recent content in Tags on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 09 Jun 2024 20:53:18 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jul 2024 20:58:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fsk</title>
+      <link>https://dernasherbrezon.com/tags/fsk/</link>
+      <pubDate>Mon, 08 Jul 2024 20:58:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/tags/fsk/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lora</title>
+      <link>https://dernasherbrezon.com/tags/lora/</link>
+      <pubDate>Mon, 08 Jul 2024 20:58:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/tags/lora/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sx127x</title>
+      <link>https://dernasherbrezon.com/tags/sx127x/</link>
+      <pubDate>Mon, 08 Jul 2024 20:58:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/tags/sx127x/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Радио</title>
+      <link>https://dernasherbrezon.com/tags/radio/</link>
+      <pubDate>Mon, 08 Jul 2024 20:58:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/tags/radio/</guid>
+      <description></description>
+    </item>
     <item>
       <title>embedded</title>
       <link>https://dernasherbrezon.com/tags/embedded/</link>
@@ -41,13 +69,6 @@
       <link>https://dernasherbrezon.com/tags/c/</link>
       <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
       <guid>https://dernasherbrezon.com/tags/c/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Lora</title>
-      <link>https://dernasherbrezon.com/tags/lora/</link>
-      <pubDate>Wed, 13 Dec 2023 17:50:18 +0100</pubDate>
-      <guid>https://dernasherbrezon.com/tags/lora/</guid>
       <description></description>
     </item>
     <item>
@@ -135,13 +156,6 @@
       <description></description>
     </item>
     <item>
-      <title>Sx127x</title>
-      <link>https://dernasherbrezon.com/tags/sx127x/</link>
-      <pubDate>Mon, 01 May 2023 21:42:18 +0000</pubDate>
-      <guid>https://dernasherbrezon.com/tags/sx127x/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>gdal</title>
       <link>https://dernasherbrezon.com/tags/gdal/</link>
       <pubDate>Fri, 14 Apr 2023 22:28:18 +0000</pubDate>
@@ -216,20 +230,6 @@
       <link>https://dernasherbrezon.com/tags/ber/</link>
       <pubDate>Tue, 15 Mar 2022 19:48:18 +0000</pubDate>
       <guid>https://dernasherbrezon.com/tags/ber/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>fsk</title>
-      <link>https://dernasherbrezon.com/tags/fsk/</link>
-      <pubDate>Tue, 15 Mar 2022 19:48:18 +0000</pubDate>
-      <guid>https://dernasherbrezon.com/tags/fsk/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Радио</title>
-      <link>https://dernasherbrezon.com/tags/radio/</link>
-      <pubDate>Tue, 15 Mar 2022 19:48:18 +0000</pubDate>
-      <guid>https://dernasherbrezon.com/tags/radio/</guid>
       <description></description>
     </item>
     <item>

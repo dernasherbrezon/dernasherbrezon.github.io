@@ -112,7 +112,7 @@
       </li><li>
         <a href='/tags/flot/' style='font-size:1em'>Flot</a>
       </li><li>
-        <a href='/tags/fsk/' style='font-size:1.0612244897959184em'>fsk</a>
+        <a href='/tags/fsk/' style='font-size:1.0816326530612246em'>fsk</a>
       </li><li>
         <a href='/tags/gc/' style='font-size:1em'>Gc</a>
       </li><li>
@@ -154,7 +154,7 @@
       </li><li>
         <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
       </li><li>
-        <a href='/tags/lora/' style='font-size:1.1428571428571428em'>Lora</a>
+        <a href='/tags/lora/' style='font-size:1.163265306122449em'>Lora</a>
       </li><li>
         <a href='/tags/lora-at/' style='font-size:1.0816326530612246em'>Lora-At</a>
       </li><li>
@@ -198,7 +198,7 @@
       </li><li>
         <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>R2weather</a>
       </li><li>
-        <a href='/tags/radio/' style='font-size:1.2244897959183674em'>Радио</a>
+        <a href='/tags/radio/' style='font-size:1.2448979591836735em'>Радио</a>
       </li><li>
         <a href='/tags/raspberrypi/' style='font-size:1.4489795918367347em'>raspberrypi</a>
       </li><li>
@@ -238,7 +238,7 @@
       </li><li>
         <a href='/tags/string/' style='font-size:1.0204081632653061em'>String</a>
       </li><li>
-        <a href='/tags/sx127x/' style='font-size:1.0816326530612246em'>Sx127x</a>
+        <a href='/tags/sx127x/' style='font-size:1.1020408163265305em'>Sx127x</a>
       </li><li>
         <a href='/tags/systemd/' style='font-size:1em'>Systemd</a>
       </li><li>
@@ -467,7 +467,6 @@ Collection time: 2022-01-06 14:29:26.689485
 
 
 
-
 <canvas id="razernaga" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -475,7 +474,26 @@ Collection time: 2022-01-06 14:29:26.689485
 </small>
 </div>
 <script>
-var razernagaData = [{"current":0.105,"voltage":5.09},{"current":0.107,"voltage":5.09},{"current":0.11,"voltage":5.08},{"current":0.113,"voltage":5.09},{"current":0.118,"voltage":5.09},{"current":0.119,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.107,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.09,"voltage":5.09},{"current":0.092,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.103,"voltage":5.09},{"current":0.111,"voltage":5.09},{"current":0.118,"voltage":5.08},{"current":0.117,"voltage":5.08}];razernagaData.forEach(function(e, index) {
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+	
+	
+
+
+razernagaData.forEach(function(e, index) {
 	e.id = '' + index;
 });
 var xAxisKey = 'id';var razernagaCtx = document.getElementById('razernaga').getContext('2d');
@@ -592,7 +610,6 @@ const razernagaChart = new Chart(razernagaCtx, {
 
 
 
-
 <canvas id="raspberrypi3b" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -600,7 +617,26 @@ const razernagaChart = new Chart(razernagaCtx, {
 </small>
 </div>
 <script>
-var raspberrypi3bData = [{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.299,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.303,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14}];raspberrypi3bData.forEach(function(e, index) {
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+	
+	
+
+
+raspberrypi3bData.forEach(function(e, index) {
 	e.id = '' + index;
 });
 var xAxisKey = 'id';var raspberrypi3bCtx = document.getElementById('raspberrypi3b').getContext('2d');
@@ -717,7 +753,6 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
 
 
 
-
 <canvas id="r2loraTinygs" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -725,7 +760,26 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
 </small>
 </div>
 <script>
-var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}];r2loraTinygsData.forEach(function(e, index) {
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+	
+	
+
+
+r2loraTinygsData.forEach(function(e, index) {
 	e.id = '' + index;
 });
 var xAxisKey = 'id';var r2loraTinygsCtx = document.getElementById('r2loraTinygs').getContext('2d');
@@ -854,7 +908,6 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 
 
 
-
 <canvas id="tinygsIdleBlack" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -862,7 +915,26 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 </small>
 </div>
 <script>
-var tinygsIdleBlackData = [{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.127,"fullVoltage":5.01},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5.01},{"disabledCurrent":0.118,"disabledVoltage":5,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.107,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.141,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.138,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.151,"fullVoltage":4.99},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.131,"fullVoltage":5},{"disabledCurrent":0.117,"disabledVoltage":5,"fullCurrent":0.14,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.158,"fullVoltage":4.99},{"disabledCurrent":0.111,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.172,"fullVoltage":4.98},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.135,"fullVoltage":5}];tinygsIdleBlackData.forEach(function(e, index) {
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+	
+	
+
+
+tinygsIdleBlackData.forEach(function(e, index) {
 	e.id = '' + index;
 });
 var xAxisKey = 'id';var tinygsIdleBlackCtx = document.getElementById('tinygsIdleBlack').getContext('2d');
@@ -991,7 +1063,6 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
 
 
 
-
 <canvas id="firmware" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -999,7 +1070,26 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
 </small>
 </div>
 <script>
-var firmwareData = [{"current":0.033,"voltage":5.02},{"current":0.033,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.026,"voltage":5.02},{"current":0.026,"voltage":5.03},{"current":0.027,"voltage":5.01},{"current":0.027,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.027,"voltage":5.03},{"current":0.029,"voltage":5.03},{"current":0.026,"voltage":5.03},{"current":0.031,"voltage":5.03},{"current":0.028,"voltage":5.03},{"current":0.026,"voltage":5.02}];firmwareData.forEach(function(e, index) {
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+	
+	
+
+
+firmwareData.forEach(function(e, index) {
 	e.id = '' + index;
 });
 var xAxisKey = 'id';var firmwareCtx = document.getElementById('firmware').getContext('2d');
@@ -1116,7 +1206,6 @@ const firmwareChart = new Chart(firmwareCtx, {
 
 
 
-
 <canvas id="wifi" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -1124,7 +1213,26 @@ const firmwareChart = new Chart(firmwareCtx, {
 </small>
 </div>
 <script>
-var wifiData = [{"current":0.054,"voltage":5.02},{"current":0.054,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.033,"voltage":5.03},{"current":0.046,"voltage":5.02},{"current":0.135,"voltage":5},{"current":0.146,"voltage":4.99},{"current":0.134,"voltage":5},{"current":0.132,"voltage":5},{"current":0.142,"voltage":5},{"current":0.133,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.133,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.145,"voltage":5},{"current":0.139,"voltage":5},{"current":0.133,"voltage":5},{"current":0.153,"voltage":4.99},{"current":0.146,"voltage":5},{"current":0.145,"voltage":5},{"current":0.154,"voltage":4.99},{"current":0.144,"voltage":5},{"current":0.068,"voltage":5.02}];wifiData.forEach(function(e, index) {
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+	
+	
+
+
+wifiData.forEach(function(e, index) {
 	e.id = '' + index;
 });
 var xAxisKey = 'id';var wifiCtx = document.getElementById('wifi').getContext('2d');
@@ -1243,7 +1351,6 @@ const wifiChart = new Chart(wifiCtx, {
 
 
 
-
 <canvas id="full" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -1251,7 +1358,26 @@ const wifiChart = new Chart(wifiCtx, {
 </small>
 </div>
 <script>
-var fullData = [{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.298,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.493,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.485,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.429,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.432,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.448,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.433,"voltage":5.16},{"current":0.43,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.377,"voltage":5.15},{"current":0.383,"voltage":5.15},{"current":0.364,"voltage":5.15},{"current":0.357,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.356,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.354,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.344,"voltage":5.15}];fullData.forEach(function(e, index) {
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+	
+	
+
+
+fullData.forEach(function(e, index) {
 	e.id = '' + index;
 });
 var xAxisKey = 'id';var fullCtx = document.getElementById('full').getContext('2d');

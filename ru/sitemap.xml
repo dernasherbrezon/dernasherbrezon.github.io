@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2024-06-09T20:53:18+00:00</lastmod>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -22,7 +22,7 @@
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2024-06-09T20:53:18+00:00</lastmod>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -33,6 +33,54 @@
                 hreflang="ru"
                 href="https://dernasherbrezon.com/"
                 />
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/fsk/</loc>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/lora/</loc>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/lora/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/lora/"
+                />
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/sx127x/</loc>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/sx127x/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/sx127x/"
+                />
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/"
+                />
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/bug-fsk-sx127x/</loc>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/radio/</loc>
+    <lastmod>2024-07-08T20:58:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/embedded/</loc>
     <lastmod>2024-06-09T20:53:18+00:00</lastmod>
@@ -45,19 +93,6 @@
                 rel="alternate"
                 hreflang="ru"
                 href="https://dernasherbrezon.com/tags/embedded/"
-                />
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
-    <lastmod>2024-06-09T20:53:18+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://dernasherbrezon.com/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://dernasherbrezon.com/tags/"
                 />
   </url><url>
     <loc>https://dernasherbrezon.com/posts/ds1054z/</loc>
@@ -109,19 +144,6 @@
                 rel="alternate"
                 hreflang="ru"
                 href="https://dernasherbrezon.com/tags/c/"
-                />
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/lora/</loc>
-    <lastmod>2023-12-13T17:50:18+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://dernasherbrezon.com/en/tags/lora/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://dernasherbrezon.com/tags/lora/"
                 />
   </url><url>
     <loc>https://dernasherbrezon.com/posts/troubleshoot-deep-sleep/</loc>
@@ -276,19 +298,6 @@
     <loc>https://dernasherbrezon.com/posts/fsk-modulation-sx127x/</loc>
     <lastmod>2023-05-01T21:42:18+00:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/sx127x/</loc>
-    <lastmod>2023-05-01T21:42:18+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://dernasherbrezon.com/en/tags/sx127x/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://dernasherbrezon.com/tags/sx127x/"
-                />
-  </url><url>
     <loc>https://dernasherbrezon.com/posts/testing-sx127x/</loc>
     <lastmod>2023-04-23T18:15:18+01:00</lastmod>
   </url><url>
@@ -428,13 +437,7 @@
     <loc>https://dernasherbrezon.com/tags/ber/</loc>
     <lastmod>2022-03-15T19:48:18+00:00</lastmod>
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/fsk/</loc>
-    <lastmod>2022-03-15T19:48:18+00:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/posts/ber-ax25-optimization/</loc>
-    <lastmod>2022-03-15T19:48:18+00:00</lastmod>
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/radio/</loc>
     <lastmod>2022-03-15T19:48:18+00:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/ber-ax25/</loc>

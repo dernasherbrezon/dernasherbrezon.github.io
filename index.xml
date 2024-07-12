@@ -6,7 +6,7 @@
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 09 Jun 2024 20:53:18 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jul 2024 20:58:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
@@ -21,6 +21,13 @@
       <pubDate>Tue, 24 Sep 2013 13:14:18 +0100</pubDate>
       <guid>https://dernasherbrezon.com/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</guid>
       <description>Я посвящаю большую часть своего свободного времени на различные исследования технологий и поддержку нескольких open source проектов. Мне просто нравится этим заниматься.&#xA;Правда иногда приходится покупать различные лицензии или железо для исследований, а также оплачивать хостинг хобби проектов.&#xA;Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).</description>
+    </item>
+    <item>
+      <title>Ошибка при передаче данных в sx127x</title>
+      <link>https://dernasherbrezon.com/posts/bug-fsk-sx127x/</link>
+      <pubDate>Mon, 08 Jul 2024 20:58:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/bug-fsk-sx127x/</guid>
+      <description>Основное назначение чипа sx127x - это приём и передача данных с помощью протокола LoRa. Однако, помимо этого он может использовать FSK модуляцию. Это сделано для того, чтобы быть совместимым с Европейской регуляцией частот EU868-870. Насколько я понял, устройства в сети LoRaWAN могут увеличивать скорость передачи данных в зависимости от различных условий. FSK позволяет передавать на гораздо большей скорости, чем LoRa, но при этом менее надёжно. В любом случае, раз уж такой режим есть, то неплохо было бы добавить его в sx127x.</description>
     </item>
     <item>
       <title>Осциллограф ds1054z</title>

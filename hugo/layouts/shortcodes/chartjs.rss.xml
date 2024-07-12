@@ -1,15 +1,2 @@
-{{ $url := .Get "url" }}
-{{ $id := .Get "id" }}
-{{ $title := .Get "title" }}
-{{ $datasource := .Get "datasource" }}
-{{ $datasourceLabel := .Get "datasourceLabel" }}
-{{ $datasource2 := .Get "datasource2" }}
-{{ $datasource2Label := .Get "datasource2Label" }}
-{{ $yAxisLabel := .Get "yAxisLabel" }}
-{{ $yAxisUnit := .Get "yAxisUnit" }}
-{{ $xAxis := .Get "xAxis" }}
-{{ $xAxisLabel := .Get "xAxisLabel" }}
-{{ $xAxisUnit := .Get "xAxisUnit" }}
-{{ $dataC := getJSON $url }}
 {{ $staticSrc := .Get "staticSrc" }}
 <img src="{{ $staticSrc }}">

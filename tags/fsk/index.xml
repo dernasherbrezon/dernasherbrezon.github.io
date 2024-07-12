@@ -6,8 +6,15 @@
     <description>Recent content in fsk on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Tue, 15 Mar 2022 19:48:18 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jul 2024 20:58:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/fsk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ошибка при передаче данных в sx127x</title>
+      <link>https://dernasherbrezon.com/posts/bug-fsk-sx127x/</link>
+      <pubDate>Mon, 08 Jul 2024 20:58:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/bug-fsk-sx127x/</guid>
+      <description>Основное назначение чипа sx127x - это приём и передача данных с помощью протокола LoRa. Однако, помимо этого он может использовать FSK модуляцию. Это сделано для того, чтобы быть совместимым с Европейской регуляцией частот EU868-870. Насколько я понял, устройства в сети LoRaWAN могут увеличивать скорость передачи данных в зависимости от различных условий. FSK позволяет передавать на гораздо большей скорости, чем LoRa, но при этом менее надёжно. В любом случае, раз уж такой режим есть, то неплохо было бы добавить его в sx127x.</description>
+    </item>
     <item>
       <title>Оптимизация приёма AX.25</title>
       <link>https://dernasherbrezon.com/posts/ber-ax25-optimization/</link>

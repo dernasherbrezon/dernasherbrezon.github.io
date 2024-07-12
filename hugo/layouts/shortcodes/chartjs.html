@@ -1,5 +1,5 @@
-{{ $url := .Get "url" }}
 {{ $id := .Get "id" }}
+{{ $hash := "0" }}
 {{ $title := .Get "title" }}
 {{ $datasource := .Get "datasource" }}
 {{ $datasourceLabel := .Get "datasourceLabel" }}
@@ -29,7 +29,6 @@
 {{ $xAxisLabel := .Get "xAxisLabel" }}
 {{ $xAxisUnit := .Get "xAxisUnit" }}
 {{ $xMaxTicksLimit := .Get "xMaxTicksLimit" }}
-{{ $dataC := getJSON $url }}
 {{ $staticSrc := .Get "staticSrc" }}
 <canvas id="{{ $id }}" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
@@ -38,7 +37,31 @@
 </small>
 </div>
 <script>
-var {{ $id | safeJS }}Data = {{ $dataC }};
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; //JSON
+}
+
+{{ if .Params.url }}
+	{{ $noop := .Page.Content }}
+	{{ with resources.Get .Params.url }}
+		var {{ $id | safeJS }}Data = {{ . | transform.Unmarshal }}
+	{{end}}
+{{ end }}
+
+{{ if .Params.csv }}
+	{{ $noop := .Page.Content }}
+	var {{ $id | safeJS }}Data = csvJSON({{ getCSV "," .Params.csv }});
+{{ end }}
 
 {{- if $xAxis -}}
 var xAxisKey = '{{ $xAxis }}';

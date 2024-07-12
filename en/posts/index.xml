@@ -46,19 +46,6 @@ Measurement methodology Before you start measuring something, you need to decide
 <pre tabindex="0"><code>AT+FSKRX=433200012,4800,5000,4,12AD,0,2,1,4,5000,20000
 </code></pre><p>The result was the following graph:</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/static/img/lora-at-power-profiling/fskVsLora.png">
 
 <p>It shows that:</p>
@@ -123,19 +110,6 @@ Measurement methodology Before you start measuring something, you need to decide
 <pre tabindex="0"><code>AT+LORACADRX=433200012,125000,9,5,18,10,8,4,0,0,1,0
 </code></pre><p>In the end I managed to get:</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/lora-at-power-profiling/cad.png">
 
 <p>Here you can immediately see several interesting things:</p>
@@ -160,19 +134,6 @@ Measurement methodology Before you start measuring something, you need to decide
 <p>To make testing easier, I sent a 255 byte message with a power of 4dbm. At the same time, I changed the transmission speed and modulation type. Here is an example command for testing FSK:</p>
 <pre tabindex="0"><code>AT+FSKTX=000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfe,433200012,1200,5000,4,12AD,0,2,1,4,240,0
 </code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/lora-at-power-profiling/fskBaud.png">
 
 <p>The graph shows a clear correlation. The higher the transmission speed, the less energy is wasted. By the way, the graph around 76800 baud was not always like this. When I first measured the speed, it turned out to be half that of 38400 baud. And its increase had no effect on consumption at all. After fiddling around a bit, I found a bug in the code. When reading from the UART, uint16_t overflowed and a much lower speed was set. Oops!</p>
@@ -180,19 +141,6 @@ Measurement methodology Before you start measuring something, you need to decide
 <p>I fixed <code>coding rate=4</code> and changed only the bandwidth and spreading factor:</p>
 <pre tabindex="0"><code>AT+LORATX=000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfe,433200012,500000,6,5,18,8,0,1,0,255,4,240,0
 </code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/lora-at-power-profiling/loraBandwidthSf.png">
 
 <p>Quick analysis shows:</p>
@@ -207,36 +155,10 @@ AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,-3,240,0
 AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,17,240,1
 AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,20,240,1
 </code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/lora-at-power-profiling/loraPower.png">
 
 <p>I wonder why at higher power levels the graphs begin to intersect? I transmitted absolutely the same message with the same parameters. The transmission time was the same. This means that the spent charge should depend linearly on the current. But instead the relationship is nonlinear.</p>
 <p>By the way, at 7dbm the current consumption is quite even. But at 10dbm it’s not the case. Is the internal power amplifier noisy?</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <img src="/img/lora-at-power-profiling/txNoise.png">
 
@@ -245,19 +167,6 @@ AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,20,240,1
 AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,7,240,0
 AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,7,240,1
 </code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/lora-at-power-profiling/txpin.png">
 
 <p>Yes, there is a difference.</p>
@@ -271,19 +180,6 @@ AT+LORATX=CA,433200012,125000,9,5,18,8,0,1,1,0,7,240,1
 AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,140,1
 AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,45,1
 </code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/lora-at-power-profiling/ocp2.png">
 
 <p>The board consumes a constant amount of current regardless of the installed protection. But this does not mean that the protection does not work. It may be necessary to measure the actual transmitted power at the antenna. Unfortunately, I don&rsquo;t have the necessary equipment to test this.</p>
@@ -299,19 +195,6 @@ AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,45,1
 <li>will search for the desired GATT service and characteristics</li>
 </ul>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/lora-at-power-profiling/bluetooth2.png">
 
 <p>It’s worth noting here that I wasn’t always able to connect to the server! At some point I had to move the board closer to the RaspberryPI. It was then that it was discovered that the closer to the bluetooth server, the faster the connection. Even if I used different versions of the application, the connection time was very different. Which gave a strong scatter in the results. For example, from 3 meters C-code could spend <strong>386.8</strong> mC, and C++ would not connect at all. Or from one meter C++ spent <strong>308.3</strong> mC, and C-code - <strong>150.2</strong> mC. In general, the test turned out so-so.</p>
@@ -319,19 +202,6 @@ AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,45,1
 <p>Deep sleep is a special operating mode in which all peripherals are turned off and the ESP32 operates consuming a minimum amount of energy. In this mode, it is impossible to do anything useful, so deep sleep usually alternates with an active phase. In the active phase, the device performs useful operations, after which it goes back to sleep. The smaller the active phase, the less energy the device will ultimately consume. In lora-at you can configure the deep sleep interval. For example, the command below will set the configuration: after 15 seconds of inactivity, go into deep sleep mode for 15 seconds.</p>
 <pre tabindex="0"><code>AT+DSCONFIG=15000,15000
 </code></pre><p>During the active phase, lora-at connects to bluetooth server, receives the next power-up schedule and goes to sleep again.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <img src="/img/lora-at-power-profiling/dsCycle.png">
 
@@ -387,19 +257,6 @@ AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,45,1
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="uart-interrupt-handling">UART interrupt handling</h4>
 <p>I enjoyed fiddling with energy consumption so much that I decided to measure completely strange things. For example, I became interested in how much energy is spent processing the received symbol via UART. The greatly enlarged graph looks like this:</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <img src="/img/lora-at-power-profiling/uartSymbol2.png">
 
@@ -2621,122 +2478,31 @@ Collection time: 2022-01-06 14:29:26.689485
 <h2 id="analysis-of-everything-around">Analysis of Everything Around</h2>
 <p>Most devices connect via USB, so you can measure literally everything! I started with fairly benign things. The <a href="https://www.razer.com/gaming-mice/razer-naga-x/RZ01-03590100-R3U1">Razer Naga X</a> mouse has an average consumption of about 110mA:</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/smart-usb-meter-a3-b/razernaga2.png">
 
 <p>Raspberry Pi 3b has an average standby consumption of 300mA.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
 
 <p>Next, a comparison of the power consumption of <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> and <a href="http://tinygs.com">tinyGS</a>. projects. Both run on the same <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&amp;Id=1326&amp;FId=t3:50060:3">TTGO LoRa32</a> board:</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
 
 <p>The r2lora project is much simpler than tinyGS, hence lower energy consumption. I also opted for a simple UI with a single screen, no clock, etc. If you set the tinyGS screen brightness to 0, you get the following values:</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
 
 <p>It helped, but not much. The average consumption is around 100mA.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <img src="/img/smart-usb-meter-a3-b/firmware2.png">
 
 <p>Loading new firmware consumes about 30mA. Funny.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <img src="/img/smart-usb-meter-a3-b/wifi2.png">
 
 <p>By the way, during the initial WiFi connection, the current consumption increases to ~150mA, for both r2lora and tinyGS. As soon as the IP address is obtained, the consumption sharply returns to normal.</p>
 <p>I also measured the power consumption during LoRa signal reception. It either does not change or changes within the range of measurement error.</p>
 <p>And here&rsquo;s an interesting energy consumption graph when connecting ESP32 to Raspberry Pi via USB:</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <img src="/img/smart-usb-meter-a3-b/full2.png">
 
