@@ -20,7 +20,6 @@
 {{ $xAxisLabel := .Get "xAxisLabel" }}
 {{ $xAxisUnit := .Get "xAxisUnit" }}
 {{ $xMaxTicksLimit := .Get "xMaxTicksLimit" }}
-{{ $dataC := getJSON $url }}
 {{ $staticSrc := .Get "staticSrc" }}
 <canvas id="{{ $id }}" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
@@ -29,7 +28,10 @@
 </small>
 </div>
 <script>
-var {{ $id | safeJS }}Data = {{ $dataC }};
+{{ $noop := .Page.Content }}
+{{ with .Page.Resources.Get .Params.url }}
+	var {{ $id | safeJS }}Data = {{ . | transform.Unmarshal }}
+{{end}}
 var {{ $id | safeJS }}datasource = {{ $id | safeJS }}Data.map(function(e) {
 	return e.{{ $datasource | safeJS }};
 });

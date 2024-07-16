@@ -1,3 +1,6 @@
 <div>
-{{ readFile ( print "static/" (index .Params 0)) | safeHTML }}
+{{ $url := .Get 0 }}
+{{ with .Page.Resources.Get $url }}
+	{{ .Content | safeHTML }}
+{{ end }}
 </div>

@@ -53,14 +53,16 @@ function csvJSON(csv){
 
 {{ if .Params.url }}
 	{{ $noop := .Page.Content }}
-	{{ with resources.Get .Params.url }}
+	{{ with .Page.Resources.Get .Params.url }}
 		var {{ $id | safeJS }}Data = {{ . | transform.Unmarshal }}
 	{{end}}
 {{ end }}
 
 {{ if .Params.csv }}
 	{{ $noop := .Page.Content }}
-	var {{ $id | safeJS }}Data = csvJSON({{ getCSV "," .Params.csv }});
+	{{ with .Page.Resources.Get .Params.csv }}
+		var {{ $id | safeJS }}Data = csvJSON({{ . | transform.Unmarshal (dict "delimiter" ",") }});
+	{{end}}
 {{ end }}
 
 {{- if $xAxis -}}
