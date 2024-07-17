@@ -432,7 +432,6 @@ Store O3 and O4
 
 
 
-
 <canvas id="typesCompare" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -440,7 +439,10 @@ Store O3 and O4
 </small>
 </div>
 <script>
-var typesCompareData = [{"dot_prod_nam_as_npref_optimized_64":0.000726,"rpi_dot_prod_nam_as_npref_optimized_64":0.014066,"type":"TEST_GENERIC"},{"dot_prod_nam_as_npref_optimized_64":0.000977,"rpi_dot_prod_nam_as_npref_optimized_64":0.016751,"type":"TEST_NEON1Q"},{"dot_prod_nam_as_npref_optimized_64":0.000995,"rpi_dot_prod_nam_as_npref_optimized_64":0.015218,"type":"TEST_NEON1QI"},{"dot_prod_nam_as_npref_optimized_64":0.001367,"rpi_dot_prod_nam_as_npref_optimized_64":0.018522,"type":"TEST_NEON2QI"},{"dot_prod_nam_as_npref_optimized_64":0.000979,"rpi_dot_prod_nam_as_npref_optimized_64":0.011698,"type":"TEST_GENSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.00154,"rpi_dot_prod_nam_as_npref_optimized_64":0.021516,"type":"TEST_NEON1QSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.000836,"rpi_dot_prod_nam_as_npref_optimized_64":0.013506,"type":"TEST_GENCACHE"},{"dot_prod_nam_as_npref_optimized_64":0.002898,"rpi_dot_prod_nam_as_npref_optimized_64":0.050044,"type":"TEST_VOLK"}];
+
+
+	var typesCompareData = [{"dot_prod_nam_as_npref_optimized_64":0.000726,"rpi_dot_prod_nam_as_npref_optimized_64":0.014066,"type":"TEST_GENERIC"},{"dot_prod_nam_as_npref_optimized_64":0.000977,"rpi_dot_prod_nam_as_npref_optimized_64":0.016751,"type":"TEST_NEON1Q"},{"dot_prod_nam_as_npref_optimized_64":0.000995,"rpi_dot_prod_nam_as_npref_optimized_64":0.015218,"type":"TEST_NEON1QI"},{"dot_prod_nam_as_npref_optimized_64":0.001367,"rpi_dot_prod_nam_as_npref_optimized_64":0.018522,"type":"TEST_NEON2QI"},{"dot_prod_nam_as_npref_optimized_64":0.000979,"rpi_dot_prod_nam_as_npref_optimized_64":0.011698,"type":"TEST_GENSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.00154,"rpi_dot_prod_nam_as_npref_optimized_64":0.021516,"type":"TEST_NEON1QSYMM"},{"dot_prod_nam_as_npref_optimized_64":0.000836,"rpi_dot_prod_nam_as_npref_optimized_64":0.013506,"type":"TEST_GENCACHE"},{"dot_prod_nam_as_npref_optimized_64":0.002898,"rpi_dot_prod_nam_as_npref_optimized_64":0.050044,"type":"TEST_VOLK"}]
+
 var typesComparedatasource = typesCompareData.map(function(e) {
 	return e.rpi_dot_prod_nam_as_npref_optimized_64;
 });var typesCompareXAxis = typesCompareData.map(function(e) {
@@ -534,7 +536,7 @@ const typesCompareChart = new Chart(typesCompareCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd2/typesCompare.png">
+	<img src="img/typesCompare.png">
 </noscript>
 <p>Результаты меня сильно удивили. Во-первых, обычная реализация на Си оказалась быстрее на 17% вручную оптимизированного кода на интристиках. Видимо, разворачивание циклов действительно творит чудеса. Во-вторых, использование симметрии фильтра ещё быстрее. Видимо весь массив попадает в быстрый кэш и прыжки вперёд-назад не влияют на производительность. Это даёт 31% прироста производительсноти по сравнению с TEST_NEON1Q. В-третьих, крайне медленная реализация в библиотеке VOLK. Я несколько раз проверил конфигурацию, и там действительно стоит использование NEON:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat ~/.volk/volk_config 
@@ -565,7 +567,6 @@ const typesCompareChart = new Chart(typesCompareCtx, {
 
 
 
-
 <canvas id="volkGraph" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -573,7 +574,10 @@ const typesCompareChart = new Chart(typesCompareCtx, {
 </small>
 </div>
 <script>
-var volkGraphData = [{"rpi_volk":0.050044,"type":"Not aligned"},{"rpi_volk":0.032257,"type":"8byte aligned"},{"rpi_volk":0.035115,"type":"16byte aligned"}];
+
+
+	var volkGraphData = [{"rpi_volk":0.050044,"type":"Not aligned"},{"rpi_volk":0.032257,"type":"8byte aligned"},{"rpi_volk":0.035115,"type":"16byte aligned"}]
+
 var volkGraphdatasource = volkGraphData.map(function(e) {
 	return e.rpi_volk;
 });var volkGraphXAxis = volkGraphData.map(function(e) {
@@ -667,7 +671,7 @@ const volkGraphChart = new Chart(volkGraphCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd2/volkGraph.png">
+	<img src="img/volkGraph.png">
 </noscript>
 <p>Вероятно, парни намудрили что-то с выбором нужной реализации и компиляцией. Если выбрать <code>generic</code> реализацию, то она значительно быстрее, чем <code>neon</code>, но даже близко не подходит к <a href="https://github.com/dernasherbrezon/arm-tests/blob/main/dot_prod.c#L68">TEST_GENERIC</a>, несмотря на то, что код абсолютно одинаковый.</p>
 <h2 id="выводы">Выводы</h2>
@@ -704,7 +708,6 @@ const volkGraphChart = new Chart(volkGraphCtx, {
 
 
 
-
 <canvas id="dot_prod_12" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -712,7 +715,10 @@ const volkGraphChart = new Chart(volkGraphCtx, {
 </small>
 </div>
 <script>
-var dot_prod_12Data = [{"rpi_dot_prod":0.011698,"type":"TEST_GENSYMM"},{"rpi_dot_prod":0.006306,"type":"TEST_12_GENERIC"},{"rpi_dot_prod":0.005869,"type":"TEST_12_UNROLL4"}];
+
+
+	var dot_prod_12Data = [{"rpi_dot_prod":0.011698,"type":"TEST_GENSYMM"},{"rpi_dot_prod":0.006306,"type":"TEST_12_GENERIC"},{"rpi_dot_prod":0.005869,"type":"TEST_12_UNROLL4"}]
+
 var dot_prod_12datasource = dot_prod_12Data.map(function(e) {
 	return e.rpi_dot_prod;
 });var dot_prod_12XAxis = dot_prod_12Data.map(function(e) {
@@ -806,7 +812,7 @@ const dot_prod_12Chart = new Chart(dot_prod_12Ctx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd2/dot_prod_12.png">
+	<img src="img/dot_prod_12.png">
 </noscript>
 <p>А если вручную развернуть несколько циклов, то скорость увеличится на 41%!</p>
 <h2 id="бонус-2">Бонус 2</h2>
@@ -870,7 +876,6 @@ const dot_prod_12Chart = new Chart(dot_prod_12Ctx, {
 
 
 
-
 <canvas id="iqconverterFloat" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -878,7 +883,10 @@ const dot_prod_12Chart = new Chart(dot_prod_12Ctx, {
 </small>
 </div>
 <script>
-var iqconverterFloatData = [{"rpi_test_iqconverter_float":0.269528,"test_iqconverter_float":0.02748,"type":"CURRENT"},{"rpi_test_iqconverter_float":0.239942,"test_iqconverter_float":0.016405,"type":"TUNED"}];
+
+
+	var iqconverterFloatData = [{"rpi_test_iqconverter_float":0.269528,"test_iqconverter_float":0.02748,"type":"CURRENT"},{"rpi_test_iqconverter_float":0.239942,"test_iqconverter_float":0.016405,"type":"TUNED"}]
+
 var iqconverterFloatdatasource = iqconverterFloatData.map(function(e) {
 	return e.rpi_test_iqconverter_float;
 });var iqconverterFloatdatasource2 = iqconverterFloatData.map(function(e) {
@@ -983,7 +991,7 @@ const iqconverterFloatChart = new Chart(iqconverterFloatCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd2/iqconverterFloat.png">
+	<img src="img/iqconverterFloat.png">
 </noscript>
 <p>На графике видно, что производительность увеличилась. Для Apple M1 на 41%, а для RaspberryPI на 11%. Цифры не очень впечатляющие. Это всё из-за алгоритма удаления DC смещения. В нём каждый последующий элемент зависит от предыдущего. Таким образом распараллелить вычисление с помощью SIMD не получится.</p>
 

@@ -384,7 +384,7 @@
 <p>Исправить эту ошибку достаточно просто, однако, возникает немаловажный вопрос: а как вообще тестировать отказ файловой системы? И &ldquo;no disk space&rdquo; в частности?</p>
 <h2 id="теория">Теория</h2>
 <p>До JDK7 необходимо было бы создавать ещё один слой абстракции над файловой системой и делать его mock во время тестирования. В JDK7 появился специальный слой, абстрагирующий файловую систему: <code>java.nio.file.FileSystem</code>. Изначально <a href="http://github.com/dernasherbrezon/r2cloud">r2cloud</a> был написан на основе старого <code>java.io.File</code>, поэтому его необходимо переписать на новый API:</p>
-<p><img src="/img/test-fs-failures/api.png"></p>
+<p><img src="/posts/test-fs-failures/img/api.png"></p>
 <h2 id="mockfilesystem">MockFileSystem</h2>
 <p>Во время тестирования FileSystem необходимо заменить на MockFileSystem, которая генерирует IOException по заранее сконфигурированному сценарию. К сожалению, я не нашёл такую файловую систему, поэтому написал свою <a href="http://github.com/dernasherbrezon/mockfs">mockfs</a>.</p>
 <p>Она позволяет проксировать запросы к файловой системе по-умолчанию и генерировать IOException при доступе к определённым файлам.</p>

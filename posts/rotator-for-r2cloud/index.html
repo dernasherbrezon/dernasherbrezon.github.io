@@ -13,7 +13,7 @@
 Причина достаточно проста: они просты в настройке и установке. При этом здесь нет движущихся частей и такие антенны могут работать сразу в нескольких диапазонах.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/rotator-for-r2cloud/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/rotator-for-r2cloud/4.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='satnogs'><meta property='article:tag' content='поворотное устройство'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2020-06-10T18:41:18&#43;01:00'/><meta property='article:modified_time' content='2020-06-10T18:41:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/rotator-for-r2cloud/4.jpg'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/4.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='satnogs'><meta property='article:tag' content='поворотное устройство'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2020-06-10T18:41:18&#43;01:00'/><meta property='article:modified_time' content='2020-06-10T18:41:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/4.jpg'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -375,11 +375,11 @@
   <h2 id="введение">Введение</h2>
 <p>Последние несколько недель я активно работал над поддержкой поворотных устройств в r2cloud. Тут стоит немного рассказать зачем вообще нужны поворотные устройства и направленные антенны.</p>
 <p>Если совсем грубо, то существует несколько основных классов антенн: всенаправленные, направленные и фазовые решётки. Мой проект до недавнего времени поддерживал только всенаправленные антенны.</p>
-<p><img src="/img/rotator-for-r2cloud/1.jpg"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/1.jpg"></p>
 <p>Причина достаточно проста: они просты в настройке и установке. При этом здесь нет движущихся частей и такие антенны могут работать сразу в нескольких диапазонах.</p>
-<p><img src="/img/rotator-for-r2cloud/2.png"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/2.png"></p>
 <p>Правда, у таких антенн есть один большой недостаток - они не усиливают сигнал. А чаще всего ослабляют. Как показывает практика, некоторые сигналы со спутников всё же удастся получить, но иногда хочется чего-то большего. И тут на помощь приходят направленные антенны.</p>
-<p><img src="/img/rotator-for-r2cloud/3.png"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/3.png"></p>
 <p>У таких антенн коэффициент усиления сигнала может быть до 20 dBi. Недостаток у них очевидный: их нужно направлять на спутник. Это не так-то просто сделать, если учесть, что спутник движется достаточно быстро и в разное время бывает в разных участках неба.</p>
 <p>И тут на помощь приходит поворотное устройство. Специальный софт рассчитывает положение спутника относительно антенны и направляет антенну точно на спутник. Это позволяет принимать достаточно слабые сигналы.</p>
 <h2 id="поворотное-устройство">Поворотное устройство</h2>
@@ -390,16 +390,16 @@
 <li>Простота в настройке. Мне хочется сфокусироваться на разработке софта, а не пытаться решить проблему питания на транзисторах. Для этого нужно просто купить гарантированно работающие компоненты.</li>
 </ul>
 <p>После нескольких недель выбора модели и подборки компонент, я остановился на <a href="http://skywatcher.com/product/allview-mount/">Skywatcher Allview</a>.</p>
-<p><img src="/img/rotator-for-r2cloud/4.jpg"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/4.jpg"></p>
 <p>Эта модель может управлять антенной в двух плоскостях: азимут и высота. Также в комплекте идёт пульт (SynScan), к которому можно подключить компьютер и с его помощью программно управлять моторами.</p>
-<p><img src="/img/rotator-for-r2cloud/5.jpg"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/5.jpg"></p>
 <p>У этого пульта есть 3 разъёма:</p>
 <ul>
 <li>RJ-45</li>
 <li>RJ-11</li>
 <li>USB Type-B</li>
 </ul>
-<p><img src="/img/rotator-for-r2cloud/6.jpg"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/6.jpg"></p>
 <p>По RJ-45 пульт подключается к поворотному устройству, а по RJ-11 или USB к компьютеру. Тут есть интересная особенность. Оба порта работает как serial устройство. При этом кабеля-переходника с RJ-11 на RS-232 в комплекте не было. И чтобы его сделать, необходимо правильно распаять контакты на RJ-11. Я думал это просто и купил более дешёвый кабель, но он не подошёл. Устройство определяется, но при попытке отправить туда данные, ответа нет.</p>
 <p>Уже почти отчаявшись, я решил попробовать кабель USB Type-B на USB Type-A и у меня получилось.</p>
 <h2 id="настройка-synscan">Настройка SynScan</h2>
@@ -407,7 +407,7 @@
 <p>Для того чтобы проверить, правильно ли всё работает, можно использовать простую утилиту <a href="https://tio.github.io">tio</a>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tio -e -b <span style="color:#ae81ff">9600</span> /dev/tty.usbserial-1410
 </span></span></code></pre></div><p>SynScan поддерживает несколько команд, все они - простые буквенные коды в ASCII. Например, для того чтобы проверить версию прошивки, нужно ввести &ldquo;V&rdquo;:</p>
-<p><img src="/img/rotator-for-r2cloud/7.png"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/7.png"></p>
 <p>В данном примере версия 04270A.</p>
 <p>Если всё работает как нужно, то можно переходить к настройке rotctrld. Это специальный демон, который принимает команды по TCP и управляет через serial порт устройством.</p>
 <h2 id="настройка-rotctrld">Настройка rotctrld</h2>
@@ -433,11 +433,11 @@ Group=pi
 [Install]
 WantedBy=multi-user.target
 </code></pre><p>Теперь демон будет стартовать при запуске системы и в случае крэша рестартовать. Для того чтобы общаться с ним из Java, Я написал небольшой клиент-обёртку - <a href="https://github.com/dernasherbrezon/rotctrldClient">rotctrldClient</a>. Не очень благозвучное название, зато делает свою работу хорошо:</p>
-<p><img src="/img/rotator-for-r2cloud/8.png"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/8.png"></p>
 <p>Именно эта библиотека находится в сердце <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> для управления поворотными устройствами.</p>
 <h2 id="настройка-r2cloud">Настройка r2cloud</h2>
 <p>r2cloud может контролировать поворотное устройство во время пролёта спутника. Для этого нужно в общих настройках включить и задать параметры подключения к rotctrld:</p>
-<p><img src="/img/rotator-for-r2cloud/9.png"></p>
+<p><img src="/posts/rotator-for-r2cloud/img/9.png"></p>
 <p>В данном случае, r2cloud будет рассчитывать азимут и высоту спутника над горизонтом каждые 1000мс. Если спутник вышел за границы предыдущей зоны на ±5 градусов, то антенна корректируется. И это всё. r2cloud сделает всё остальное автоматически.</p>
 <h2 id="результаты">Результаты</h2>
 <p>Если всё настроено успешно, то поворотное устройство будет направлять антенну на спутник, когда тот окажется в зоне видимости. Вот пример работы моей конфигурации:</p>

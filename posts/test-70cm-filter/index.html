@@ -11,7 +11,7 @@
 Для того чтобы проверить теорию, я решил купить вот такой фильтр на 70см и протестировать его.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/test-70cm-filter/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/test-70cm-filter/0.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='rtl_power'><meta property='article:tag' content='rtlSpectrum'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='фильтры'><meta property='article:published_time' content='2020-06-20T17:30:18&#43;01:00'/><meta property='article:modified_time' content='2020-06-20T17:30:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/test-70cm-filter/0.jpg'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/0.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='rtl_power'><meta property='article:tag' content='rtlSpectrum'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='фильтры'><meta property='article:published_time' content='2020-06-20T17:30:18&#43;01:00'/><meta property='article:modified_time' content='2020-06-20T17:30:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/0.jpg'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -372,31 +372,31 @@
   <div class='container entry-content'>
   <p><a href="https://dernasherbrezon.com/posts/rotator-for-r2cloud-2/">Последние наблюдения</a> показали, что у меня очень высокий уровень шума, если антенна направлена в центр города. У меня возникло предположение, что это связано со слишком сильными сигналами на соседних частотах. Если это так, то это значит, что GSM, FM и DVB перегрузили вход rtl-sdr, полностью заглушив слабые сигналы. Такое возможно, так как у rtl-sdr достаточно <a href="https://dernasherbrezon.com/posts/dynamic-range/">низкий динамический диапазон</a>.</p>
 <p>Для того чтобы проверить теорию, я решил купить вот такой <a href="https://www.ebay.co.uk/itm/70cm-430-440MHz-Filter-EME-RTL-SDR/264521132435?pageci=fdb1adb1-62db-45fd-9a71-4029605d1ae3">фильтр на 70см</a> и протестировать его.</p>
-<p><img src="/img/test-70cm-filter/0.jpg"></p>
+<p><img src="/posts/test-70cm-filter/img/0.jpg"></p>
 <h2 id="описание-стенда">Описание стенда</h2>
 <p>В <a href="https://dernasherbrezon.com/posts/test-fm-filter/">прошлый раз</a> я тестировал фм-фильтры. В этот раз я решил собрать такой же стенд и протестировать 70см фильтр.</p>
-<p><img src="/img/test-70cm-filter/1.jpg"></p>
+<p><img src="/posts/test-70cm-filter/img/1.jpg"></p>
 <h2 id="софт">Софт</h2>
 <p>rtl_power - программа из стандартной поставки <a href="https://github.com/osmocom/rtl-sdr">rtl-sdr</a>. Она позволяет сканировать большой диапазон частот, разбивая его участки примерно 2Mhz и выполняя быстрое преобразование фурье. После этого, результаты преобразуются в dbm.</p>
 <p><a href="http://github.com/dernasherbrezon/rtlSpectrum">rtlSpectrum</a> - программа для анализа результатов rtl_power.</p>
 <h2 id="опыт-1">Опыт 1</h2>
 <p>В этот раз я решил провести 2 опыта. Первый опыт заключался в том, чтобы протестировать фильтр с помощью генератора шума. Оба раза rtl_power запускался следующей командой:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rtl_power -f 24M:1.7G:1M -g <span style="color:#ae81ff">0</span> -i 3m -1
-</span></span></code></pre></div><p><img src="/img/test-70cm-filter/2.png"></p>
+</span></span></code></pre></div><p><img src="/posts/test-70cm-filter/img/2.png"></p>
 <p>На картинке выше, светло-оранжевый график - без использования фильтра, тёмно-оранжевый - с фильтром. Очень отчётливо видно, насколько классно отфильтрованы сигналы вне 430-440Мгц. При этом пик ~13.6dbm, а уровень шума ~24.3dbm.</p>
 <h2 id="опыт-2">Опыт 2</h2>
 <p>Второй опыт заключался в том, чтобы подключить фильтр напрямую к антенне и померить результаты. Команда для запуска rtl_power немного отличается от первого опыта:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rtl_power -f 24M:1.7G:1M -g <span style="color:#ae81ff">35</span> -i 3m -1
-</span></span></code></pre></div><p><img src="/img/test-70cm-filter/3.png"></p>
+</span></span></code></pre></div><p><img src="/posts/test-70cm-filter/img/3.png"></p>
 <p>На этом графике видно, что FM и GSM диапазоны отлично отфильтрованы. Однако, на нём сложно разглядеть что же происходит в 70см диапазоне. Чтобы это исправить, я построил ещё один график, в котором вычел один из другого. В результате получилось:</p>
-<p><img src="/img/test-70cm-filter/4.png"></p>
+<p><img src="/posts/test-70cm-filter/img/4.png"></p>
 <p>Теперь отчётливо видно, что диапазон 430-440Мгц остался нетронутым, а все остальные сигналы были отлично отфильтрованы.</p>
 <h2 id="полевые-испытания">Полевые испытания</h2>
 <p>Следующим шагом я решил провести полевые испытания. Суть опыта достаточно проста: я прикрепил антенну параллельно земле и направил в центр города. После чего, измерил уровень шума в GQRX с фильтром и без.</p>
 <p>Вот так выглядит спектограмма без фильтра:</p>
-<p><img src="/img/test-70cm-filter/5.png"></p>
+<p><img src="/posts/test-70cm-filter/img/5.png"></p>
 <p>Уровень шума -40dbm и никаких сигналов не видно. А вот результат с использованием фильтра:</p>
-<p><img src="/img/test-70cm-filter/6.png"></p>
+<p><img src="/posts/test-70cm-filter/img/6.png"></p>
 <p>Абсолютно те же настройки, но уровень шума значительно ниже и виден сигнал на -50dbm.</p>
 <h2 id="выводы">Выводы</h2>
 <p>Фильтр работает. Я попробую погонять его пару дней, чтобы посмотреть улучшиться ли приём сигналов. Недостаток вполне очевидный - на него нельзя принимать 2м сигналы.</p>

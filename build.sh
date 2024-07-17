@@ -21,6 +21,9 @@ function optimize
     fi
 }
 
-find hugo/static/ -name '*.jpg' -type f -print0 |while read -d $'\0' i; do optimize "$i"; done
+#hugo --source hugo/ --destination ../
 
-hugo --source hugo/ --destination ../
+# brew install optipng
+# find ./content/posts/ -name "*.png" -exec optipng -o7 {} \;
+find ./hugo/content/posts/ -name '*.jpg' -type f -print0 |while read -d $'\0' i; do optimize "$i"; done
+

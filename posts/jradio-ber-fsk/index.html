@@ -11,7 +11,7 @@
 Описание теста С прошлого раза я решил существенно поменять методологию. Раньше для подсчёта ошибок использовалось скремблирование. Все полученные нулевые биты делились на 6, из-за характеристик полинома скремблера и дифференциального кодирования.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/jradio-ber-fsk/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/jradio-ber-fsk/fskBer.png'><meta property='article:section' content='posts'><meta property='article:tag' content='fsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2020-08-01T10:22:18&#43;01:00'/><meta property='article:modified_time' content='2020-08-01T10:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/jradio-ber-fsk/fskBer.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='fsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2020-08-01T10:22:18&#43;01:00'/><meta property='article:modified_time' content='2020-08-01T10:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -374,7 +374,7 @@
 <p>Прошёл почти год с того момента, когда я <a href="https://dernasherbrezon.com/posts/jradio-ber-bpsk/">измерял BER для BPSK демодулятора</a>. И вот пришло время измерить вероятность ошибки для FSK демодулятора. Поводом к такому исследованию послужило большое количество спутников, передающих частотно-модулированный сигнал. Мне хотелось прежде всего измерить текущие характеристики демодулятора, чтобы в последствии можно было его улучшать.</p>
 <h2 id="описание-теста">Описание теста</h2>
 <p>С прошлого раза я решил существенно поменять методологию. Раньше для подсчёта ошибок использовалось скремблирование. Все полученные нулевые биты делились на 6, из-за характеристик полинома скремблера и дифференциального кодирования. Такой способ работал хорошо для больших значений \( E_b / N_0 \). Однако, для маленьких значений, он не очень подходил. Например, на последнем графике видно, что демодулятор работал лучше теоретически возможного:</p>
-<p><img alt="bpsk demodulator" src="/img/jradio-ber-bpsk/ber-bpsk-demodulator.png"></p>
+<p><img alt="bpsk demodulator" src="img/ber-bpsk-demodulator.png"></p>
 <p>Более сложным, но и одновременно более точным способом подсчёта ошибок, будет использование корреляции сигналов. Для этого нужно найти корреляцию между входным потоком бит и выходящим из демодулятора. Прелесть этого подхода в следующем:</p>
 <ul>
 <li>строгое математическое доказательство.</li>

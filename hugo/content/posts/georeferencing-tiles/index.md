@@ -20,19 +20,19 @@ tags:
 
 GeoTIFF, полученный на предыдущем шаге выглядит правдоподобно, но хочется убедиться, что проекция выполнена правильно. Самый простой способ - это наложить файл на настоящую карту. Для этого достаточно взять [бесплатную QGIS](https://www.qgis.org/en/site/) и добавить слой OpenStreetMap:
 
-![](/img/georeferencing-tiles/1.png)
+![](img/1.png)
 
 После этого добавить слой из GeoTIFF файла:
 
-![](/img/georeferencing-tiles/2.png)
+![](img/2.png)
 
 Такое отображение не слишком полезно, поэтому нужно добавить прозрачности. В свойствах слоя нужно сделать общую прозрачность процентов на 60% и проставить "No Data Value = 0".
 
-![](/img/georeferencing-tiles/3.png)
+![](img/3.png)
 
 Выглядит значительно лучше, но видно, что изображение совсем не совпадает с картой. В моём примере разница примерно 34км. Это достаточно много.
 
-![](/img/georeferencing-tiles/4.png)
+![](img/4.png)
 
 ## Ошибки геокодирования
 
@@ -54,7 +54,7 @@ TimeDependentLOS lineOfSight = losBuilder.build();
 
 Пересоздав GeoTIFF, я получил следующее:
 
-![](/img/georeferencing-tiles/5.png)
+![](img/5.png)
 
 Разница составила около 10км. Это значительно лучше, чем было в прошлый раз. Видимо, я на правильном пути. Немножко "поиграв" с углами крена и тангажа, я высчитал их для снимка как 2.6 и 0.6:
 
@@ -67,7 +67,7 @@ TimeDependentLOS lineOfSight = losBuilder.build();
 
 В результате даёт:
 
-![](/img/georeferencing-tiles/6.png)
+![](img/6.png)
 
 ## Тайлы
 
@@ -104,7 +104,7 @@ var map = L.map('map', {
 });
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors', minZoom: 3, maxZoom: 6}).addTo(map);
-L.tileLayer('/img/georeferencing-tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7, attribution: "", minZoom: 3, maxZoom: 6}).addTo(map);
+L.tileLayer('/posts/georeferencing-tiles/img/{z}/{x}/{y}.png', { tms: true, opacity: 0.7, attribution: "", minZoom: 3, maxZoom: 6}).addTo(map);
 
 </script>
 

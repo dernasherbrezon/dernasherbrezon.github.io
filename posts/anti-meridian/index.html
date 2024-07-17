@@ -383,13 +383,13 @@ java -jar georef-lrpt.'>
 <p>Второй файл - это специальный файл для <a href="https://gdal.org">GDAL</a> в <a href="https://gdal.org/drivers/raster/vrt.html">формате .vrt</a> в котором хранится геопривязка пикселей. Этот файл можно использовать для того, чтобы создать GeoTIFF:</p>
 <pre tabindex="0"><code>gdalwarp -tps -overwrite -of GTIFF 2022_12_20_20_25_30.vrt 2022_12_20_20_25_30.tiff
 </code></pre><p>Который потом можно наложить на карту:</p>
-<p><img src="/img/anti-meridian/geotiff-output.png"></p>
+<p><img src="/posts/anti-meridian/img/geotiff-output.png"></p>
 <p>Выглядит идеально, но я решил скачать ещё данных, чтобы потестировать на граничных значениях и обнаружил интересное:</p>
-<p><img src="/img/anti-meridian/3.png"></p>
+<p><img src="/posts/anti-meridian/img/3.png"></p>
 <p>А что это такое в центре Атлантического океана? А это - несколько дней дебага!</p>
 <h2 id="180-ый-меридиан">180-ый меридиан</h2>
 <p>Если приглядется, то можно увидеть, что небольшой кусочек изображения отображается слева. Видимо он перенёсся с другой стороны из-за того, что Земля круглая. А вот с артефактом посередине немного сложнее. Если выключить слой прозрачности, то будет лучше видно:</p>
-<p><img src="/img/anti-meridian/4.png"></p>
+<p><img src="/posts/anti-meridian/img/4.png"></p>
 <p>Добро пожаловать в проблему 180-го меридиана или, как её называют во всём остальном мире - <a href="https://gis.stackexchange.com/questions/tagged/antimeridian">antimeridian issue</a>.</p>
 <p>Некоторые изображения могут начинаться от 170 меридиана и заканчиваться в -170. А некоторые начинаться в -170 и заканчиваться в 170-ом. Видимо GDAL не знает какой случай где и отображает и так, и эдак. Я попробовал искать опцию &ldquo;wrapOn180=true&rdquo;, которая бы говорила, что разрез приходится на 180-ый меридиан, но почему-то не нашёл ничего похожего в документации. На форумах советуют разрезать изображение на две части вручную.</p>
 <h2 id="алгоритм">Алгоритм</h2>
@@ -429,9 +429,9 @@ java -jar georef-lrpt.'>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gdalwarp -tps -overwrite -te <span style="color:#ae81ff">142</span> -55 <span style="color:#ae81ff">180</span> -11 -of GTiff 2022_12_20_18_44_50_142_-55_-173_-11.vrt 2022_12_20_18_44_50-left.tiff
 </span></span><span style="display:flex;"><span>gdalwarp -tps -overwrite -te -180 -55 -173 -11 -of GTiff 2022_12_20_18_44_50_142_-55_-173_-11.vrt 2022_12_20_18_44_50-right.tiff
 </span></span></code></pre></div><p>Если добавить левое и правое изображение на карту, то можно получить нужный результат:</p>
-<p><img src="/img/anti-meridian/5.png"></p>
+<p><img src="/posts/anti-meridian/img/5.png"></p>
 <p>А если показать в проекции EPSG:3832 ( PDC Mercator ) и отключить слой прозрачности, то можно увидеть как изображения склеиваются:</p>
-<p><img src="/img/anti-meridian/6.png"></p>
+<p><img src="/posts/anti-meridian/img/6.png"></p>
 
 </div>
 

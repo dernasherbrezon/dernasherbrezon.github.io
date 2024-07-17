@@ -11,7 +11,7 @@
 Предисловие Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад. Каждый пишет, что хочет, в каком хочет формате и совершенно не заботится о результатах.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/dsp-java/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='dsp'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2018-03-08T17:22:18&#43;01:00'/><meta property='article:modified_time' content='2018-03-08T17:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='dsp'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2018-03-08T17:22:18&#43;01:00'/><meta property='article:modified_time' content='2018-03-08T17:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -371,7 +371,7 @@
 
   <div class='container entry-content'>
   <p>Java - язык программирования общего назначения. Общего назначения - значит можно писать почти любые программы. Вот я и попытался написать программу, которую обычно пишут на С или C++. Под катом я попытаюсь рассказать, как я декодировал спутниковые снимки с <a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%B5%D0%BE%D1%80-%D0%9C_%E2%84%962">Метеор-М №2</a>.</p>
-<p><img alt="DSP in Java" src="/img/dsp-java/evf0t2iu5xcammoaobfgopwewai.png"></p>
+<p><img alt="DSP in Java" src="/posts/dsp-java/img/evf0t2iu5xcammoaobfgopwewai.png"></p>
 <h1 id="предисловие">Предисловие</h1>
 <p>Когда я впервые заинтересовался декодированием спутниковых сигналов, то был, прямо говоря, удивлён. Сейчас софт для декодирования сигналов выглядит так же, как и библиотеки общего назначения лет 20 назад. Каждый пишет, что хочет, в каком хочет формате и совершенно не заботится о результатах. Яркий тому пример - декодирование сигнала с Метеор-М. <a href="https://www.rtl-sdr.com/rtl-sdr-tutorial-receiving-meteor-m-n2-lrpt-weather-satellite-images-rtl-sdr/">Обычно</a> алгоритм получения картинки выглядит следующим образом:</p>
 <ol>
@@ -395,11 +395,11 @@
 <h1 id="демодуляция">Демодуляция</h1>
 <p>Согласно <a href="http://meteor.robonuka.ru/wp-content/uploads/2014/08/pdf_spe_95413_eps_hrpt-lrpt.pdf">официальной документации</a> сигнал модулирован с помощью <a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%B0%D0%BD%D0%B8%D0%BF%D1%83%D0%BB%D1%8F%D1%86%D0%B8%D1%8F">QPSK</a>. Если вкратце, то для передачи двух бит информации используется одно положение фазы.</p>
 <p>Итак, нужно демодулировать QPSK сигнал на Java. То ли никому это неинтересно, то ли Java медленная, но я не нашёл ни одной библиотеки, которые бы это делали. Поэтому я взял <a href="https://github.com/otti-soft/meteor-m2-lrpt">существующий</a> проект демодуляции QPSK сигнала для GNURadio и начал переписывать блоки на Java.</p>
-<p><img alt="QPSK demodulation" src="/img/dsp-java/jcsaroyobfqo11zvh3jino1qq7i.png"></p>
+<p><img alt="QPSK demodulation" src="/posts/dsp-java/img/jcsaroyobfqo11zvh3jino1qq7i.png"></p>
 <h2 id="блоки-демодуляции">Блоки демодуляции</h2>
 <p><strong>WavFile source</strong> и <strong>Float to Complex</strong>. Чтение из .wav файла <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D0%BD%D1%84%D0%B0%D0%B7%D0%BD%D0%B0%D1%8F_%D0%B8_%D0%BA%D0%B2%D0%B0%D0%B4%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%BD%D0%B0%D1%8F_%D1%81%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BB%D1%8F%D1%8E%D1%89%D0%B8%D0%B5_%D1%81%D0%B8%D0%B3%D0%BD%D0%B0%D0%BB%D0%B0">IQ</a> сигнала. Значения записаны в файле последовательно. Сначала реальная часть, потом мнимая, потом реальная и так далее. В GNURadio есть свои типы данных и каждый блок рассчитан для работы только с определёнными. Так как у нас QPSK модуляция, то нам нужно использовать комплексные числа. Здесь ничего сложного, так как в Java есть поддержка .wav файлов - AudioSystem.getAudioInputStream(inputStream).</p>
 <p><strong>Low Pass Filter</strong>. Это первый фильтр, который предназначен для фильтрации низких частот. Так как наш сигнал занимает 130Mhz, то нам надо отфильтровать лишние частоты.</p>
-<p><img alt="lowpass" src="/img/dsp-java/yp4g51xrjxss0v9ho9sqt8rdd4y.png"></p>
+<p><img alt="lowpass" src="/posts/dsp-java/img/yp4g51xrjxss0v9ho9sqt8rdd4y.png"></p>
 <p>На картинке выше, частоты нашего сигнала обведены зелёным. Остальные частоты справа должны быть отфильтрованы. Это делается с помощью <a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%B8%D0%BB%D1%8C%D1%82%D1%80_%D1%81_%D0%BA%D0%BE%D0%BD%D0%B5%D1%87%D0%BD%D0%BE%D0%B9_%D0%B8%D0%BC%D0%BF%D1%83%D0%BB%D1%8C%D1%81%D0%BD%D0%BE%D0%B9_%D1%85%D0%B0%D1%80%D0%B0%D0%BA%D1%82%D0%B5%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%BE%D0%B9">КИХ-фильтра</a>. Для программиста это выглядит как:</p>
 <ol>
 <li>Взять последние N значений, текущее и положить в массив</li>
@@ -408,23 +408,23 @@
 <li>Это и будет результат.</li>
 </ol>
 <p><strong><a href="https://ru.wikipedia.org/wiki/%D0%90%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D1%80%D0%B5%D0%B3%D1%83%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D1%83%D1%81%D0%B8%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F">AGC</a></strong>. Автоматическая регулировка усиления.</p>
-<p><img alt="agc" src="/img/dsp-java/hcpmhaclhse8f7-ye05iml_sjvi.png"></p>
+<p><img alt="agc" src="/posts/dsp-java/img/hcpmhaclhse8f7-ye05iml_sjvi.png"></p>
 <p>С точки зрения реализации - перемножение входного сигнала на некий уровень и вычисление следующего уровня в зависимости от текущего.</p>
 <p><strong><a href="https://en.wikipedia.org/wiki/Root-raised-cosine_filter">Root Raised Cosine Filter</a></strong>. Используется для уменьшения <a href="https://en.wikipedia.org/wiki/Intersymbol_interference">Intersymbol interference</a>. Если вкратце, то при получении сигнала одни уровни переданного сигнала могут накладываться на последующие. Чтобы выделить максимальный уровень сигнала между символами, применяют этот фильтр. Работает так же как и Low Pass Filter, но использует другую <a href="https://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B0%D1%80%D0%B8%D1%84%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%B0%D0%BC%D0%BF%D0%BB%D0%B8%D1%82%D1%83%D0%B4%D0%BD%D0%BE-%D1%84%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F_%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%BD%D0%B0%D1%8F_%D1%85%D0%B0%D1%80%D0%B0%D0%BA%D1%82%D0%B5%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0#%D0%9B%D0%90%D0%A7%D0%A5_2">ЛАФЧХ</a></p>
-<p><img alt="rrcf" src="/img/dsp-java/42kvsx8xtrx3k14qehe1jziunde.png"></p>
+<p><img alt="rrcf" src="/posts/dsp-java/img/42kvsx8xtrx3k14qehe1jziunde.png"></p>
 <p><strong><a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F_%D0%B0%D0%B2%D1%82%D0%BE%D0%BF%D0%BE%D0%B4%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D1%8B">Costas Loop</a></strong> - это алгоритм фазовой подстройки частоты. Для чего он нужен? Например, для того, чтобы корректировать доплеровское смещение частоты. Так как, мы точно знаем, что фаза у нас скачет по четырём уровням, то можно сравнивать значение двух разных фаз. Если оно отличается на дельту, то корректировать частоту. Это ярче всего видно на картинках внизу.</p>
-<p><img alt="before costas loop" src="/img/dsp-java/it-g9hju18tmhnqq0twuj2qizja.png"></p>
+<p><img alt="before costas loop" src="/posts/dsp-java/img/it-g9hju18tmhnqq0twuj2qizja.png"></p>
 <p>До коррекции частоты, у нас круг (почти). Это значит, что частота немного меняется каждый раз, и точки фазы не попадают в одно и то же место.</p>
-<p><img alt="after costas loop" src="/img/dsp-java/um77gdjsnwyirvj1joikwgb8qk4.png"></p>
+<p><img alt="after costas loop" src="/posts/dsp-java/img/um77gdjsnwyirvj1joikwgb8qk4.png"></p>
 <p>Здесь уже значительно лучше - видны 4 отчётливые точки фазы.</p>
 <p><strong><a href="https://www.tablix.org/~avian/blog/archives/2015/03/notes_on_m_m_clock_recovery/">Clock recovery MM</a></strong>. Этот блок пытается восстановить шаг часов передатчика и отбрасывает все сэмплы, которые не относятся к изменению уровня. Примерная схема работы изображена ниже:</p>
-<p><img alt="clock recovery in a nutshell" src="/img/dsp-java/n1i8mli4sagj4lh-qc_6wif7kjw.jpg"></p>
+<p><img alt="clock recovery in a nutshell" src="/posts/dsp-java/img/n1i8mli4sagj4lh-qc_6wif7kjw.jpg"></p>
 <p>После того как все лишние сэмплы выкинуты, получается хорошее QPSK созвездие.</p>
-<p><img alt="clock recovery" src="/img/dsp-java/cxrwwpey0e-solb-mig03ua1dvs.png"></p>
+<p><img alt="clock recovery" src="/posts/dsp-java/img/cxrwwpey0e-solb-mig03ua1dvs.png"></p>
 <p><strong>Constellation Soft Decoder</strong>. Этот блок преобразует координаты в вероятность битов. Тут надо остановиться поподробнее, так это очень важно в дальнейшем. Допустим все точки у которых координаты положительные будут отображаться в пару &ldquo;00&rdquo;.</p>
-<p><img alt="initial" src="/img/dsp-java/s3bddzcvb9z7te0u7y2hjhyt6ua.png"></p>
+<p><img alt="initial" src="/posts/dsp-java/img/s3bddzcvb9z7te0u7y2hjhyt6ua.png"></p>
 <p>Теперь допустим, что мы получили значение в красной точке.</p>
-<p><img alt="hard decision" src="/img/dsp-java/nerub3aklfpmzkksbtdbyo0ik90.png"></p>
+<p><img alt="hard decision" src="/posts/dsp-java/img/nerub3aklfpmzkksbtdbyo0ik90.png"></p>
 <p>Если мы будем делать жёсткое решение, то координаты красной точки мы преобразуем в пару &ldquo;00&rdquo;. При этом мы потеряем информацию о том, что точка-то почти &ldquo;01&rdquo; (в нижним квадранте). А эта информация на самом деле может помочь в декодировании. Есть алгоритмы, которые дают лучшие результаты, если передать эту информацию. Поэтому вместо того, чтобы принимать жёсткое решение, надо посчитать вероятность 0 и вероятность 1. Например, 100% вероятность нахождения в правом верхнем квадранте будет 255,255. Использование мягких решений увеличивает поток данных в 8 раз, зато даёт более лучшие результаты при декодировании сигнала. Для того чтобы посчитать мягкое решение, необходимо рассчитать расстояние между текущей точкой и каждой из точек созвездия.</p>
 <p><strong>Rail</strong>, <strong>Float to char</strong>, <strong>File sink</strong>. Эти блоки немного преобразуют результаты и записывают их в файл. Для моего декодера записывать результаты в промежуточный файл не надо. Но в целях отладки было крайне полезно сначала демодулировать сигнал из Java, а затем посмотреть может ли LRPToffLineDecoder извлечь картинку.</p>
 <h1 id="декодирование">Декодирование</h1>
@@ -442,7 +442,7 @@
 <li>наложить 3 канала друг на друга с учётом пропущенных пакетов</li>
 </ul>
 <p>Пожалуй я не буду здесь рассказывать про каждый из алгоритмов. Они сами по себе потянут на отдельную статью. Хочу лишь выложить результаты работы <a href="https://github.com/dernasherbrezon/jradio">моей программы</a>, <a href="http://meteor.robonuka.ru/for-experts/soft/">официальной</a> и <a href="https://github.com/artlav/meteor_decoder">на паскале</a>.</p>
-<p><img alt="compare" src="/img/dsp-java/gjnitpweqxobjmifktc5mli_ehu.jpg"></p>
+<p><img alt="compare" src="/posts/dsp-java/img/gjnitpweqxobjmifktc5mli_ehu.jpg"></p>
 <p>К сожалению общая картина занимает 4500x2800px, поэтому я привожу сильно пожатую версию.</p>
 <h1 id="оптимизации">Оптимизации</h1>
 <p>А при чём тут Java? - скажут самые стойкие, кто смог дочитать до сюда.</p>
@@ -492,9 +492,9 @@
 </span></span></code></pre></div><p>Эти две оптимизации позволили уменьшить время декодирования файла с 4 минут до 20 секунд. Для сравнения LRPToffLineDecoder делает это за 40 секунд.</p>
 <p>Декодирование можно ещё немного оптимизировать, но в ущерб читаемости. Вместо этого можно попробовать ускорить демодуляцию.</p>
 <p>Алгоритмы демодуляции на входе получают большой поток данных, а на выходе выдают сравнительно небольшой. Поэтому эти алгоритмы очень чувствительны к различным оптимизациям. При запуске профайлера, видно, что большая часть приходится именно на математические операции внутри блоков.</p>
-<p><img alt="profiling demodulation" src="/img/dsp-java/aeenpwb8z_nfkpg8w8pfl6iqsuo.png"></p>
+<p><img alt="profiling demodulation" src="/posts/dsp-java/img/aeenpwb8z_nfkpg8w8pfl6iqsuo.png"></p>
 <p>Тут мало что можно сделать: память не выделяется, безумных циклов нет. Единственное, что интересно проверить это компилирует ли Java JIT код в <a href="https://ru.wikipedia.org/wiki/SIMD">SIMD</a> инструкции. Если вкратце, то это специальные инструкции процессора, которые работают с 128битными регистрами и обрабатывают их одной командой. Схематично это выглядит так:</p>
-<p><img alt="simd" src="/img/dsp-java/l7ng0x8bwn8-z4fe1001iwsj9gq.png"></p>
+<p><img alt="simd" src="/posts/dsp-java/img/l7ng0x8bwn8-z4fe1001iwsj9gq.png"></p>
 <p>Как видно, такие инструкции идеально ложатся на КИХ-фильтры. GNURadio использует библиотеку VOLK, которая в зависимости от поддерживаемой архитектуры, может использовать SIMD инструкции. В Java скорей всего вызывать JNI обёртку будет значительно затратнее, чем выигрыш от использования таких инструкций. Одна надежда на JIT, который может оптимизировать перемножение одного массива на другой. Чтобы это проверить, необходимо запустить JVM с опцией &ldquo;-XX:CompileCommand=print,*FIRFilter.filterComplex&rdquo;. Она заставит JVM выводить ассемблерный код для метода filterComplex из класса FIRFilter.</p>
 <p>Вот что у меня получилось при запуске с Oracle JDK 1.8.0_161 на MacBook Air:</p>
 <blockquote>

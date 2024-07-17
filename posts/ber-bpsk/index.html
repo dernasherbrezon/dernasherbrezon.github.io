@@ -9,7 +9,7 @@
 <meta property='og:description' content='Введение Моя сеть приёма сигналов со спутников r2cloud постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/ber-bpsk/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/ber-bpsk/ber-bpsk.png'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='awgn'><meta property='article:tag' content='matlab'><meta property='article:published_time' content='2019-05-05T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-05-05T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/ber-bpsk/ber-bpsk.png'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/ber-bpsk.png'><meta property='article:section' content='posts'><meta property='article:tag' content='radio'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='awgn'><meta property='article:tag' content='matlab'><meta property='article:published_time' content='2019-05-05T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-05-05T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/ber-bpsk.png'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -371,7 +371,7 @@
   <h2 id="введение">Введение</h2>
 <p>Моя сеть приёма сигналов со спутников <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> постепенно растёт. Однако уровень приёма оставляет желать лучшего. Несмотря на то, что на спектограмме виден сигнал, демодулятор не может восстановить его. В попытках найти проблему, я понял, что мне не хватает фундаментальных знаний по теории обработки сигналов и некоторой математики. Дело в том, что в интернете зачастую выкладываются демодуляторы без обоснования их работы. Меня это не устраивает, потому что нужны метрики по которым я буду понимать насколько один алгоритм эффективнее другого. И стал ли новый код лучше, если я добавлю какой-нибудь другой блок в обработку.</p>
 <p>Всё это привело меня к \( E_b / N_0 \). Эта метрика показывает отношение энергии сигнала, приходящейся на 1 бит принимаемого сообщения (\( E_b \)), к энергетической спектральной плотности шума (\( N_0 \)). Почему она так важна? Дело в том, что она не зависит от способа модуляции сигнала и пропускной способности канала. Из-за этого её можно использовать, чтобы сравнивать различные модуляции между собой. Обычно строят график отношения \( E_b / N_0 \) к вероятности ошибки (BER). Вот <a href="https://ru.wikipedia.org/wiki/Eb/N0">пример</a> графика сравнения BPSK/QPSK/8-PSK/16-PSK:</p>
-<p><img src="/img/ber-bpsk/PSK_BER_curves.svg"></p>
+<p><img src="/posts/ber-bpsk/img/PSK_BER_curves.svg"></p>
 <p>Что из этого графика можно понять?</p>
 <ol>
 <li>Если увеличивать энергию передаваемого бита, то уменьшается вероятность возникновения ошибки.</li>
@@ -386,22 +386,22 @@
 <p>Ну и для того, чтобы понять математику, я решил проделать выводы сам. Ниже я буду рассчитывать вероятности ошибки для BPSK (см. синий график выше). Вдохновение я черпал у <a href="http://www.dsplog.com/2007/08/05/bit-error-probability-for-bpsk-modulation/">dsplog</a> плюс добавлял свои мысли.</p>
 <h2 id="дано">Дано</h2>
 <p>Прежде всего необходимо описать физику процесса. Схема процесса показана ниже:</p>
-<p><img src="/img/ber-bpsk/bpsk.png"></p>
+<p><img src="/posts/ber-bpsk/img/bpsk.png"></p>
 <ol>
 <li>Изначальное сообщение кодируется в аналоговый сигнал. &ldquo;1&rdquo; кодируется в \(+\sqrt{E_b}\), &ldquo;0&rdquo; кодируется в \(-\sqrt{E_b}\). Почему именно как корень из \(E_b\)? Не знаю. Это единственное место, где я не разобрался.</li>
 <li>После этого сигнал складывается с <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%B4%D0%B4%D0%B8%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9_%D0%B1%D0%B5%D0%BB%D1%8B%D0%B9_%D0%B3%D0%B0%D1%83%D1%81%D1%81%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D1%88%D1%83%D0%BC">аддитивным белым гауссовским шумом</a>.</li>
 <li>Далее сигнал демодулируется.</li>
 </ol>
 <p>Модулированный BPSK сигнал выглядит следующим образом:</p>
-<p><a href="/img/ber-bpsk/bpsk-constellation.m"><img src="/img/ber-bpsk/bpsk-constellation.png"></a></p>
+<p><a href="/posts/ber-bpsk/img/bpsk-constellation.m"><img src="/posts/ber-bpsk/img/bpsk-constellation.png"></a></p>
 <p>Красными точками обозначается сигнал без шума. Синими - сигнал с добавлением белого гауссовского шума. Как демодулируется этот сигнал? Все точки, которые больше &ldquo;0&rdquo; становятся &ldquo;1&rdquo;, а те, что меньше &ldquo;0&rdquo; становятся &ldquo;0&rdquo;. На рисунке выше все синие точки достаточно далеко от &ldquo;0&rdquo;, поэтому информацию можно однозначно восстановить. Но что если шум будет сильнее?</p>
-<p><a href="/img/ber-bpsk/ber-awgn.m"><img src="/img/ber-bpsk/ber-awgn.png"></a></p>
+<p><a href="/posts/ber-bpsk/img/ber-awgn.m"><img src="/posts/ber-bpsk/img/ber-awgn.png"></a></p>
 <p>Тут уже не всё так однозначно. Видно, что некоторые точки закодированные как &ldquo;1&rdquo; на самом деле оказались меньше &ldquo;0&rdquo;. И если бы я попытался их демодулировать, то получил бы неправильную информацию.</p>
 <h2 id="решение">Решение</h2>
 <p>Теперь, когда стало понятно влияние шума на результат демодуляции, можно переходить к графику зависимости вероятности от энергии сигнала. Этот график поможет посчитать вероятность ошибок для различных входных значений. Для начала возьмём сигнал без шума. Вероятность получения &ldquo;0&rdquo; или &ldquo;1&rdquo; всегда 1.</p>
-<p><a href="/img/ber-bpsk/no-error-bpsk.m"><img src="/img/ber-bpsk/no-error-bpsk.png"></a></p>
+<p><a href="/posts/ber-bpsk/img/no-error-bpsk.m"><img src="/posts/ber-bpsk/img/no-error-bpsk.png"></a></p>
 <p>Частота получения ошибочных битов (Bit error rate) будет 0. Т.е. 0 ошибочных битов на бесконечное количество принятых. В случае наличия гауссовского шума, вероятность получения определяется гауссовской функцией вероятности:</p>
-<p><a href="/img/ber-bpsk/awgn-bpsk.m"><img src="/img/ber-bpsk/awgn-bpsk.png"></a></p>
+<p><a href="/posts/ber-bpsk/img/awgn-bpsk.m"><img src="/posts/ber-bpsk/img/awgn-bpsk.png"></a></p>
 <p>Гауссовский шум определяется следующей формулой:</p>
 <p>$$
 p(x) = \dfrac{1}{\sqrt{2\pi\sigma^2}}e^\dfrac{-(x-\mu)^2}{2\sigma^2}
@@ -419,7 +419,7 @@ P(x|s_1)=\dfrac{1}{\sqrt{\pi N_0}}e^\dfrac{-(x-\sqrt{E_b})^2}{N_0}
 \end{align}
 $$</p>
 <p>Теперь самое интересное.</p>
-<p><img src="/img/ber-bpsk/awgn-bpsk-error.png"></p>
+<p><img src="/posts/ber-bpsk/img/awgn-bpsk-error.png"></p>
 <p>На этом рисунке показаны области возникновения ошибки. Зелёная область - это место, где возникает ошибка при передаче &ldquo;1&rdquo;, красная - при передаче &ldquo;0&rdquo;. Общую вероятность ошибки можно записать с помощью формулы полной вероятности:</p>
 <p>$$
 P(error)=\dfrac{1}{2}P(error|s_0) + \dfrac{1}{2}P(error|s_1)
@@ -528,6 +528,8 @@ function csvJSON(csv){
 
 	
 	
+		var berBpskData = [{"ber":0.07865,"ebno":0},{"ber":0.076274,"ebno":0.1},{"ber":0.073927,"ebno":0.2},{"ber":0.071609,"ebno":0.3},{"ber":0.069321,"ebno":0.4},{"ber":0.067065,"ebno":0.5},{"ber":0.064841,"ebno":0.6},{"ber":0.06265,"ebno":0.7},{"ber":0.060492,"ebno":0.8},{"ber":0.058369,"ebno":0.9},{"ber":0.056282,"ebno":1},{"ber":0.054231,"ebno":1.1},{"ber":0.052216,"ebno":1.2},{"ber":0.050239,"ebno":1.3},{"ber":0.048301,"ebno":1.4},{"ber":0.046401,"ebno":1.5},{"ber":0.044541,"ebno":1.6},{"ber":0.042721,"ebno":1.7},{"ber":0.040942,"ebno":1.8},{"ber":0.039203,"ebno":1.9},{"ber":0.037506,"ebno":2},{"ber":0.035851,"ebno":2.1},{"ber":0.034238,"ebno":2.2},{"ber":0.032668,"ebno":2.3},{"ber":0.03114,"ebno":2.4},{"ber":0.029655,"ebno":2.5},{"ber":0.028214,"ebno":2.6},{"ber":0.026815,"ebno":2.7},{"ber":0.02546,"ebno":2.8},{"ber":0.024148,"ebno":2.9},{"ber":0.022878,"ebno":3},{"ber":0.021652,"ebno":3.1},{"ber":0.020469,"ebno":3.2},{"ber":0.019328,"ebno":3.3},{"ber":0.018229,"ebno":3.4},{"ber":0.017173,"ebno":3.5},{"ber":0.016157,"ebno":3.6},{"ber":0.015183,"ebno":3.7},{"ber":0.014249,"ebno":3.8},{"ber":0.013355,"ebno":3.9},{"ber":0.012501,"ebno":4},{"ber":0.011685,"ebno":4.1},{"ber":0.010907,"ebno":4.2},{"ber":0.010167,"ebno":4.3},{"ber":0.009462,"ebno":4.4},{"ber":0.008794,"ebno":4.5},{"ber":0.00816,"ebno":4.6},{"ber":0.00756,"ebno":4.7},{"ber":0.006993,"ebno":4.8},{"ber":0.006458,"ebno":4.9},{"ber":0.005954,"ebno":5},{"ber":0.00548,"ebno":5.1},{"ber":0.005035,"ebno":5.2},{"ber":0.004617,"ebno":5.3},{"ber":0.004227,"ebno":5.4},{"ber":0.003862,"ebno":5.5},{"ber":0.003522,"ebno":5.6},{"ber":0.003206,"ebno":5.7},{"ber":0.002912,"ebno":5.8},{"ber":0.00264,"ebno":5.9},{"ber":0.002388,"ebno":6},{"ber":0.002156,"ebno":6.1},{"ber":0.001942,"ebno":6.2},{"ber":0.001745,"ebno":6.3},{"ber":0.001565,"ebno":6.4},{"ber":0.0014,"ebno":6.5},{"ber":0.001249,"ebno":6.6},{"ber":0.001112,"ebno":6.7},{"ber":0.000988,"ebno":6.8},{"ber":0.000875,"ebno":6.9},{"ber":0.000773,"ebno":7},{"ber":0.000681,"ebno":7.1},{"ber":0.000598,"ebno":7.2},{"ber":0.000524,"ebno":7.3},{"ber":0.000458,"ebno":7.4},{"ber":0.000399,"ebno":7.5},{"ber":0.000346,"ebno":7.6},{"ber":0.0003,"ebno":7.7},{"ber":0.000259,"ebno":7.8},{"ber":0.000223,"ebno":7.9},{"ber":0.000191,"ebno":8},{"ber":0.000163,"ebno":8.1},{"ber":0.000139,"ebno":8.2},{"ber":0.000118,"ebno":8.3},{"ber":0.0001,"ebno":8.4},{"ber":0.000084,"ebno":8.5},{"ber":0.000071,"ebno":8.6},{"ber":0.000059,"ebno":8.7},{"ber":0.000049,"ebno":8.8},{"ber":0.000041,"ebno":8.9},{"ber":0.000034,"ebno":9},{"ber":0.000028,"ebno":9.1},{"ber":0.000023,"ebno":9.2},{"ber":0.000018,"ebno":9.3},{"ber":0.000015,"ebno":9.4},{"ber":0.000012,"ebno":9.5},{"ber":0.00001,"ebno":9.6},{"ber":0.000008,"ebno":9.7},{"ber":0.000006,"ebno":9.8},{"ber":0.000005,"ebno":9.9},{"ber":0.000004,"ebno":10}]
+	
 
 
 var xAxisKey = 'ebno';
@@ -625,7 +627,7 @@ const berBpskChart = new Chart(berBpskCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/ber-bpsk/ber-bpsk.png">
+	<img src="img/ber-bpsk.png">
 </noscript>
 
 </div>

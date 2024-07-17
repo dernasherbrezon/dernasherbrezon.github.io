@@ -407,7 +407,7 @@ VC4CL Проект VC4CL реализует OpenCL 1.2 API для Raspberrypi. �
 </span></span><span style="display:flex;"><span>make
 </span></span><span style="display:flex;"><span>sudo make install
 </span></span></code></pre></div><p>После того как установлены необходимые компоненты, можно проверить результат. Команда <code>sudo clinfo</code> должна выдать хотя бы одно доступное устройство:</p>
-<p><img src="/img/install-opencl-raspberrypi/1.png"></p>
+<p><img src="/posts/install-opencl-raspberrypi/img/1.png"></p>
 <h2 id="cldsp-test">clDsp-test</h2>
 <p>Я создал небольшой проект на github - <a href="https://github.com/dernasherbrezon/clDsp-test">clDsp-test</a>. В нём я реализовал КИХ-фильтр, который является наиболее узким местом Frequency Xlating FIR filter. С помощью него я могу сравнить производительность CPU и GPU. Этот тест выбран неслучайно. Именно этот фильтр находится в центре <a href="https://github.com/dernasherbrezon/sdr-server/blob/main/src/xlating.c">sdr-server</a> и является наиболее узким местом системы.</p>
 <p>Поддержка OpenCL подключается в проект следующим образом:</p>

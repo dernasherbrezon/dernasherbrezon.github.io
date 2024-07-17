@@ -11,7 +11,7 @@
 Телеметрия Первое, что приходит людям на ум, когда говоришь &ldquo;следить за спутниками&rdquo; - это шпионские страсти.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/satellite-telemetry/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/satellite-telemetry/diagram.png'><meta property='article:section' content='posts'><meta property='article:tag' content='satnogs'><meta property='article:tag' content='космонавтика'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2019-10-24T21:40:18&#43;01:00'/><meta property='article:modified_time' content='2019-10-24T21:40:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/satellite-telemetry/diagram.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='satnogs'><meta property='article:tag' content='космонавтика'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2019-10-24T21:40:18&#43;01:00'/><meta property='article:modified_time' content='2019-10-24T21:40:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -374,7 +374,7 @@
 <p>Иногда в разговоре с разными людьми речь заходит о моём хобби. В таком случае я говорю, что слежу за спутниками. Для большинства это объяснение не слишком-то информативно, поэтому оно идеально подходит для того, чтобы продолжить разговор и одновременно возбудить любопытство. Однако, не все могут лично со мной пообщаться, поэтому в этом посте я хотел бы рассказать о том, что такое - следить за спутниками.</p>
 <h2 id="телеметрия">Телеметрия</h2>
 <p>Первое, что приходит людям на ум, когда говоришь &ldquo;следить за спутниками&rdquo; - это шпионские страсти. Наверное, потому что спутники, благодаря кино, неразрывно связаны со слежением, супер секретными технологиями и пр. Однако, в реальности это совсем не так. Вернее, не совсем так. Конечно, существуют и военные спутники, и спутники-шпионы, но подавляющее количество спутников совсем обычные. Они бывают как коммерческие, за доступ к которым необходимо заплатить, так и научные, доступ к которым сложно получить из-за сложной наземной аппаратуры. Бывают также студенческие - простые с открытым протоколом, доступные для всех.</p>
-<p><img src="/img/satellite-telemetry/telemetry.png"></p>
+<p><img src="/posts/satellite-telemetry/img/telemetry.png"></p>
 <p>Когда речь заходит о слежении за спутниками, я прежде всего имею в виду простые спутники с открытым доступом и протоколом. Зачастую авторы этих спутников заинтересованы в том, чтобы как можно больше людей получили доступ. Прежде всего это связано с тем, что спутник пролетает над университетом достаточно быстро - в среднем 10 минут. За это время университетская станция приёма сигнала может получить только небольшое количество информации о спутнике. Но что происходило со спутником в других точках земли? На обратной стороне земли? У полюса? Именно поэтому владельцы небольших спутников поощряют огромную сеть радиолюбителей по всему миру собирать данные и отправлять им по электронной почте (sic!) или через API. Для этих целей радиолюбители устанавливают у себя дома, на крыше, в саду станции приёма сигнала и по интернету передают его назад владельцам спутника.</p>
 <p>Какие же данные передаёт спутник? Большинство спутников передают телеметрию. Это сильно-упакованная бинарная структура с информацией о всех (или почти всех) узлах спутника. Она может включать в себя:</p>
 <ul>
@@ -389,7 +389,7 @@
 <p>К счастью, производители всё больше и больше понимают полезность географически распределённой сети приёма сигналов. Это в свою очередь позволяет проектам вроде <a href="https://github.com/daniestevez/gr-satellites">gr-satellites</a> добавлять поддержку новых спутников и <a href="https://satnogs.org">станциям по всему миру</a> принимать сигналы.</p>
 <h2 id="что-же-делать-с-телеметрией">Что же делать с телеметрией?</h2>
 <p>Как я уже говорил выше, телеметрия нужна прежде всего владельцам спутников. Мой проект <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a> как раз позволяет получать информацию со спутников и делать ее доступной для всех. Для этого я интегрировался с проектами <a href="https://satnogs.org">SatNOGS</a> и <a href="http://data.amsat-uk.org/missions">Amsat-UK Data warehouse</a>. Схема работы выглядит следующим образом:</p>
-<p><img src="/img/satellite-telemetry/diagram.png"></p>
+<p><img src="/posts/satellite-telemetry/img/diagram.png"></p>
 <ol>
 <li>Базовая станция получает сигнал со спутника, демодулирует и декодирует его</li>
 <li>Если настроена интеграция с <a href="https://r2server.ru">r2server.ru</a>, то данные отсылаются на центральный сервер</li>
@@ -397,14 +397,14 @@
 </ol>
 <h3 id="satnogs">Satnogs</h3>
 <p>Проект Satnogs - это глобальная сеть приёма сигналов со спутников. Она позволяет централизованно хранить информацию о наблюдениях, а так же предоставляет API для загрузки данных извне. Этот API позволяет загружать принятую телеметрию по протоколу <a href="http://www.pe0sat.vgnet.nl/decoding/tlm-decoding-software/sids/">SiDS</a>. Я написал <a href="https://github.com/dernasherbrezon/sids">небольшую библиотеку</a>, которая реализует данный протокол и позволяет загружать телеметрию из r2cloud в satnogs.</p>
-<p><img src="/img/satellite-telemetry/satnogsTelemetryAPI.png"></p>
+<p><img src="/posts/satellite-telemetry/img/satnogsTelemetryAPI.png"></p>
 <p>Satnogs также предоставляет сервис <a href="https://dashboard.satnogs.org">https://dashboard.satnogs.org</a>. В этом сервисе можно создать дашборд на котором можно выводить различные показатели спутника и анализировать данные.</p>
-<p><img src="/img/satellite-telemetry/satnogsDashboard.png"></p>
+<p><img src="/posts/satellite-telemetry/img/satnogsDashboard.png"></p>
 <h3 id="amsat-uk-data-warehouse">Amsat-UK Data warehouse</h3>
 <p>Этот сервис агрегирует информацию со спутников Funcube-1, Nayif-1, Jy1sat, Eseo. Для этого сервиса я также написал <a href="https://github.com/dernasherbrezon/fcdwClient">небольшую библиотеку</a>.</p>
-<p><img src="/img/satellite-telemetry/fcdw.png"></p>
+<p><img src="/posts/satellite-telemetry/img/fcdw.png"></p>
 <p>Графики в этом сервисе чуть попроще, тем не менее позволяют делать некоторые выводы о том, как работает спутник.</p>
-<p><img src="/img/satellite-telemetry/fcdwGraphs.png"></p>
+<p><img src="/posts/satellite-telemetry/img/fcdwGraphs.png"></p>
 <p>При желании можно выгрузить все данные и проанализировать локально.</p>
 <h2 id="нужна-помощь">Нужна помощь</h2>
 <p>Сообществу крайне необходимо как можно больше станций приема сигнала. И каждый может помочь в этом. Достаточно лишь установить антенну и настроить станцию приёма. Вся станция стоит <a href="https://github.com/dernasherbrezon/r2cloud/wiki/Bill-of-materials">не больше 100$</a> и состоит из простых и заменяемых компонент. Чем больше станций расположено по всему миру, тем больше информации мы можем узнать о космосе.</p>

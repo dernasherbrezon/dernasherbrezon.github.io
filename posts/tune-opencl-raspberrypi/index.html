@@ -547,9 +547,9 @@
 <p>Тест производительности выглядит абсолютно так же, как и для OpenCL кода. Параметры фильтра, размер входящих данных. Результат запуска: 0.002152. Ну что я могу сказать? В ~6.5 раз быстрее. ARM ядро работает на частоте 1.2Ггц, а GPU - на частоте 400Мгц. В 3 раза медленнее. Но и параллелизм в GPU больше! 12 потоков против одного.</p>
 <h2 id="100-cpu-во-время-работы-gpu">100% CPU во время работы GPU</h2>
 <p>Во время запуска тестов я обнаружил, что CPU полностью загружен:</p>
-<p><img src="/img/tune-opencl-raspberrypi/1.png"></p>
+<p><img src="/posts/tune-opencl-raspberrypi/img/1.png"></p>
 <p>Я бы ожидал, что процессор будет загружен на 20% или 10%, но это не так. Если запустить perf, то можно увидеть следующее:</p>
-<p><img src="/img/tune-opencl-raspberrypi/2.png"></p>
+<p><img src="/posts/tune-opencl-raspberrypi/img/2.png"></p>
 <p>Почти всё время проводится вот в <a href="https://github.com/doe300/VC4CL/blob/4bf06c9032afa01ce148ce587d7b800e52529770/src/hal/V3D.cpp#L221">этом участке кода</a>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">while</span>(true)
 </span></span><span style="display:flex;"><span>{

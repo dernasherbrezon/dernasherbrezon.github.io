@@ -13,7 +13,7 @@
 измерять потребление тока в разных режимах: сна активной работы простоя измерять потребление во времени. Дисплей умеет переключаться в режим построения графика и показывать, как меняется потребление в течении некоторого времени. измерять общее потребление за промежуток времени.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/smart-usb-meter-a3-b/a3-b.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='r2lora'><meta property='article:tag' content='esp32'><meta property='article:tag' content='bluetooth'><meta property='article:published_time' content='2022-01-06T18:30:18Z'/><meta property='article:modified_time' content='2022-01-06T18:30:18Z'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/smart-usb-meter-a3-b/a3-b.jpg'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/a3-b.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='r2lora'><meta property='article:tag' content='esp32'><meta property='article:tag' content='bluetooth'><meta property='article:published_time' content='2022-01-06T18:30:18Z'/><meta property='article:modified_time' content='2022-01-06T18:30:18Z'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/a3-b.jpg'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -400,7 +400,7 @@
 <p>И тут на помощь приходит github. Оказывается, умельцы уже давно разобрались в протоколе и смогли написать кучу программ. Для начала нужно найти устройство и привязать его:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bluetoothctl scan on
 </span></span></code></pre></div><p>Эта команда выдаст всевозможные bluetooth устройства в округе:</p>
-<p><img src="/img/smart-usb-meter-a3-b/discovery.png"></p>
+<p><img src="/posts/smart-usb-meter-a3-b/img/discovery.png"></p>
 <p>A3-B опознаётся как 2 устройства: E-test BLE и E-test SPP. BLE - это <a href="https://ru.wikipedia.org/wiki/Bluetooth_%D1%81_%D0%BD%D0%B8%D0%B7%D0%BA%D0%B8%D0%BC_%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%BE%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%D0%BC">bluetooth low energy</a>. SPP - это профиль <a href="https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Serial_Port_Profile_(SPP)">serial port profile</a>. Вся коммуникация будет идти через serial port, поэтому нужно подключатся к SPP устройству.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo rfcomm bind <span style="color:#ae81ff">0</span> B3:BA:D5:A7:1F:E1 <span style="color:#ae81ff">2</span>
 </span></span></code></pre></div><p>Эта команда создаст устройство <code>/dev/rfcomm0</code>, привяжет к нему bluetooth устройство и выберет порт номер 2. Номер порта - это очень важно. Устройство по-умолчанию предоставляет несколько портов. Но только по порту 2 можно получать данные. Вполне возможно остальные порты используются для перепрошивки устройства.</p>
@@ -491,6 +491,8 @@ function csvJSON(csv){
 
 	
 	
+		var razernagaData = [{"current":0.105,"voltage":5.09},{"current":0.107,"voltage":5.09},{"current":0.11,"voltage":5.08},{"current":0.113,"voltage":5.09},{"current":0.118,"voltage":5.09},{"current":0.119,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.107,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.09,"voltage":5.09},{"current":0.092,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.103,"voltage":5.09},{"current":0.111,"voltage":5.09},{"current":0.118,"voltage":5.08},{"current":0.117,"voltage":5.08}]
+	
 
 
 razernagaData.forEach(function(e, index) {
@@ -575,7 +577,7 @@ const razernagaChart = new Chart(razernagaCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="img/razernaga2.png">
 </noscript>
 <p>Raspberry PI 3b. Среднее потребление в режиме ожидания 300мА.</p>
 
@@ -633,6 +635,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var raspberrypi3bData = [{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.299,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.303,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14}]
 	
 
 
@@ -718,7 +722,7 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
+	<img src="img/raspberrypi3b2.png">
 </noscript>
 <p>Далее, сравнение потребления проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> и <a href="http://tinygs.com">tinyGS</a>. Оба работают на одной и той же плате <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&Id=1326&FId=t3:50060:3">TTGO LoRa32</a>:</p>
 
@@ -776,6 +780,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}]
 	
 
 
@@ -873,7 +879,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
+	<img src="img/r2lora-tinygs2.png">
 </noscript>
 <p>Проект r2lora значительно проще, чем tinyGS, поэтому и потребление энергии меньше. Ещё я отказался от сложного UI с несколькими экранами, часами и пр. Если сделать яркость экрана tinyGS равной 0, то получатся следующие значения:</p>
 
@@ -931,6 +937,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var tinygsIdleBlackData = [{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.127,"fullVoltage":5.01},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5.01},{"disabledCurrent":0.118,"disabledVoltage":5,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.107,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.141,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.138,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.151,"fullVoltage":4.99},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.131,"fullVoltage":5},{"disabledCurrent":0.117,"disabledVoltage":5,"fullCurrent":0.14,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.158,"fullVoltage":4.99},{"disabledCurrent":0.111,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.172,"fullVoltage":4.98},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.135,"fullVoltage":5}]
 	
 
 
@@ -1028,7 +1036,7 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
+	<img src="img/tinygs-idle-black2.png">
 </noscript>
 <p>Помогло, но не сильно. Среднее потребление около 100мА.</p>
 
@@ -1086,6 +1094,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var firmwareData = [{"current":0.033,"voltage":5.02},{"current":0.033,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.026,"voltage":5.02},{"current":0.026,"voltage":5.03},{"current":0.027,"voltage":5.01},{"current":0.027,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.027,"voltage":5.03},{"current":0.029,"voltage":5.03},{"current":0.026,"voltage":5.03},{"current":0.031,"voltage":5.03},{"current":0.028,"voltage":5.03},{"current":0.026,"voltage":5.02}]
 	
 
 
@@ -1171,7 +1181,7 @@ const firmwareChart = new Chart(firmwareCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/firmware2.png">
+	<img src="img/firmware2.png">
 </noscript>
 <p>Загрузка новой прошивки потребляет около 30мА. Забавно.</p>
 
@@ -1229,6 +1239,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var wifiData = [{"current":0.054,"voltage":5.02},{"current":0.054,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.033,"voltage":5.03},{"current":0.046,"voltage":5.02},{"current":0.135,"voltage":5},{"current":0.146,"voltage":4.99},{"current":0.134,"voltage":5},{"current":0.132,"voltage":5},{"current":0.142,"voltage":5},{"current":0.133,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.133,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.145,"voltage":5},{"current":0.139,"voltage":5},{"current":0.133,"voltage":5},{"current":0.153,"voltage":4.99},{"current":0.146,"voltage":5},{"current":0.145,"voltage":5},{"current":0.154,"voltage":4.99},{"current":0.144,"voltage":5},{"current":0.068,"voltage":5.02}]
 	
 
 
@@ -1314,7 +1326,7 @@ const wifiChart = new Chart(wifiCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/wifi2.png">
+	<img src="img/wifi2.png">
 </noscript>
 <p>Кстати, во время первоначального соединения по WiFi потребление тока вырастает до ~150мА. Причём как для r2lora, так и tinyGS. Как только IP адрес получен, то потребление резко возвращается к нормальному.</p>
 <p>Ещё я померил потребление в режиме приёма сигнала по протоколу LoRa. Оно совсем не меняется, либо меняется в рамках погрешности.</p>
@@ -1374,6 +1386,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var fullData = [{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.298,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.493,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.485,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.429,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.432,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.448,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.433,"voltage":5.16},{"current":0.43,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.377,"voltage":5.15},{"current":0.383,"voltage":5.15},{"current":0.364,"voltage":5.15},{"current":0.357,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.356,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.354,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.344,"voltage":5.15}]
 	
 
 
@@ -1459,7 +1473,7 @@ const fullChart = new Chart(fullCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/full2.png">
+	<img src="img/full2.png">
 </noscript>
 <p>Сразу при подключении потребление резко подскакивает до 500мА. Потом идёт подключение ESP32 к WiFi точке доступа, а потом нормальная работа. При этом напряжение с 5.140В подскакивает до 5.160В и нормализируется до 5.140В.</p>
 <h2 id="выводы">Выводы</h2>

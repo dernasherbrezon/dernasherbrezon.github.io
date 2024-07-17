@@ -470,6 +470,8 @@ function csvJSON(csv){
 
 	
 	
+		var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}]
+	
 
 
 r2loraTinygsData.forEach(function(e, index) {
@@ -566,7 +568,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
+	<img src="img/r2lora-tinygs2.png">
 </noscript>
 <p>Сама библиотека chartjs подключается один в раз в заголовочной файле <code>head/extra.html</code>:</p>
 <pre tabindex="0"><code>{{- if eq .Params.chartjs true -}}
@@ -589,7 +591,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 <pre tabindex="0"><code>@remove: $body//canvas
 @remove: //a[@class=&#34;downloadChart&#34;]
 @detach: //noscript/img
-</code></pre><p><img src="/img/dynamic-charts-hugo/instant-view.png"></p>
+</code></pre><p><img src="/posts/dynamic-charts-hugo/img/instant-view.png"></p>
 <h2 id="rss">RSS</h2>
 <p>Да, мой блог ещё доступен по RSS. Например, Яндекс использует RSS, чтобы делать свои <a href="https://yandex.ru/dev/turbo/">турбо-страницы</a>. По сути - это такие же специальные страницы, как и Telegram instant view, только для Яндекса. Если ничего специального не сделать, то в RSS попадёт портянка javascript, который просто не будет работать.</p>
 <p>Для того чтобы починить RSS, нужно сделать следующее:</p>
@@ -600,7 +602,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
 <pre tabindex="0"><code>{{ $staticSrc := .Get &#34;staticSrc&#34; }}
 &lt;img src=&#34;{{ $staticSrc }}&#34;&gt;
 </code></pre><p>После всех этих манипуляций, RSS будет содержать статичные картинки:</p>
-<p><img src="/img/dynamic-charts-hugo/rss.png"></p>
+<p><img src="/posts/dynamic-charts-hugo/img/rss.png"></p>
 <p>После всех этих манипуляций блог стал выглядеть чуть более приятным. Хотя бы для меня самого. А это уже неплохо!</p>
 
 </div>

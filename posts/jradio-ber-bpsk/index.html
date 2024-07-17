@@ -9,7 +9,7 @@
 <meta property='og:description' content='Введение Спустя несколько недель я наконец-то закончил одну очень важную задачу - расчёт вероятности ошибки в BSPK демодуляторе. Почему это важно? Демодулятор работает с сигналом, который проходит через физическую среду. В этой среде возможны сильные или слабые возмущения, которые непосредственно влияют на сигнал. И принимаемый сигнал может меняться со временем от хорошего до плохого и обратно. Из-за этого нельзя однозначно сказать демодулятор &ldquo;работает&rdquo; или &ldquo;не работает&rdquo;. Чтобы оценить его эффективность, необходимо симулировать среду передачи данных и сказать сколько ошибок он выдаёт при разных возмущениях среды.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/jradio-ber-bpsk/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/jradio-ber-bpsk/ber-bpsk-demodulator.png'><meta property='article:section' content='posts'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2019-08-16T10:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-16T10:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/jradio-ber-bpsk/ber-bpsk-demodulator.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='bpsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='gnuradio'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2019-08-16T10:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-16T10:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -386,12 +386,12 @@
 <p>Если была принята ошибка, то дифференциальное декодирование добавит ещё одну. Это значит необходимо поделить на 2. Для скремблирования я использую полином <code>0b00000000000100001</code>. А это значит, что на любую ошибку на входе, будет сгенерировано 3 ошибки на выходе. Итого получается 2*3=6.</p>
 <h2 id="результаты">Результаты</h2>
 <p>Прежде чем получить финальный результат, я провёл несколько измерений для различных конфигураций демодулятора. Изначально демодулятор содержал блок эквалайзера. Он был нужен прежде всего для того, чтобы бороться с <a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%BD%D0%BE%D0%B3%D0%BE%D0%BB%D1%83%D1%87%D0%B5%D0%B2%D0%BE%D0%B5_%D1%80%D0%B0%D1%81%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5">многолучевым распространением</a>. Однако, на практике характеристики демодулятора сильно хуже теоретических:</p>
-<p><a href="/img/jradio-ber-bpsk/lmsdd.m"><img src="/img/jradio-ber-bpsk/lmsdd.png"></a></p>
+<p><a href="/posts/jradio-ber-bpsk/img/lmsdd.m"><img src="/posts/jradio-ber-bpsk/img/lmsdd.png"></a></p>
 <p>Синей линией обозначается теоретическое значение, красной - практическое измерение.</p>
 <p>Ещё одним фактором влияющим на результат является количество данных. Вот пример расчёта для 100000 переданных битов:</p>
-<p><a href="/img/jradio-ber-bpsk/100000bit.m"><img src="/img/jradio-ber-bpsk/100000bit.png"></a></p>
+<p><a href="/posts/jradio-ber-bpsk/img/100000bit.m"><img src="/posts/jradio-ber-bpsk/img/100000bit.png"></a></p>
 <p>А вот тот же расчёт, но для 1000000 бит:</p>
-<p><a href="/img/jradio-ber-bpsk/ber-bpsk-demodulator.m"><img alt="bpsk demodulator" src="/img/jradio-ber-bpsk/ber-bpsk-demodulator.png"></a></p>
+<p><a href="/posts/jradio-ber-bpsk/img/ber-bpsk-demodulator.m"><img alt="bpsk demodulator" src="/posts/jradio-ber-bpsk/img/ber-bpsk-demodulator.png"></a></p>
 <p>Как видно на картинке, практическая реализация BPSK демодулятора почти совпадает с <a href="https://dernasherbrezon.com/posts/ber-bpsk/">теоретическими расчётами</a>. Это даёт уверенности в текущей реализации и позволяет начать оптимизировать другие показатели демодулятора. Также я могу в любой момент запустить тест и проверить изменились ли характеристики. Это очень мощный инструмент отладки.</p>
 <h2 id="что-дальше">Что дальше?</h2>
 <p>Можно добавить различные искажения среды и измерить реакцию демодулятора на них. Из того, что доступно:</p>

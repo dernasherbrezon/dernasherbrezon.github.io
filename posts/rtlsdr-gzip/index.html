@@ -13,7 +13,7 @@
 240 000 байт/сек * 2 (канала) * 12 минут = 288000000 байт = ~288мб Почему такая большая частота?'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/rtlsdr-gzip/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/rtlsdr-gzip/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='производительность'><meta property='article:tag' content='raspberrypi'><meta property='article:published_time' content='2019-03-04T17:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-04T17:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/rtlsdr-gzip/3.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='производительность'><meta property='article:tag' content='raspberrypi'><meta property='article:published_time' content='2019-03-04T17:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-04T17:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -373,7 +373,7 @@
 
   <div class='container entry-content'>
   <p>Недавно я добавил поддержку более 20 спутников в <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>. Из-за этого принимаемых данных стало значительно больше и диск переполнился. Чтобы как-то решить эту проблему, я уменьшил количество сохраняемых наблюдений. Теперь сохраняются последние 3 наблюдения для каждого спутника. Это не сильно помогло:</p>
-<p><img src="/img/rtlsdr-gzip/1.png"></p>
+<p><img src="/posts/rtlsdr-gzip/img/1.png"></p>
 <p>Дело в том, что при пролёте спутника, я сохраняю данные в raw I/Q с частотой пример 240 000 сэмплов в секунду. Это создаёт файл:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ae81ff">240</span> <span style="color:#ae81ff">000</span> байт/сек * <span style="color:#ae81ff">2</span> <span style="color:#f92672">(</span>канала<span style="color:#f92672">)</span> * <span style="color:#ae81ff">12</span> минут <span style="color:#f92672">=</span> <span style="color:#ae81ff">288000000</span> байт <span style="color:#f92672">=</span> ~288мб
 </span></span></code></pre></div><p>Почему такая большая частота? Кубсаты обычно занимают гораздо меньшую полосу частот, но дело в том, что rtl-sdr не умеет меньше. Поэтому необходимо сохранить данные с такой частотой, а потом даунсэмплировать в более низкую.</p>
@@ -390,12 +390,12 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>timeout 10m vmstat <span style="color:#ae81ff">1</span> &gt; ~/nogz_vmstat.txt &amp;
 </span></span><span style="display:flex;"><span>timeout 10m rtl_sdr -f <span style="color:#ae81ff">145952432</span> -s <span style="color:#ae81ff">240000</span> -g <span style="color:#ae81ff">45</span> -p <span style="color:#ae81ff">7</span> /tmp/nogz.raw &amp;
 </span></span></code></pre></div><p>В результате получаются следующие графики загрузки CPU (us) и диска (wa):</p>
-<p><img src="/img/rtlsdr-gzip/2.png"></p>
+<p><img src="/posts/rtlsdr-gzip/img/2.png"></p>
 <p>Новый способ запускается следующим образом:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>timeout 10m vmstat <span style="color:#ae81ff">1</span> &gt; ~/gz_vmstat.txt &amp;
 </span></span><span style="display:flex;"><span>timeout 10m rtl_sdr -f <span style="color:#ae81ff">145952432</span> -s <span style="color:#ae81ff">240000</span> -g <span style="color:#ae81ff">45</span> -p <span style="color:#ae81ff">7</span> - | gzip &gt; /tmp/gz.raw.gz &amp;
 </span></span></code></pre></div><p>И получается:</p>
-<p><img src="/img/rtlsdr-gzip/3.png"></p>
+<p><img src="/posts/rtlsdr-gzip/img/3.png"></p>
 <p>На диске при этом:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pi@raspberrypi:/tmp $ ls -lh
 </span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi   pi    47M Apr  <span style="color:#ae81ff">2</span> 21:30 gz.raw.gz

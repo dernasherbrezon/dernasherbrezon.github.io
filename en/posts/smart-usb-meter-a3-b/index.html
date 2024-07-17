@@ -13,7 +13,7 @@ This device allows measuring the current and voltage flowing between the USB inp
 Measure current consumption in different modes: Sleep Active work Standby Measure consumption over time. The display can switch to a graphing mode, showing how consumption changes over a period.'>
 <meta property='og:url' content='https://dernasherbrezon.com/en/posts/smart-usb-meter-a3-b/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/smart-usb-meter-a3-b/a3-b.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='r2lora'><meta property='article:tag' content='esp32'><meta property='article:tag' content='bluetooth'><meta property='article:published_time' content='2022-01-06T18:30:18Z'/><meta property='article:modified_time' content='2022-01-06T18:30:18Z'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/smart-usb-meter-a3-b/a3-b.jpg'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/a3-b.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='r2lora'><meta property='article:tag' content='esp32'><meta property='article:tag' content='bluetooth'><meta property='article:published_time' content='2022-01-06T18:30:18Z'/><meta property='article:modified_time' content='2022-01-06T18:30:18Z'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/a3-b.jpg'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -229,7 +229,7 @@ Measure current consumption in different modes: Sleep Active work Standby Measur
 <p>Here GitHub comes to the rescue. It turns out that enthusiasts have long figured out the protocol and have written a bunch of programs. To start, you need to find the device and pair it:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bluetoothctl scan on
 </span></span></code></pre></div><p>This command will display all nearby Bluetooth devices:</p>
-<p><img src="/img/smart-usb-meter-a3-b/discovery.png"></p>
+<p><img src="/posts/smart-usb-meter-a3-b/img/discovery.png"></p>
 <p>A3-B is identified as 2 devices: E-test BLE and E-test SPP. BLE is <a href="https://en.wikipedia.org/wiki/Bluetooth_Low_Energy">bluetooth low energy</a> and SPP is <a href="https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Serial_Port_Profile_(SPP)">serial port profile</a>. All communication will go through the serial port, so you need to connect to the SPP device.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo rfcomm bind <span style="color:#ae81ff">0</span> B3:BA:D5:A7:1F:E1 <span style="color:#ae81ff">2</span>
 </span></span></code></pre></div><p>This command will create the device <code>/dev/rfcomm0</code>, bind the Bluetooth device to it, and select port number 2. The port number is crucial. The device provides several ports by default, but only port 2 can be used to receive data. It&rsquo;s possible that the other ports are used for device reprogramming.</p>
@@ -320,6 +320,8 @@ function csvJSON(csv){
 
 	
 	
+		var razernagaData = [{"current":0.105,"voltage":5.09},{"current":0.107,"voltage":5.09},{"current":0.11,"voltage":5.08},{"current":0.113,"voltage":5.09},{"current":0.118,"voltage":5.09},{"current":0.119,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.118,"voltage":5.08},{"current":0.107,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.09,"voltage":5.09},{"current":0.092,"voltage":5.09},{"current":0.097,"voltage":5.09},{"current":0.103,"voltage":5.09},{"current":0.111,"voltage":5.09},{"current":0.118,"voltage":5.08},{"current":0.117,"voltage":5.08}]
+	
 
 
 razernagaData.forEach(function(e, index) {
@@ -404,7 +406,7 @@ const razernagaChart = new Chart(razernagaCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/razernaga2.png">
+	<img src="img/razernaga2.png">
 </noscript>
 <p>Raspberry Pi 3b has an average standby consumption of 300mA.</p>
 
@@ -462,6 +464,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var raspberrypi3bData = [{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.299,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.303,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.295,"voltage":5.14},{"current":0.297,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14}]
 	
 
 
@@ -547,7 +551,7 @@ const raspberrypi3bChart = new Chart(raspberrypi3bCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/raspberrypi3b2.png">
+	<img src="img/raspberrypi3b2.png">
 </noscript>
 <p>Next, a comparison of the power consumption of <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> and <a href="http://tinygs.com">tinyGS</a>. projects. Both run on the same <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&Id=1326&FId=t3:50060:3">TTGO LoRa32</a> board:</p>
 
@@ -605,6 +609,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var r2loraTinygsData = [{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.097,"r2loraVoltage":5.01,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.127,"tinygsVoltage":5.01},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5.01},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.136,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.075,"r2loraVoltage":5.01,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.065,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.061,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.141,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.134,"tinygsVoltage":5},{"r2loraCurrent":0.076,"r2loraVoltage":5.01,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5},{"r2loraCurrent":0.054,"r2loraVoltage":5.02,"tinygsCurrent":0.151,"tinygsVoltage":4.99},{"r2loraCurrent":0.069,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.082,"r2loraVoltage":5.01,"tinygsCurrent":0.139,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.052,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.128,"tinygsVoltage":5},{"r2loraCurrent":0.074,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.049,"r2loraVoltage":5.02,"tinygsCurrent":0.129,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.131,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.14,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.158,"tinygsVoltage":4.99},{"r2loraCurrent":0.088,"r2loraVoltage":5.01,"tinygsCurrent":0.13,"tinygsVoltage":5},{"r2loraCurrent":0.06,"r2loraVoltage":5.02,"tinygsCurrent":0.142,"tinygsVoltage":5},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.172,"tinygsVoltage":4.98},{"r2loraCurrent":0.05,"r2loraVoltage":5.02,"tinygsCurrent":0.135,"tinygsVoltage":5},{"r2loraCurrent":0.062,"r2loraVoltage":5.02,"tinygsCurrent":0.146,"tinygsVoltage":5},{"r2loraCurrent":0.059,"r2loraVoltage":5.02,"tinygsCurrent":0.138,"tinygsVoltage":5}]
 	
 
 
@@ -702,7 +708,7 @@ const r2loraTinygsChart = new Chart(r2loraTinygsCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png">
+	<img src="img/r2lora-tinygs2.png">
 </noscript>
 <p>The r2lora project is much simpler than tinyGS, hence lower energy consumption. I also opted for a simple UI with a single screen, no clock, etc. If you set the tinyGS screen brightness to 0, you get the following values:</p>
 
@@ -760,6 +766,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var tinygsIdleBlackData = [{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.127,"fullVoltage":5.01},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.128,"fullVoltage":5.01},{"disabledCurrent":0.118,"disabledVoltage":5,"fullCurrent":0.136,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.107,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.141,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.134,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.138,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.151,"fullVoltage":4.99},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.139,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.128,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.114,"disabledVoltage":5.01,"fullCurrent":0.129,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5.01,"fullCurrent":0.131,"fullVoltage":5},{"disabledCurrent":0.117,"disabledVoltage":5,"fullCurrent":0.14,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.158,"fullVoltage":4.99},{"disabledCurrent":0.111,"disabledVoltage":5.01,"fullCurrent":0.13,"fullVoltage":5},{"disabledCurrent":0.115,"disabledVoltage":5,"fullCurrent":0.142,"fullVoltage":5},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.172,"fullVoltage":4.98},{"disabledCurrent":0.105,"disabledVoltage":5.01,"fullCurrent":0.135,"fullVoltage":5}]
 	
 
 
@@ -857,7 +865,7 @@ const tinygsIdleBlackChart = new Chart(tinygsIdleBlackCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/tinygs-idle-black2.png">
+	<img src="img/tinygs-idle-black2.png">
 </noscript>
 <p>It helped, but not much. The average consumption is around 100mA.</p>
 
@@ -915,6 +923,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var firmwareData = [{"current":0.033,"voltage":5.02},{"current":0.033,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.032,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.026,"voltage":5.02},{"current":0.026,"voltage":5.03},{"current":0.027,"voltage":5.01},{"current":0.027,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.029,"voltage":5.02},{"current":0.027,"voltage":5.03},{"current":0.029,"voltage":5.03},{"current":0.026,"voltage":5.03},{"current":0.031,"voltage":5.03},{"current":0.028,"voltage":5.03},{"current":0.026,"voltage":5.02}]
 	
 
 
@@ -1000,7 +1010,7 @@ const firmwareChart = new Chart(firmwareCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/firmware2.png">
+	<img src="img/firmware2.png">
 </noscript>
 <p>Loading new firmware consumes about 30mA. Funny.</p>
 
@@ -1058,6 +1068,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var wifiData = [{"current":0.054,"voltage":5.02},{"current":0.054,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.06,"voltage":5.02},{"current":0.033,"voltage":5.03},{"current":0.046,"voltage":5.02},{"current":0.135,"voltage":5},{"current":0.146,"voltage":4.99},{"current":0.134,"voltage":5},{"current":0.132,"voltage":5},{"current":0.142,"voltage":5},{"current":0.133,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.133,"voltage":5},{"current":0.145,"voltage":5},{"current":0.145,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.144,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.146,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.133,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.134,"voltage":5},{"current":0.145,"voltage":5},{"current":0.139,"voltage":5},{"current":0.133,"voltage":5},{"current":0.153,"voltage":4.99},{"current":0.146,"voltage":5},{"current":0.145,"voltage":5},{"current":0.154,"voltage":4.99},{"current":0.144,"voltage":5},{"current":0.068,"voltage":5.02}]
 	
 
 
@@ -1143,7 +1155,7 @@ const wifiChart = new Chart(wifiCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/wifi2.png">
+	<img src="img/wifi2.png">
 </noscript>
 <p>By the way, during the initial WiFi connection, the current consumption increases to ~150mA, for both r2lora and tinyGS. As soon as the IP address is obtained, the consumption sharply returns to normal.</p>
 <p>I also measured the power consumption during LoRa signal reception. It either does not change or changes within the range of measurement error.</p>
@@ -1203,6 +1215,8 @@ function csvJSON(csv){
 
 
 	
+	
+		var fullData = [{"current":0.295,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.298,"voltage":5.14},{"current":0.296,"voltage":5.14},{"current":0.313,"voltage":5.14},{"current":0.493,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.485,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.439,"voltage":5.16},{"current":0.429,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.432,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.444,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.442,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.443,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.448,"voltage":5.16},{"current":0.431,"voltage":5.16},{"current":0.433,"voltage":5.16},{"current":0.43,"voltage":5.16},{"current":0.44,"voltage":5.16},{"current":0.441,"voltage":5.16},{"current":0.377,"voltage":5.15},{"current":0.383,"voltage":5.15},{"current":0.364,"voltage":5.15},{"current":0.357,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.356,"voltage":5.15},{"current":0.355,"voltage":5.15},{"current":0.353,"voltage":5.15},{"current":0.354,"voltage":5.15},{"current":0.344,"voltage":5.15},{"current":0.344,"voltage":5.15}]
 	
 
 
@@ -1288,7 +1302,7 @@ const fullChart = new Chart(fullCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/smart-usb-meter-a3-b/full2.png">
+	<img src="img/full2.png">
 </noscript>
 <p>Immediately upon connection, the consumption jumps sharply to 500mA. Then there is the connection of ESP32 to the WiFi access point, and then normal operation. At the same time, the voltage from 5.140V jumps to 5.160V and normalizes at 5.140V.</p>
 <h2 id="conclusions">Conclusions</h2>

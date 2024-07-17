@@ -13,7 +13,7 @@
 В сознании каждого человека есть одна простая мысль: космические технологии - это сложно. На самом деле это не так.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/enterprise-java-space/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/enterprise-java-space/24dbbef6d38b4de59fef6b67a0308e40.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='космонавтика'><meta property='article:tag' content='разработка'><meta property='article:tag' content='open source'><meta property='article:tag' content='java'><meta property='article:tag' content='satnogs'><meta property='article:published_time' content='2017-04-08T12:48:18&#43;01:00'/><meta property='article:modified_time' content='2017-04-08T12:48:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/enterprise-java-space/24dbbef6d38b4de59fef6b67a0308e40.jpg'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='космонавтика'><meta property='article:tag' content='разработка'><meta property='article:tag' content='open source'><meta property='article:tag' content='java'><meta property='article:tag' content='satnogs'><meta property='article:published_time' content='2017-04-08T12:48:18&#43;01:00'/><meta property='article:modified_time' content='2017-04-08T12:48:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -376,7 +376,7 @@
 <p>Научно-технический прогресс постепенный по своей природе. Никто не берет горсть песка с пляжа и делает из нее компьютер. Мы берем грубые инструменты и создаем с помощью них более качественные. Затем с помощью последних еще более точные и так далее. Каждое малое усовершенствование - это ступенька прогресса и все они должны быть пройдены.</p>
 <p>Председатель Шенчжи Ян.</p>
 </blockquote>
-<p><img src="/img/enterprise-java-space/24dbbef6d38b4de59fef6b67a0308e40.jpg"></p>
+<p><img src="/posts/enterprise-java-space/img/24dbbef6d38b4de59fef6b67a0308e40.jpg"></p>
 <p>В сознании каждого человека есть одна простая мысль: космические технологии - это сложно. На самом деле это не так. Не все технологии, применимые в космической отрасли - это Rocket science. И последние успехи в космонавтике, ренессанс космической тематики подвигли меня на поиск проблемных областей, которые простой Enterprise Java разработчик может улучшить.
 <cut /></p>
 <h2>Предисловие</h2>
@@ -391,7 +391,7 @@
 <h2>Телеметрия</h2>
 По мере того, как спутник вращается на орбите, он периодически посылает телеметрию. <a href="https://ru.wikipedia.org/wiki/Телеметрия">Телеметрия</a> - это текущее состояние системы: напряжение батарей, момент вращения, температура и пр. Если постоянно получать эту информацию, то можно построить график изменения данных во времени и провести анализ.
 <p>Поскольку я прежде всего программист, меня заинтересовала именно программная часть, а в особенности digital signal processing. Как из .wav файла можно получить данные. Но прежде чем расчехлять прибор и начать кодить необходимо проанализировать существующие решения. Если вкратце, то эта область застряла где-то в 60х. Энтузиасты пересылают данные в виде <a href="http://www.dk3wn.info/p/?cat=8">скриншотов</a> к windows программам.</p>
-<p><img src="/img/enterprise-java-space/192591f0007246fc8cc434b47e76ef4f.jpg"></p>
+<p><img src="/posts/enterprise-java-space/img/192591f0007246fc8cc434b47e76ef4f.jpg"></p>
 <p>Хотелось бы что-то более современное. Например, облачный сервис, который на вход получает .wav файл, а на выходе возвращает json. Почему именно такая архитектура?</p>
 <ol>
 <li>для того, чтобы отправить данные и получить результат не нужно специального ПО. Достаточно лишь curl, который есть во всех linux дистрибутивах;</li>
@@ -399,7 +399,7 @@
 <li>микросервисная архитектура. Такой сервис будет отлично встраивается в другие более сложные системы.</li>
 </ol>
 Следующим этапом был выбор технологий. Поскольку специализированные железки для декодирования радио сигналов ну совсем никак не поставить в обычные датацентры, то необходимо программное декодирование. Тут все просто: <a href="http://gnuradio.org">gnuradio</a>. Это стандарт де-факто для программного декодирования - достаточно мощный и бесплатный инструмент, который поддерживает множество режимов и способов работы. Как раз то, что нужно для того, чтобы работать с зоопарком различных способов кодирования сигнала. Daniel Estévez <a href="https://github.com/daniestevez/gr-satellites">написал</a> замечательные скрипты по декодированию сигналов различных спутников и приложил рабочие примеры.
-<p><img src="/img/enterprise-java-space/e9ddc3c4bc8e448f8ca1d6f7e0b99e79.png"></p>
+<p><img src="/posts/enterprise-java-space/img/e9ddc3c4bc8e448f8ca1d6f7e0b99e79.png"></p>
 <p>Казалось бы вот оно, счастье. Однако, и тут есть несколько ложек дегтя:</p>
 <ol>
 <li><a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.ru.html">GPLv2</a>. Это не позволит вам писать коммерческий софт по декодированию сигналов. И уж точно не подходит для облачного сервиса - кто-то должен платить за хостинг.</li>

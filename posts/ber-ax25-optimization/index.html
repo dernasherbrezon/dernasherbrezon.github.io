@@ -466,6 +466,8 @@ function csvJSON(csv){
 
 	
 	
+		var headerOptimizationData = [{"ebno":0,"fskBer":0.15865525393145696,"header":1,"noHeader":1,"syncword":1},{"ebno":0.5,"fskBer":0.14474212146104393,"header":1,"noHeader":1,"syncword":1},{"ebno":1,"fskBer":0.1309272963463169,"header":1,"noHeader":1,"syncword":1},{"ebno":1.5,"fskBer":0.11731779978548318,"header":1,"noHeader":1,"syncword":1},{"ebno":2,"fskBer":0.1040286363052162,"header":1,"noHeader":1,"syncword":1},{"ebno":2.5,"fskBer":0.09118037349115199,"header":1,"noHeader":1,"syncword":1},{"ebno":3,"fskBer":0.07889586912978602,"header":1,"noHeader":1,"syncword":1},{"ebno":3.5,"fskBer":0.06729612929213863,"header":1,"noHeader":1,"syncword":1},{"ebno":4,"fskBer":0.05649530051362306,"header":1,"noHeader":1,"syncword":1},{"ebno":4.5,"fskBer":0.04659512487725431,"header":1,"noHeader":1,"syncword":1},{"ebno":5,"fskBer":0.03767898814746325,"header":1,"noHeader":1,"syncword":1},{"ebno":5.5,"fskBer":0.029806226789021444,"header":1,"noHeader":1,"syncword":1},{"ebno":6,"fskBer":0.02300713589277829,"header":1,"noHeader":1,"syncword":1},{"ebno":6.5,"fskBer":0.017279468541572376,"header":1,"noHeader":1,"syncword":1},{"ebno":7,"fskBer":0.012587034122355586,"header":1,"noHeader":1,"syncword":1},{"ebno":7.5,"fskBer":0.008861051096347865,"header":1,"noHeader":1,"syncword":1},{"ebno":8,"fskBer":0.006004385813621199,"header":1,"noHeader":1,"syncword":1},{"ebno":8.5,"fskBer":0.0038986290439469748,"header":1,"noHeader":1,"syncword":1},{"ebno":9,"fskBer":0.0024133110011664415,"header":1,"noHeader":1,"syncword":1},{"ebno":9.5,"fskBer":0.001416119261884248,"header":0.999,"noHeader":0.999,"syncword":0.998},{"ebno":10,"fskBer":0.0007827011290012748,"header":0.97,"noHeader":0.982,"syncword":0.966},{"ebno":10.5,"fskBer":0.00040456251202240215,"header":0.874,"noHeader":0.902,"syncword":0.868},{"ebno":11,"fskBer":0.00019398540032568773,"header":0.677,"noHeader":0.718,"syncword":0.665},{"ebno":11.5,"fskBer":0.00008551058184999764,"header":0.43,"noHeader":0.458,"syncword":0.422},{"ebno":12,"fskBer":0.00003430259232262812,"header":0.231,"noHeader":0.249,"syncword":0.224},{"ebno":12.5,"fskBer":0.000012380617585204551,"header":0.105,"noHeader":0.113,"syncword":0.1},{"ebno":13,"fskBer":0.000003969252944222963,"header":0.047,"noHeader":0.051,"syncword":0.044},{"ebno":13.5,"fskBer":0.0000011142642546405037,"header":0.017,"noHeader":0.019,"syncword":0.016},{"ebno":14,"fskBer":0,"header":0.011,"noHeader":0.011,"syncword":0.008},{"ebno":14.5,"fskBer":0,"header":0.004,"noHeader":0.004,"syncword":0.002},{"ebno":15,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":15.5,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":16,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":16.5,"fskBer":0,"header":0,"noHeader":0,"syncword":0},{"ebno":17,"fskBer":0,"header":0,"noHeader":0,"syncword":0}]
+	
 
 
 var xAxisKey = 'ebno';
@@ -601,13 +603,13 @@ const headerOptimizationChart = new Chart(headerOptimizationCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/ber-ax25-optimization/header.png">
+	<img src="img/header.png">
 </noscript>
 <p>В тесте отправляются фреймы размером 131 байт. Если учесть, что заголовок занимает 16 байт, то улучшить приём можно примерно на 12%. На графике видно улучшение, но небольшое. В среднем на 8%.</p>
 <p>Если же использовать поиск синхрослова и заранее известный заголовок, то улучшить приём можно в среднем на 14% процентов. А при достаточно сильном сигнале вплоть до 50%.</p>
 <h2 id="проверка-оптимизаций-на-реальных-сигналах">Проверка оптимизаций на реальных сигналах</h2>
 <p>После тестирования оптимизаций на модели, я решил проверить работу на реальных сигналах со спутников. Вот пример сигнала со спутника UNISAT-7:</p>
-<p><img src="/img/ber-ax25-optimization/unisat7.jpg"></p>
+<p><img src="/posts/ber-ax25-optimization/img/unisat7.jpg"></p>
 <p>На спектрограмме отчётливо виден сигнал со спутника - он идёт вдоль зелёной линии. Однако, его мощности недостаточно, чтобы декодировать все пакеты. До оптимизаций мой декодер мог получить только 3 фрейма, после оптимизаций - 4.</p>
 <p>Я также сравнил результаты с декодером из gr_satellites. Этот декодер лёг в основу моего до всех оптимизаций. Я запускал его следующей командой:</p>
 <pre tabindex="0"><code>gr_satellites 47945 --rawfile output.raw.gz-doppler.cf32 --samp_rate 48000 --iq

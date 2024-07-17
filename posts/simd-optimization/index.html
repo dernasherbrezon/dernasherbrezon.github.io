@@ -398,7 +398,7 @@ Warning: this was a dry-run. Config not generated
 <p>Первый же метод в функции пришлось гуглить. Оказывается код написан с использованием <a href="https://developer.arm.com/architectures/instruction-sets/simd-isas/neon/intrinsics?search=vld1q_s8">интристиков</a>. Поэтому прежде, чем читать код, мне пришлось разобраться, что же это такое.</p>
 <p>На самом деле, всё достаточно просто. Интристики - это некоторый промежуточный слой между ассемблером и языком Си. Они оборачивают инструкции ассемблера в функции на Си, чтобы можно было удобнее их читать. Иногда они могут подготавливать регистры ассемблера для вызова операции. Можно написать код на ассемблере и подключить его в программу на Си, но удобнее написать с помощью интристиков. А компилятор уже преобразует их в ассемблерные инструкции.</p>
 <p>Для примера можно взять функцию <code>vld1q_s8</code>.</p>
-<p><img src="/img/simd-optimization/1.png"></p>
+<p><img src="/posts/simd-optimization/img/1.png"></p>
 <p>Эта функция загружает в регистр данные из памяти:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int8_t</span> <span style="color:#f92672">*</span>inputVectorPtr;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int8x16_t</span> inputVal <span style="color:#f92672">=</span> <span style="color:#a6e22e">vld1q_s8</span>(inputVectorPtr);
@@ -443,7 +443,7 @@ Best aligned arch: neon
 Best unaligned arch: neon
 Warning: this was a dry-run. Config not generated
 </code></pre><p>Какого же было моё удивление, когда я увидел 20% прирост производительности! Я перепроверил код ещё несколько раз, и всякий раз моя реализация оказывалась быстрее.</p>
-<p><img src="/img/simd-optimization/2.png"></p>
+<p><img src="/posts/simd-optimization/img/2.png"></p>
 <p>У меня нет достаточно знаний, чтобы точно сказать, почему мой код оказался быстрее. Тем не менее я выдвинул несколько теорий:</p>
 <ul>
 <li>gcc не смог оптимизировать слишком сложный код в оригинальном методе</li>

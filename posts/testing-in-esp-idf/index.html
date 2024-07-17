@@ -395,7 +395,7 @@
 </span></span></code></pre></div><p>Обязательная конфигурация в sdkconfig. Без неё прошивка будет постоянно падать.</p>
 <pre tabindex="0"><code>CONFIG_ESP_TASK_WDT=n
 </code></pre><p>Тесты регистрируются в глобальном списке и доступны для выполнения. Функция <code>unity_run_menu</code> на самом деле не запускает тесты, а запускает меню, в котором, подключившись по UART интерфейсу, можно выбрать нужный тест и запустить. Результат запуска всё равно передаётся назад по UART, так что совсем не важно как запускаются тесты. А вот возможность запустить вручную каждый тест - это удобно.</p>
-<p><img src="/img/testing-in-esp-idf/1.png"></p>
+<p><img src="/posts/testing-in-esp-idf/img/1.png"></p>
 <p>Ещё стоит сказать, что ESP-IDF значительно расширяет <a href="https://github.com/ThrowTheSwitch/Unity/blob/master/docs/UnityGettingStartedGuide.md">unity</a>, позволяя писать вот такие конструкции:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#a6e22e">TEST_CASE</span>(<span style="color:#e6db74">&#34;success&#34;</span>, <span style="color:#e6db74">&#34;[at_timer]&#34;</span>) {
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// test case

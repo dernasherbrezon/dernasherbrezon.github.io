@@ -9,7 +9,7 @@
 <meta property='og:description' content='Споры о том, насколько SPA лучше или хуже проверенных серверных технологий, не утихают до сих пор. Сторонники SPA (React, Angular, VueJS) в один голос говорят насколько это просто и удобно. Сторонники серверных технологий (PHP, JSP, ASP) ничего не говорят, потому что их мало и они заняты разработкой. Из-за того, что оба подхода достаточно разные, то и сравнивать их очень сложно. Зачастую сравнение сваливается во вкусовщину, так как нет людей, которые бы разрабатывали как с помощью одних, так и с помощью других.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/compare-jsp-vuejs/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/compare-jsp-vuejs/2.png'><meta property='article:section' content='posts'><meta property='article:tag' content='jsp'><meta property='article:tag' content='java'><meta property='article:tag' content='jstl'><meta property='article:tag' content='vuejs'><meta property='article:tag' content='javascript'><meta property='article:tag' content='дизайн'><meta property='article:published_time' content='2019-12-15T07:14:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-15T07:14:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/compare-jsp-vuejs/2.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='jsp'><meta property='article:tag' content='java'><meta property='article:tag' content='jstl'><meta property='article:tag' content='vuejs'><meta property='article:tag' content='javascript'><meta property='article:tag' content='дизайн'><meta property='article:published_time' content='2019-12-15T07:14:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-15T07:14:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -372,7 +372,7 @@
 <blockquote>
 <p>TL;TR Я смог разработать такой компонент без каких-либо сложностей.</p>
 </blockquote>
-<p><img src="/img/compare-jsp-vuejs/2.png"></p>
+<p><img src="/posts/compare-jsp-vuejs/img/2.png"></p>
 <h2 id="начало">Начало</h2>
 <p>Так получилось, что <a href="https://r2server.ru">r2server</a> написан с помощью <a href="https://ru.wikipedia.org/wiki/JavaServer_Pages">JSP</a>, а <a href="https://github.com/dernasherbrezon/r2cloud-ui">r2cloud-ui</a> с помощью <a href="https://vuejs.org">VueJS</a>. И вот мне понадобилось реализовать компонент по отображению <a href="https://swagger.io/docs/specification/about/">OpenAPI</a> в обоих проектах. В этот момент возникла уникальная ситуация:</p>
 <ul>
@@ -380,7 +380,7 @@
 <li>У него должен быть один и тот же дизайн - <a href="https://getbootstrap.com">bootstrap4</a>. Несмотря на то, что приложения разные, я решил сделать максимально похожий user experience. Это удобно по нескольким причинам: во-первых, достаточно знать один набор компонент, во-вторых, пользователи, вполне очевидно, будут использовать и то, и другое приложение.</li>
 </ul>
 <h2 id="требования">Требования</h2>
-<p><img src="/img/compare-jsp-vuejs/3.png"></p>
+<p><img src="/posts/compare-jsp-vuejs/img/3.png"></p>
 <p>Прежде, чем начать сравнивать фреймворки, я хотел бы описать требования:</p>
 <ul>
 <li>компонент должен быть не зависимым от приложения. Это прежде всего значит, что его можно встраивать не только в моё приложение, но и в любое другое.</li>
@@ -412,7 +412,7 @@
 <p><span style="color: green;">JSP</span> vs <span style="color: red;">VueJS</span></p>
 <p>Опять же, из-за rollup и общей путаницы с технологиями, начать тестировать компонент на VueJS нетривиально. Если честно, я так и не осилил переход на webpack с полноценными тестами и покрытием кода.</p>
 <p>В JSP же всё относительно просто: я просто скопировал подход для тестирования тэгов, который <a href="https://dernasherbrezon.com/posts/jsp-tag-testing/">использовал ранее</a> и сразу получил страницу index.html, которая загружается в браузер простым кликом.</p>
-<p><img src="/img/compare-jsp-vuejs/1.png"></p>
+<p><img src="/posts/compare-jsp-vuejs/img/1.png"></p>
 <h2 id="скорость-разработки">Скорость разработки</h2>
 <p><span style="color: red;">JSP</span> vs <span style="color: green;">VueJS</span></p>
 <p>Да, инженерная мысль шагнула далеко вперед за последние 20 лет и разрабатывать на VuejS получается значительно быстрее. Например, синтаксис чуть более компактный. Сравните вывод одного и того же блока на VueJS:</p>

@@ -15,7 +15,7 @@
 1 Тесты пишутся не для того, чтобы протестировать каждое логическое условие и всевозможные комбинации входных и выходных данных.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/unit-tests/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/unit-tests/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='testing'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='junit'><meta property='article:tag' content='security'><meta property='article:published_time' content='2020-05-25T17:27:18&#43;01:00'/><meta property='article:modified_time' content='2020-05-25T17:27:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/unit-tests/3.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='testing'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='junit'><meta property='article:tag' content='security'><meta property='article:published_time' content='2020-05-25T17:27:18&#43;01:00'/><meta property='article:modified_time' content='2020-05-25T17:27:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -406,15 +406,15 @@
 <p>Я крайне не согласен с таким подходом. Тесты не должны покрывать всевозможные случаи, А, Б и В. Основное их назначение - хотя бы раз выполнить написанный код. Сколько раз я видел случаи, когда разработчик написал код и ни разу его не выполнил. Наличие теста - это отличное доказательство, что код хотя бы раз выполнился, и совсем глупых ошибок там нет.</p>
 <h2 id="2">2</h2>
 <p>Даже маленькие библиотеки нужно тестировать. Особенно маленькие библиотеки. Обычно они имеют чётко обозначенный интерфейс, который можно удобно протестировать юнит-тестами.</p>
-<p><img src="/img/unit-tests/1.png"></p>
+<p><img src="/posts/unit-tests/img/1.png"></p>
 <h2 id="3">3</h2>
 <p>Написание тестов заставляет задуматься о том, как структурирован код. Обычно, разработчик сфокусирован на том, чтобы код работал как нужно. Написание же тестов, позволяет понять то, как код будет использоваться. Я прохладно отношусь к TDD. Но в этой методологии есть зерно правды - надо писать код и тесты в одно и то же время. Это позволяет сильно сэкономить на интеграции кода с другими компонентами.</p>
-<p><img src="/img/unit-tests/2.png"></p>
+<p><img src="/posts/unit-tests/img/2.png"></p>
 <p>Ещё при написании тестов начинаешь задумываться: &ldquo;А что ещё можно проверить?&rdquo;, &ldquo;Ничего я не забыл?&rdquo;. Это позволяет посмотреть на код с другой стороны и придумать пару странных сценариев использования, которые лучше протестировать. Сюда же входят всевозможные проверки на входные параметры и граничные условия.</p>
 <h2 id="4">4</h2>
 <p>Тесты позволяют править ошибки реализации. Допустим все тесты проходят успешно, но выясняется, что код всё-таки работает неправильно. В таком случае его реализация меняется, и тесты запускаются ещё раз. Ошибок быть не должно.</p>
 <p>Этот пункт можно расширить: тесты позволяют обновлять зависимые библиотеки. Допустим, такая ситуация: код зависит от сторонней библиотеки. В этой библиотеке была найдена ошибка безопасности. Если есть тесты, то можно просто обновить версию зависимой библиотеки и прогнать тесты. Ошибок быть не должно. Это очень удобно использовать в связке с автоматическими системами генерации pull request. Например, github недавно научился сканировать зависимые библиотеки на разные уязвимости и автоматически создавать pull request с обновлёнными версиями библиотек. Если есть тесты, то такие pull request автоматически собираются и тестируются. Если нет ошибок, то можно безопасно обновляться.</p>
-<p><img src="/img/unit-tests/3.png"></p>
+<p><img src="/posts/unit-tests/img/3.png"></p>
 <h2 id="выводы">Выводы</h2>
 <p>Пишите тесты. А если не знаете как, то спросите меня. Я знаю.</p>
 

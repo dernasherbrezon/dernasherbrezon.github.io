@@ -11,7 +11,7 @@
 Введение Опорные точки GeoTIFF Тайлы QGIS GeoTIFF, полученный на предыдущем шаге выглядит правдоподобно, но хочется убедиться, что проекция выполнена правильно. Самый простой способ - это наложить файл на настоящую карту. Для этого достаточно взять бесплатную QGIS и добавить слой OpenStreetMap:'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/georeferencing-tiles/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/georeferencing-tiles/0.png'><meta property='article:section' content='posts'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='спутники'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-20T20:52:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-20T20:52:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/georeferencing-tiles/0.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='meteor-m'><meta property='article:tag' content='спутники'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-20T20:52:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-20T20:52:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -379,13 +379,13 @@
 </ol>
 <h2 id="qgis">QGIS</h2>
 <p>GeoTIFF, полученный на предыдущем шаге выглядит правдоподобно, но хочется убедиться, что проекция выполнена правильно. Самый простой способ - это наложить файл на настоящую карту. Для этого достаточно взять <a href="https://www.qgis.org/en/site/">бесплатную QGIS</a> и добавить слой OpenStreetMap:</p>
-<p><img src="/img/georeferencing-tiles/1.png"></p>
+<p><img src="/posts/georeferencing-tiles/img/1.png"></p>
 <p>После этого добавить слой из GeoTIFF файла:</p>
-<p><img src="/img/georeferencing-tiles/2.png"></p>
+<p><img src="/posts/georeferencing-tiles/img/2.png"></p>
 <p>Такое отображение не слишком полезно, поэтому нужно добавить прозрачности. В свойствах слоя нужно сделать общую прозрачность процентов на 60% и проставить &ldquo;No Data Value = 0&rdquo;.</p>
-<p><img src="/img/georeferencing-tiles/3.png"></p>
+<p><img src="/posts/georeferencing-tiles/img/3.png"></p>
 <p>Выглядит значительно лучше, но видно, что изображение совсем не совпадает с картой. В моём примере разница примерно 34км. Это достаточно много.</p>
-<p><img src="/img/georeferencing-tiles/4.png"></p>
+<p><img src="/posts/georeferencing-tiles/img/4.png"></p>
 <h2 id="ошибки-геокодирования">Ошибки геокодирования</h2>
 <p>Причин, по котором изображение может не совпадать с картой, множество:</p>
 <ol>
@@ -400,14 +400,14 @@
 </span></span><span style="display:flex;"><span>losBuilder.<span style="color:#a6e22e">addTransform</span>(<span style="color:#66d9ef">new</span> FixedRotation(<span style="color:#e6db74">&#34;fixed-rotation&#34;</span>, Vector3D.<span style="color:#a6e22e">PLUS_I</span>, FastMath.<span style="color:#a6e22e">toRadians</span>(2.<span style="color:#a6e22e">5</span>)));
 </span></span><span style="display:flex;"><span>TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder.<span style="color:#a6e22e">build</span>();
 </span></span></code></pre></div><p>Пересоздав GeoTIFF, я получил следующее:</p>
-<p><img src="/img/georeferencing-tiles/5.png"></p>
+<p><img src="/posts/georeferencing-tiles/img/5.png"></p>
 <p>Разница составила около 10км. Это значительно лучше, чем было в прошлый раз. Видимо, я на правильном пути. Немножко &ldquo;поиграв&rdquo; с углами крена и тангажа, я высчитал их для снимка как 2.6 и 0.6:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>LOSBuilder losBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> LOSBuilder(rawDirs);
 </span></span><span style="display:flex;"><span>losBuilder.<span style="color:#a6e22e">addTransform</span>(<span style="color:#66d9ef">new</span> FixedRotation(<span style="color:#e6db74">&#34;fixed-rotation&#34;</span>, Vector3D.<span style="color:#a6e22e">PLUS_I</span>, FastMath.<span style="color:#a6e22e">toRadians</span>(2.<span style="color:#a6e22e">6</span>)));
 </span></span><span style="display:flex;"><span>losBuilder.<span style="color:#a6e22e">addTransform</span>(<span style="color:#66d9ef">new</span> FixedRotation(<span style="color:#e6db74">&#34;fixed-rotation&#34;</span>, Vector3D.<span style="color:#a6e22e">PLUS_J</span>, FastMath.<span style="color:#a6e22e">toRadians</span>(0.<span style="color:#a6e22e">6</span>)));
 </span></span><span style="display:flex;"><span>TimeDependentLOS lineOfSight <span style="color:#f92672">=</span> losBuilder.<span style="color:#a6e22e">build</span>();
 </span></span></code></pre></div><p>В результате даёт:</p>
-<p><img src="/img/georeferencing-tiles/6.png"></p>
+<p><img src="/posts/georeferencing-tiles/img/6.png"></p>
 <h2 id="тайлы">Тайлы</h2>
 <p>Изображение идеально совпадает с картой. Что же ещё можно сделать? Рассказать об этом другим! Самый простой способ - это разрезать изображение на тайлы и наложить на одну из известных карт.</p>
 <p>В GDAL есть встроенная программа gdal2tiles. С её помощью можно достаточно просто сгенерировать тайлы:</p>
@@ -433,7 +433,7 @@ var map = L.map('map', {
 });
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors', minZoom: 3, maxZoom: 6}).addTo(map);
-L.tileLayer('/img/georeferencing-tiles/{z}/{x}/{y}.png', { tms: true, opacity: 0.7, attribution: "", minZoom: 3, maxZoom: 6}).addTo(map);
+L.tileLayer('/posts/georeferencing-tiles/img/{z}/{x}/{y}.png', { tms: true, opacity: 0.7, attribution: "", minZoom: 3, maxZoom: 6}).addTo(map);
 
 </script>
 <h2 id="послесловие">Послесловие</h2>

@@ -433,7 +433,6 @@ static void remove_dc(iqconverter_float_t *cnv, float *samples, int len) { int i
 
 
 
-
 <canvas id="typesCompare" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -441,7 +440,10 @@ static void remove_dc(iqconverter_float_t *cnv, float *samples, int len) { int i
 </small>
 </div>
 <script>
-var typesCompareData = [{"m1_dot_prod_nam_nas_npref_optimized_64":0.003639,"rpi_dot_prod_nam_nas_npref_optimized_64":0.043284,"type":"TEST_GENERIC"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.00116,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022942,"type":"TEST_NEON1Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.001389,"rpi_dot_prod_nam_nas_npref_optimized_64":0.0302,"type":"TEST_NEON2Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.002186,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034659,"type":"TEST_NEON4Q"}];
+
+
+	var typesCompareData = [{"m1_dot_prod_nam_nas_npref_optimized_64":0.003639,"rpi_dot_prod_nam_nas_npref_optimized_64":0.043284,"type":"TEST_GENERIC"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.00116,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022942,"type":"TEST_NEON1Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.001389,"rpi_dot_prod_nam_nas_npref_optimized_64":0.0302,"type":"TEST_NEON2Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.002186,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034659,"type":"TEST_NEON4Q"}]
+
 var typesComparedatasource = typesCompareData.map(function(e) {
 	return e.rpi_dot_prod_nam_nas_npref_optimized_64;
 });var typesComparedatasource2 = typesCompareData.map(function(e) {
@@ -546,7 +548,7 @@ const typesCompareChart = new Chart(typesCompareCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd/typesCompare.png">
+	<img src="img/typesCompare.png">
 </noscript>
 <p>Цель такого сравнения была, конечно же, не в том, чтобы убедиться насколько M1 мощный. А скорее увидеть тренд. И он тут есть: оказывается в независимости от реализации процессора, обработка данных по одному 128-битному регистру быстрее, чем по двум и четырём регистрам.</p>
 <p>График выше логарифмический для того, чтобы удобно было видеть тренд. Но если приглядеться к цифрам, то видно, что реализация TEST_NEON1Q в среднем в 2 раза быстрее кода на Си с опциями компиляции <code> -O3 -mfloat-abi=hard -march=armv8-a -mfpu=neon</code>.</p>
@@ -586,7 +588,6 @@ const typesCompareChart = new Chart(typesCompareCtx, {
 
 
 
-
 <canvas id="typesMemory" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -594,7 +595,10 @@ const typesCompareChart = new Chart(typesCompareCtx, {
 </small>
 </div>
 <script>
-var typesMemoryData = [{"rpi_dot_prod_am16_nas_npref_optimized_64":0.042213,"rpi_dot_prod_am8_nas_npref_optimized_64":0.042213,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042113,"type":"TEST_GENERIC"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.022499,"rpi_dot_prod_am8_nas_npref_optimized_64":0.022355,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022867,"type":"TEST_NEON1Q"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.024824,"rpi_dot_prod_am8_nas_npref_optimized_64":0.021756,"rpi_dot_prod_nam_nas_npref_optimized_64":0.029926,"type":"TEST_NEON2Q"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.021928,"rpi_dot_prod_am8_nas_npref_optimized_64":0.018982,"rpi_dot_prod_nam_nas_npref_optimized_64":0.040092,"type":"TEST_NEON4Q"}];
+
+
+	var typesMemoryData = [{"rpi_dot_prod_am16_nas_npref_optimized_64":0.042213,"rpi_dot_prod_am8_nas_npref_optimized_64":0.042213,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042113,"type":"TEST_GENERIC"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.022499,"rpi_dot_prod_am8_nas_npref_optimized_64":0.022355,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022867,"type":"TEST_NEON1Q"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.024824,"rpi_dot_prod_am8_nas_npref_optimized_64":0.021756,"rpi_dot_prod_nam_nas_npref_optimized_64":0.029926,"type":"TEST_NEON2Q"},{"rpi_dot_prod_am16_nas_npref_optimized_64":0.021928,"rpi_dot_prod_am8_nas_npref_optimized_64":0.018982,"rpi_dot_prod_nam_nas_npref_optimized_64":0.040092,"type":"TEST_NEON4Q"}]
+
 var typesMemorydatasource = typesMemoryData.map(function(e) {
 	return e.rpi_dot_prod_nam_nas_npref_optimized_64;
 });var typesMemorydatasource2 = typesMemoryData.map(function(e) {
@@ -710,7 +714,7 @@ const typesMemoryChart = new Chart(typesMemoryCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd/typesMemory.png">
+	<img src="img/typesMemory.png">
 </noscript>
 <p>Похоже, выравнивание влияет на производительность только при одномоментной загрузке больших объёмов данных из памяти.</p>
 <p>Ещё одним важным фактором может быть длина массивов. Допустим, я загружаю из памяти в регистры по 16 float и параллельно считаю свёртку. Но если длина массива не кратна 16-ти, то остаток можно считать загрузкой 8 или 4 float, либо реализовать на Си. В общем же случае входящий массив может быть не кратен ни 16, ни 8, ни 4, тогда придётся по-любому обсчитывать остаток с помощью кода на Си. А что, если расширить исходные массивы до длины кратной 16, 8 или 4? Процессор будет перемножать нули, складывать с нулями и на результат это не повлияет. При этом остаток будет выполняться такими же быстрыми SIMD инструкциями и код в общем случае будет значительно проще. Выглядеть это может вот так:</p>
@@ -748,7 +752,6 @@ const typesMemoryChart = new Chart(typesMemoryCtx, {
 
 
 
-
 <canvas id="typesSize" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -756,7 +759,10 @@ const typesMemoryChart = new Chart(typesMemoryCtx, {
 </small>
 </div>
 <script>
-var typesSizeData = [{"rpi_dot_prod_nam_as_npref_optimized_64":0.042113,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042397,"type":"TEST_GENERIC"},{"rpi_dot_prod_nam_as_npref_optimized_64":0.016047,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022817,"type":"TEST_NEON1Q"},{"rpi_dot_prod_nam_as_npref_optimized_64":0.018231,"rpi_dot_prod_nam_nas_npref_optimized_64":0.030393,"type":"TEST_NEON2Q"},{"rpi_dot_prod_nam_as_npref_optimized_64":0.028824,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034467,"type":"TEST_NEON4Q"}];
+
+
+	var typesSizeData = [{"rpi_dot_prod_nam_as_npref_optimized_64":0.042113,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042397,"type":"TEST_GENERIC"},{"rpi_dot_prod_nam_as_npref_optimized_64":0.016047,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022817,"type":"TEST_NEON1Q"},{"rpi_dot_prod_nam_as_npref_optimized_64":0.018231,"rpi_dot_prod_nam_nas_npref_optimized_64":0.030393,"type":"TEST_NEON2Q"},{"rpi_dot_prod_nam_as_npref_optimized_64":0.028824,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034467,"type":"TEST_NEON4Q"}]
+
 var typesSizedatasource = typesSizeData.map(function(e) {
 	return e.rpi_dot_prod_nam_nas_npref_optimized_64;
 });var typesSizedatasource2 = typesSizeData.map(function(e) {
@@ -861,7 +867,7 @@ const typesSizeChart = new Chart(typesSizeCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd/typesSize.png">
+	<img src="img/typesSize.png">
 </noscript>
 <p>О! Эта оптимизация сработала. На графиках чётко видно ускорение кода для всех функций, написанных с помощью SIMD NEON.</p>
 <p>Следующей идеей для оптимизации может быть prefetch данных из памяти. На самом деле это достаточно спекулятивная команда, которая <a href="https://developer.arm.com/documentation/dui0489/i/CJADCFDC">говорит процессору</a>, что скоро будет чтение из заданной области памяти. Я никогда не понимал таких подсказок процессору. Как будто он - человек и такой: &ldquo;Ну ладно, уговорил. Будет быстрее&rdquo;. Но почему бы и не попробовать? Тут, правда, не очень понятно в какой момент вызывать эту функцию. Я сделал сразу же после загрузки из памяти:</p>
@@ -894,7 +900,6 @@ const typesSizeChart = new Chart(typesSizeCtx, {
 
 
 
-
 <canvas id="testPrefetch" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -902,7 +907,10 @@ const typesSizeChart = new Chart(typesSizeCtx, {
 </small>
 </div>
 <script>
-var testPrefetchData = [{"m1_dot_prod_nam_nas_npref_optimized_64":0.002795,"m1_dot_prod_nam_nas_pref_optimized_64":0.003515,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042396,"rpi_dot_prod_nam_nas_pref_optimized_64":0.042111,"type":"TEST_GENERIC"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000517,"m1_dot_prod_nam_nas_pref_optimized_64":0.00143,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022939,"rpi_dot_prod_nam_nas_pref_optimized_64":0.021724,"type":"TEST_NEON1Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000779,"m1_dot_prod_nam_nas_pref_optimized_64":0.001729,"rpi_dot_prod_nam_nas_npref_optimized_64":0.030307,"rpi_dot_prod_nam_nas_pref_optimized_64":0.025773,"type":"TEST_NEON2Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.001593,"m1_dot_prod_nam_nas_pref_optimized_64":0.002517,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034438,"rpi_dot_prod_nam_nas_pref_optimized_64":0.027562,"type":"TEST_NEON4Q"}];
+
+
+	var testPrefetchData = [{"m1_dot_prod_nam_nas_npref_optimized_64":0.002795,"m1_dot_prod_nam_nas_pref_optimized_64":0.003515,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042396,"rpi_dot_prod_nam_nas_pref_optimized_64":0.042111,"type":"TEST_GENERIC"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000517,"m1_dot_prod_nam_nas_pref_optimized_64":0.00143,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022939,"rpi_dot_prod_nam_nas_pref_optimized_64":0.021724,"type":"TEST_NEON1Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000779,"m1_dot_prod_nam_nas_pref_optimized_64":0.001729,"rpi_dot_prod_nam_nas_npref_optimized_64":0.030307,"rpi_dot_prod_nam_nas_pref_optimized_64":0.025773,"type":"TEST_NEON2Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.001593,"m1_dot_prod_nam_nas_pref_optimized_64":0.002517,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034438,"rpi_dot_prod_nam_nas_pref_optimized_64":0.027562,"type":"TEST_NEON4Q"}]
+
 var testPrefetchdatasource = testPrefetchData.map(function(e) {
 	return e.rpi_dot_prod_nam_nas_npref_optimized_64;
 });var testPrefetchdatasource2 = testPrefetchData.map(function(e) {
@@ -1007,11 +1015,10 @@ const testPrefetchChart = new Chart(testPrefetchCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd/testPrefetch.png">
+	<img src="img/testPrefetch.png">
 </noscript>
 <p>Ну такое. Разница видна, но в рамках погрешности.</p>
 <p>Кстати, на M1 эта оптимизация сделала всё только хуже:</p>
-
 
 
 
@@ -1042,7 +1049,10 @@ const testPrefetchChart = new Chart(testPrefetchCtx, {
 </small>
 </div>
 <script>
-var testPrefetchM1Data = [{"m1_dot_prod_nam_nas_npref_optimized_64":0.002795,"m1_dot_prod_nam_nas_pref_optimized_64":0.003515,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042396,"rpi_dot_prod_nam_nas_pref_optimized_64":0.042111,"type":"TEST_GENERIC"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000517,"m1_dot_prod_nam_nas_pref_optimized_64":0.00143,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022939,"rpi_dot_prod_nam_nas_pref_optimized_64":0.021724,"type":"TEST_NEON1Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000779,"m1_dot_prod_nam_nas_pref_optimized_64":0.001729,"rpi_dot_prod_nam_nas_npref_optimized_64":0.030307,"rpi_dot_prod_nam_nas_pref_optimized_64":0.025773,"type":"TEST_NEON2Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.001593,"m1_dot_prod_nam_nas_pref_optimized_64":0.002517,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034438,"rpi_dot_prod_nam_nas_pref_optimized_64":0.027562,"type":"TEST_NEON4Q"}];
+
+
+	var testPrefetchM1Data = [{"m1_dot_prod_nam_nas_npref_optimized_64":0.002795,"m1_dot_prod_nam_nas_pref_optimized_64":0.003515,"rpi_dot_prod_nam_nas_npref_optimized_64":0.042396,"rpi_dot_prod_nam_nas_pref_optimized_64":0.042111,"type":"TEST_GENERIC"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000517,"m1_dot_prod_nam_nas_pref_optimized_64":0.00143,"rpi_dot_prod_nam_nas_npref_optimized_64":0.022939,"rpi_dot_prod_nam_nas_pref_optimized_64":0.021724,"type":"TEST_NEON1Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.000779,"m1_dot_prod_nam_nas_pref_optimized_64":0.001729,"rpi_dot_prod_nam_nas_npref_optimized_64":0.030307,"rpi_dot_prod_nam_nas_pref_optimized_64":0.025773,"type":"TEST_NEON2Q"},{"m1_dot_prod_nam_nas_npref_optimized_64":0.001593,"m1_dot_prod_nam_nas_pref_optimized_64":0.002517,"rpi_dot_prod_nam_nas_npref_optimized_64":0.034438,"rpi_dot_prod_nam_nas_pref_optimized_64":0.027562,"type":"TEST_NEON4Q"}]
+
 var testPrefetchM1datasource = testPrefetchM1Data.map(function(e) {
 	return e.m1_dot_prod_nam_nas_npref_optimized_64;
 });var testPrefetchM1datasource2 = testPrefetchM1Data.map(function(e) {
@@ -1147,7 +1157,7 @@ const testPrefetchM1Chart = new Chart(testPrefetchM1Ctx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd/testPrefetchM1.png">
+	<img src="img/testPrefetchM1.png">
 </noscript>
 <p>Помимо всех этих оптимизаций я пытался собирать бинарники с разными опциями компиляции:</p>
 <ul>
@@ -1178,7 +1188,6 @@ const testPrefetchM1Chart = new Chart(testPrefetchM1Ctx, {
 
 
 
-
 <canvas id="testCompile" width="400" height="200"></canvas>
 <div class='align-center' style="margin-bottom: 1.5em">
 <small>
@@ -1186,7 +1195,10 @@ const testPrefetchM1Chart = new Chart(testPrefetchM1Ctx, {
 </small>
 </div>
 <script>
-var testCompileData = [{"rpi_dot_prod_generic_nam_nas_npref":0.213462,"rpi_dot_prod_neon2q_nam_nas_npref":0.173707,"type":"No flags"},{"rpi_dot_prod_generic_nam_nas_npref":0.042399,"rpi_dot_prod_neon2q_nam_nas_npref":0.030181,"type":"armv8-a"},{"rpi_dot_prod_generic_nam_nas_npref":0.042111,"rpi_dot_prod_neon2q_nam_nas_npref":0.030217,"type":"armv7-a"}];
+
+
+	var testCompileData = [{"rpi_dot_prod_generic_nam_nas_npref":0.213462,"rpi_dot_prod_neon2q_nam_nas_npref":0.173707,"type":"No flags"},{"rpi_dot_prod_generic_nam_nas_npref":0.042399,"rpi_dot_prod_neon2q_nam_nas_npref":0.030181,"type":"armv8-a"},{"rpi_dot_prod_generic_nam_nas_npref":0.042111,"rpi_dot_prod_neon2q_nam_nas_npref":0.030217,"type":"armv7-a"}]
+
 var testCompiledatasource = testCompileData.map(function(e) {
 	return e.rpi_dot_prod_generic_nam_nas_npref;
 });var testCompiledatasource2 = testCompileData.map(function(e) {
@@ -1291,7 +1303,7 @@ const testCompileChart = new Chart(testCompileCtx, {
     }
 });
 </script><noscript>
-	<img src="/img/fir-filter-optimization-simd/testCompile.png">
+	<img src="img/testCompile.png">
 </noscript>
 <p>Из графика видно, что компилятор действительно делает что-то полезное и дополнительные флаги ускоряют работу программы. Но при этом реализация алгоритма с помощью интристиков всё равно быстрее.</p>
 <p>А ещё видно, что 32-битные и 64-битные инструкции выполняются одинаковое количество времени. Я бы ожидал, что шина 64-битного процессора в 2 раза больше и может загружать в 2 раза быстрее данные из памяти, но такого не происходит.</p>

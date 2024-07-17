@@ -15,7 +15,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson
 Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson.&amp;lt;init&amp;gt;(Gson.java:265) at com.google.gson.GsonBuilder.create(GsonBuilder.java:597) Оказывается, gson зависит от пакета java.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/json-in-2019/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/json-in-2019/2.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='jsp'><meta property='article:published_time' content='2019-12-04T22:29:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-04T22:29:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/json-in-2019/2.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='jsp'><meta property='article:published_time' content='2019-12-04T22:29:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-04T22:29:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -402,7 +402,7 @@ Caused by: java.lang.NoClassDefFoundError: java/sql/Time at com.google.gson.Gson
 <p>Достаточно простой проект, мало кода, а значит быстро и ничего лишнего. Однако, сериализацию объектов через reflection не поддерживает и её придётся писать самому каждый раз. Не подходит.</p>
 <h3 id="jackson">Jackson</h3>
 <p>Нет, Вы только посмотрите на их readme. Если, с помощью Jackson нельзя собрать космический корабль, то я буду крайне удивлён.</p>
-<p><img src="/img/json-in-2019/1.png"></p>
+<p><img src="/posts/json-in-2019/img/1.png"></p>
 <p>После 15 минут вдумчивого анализа оказалось, что для минимальной работы требуется 3 библиотеки:</p>
 <ul>
 <li>jackson-core</li>

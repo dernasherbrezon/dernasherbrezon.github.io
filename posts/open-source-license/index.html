@@ -11,7 +11,7 @@
 Даже для мини-проектов на github нужно указывать лицензии. Зачем? Допустим, Вы сделали небольшую, но крайне полезную библиотеку. Допустим, её нашёл какой-нибудь разработчик и захочет использовать в своём коммерческом приложении.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/open-source-license/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/open-source-license/2.png'><meta property='article:section' content='posts'><meta property='article:tag' content='open source'><meta property='article:published_time' content='2020-07-09T22:20:18&#43;01:00'/><meta property='article:modified_time' content='2020-07-09T22:20:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/open-source-license/2.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='open source'><meta property='article:published_time' content='2020-07-09T22:20:18&#43;01:00'/><meta property='article:modified_time' content='2020-07-09T22:20:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -374,7 +374,7 @@
 <p>Даже для мини-проектов на github нужно указывать лицензии. Зачем? Допустим, Вы сделали небольшую, но крайне полезную библиотеку. Допустим, её нашёл какой-нибудь разработчик и захочет использовать в своём коммерческом приложении. Но ни одна компания в здравом уме не будет использовать библиотеку без лицензии. Никому не нужны проблемы с юристами. Именно поэтому, Ваш, хоть и полезный проект, не будет использован. А разработчики вынуждены будут либо использовать альтернативы, либо полностью переписывать Ваш код. Чтобы избежать этой ситуации, лучше озаботиться правильной лицензией заранее.</p>
 <h2 id="зоопарк">Зоопарк</h2>
 <p>Существует целый зоопарк Open source лицензий. Наверное, именно поэтому, разработчики не заморачиваются и просто не указывают лицензию. Однако, разобраться с ними достаточно просто.</p>
-<p><img src="/img/open-source-license/Floss-license-slide-image.png"></p>
+<p><img src="/posts/open-source-license/img/Floss-license-slide-image.png"></p>
 <p>By David A. Wheeler - <a rel="nofollow" class="external free" href="http://www.dwheeler.com/essays/floss-license-slide.html"><a href="http://www.dwheeler.com/essays/floss-license-slide.html">http://www.dwheeler.com/essays/floss-license-slide.html</a></a>, <a href="https://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=41060008">Link</a></p>
 <p>Дэвид провёл небольшое исследование и собрал наиболее популярные open source лицензии на одной картинке. Если вкратце, то все open source лицензии условно можно разделить на 3 основные группы:</p>
 <ul>
@@ -394,10 +394,10 @@
 <p>Для начала нужно сказать, что все &ldquo;классические&rdquo; GPL лицензии не работают с такой штукой как байт-код. В них есть описание процесса линковки и компиляции, что совсем не подходит интерпретируемым языкам, в том числе Java. Для этого как раз и была выпущена специальная лицензия GPLv2 with classpath extensions. Она ясно и чётко говорит, что библиотеки, выпущенные под этой лицензией можно использовать в коммерческих приложениях с любой другой лицензией.</p>
 <h2 id="выбор-лицензии">Выбор лицензии</h2>
 <p>После того как лицензия выбрана, её достаточно добавить в корень проекта. Это можно сделать во время создания проекта или в любое другое время. Например, github сделали очень удобный способ добавления лицензии при старте проекта:</p>
-<p><img src="/img/open-source-license/2.png"></p>
+<p><img src="/posts/open-source-license/img/2.png"></p>
 <h2 id="license_finder">license_finder</h2>
 <p>Однако, это ещё не всё. Нужно проверить все зависимости, которые использованы в проекте. Если одна из зависимостей в проекте выпущена под лицензией GPL, то и Ваш проект должен быть GPL-совместим. Для такой проверки есть очень удобный инструмент - <a href="https://github.com/pivotal/LicenseFinder">license_finder</a>. Он поддерживает все современные системы сборки и может получить лицензии всех зависимых библиотек.</p>
-<p><img src="/img/open-source-license/3.png"></p>
+<p><img src="/posts/open-source-license/img/3.png"></p>
 <p>На картинке выше, эта программа автоматически определила систему управления зависимостями maven и прошлась по каждой из них. В результате найдено множество зависимостей и напротив каждой из них проставлено название лицензии.</p>
 <p>Программа сама не разрешает конфликтов между лицензиями и не выбирает правильную. Это лишь удобный инструмент просмотреть лицензии всех своих зависимостей. Разруливать конфликты нужно вручную. Для этого можно добавить лицензии в список разрешённых.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>license_finder approvals add <span style="color:#e6db74">&#34;Apache 2.0&#34;</span>

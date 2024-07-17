@@ -9,7 +9,7 @@
 <meta property='og:description' content='Очень часто в сети можно встретить гиды по быстрой сборке на коленке анализатора радио с помощью rtl_sdr и raspberrypi. Большинство таких гидов ограничивается достаточно простым описанием: &ldquo;возьмите одно, вставьте другое, потом немного питоновских скриптов и у вас всё получится&rdquo;. Для новичков и просто любителей DIY - это прекрасный подход. Можно достаточно быстро познакомится с технологией и увидеть результат. Но что делать если нужно собрать что-то более продвинутое? Что если важна производительность?'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/rtlsdr-perf/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/rtlsdr-perf/8.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='bash'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2019-03-02T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-02T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/rtlsdr-perf/8.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='bash'><meta property='article:tag' content='raspberrypi'><meta property='article:tag' content='производительность'><meta property='article:published_time' content='2019-03-02T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-03-02T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -398,25 +398,25 @@
 <li>использование <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f7d34b445abc00e979b7cf36b9580ac3d1a47cd8">usbfs zerocopy</a> (появилось в rtl_sdr 0.6.x) и нет. В этом режиме процесс может читать память драйвера напрямую, без копирования через память ядра Linux. В теории это должно уменьшить нагрузку на систему и сделать её более стабильной.</li>
 </ul>
 <h2 id="raspberrypi-1">RaspberryPI 1</h2>
-<p><img src="/img/rtlsdr-perf/1.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/1.png"></p>
 <p>Среднее значение 820 кбайт/сек для bash и 800 кбайт/сек для Java. Это совсем не то что должно быть. Дело в том, что я запрашиваю 1440000 сэмплов в секунду. Каждый сэмпл содержит в себе I и Q пару по одному байту. Итого мне нужно 2880 кбайт/сек. Похоже сэмплы теряются. Загрузка CPU при этом следующая:</p>
-<p><img src="/img/rtlsdr-perf/2.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/2.png"></p>
 <p>На графики видны падения использования CPU. Согласно полной статистике из <a href="https://en.wikipedia.org/wiki/Vmstat">vmstat</a> в это время происходит 100% wa. Система явно не справляется с нагрузкой.</p>
 <h2 id="raspberrypi-1---zerocopy">RaspberryPI 1 - zerocopy</h2>
-<p><img src="/img/rtlsdr-perf/3.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/3.png"></p>
 <p>Большой разброс в значениях в обработке с помощью bash pipe - на самом деле хороший признак. Это значит, что система успевает обработать данные и периодически наполняет внутренние буфера для копирования. Конечно, можно было бы и лучше - сразу копировать данные, как только они появляются. Тем не менее среднее значение в районе 2880 кбайт/сек, что очень хорошо.</p>
 <p>Копирование с помощью Java pipe по-прежнему 800 кбайт/сек, что значит выигрыша zerocopy не даёт.</p>
-<p><img src="/img/rtlsdr-perf/4.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/4.png"></p>
 <p>При этом график потребления CPU выглядит достаточно интересным. С одной стороны, видно, что потребление при bash pipe снизилось до 35 процентов. С другой стороны, всё равно остались участки, где wa 100 и CPU простаивает. У меня есть подозрение, что нужно оптимизировать запись на диск. Дело в том, что в raspberrypi диск - это флэш карта. Видимо она не справляется с нагрузкой.</p>
 <h2 id="raspberrypi-3">RaspberryPI 3</h2>
-<p><img src="/img/rtlsdr-perf/5.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/5.png"></p>
 <p>Для RaspberryPi 3 ситуация выглядит получше. Похоже производительность хватает, чтобы обработать 2880 кбайт/сек.</p>
-<p><img src="/img/rtlsdr-perf/6.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/6.png"></p>
 <p>Потребление CPU около 19%. Для 4-х ядерного процессора RaspberryPi 3 это значит, что одно ядро почти полностью загружено.</p>
 <h2 id="raspberrypi-3---zerocopy">RaspberryPI 3 - zerocopy</h2>
-<p><img src="/img/rtlsdr-perf/7.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/7.png"></p>
 <p>Скорость обработки более-менее стабильная 2880 кбайт/сек.</p>
-<p><img src="/img/rtlsdr-perf/8.png"></p>
+<p><img src="/posts/rtlsdr-perf/img/8.png"></p>
 <p>А вот загрузка CPU достаточно неожиданная. При использовании zerocopy, я бы ожидал, что она уменьшится. В реальности же она осталась неизменной. Возможно операционная система запустила sox на втором ядре. Тогда небольшая загрузка на первом ядре (rtl_sdr) и небольшая нагрузка на втором ядре (sox) в сумме как раз дают около 19% загрузки CPU в сумме.</p>
 <h2 id="выводы">Выводы</h2>
 <ol>

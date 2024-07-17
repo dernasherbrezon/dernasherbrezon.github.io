@@ -11,7 +11,7 @@ Spoiler alert: I&rsquo;m on team auto-tests.'>
 Spoiler alert: I&rsquo;m on team auto-tests.'>
 <meta property='og:url' content='https://dernasherbrezon.com/en/posts/unit-tests/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/unit-tests/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='testing'><meta property='article:published_time' content='2020-05-25T17:27:18&#43;01:00'/><meta property='article:modified_time' content='2020-05-25T17:27:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/unit-tests/3.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='testing'><meta property='article:published_time' content='2020-05-25T17:27:18&#43;01:00'/><meta property='article:modified_time' content='2020-05-25T17:27:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -231,15 +231,15 @@ Spoiler alert: I&rsquo;m on team auto-tests.'>
 <p>I strongly disagree with this approach. Tests aren&rsquo;t supposed to cover every possible case, A, B, and C. Their main purpose is just to run the code at least once. I&rsquo;ve seen so many cases where developers write code and never actually run it. Having a test is a great way to prove that the code ran at least once and that there aren&rsquo;t any ridiculously stupid mistakes in there.</p>
 <h2 id="2">2</h2>
 <p>Even small libraries should be tested, and in fact, testing them is especially important. Often, small libraries have a clearly defined interface that can be easily tested with unit tests. It&rsquo;s important to ensure that even small pieces of code work correctly and reliably, as they may be used by other programs or systems and any issues could cause unexpected problems downstream. By testing even small libraries, developers can catch and fix any issues early on, before they become bigger problems.</p>
-<p><img src="/img/unit-tests/1.png"></p>
+<p><img src="/posts/unit-tests/img/1.png"></p>
 <h2 id="3">3</h2>
 <p>Writing tests makes you think about how the code is structured. Usually, a developer is focused on making sure the code works as it should. However, writing tests allows you to understand how the code will be used. I&rsquo;m not a big fan of TDD, but there is some truth to this methodology - you should write code and tests at the same time. This can greatly save time on integrating the code with other components.</p>
-<p><img src="/img/unit-tests/2.png"></p>
+<p><img src="/posts/unit-tests/img/2.png"></p>
 <p>Also, when writing tests, you start to think: &ldquo;What else can I check?&rdquo; &ldquo;Did I forget anything?&rdquo; This allows you to look at the code from a different angle and come up with a couple of strange usage scenarios that are worth testing. This also includes all kinds of checks for input parameters and boundary conditions.</p>
 <h2 id="4">4</h2>
 <p>Tests allow fixing implementation errors. Suppose all tests pass successfully, but it turns out that the code still works incorrectly. In this case, its implementation is changed, and the tests are run again. There should be no errors.</p>
 <p>This point can be expanded: tests allow updating dependent libraries. Let&rsquo;s say you have the situation: the code depends on a third-party library. A security flaw was found in this library. If there are tests, then you can simply update the version of the dependent library and run the tests. There should be no errors. This is very convenient to use in conjunction with automatic pull request generation systems. For example, GitHub recently learned to scan dependent libraries for various vulnerabilities and automatically create pull requests with updated library versions. If there are tests, such pull requests are automatically built and tested. If there are no errors, then you can update safely.</p>
-<p><img src="/img/unit-tests/3.png"></p>
+<p><img src="/posts/unit-tests/img/3.png"></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Write tests. And if you don&rsquo;t know how, ask me. I know.</p>
 

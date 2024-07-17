@@ -9,7 +9,7 @@
 <meta property='og:description' content='To begin with, a few words about why it is necessary to monitor routers. A router, like any other device, has hardware resources that can become depleted. For example, the browser may become slower in opening pages or videos may take longer to load. This can be caused by either the internet service provider or the router. It&rsquo;s possible that too many devices are connected to the router, causing it to slow down, or someone may be downloading excessively in parallel - all of this can be the reason for the slowdown.'>
 <meta property='og:url' content='https://dernasherbrezon.com/en/posts/prometheus-monitoring-mikrotik/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/prometheus-monitoring-mikrotik/grafana.png'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='admin'><meta property='article:tag' content='grafana'><meta property='article:tag' content='prometheus'><meta property='article:published_time' content='2021-08-07T06:50:18&#43;01:00'/><meta property='article:modified_time' content='2021-08-07T06:50:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/prometheus-monitoring-mikrotik/grafana.png'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/grafana.png'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='admin'><meta property='article:tag' content='grafana'><meta property='article:tag' content='prometheus'><meta property='article:published_time' content='2021-08-07T06:50:18&#43;01:00'/><meta property='article:modified_time' content='2021-08-07T06:50:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/grafana.png'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -201,9 +201,9 @@
 <p>So that&rsquo;s why I decided to monitor my Mikrotik router in the realtime.</p>
 <h2 id="the-concept">The concept</h2>
 <p>I have <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a> that can use a SIM card to connect to a cellular network and provide Wi-Fi.</p>
-<p><img alt="mikrotik_wap_r" src="/img/prometheus-monitoring-mikrotik/mikrotik_wap_r.jpg"></p>
+<p><img alt="mikrotik_wap_r" src="/posts/prometheus-monitoring-mikrotik/img/mikrotik_wap_r.jpg"></p>
 <p>The general monitoring scheme looks like this:</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/schema.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/schema.png"></p>
 <h2 id="mikrotik">Mikrotik</h2>
 <p>To monitor Mikrotik with Prometheus, you need to use a special exporter that converts Mikrotik&rsquo;s <a href="https://ru.wikipedia.org/wiki/SNMP">SNMP</a> metrics into a format that can be read by Prometheus. By default, SNMP is not enabled on Mikrotik, so you will need to enable it first with the following command:</p>
 <pre tabindex="0"><code>[admin@MikroTik] /snmp
@@ -234,7 +234,7 @@ sudo systemctl start snmp_exporter
 </code></pre><p>Check the status using the command below:</p>
 <pre tabindex="0"><code>sudo systemctl status snmp_exporter
 </code></pre><p>If the service started successfully, the output will be as follows:</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/snmp_exporter.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/snmp_exporter.png"></p>
 <h2 id="prometheus">Prometheus</h2>
 <p>All metrics will be stored in <a href="https://prometheus.io">Prometheus</a>, a special database for storing metrics that can be run locally or in the cloud.</p>
 <p>I won&rsquo;t go into detail on how to configure and start Prometheus, as there are <a href="https://prometheus.io/docs/prometheus/latest/getting_started/">comprehensive instructions</a> available.</p>
@@ -255,7 +255,7 @@ sudo systemctl start snmp_exporter
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">replacement</span>: <span style="color:#ae81ff">raspberrypi.local:9116</span>
 </span></span></code></pre></div><h2 id="grafana">Grafana</h2>
 <p>You can use <a href="https://grafana.com/grafana/dashboards/14420">pre-configured dashboards</a> and instantly import them into Grafana.</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/image.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/image.png"></p>
 <p>However each device is different and most of these dashboards don&rsquo;t work for my device model. For <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a> I manually selected the following parameters:</p>
 <ul>
 <li>Uptime - <code>sysUpTime{instance='$instance'}/100</code></li>
@@ -266,7 +266,7 @@ sudo systemctl start snmp_exporter
 <li>RSRP (Reference Signal Received Power) level of TLE signal - <code>mtxrLTEModemSignalRSRP</code></li>
 </ul>
 <p>And added them to Grafana panels:</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/grafana.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/grafana.png"></p>
 <p>It is possible to add any other custom metrics using SNMP. Firstly you need to find their oid (SNMP identifier) using the command below:</p>
 <pre tabindex="0"><code>[admin@MikroTik] /interface lte print oid
 </code></pre><p>Then add oid into snmp.yaml:</p>

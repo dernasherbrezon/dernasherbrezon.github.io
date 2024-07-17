@@ -13,7 +13,7 @@ Gnd bme - это сайт, на котором отображаются посл
 Но самое интересное заключается в том, что этот сайт предоставляет небольшой API, чтобы можно было программно отправлять им данные. На самом сайте нет описания этого API, но я внимательно посмотрел исходники и нашёл в них всё необходимое.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/mock-server/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/mock-server/noJavadoc.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='REST'><meta property='article:tag' content='junit'><meta property='article:tag' content='api'><meta property='article:published_time' content='2020-03-18T19:37:18&#43;01:00'/><meta property='article:modified_time' content='2020-03-18T19:37:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/mock-server/noJavadoc.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='REST'><meta property='article:tag' content='junit'><meta property='article:tag' content='api'><meta property='article:published_time' content='2020-03-18T19:37:18&#43;01:00'/><meta property='article:modified_time' content='2020-03-18T19:37:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -374,7 +374,7 @@ Gnd bme - это сайт, на котором отображаются посл
   <div class='container entry-content'>
   <p>Последние несколько дней я работал над декодированием сигналов со спутника <a href="https://destevez.net/2019/12/decoding-smog-p-and-atl-1/">SMOG-P</a>. Помимо декодирования самого протокола я решил заморочиться и написать полноценную интеграцию между <a href="https://r2server.ru">r2server</a> и <a href="https://gnd.bme.hu:8080/index">gnd.bme.hu</a>.</p>
 <p>Gnd bme - это сайт, на котором отображаются последние пакеты, принятые со спутника, общая информация о том, как декодировать сигнал.</p>
-<p><img src="/img/mock-server/1.png"></p>
+<p><img src="/posts/mock-server/img/1.png"></p>
 <p>Но самое интересное заключается в том, что этот сайт предоставляет небольшой API, чтобы можно было программно отправлять им данные. На самом сайте нет описания этого API, но я внимательно посмотрел <a href="http://152.66.80.46/smog1/receivesmogpatl1/gorgon.zip">исходники</a> и нашёл в них всё необходимое.</p>
 <h2 id="bmeclient">BmeClient</h2>
 <p>Для подобных интеграций я предпочитаю делать небольшие проекты, которые удобно переиспользовать. Я завёл проект <a href="https://github.com/dernasherbrezon/bmeClient">bmeClient</a>. Он достаточно простой:</p>
@@ -432,12 +432,12 @@ Gnd bme - это сайт, на котором отображаются посл
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>request()
 </span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">withBody</span>(exact(<span style="color:#e6db74">&#34;some data&#34;</span>))
 </span></span></code></pre></div><p>Из какого класса этот <code>request</code> импортируется? А из какого <code>exact</code>? Для этого мне пришлось залезть в исходники примеров и поискать импорты. Тем не менее с первого раза тест не сработал.</p>
-<p><img src="/img/mock-server/mockServerError.png"></p>
+<p><img src="/posts/mock-server/img/mockServerError.png"></p>
 <p>Да, я не первый день программирую на Java, поэтому точно знаю в чём причина. Хотя она и не следует из описания exception. Конфликт библиотек. Помните я говорил, что подключается 50 библиотек в проект? Так вот, чем больше библиотек, тем больше шанс, что произойдёт конфликт. Именно это и произошло. После того как я поменял версию slf4j в своём проекте с 1.7.12 на 1.7.26, тест выполнился.</p>
-<p><img src="/img/mock-server/nashornWarning.png"></p>
+<p><img src="/posts/mock-server/img/nashornWarning.png"></p>
 <p>Стоп-стоп. Nashorn? Это тот самый <a href="https://openjdk.java.net/projects/nashorn/">Nashorn</a>, который Java движок для запуска Javascript? Почему я вижу это предупреждение? У меня тест REST клиента. Тут нет javascript. Неужели они стартуют его? Я даже не представляю, как исправить это предупреждение. И уж точно не знаю, сломаются ли мои тесты при запуске на следующей версии JDK. Мир сошёл с ума.</p>
 <p>Тест вывел кучу бесполезной информации в логи, но при этом успешно прошёл за почти 4 секунды.</p>
-<p><img src="/img/mock-server/mockServer.png"></p>
+<p><img src="/posts/mock-server/img/mockServer.png"></p>
 <p>Сам код теста выглядит следующим образом:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> ClientAndServer mockServer;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> BmeClient client;
@@ -489,9 +489,9 @@ Gnd bme - это сайт, на котором отображаются посл
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">exampleTest</span>() {
 </span></span><span style="display:flex;"><span>    stubFor(get(urlEqualTo(<span style="color:#e6db74">&#34;/my/resource&#34;</span>))
 </span></span></code></pre></div><p>Откуда взялась эта мода на DSL? Вот как мне понять какие классы нужно заимпортить? Начал исследовать сайт в поисках исходников и наткнулся на изумительное:</p>
-<p><img src="/img/mock-server/friendlyWebUI.png"></p>
+<p><img src="/posts/mock-server/img/friendlyWebUI.png"></p>
 <p>На-секундочку, ещё раз. <code>Friendly Web UI</code> для того, чтобы написать юнит тесты? Или это мода на монетизацию? Мол, попробуйте наш бесплатный продукт, а для использования Web UI заплатите. Я чего-то не понимаю.</p>
-<p><img src="/img/mock-server/noJavadoc.png"></p>
+<p><img src="/posts/mock-server/img/noJavadoc.png"></p>
 <p>Я не знаю, что хотели сказать авторы отсутствующим javadoc к своему DSL. Но мне потребовалось где-то 30 минут, чтобы разобраться в API и написать работающий тест. 2 секунды на исполнение и собственно код теста:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Rule</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> WireMockRule wireMockRule <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> WireMockRule(8089);

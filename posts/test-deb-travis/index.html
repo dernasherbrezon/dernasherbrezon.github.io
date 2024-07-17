@@ -13,7 +13,7 @@
 установка пакета на чистую систему: проверка наличия зависимостей запуск: проверка зависимостей в рантайме тестирование запущенного приложения: проверка prod конфигурации Введение Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20&#43; лет и я не должен быть первым, кому пришло в голову тестирование пакетов.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/test-deb-travis/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png'><meta property='article:section' content='posts'><meta property='article:tag' content='deb'><meta property='article:tag' content='travis-ci'><meta property='article:tag' content='docker'><meta property='article:tag' content='systemd'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2017-11-04T13:51:18&#43;01:00'/><meta property='article:modified_time' content='2017-11-04T13:51:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='deb'><meta property='article:tag' content='travis-ci'><meta property='article:tag' content='docker'><meta property='article:tag' content='systemd'><meta property='article:tag' content='тестирование'><meta property='article:published_time' content='2017-11-04T13:51:18&#43;01:00'/><meta property='article:modified_time' content='2017-11-04T13:51:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -383,14 +383,14 @@
 <li>запуск: проверка зависимостей в рантайме</li>
 <li>тестирование запущенного приложения: проверка prod конфигурации</li>
 </ul>
-<p><img src="/img/test-deb-travis/1tonmhzpsbqtt5yqf6sxnpumnk8.png"></p>
+<p><img src="/posts/test-deb-travis/img/1tonmhzpsbqtt5yqf6sxnpumnk8.png"></p>
 <h2 id="введение">Введение</h2>
 <p>Как обычно, первым делом необходимо оглядеться по сторонам и поискать уже существующие решения и подходы. Системе Debian уже 20+ лет и я не должен быть первым, кому пришло в голову тестирование пакетов. Поэтому я провел небольшое исследование экосистемы и получил следующее:</p>
-<p><img src="/img/test-deb-travis/rw9hiwy9lgzw4oxcgijh85_qvnw.png"></p>
+<p><img src="/posts/test-deb-travis/img/rw9hiwy9lgzw4oxcgijh85_qvnw.png"></p>
 <h2 id="autopkgtest">autopkgtest</h2>
 <p>Итак, в центре тестирования любого debian пакета находится autopkgtest. Это по сути набор правил для сборки и набор скриптов для запуска тестов. Более детально о том, как писать такие тесты и конфигурировать сборку пакетов можно почитать в <a href="http://packaging.ubuntu.com/ru/html/auto-pkg-test.html">официальной документации</a>.</p>
 <h2 id="debci">debci</h2>
-<p><img src="/img/test-deb-travis/soiwyhiobqzphzpiagvplg9ryfo.png"></p>
+<p><img src="/posts/test-deb-travis/img/soiwyhiobqzphzpiagvplg9ryfo.png"></p>
 <p><a href="https://github.com/terceiro/debci">debci</a>  - это <a href="https://ci.debian.net">официальная</a> система для тестирования пакетов. Используется самим сообществом debian для continuous integration релизов. Представляет собой набор сервисов, которые общаются между собой через rabbitmq:</p>
 <ul>
 <li>debci-enqueue - добавление пакета в очередь на тестирование</li>

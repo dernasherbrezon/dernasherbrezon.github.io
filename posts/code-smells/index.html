@@ -9,7 +9,7 @@
 <meta property='og:description' content='В январе 2019 года я поставил себе задачу добавить поддержку спутников из gr-satellites в свой проект r2cloud. На тот момент их было около 70. Это достаточно большое количество, добавление которых, по моим оценкам, может занять до конца года. Однако, как показал опыт, я справился где-то за месяц. Некоторые спутники уже сгорели в атмосфере, поэтому их нет смысла добавлять. Некоторые спутники не предоставляют формат своей телеметрии, поэтому полученные биты данных, так и остаются битами данных.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/code-smells/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/code-smells/github.png'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='sonarcube'><meta property='article:published_time' content='2019-11-14T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-11-14T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/code-smells/github.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='sonarcube'><meta property='article:published_time' content='2019-11-14T18:22:18&#43;01:00'/><meta property='article:modified_time' content='2019-11-14T18:22:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -372,12 +372,12 @@
 <p>Здесь важно отметить, что разные спутники передают разную информацию. Некоторые передают <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/main/java/ru/r2cloud/jradio/astrocast/NMEA0183.java">небольшое количество данных</a>, некоторые десятки и <a href="https://github.com/dernasherbrezon/jradio/blob/master/src/main/java/ru/r2cloud/jradio/eseo/Type1.java">сотни полей</a>.</p>
 <p>Сделав задачу, я обнаружил, что названия полей зачастую не согласуются с правилами java. Большинство полей я просто взял из оригинальных спецификаций, которые ничего не знают про Java. Из-за этого <a href="https://sonarcloud.io/project/activity?custom_metrics=code_smells&graph=custom&id=ru.r2cloud%3Ajradio">sonarcloud</a> начал показывать более 6000 code smells (sic!).</p>
 <p>Я никогда не встречал проекты с таким большим количеством плохо пахнущего кода. По оценкам sonarcloud, на исправление этого мне бы потребовалось около 40 дней. Сам по себе такой код не является ошибочным. Просто его неудобно читать, поддерживать и он плохо согласуется с остальным кодом на Java. С другой стороны, 40 дней подряд сидеть и делать код ещё чуть-чуть более лучшим, мне тоже не хотелось. Всё-таки это хобби-проект, а не каторга. Поэтому, чтобы хоть как-то исправить ситуацию, я решил каждый день делать золотой commit. Золотой commit - это исправление плохо пахнущего кода в отдельно взятом файле.</p>
-<p><img src="/img/code-smells/sonarcloud.png"></p>
+<p><img src="/posts/code-smells/img/sonarcloud.png"></p>
 <p>С февраля по ноябрь я исправил почти все 6000. При этом моя гит история стала выглядеть следующим образом:</p>
-<p><img src="/img/code-smells/github.png"></p>
+<p><img src="/posts/code-smells/img/github.png"></p>
 <p>В итоге сейчас в проекте около 150 случаев дурно пахнущего кода. Большинство из них - это дублирование кода. В настройках по умолчанию sonarcloud создаёт новую проблему, если есть дублирующий код. Я не большой сторонник полностью переиспользуемого кода. В каких то случаях - это хорошо. Например, при описании бизнес-логики. В других случаях - это может сильно мешать читаемости и делает код сильно связанным. Например, при описании структур данных.</p>
 <p>Ещё одна достаточно частая проблема, на которую sonarcloud ругается - это <a href="https://sonarcloud.io/organizations/dernasherbrezon-github/rules?open=squid%3AS3776&rule_key=squid%3AS3776">сложность кода</a>. К сожалению, да. Мой проект действительно сложный, тут сложно что-либо поделать.</p>
-<p><img src="/img/code-smells/complex.png"></p>
+<p><img src="/posts/code-smells/img/complex.png"></p>
 <h2 id="выводы">Выводы</h2>
 <p>Какие можно сделать выводы из всего этого? Терпенье и труд всё перетрут.</p>
 

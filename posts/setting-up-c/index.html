@@ -9,7 +9,7 @@
 <meta property='og:description' content='У меня есть небольшой проект на Си, который позволяет сделать приватный apt репозиторий в облачном хранилище Selectel - apt-transport-swift. Почему именно на Си? Во-первых, я думал, что знаю Си. Во-вторых, в моём представлении все системные утилиты для массового пользования должны быть написаны на низкоуровневом языке. Это значит, что для запуска приложения у меня должны быть минимальное количество зависимостей и минимальное потребление памяти. Ведь я не знаю на каком железе будет запущена моя программа.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/setting-up-c/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/setting-up-c/4.png'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='sonarcube'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='travis-ci'><meta property='article:tag' content='valgrind'><meta property='article:published_time' content='2019-12-24T18:29:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-24T18:29:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/setting-up-c/4.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='c'><meta property='article:tag' content='sonarcube'><meta property='article:tag' content='ubuntu'><meta property='article:tag' content='travis-ci'><meta property='article:tag' content='valgrind'><meta property='article:published_time' content='2019-12-24T18:29:18&#43;01:00'/><meta property='article:modified_time' content='2019-12-24T18:29:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -375,10 +375,10 @@
 <p><a href="https://cmake.org">cmake</a>. Мне необходимо будет собирать тесты, считать code coverage и пр. Обычный make был бы слишком простым. Какие-то специальные сборочные системы, например Eclipse CDT, слишком привязаны к IDE и запускать их, например в launchpad, невозможно. С помощью cmake я мог бы собирать проект в Ubuntu и в MacOS.</p>
 <h2 id="continuous-integration">Continuous integration</h2>
 <p><a href="https://travis-ci.org/dernasherbrezon/apt-transport-swift">travis-ci</a>. Прежде всего, он бесплатный и хорошо интегрирован с github. Я его использую в нескольких проектах, и он вполне подходит для моих нужд.</p>
-<p><img src="/img/setting-up-c/1.png"></p>
+<p><img src="/posts/setting-up-c/img/1.png"></p>
 <h2 id="continuous-deployment">Continuous deployment</h2>
 <p><a href="https://launchpad.net/~rodionovamp/+archive/ubuntu/apt-transport-swift">Launchpad</a>. Не является классическим сервисом/приложением для continuous deployment. Тем не менее предоставляет в какой-то мере deployment. Например, он может автоматически собрать исходники под разные версии Ubuntu, под разные архитектуры и задеплоить в <a href="https://help.ubuntu.ru/wiki/ppa">PPA</a>. Сам по себе, Launchpad - это мир в себе. Я постараюсь написать отдельную статью, как собрать проект под него и какие особенности при этом могут возникнуть.</p>
-<p><img src="/img/setting-up-c/2.png"></p>
+<p><img src="/posts/setting-up-c/img/2.png"></p>
 <h2 id="тесты">Тесты</h2>
 <p><a href="https://github.com/libcheck/check">libcheck</a>. Для начала нужно отметить, что тесты для программы на Си существенно отличаются от тестов для таких языков как Java, Python, Ruby. Дело в том, что каждый тест нужно оборачивать в отдельную программу. Это нужно прежде всего, чтобы отловить memory access violation - наиболее частый тип ошибок. При таких ошибках программа обычно падает в coredump. Если тесты будут запускаться в рамках одного приложения, то ошибка в одном тесте будет валить все оставшиеся тесты. Это не очень хорошо, поэтому разработчики придумали делать fork тестов. Вообще с библиотеками для тестирования в мире Си всё достаточно сложно. Например, многие пытаются тестировать код embedded приложений, в которых очень важен размер программы и скорость, поэтому для каждого случая люди придумывают свою библиотеку тестирования. Иногда доходит <a href="http://www.jera.com/techinfo/jtns/jtn002.html">до абсурда</a>.</p>
 <p>Отдельной головной болью является подключение этих библиотек. Дело в том, что в cmake модули и пакеты появились сравнительно недавно. И, видимо, чтобы не нарушить обратную совместимость, их поддержка выглядит очень специфической. Например, рекомендуемое подключение libcheck:</p>
@@ -410,7 +410,7 @@
 </span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">./run_tests.sh</span>
 </span></span></code></pre></div><h2 id="code-coverage">Code coverage</h2>
 <p><a href="https://ru.wikipedia.org/wiki/Gcov">gcov</a>. Многие думают, что считать покрытие тестами кода - это какой-то фетишизм педантов-максималистов. На самом деле, он прежде всего помогает найти неиспользуемый код, который можно удалить. И только во-вторую очередь позволяет понять насколько хорошо тесты написаны. Достигнуть 100% покрытия почти нереально, да и это зачастую не нужно. Многие сервисы, например sonarcloud, вполне это понимают и устанавливают границу в 80%. Судя по моему опыту, эта граница примерно соответствует тестам, которые проверяют успешное выполнение логики программы. Остальные 20% - это всевозможная обработка сложных граничных и многопоточных случаев.</p>
-<p><img src="/img/setting-up-c/3.png"></p>
+<p><img src="/posts/setting-up-c/img/3.png"></p>
 <p>Настройка gcov для связки travis и cmake выглядит нетривиально и многие в интернетах советуют переусложненные конфигурации. Мне же удалось сделать это проще.</p>
 <p>Подключение debug информации:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmake" data-lang="cmake"><span style="display:flex;"><span>if(<span style="color:#e6db74">CMAKE_BUILD_TYPE</span> <span style="color:#e6db74">MATCHES</span> <span style="color:#e6db74">Debug</span>)<span style="color:#960050;background-color:#1e0010">
@@ -427,7 +427,7 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="анализ-кода">Анализ кода</h2>
 <p><a href="https://sonarcloud.io/organizations/dernasherbrezon-github/projects">sonarcloud</a>. Он поддерживает множество языков, в том числе Си, Java, Javascript, и я использую его во всех своих проектах. Удобно и бесплатно.</p>
-<p><img src="/img/setting-up-c/4.png"></p>
+<p><img src="/posts/setting-up-c/img/4.png"></p>
 <h2 id="выводы">Выводы.</h2>
 <p>Мир Си странен и многообразен. Почти все инструменты, которые просто и быстро подключаются в современных языках программирования, здесь требуют доработки напильником. Однако, если есть желание разобраться с экосистемой, то всё возможно. После того как я всё настроил, стало хорошо видно, где стоит поработать. Например, я думал, что покрытие тестами в моём проекте примерно 60%. Однако, в реальности оно оказалось где-то 40%. Статический анализатор sonarcloud нашёл много серьёзных багов, связанных с памятью. Уже сейчас можно сказать, что время, потраченное на настройку, окупилось и принесло пользу.</p>
 

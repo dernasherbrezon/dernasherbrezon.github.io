@@ -204,15 +204,15 @@ Debian developers explain this feature by stating that enabling support for exte
 <p>Nevertheless, there are separate libraries that are optimized specifically for different processor versions and make the most of their capabilities. For example, <a href="https://www.libvolk.org">volk</a> provides a set of functions optimized for digital signal processing. If the processor supports an optimized implementation and such an implementation is written, volk chooses it. If not, a simple C implementation is used. So, there is no need to write code for each type of processor. This is good, but there remains another problem - the distribution of such libraries.</p>
 <p>I solved this problem last week. However, before moving on to the solution, it is necessary to understand &ldquo;how does the distribution of APT packages work?&rdquo;</p>
 <h2 id="apt-repositories">APT Repositories</h2>
-<p><img src="/img/apt-for-cpu/1.png"></p>
+<p><img src="/posts/apt-for-cpu/img/1.png"></p>
 <p>I will try to describe the Debian repository scheme, but this works exactly the same for Ubuntu. So, each distribution has a code name. This code name is given to different versions of the operating system. In the context of compilation, this means that different versions will have different versions of GCC and different versions of libc. This often implies that a package compiled in one version of the operating system may not work in another. Sometimes this is not the case, but generally, it is advisable to build the package for each OS version.</p>
 <p>Each OS version has a list of architectures it supports. In the diagram above, I only listed two: armhf and amd64. In reality, Debian supports many more. The architecture in the context of application compilation is an averaged processor type. For example, amd64 includes all 64-bit processors, not just those from AMD. The same goes for armhf. armhf is a &ldquo;regular&rdquo; 32-bit processor on the ARM architecture.</p>
 <p>To have binary applications for each processor, you need to go even further and add another level.</p>
-<p><img src="/img/apt-for-cpu/2.png"></p>
+<p><img src="/posts/apt-for-cpu/img/2.png"></p>
 <p>Separate repositories can be created for different versions of ARM processors: cortex-a7, cortex-a53, etc. You also need to have some common &ldquo;generic&rdquo; version. This is in case the CPU is not supported. Each package must be built for different processors and with default parameters for the &ldquo;generic&rdquo; version. On the client side, connecting a CPU-specific repository could be done like this (pseudocode):</p>
 <pre tabindex="0"><code>deb http://s3.amazonaws.com/r2cloud/cpu-$(lscpu model or generic if not supported) $(lsb_release --codename --short) main
 </code></pre><p>Unfortunately, standard APT repositories do not support such detailed logical separation, so it can be done at the physical level. It&rsquo;s enough to create several different repositories under different URLs. It could look like this:</p>
-<p><img src="/img/apt-for-cpu/3.png"></p>
+<p><img src="/posts/apt-for-cpu/img/3.png"></p>
 <p>So, there are several physical repositories, each of which contains:</p>
 <ul>
 <li>several OS versions</li>
@@ -222,7 +222,7 @@ Debian developers explain this feature by stating that enabling support for exte
 <p>The good news is that there are not so many types of processors. The doubly good news is that there are not so many applications optimized for multiple processors. It turns out that such repositories would be relatively small.</p>
 <h2 id="gcc-flags">GCC Flags</h2>
 <p>In <a href="https://dernasherbrezon.com/en/posts/compare-compile-flags-raspberrypi/">my previous article</a>, I described the compilation options for the very first Raspberry Pi, which has the ARM arm1176jzf-s processor. However, other versions of Raspberry Pi contain different processors. That&rsquo;s why code compiled for one processor will not run on another:</p>
-<p><img src="/img/apt-for-cpu/4.png"></p>
+<p><img src="/posts/apt-for-cpu/img/4.png"></p>
 <p>By the way, compilation flags for ARM processors must be specified because GCC does not include support for NEON extended registers by default. However, for Intel x86_64, it&rsquo;s not necessary to include them because they are available by default. Here is a list of flags that need to be included for different versions of Raspberry Pi.</p>
 <table>
 	<thead>

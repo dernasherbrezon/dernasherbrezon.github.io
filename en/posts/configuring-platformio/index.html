@@ -203,7 +203,7 @@ Dependency Management A challenge in every C/C&#43;&#43; project is dependency m
 <h2 id="dependency-management">Dependency Management</h2>
 <p>A challenge in every C/C++ project is dependency management. There is no standard way to handle this in the language and ecosystem. Everyone does it in their own way. The well-known tool in certain circles is <a href="https://dernasherbrezon.com/en/posts/dynamic-libraries-rpath/">Conan</a>, but it lacks a wide range of libraries. Operating systems have libraries, but they are not suitable for microcontrollers, and their versions are determined by the operating systems, not the applications.</p>
 <p>PlatformIO has its own library repository, which is conveniently integrated into the platform.</p>
-<p><img src="/img/configuring-platformio/libs.png"></p>
+<p><img src="/posts/configuring-platformio/img/libs.png"></p>
 <p>Here, you can filter libraries by microcontroller type, framework, purpose, and many other parameters. This is incredibly useful because there are a great variety of microcontrollers, all of which are different. Different architectures, different sets of registers, different memory sizes. The fact that PlatformIO takes this into account from the start allows you to somehow deal with the chaos.</p>
 <p>To add a dependency to the project, you need to write the following:</p>
 <pre tabindex="0"><code>[env]
@@ -244,14 +244,14 @@ build_flags =
 </ul>
 <p>Nothing prevents you from manually attaching a <a href="https://www.amazon.co.uk/SX1278-DRF1278F-Arduino-wireless-module/dp/B079QZXP5D">LoRa chip</a> to the board. In this case, it is sufficient to declare a new environment and specify each of the pins.</p>
 <p>Each board can have its own set of libraries and its own build folder:</p>
-<p><img src="/img/configuring-platformio/envs.png"></p>
+<p><img src="/posts/configuring-platformio/img/envs.png"></p>
 <h2 id="platform-and-framework">Platform and Framework</h2>
 <p>In addition to boards, PlatformIO has the concepts of platform and framework. The platform usually corresponds to the type of microcontroller. In the case of ESP32, it is espressif32. Sometimes a microcontroller may support different architectures, in which case each of them has its own platform ID. The closest analogy is arm64 or armhf, except that the platform describes a specific chip. I attempted something similar when compiling applications <a href="https://dernasherbrezon.com/en/posts/apt-for-cpu/">for specific processors</a>.</p>
 <p>All boards that contain LoRa chips are based on ESP32, so <code>platform = espressif32</code>.</p>
 <p>The framework is something like an SDK, usually provided by the microcontroller manufacturer. Typically, with one SDK, you can develop for different models of microcontrollers. Sometimes there are universal SDKs. For ESP32, you can develop using <code>framework = espidf</code> or <code>framework = arduino</code>.I chose arduino because many libraries are written using the Arduino API. Despite the fact that ESP32 is not directly compatible with Arduino, there is an intermediate layer <code>framework-arduinoespressif32</code> that converts Arduino API calls into ESP32 calls. It&rsquo;s a bit suboptimal, but ESP32 is powerful enough, and not many people are concerned about it.</p>
 <h2 id="project-structure">Project Structure</h2>
 <p>When using <code>framework = arduino</code>, the project should be structured as follows:</p>
-<p><img src="/img/configuring-platformio/project.png"></p>
+<p><img src="/posts/configuring-platformio/img/project.png"></p>
 <p>Inside the <code>src</code> folder are the source files and the entry point into the program. Usually, this is the <code>main</code> with the methods <code>void loop()</code> and <code>void setup()</code>. You can program in C or C++. However, if some libraries are written in C++ and do not support inclusion from C, you will have to write in C++ (sigh!).</p>
 <p>There is also a <code>lib</code>. folder. It should contain small components of the application that need to be tested. It looks like this:</p>
 <ul>
@@ -311,7 +311,7 @@ build_flags =
 <p>You can run either individual test suites or all of them together.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pio test --test-port /dev/ttyACM0 -e ttgo-lora32-v2 -f fota
 </span></span></code></pre></div><p>As a result, PlatformIO will display various statistics on the screen:</p>
-<p><img src="/img/configuring-platformio/unittests.png"></p>
+<p><img src="/posts/configuring-platformio/img/unittests.png"></p>
 <p>More detailed documentation can be found on the project&rsquo;s website: <a href="https://docs.platformio.org/en/latest//plus/unit-testing.html">unit testing</a>.</p>
 <h2 id="next-steps">Next Steps</h2>
 <p>After understanding the project structure well enough, you can proceed directly to the implementation.</p>

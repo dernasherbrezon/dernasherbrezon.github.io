@@ -13,7 +13,7 @@
 Одним из таких спутников является Метеор-М №2. Помимо множества разных камер, на нём установлена камера МСУ-МР.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/r2weather/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/r2weather/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='разработка'><meta property='article:tag' content='open source'><meta property='article:tag' content='r2cloud'><meta property='article:tag' content='r2weather'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2020-07-26T14:05:18&#43;01:00'/><meta property='article:modified_time' content='2020-07-26T14:05:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/r2weather/3.png'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/3.png'><meta property='article:section' content='posts'><meta property='article:tag' content='разработка'><meta property='article:tag' content='open source'><meta property='article:tag' content='r2cloud'><meta property='article:tag' content='r2weather'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2020-07-26T14:05:18&#43;01:00'/><meta property='article:modified_time' content='2020-07-26T14:05:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/3.png'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -379,22 +379,22 @@
 <p>Уже много лет энтузиасты со всего мира получают метеоснимки с пролетающего над ними спутника. Однако, никто не объединяет эти данные в единую картину. Они хранятся у каждого локально, в различных форматах.</p>
 <p>r2weather - это как раз тот сервис, который объединяет данные Метеор-М №2 со множества станций по всему миру. Каждый желающий может получить метеоснимки со спутника и отправить в r2weather. Затем сервис обработает данные и отобразит на карте мира.</p>
 <h2 id="принцип-работы">Принцип работы</h2>
-<p><img src="/img/r2weather/diagram.png"></p>
+<p><img src="/posts/r2weather/img/diagram.png"></p>
 <p>Принцип работы достаточно простой:</p>
 <ul>
 <li>спутник пролетает над приёмной станцией и передаёт изображение на Землю</li>
 <li>станция декодирует сигнал и передаёт результат в сервис r2weather.ru</li>
 <li>сервис обрабатывает изображение и отображает на карте</li>
 </ul>
-<p><img src="/img/r2weather/3.png"></p>
+<p><img src="/posts/r2weather/img/3.png"></p>
 <p>Поскольку формат LRPT открытый, то каждый может собрать приёмную станцию и поучаствовать в проекте. Такую станцию можно разработать с нуля или взять уже готовую. Существует несколько популярных станций.</p>
 <h2 id="satnogs">SatNOGS</h2>
 <p>Наиболее популярная сеть станций - <a href="https://satnogs.org/">satnogs</a>. В <a href="https://wiki.satnogs.org/Main_Page">официальной документации</a> описано несколько типовых конфигураций и способы сборки. Станция satnogs поддерживает различные антенны и приёмные устройства. Большинство из них можно купить в магазине и собрать как конструктор.</p>
-<p><img src="/img/r2weather/4.png"></p>
+<p><img src="/posts/r2weather/img/4.png"></p>
 <p>Из недостатков то, что прямой интеграции между станцией satnogs и <a href="https://r2weather.ru">r2weather.ru</a> нет. Поэтому придётся программировать отправку данных со станции в сервис.</p>
 <h2 id="r2cloud">r2cloud</h2>
 <p>Ещё одна сеть станций - <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>. Это моя собственная разработка. Она не такая популярная как SatNOGS и поддерживает меньшее количество приёмников. Тем не менее она максимально простая и идеально подходит новичкам. В ней есть интеграция с <a href="https://r2weather.ru">r2weather.ru</a> через промежуточный сервис <a href="https://r2server.ru">r2server.ru</a>.</p>
-<p><img src="/img/r2weather/r2server-data.png"></p>
+<p><img src="/posts/r2weather/img/r2server-data.png"></p>
 <p>Более детальную информацию можно найти в <a href="https://r2weather.ru/howto">официальной документации</a>.</p>
 <h2 id="пересылка-данных-вручную">Пересылка данных вручную</h2>
 <p>Этот способ скорее подходит для специалистов или одноразового добавления данных. Есть несколько разных инструкций от <a href="http://happysat.nl/Setup_Meteor/Setup.html">happysat</a>, <a href="https://leshamilton.co.uk/soft/Guide-to-Receiving-Meteor.pdf">Les Hamilton</a> и <a href="https://r4uab.ru/priyom-meteosnimkov-so-sputnikov-meteor-m/">r4uab</a>.</p>
@@ -408,14 +408,14 @@
 </ul>
 <p><img src="/img/georeferencing-gcp/6.png"></p>
 <p>После всех преобразований сервис &ldquo;разрезает&rdquo; изображение на кусочки, чтобы отобразить на карте.</p>
-<p><img src="/img/r2weather/6.png"></p>
+<p><img src="/posts/r2weather/img/6.png"></p>
 <h2 id="аналоги">Аналоги</h2>
 <p>Идея r2weather не нова, и многие крупнейшие космические агентства имеют похожие сервисы. Например, у европейского космического агентства есть программа <a href="https://www.copernicus.eu/en">copernicus</a>. В рамках этой программы они предоставляют доступ к данным со спутников Sentinel.</p>
-<p><img src="/img/r2weather/0.png"></p>
+<p><img src="/posts/r2weather/img/0.png"></p>
 <p>У NASA есть сервис <a href="https://worldwind.arc.nasa.gov/worldweather/">world weather</a>, где доступны данные MODIS, SUOMI NPP, NOAA и другие.</p>
-<p><img src="/img/r2weather/1.png"></p>
+<p><img src="/posts/r2weather/img/1.png"></p>
 <p>У роскосмоса также есть похожий сервис - <a href="https://gptl.ru">геопортал данных</a>, там можно получить метеоснимки со спутников Канопус, Метеор-М и Ресурс-П.</p>
-<p><img src="/img/r2weather/2.png"></p>
+<p><img src="/posts/r2weather/img/2.png"></p>
 <p>Все эти сервисы предоставляют доступ к своим данным всем желающим и совершенно бесплатно. Тем не менее, данных с камеры МСУ-МР нет ни на одном из этих сервисов. r2weather как раз и призван восполнить этот недостаток.</p>
 <h2 id="заключение">Заключение</h2>
 <p>r2weather готов и работает стабильно уже несколько месяцев. Тем не менее сервис есть куда улучшать. Вот несколько идей:</p>

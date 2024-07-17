@@ -380,11 +380,11 @@
 <li>показывать текущее положение спутников на карте Земли и область их видимости</li>
 </ul>
 <p>Первые пару пунктов легко сделать дополнительной настройкой:</p>
-<p><img src="/img/satellite-d3/config.png"></p>
+<p><img src="/posts/satellite-d3/img/config.png"></p>
 <p>Однако, последний пункт - самый сложный. Как отрисовать карту Земли с проекциями всех координат? Как вообще нарисовать карту Земли?</p>
 <h2 id="анализ-требований">Анализ требований</h2>
 <p>При анализе требований я решил пойти с конца. Я точно знаю, что приложение должно уметь работать без интернета, а значит никаких Google Maps, Open Street Map, MapBox и др. Для того, чтобы нарисовать карту Земли, мне достаточно одного самого крупного масштаба. В идеале карта должна быть похожа на <a href="http://gpredict.oz9aec.net">gpredict</a>:</p>
-<p><img src="/img/satellite-d3/gpredict.png"></p>
+<p><img src="/posts/satellite-d3/img/gpredict.png"></p>
 <p>Следующее требование - работа в браузере. <a href="https://github.com/dernasherbrezon/r2cloud-ui">r2cloud-ui</a> вполне подходит для этого и совсем не хочется создавать отдельное приложение. А значит режим презентации должен быть написан на javascript.</p>
 <h2 id="выбор-технологий">Выбор технологий</h2>
 <p>Беглый поиск в Google показал, что проще всего использовать библиотеку <a href="https://d3js.org">d3</a>. В ней есть модуль для работы с ГИС данными - <a href="https://github.com/d3/d3-geo">d3-geo</a>.</p>
@@ -404,7 +404,7 @@
 <li>geoArmadillo</li>
 <li>geoBromley</li>
 </ul>
-<p><img src="/img/satellite-d3/armadillo.png"></p>
+<p><img src="/posts/satellite-d3/img/armadillo.png"></p>
 <p>Я решил не выпендриваться и взял стандартную проекцию - Меркатор. Эта проекция используется в Google Maps и Open Street Map.</p>
 <p>Ещё d3 поддерживает <a href="https://geojson.org">GeoJSON</a> - JSON формат описания географических объектов.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
@@ -420,7 +420,7 @@
 </span></span></code></pre></div><p>С его помощью можно описывать границы континентов или государств. Есть <a href="https://github.com/simonepri/geo-maps/blob/master/info/earth-coastlines.md">множество</a> <a href="https://datahub.io/core/geo-countries">сайтов</a>, где можно бесплатно скачать все береговые линии Земли. Но, зачастую, такие файлы слишком детализированы для моих нужд. Мне же необходимо отобразить все континенты на небольшом изображении 800x600 без возможности увеличения. Можно попробовать использовать менее детализированные GeoJSON файлы, но они содержат дополнительную метаинформацию, которая мне тоже не нужна. На помощь приходит другой формат - <a href="https://github.com/topojson/topojson">topoJSON</a>. Это небольшое расширение GeoJSON, которое позволяет задавать геометрии небольшими сегментами и линиями. Он как раз призван создавать файлы чуть меньшего размера по сравнению с GeoJSON за счёт выкидывания всего ненужного.</p>
 <pre tabindex="0"><code>npm install topojson-client
 </code></pre><p>В итоге из достаточно детализированного GeoJSON файла размером 33Мб я смог получить карту размером 16Кб. Да, некоторые острова стали выглядеть очень условно, некоторые детали совсем потерялись, но этого вполне достаточно для нужд проекта:</p>
-<p><img src="/img/satellite-d3/mercator.png"></p>
+<p><img src="/posts/satellite-d3/img/mercator.png"></p>
 <h2 id="расчёт-траекторий-спутников">Расчёт траекторий спутников</h2>
 <p>Следующим шагом будет расчёт траекторий спутников. Нужно определить широту, долготу и область видимости спутника. Область видимости - это такая область Земли, в которой можно наблюдать за спутником или получать сигнал. Чем выше находится спутник, тем больше его область видимости.</p>
 <p>Тут есть небольшая тонкость. На сервере я рассчитываю положение спутника с помощью библиотеки <a href="https://www.orekit.org">orekit</a>. С её помощью можно рассчитать траектории и передать готовый результат в браузер. Либо передавать с сервера TLE и рассчитывать все координаты на клиентской стороне. У каждого способа есть свои плюсы и минусы.</p>
@@ -449,7 +449,7 @@
 </span></span></code></pre></div><p>Чтобы рассчитать координаты получившегося эллипса, необходимо вспомнить немного <a href="https://ru.wikipedia.org/wiki/%D0%A1%D1%84%D0%B5%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D1%82%D1%80%D0%B8%D0%B3%D0%BE%D0%BD%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%8F">сферической геометрии</a>. Либо использовать <code>geoCircle</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">circle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">d3</span>.<span style="color:#a6e22e">geoCircle</span>().<span style="color:#a6e22e">center</span>([<span style="color:#a6e22e">longitudeDeg</span>, <span style="color:#a6e22e">latitudeDeg</span>]).<span style="color:#a6e22e">radius</span>( <span style="color:#a6e22e">coreAngle</span> )()
 </span></span></code></pre></div><p>Несмотря на то, что метод задания радиуса этого круга называется &ldquo;радиус&rdquo;, нужно передавать именно угол в градусах.</p>
-<p><img src="/img/satellite-d3/satellites.png"></p>
+<p><img src="/posts/satellite-d3/img/satellites.png"></p>
 <h2 id="ux">UX</h2>
 <p>Всё самое сложное позади и можно немного &ldquo;поиграться со шрифтами&rdquo;. А именно - улучшить UX. Во-первых, каждое наблюдение должно отличаться по цвету от всех остальных. Для этого я <a href="https://stackoverflow.com/a/52171480/659097">откуда-то</a> скопировал функцию вычисления хэша строки:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">hashcode</span>(<span style="color:#a6e22e">str</span>, <span style="color:#a6e22e">seed</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) {
@@ -489,10 +489,10 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">moment</span>(<span style="color:#a6e22e">vm</span>.<span style="color:#a6e22e">observations</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">start</span>).<span style="color:#a6e22e">fromNow</span>()
 </span></span></code></pre></div><p>Элементы <code>&amp;#xA;&lt;br&gt;</code> позволяют сделать подсказку на нескольких строчках. Причём старые браузеры смогут понять тэг <code>br</code>, а новые - спецсимвол <code>&amp;#xA;</code>.  Всё это было благополучно найдено в Google и работает.</p>
 <p>После всех манипуляций с vuejs, получилось вот такое SVG изображение, которое обновляется каждые 10 секунд. Особенно впечатляет, как d3-geo обрабатывает области видимости спутников вокруг полюсов:</p>
-<p><img src="/img/satellite-d3/satellites2.png"></p>
+<p><img src="/posts/satellite-d3/img/satellites2.png"></p>
 <p>Полный код можно найти тут: <a href="https://github.com/dernasherbrezon/r2cloud-ui/blob/master/src/components/pages/presentationMode.vue">presentationMode.vue</a>.</p>
 <p>Если честно, то мне понравился получившийся результат. Если продраться через многочисленную рекламу самого популярного сайта для отслеживания спутников <a href="https://www.n2yo.com/">n2yo.com</a>, то можно увидеть достаточно посредственную реализацию:</p>
-<p><img src="/img/satellite-d3/n2yo.png"></p>
+<p><img src="/posts/satellite-d3/img/n2yo.png"></p>
 
 </div>
 

@@ -9,7 +9,7 @@
 <meta property='og:description' content='Введение Все началось с того, что я решил подчистить неиспользуемый код в jradio. Оказалось, спутники семейства funcube шлют дополнительные 200 байт в пакете. В зависимости от спутника, там могут содержаться более детальная телеметрия или просто текстовые сообщения с земли. После небольшого исследования выяснилось, что спутник jy1sat использует их, чтобы передавать картинку! Это мгновенно заинтересовало меня, и в следующие несколько недель я не смог спать, думая о том, как её декодировать.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/decoding-jy1sat/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/decoding-jy1sat/1.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='ssdv'><meta property='article:tag' content='jpeg'><meta property='article:tag' content='abbreviated jpeg'><meta property='article:published_time' content='2020-01-23T00:20:17&#43;01:00'/><meta property='article:modified_time' content='2020-01-23T00:20:17&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/decoding-jy1sat/1.jpg'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='ssdv'><meta property='article:tag' content='jpeg'><meta property='article:tag' content='abbreviated jpeg'><meta property='article:published_time' content='2020-01-23T00:20:17&#43;01:00'/><meta property='article:modified_time' content='2020-01-23T00:20:17&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -478,7 +478,7 @@
 <h3 id="формат-картинки">Формат картинки</h3>
 <p>Картинка - это <a href="https://dernasherbrezon.com/posts/abbreviated-jpeg-java/">abbreviated jpeg</a>. Только, в отличие от классического abbreviated jpeg, здесь есть следующие особенности. Во-первых, совсем нет заголовка и всех таблиц. Для SSDV таблицы квантования и хаффмана заранее зафиксированы в протоколе. Во-вторых, первый MCU в каждом пакете должен быть выровнен по байту. Это прежде всего из-за того, что MCU offset обозначает количество байт. В-третьих, DC значение в первом MCU каждого пакета должно кодироваться относительно нуля. Это сделано опять же из-за того, что пакет может потеряться и, тогда потеряется смещение и нельзя будет восстановить данные.</p>
 <p>Я взял таблицы jpeg из <a href="https://github.com/daniestevez/ssdv/blob/master/ssdv.c">одной реализации</a>. Как выяснилось, таблицы Хаффмана стандартные, поэтому я взял их <a href="https://docs.oracle.com/javase/9/docs/api/javax/imageio/plugins/jpeg/JPEGHuffmanTable.html">из Java</a>. Я был сильно удивлён, что они вот так вот объявлены в Java классах. Насколько я понял, JDK использует нативный код, чтобы декодировать/кодировать jpeg.</p>
-<p><img src="/img/decoding-jy1sat/JPEGImageWriter.png"></p>
+<p><img src="/posts/decoding-jy1sat/img/JPEGImageWriter.png"></p>
 <h2 id="декодирование">Декодирование</h2>
 <h3 id="склейка-пакетов">Склейка пакетов</h3>
 <p>Прежде, чем декодировать MCU, необходимо склеить пакеты. Как я уже писал, часть последнего MCU в пакете, может быть перенесена в следующий. Но следующий пакет может быть потерян. Всё это нужно учитывать в алгоритме склейки. У меня он получился следующим:</p>
@@ -493,7 +493,7 @@
 </ol>
 <p>Я постарался разбить весь код декодирования на логические классы, которые соответствуют спецификации jpeg. Это очень сильно упрощает понимание процесса декодирования jpeg и его отличие от процесса склейки пакетов.</p>
 <p>Прежде, чем переходить к декодированию jpeg, я хотел бы описать <a href="https://ru.wikipedia.org/wiki/%D0%A6%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F_%D1%81%D1%83%D0%B1%D0%B4%D0%B8%D1%81%D0%BA%D1%80%D0%B5%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F">цветовую субдискретизацию</a> и то, как она влияет на алгоритм. <a href="https://www.impulseadventure.com/photo/jpeg-decoder.html">Вот тут</a> Calvin Hass привёл отличную картинку о том, как это всё работает:</p>
-<p><img src="/img/decoding-jy1sat/sequence_2x2.gif"></p>
+<p><img src="/posts/decoding-jy1sat/img/sequence_2x2.gif"></p>
 <p>Каждый MCU состоит из всех трёх цветов. Каждый из этих цветов образует блок DU, которые идут друг за другом. При этом, Cb и Cr компоненты на практике не сильно влияют на восприятие картинки, поэтому их можно задать разными хитрыми способами относительно Y компонента. На картинке выше для пикселей в квадрате 2x2, значения Cb и Cr усредняются и выдаётся только одно. Итого получается, что блок Y имеет 4 блока DU каждый по 8х8 пикселей, а блоки Cb и Cr имеют только 1 блок DU по 8x8 пикселей. В таком случае цветовая субдискретизация задана как 2:1 и передаётся в поле Flags пакета SSDV. Чтобы сделать из 6 блоков DU один MCU 16x16 пикселей, я написал такой код:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> 0; row <span style="color:#f92672">&lt;</span> DataUnitDecoder.<span style="color:#a6e22e">PIXELS_PER_DU</span>; row<span style="color:#f92672">++</span>) {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> 0; col <span style="color:#f92672">&lt;</span> DataUnitDecoder.<span style="color:#a6e22e">PIXELS_PER_DU</span>; col<span style="color:#f92672">++</span>) {
@@ -519,21 +519,21 @@
 <p>Единственное, что стоит учитывать, так это то, что данных может не хватить из-за окончания пакета. Поэтому не полностью прочитанный DU необходимо прочитать ещё раз, когда новые данные будут доступны после склейки пакетов.</p>
 <h2 id="результат">Результат</h2>
 <p>Пару дней на обдумывание и реализацию, и вот код готов. Можно взять тестовые данные и попробовать получить картинку.</p>
-<p><img src="/img/decoding-jy1sat/1.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/1.jpg"></p>
 <p>Что-то пошло не так. Явно видно, что проблемы в склейке пакетов и в том, как цвета определяются. Я попробовал убрать Cb и Cr каналы, чтобы лучше увидеть ошибку.</p>
-<p><img src="/img/decoding-jy1sat/2.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/2.jpg"></p>
 <p>Первый пакет потерян, и я хорошо обрабатываю эту ситуацию. Начало картинки чёрное. Потом идёт блок и какой-то белый блок. Явно проблема в склейке пакетов. Я попробовал дебажить и нашёл ошибку в том, как выравнивается по байту первый MCU.</p>
-<p><img src="/img/decoding-jy1sat/3.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/3.jpg"></p>
 <p>Далее, методом пристального вглядывания, я обнаружил, что предыдущие DC значения для каждого из компонент должны быть свои. У меня же было одно значение на все Y, Cb, Cr.</p>
-<p><img src="/img/decoding-jy1sat/4.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/4.jpg"></p>
 <p>Чёрт. Эта картинка из космоса, но не космоса. Тем не менее Y канал выглядит вполне сносно и можно добавить цвета.</p>
-<p><img src="/img/decoding-jy1sat/5.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/5.jpg"></p>
 <p>Выглядит офигенно! Ещё бы не эти артефакты.</p>
-<p><img src="/img/decoding-jy1sat/5-5.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/5-5.jpg"></p>
 <p>Это явно проблема декодировщика. Y канал выглядел сносно, но что, если взглянуть только на Cb и Cr.</p>
-<p><img src="/img/decoding-jy1sat/6.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/6.jpg"></p>
 <p>Здесь артефакты выглядят отчётливее. Если увеличить, то они выглядят так.</p>
-<p><img src="/img/decoding-jy1sat/6-6.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/6-6.jpg"></p>
 <p>Соседние MCU закрашены равномерно. В то время, как проблемные MCU имеют странные коэффициенты сверху и снизу.</p>
 <h3 id="прошла-неделя">Прошла неделя</h3>
 <p>Всю неделю я пытался понять и отдебажить код. С одной стороны, если бы проблема была в склейке пакетов, то падали бы ошибки как раньше. Но их нет. Это значит, что склейка работает и биты правильно поступают в DU. С другой стороны, если бы проблема была в DC коэффициентах, то картинка бы выглядела совсем плохо. Но Y канал выглядел более или менее. Значит DC коэффициенты не при чём. Оставались AC коэффициенты, но там не чему было ломаться.</p>
@@ -548,10 +548,10 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>И получить финальный результат.</p>
 <h2 id="финальный-результат">Финальный Результат</h2>
-<p><img src="/img/decoding-jy1sat/7.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/7.jpg"></p>
 <h2 id="послесловие">Послесловие</h2>
 <p>Жаль, что из космоса я получил вполне земную картинку. Тем не менее, декодер полезен не только для того, чтобы декодировать jy1sat. Оказывается, около-лунный DSLWP-B тоже передавал в формате SSDV! А это значит, что мой декодер можно использовать, чтобы получить настоящие фотографии с орбиты луны. Как например эту.</p>
-<p><img src="/img/decoding-jy1sat/image-of-moon-and-earth-taken-by-lo94-dslwp-b-credit-cees-bassa-2018-10-14.jpg"></p>
+<p><img src="/posts/decoding-jy1sat/img/image-of-moon-and-earth-taken-by-lo94-dslwp-b-credit-cees-bassa-2018-10-14.jpg"></p>
 <p>Декодеры SSDV <a href="https://github.com/daniestevez/ssdv">уже есть</a>. Однако, я считаю, что <a href="https://github.com/dernasherbrezon/ssdv4j">мой</a> лучше по нескольким причинам:</p>
 <ol>
 <li>Понятный код. Вместо простыни на 1600 строчек, мой декодер разбит на логические классы и содержит комментарии. Это очень важно для того, чтобы можно было вносить изменения и фиксить баги.</li>

@@ -13,7 +13,7 @@
 Всё это значит, что есть пространство для оптимизации.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/tune-ber-fsk/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/tune-ber-fsk/mmsps.png'><meta property='article:section' content='posts'><meta property='article:tag' content='fsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2020-08-03T20:22:18&#43;01:00'/><meta property='article:modified_time' content='2020-08-03T20:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/tune-ber-fsk/mmsps.png'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/mmsps.png'><meta property='article:section' content='posts'><meta property='article:tag' content='fsk'><meta property='article:tag' content='ber'><meta property='article:tag' content='radio'><meta property='article:published_time' content='2020-08-03T20:22:18&#43;01:00'/><meta property='article:modified_time' content='2020-08-03T20:22:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/mmsps.png'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -374,17 +374,17 @@
   <div class='container entry-content'>
   <p><a href="https://dernasherbrezon.com/posts/jradio-ber-fsk/">Не прошло и года</a>, а я уже придумал как улучшить свой FSK демодулятор. Как уже писал, имея на руках BER кривую, можно начинать улучшать демодулятор. Первым делом я сравнил <a href="https://gitlab.com/librespacefoundation/satnogs/satnogs-flowgraphs/-/blob/master/generic/fsk.grc">FSK демодулятор</a> SatNOGS и свой.</p>
 <p>Для этого я взял сырые данные (.wav файл) из <a href="https://network.satnogs.org/observations/2573152/">обработанного пролёта спутника</a> и попробовал прогнать его через свой демодулятор. В результате у меня получилось 23 пакета. Однако, демодулятор SatNOGS смог найти 24 пакета.</p>
-<p><img src="/img/tune-ber-fsk/1.png"></p>
+<p><img src="/posts/tune-ber-fsk/img/1.png"></p>
 <p>Всё это значит, что есть пространство для оптимизации.</p>
 <p>Я открыл flowgraph satnogs и попытался сравнить его со своим.</p>
-<p><img src="/img/tune-ber-fsk/2.png"></p>
+<p><img src="/posts/tune-ber-fsk/img/2.png"></p>
 <p>Основные блоки такие же. Используется DC Blocker и Clock Recovery M&amp;M. Единственное отличие - это использование 1024 шага для усреднения сигнала в DC Blocker. В моём же демодуляторе используется только 32 * sps. Для sps=5, это значение будет 160. Я попробовал увеличить это значение до 1024 и получил 24 пакета!</p>
 <p>Прирост улучшения декодирования отлично виден на BER кривой.</p>
-<p><img src="/img/tune-ber-fsk/dc1024.png"></p>
+<p><img src="/posts/tune-ber-fsk/img/dc1024.png"></p>
 <p>После этого я решил попробовать их настройки для Clock Recovery M&amp;M блока и получил ещё более впечатляющую производительность (зелёная линия):</p>
-<p><img src="/img/tune-ber-fsk/mmfixes.png"></p>
+<p><img src="/posts/tune-ber-fsk/img/mmfixes.png"></p>
 <p>Следующим шагом я заметил, что gain omega вычисляется как (2 * Math.PI) / 100. Я попробовал вместо 2 подставить значение sps. В моём случае это было 5. Результат оправдал ожидания. Отчётливо виден небольшой прирост:</p>
-<p><img src="/img/tune-ber-fsk/mmsps.png"></p>
+<p><img src="/posts/tune-ber-fsk/img/mmsps.png"></p>
 <p>После каждого шага оптимизаций я прогонял через демодулятор реальный сигнал и каждый раз получал чуть более лучшие результаты. На изначальном сигнале у меня получилось 24 пакета, а на <a href="https://network.satnogs.org/observations/2573097/">другом</a> вместо 5 изначальных я получил 7. Почти 30% улучшение!</p>
 <p>В ближайшее время я планирую обновить демодулятор и раскатать настройки в сети r2cloud.</p>
 

@@ -384,9 +384,9 @@
 </ul>
 <p>Все эти профайлеры работают из командной строки. Сначала нужно скомпилировать программу в debug режиме, затем запустить с профайлером, а затем результат отобразить в ужасной ASCII графике.</p>
 <p>К счастью, у меня есть Eclipse и в нём есть <a href="https://wiki.eclipse.org/Linux_Tools_Project/Valgrind/User_Guide">поддержка valgrind</a>. Можно одним кликом запустить профайлер и увидеть результаты в нормальной таблице.</p>
-<p><img src="/img/tune-c-application/Vg_original_menu.png"></p>
+<p><img src="/posts/tune-c-application/img/Vg_original_menu.png"></p>
 <p>Я пошёл этим путём и вскоре пожалел.</p>
-<p><img src="/img/tune-c-application/2.png"></p>
+<p><img src="/posts/tune-c-application/img/2.png"></p>
 <p>Во-первых, под MacOS valgrind официально не поддерживается. Для этого нужно ставить стороннюю сборку через brew:</p>
 <pre tabindex="0"><code>brew tap LouisBrunner/valgrind
 brew install --HEAD LouisBrunner/valgrind/valgrind
@@ -406,7 +406,7 @@ java.io.IOException: Cannot run program &#34;valgrind&#34;: Unknown reason
 </code></pre><p>Всё это выглядит достаточно печально. Я потратил целый день, пытаясь настроить инструменты, пока не нашёл <a href="https://en.wikipedia.org/wiki/Instruments_(software)">instruments</a>.</p>
 <h2 id="instruments">instruments</h2>
 <p>instruments - это приложение, поставляющееся с xcode. Оно позволяет профилировать запущенные процессы и поддерживает множество интересных метрик:</p>
-<p><img src="/img/tune-c-application/3.png"></p>
+<p><img src="/posts/tune-c-application/img/3.png"></p>
 <p>Работает это всё следующим образом:</p>
 <ul>
 <li>нужно скомпилировать программу в debug режиме</li>
@@ -417,7 +417,7 @@ java.io.IOException: Cannot run program &#34;valgrind&#34;: Unknown reason
 <p>Для sdr-server наиболее важным, конечно же, является time profiler. Я написал приложение таким образом, что вся память выделяется на старте и поэтому allocations метрика не так полезна.</p>
 <h2 id="оптимизации">Оптимизации</h2>
 <p>Я долго запрягал, но быстро ехал. Первый же запуск показал удивительную вещь:</p>
-<p><img src="/img/tune-c-application/4.png"></p>
+<p><img src="/posts/tune-c-application/img/4.png"></p>
 <p>Самый горячий участок кода - это DSP преобразования. Я ожидаемо их оптимизировал: <a href="https://dernasherbrezon.com/posts/simd-for-dsp/">использовал SIMD инструкции</a> и выделил в отдельный поток. Однако, профайлер показал, что там тратится только 47% времени! Остальные 40% приходятся на поиск в lookup таблице! Эта таблица используется для того, чтобы конвертировать uint8_t в float complex на интервале [-1;1]. Более детально об этом шаге я писал в недавней статье <a href="https://dernasherbrezon.com/posts/how-to-map-zero/">коварные нули</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">size_t</span> <span style="color:#a6e22e">lookup_in_table</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>input, <span style="color:#66d9ef">size_t</span> input_len, xlating <span style="color:#f92672">*</span>filter) {
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">// convert to [-1.0;1.0] working buffer
@@ -437,7 +437,7 @@ java.io.IOException: Cannot run program &#34;valgrind&#34;: Unknown reason
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> input_processed;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/img/tune-c-application/5.png"></p>
+</span></span></code></pre></div><p><img src="/posts/tune-c-application/img/5.png"></p>
 <p>Картина не слишком поменялась. Стало даже чуть-чуть хуже.</p>
 <p>И тут мне пришла в голову замечательная идея: а что если есть специальная функция для такого преобразования? И она нашлась: <code>volk_8i_s32f_convert_32f</code>.  Правда, она работает чуть-чуть по-другому: она конвертирует все байты во float и умножает на число. Это как раз и создаст немного некорректное преобразование, о котором я писал в статье <a href="https://dernasherbrezon.com/posts/how-to-map-zero/">коварные нули</a>. Скрепя сердцем я написал вот такой код:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">size_t</span> <span style="color:#a6e22e">lookup_in_table3</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">uint8_t</span> <span style="color:#f92672">*</span>input, <span style="color:#66d9ef">size_t</span> input_len, xlating <span style="color:#f92672">*</span>filter) {
@@ -447,7 +447,7 @@ java.io.IOException: Cannot run program &#34;valgrind&#34;: Unknown reason
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> input_processed;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Что удивительно, так это то, что мои тесты прошли! Видимо, точность, с которой я сравнивал числа была достаточной.</p>
-<p><img src="/img/tune-c-application/6.png"></p>
+<p><img src="/posts/tune-c-application/img/6.png"></p>
 <p>Ну а после запуска профайлера я увидел замечательную картину. Теперь самый горячий метод - это DSP преобразование.</p>
 <h2 id="а-что-же-дальше">А что же дальше?</h2>
 <p>Я не ожидал, что этот участок кода будет таким медленным. Поэтому каждый dsp тред делал преобразование из uint8_t во float complex и выполнял DSP преобразование. Эта схема не очень масштабируется. Если подсоединится ещё один клиент, то он будет выполнять абсолютно такое же преобразование. Этот дизайн можно ещё улучшить, если перенести преобразование обратно на rtlsdr поток. Тогда оно будет выполняться только один раз в независимости от количества клиентов.</p>

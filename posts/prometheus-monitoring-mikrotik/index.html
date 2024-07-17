@@ -11,7 +11,7 @@
 Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/prometheus-monitoring-mikrotik/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/prometheus-monitoring-mikrotik/grafana.png'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='администрирование'><meta property='article:tag' content='memory'><meta property='article:tag' content='prometheus'><meta property='article:published_time' content='2021-08-07T06:50:18&#43;01:00'/><meta property='article:modified_time' content='2021-08-07T06:50:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/prometheus-monitoring-mikrotik/grafana.png'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/grafana.png'><meta property='article:section' content='posts'><meta property='article:tag' content='monitoring'><meta property='article:tag' content='администрирование'><meta property='article:tag' content='memory'><meta property='article:tag' content='prometheus'><meta property='article:published_time' content='2021-08-07T06:50:18&#43;01:00'/><meta property='article:modified_time' content='2021-08-07T06:50:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/grafana.png'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -374,9 +374,9 @@
 <p>Большинство роутеров позволяют посмотреть загруженность ЦПУ или памяти прямо в админке. Но это лишь статичная информация, которая может и не дать полной картины происходящего. Гораздо удобнее смотреть изменение различных показателей во времени. Например, ЦПУ загружен на 80% - это хорошо и плохо? Если на графике видно, что загрузка ЦПУ совпадает с уменьшением скорости скачивания, то да, дело в ЦПУ. А если 80% загрузка держится последние несколько дней или недель, то вряд ли она связана со скоростью скачивания. Возможно, что-то ещё могло повлиять.</p>
 <h2 id="общая-схема">Общая схема</h2>
 <p>В качестве роутера я использовал <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a>. Он позволяет использовать SIM карту, чтобы подключиться к сотовой сети, и раздавать Wi-Fi.</p>
-<p><img alt="mikrotik_wap_r" src="/img/prometheus-monitoring-mikrotik/mikrotik_wap_r.jpg"></p>
+<p><img alt="mikrotik_wap_r" src="/posts/prometheus-monitoring-mikrotik/img/mikrotik_wap_r.jpg"></p>
 <p>Общая схема мониторинга выглядит следующим образом:</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/schema.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/schema.png"></p>
 <h2 id="mikrotik">Mikrotik</h2>
 <p>Prometheus не может напрямую читать метрики из Mikrotik. Вместо этого он обращается в специальный exporter, который выдаёт метрики в нужном формате. Mikrotik позволяет экспортировать метрики с помощью протокола <a href="https://ru.wikipedia.org/wiki/SNMP">SNMP</a>. По-умолчанию он не включён. Его можно включить следующей командой:</p>
 <pre tabindex="0"><code>[admin@MikroTik] /snmp
@@ -408,7 +408,7 @@ sudo systemctl start snmp_exporter
 </code></pre><p>Проверить статус сервиса можно командой:</p>
 <pre tabindex="0"><code>sudo systemctl status snmp_exporter
 </code></pre><p>Если сервис стартовал успешно, то вывод будет следующий:</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/snmp_exporter.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/snmp_exporter.png"></p>
 <h2 id="prometheus">Prometheus</h2>
 <p>Все метрики будут сохраняться в <a href="https://prometheus.io">Prometheus</a>. Prometheus - это специальная база данных для хранения метрик. Его можно запустить локально, либо в облаке.</p>
 <p>Я не буду подробно описывать как настроить и стартовать Prometheus. Есть достаточно <a href="https://prometheus.io/docs/prometheus/latest/getting_started/">полная инструкция</a> как это сделать.</p>
@@ -429,7 +429,7 @@ sudo systemctl start snmp_exporter
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">replacement</span>: <span style="color:#ae81ff">raspberrypi.local:9116</span>
 </span></span></code></pre></div><h2 id="grafana">Grafana</h2>
 <p>Можно воспользоваться <a href="https://grafana.com/grafana/dashboards/14420">готовыми дашбордами</a> и сразу импортировать их в Grafana.</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/image.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/image.png"></p>
 <p>Однако, каждое устройство немного отличается друг от друга и большинство дашбордов ничего не покажет. Для <a href="https://mikrotik.com/product/RBwAPR-2nD">Mikrotik waP R</a> я выбрал самые важные параметры:</p>
 <ul>
 <li>Uptime - <code>sysUpTime{instance='$instance'}/100</code></li>
@@ -440,7 +440,7 @@ sudo systemctl start snmp_exporter
 <li>RSRP (Reference Signal Received Power) уровень LTE сигнала - <code>mtxrLTEModemSignalRSRP</code></li>
 </ul>
 <p>После чего добавил панели:</p>
-<p><img src="/img/prometheus-monitoring-mikrotik/grafana.png"></p>
+<p><img src="/posts/prometheus-monitoring-mikrotik/img/grafana.png"></p>
 <p>Для того чтобы добавить другие метрики, нужно сначала найти их oid (идентификатор в SNMP):</p>
 <pre tabindex="0"><code>[admin@MikroTik] /interface lte print oid
 </code></pre><p>После этого необходимо найти oid в snmp.yaml:</p>

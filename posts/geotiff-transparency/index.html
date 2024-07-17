@@ -15,7 +15,7 @@
 Это явно ошибка определения прозрачности, так как на оригинальном изображении этой проблемы нет.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/geotiff-transparency/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/geotiff-transparency/1.png'><meta property='article:section' content='posts'><meta property='article:tag' content='geotiff'><meta property='article:tag' content='r2weather'><meta property='article:published_time' content='2020-04-30T16:15:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-30T16:15:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/geotiff-transparency/1.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='geotiff'><meta property='article:tag' content='r2weather'><meta property='article:published_time' content='2020-04-30T16:15:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-30T16:15:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -376,9 +376,9 @@
   <div class='container entry-content'>
   <p>Работа над <a href="https://r2weather.ru">r2weather.ru</a> идёт полным ходом, а значит появляются и исправляются различные баги. Один из последних и самых интересных - настройка прозрачности.</p>
 <p>После того как я создал GeoTIFF и нарезал его на тайлы с помощью gdal2tiles у меня получился следующий результат:</p>
-<p><img src="/img/geotiff-transparency/1.png"></p>
+<p><img src="/posts/geotiff-transparency/img/1.png"></p>
 <p>Если присмотреться, то можно увидеть отдельные &ldquo;выколотые&rdquo; пикселы там, где находится море. А если взять ночную фотографию, то такие пикселы еще более заметны:</p>
-<p><img src="/img/geotiff-transparency/2.png"></p>
+<p><img src="/posts/geotiff-transparency/img/2.png"></p>
 <p>Это явно ошибка определения прозрачности, так как на оригинальном изображении этой проблемы нет.</p>
 <h2 id="прозрачность">Прозрачность</h2>
 <p>В GeoTIFF прозрачность можно задать несколькими способами. В одной из <a href="https://dernasherbrezon.com/posts/georeferencing-geotiff/">предыдущих статей</a> я описал, как задать прозрачность на уровне каждого канала. Для этого нужно добавить следующий параметр:</p>
@@ -399,7 +399,7 @@
 </code></pre><p>Программы, которые работают с GeoTIFF, могут использовать этот канал для того, чтобы задавать прозрачность.</p>
 <h2 id="результат">Результат</h2>
 <p>После добавления прозрачности из альфа-канала, результат gdal2tiles выглядит следующим образом:</p>
-<p><img src="/img/geotiff-transparency/3.png"></p>
+<p><img src="/posts/geotiff-transparency/img/3.png"></p>
 <p>Над Латвией сейчас ночь.</p>
 
 </div>

@@ -13,7 +13,7 @@
 Казалось бы, что может пойти не так? Документация есть, данные есть. Надо просто написать код.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/aistechsat-3/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='radio'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2019-08-21T14:40:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-21T14:40:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/aistechsat-3/aistechsat-3.jpg'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/aistechsat-3.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='java'><meta property='article:tag' content='radio'><meta property='article:tag' content='спутники'><meta property='article:published_time' content='2019-08-21T14:40:18&#43;01:00'/><meta property='article:modified_time' content='2019-08-21T14:40:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/aistechsat-3.jpg'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -380,9 +380,9 @@
 <p>На практике оказалось всё не так просто.</p>
 <p>Каждый пакет начинается с <a href="https://github.com/libcsp/libcsp">CSP</a> заголовка. Тут всё понятно. Это не первый спутник, который использует этот протокол. Даже в таком урезанном виде как здесь.</p>
 <p>Далее идёт небольшой заголовок и данные.</p>
-<p><img src="/img/aistechsat-3/1.png"></p>
+<p><img src="/posts/aistechsat-3/img/1.png"></p>
 <p>Вот тут прекрасно всё. Во-первых, A3200 manual - это платная документация. Та ссылка, которая есть в спецификации ведёт на описание A3200 в интернет магазине. Во-вторых, непонятно сколько всего дата элементов может быть. Вот пример описания одного из типов радиомаяка:</p>
-<p><img src="/img/aistechsat-3/2.png"></p>
+<p><img src="/posts/aistechsat-3/img/2.png"></p>
 <p>Как видно, никакого разделения на дата элементы тут нет. Изначально я сделал чтение дата элемента после каждой строчки. Это логично, так как каждая строчка имеет номер &ldquo;Elements&rdquo;, который хоть как то похож на &ldquo;Data element&rdquo;. Получилось что-то вроде следующего:</p>
 <pre tabindex="0"><code>DataFieldMeta
 extmag

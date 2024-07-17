@@ -13,7 +13,7 @@
 Описание стенда Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/test-fm-filter/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/test-fm-filter/result.png'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='rtl_power'><meta property='article:tag' content='rtlSpectrum'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='фильтры'><meta property='article:published_time' content='2019-07-14T14:20:18&#43;01:00'/><meta property='article:modified_time' content='2019-07-14T14:20:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/test-fm-filter/result.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='rtlsdr'><meta property='article:tag' content='rtl_power'><meta property='article:tag' content='rtlSpectrum'><meta property='article:tag' content='тестирование'><meta property='article:tag' content='фильтры'><meta property='article:published_time' content='2019-07-14T14:20:18&#43;01:00'/><meta property='article:modified_time' content='2019-07-14T14:20:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -377,25 +377,25 @@
 <p>Архитектура rtl sdr требует специального фильтра на входе. Поскольку сильнейшими источниками сигнала являются фм станции, то я решил поставить фм фильтры на входе приёмника. Но прежде, чем устанавливать их, мне хотелось измерить частотные характеристики фильтров и пощупать их в деле. Для этого я купил несколько фм фильтров и собрал стенд для их тестирования.</p>
 <h2 id="описание-стенда">Описание стенда</h2>
 <p>Тестирование заключается в том, что генератор сигнала создаёт широкополосный шум по всей ширине спектра. Фильтр отфильтровывает только часть. Разница между сигналом с фильтром и без, и есть характеристика фильтра. Вот как выглядит мой стенд:</p>
-<p><img src="/img/test-fm-filter/1.jpg"></p>
+<p><img src="/posts/test-fm-filter/img/1.jpg"></p>
 <h3 id="софт">Софт</h3>
 <p>rtl_power - программа из стандартной поставки <a href="https://github.com/osmocom/rtl-sdr">rtl-sdr</a>. Она позволяет сканировать большой диапазон частот, разбивая его участки примерно 2Mhz и выполняя быстрое преобразование фурье. После этого, результаты преобразуются в dbm. Все измерения производились с помощью одних и тех же настроек:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rtl_power -f 50M:150M:100k -g <span style="color:#ae81ff">0</span> -c 20% -i 2m -1
 </span></span></code></pre></div><p><a href="http://github.com/dernasherbrezon/rtlSpectrum">rtlSpectrum</a> - небольшая программа для удобного отображения результатов и сравнения нескольких графиков.</p>
 <h3 id="генератор-сигнала">Генератор сигнала</h3>
-<p><img src="/img/test-fm-filter/noise-source.jpg"></p>
+<p><img src="/posts/test-fm-filter/img/noise-source.jpg"></p>
 <p>Достаточно дешёвый и хороший генератор широкополосного сигнала. В описании сказано, что он должен работать от напряжения 12В. На практике же, это слишком большое напряжение для rtl-sdr, поэтому <a href="http://blog.radiospy.ru/testy/achx-metr-iz-svistka.html#more-1452">согласно рекомендациям</a> я подключил его к источнику питания 5В. Для сравнения я измерил его частотную характеристику на 5В и 12В:</p>
-<p><img src="/img/test-fm-filter/5v-12v.png"></p>
+<p><img src="/posts/test-fm-filter/img/5v-12v.png"></p>
 <p>На картинке зелёный график - это 12В, жёлтый - 5В, оранжевый - без генератора. Как видно, разница между 5В и 12В составляет примерно 5дб.</p>
 <h3 id="аттенюатор">Аттенюатор</h3>
-<p><img src="/img/test-fm-filter/attenuator.jpg"></p>
+<p><img src="/posts/test-fm-filter/img/attenuator.jpg"></p>
 <p><a href="https://ru.wikipedia.org/wiki/%D0%90%D1%82%D1%82%D0%B5%D0%BD%D1%8E%D0%B0%D1%82%D0%BE%D1%80">Аттенюатор</a> - это устройство для плавного понижения электромагнитных колебаний. Как в дальнейшем показали опыты, он крайне необходим, чтобы получить более или менее хорошие результаты. Я использовал аттенюатор -10db. Вот пример понижения частот в ФМ диапазоне:</p>
-<p><img src="/img/test-fm-filter/compare-attenuator-5v.png"></p>
+<p><img src="/posts/test-fm-filter/img/compare-attenuator-5v.png"></p>
 <p>Видно, что снижение мощности происходит на 9дб, что почти является заявленными 10дб.</p>
 <p>Когда я начал тестировать фильтры, выяснилось, что снижение напряжения на генераторе до 5В недостаточно. Вот небольшое сравнение характеристики фильтра с аттенюатором и без:</p>
-<p><img src="/img/test-fm-filter/rtl-sdr-attenuator-effect.png"></p>
+<p><img src="/posts/test-fm-filter/img/rtl-sdr-attenuator-effect.png"></p>
 <p>По своим характеристикам фильтр должен давать уменьшение мощности на -60дб. Однако, судя по графику, он даёт только -30дб. При работе аттенюатора появляется более явный результат фильтрации. Однако, минимальное значение по-прежнему -35дб. Этот эффект называется &ldquo;перегрузка&rdquo;. Мощность входного сигнала слишком большая, поэтому <a href="https://dernasherbrezon.com/posts/dynamic-range/">динамического диапазона</a> rtl-sdr не хватает и нижняя часть графика обрезается. Вот пример измерения того же фильтра на профессиональном оборудовании:</p>
-<p><img src="/img/test-fm-filter/rtl-sdr-fm-filter-real.jpg"></p>
+<p><img src="/posts/test-fm-filter/img/rtl-sdr-fm-filter-real.jpg"></p>
 <h3 id="фм-фильтры">ФМ фильтры</h3>
 <p>В тесте участвовали следующие фильтры:</p>
 <ul>
@@ -404,15 +404,15 @@
 <li><a href="https://www.amazon.co.uk/NooElec-Distill-Barebones-Broadcast-Applications/dp/B076D354LW">Distill FM</a> от NooElec</li>
 </ul>
 <h3 id="rtl-sdr-приёмник">rtl-sdr приёмник</h3>
-<p><img src="/img/test-fm-filter/rtl-sdr.jpg"></p>
+<p><img src="/posts/test-fm-filter/img/rtl-sdr.jpg"></p>
 <p>В качестве rtl-sdr приемника я использовал <a href="https://www.amazon.com/dp/B0129EBDS2/ref=as_li_ss_tl?ie=UTF8&linkCode=sl1&tag=rsv0f-20&linkId=9806dfa291f74f7cdb49e2cfbe3d34eb">rtl-sdr.com</a>. У него хорошие характеристики и удобный SMA коннектор.</p>
 <h2 id="результаты-теста">Результаты теста</h2>
-<p><img src="/img/test-fm-filter/result.png"></p>
+<p><img src="/posts/test-fm-filter/img/result.png"></p>
 <p>Где:</p>
 <ul>
-<li>жёлтый - Distill FM. <a href="/img/test-fm-filter/nooelec_diff.csv">Данные</a></li>
-<li>зелёный - gpio labs. <a href="/img/test-fm-filter/gpio_diff.csv">Данные</a></li>
-<li>оранжевый - rtl-sdr.com FM reject filter. <a href="/img/test-fm-filter/rtlsdrcom_diff.csv">Данные</a></li>
+<li>жёлтый - Distill FM. <a href="/posts/test-fm-filter/img/nooelec_diff.csv">Данные</a></li>
+<li>зелёный - gpio labs. <a href="/posts/test-fm-filter/img/gpio_diff.csv">Данные</a></li>
+<li>оранжевый - rtl-sdr.com FM reject filter. <a href="/posts/test-fm-filter/img/rtlsdrcom_diff.csv">Данные</a></li>
 </ul>
 <p>По ссылкам можно скачать результат для каждого фильтра, загрузить в <a href="http://github.com/dernasherbrezon/rtlSpectrum">rtlSpectrum</a> и сравнить их на разных частотах.</p>
 <p>Выводы:</p>

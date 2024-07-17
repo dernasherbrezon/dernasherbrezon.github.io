@@ -1,0 +1,230 @@
+[
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0490,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1280
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0490,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1280
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0970,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1360
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0970,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1360
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.010,
+		"tinygsCurrent": 0.1270
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0600,
+		"tinygsVoltage": 5.010,
+		"tinygsCurrent": 0.1280
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0620,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1360
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0600,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1340
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0750,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1290
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0650,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1300
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0610,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1290
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1290
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0490,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1300
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1390
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0880,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1300
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0490,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1290
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0590,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1420
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1410
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1340
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0760,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1420
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0600,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1380
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0540,
+		"tinygsVoltage": 4.990,
+		"tinygsCurrent": 0.1510
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0690,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1300
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0820,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1390
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0600,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1300
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0520,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1290
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0590,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1280
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0740,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1290
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0490,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1290
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1310
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1400
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 4.990,
+		"tinygsCurrent": 0.1580
+	},
+	{
+		"r2loraVoltage": 5.010,
+		"r2loraCurrent": 0.0880,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1300
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0600,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1420
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 4.980,
+		"tinygsCurrent": 0.1720
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0500,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1350
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0620,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1460
+	},
+	{
+		"r2loraVoltage": 5.020,
+		"r2loraCurrent": 0.0590,
+		"tinygsVoltage": 5.000,
+		"tinygsCurrent": 0.1380
+	}
+]

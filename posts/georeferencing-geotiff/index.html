@@ -11,7 +11,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
 GDAL Для работы с GeoTIFF форматом существует множество библиотек. Наиболее популярная и открытая - GDAL. Она позволяет создавать и редактировать GeoTIFF, выполнять преобразование из одной проекции в другую, создавать тайлы.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/georeferencing-geotiff/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='og:image' content='https://dernasherbrezon.com/img/georeferencing-geotiff/0.png'><meta property='article:section' content='posts'><meta property='article:tag' content='gdal'><meta property='article:tag' content='GeoTIFF'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-19T18:09:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-19T18:09:18&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta name='twitter:site' content='@dernasherbrezon'><meta property='twitter:image' content='https://dernasherbrezon.com/img/georeferencing-geotiff/0.png'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='gdal'><meta property='article:tag' content='GeoTIFF'><meta property='article:tag' content='ДЗЗ'><meta property='article:tag' content='georeferencing'><meta property='article:published_time' content='2020-04-19T18:09:18&#43;01:00'/><meta property='article:modified_time' content='2020-04-19T18:09:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -372,7 +372,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
   <div class='container entry-content'>
   <h2 id="начало">Начало</h2>
 <p>Итак, в <a href="https://dernasherbrezon.com/posts/georeferencing-gcp/">прошлом посте</a> я описал основные шаги, необходимые для получения списка опорных точек. Следующим шагом будет создание файла в формате <a href="https://en.wikipedia.org/wiki/GeoTIFF">GeoTIFF</a>. Это подмножество формата tiff, в котором хранится дополнительная геоинформация. Почти все современные ГИС поддерживают этот формат, поэтому в нём распространяются как карты <a href="https://developers.google.com/earth-engine/exporting">Google Earth</a>, так и панорамы съёмки <a href="https://support.dronedeploy.com/docs/data-export-formats">квадрокоптерами</a>.</p>
-<p><img src="/img/georeferencing-geotiff/1.png"></p>
+<p><img src="/posts/georeferencing-geotiff/img/1.png"></p>
 <h2 id="gdal">GDAL</h2>
 <p>Для работы с GeoTIFF форматом существует множество библиотек. Наиболее популярная и открытая - <a href="https://gdal.org">GDAL</a>. Она позволяет создавать и редактировать GeoTIFF, выполнять преобразование из одной проекции в другую, создавать тайлы. Несмотря на то, что есть <a href="https://www.geotools.org">java альтернативы</a>, я решил использовать именно GDAL. Прежде всего из-за лицензии и большого сообщества.</p>
 <p>Итак, для того, чтобы создать GeoTIFF, нужно использовать команду <code>gdal_translate</code>:</p>
@@ -434,7 +434,7 @@ GDAL Для работы с GeoTIFF форматом существует мно
 <p>В результате оригинальное изображение:</p>
 <p><img src="/img/georeferencing-satellite-images/1.png"></p>
 <p>Будет преобразовано в следующее:</p>
-<p><img src="/img/georeferencing-geotiff/0.png"></p>
+<p><img src="/posts/georeferencing-geotiff/img/0.png"></p>
 <p>Как видно, оно было немного повёрнуто и растянуто по краям. На первый взгляд выглядит как раз то, что и нужно было сделать. Но как же убедиться, что всё правильно? Всё правильно, надо наложить его на настоящую карту. Об этом и пойдёт речь в следующей статье.</p>
 <hr/>
 <p>Геокодирование спутниковых снимков:</p>
