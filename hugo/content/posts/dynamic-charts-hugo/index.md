@@ -73,7 +73,7 @@ Hugo shortcodes - это, по сути, обычные теги. Такие, н
 
 Чтобы получилась вот такая красота:
 
-{{< chartjs url="/static/img/smart-usb-meter-a3-b/r2lora-tinygs.json" id="r2loraTinygs" title="tinyGS vs r2lora" datasource="r2loraCurrent" datasourceLabel="r2lora" datasource2="tinygsCurrent" datasource2Label="tinyGS" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="/img/smart-usb-meter-a3-b/r2lora-tinygs2.png" >}}
+{{< chartjs url="img/r2lora-tinygs.json" id="r2loraTinygs" title="tinyGS vs r2lora" datasource="r2loraCurrent" datasourceLabel="r2lora" datasource2="tinygsCurrent" datasource2Label="tinyGS" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="img/r2lora-tinygs2.png" >}}
 
 Сама библиотека chartjs подключается один в раз в заголовочной файле ```head/extra.html```:
 
