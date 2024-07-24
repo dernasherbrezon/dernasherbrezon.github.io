@@ -6,8 +6,15 @@
     <description>Recent content in Sx127x on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 08 Jul 2024 20:58:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jul 2024 21:49:18 +0000</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/sx127x/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Конечный автомат в sx127x</title>
+      <link>https://dernasherbrezon.com/posts/sequencer-sx127x/</link>
+      <pubDate>Tue, 23 Jul 2024 21:49:18 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/posts/sequencer-sx127x/</guid>
+      <description>Чип sx127x имеет встроенный конечный автомат для FSK модема. Он содержит несколько заранее заданных состояний и позволяет программировать условия перехода между ними. Сделано это прежде всего для тех режимов, где нужна быстрая скорость реакции, а задержки на передачу данных в процессор и обратно слишком большие. Например, приёмник может проснуться, проверить есть ли синхрослово входящего сообщения и если нет, то заснуть на небольшой промежуток времени. Это позволяет немного съэкономить энергию.&#xA;Практическое применение В sx127x есть особенность: после того, как данные переданы, чип остаётся в режиме FSTX.</description>
+    </item>
     <item>
       <title>Ошибка при передаче данных в sx127x</title>
       <link>https://dernasherbrezon.com/posts/bug-fsk-sx127x/</link>
