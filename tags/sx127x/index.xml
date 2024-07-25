@@ -6,8 +6,15 @@
     <description>Recent content in Sx127x on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Tue, 23 Jul 2024 21:49:18 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jul 2024 21:08:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/sx127x/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RSSI в sx127x</title>
+      <link>https://dernasherbrezon.com/posts/sx127x-rssi/</link>
+      <pubDate>Thu, 25 Jul 2024 21:08:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/sx127x-rssi/</guid>
+      <description>RSSI (received signal strength indicator) - это показатель уровня принимаемого сигнала. Для простоты - это те самые деления Вашего телефона, которые показывают уровень сигнала сети. Чем меньше, тем хуже и медленнее передаются данные. Этот показатель рассчитывается почти в каждом приёмнике и чипы sx127x не исключение. Но, так же как и во всех других приёмниках, этот показатель рассчитывается очень приближённо, и есть ненулевая вероятность получить совершенно случайные значения.&#xA;RSSI измеряется как логарифм отношения мощности принимаемого сигнала к 1мВт.</description>
+    </item>
     <item>
       <title>Конечный автомат в sx127x</title>
       <link>https://dernasherbrezon.com/posts/sequencer-sx127x/</link>

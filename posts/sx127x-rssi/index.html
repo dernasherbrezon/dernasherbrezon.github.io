@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='RSSI (received signal strength indicator) - это показатель уровня принимаемого сигнала. Для простоты - это те самые деления Вашего телефона, которые показывают уровень сигнала сети. Чем меньше, тем хуже и медленнее передаются данные. Этот показатель рассчитывается почти в каждом приёмнике и чипы sx127x не исключение. Но, так же как и во всех других приёмниках, этот показатель рассчитывается очень приближённо, и есть ненулевая вероятность получить совершенно случайные значения.
+RSSI измеряется как логарифм отношения мощности принимаемого сигнала к 1мВт.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='RSSI в sx127x • dernasherbrezon'>
+<meta property='og:description' content='RSSI (received signal strength indicator) - это показатель уровня принимаемого сигнала. Для простоты - это те самые деления Вашего телефона, которые показывают уровень сигнала сети. Чем меньше, тем хуже и медленнее передаются данные. Этот показатель рассчитывается почти в каждом приёмнике и чипы sx127x не исключение. Но, так же как и во всех других приёмниках, этот показатель рассчитывается очень приближённо, и есть ненулевая вероятность получить совершенно случайные значения.
+RSSI измеряется как логарифм отношения мощности принимаемого сигнала к 1мВт.'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/sx127x-rssi/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='sx127x'><meta property='article:published_time' content='2024-07-25T21:08:18&#43;01:00'/><meta property='article:modified_time' content='2024-07-25T21:08:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.124.0">
+
+  <title>RSSI в sx127x • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/sx127x-rssi/'>
+  
+    <link href="https://dernasherbrezon.com/posts/sx127x-rssi/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><script src="/js/chart.min.js"></script>
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item has-current'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0204081632653061em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>Acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0612244897959184em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0612244897959184em'>Apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>Awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0204081632653061em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1020408163265305em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0204081632653061em'>Bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0204081632653061em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.4489795918367347em'>C</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0816326530612246em'>Deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>Docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.1224489795918366em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>Eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.1428571428571428em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>Esp-Idf</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.2040816326530612em'>Esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>Flot</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0816326530612246em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>Gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0408163265306123em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0612244897959184em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0612244897959184em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0612244897959184em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>Hibernate</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0204081632653061em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0816326530612246em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0408163265306123em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>Jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1020408163265305em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>Jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0612244897959184em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0408163265306123em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0408163265306123em'>Junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>Letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.163265306122449em'>Lora</a>
+      </li><li>
+        <a href='/tags/lora-at/' style='font-size:1.0816326530612246em'>Lora-At</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0408163265306123em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0204081632653061em'>Matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1020408163265305em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0204081632653061em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0816326530612246em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1020408163265305em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0408163265306123em'>Open Source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0204081632653061em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0408163265306123em'>Opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>Openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>Openstack Swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0204081632653061em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>Pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>Plutosdr</a>
+      </li><li>
+        <a href='/tags/ppk2/' style='font-size:1.0204081632653061em'>PPK2</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0204081632653061em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0816326530612246em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0612244897959184em'>R2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>R2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2448979591836735em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.4489795918367347em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>Refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0204081632653061em'>Rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0204081632653061em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0204081632653061em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2448979591836735em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0408163265306123em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>S3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0408163265306123em'>Satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0612244897959184em'>Sdr-Modem</a>
+      </li><li>
+        <a href='/tags/sdr-server/' style='font-size:1em'>Sdr-Server</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0204081632653061em'>Security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>Selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.1020408163265305em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0408163265306123em'>Sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0408163265306123em'>Spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>Sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0204081632653061em'>Ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0204081632653061em'>String</a>
+      </li><li>
+        <a href='/tags/sx127x/' style='font-size:1.1428571428571428em'>Sx127x</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>Systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0408163265306123em'>Testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0204081632653061em'>Travis-Ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0816326530612246em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0408163265306123em'>Valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>Validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0408163265306123em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>Yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.3061224489795917em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0816326530612246em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0816326530612246em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>Идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0408163265306123em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0408163265306123em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0204081632653061em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.0612244897959184em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.346938775510204em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0612244897959184em'>Разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>Спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.3877551020408163em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2653061224489797em'>Тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0408163265306123em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+
+</svg>
+</span>
+  <span class='close'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+
+</svg>
+</span>
+</button>
+    <ul><li class='item current'>
+        <a aria-current='page' href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>RSSI в sx127x</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2024-07-25T21:08:18&#43;01:00'>25 Jul 2024</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>RSSI (received signal strength indicator) - это показатель уровня принимаемого сигнала. Для простоты - это те самые деления Вашего телефона, которые показывают уровень сигнала сети. Чем меньше, тем хуже и медленнее передаются данные. Этот показатель рассчитывается почти в каждом приёмнике и чипы sx127x не исключение. Но, так же как и во всех других приёмниках, этот показатель рассчитывается очень приближённо, и есть ненулевая вероятность получить совершенно случайные значения.</p>
+<p>RSSI измеряется как логарифм отношения мощности принимаемого сигнала к 1мВт. При этом 0dBm - это идеальный уровень сигнала, а, примерно, -100dBm - это самый плохой уровень сигнала. На практике, RSSI может зависить от всего:</p>
+<ul>
+<li>от калибровки на заводе</li>
+<li>от периодической внутренней калибровки чипа</li>
+<li>от производителя</li>
+<li>от температуры</li>
+<li>от антенны</li>
+<li>от окружающей среды</li>
+<li>от драйвера</li>
+</ul>
+<p>Обычно весь поддерживаемый интервал разделяют на 3-4 больших участка и крупными мазками говорят, что от -85 до -70 уровень сигнала хороший.</p>
+<p>Чипы серии sx127x могут принимать сигналы от -127dBm до 0dBm. Но эти цифры, скорее всего, получены в лаборатории и принять сигнал с RSSI -126dBm на практике вряд ли удастся.</p>
+<p>Тем не менее, неплохо было бы хоть как-то сравнивать разные сигналы, и поэтому <a href="https://github.com/dernasherbrezon/sx127x">мой драйвер для работы с sx127x</a> позволяет получить RSSI.</p>
+<p>В документации к чипу и в стандарте IEEE 802.11 его рекомендуется измерять во время получении преамбулы. На скриншоте внизу примерное время отмечено вертикальной жёлтой линией:</p>
+<p><img src="/posts/sx127x-rssi/img/1.png"></p>
+<p>Чип sx127x позволяет отловить это время. Для этого он генерирует прерывание PreambleDetect, которое можно обработать на пине DIO4. Однако, в <a href="https://www.lilygo.cc/products/lora3">TTGO lora32 v2.1</a> и <a href="https://heltec.org/project/wifi-lora-32-v3/">Heltec lora32 v2</a> пин DIO4 не подключён, вместо этого мой код пытается отловить прерывание SyncAddress, которое приходит на пин DIO2. На скриншоте вверху - это вертикальная синяя линия.</p>
+<p>Чтобы хоть как-то сравнить результаты между собой, я сделал несколько замеров для разных прерываний и получил следующий график:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<canvas id="data" width="400" height="200"></canvas>
+<div class='align-center' style="margin-bottom: 1.5em">
+<small>
+	<a class="downloadChart" data-canvasid="data" download="data.png" href="" title="RSSI в разные моменты времени">Скачать</a>
+</small>
+</div>
+<script>
+
+function csvJSON(csv){
+  var result = [];
+  var headers=csv[0];
+  for(var i=1;i<csv.length;i++){
+      var obj = {};
+      for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = parseFloat(csv[i][j]);
+      }
+      result.push(obj);
+  }
+  return result; 
+}
+
+
+
+
+	
+	
+		var dataData = csvJSON([["PreambleDetect","SyncAddress","PayloadReady"],["-40","-53","-81"],["-40","-53","-50"],["-39","-59","-87"],["-40","-56","-89"],["-40","-56","-89"],["-39","-57","-91"],["-40","-58","-50"]]);
+	
+dataData.forEach(function(e, index) {
+	e.id = '' + index;
+});
+var xAxisKey = 'id';var dataCtx = document.getElementById('data').getContext('2d');
+const dataChart = new Chart(dataCtx, {
+    type: 'line',
+    data: {
+        datasets: [{
+        	label: 'SyncAddress',
+            data: dataData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'SyncAddress'
+            },
+            borderColor: '#7fc35e',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#7fc35e',
+            fill: true,
+            borderWidth: 2,tension: 0.2
+        },{
+        	label: 'PayloadReady',
+            data: dataData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'PayloadReady'
+            },
+            borderColor: '#4161CC',
+            backgroundColor: 'rgba(49, 76, 37, 0.1)',
+            pointBackgroundColor: '#4161CC',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        },{
+            label: 'PreambleDetect',
+            data: dataData,
+            parsing: {
+                xAxisKey: xAxisKey,
+                yAxisKey: 'PreambleDetect'
+            },
+            borderColor: '#ffcd00',
+            backgroundColor: 'rgba(255, 205, 0, 0.1)',
+            pointBackgroundColor: '#ffcd00',
+            fill: true,
+            borderWidth: 2,
+            tension: 0.2
+        }]
+    },
+    options: {
+    	stacked: false,
+    	elements: {
+    		point: {
+    		      radius: 0,
+    		      hitRadius: 10,
+    		      hoverRadius: 4,
+    		      hoverBorderWidth: 3
+    		}	
+    	},
+        animation: {
+            duration: 0
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {y: {
+                beginAtZero: true,
+                position: 'left',title: {
+                    display: true,
+                    text: 'RSSI'
+                },
+                ticks: {
+                    callback: function(value, index, ticks) {
+                        return value + ' dBm';
+                    }}
+            }},
+        plugins: {
+            title: {
+                display: true,
+                text: 'RSSI в разные моменты времени',
+                font: {
+                	size: 16
+                }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+            	position: 'nearest',
+            	callbacks: {title: function() {},label: function(context) {
+            			let label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        
+                        var unit = "dBm";if (context.parsed.y !== null) {
+                        	label += context.parsed.y + ' ' + unit;
+                        }
+                        
+                        return label;
+            		}
+            	}
+            }
+        }
+    }
+});
+</script><noscript>
+	<img src="img/avgfskff8mhz.png">
+</noscript>
+<p>В этом графике прекрасно буквально всё.</p>
+<p>Во-первых, если измерять RSSI сразу же после получения пакета (прерывание PayloadReady), то значения будут сильно скакать от -90dBm до -50dBm. Нижняя граница - это уровень шума приёмника, сообщение уже было получено и, конечно же, уровень сигнала минимальный. Но если сразу же идёт следующее сообщение, то уровень будет -50dBm. Именно поэтому измерять RSSI после приёма пакета - неправильно.</p>
+<p>Во-вторых, разница между PreambleDetect и SyncAddress объясняется тем, что PreambleDetect был получен совсем другой антенной, другим LoRa чипом и вообще с помощью Raspberry PI! Видимо, его антенна лучше резонирует на частоте 437Мгц и показывает более высокий уровень.</p>
+<p>В-третьих, Raspberry PI, и Linux в частности, не успевают обрабатывать прерывания! Из-за этого уровень PreambleDetect может сэмплироваться в момент приёма самого сообщения, а не в момент получения преамбулы.</p>
+<p>Однако в целом я доволен своей реализацией:</p>
+<ul>
+<li>Уровень сигнала стабильный на протяжении многих тестов</li>
+<li>Не зависит от длины сообщения</li>
+<li>И не зависит от данных внутри сообщения</li>
+</ul>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='tags'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/sx127x/'>Sx127x</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/sequencer-sx127x/'>
+        <span aria-hidden='true'><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Конечный автомат в sx127x</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    
+  <title>Twitter icon</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg class='icon' xmlns='http://www.w3.org/2000/svg' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <title>Telegram icon</title><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"/>
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2024 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script>
+var downloadLinks = document.getElementsByClassName('downloadChart');
+for (var i = 0; i < downloadLinks.length; i++) {
+	downloadLinks[i].addEventListener('click', function(event){
+		var targetElement = event.target || event.srcElement;
+		var canvasId = targetElement.getAttribute('data-canvasid');
+		console.log(canvasId);
+		var url_base64 = document.getElementById(canvasId).toDataURL("image/png");
+		targetElement.href = url_base64;
+	});
+}
+</script>
+</body>
+
+</html>
+
