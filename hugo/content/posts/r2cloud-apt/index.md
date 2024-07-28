@@ -126,7 +126,7 @@ sudo bash -c "echo \"deb http://s3.amazonaws.com/r2cloud $(lsb_release --codenam
 java -jar ./target/apt-html.jar --url http://s3.amazonaws.com/r2cloud --include-arch armhf,amd64 --include-component main --include-codename stretch,bionic,buster,focal --include-package sdr-server,libcpu-features-dev,libvolk2-bin,libvolk2.4-dbgsym,libvolk2.4,librtlsdr0,librtlsdr-dev,librtlsdr0-dbgsym,libiio,plutosdr,r2cloud-jdk,r2cloud-ui,rtl-sdr,wxtoimg,r2cloud --output-dir src/main/resources/
 ```
 
-На вход подаётся URL APT репозитория, список архитектур для включения в отчёт, список пакетов, список дистрибутивов, а на выходе получается вот такая [симпатичная страничка](https://r2server.ru/apt.html):
+На вход подаётся URL APT репозитория, список архитектур для включения в отчёт, список пакетов, список дистрибутивов, а на выходе получается вот такая [симпатичная страничка](https://leosatdata.com/apt):
 
 ![](img/1.png)
 

@@ -5310,7 +5310,7 @@ Guru Meditation Error: Core  1 panic&#39;ed (LoadProhibited). Exception was unha
 <p>Пример юнит-теста ниже:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test_non_existing_file</span>() {
 </span></span><span style="display:flex;"><span>  Fota fota;
-</span></span><span style="display:flex;"><span>  fota.init(<span style="color:#e6db74">&#34;1.0&#34;</span>, <span style="color:#e6db74">&#34;apt.r2server.ru&#34;</span>, <span style="color:#ae81ff">80</span>, <span style="color:#e6db74">&#34;/fotatest/missingfile.json&#34;</span>, <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>, ARDUINO_VARIANT);
+</span></span><span style="display:flex;"><span>  fota.init(<span style="color:#e6db74">&#34;1.0&#34;</span>, <span style="color:#e6db74">&#34;apt.leosatdata.com&#34;</span>, <span style="color:#ae81ff">80</span>, <span style="color:#e6db74">&#34;/fotatest/missingfile.json&#34;</span>, <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>, ARDUINO_VARIANT);
 </span></span><span style="display:flex;"><span>  TEST_ASSERT_EQUAL(FOTA_INVALID_SERVER_RESPONSE, fota.loop(false));
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>FOTA инициализируется и пытается проверить обновление. <code>missingfile.json</code> - это заранее созданный файл с ожидаемой ошибкой, который я загрузил на S3.</p>
@@ -6886,7 +6886,7 @@ sudo bash -c &#34;echo \&#34;deb http://s3.amazonaws.com/r2cloud $(lsb_release -
 <p>Количество поддерживаемых дистрибутивов и пакетов стало таким большим, что мне пришлось написать специальную программу - <a href="https://github.com/dernasherbrezon/apt-html">apt-html</a>. Это простая консольная утилита, которая генерирует красивую html страницу со списком пакетов в APT репозитории.</p>
 <p>Запускается достаточно просто:</p>
 <pre tabindex="0"><code>java -jar ./target/apt-html.jar --url http://s3.amazonaws.com/r2cloud --include-arch armhf,amd64 --include-component main --include-codename stretch,bionic,buster,focal --include-package sdr-server,libcpu-features-dev,libvolk2-bin,libvolk2.4-dbgsym,libvolk2.4,librtlsdr0,librtlsdr-dev,librtlsdr0-dbgsym,libiio,plutosdr,r2cloud-jdk,r2cloud-ui,rtl-sdr,wxtoimg,r2cloud --output-dir src/main/resources/
-</code></pre><p>На вход подаётся URL APT репозитория, список архитектур для включения в отчёт, список пакетов, список дистрибутивов, а на выходе получается вот такая <a href="https://r2server.ru/apt.html">симпатичная страничка</a>:</p>
+</code></pre><p>На вход подаётся URL APT репозитория, список архитектур для включения в отчёт, список пакетов, список дистрибутивов, а на выходе получается вот такая <a href="https://leosatdata.com/apt">симпатичная страничка</a>:</p>
 <p><img src="/posts/r2cloud-apt/img/1.png"></p>
 <h2 id="выводы">Выводы</h2>
 <p>Всё это упражнение в создании APT репозитория заняло у меня несколько недель. И это при том, что последние несколько лет я активно пишу всевозможные инструменты для управления apt репозиториями. Я не думаю, что разработчики Debian сознательно сделали систему такой сложной и запутанной. Скорее всего, со временем она стала обрастать множеством фич и опций, что превратило её в такую, какая она сейчас есть. Несмотря на это, я планирую и дальше развивать r2cloud APT репозиторий и добавлять туда разные полезные пакеты. Ведь это единственный простой способ для конечного пользователя взять и установить программу.</p>
@@ -8336,7 +8336,7 @@ $$</p>
 <p><img src="/posts/r2weather/img/4.png"></p>
 <p>Из недостатков то, что прямой интеграции между станцией satnogs и <a href="https://r2weather.ru">r2weather.ru</a> нет. Поэтому придётся программировать отправку данных со станции в сервис.</p>
 <h2 id="r2cloud">r2cloud</h2>
-<p>Ещё одна сеть станций - <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>. Это моя собственная разработка. Она не такая популярная как SatNOGS и поддерживает меньшее количество приёмников. Тем не менее она максимально простая и идеально подходит новичкам. В ней есть интеграция с <a href="https://r2weather.ru">r2weather.ru</a> через промежуточный сервис <a href="https://r2server.ru">r2server.ru</a>.</p>
+<p>Ещё одна сеть станций - <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>. Это моя собственная разработка. Она не такая популярная как SatNOGS и поддерживает меньшее количество приёмников. Тем не менее она максимально простая и идеально подходит новичкам. В ней есть интеграция с <a href="https://r2weather.ru">r2weather.ru</a> через промежуточный сервис <a href="https://leosatdata.com">leosatdata.com</a>.</p>
 <p><img src="/posts/r2weather/img/r2server-data.png"></p>
 <p>Более детальную информацию можно найти в <a href="https://r2weather.ru/howto">официальной документации</a>.</p>
 <h2 id="пересылка-данных-вручную">Пересылка данных вручную</h2>
@@ -8573,13 +8573,13 @@ $$</p>
       <pubDate>Thu, 11 Jun 2020 21:35:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/posts/time-raspberrypi-2/</guid>
-      <description>Прошёл почти год с момента написания оригинальной статьи про время в Raspberrypi, и вот я уже снова столкнулся с этой проблемой. На этот раз мне захотелось сделать мобильную станцию слежения за спутниками вместе с поворотным устройством. Мобильность в данном случае означает то, что я могу принести станцию в поле, поймать несколько сигналов во время чтения книги, отнести домой и залить результаты в https://r2server.ru. Проблема оказалась там, где её никто не ждал.</description>
+      <description>Прошёл почти год с момента написания оригинальной статьи про время в Raspberrypi, и вот я уже снова столкнулся с этой проблемой. На этот раз мне захотелось сделать мобильную станцию слежения за спутниками вместе с поворотным устройством. Мобильность в данном случае означает то, что я могу принести станцию в поле, поймать несколько сигналов во время чтения книги, отнести домой и залить результаты в https://leosatdata.com. Проблема оказалась там, где её никто не ждал.</description>
       <turbo:content>
       	<![CDATA[
       		<header>
       			<h1>Время в Raspberrypi - 2</h1></header>
       		<div class='container entry-content'>
-  <p>Прошёл почти год с момента написания <a href="https://dernasherbrezon.com/posts/time-raspberrypi/">оригинальной статьи</a> про время в Raspberrypi, и вот я уже снова столкнулся с этой проблемой. На этот раз мне захотелось сделать мобильную станцию слежения за спутниками вместе с <a href="https://dernasherbrezon.com/posts/rotator-for-r2cloud/">поворотным устройством</a>. Мобильность в данном случае означает то, что я могу принести станцию в поле, поймать несколько сигналов во время чтения книги, отнести домой и залить результаты в <a href="https://r2server.ru">https://r2server.ru</a>. Проблема оказалась там, где её никто не ждал. Если отнести Raspberrypi в чисто-поле, то там не будет сигнала Wi-Fi. А это значит, не будет сети. А это значит не будет NTP и неоткуда получить время. Можно, конечно, зайти удалённо на Raspberrypi и вручную выставить время по часам. Но это выглядит слишком утомительным.</p>
+  <p>Прошёл почти год с момента написания <a href="https://dernasherbrezon.com/posts/time-raspberrypi/">оригинальной статьи</a> про время в Raspberrypi, и вот я уже снова столкнулся с этой проблемой. На этот раз мне захотелось сделать мобильную станцию слежения за спутниками вместе с <a href="https://dernasherbrezon.com/posts/rotator-for-r2cloud/">поворотным устройством</a>. Мобильность в данном случае означает то, что я могу принести станцию в поле, поймать несколько сигналов во время чтения книги, отнести домой и залить результаты в <a href="https://leosatdata.com">https://leosatdata.com</a>. Проблема оказалась там, где её никто не ждал. Если отнести Raspberrypi в чисто-поле, то там не будет сигнала Wi-Fi. А это значит, не будет сети. А это значит не будет NTP и неоткуда получить время. Можно, конечно, зайти удалённо на Raspberrypi и вручную выставить время по часам. Но это выглядит слишком утомительным.</p>
 <h2 id="rtc-для-rpi">RTC для RPi</h2>
 <p>Вместо того чтобы вручную устанавливать время, можно пойти более простым путём. Достаточно установить RTC модуль и время будет правильным всегда. Вернее, до тех пор, пока работает маленькая пальчиковая батарейка в этом модуле.</p>
 <p>Я заказал модуль MakerHawk RPI DS1307.</p>
@@ -9722,7 +9722,7 @@ epever-tracer-influxdb (1.0.3-2) disco; urgency=medium
       <pubDate>Wed, 18 Mar 2020 19:37:18 +0100</pubDate>
       
       <guid>https://dernasherbrezon.com/posts/mock-server/</guid>
-      <description>Последние несколько дней я работал над декодированием сигналов со спутника SMOG-P. Помимо декодирования самого протокола я решил заморочиться и написать полноценную интеграцию между r2server и gnd.bme.hu.
+      <description>Последние несколько дней я работал над декодированием сигналов со спутника SMOG-P. Помимо декодирования самого протокола я решил заморочиться и написать полноценную интеграцию между leosatdata.com и gnd.bme.hu.
 Gnd bme - это сайт, на котором отображаются последние пакеты, принятые со спутника, общая информация о том, как декодировать сигнал.
 Но самое интересное заключается в том, что этот сайт предоставляет небольшой API, чтобы можно было программно отправлять им данные. На самом сайте нет описания этого API, но я внимательно посмотрел исходники и нашёл в них всё необходимое.</description>
       <turbo:content>
@@ -9730,7 +9730,7 @@ Gnd bme - это сайт, на котором отображаются посл
       		<header>
       			<h1>Тестирование REST клиентов</h1></header>
       		<div class='container entry-content'>
-  <p>Последние несколько дней я работал над декодированием сигналов со спутника <a href="https://destevez.net/2019/12/decoding-smog-p-and-atl-1/">SMOG-P</a>. Помимо декодирования самого протокола я решил заморочиться и написать полноценную интеграцию между <a href="https://r2server.ru">r2server</a> и <a href="https://gnd.bme.hu:8080/index">gnd.bme.hu</a>.</p>
+  <p>Последние несколько дней я работал над декодированием сигналов со спутника <a href="https://destevez.net/2019/12/decoding-smog-p-and-atl-1/">SMOG-P</a>. Помимо декодирования самого протокола я решил заморочиться и написать полноценную интеграцию между <a href="https://leosatdata.com">leosatdata.com</a> и <a href="https://gnd.bme.hu:8080/index">gnd.bme.hu</a>.</p>
 <p>Gnd bme - это сайт, на котором отображаются последние пакеты, принятые со спутника, общая информация о том, как декодировать сигнал.</p>
 <p><img src="/posts/mock-server/img/1.png"></p>
 <p>Но самое интересное заключается в том, что этот сайт предоставляет небольшой API, чтобы можно было программно отправлять им данные. На самом сайте нет описания этого API, но я внимательно посмотрел <a href="http://152.66.80.46/smog1/receivesmogpatl1/gorgon.zip">исходники</a> и нашёл в них всё необходимое.</p>
@@ -10917,7 +10917,7 @@ Cr =  0.5    * R - 0.4187 * G - 0.0813 * B + 128
 </blockquote>
 <p><img src="/posts/compare-jsp-vuejs/img/2.png"></p>
 <h2 id="начало">Начало</h2>
-<p>Так получилось, что <a href="https://r2server.ru">r2server</a> написан с помощью <a href="https://ru.wikipedia.org/wiki/JavaServer_Pages">JSP</a>, а <a href="https://github.com/dernasherbrezon/r2cloud-ui">r2cloud-ui</a> с помощью <a href="https://vuejs.org">VueJS</a>. И вот мне понадобилось реализовать компонент по отображению <a href="https://swagger.io/docs/specification/about/">OpenAPI</a> в обоих проектах. В этот момент возникла уникальная ситуация:</p>
+<p>Так получилось, что <a href="https://leosatdata.com">leosatdata.com</a> написан с помощью <a href="https://ru.wikipedia.org/wiki/JavaServer_Pages">JSP</a>, а <a href="https://github.com/dernasherbrezon/r2cloud-ui">r2cloud-ui</a> с помощью <a href="https://vuejs.org">VueJS</a>. И вот мне понадобилось реализовать компонент по отображению <a href="https://swagger.io/docs/specification/about/">OpenAPI</a> в обоих проектах. В этот момент возникла уникальная ситуация:</p>
 <ul>
 <li>Нужно реализовать абсолютно одинаковый компонент как в r2cloud-ui, так и в r2server.</li>
 <li>У него должен быть один и тот же дизайн - <a href="https://getbootstrap.com">bootstrap4</a>. Несмотря на то, что приложения разные, я решил сделать максимально похожий user experience. Это удобно по нескольким причинам: во-первых, достаточно знать один набор компонент, во-вторых, пользователи, вполне очевидно, будут использовать и то, и другое приложение.</li>
@@ -11586,7 +11586,7 @@ usr/share/doc/copyright
 <p><img src="/posts/satellite-telemetry/img/diagram.png"></p>
 <ol>
 <li>Базовая станция получает сигнал со спутника, демодулирует и декодирует его</li>
-<li>Если настроена интеграция с <a href="https://r2server.ru">r2server.ru</a>, то данные отсылаются на центральный сервер</li>
+<li>Если настроена интеграция с <a href="https://leosatdata.com">leosatdata.com</a>, то данные отсылаются на центральный сервер</li>
 <li>Далее, с центрального сервера информация может быть отправлена в другие сервисы.</li>
 </ol>
 <h3 id="satnogs">Satnogs</h3>

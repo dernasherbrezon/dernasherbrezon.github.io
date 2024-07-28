@@ -291,7 +291,7 @@ An example unit test is below:
 ```c++
 void test_non_existing_file() {
   Fota fota;
-  fota.init("1.0", "apt.r2server.ru", 80, "/fotatest/missingfile.json", 24 * 60 * 60 * 1000, ARDUINO_VARIANT);
+  fota.init("1.0", "apt.leosatdata.com", 80, "/fotatest/missingfile.json", 24 * 60 * 60 * 1000, ARDUINO_VARIANT);
   TEST_ASSERT_EQUAL(FOTA_INVALID_SERVER_RESPONSE, fota.loop(false));
 }
 ```

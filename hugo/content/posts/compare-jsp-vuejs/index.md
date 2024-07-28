@@ -19,7 +19,7 @@ tags:
 
 ## Начало
 
-Так получилось, что [r2server](https://r2server.ru) написан с помощью [JSP](https://ru.wikipedia.org/wiki/JavaServer_Pages), а [r2cloud-ui](https://github.com/dernasherbrezon/r2cloud-ui) с помощью [VueJS](https://vuejs.org). И вот мне понадобилось реализовать компонент по отображению [OpenAPI](https://swagger.io/docs/specification/about/) в обоих проектах. В этот момент возникла уникальная ситуация:
+Так получилось, что [leosatdata.com](https://leosatdata.com) написан с помощью [JSP](https://ru.wikipedia.org/wiki/JavaServer_Pages), а [r2cloud-ui](https://github.com/dernasherbrezon/r2cloud-ui) с помощью [VueJS](https://vuejs.org). И вот мне понадобилось реализовать компонент по отображению [OpenAPI](https://swagger.io/docs/specification/about/) в обоих проектах. В этот момент возникла уникальная ситуация:
 
  - Нужно реализовать абсолютно одинаковый компонент как в r2cloud-ui, так и в r2server.
  - У него должен быть один и тот же дизайн - [bootstrap4](https://getbootstrap.com). Несмотря на то, что приложения разные, я решил сделать максимально похожий user experience. Это удобно по нескольким причинам: во-первых, достаточно знать один набор компонент, во-вторых, пользователи, вполне очевидно, будут использовать и то, и другое приложение.
