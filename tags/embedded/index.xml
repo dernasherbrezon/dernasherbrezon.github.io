@@ -6,8 +6,15 @@
     <description>Recent content in embedded on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 09 Jun 2024 20:53:18 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jul 2024 22:00:00 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/embedded/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Время в Raspberrypi - 4</title>
+      <link>https://dernasherbrezon.com/posts/time-raspberrypi-4/</link>
+      <pubDate>Sun, 28 Jul 2024 22:00:00 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/time-raspberrypi-4/</guid>
+      <description>В одной из своих прошлых статей я писал о том, что в RaspberryPI нет RTC, и к чему это может привести. Можно купить и установить отдельный модуль, чтобы решить эту проблему. Однако, как оказалось, и с этим подходом могут быть проблемы:&#xA;я где-то потерял его нужна отдельная батарейка, за которой нужно следить и раз в несколько лет менять Ещё одним решением может быть GPS модуль! С помощью него можно получать не только координаты, но и текущее время.</description>
+    </item>
     <item>
       <title>Осциллограф ds1054z</title>
       <link>https://dernasherbrezon.com/posts/ds1054z/</link>

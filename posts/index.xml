@@ -7,10 +7,146 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 25 Jul 2024 21:08:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jul 2024 22:00:00 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Время в Raspberrypi - 4</title>
+      <link>https://dernasherbrezon.com/posts/time-raspberrypi-4/</link>
+      <pubDate>Sun, 28 Jul 2024 22:00:00 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/time-raspberrypi-4/</guid>
+      <description>В одной из своих прошлых статей я писал о том, что в RaspberryPI нет RTC, и к чему это может привести. Можно купить и установить отдельный модуль, чтобы решить эту проблему. Однако, как оказалось, и с этим подходом могут быть проблемы:
+я где-то потерял его нужна отдельная батарейка, за которой нужно следить и раз в несколько лет менять Ещё одним решением может быть GPS модуль! С помощью него можно получать не только координаты, но и текущее время.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Время в Raspberrypi - 4</h1></header>
+      		<div class='container entry-content'>
+  <p>В одной из своих <a href="https://dernasherbrezon.com/posts/time-raspberrypi/">прошлых статей</a> я писал о том, что в RaspberryPI нет RTC, и к чему это может привести. Можно купить и установить <a href="https://dernasherbrezon.com/posts/time-raspberrypi-2/">отдельный модуль</a>, чтобы решить эту проблему. Однако, как оказалось, и с этим подходом могут быть проблемы:</p>
+<ul>
+<li>я где-то потерял его</li>
+<li>нужна отдельная батарейка, за которой нужно следить и раз в несколько лет менять</li>
+</ul>
+<p>Ещё одним решением может быть GPS модуль! С помощью него можно получать не только координаты, но и текущее время.</p>
+<h2 id="gps">GPS</h2>
+<p>GPS модуль идеально подходит для r2cloud по нескольким причинам. Во-первых, станция уже должна быть на улице, чтобы принимать сигналы. Во-вторых, время начальной синхронизации не критично - r2cloud просто стартует чуть позже. В-третьих, можно загружать координаты станции напрямую из GPS модуля. Это позволит сделать станцию чуть более мобильной.</p>
+<p>В качестве GPS модуля я выбрал <a href="https://www.adafruit.com/product/2324">Adafruit Ultimate GPS HAT for Raspberry Pi</a>. Но в теории может подойти абсолютно любой. Этот удобен тем, что достаточно крепко крепится к плате и ему не нужен отдельный провод.</p>
+<p><img src="/posts/time-raspberrypi-4/img/1.jpg"></p>
+<p>Основная информация передаётся к текстовом виде по UART, а высокоточная синхронизация (PPS) через пин №4. Мне такая точность не особенно нужна, да и процессор RaspberryPI не может быстро обрабатывать такой сигнал, но почему бы и нет?</p>
+<p>Интересный факт: для того, чтобы повысить точность часов, нужно уменьшить задержки между получением сигнала со спутника и выставлением времени в Linux. Ни UART, ни даже USB здесь не подходят - слишком медленно. Для этого используется отдельный провод: если напряжение на нём выростает от 0В до 3.3В, то значит началась новая секунда.</p>
+<h2 id="конфигурация">Конфигурация</h2>
+<p>Для работы нужно сконфигурировать несколько сервисов.</p>
+<div>
+
+
+	<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="-0.5 -0.5 681 151"><defs/><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="8QAko-XmBXMnOeSDuaJn-4"><g><path d="M 80 40 L 100 40 L 100 20 L 113.63 20" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 118.88 20 L 111.88 23.5 L 113.63 20 L 111.88 16.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-16"><g><path d="M 80 60 L 100 60 L 100 80 L 113.63 80" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 118.88 80 L 111.88 83.5 L 113.63 80 L 111.88 76.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-1"><g><rect x="0" y="30" width="80" height="40" fill="#ffe6cc" stroke="#d79b00" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 50px; margin-left: 1px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">PA1616D</div></div></div></foreignObject><text x="40" y="54" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">PA1616D</text></switch></g></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-7"><g><path d="M 200 20 L 220 20 L 220 40 L 233.63 40" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 238.88 40 L 231.88 43.5 L 233.63 40 L 231.88 36.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-2"><g><rect x="120" y="0" width="80" height="40" fill="#e1d5e7" stroke="#9673a6" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 20px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">/dev/serial0</div></div></div></foreignObject><text x="160" y="24" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">/dev/serial0</text></switch></g></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-8"><g><path d="M 200 80 L 220 80 L 220 60 L 233.63 60" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 238.88 60 L 231.88 63.5 L 233.63 60 L 231.88 56.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-3"><g><rect x="120" y="60" width="80" height="40" fill="#e1d5e7" stroke="#9673a6" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 80px; margin-left: 121px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">/dev/pps0</div></div></div></foreignObject><text x="160" y="84" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">/dev/pps0</text></switch></g></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-10"><g><path d="M 320 50 L 353.63 50" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 358.88 50 L 351.88 53.5 L 353.63 50 L 351.88 46.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-6"><g><rect x="240" y="30" width="80" height="40" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 50px; margin-left: 241px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">GPSD</div></div></div></foreignObject><text x="280" y="54" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">GPSD</text></switch></g></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-12"><g><path d="M 440 50 L 473.63 50" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 478.88 50 L 471.88 53.5 L 473.63 50 L 471.88 46.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-9"><g><rect x="360" y="30" width="80" height="40" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 50px; margin-left: 361px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">chrony</div></div></div></foreignObject><text x="400" y="54" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">chrony</text></switch></g></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-15"><g><path d="M 560 50 L 593.63 50" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/><path d="M 598.88 50 L 591.88 53.5 L 593.63 50 L 591.88 46.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-18"><g><path d="M 520 70 L 520 103.63" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke"/><path d="M 520 108.88 L 516.5 101.88 L 520 103.63 L 523.5 101.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-11"><g><rect x="480" y="30" width="80" height="40" fill="#e1d5e7" stroke="#9673a6" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 50px; margin-left: 481px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">systemd</div></div></div></foreignObject><text x="520" y="54" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">systemd</text></switch></g></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-13"><g><rect x="600" y="30" width="80" height="40" fill="#e1d5e7" stroke="#9673a6" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 50px; margin-left: 601px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">Linux</div></div></div></foreignObject><text x="640" y="54" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">Linux</text></switch></g></g></g><g data-cell-id="8QAko-XmBXMnOeSDuaJn-17"><g><rect x="480" y="110" width="80" height="40" fill="#d5e8d4" stroke="#82b366" pointer-events="all"/></g><g><g transform="translate(-0.5 -0.5)"><switch><foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 130px; margin-left: 481px;"><div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;"><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">r2cloud</div></div></div></foreignObject><text x="520" y="134" fill="rgb(0, 0, 0)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">r2cloud</text></switch></g></g></g></g></g></g></svg>
+
+</div>
+<h3 id="raspberrypi">RaspberryPI</h3>
+<p>Поскольку чип общается с RaspberryPI по UART, то нужно отключить поддержку логина через UART. Это кстати не самая лучшая идея, потому что в поле хотелось бы иметь запасной план. Однако, я не нашёл плат, которые бы работали по I2C или SPI.</p>
+<p>Для начала нужно запустить стандартную утилиту:</p>
+<pre tabindex="0"><code>sudo raspi-config
+</code></pre><p>Потом выбрать пункт: &ldquo;Interface Options&rdquo; -&gt; &ldquo;Serial Port&rdquo;.</p>
+<p>На вопрос &ldquo;нужно ли дать возможность логиниться?&rdquo; нужно выбрать &ldquo;No&rdquo;. Но при этом нужно выбрать &ldquo;Yes&rdquo; на следующий вопрос - hardware должно быть доступно.</p>
+<p>Помимо этого нужно добавить специальное устройство для PPS. Для этого нужно отредактировать файл:</p>
+<pre tabindex="0"><code>sudo vi /boot/firmware/config.txt
+</code></pre><p>И добавить следующую строчку:</p>
+<pre tabindex="0"><code># For Ultimate GPS HAT from Adafruit 
+dtoverlay=pps-gpio,gpiopin=4
+</code></pre><h3 id="gpsd">GPSD</h3>
+<p>Этот демон считывает данные из чипа и занимается расчётом времени и координат. Сначала его нужно установить:</p>
+<pre tabindex="0"><code>sudo apt update
+sudo apt install gpsd
+</code></pre><p>Потом отредактировать конфигурацию:</p>
+<pre tabindex="0"><code>sudo vi /etc/default/gpsd
+</code></pre><p>И добавить следующее:</p>
+<pre tabindex="0"><code>START_DAEMON=&#34;true&#34;
+
+DEVICES=&#34;/dev/serial0 /dev/pps0&#34;
+
+# Other options you want to pass to gpsd
+GPSD_OPTIONS=&#34;--nowait --passive --speed 9600&#34;
+</code></pre><p>Чип, кстати, поддерживает <a href="https://github.com/tiagofreire-pt/rpi_adafruit_stratum1_chrony">скорость до 57600 бод</a>, что позволяет ещё быстрее получать данные по UART.</p>
+<p>Чтобы проверить работу, нужно перезагрузить RaspberryPI и запустить утилиту <code>gpsmon</code>. Она может в реальном времени показывать координаты, время, количество спутников на небе и многое другое.</p>
+<p><img src="/posts/time-raspberrypi-4/img/6.png"></p>
+<h3 id="chrony">chrony</h3>
+<p>Сам по себе GPSD не обновит системное время. Для этого нужен отдельный сервис. Есть несколько сервисов, которые могут это сделать:</p>
+<ul>
+<li>systemd-timesyncd. Это легковесный процесс, который является NTP клиентом и может синхронизировать время только с удалённого сервера</li>
+<li>NTPD. Старый-добрый сервис, в котором <a href="https://chrony-project.org/comparison.html">нет множества</a> (нужных ли?) фич</li>
+<li>chrony. Современный, молодёжный сервис, который я решил в итоге поставить.</li>
+</ul>
+<p>chrony умеет общаться с GPSD и получать оттуда время.</p>
+<pre tabindex="0"><code>sudo apt update
+sudo apt install chrony
+</code></pre><p>Его конфигурация находится в файле:</p>
+<pre tabindex="0"><code>sudo vi /etc/chrony/chrony.conf
+</code></pre><p>Далее нужно добавить следующую конфигурацию (взято из Интернета):</p>
+<pre tabindex="0"><code>refclock SHM 0 poll 8 refid GPS precision 1e-1 offset 0.502 delay 0.2 noselect
+refclock PPS /dev/pps0 lock GPS maxlockage 2 poll 4 refid PPS precision 1e-7 prefer offset 65.62e-9
+</code></pre><p>После этого нужно перезагрузить сервис:</p>
+<pre tabindex="0"><code>sudo systemctl restart chronyd.service
+</code></pre><p>И проверить работу командой <code>chronyc sources -v</code>:</p>
+<p><img src="/posts/time-raspberrypi-4/img/3.png"></p>
+<p>Если всё успешно, то видно, что chrony использует PPS, как самый точный способ получения времени. При этом команда <code>timedatectl</code> показывает, что синхронизация времени есть:</p>
+<p><img src="/posts/time-raspberrypi-4/img/4.png"></p>
+<h2 id="sync-chrony">sync-chrony</h2>
+<p>Однако, после перезагрузки r2cloud не поднялся.</p>
+<p><img src="/posts/time-raspberrypi-4/img/5.png"></p>
+<p>Несмотря на то, что <code>timedatectl</code> показывает, что время синхронизировано, <code>systemd-time-wait-sync.service</code> не смог отловить этот момент и пробросить дальше. Все сервисы, которым нужно точное время, продолжают ждать. <a href="https://github.com/systemd/systemd/issues/14061">Оказывается</a>, <code>systemd-time-wait-sync.service</code> не всегда получает синхронизацию и рассчитан на работу в связке со стандартным <code>systemd-timesyncd</code>. К счастью, есть решение - можно создать файлик в специальной директории и сервис будет считать, что время синхронизировано.</p>
+<p>Для этого я сделал отдельный service unit для systemd: /lib/systemd/system/systemd-time-wait-sync-chrony.service</p>
+<pre tabindex="0"><code>[Unit]
+Description=Propagate chrony sync to system sync
+
+DefaultDependencies=no
+Before=time-sync.target shutdown.target
+Wants=time-sync.target
+Conflicts=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/chronysync
+TimeoutStartSec=infinity
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
+</code></pre><p>И скрипт <code>/bin/chronysync</code> содержит следующее:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>FILE<span style="color:#f92672">=</span>/run/systemd/timesync/synchronized
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> -f <span style="color:#e6db74">&#34;</span>$FILE<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]]</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;already synchronized&#34;</span>
+</span></span><span style="display:flex;"><span>:
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	SYNCED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $SYNCED <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>		SYNCED<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>/usr/bin/timedatectl status | grep -c <span style="color:#e6db74">&#34;System clock synchronized: yes&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>		sleep <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;synchronized&#34;</span>
+</span></span><span style="display:flex;"><span>	mkdir -p /run/systemd/timesync/
+</span></span><span style="display:flex;"><span>	touch /run/systemd/timesync/synchronized
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h2 id="заключение">Заключение</h2>
+<p>В результате сразу же после старта RaspberryPI пытается получить текущее время с GPS, синхронизируется несколько минут со спутниками и, как только время получено, стартует r2cloud. Для полной мобильности не хватает:</p>
+<ul>
+<li>считывать координты напрямую с GPS приёмника, а не из конфигурации</li>
+<li>откуда-то получать свежие TLE спутников</li>
+</ul>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>RSSI в sx127x</title>
