@@ -35,7 +35,7 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 screen /dev/ttyUSB0 9600
 ```
 
-Протокол работы с моторами текстовый и его описание можно найти на [официальном сайте](https://inter-static.skywatcher.com/downloads/skywatcher_motor_controller_command_set.pdf).
+Протокол работы с моторами текстовый и его описание можно найти на [официальном сайте](/products/skywatcher-allview/docs/motor_controller_protocol.pdf).
 
 Например, получить версию прошивки можно следующей командой:
 
@@ -44,7 +44,7 @@ screen /dev/ttyUSB0 9600
 =020EA0\r
 ```
 
-Основных отличий от [протокола SynScan](https://inter-static.skywatcher.com/downloads/synscanserialcommunicationprotocol_version33.pdf) два:
+Основных отличий от [протокола SynScan](/products/skywatcher-allview/docs/synscan_protocol.pdf) два:
 
  * Каждый мотор управляется отдельно
  * Позиция задаётся тиками шагового двигателя, а не углами
