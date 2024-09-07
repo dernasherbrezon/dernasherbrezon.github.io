@@ -12,5 +12,7 @@ backref:
   - skywatcher-direct
 links:
   - https://thepihut.com/products/rj11-breakout-board
+docs:
+  Fritzing: docs/RJ11 Jack.fzpz
 ---
 Разъём для установки на макетную плату.

@@ -20,5 +20,6 @@ links:
 docs:
   Serial протокол: docs/PMTK_A11.pdf
   FGPMMOPA6H: docs/FGPMMOPA6H.pdf
+  Fritzing: docs/Adafruit Ultimate GPS HAT.fzpz
 ---
 Позволяет получать точные координаты и время
