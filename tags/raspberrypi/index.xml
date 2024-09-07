@@ -58,13 +58,6 @@
       <description>Введение Анализируя графики моей солнечной панели, я обнаружил, что мощность иногда падает практически до нуля. В попытках разобраться в чём же дело, я придумал несколько гипотез. Одна из гипотез заключалась в том, что облако пролетает над солнечной панелью и вызывает резкие изменения в показаниях. Для того, чтобы доказать эту гипотезу, я решил поставить датчик освещённости и в течении дня собирать данные. Если это действительно облако, то освещённость будет падать.&#xA;В качестве датчика освещённости я выбрал крайне распространённый BH1750.</description>
     </item>
     <item>
-      <title>Привязка systemd сервиса к устройству</title>
-      <link>https://dernasherbrezon.com/posts/systemd-udev/</link>
-      <pubDate>Sat, 21 May 2022 21:54:18 +0100</pubDate>
-      <guid>https://dernasherbrezon.com/posts/systemd-udev/</guid>
-      <description>В одном из постов про поворотное устройство я вскользь упомянул настройку rotctrld. rotctrld - это небольшой демон, который открывает TCP порт и позволяет отправлять команды в tty-устройство. Я написал небольшой systemd конфиг, чтобы демон стартовал и рестартовал во время загрузки raspberrypi.&#xA;[Unit] Description=rotctrld Service [Service] WorkingDirectory=/home/pi/r2cloud/ ExecStart=rotctld --model=1401 --port=4533 --listen-addr=127.0.0.1 --rot-file=/dev/ttyUSB0 Restart=always User=pi Group=pi [Install] WantedBy=multi-user.target Однако, со временем стали всплывать достаточно неприятные моменты в обслуживании. Например, поворотное устройство иногда определялось как /dev/ttyUSB1.</description>
-    </item>
-    <item>
       <title>Оптимизация OpenCL на RaspberryPI</title>
       <link>https://dernasherbrezon.com/posts/tune-opencl-raspberrypi/</link>
       <pubDate>Sat, 06 Nov 2021 14:11:18 +0100</pubDate>

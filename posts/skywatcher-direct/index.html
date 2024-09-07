@@ -60,6 +60,7 @@
     <div class='container'>
       <ul><li class='item has-current'>
   <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/products/'>Гаджеты</a></li><li class='item'>
   <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
   <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
     </div>
@@ -196,7 +197,7 @@
       </li><li>
         <a href='/tags/radio/' style='font-size:1.2448979591836735em'>Радио</a>
       </li><li>
-        <a href='/tags/raspberrypi/' style='font-size:1.4693877551020407em'>raspberrypi</a>
+        <a href='/tags/raspberrypi/' style='font-size:1.4489795918367347em'>raspberrypi</a>
       </li><li>
         <a href='/tags/refactoring/' style='font-size:1em'>Refactoring</a>
       </li><li>
@@ -322,6 +323,8 @@
     <ul><li class='item current'>
         <a aria-current='page' href='/posts/'>Все записи</a>
       </li><li class='item'>
+        <a href='/products/'>Гаджеты</a>
+      </li><li class='item'>
         <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
       </li><li class='item'>
         <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
@@ -382,7 +385,7 @@
   <div class='container entry-content'>
   <p>Этим летом мне удалось пару раз выбраться на природу вместе с поворотным устройством <a href="http://skywatcher.com/product/allview-mount/">SkyWatcher AllView</a>. И я в очередной раз убедился, что текущая схема подключения слишком хлопотная и ненадежная: сначала нужно подключить моторы к пульту управления SynScan, а потом отдельным USB кабелем подключить SynScan к Raspberry. При этом все эти USB контакты шатаются, их сдувает ветром, они короткие и их нужно подключать в определённой последовательности. Именно поэтому я решил сделать ещё один заход на прямое подключение к моторам. В прошлый раз я купил не тот провод и спалил плату контроллера. В этот раз я решил сделать всё аккуратно и осторожно.</p>
 <h2 id="eqdir">EQDIR</h2>
-<p>Насколько я понял, моторы всех поворотных устройств SkyWatcher <a href="https://eq-mod.sourceforge.net/eqdirect2.htm">управляются по протоколу RS232</a>. В одних используется разъём RJ11, в других - RJ45. Для RS232 нужно всего три контакта, поэтому нужно быть предельно внимательным какие контакты обжаты в RJ11. Оказывается, умельцы в Интернете уже разобрались и продают эти провода под кодовым названием <a href="https://www.amazon.co.uk/dp/B08DG7KKNV">EQDIR</a>. Они стоят дороже обычных, но зато гарантированно совместимы с моторами SkyWatcher.</p>
+<p>Насколько я понял, моторы всех поворотных устройств SkyWatcher <a href="https://eq-mod.sourceforge.net/eqdirect2.htm">управляются по протоколу RS232</a>. В одних используется разъём RJ11, в других - RJ45. Для RS232 нужно всего три контакта, поэтому нужно быть предельно внимательным какие контакты обжаты в RJ11. Оказывается, умельцы в Интернете уже разобрались и продают эти провода под кодовым названием <a href="https://dernasherbrezon.com/products/iqdir/">EQDIR</a>. Они стоят дороже обычных, но зато гарантированно совместимы с моторами SkyWatcher.</p>
 <p><img src="/posts/skywatcher-direct/img/1.jpg"></p>
 <p>Помимо особенного RJ11, со стороны USB разъёма стоит чип FT232. Он отвечает за конвертацию USB протокола в RS232 и работает с уровнями сигнала ±5В. Это важно, потому что 3.3В недостаточно.</p>
 <h2 id="протокол">Протокол</h2>
@@ -394,18 +397,18 @@ Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 </code></pre><p>К нему можно подключиться следующей командой:</p>
 <pre tabindex="0"><code>screen /dev/ttyUSB0 9600
-</code></pre><p>Протокол работы с моторами текстовый и его описание можно найти на <a href="https://inter-static.skywatcher.com/downloads/skywatcher_motor_controller_command_set.pdf">официальном сайте</a>.</p>
+</code></pre><p>Протокол работы с моторами текстовый и его описание можно найти на <a href="/products/skywatcher-allview/docs/motor_controller_protocol.pdf">официальном сайте</a>.</p>
 <p>Например, получить версию прошивки можно следующей командой:</p>
 <pre tabindex="0"><code>:e1\r
 =020EA0\r
-</code></pre><p>Основных отличий от <a href="https://inter-static.skywatcher.com/downloads/synscanserialcommunicationprotocol_version33.pdf">протокола SynScan</a> два:</p>
+</code></pre><p>Основных отличий от <a href="/products/skywatcher-allview/docs/synscan_protocol.pdf">протокола SynScan</a> два:</p>
 <ul>
 <li>Каждый мотор управляется отдельно</li>
 <li>Позиция задаётся тиками шагового двигателя, а не углами</li>
 </ul>
 <p>Несмотря на кажущуюся простоту, детали описаны крайне плохо. Например, совершенно непонятно, что такое CW и CCW. Чем отличается &ldquo;Coarse GOTO&rdquo; от &ldquo;Normal GOTO&rdquo;? Я попытался задать нужные команды, но моторы двигались очень медленно. Я не стал рисковать, боясь опять спалить контроллер, поэтому решил включить осциллограф и посмотреть какие команды отсылает пульт SynScan.</p>
 <h2 id="анализ-протокола-с-помощью-осциллографа">Анализ протокола с помощью осциллографа</h2>
-<p>Обычно для анализа протокола разрезают кабель и параллельно подключают щупы осциллографа. Мне совсем не хотелось портить дорогой кабель, поэтому я решил использовать два <a href="https://thepihut.com/products/rj11-breakout-board">разъёма RJ11</a>.</p>
+<p>Обычно для анализа протокола разрезают кабель и параллельно подключают щупы осциллографа. Мне совсем не хотелось портить дорогой кабель, поэтому я решил использовать два <a href="https://dernasherbrezon.com/products/bob-112/">разъёма RJ11</a>.</p>
 <div>
 
 
@@ -2170,7 +2173,7 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 </g></g><g partID='854103970'><line stroke-linecap='round' stroke='#000000' x1='111.72' y1='81.0755' x2='133.32' y2='102.676' stroke-width='3.2' /><line stroke-linecap='round' stroke='#404040' x1='111.72' y1='81.0755' x2='133.32' y2='102.676' stroke-width='1.6' /></g><g partID='854104040'><line stroke-linecap='round' stroke='#8c0000' x1='126.12' y1='102.676' x2='118.921' y2='81.0755' stroke-width='3.2' /><line stroke-linecap='round' stroke='#cc1414' x1='126.12' y1='102.676' x2='118.921' y2='81.0755' stroke-width='1.6' /></g><g partID='854104110'><line stroke-linecap='round' stroke='#1b5bb3' x1='133.32' y1='81.0755' x2='111.72' y2='102.676' stroke-width='3.2' /><line stroke-linecap='round' stroke='#418dd9' x1='133.32' y1='81.0755' x2='111.72' y2='102.676' stroke-width='1.6' /></g><g partID='854104180'><line stroke-linecap='round' stroke='#000000' x1='133.32' y1='109.874' x2='198.215' y2='110.349' stroke-width='3.2' /><line stroke-linecap='round' stroke='#404040' x1='133.32' y1='109.874' x2='198.215' y2='110.349' stroke-width='1.6' /></g><g partID='854108730'><line stroke-linecap='round' stroke='#8c0000' x1='126.12' y1='117.076' x2='197.757' y2='117.23' stroke-width='3.2' /><line stroke-linecap='round' stroke='#cc1414' x1='126.12' y1='117.076' x2='197.757' y2='117.23' stroke-width='1.6' /></g><g partID='854108800'><line stroke-linecap='round' stroke='#1b5bb3' x1='111.72' y1='124.274' x2='197.21' y2='124.202' stroke-width='3.2' /><line stroke-linecap='round' stroke='#418dd9' x1='111.72' y1='124.274' x2='197.21' y2='124.202' stroke-width='1.6' /></g></svg>
 
 </div>
-<p>К одному разъёму подключается SynScan. К другому - <a href="https://thepihut.com/products/rj11-cable">провод RJ11</a>, который уже втыкается в поворотное устройство. Щупы осциллографа подключаются к дорожкам на макетной плате.</p>
+<p>К одному разъёму подключается SynScan. К другому - <a href="https://dernasherbrezon.com/products/104613/">провод RJ11</a>, который уже втыкается в поворотное устройство. Щупы осциллографа подключаются к дорожкам на макетной плате.</p>
 <p>Как только всё подключено, нужно выбрать декодирование RS232 и попробовать выполнить любую команду:</p>
 <p><img src="/posts/skywatcher-direct/img/rigol.png"></p>
 <p>На скриншоте выше я запросил версию прошивки первого мотора. Согласно протоколу SynScan - это последовательность байт: <code>(byte) 'P', 1, 16, (byte) 254, 0, 0, 0, 2</code>, которую SynScan, согласно осциллографу, преобразовал в <code>:e1\r</code>.</p>

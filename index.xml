@@ -1044,5 +1044,47 @@
       <guid>https://dernasherbrezon.com/posts/eclipse-maven/</guid>
       <description>Maven в Eclipse - это очень удобно.&#xA;Однако при всех достоинствах каждого есть некоторые неудобства интеграции. Например, следующий вариант: Есть проект. В нём есть основные исходные коды и для тестов. Соответственно они находятся в разных папках. Есть два builder&amp;rsquo;а. Стандартный JDT и Maven Builder. Я не сильно вдавался в детали их работы, но в первом приближении они компилируют. JDT&amp;rsquo;шный стандартно в output folder для Eclipse&amp;rsquo;a, а maven&amp;rsquo;овский я так понимаю выполняет target compile и помещает скомпилированные классы в target/classes &amp;amp; target/test-classes (по дефолту).</description>
     </item>
+    <item>
+      <title>AllView</title>
+      <link>https://dernasherbrezon.com/products/skywatcher-allview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/skywatcher-allview/</guid>
+      <description>Поворотное устройство для телескопов</description>
+    </item>
+    <item>
+      <title>EQDIR</title>
+      <link>https://dernasherbrezon.com/products/iqdir/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/iqdir/</guid>
+      <description>Специальный провод для подключения моторов SkyWatcher к компьютеру</description>
+    </item>
+    <item>
+      <title>Raspberry Pi 4</title>
+      <link>https://dernasherbrezon.com/products/raspberrypi-4-b/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/raspberrypi-4-b/</guid>
+      <description>Одноплатный компьютер размером с банковскую карту с процессором ARM, который может работать под Linux.</description>
+    </item>
+    <item>
+      <title>RJ11 Breakout Board</title>
+      <link>https://dernasherbrezon.com/products/bob-112/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/bob-112/</guid>
+      <description>Разъём для установки на макетную плату.</description>
+    </item>
+    <item>
+      <title>Ultimate GPS Pi HAT</title>
+      <link>https://dernasherbrezon.com/products/adafruit-pi-hat-2324/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/adafruit-pi-hat-2324/</guid>
+      <description>Позволяет получать точные координаты и время</description>
+    </item>
+    <item>
+      <title>Обжатый кабель под RJ11</title>
+      <link>https://dernasherbrezon.com/products/104613/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/104613/</guid>
+      <description>Самый обычный кабель, в котором все 6 жил обжаты.</description>
+    </item>
   </channel>
 </rss>
