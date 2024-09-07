@@ -2,7 +2,7 @@
 title: Поддержать
 description: 
 menu: main
-weight: -190
+weight: -180
 date: 2013-09-24T13:14:18+01:00
 comments: false
 ---

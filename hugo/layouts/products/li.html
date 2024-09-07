@@ -1,0 +1,13 @@
+<li class='item' style="border: 1px solid #f5f5f5; border-radius: 4px;">
+  <img src="{{ .Permalink | relURL }}{{ .Params.Thumbnail }}" style="border-right: 1px solid #f5f5f5;">
+  <div style="padding-left: 12px; padding-top: 8px;">
+    <h3 class="item-title">
+      <a href='{{ .Permalink | relURL }}'>
+        {{- .Title -}}
+      </a>
+    </h3>
+    <p>
+    	{{- .Summary -}}
+    </p>
+  </div>
+</li>

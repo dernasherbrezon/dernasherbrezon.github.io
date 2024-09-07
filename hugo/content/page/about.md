@@ -2,7 +2,7 @@
 title: Об авторе
 description: 
 menu: main
-weight: -200
+weight: -190
 date: 2013-09-24T13:14:18+01:00
 comments: false
 ---

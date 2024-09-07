@@ -1,0 +1,80 @@
+    <style>
+        .image-container {
+            flex: 1;
+        }
+        .links-container {
+            flex: 1;
+            padding-top: 8px;
+            padding-left: 12px;
+        }
+    </style>
+<div class='container entry-content'>
+	<div style="display: flex; align-items: flex-start;">
+	    <div>
+	        <img src="{{ .Params.Thumbnail }}" style="border: 1px solid #f5f5f5; border-radius: 4px;"/>
+	    </div>
+	    <div class="links-container">
+	    	<h3>Описание</h3>
+			{{ .Content }}
+	    	{{ partial "entry/product_price" .Params }}
+	    </div>
+	</div>
+{{ with .Params.props }}
+	<div>
+		<h3>Свойства</h3>
+		<table>
+			<tbody>
+			{{ range $key, $value := . }}
+				<tr>
+					<th style="width: 30%">{{ $key | title }}</th>
+					<td>{{ $value }}</td>
+				</tr>
+			{{ end }}
+			</tbody>
+		</table>
+	</div>
+{{ end }}
+{{ with .Params.components }}
+	<div>
+		<h3>Компоненты</h3>
+		CSS position: sticky is a property that gives a simple way to control the position of an element as we scroll down a page.
+	</div>
+	<hr/>
+{{ end }}
+{{ with .Params.docs }}
+	<div>
+		<h3>Документация</h3>
+		<ul>
+		{{ range $key, $value := . }}
+		{{ with $.Page.Resources.Get $value }}
+			<li><a href="{{ .RelPermalink }}">{{ $key | title }}</a></li>
+		{{ end }}
+		{{ end }}
+		</ul>
+	</div>
+{{ end }}
+{{ with .Params.backref }}
+	<div>
+		<h3>Статьи</h3>
+		<ul>
+		{{ range . }}
+			<li>
+			{{ with $.Site.GetPage "posts" . }}
+				<a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+			{{ end }}
+		{{ end }}
+		</ul>
+	</div>
+{{ end }}
+{{ with .Params.links }}
+	<div>
+		<h3>Ссылки</h3>
+		<ul>
+		{{ range . }}
+			<li><a href="{{ . }}" target="blank">{{ . }}</a></li>
+		{{ end }}
+		</ul>
+		<p></p>
+	</div>
+{{ end }}
+</div>
