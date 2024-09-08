@@ -127,6 +127,8 @@
       </li><li>
         <a href='/tags/hibernate/' style='font-size:1em'>Hibernate</a>
       </li><li>
+        <a href='/tags/hugo/' style='font-size:1.0204081632653061em'>Hugo</a>
+      </li><li>
         <a href='/tags/j2ee/' style='font-size:1.0204081632653061em'>j2ee</a>
       </li><li>
         <a href='/tags/java/' style='font-size:2em'>Java</a>
@@ -429,7 +431,7 @@
 <p>Всё это, конечно, хорошо, но хотелось бы ещё сравнивать сигналы между собой. Для этих целей проще скачать данные на компьютер, прогнать несколько наблюдений и свести всё в один график. Для этого в ds1054z есть два разъёма: USB и RJ45 (Ethernet). По USB данные можно забрать с помощью <a href="https://www.usb.org/document-library/test-measurement-class-specification">протокола USBTMC</a>. Это текстовый протокол, который очень похож на AT. Клиент посылает команды в текстовом виде, а получает ответы либо в текстовом, либо в бинарном виде.</p>
 <p>Помимо USBTMC, есть абстрактный API - <a href="https://www.ni.com/docs/en-US/bundle/ni-visa/page/ni-visa-overview.html">VISA</a>, который позволяет взаимодействовать с инструментами не только через USB, но и через Ethernet.</p>
 <p>Я попробовал <a href="https://github.com/pklaus/ds1054z">ds1054z</a>, но он не смог запуститься в MacOS из-за ошибок zeroconf. Я попробовал <a href="https://sigrok.org/wiki/Main_Page">sigrok</a>, но он не запустился на М1 и не смог найти Qt5, чтобы скомпилироваться. В итоге я нашёл небольшой скрипт на python - <a href="https://github.com/rdpoor/rigol-grab">rigol-grab</a>, который с помощью <a href="https://pyvisa.readthedocs.io/en/latest/">pyvisa</a> может сохранить экран в png.</p>
-<p>Используя <a href="https://telonic.co.uk/jg/wp-content/uploads/2021/05/Rigol-DS1000Z-ProgrammingGuide.pdf">официальную документацию</a>, я смог адаптировать скрипт, чтобы сохранять данные в csv файл.</p>
+<p>Используя <a href="/products/ds1054z/docs/Rigol-DS1000Z-ProgrammingGuide.pdf">официальную документацию</a>, я смог адаптировать скрипт, чтобы сохранять данные в csv файл.</p>
 <p>Сначала необходимо инициализировать подключение и настроить формат получаемых данных:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pyvisa
 </span></span><span style="display:flex;"><span>

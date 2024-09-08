@@ -75,7 +75,7 @@ ds1054z измеряет сигнал, который прямо сейчас о
 
 Я попробовал [ds1054z](https://github.com/pklaus/ds1054z), но он не смог запуститься в MacOS из-за ошибок zeroconf. Я попробовал [sigrok](https://sigrok.org/wiki/Main_Page), но он не запустился на М1 и не смог найти Qt5, чтобы скомпилироваться. В итоге я нашёл небольшой скрипт на python - [rigol-grab](https://github.com/rdpoor/rigol-grab), который с помощью [pyvisa](https://pyvisa.readthedocs.io/en/latest/) может сохранить экран в png. 
 
-Используя [официальную документацию](https://telonic.co.uk/jg/wp-content/uploads/2021/05/Rigol-DS1000Z-ProgrammingGuide.pdf), я смог адаптировать скрипт, чтобы сохранять данные в csv файл.
+Используя [официальную документацию](/products/ds1054z/docs/Rigol-DS1000Z-ProgrammingGuide.pdf), я смог адаптировать скрипт, чтобы сохранять данные в csv файл.
 
 Сначала необходимо инициализировать подключение и настроить формат получаемых данных:
 

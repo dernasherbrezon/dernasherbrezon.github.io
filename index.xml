@@ -6,7 +6,7 @@
     <description>Recent content on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 30 Aug 2024 23:12:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 08 Sep 2024 13:56:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Об авторе</title>
@@ -21,6 +21,13 @@
       <pubDate>Tue, 24 Sep 2013 13:14:18 +0100</pubDate>
       <guid>https://dernasherbrezon.com/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/</guid>
       <description>Я посвящаю большую часть своего свободного времени на различные исследования технологий и поддержку нескольких open source проектов. Мне просто нравится этим заниматься.&#xA;Правда иногда приходится покупать различные лицензии или железо для исследований, а также оплачивать хостинг хобби проектов.&#xA;Если Вы хотите поддержать меня, то это вполне возможно, используя ссылку ниже. Я совсем непротив и других способов поддержки, просто напишите мне на почту (она внизу сайта).</description>
+    </item>
+    <item>
+      <title>Новый раздел блога: Гаджеты</title>
+      <link>https://dernasherbrezon.com/posts/products-section/</link>
+      <pubDate>Sun, 08 Sep 2024 13:56:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/products-section/</guid>
+      <description>В моём блоге уже 147 статей, и я не собираюсь на этом останавливаться. Но с увеличением статей, увеличивается количество библиотек и гаджетов, с которыми я когда-то работал. Часть из них потихоньку устаревает, и всё чаще я вижу:&#xA;Да, Интернет забывает. Производители гонятся за новыми технологиями, и многие устройства становятся просто электронным мусором. Множество ссылок, которые я тщательно подбирал для статей, просто перестали работать. В итоге мои статьи становятся бесполезными. Какой смысл знать, как отправить FSK сигнал, если описание протокола потеряно?</description>
     </item>
     <item>
       <title>Управление моторами SkyWatcher</title>
@@ -1059,6 +1066,13 @@
       <description>Цифровой осциллограф</description>
     </item>
     <item>
+      <title>EliteDesk 800 G3 Desktop Mini</title>
+      <link>https://dernasherbrezon.com/products/elitedesk-800-g3-desktop-mini/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/elitedesk-800-g3-desktop-mini/</guid>
+      <description>Настольный ПК</description>
+    </item>
+    <item>
       <title>EQDIR</title>
       <link>https://dernasherbrezon.com/products/iqdir/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1092,6 +1106,13 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://dernasherbrezon.com/products/bob-112/</guid>
       <description>Разъём для установки на макетную плату.</description>
+    </item>
+    <item>
+      <title>Smart plug</title>
+      <link>https://dernasherbrezon.com/products/smart-plug/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/products/smart-plug/</guid>
+      <description>Умная розетка для измерения потребляемой мощности</description>
     </item>
     <item>
       <title>Ultimate GPS Pi HAT</title>

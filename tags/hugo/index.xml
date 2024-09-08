@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/hugo/</link>
+    <description>Recent content in Hugo on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru</language>
+    <lastBuildDate>Sun, 08 Sep 2024 13:56:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Новый раздел блога: Гаджеты</title>
+      <link>https://dernasherbrezon.com/posts/products-section/</link>
+      <pubDate>Sun, 08 Sep 2024 13:56:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/products-section/</guid>
+      <description>В моём блоге уже 147 статей, и я не собираюсь на этом останавливаться. Но с увеличением статей, увеличивается количество библиотек и гаджетов, с которыми я когда-то работал. Часть из них потихоньку устаревает, и всё чаще я вижу:&#xA;Да, Интернет забывает. Производители гонятся за новыми технологиями, и многие устройства становятся просто электронным мусором. Множество ссылок, которые я тщательно подбирал для статей, просто перестали работать. В итоге мои статьи становятся бесполезными. Какой смысл знать, как отправить FSK сигнал, если описание протокола потеряно?</description>
+    </item>
+    <item>
+      <title>Динамические графики в Hugo</title>
+      <link>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</link>
+      <pubDate>Mon, 10 Jan 2022 12:14:18 +0000</pubDate>
+      <guid>https://dernasherbrezon.com/posts/dynamic-charts-hugo/</guid>
+      <description>У Вас никогда не было желания подвигать мышкой на графике в интернете? Вот есть какой-нибудь график, и прям хочется навести курсор на минимальное значение или максимальное? Или посмотреть, как быстро менялось значение по времени просто сравнив начало и конец? У меня постоянно. Проблема в том, что большинство графиков в интернете - это картинки. Картинки, которые сгенерированы в Excel, да ещё и в ужасном разрешении.&#xA;Да, что говорить - я сам создаю такие графики.</description>
+    </item>
+  </channel>
+</rss>
