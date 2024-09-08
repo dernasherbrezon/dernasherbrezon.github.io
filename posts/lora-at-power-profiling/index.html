@@ -13,7 +13,7 @@
 Во-первых, я собираюсь использовать PPK2 по-максимуму.'>
 <meta property='og:url' content='https://dernasherbrezon.com/posts/lora-at-power-profiling/'>
 <meta property='og:site_name' content='dernasherbrezon'>
-<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='lora'><meta property='article:tag' content='lora-at'><meta property='article:tag' content='esp32'><meta property='article:tag' content='esp-idf'><meta property='article:tag' content='PPK2'><meta property='article:published_time' content='2023-11-25T23:28:18&#43;01:00'/><meta property='article:modified_time' content='2023-11-25T23:28:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='lora'><meta property='article:tag' content='lora-at'><meta property='article:tag' content='esp32'><meta property='article:tag' content='esp-idf'><meta property='article:published_time' content='2023-11-25T23:28:18&#43;01:00'/><meta property='article:modified_time' content='2023-11-25T23:28:18&#43;01:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
 
 <meta name="generator" content="Hugo 0.124.0">
 
@@ -190,8 +190,6 @@
         <a href='/tags/pipe/' style='font-size:1em'>Pipe</a>
       </li><li>
         <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>Plutosdr</a>
-      </li><li>
-        <a href='/tags/ppk2/' style='font-size:1.0204081632653061em'>PPK2</a>
       </li><li>
         <a href='/tags/prometheus/' style='font-size:1.0204081632653061em'>prometheus</a>
       </li><li>
@@ -392,9 +390,9 @@
   <p>Как следует разобравшись с тем, <a href="https://dernasherbrezon.com/posts/power-profiler-kit2/">как работает Power Profiler Kit 2 (PPK2)</a>, я решил протестировать разные режимы работы. На самом деле <a href="https://github.com/dernasherbrezon/lora-at">lora-at</a> - не такое уж и простое приложение. В нём есть работа с bluetooth и чипом sx127x, обработка команд с UART шины и режим глубокого сна. Есть, где развернуться.</p>
 <h2 id="методология-измерений">Методология измерений</h2>
 <p>Перед тем как начинать что-то измерять, необходимо определиться с тем, как это будет измеряться.</p>
-<p><strong>Во-первых</strong>, я собираюсь <a href="https://dernasherbrezon.com/posts/power-profiler-kit2/">использовать PPK2</a> по-максимуму. Некоторые тесты требует десятки измерений и делать их вручную не имеет смысла. Я написал небольшой скрипт, который позволял отправлять разные AT команды на устройство, а потом выбирать данные из .CSV файла и группировать нужным образом. Так вот, чтобы понять когда началось измерение, а когда закончилось, я использовал встроенный логический анализатор.</p>
+<p><strong>Во-первых</strong>, я собираюсь <a href="https://dernasherbrezon.com/products/ppk2/">использовать PPK2</a> по-максимуму. Некоторые тесты требует десятки измерений и делать их вручную не имеет смысла. Я написал небольшой скрипт, который позволял отправлять разные AT команды на устройство, а потом выбирать данные из .CSV файла и группировать нужным образом. Так вот, чтобы понять когда началось измерение, а когда закончилось, я использовал встроенный логический анализатор.</p>
 <p><strong>Во-вторых</strong>, некоторые процессы протекают быстро и потребляют много энергии, а некоторые - медленно и потребляют мало энергии. Сравнивать среднее потребление тока в таком случае некорректно. Там, где имеет смысл сравнивать такие процессы, я сравнивал величину заряда. Она измеряется в кулонах. Кулон (Кл) — это величина заряда, прошедшего через сечение проводника при силе тока 1 А за время 1 с. PPK2 интегрирует график по времени и может очень быстро отображать потраченный заряд за выбранный интервал. Прям чувствуется атмосфера лабы по физике.</p>
-<p><strong>В-третьих</strong>, параметров, которые могут влиять на потребление энергии, очень много. Для этого я фиксировал одни и менял другие. Такой подход позволил хоть как-то сравнивать и анализировать результаты. Например, для всех тестов я использовал <a href="https://heltec.org/project/wifi-lora-32/">Heltec LoRa 32 v2</a>, который работал на частоте 80Мгц.</p>
+<p><strong>В-третьих</strong>, параметров, которые могут влиять на потребление энергии, очень много. Для этого я фиксировал одни и менял другие. Такой подход позволил хоть как-то сравнивать и анализировать результаты. Например, для всех тестов я использовал <a href="https://dernasherbrezon.com/products/heltec-lora32-v2/">Heltec LoRa 32 v2</a>, который работал на частоте 80Мгц.</p>
 <p><strong>В-четвёртых</strong>, PPK2 сэмплирует со скоростью 100Кгц, что генерирует достаточно большое количество данных. Все эти точки невозможно отобразить на графике, поэтому я брал среднее за некоторый интервал. Это не влияет на результирующее значение потраченного заряда, но немного сглаживает сам график.</p>
 <p><strong>В-пятых</strong>, измеряется потребление энергии всей платы, а не конкретных компонент.</p>
 <h2 id="sx127x">sx127x</h2>
@@ -2608,7 +2606,7 @@ const uartSymbol2Chart = new Chart(uartSymbol2Ctx, {
 ><path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z" />
 <line x1="7" y1="7" x2="7" y2="7" />
 </svg>
-<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/lora/'>Lora</a>, <a class='tag' href='/tags/lora-at/'>Lora-At</a>, <a class='tag' href='/tags/esp32/'>Esp32</a>, <a class='tag' href='/tags/esp-idf/'>Esp-Idf</a>, <a class='tag' href='/tags/ppk2/'>PPK2</a></div>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/lora/'>Lora</a>, <a class='tag' href='/tags/lora-at/'>Lora-At</a>, <a class='tag' href='/tags/esp32/'>Esp32</a>, <a class='tag' href='/tags/esp-idf/'>Esp-Idf</a></div>
 
   </div>
 </footer>

@@ -4,7 +4,6 @@ date: 2023-11-24T09:08:18+00:00
 draft: false
 tags:
   - c
-  - PPK2
   - lora-at
 ---
 

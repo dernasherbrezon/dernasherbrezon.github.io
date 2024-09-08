@@ -8,7 +8,6 @@ tags:
   - lora-at
   - esp32
   - esp-idf
-  - PPK2
 ---
 
 Having thoroughly understood how [Power Profiler Kit 2 (PPK2)]({{< ref "/power-profiler-kit2" >}}) works, I decided to test power consumption under different conditions. In fact, lora-at is not such a simple application. It works with bluetooth and the sx127x chip, processes commands from the UART bus and has a deep sleep mode. So there is a plenty of things to look for.

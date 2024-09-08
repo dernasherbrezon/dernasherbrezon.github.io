@@ -201,19 +201,6 @@
                 href="https://dernasherbrezon.com/tags/esp-idf/"
                 />
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/ppk2/</loc>
-    <lastmod>2023-11-25T23:28:18+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://dernasherbrezon.com/en/tags/ppk2/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://dernasherbrezon.com/tags/ppk2/"
-                />
-  </url><url>
     <loc>https://dernasherbrezon.com/posts/lora-at-power-profiling/</loc>
     <lastmod>2023-11-25T23:28:18+01:00</lastmod>
     <xhtml:link
@@ -1241,6 +1228,8 @@
     <loc>https://dernasherbrezon.com/products/iqdir/</loc>
   </url><url>
     <loc>https://dernasherbrezon.com/products/ttgo-lora32-v2-116/</loc>
+  </url><url>
+    <loc>https://dernasherbrezon.com/products/ppk2/</loc>
   </url><url>
     <loc>https://dernasherbrezon.com/products/ra-02/</loc>
   </url><url>
