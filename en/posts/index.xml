@@ -2448,6 +2448,7 @@ Measure current consumption in different modes: Sleep Active work Standby Measur
       			<h1>USB-tester A3-B</h1></header>
       		<div class='container entry-content'>
   <p>Not long ago, I acquired a USB tester A3-B.</p>
+<p><img src="img/a3-b.jpg" alt=""></p>
 <p>This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:</p>
 <ul>
 <li>Measure current consumption in different modes:

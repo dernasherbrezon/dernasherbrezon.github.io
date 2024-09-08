@@ -2925,7 +2925,7 @@ AT+LORATX=CA,140200012,125000,9,5,18,8,0,1,1,0,17,45,1
       			<h1>Power Profiler Kit 2</h1></header>
       		<div class='container entry-content'>
   <p><a href="https://dernasherbrezon.com/posts/lora-at/">Переписав LoRa At на С</a> я уменьшил размер прошивки в два раза! Однако, это хоть и выглядит впечатляюще, но на самом деле не так важно. Если старая и новая версии помещаются на чипе, то какая разница сколько места они занимают? Поэтому показатель хоть и хороший, но мало применим на практике. А вот энергопотребление - это другое. Низкое энергопотребление важно при работе от солнечных батарей. Именно поэтому я решил исследовать эту тему по-подробнее.</p>
-<p>Раньше я использовал <a href="https://dernasherbrezon.com/posts/smart-usb-meter-a3-b/">USB тестер A3-B</a>, но для измерений потребления тока в микроконтроллерах он не годится. Во-первых, потому что токи меняются от миллиампер до наноампер. Это слишком большой диапазон измерений. Вот <a href="https://www.youtube.com/watch?v=LUB8RWzzLWc">отличное видео</a>, в котором объясняется почему измерять в таком диапазоне непросто и как это сделать. Во-вторых, события, протекающие в микроконтроллерах, могут быть от микросекунд до миллисекунд. A3-B просто не может так быстро сэмплировать и отдавать данные. Нужно что-то другое. Посмотрев <a href="https://www.youtube.com/watch?v=LUB8RWzzLWc">видео</a>, я решил купить <a href="https://dernasherbrezon.com/products/ppk2/">Power Profiler Kit 2 (PPK2)</a>.</p>
+<p>Раньше я использовал <a href="https://dernasherbrezon.com/products/a3-b/">USB тестер A3-B</a>, но для измерений потребления тока в микроконтроллерах он не годится. Во-первых, потому что токи меняются от миллиампер до наноампер. Это слишком большой диапазон измерений. Вот <a href="https://www.youtube.com/watch?v=LUB8RWzzLWc">отличное видео</a>, в котором объясняется почему измерять в таком диапазоне непросто и как это сделать. Во-вторых, события, протекающие в микроконтроллерах, могут быть от микросекунд до миллисекунд. A3-B просто не может так быстро сэмплировать и отдавать данные. Нужно что-то другое. Посмотрев <a href="https://www.youtube.com/watch?v=LUB8RWzzLWc">видео</a>, я решил купить <a href="https://dernasherbrezon.com/products/ppk2/">Power Profiler Kit 2 (PPK2)</a>.</p>
 <h2 id="power-profiler-kit-2">Power Profiler Kit 2</h2>
 <p>Power Profiler Kit 2 (PPK2) - это специальное устройство, которое позволяет измерять ток в достаточно широком диапазоне: от миллиАмпер до наноАмпер. Оно как раз создано, чтобы помочь оптимизировать энергопотребление разных маломощных устройств.</p>
 <p><img src="/posts/power-profiler-kit2/img/PPK2.jpg"></p>
@@ -7056,7 +7056,8 @@ May 21 21:36:04 rasp-bullseye systemd[1]: Stopped rotctrld Service.
       		<header>
       			<h1>USB тестер A3-B</h1></header>
       		<div class='container entry-content'>
-  <p>Совсем недавно я приобрёл USB тестер A3-B.</p>
+  <p>Совсем недавно я приобрёл <a href="https://dernasherbrezon.com/products/a3-b/">USB тестер A3-B</a>.</p>
+<p><img src="img/a3-b.jpg" alt=""></p>
 <p>Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:</p>
 <ul>
 <li>измерять потребление тока в разных режимах:
@@ -7126,7 +7127,7 @@ Collection time: 2022-01-06 14:29:26.689485
 
 <img src="img/raspberrypi3b2.png">
 
-<p>Далее, сравнение потребления проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> и <a href="http://tinygs.com">tinyGS</a>. Оба работают на одной и той же плате <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50060&amp;Id=1326&amp;FId=t3:50060:3">TTGO LoRa32</a>:</p>
+<p>Далее, сравнение потребления проекта <a href="https://github.com/dernasherbrezon/r2lora">r2lora</a> и <a href="http://tinygs.com">tinyGS</a>. Оба работают на одной и той же плате <a href="https://dernasherbrezon.com/products/ttgo-lora32-v2-116/">TTGO LoRa32</a>:</p>
 
 <img src="img/r2lora-tinygs2.png">
 

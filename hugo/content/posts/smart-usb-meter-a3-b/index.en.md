@@ -2,7 +2,6 @@
 title: "USB-tester A3-B"
 date: 2022-01-06T18:30:18+00:00
 draft: false
-cover: img/a3-b.jpg
 chartjs: true
 tags:
   - monitoring
@@ -11,6 +10,8 @@ tags:
   - bluetooth
 ---
 Not long ago, I acquired a USB tester A3-B.
+
+![](img/a3-b.jpg)
 
 This device allows measuring the current and voltage flowing between the USB input and USB output. One end can be plugged into a charger, the other into a device, and the current consumption can be measured. There are numerous applications for this:
 

@@ -2,7 +2,6 @@
 title: "USB тестер A3-B"
 date: 2022-01-06T18:30:18+00:00
 draft: false
-cover: img/a3-b.jpg
 chartjs: true
 tags:
   - monitoring
@@ -10,7 +9,9 @@ tags:
   - esp32
   - bluetooth
 ---
-Совсем недавно я приобрёл USB тестер A3-B.
+Совсем недавно я приобрёл [USB тестер A3-B]({{< ref "products/a3-b" >}}).
+
+![](img/a3-b.jpg)
 
 Это устройство позволяет измерять ток и напряжение, протекающее между USB-входом и USB-выходом. Одним концом можно воткнуть в зарядное устройство, другим в устройство и измерять ток потребления. Применений этому можно найти уйму:
 
@@ -105,7 +106,7 @@ Raspberry PI 3b. Среднее потребление в режиме ожид�
 
 {{< chartjs url="img/raspberrypi3b.json" id="raspberrypi3b" title="Raspberry PI 3b" datasource="current" datasourceLabel="Ток" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="img/raspberrypi3b2.png">}}
 
-Далее, сравнение потребления проекта [r2lora](https://github.com/dernasherbrezon/r2lora) и [tinyGS](http://tinygs.com). Оба работают на одной и той же плате [TTGO LoRa32](http://www.lilygo.cn/prod_view.aspx?TypeId=50060&Id=1326&FId=t3:50060:3):
+Далее, сравнение потребления проекта [r2lora](https://github.com/dernasherbrezon/r2lora) и [tinyGS](http://tinygs.com). Оба работают на одной и той же плате [TTGO LoRa32]({{< ref "products/ttgo-lora32-v2-116" >}}):
 
 {{< chartjs url="img/r2lora-tinygs.json" id="r2loraTinygs" title="tinyGS vs r2lora" datasource="r2loraCurrent" datasourceLabel="r2lora" datasource2="tinygsCurrent" datasource2Label="tinyGS" yAxisLabel="Ток" yAxisUnit="мA" staticSrc="img/r2lora-tinygs2.png" >}}
 
