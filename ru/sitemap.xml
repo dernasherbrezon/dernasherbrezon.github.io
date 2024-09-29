@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2024-09-08T13:56:18+01:00</lastmod>
+    <lastmod>2024-09-18T20:01:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -24,7 +24,7 @@
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2024-09-08T13:56:18+01:00</lastmod>
+    <lastmod>2024-09-18T20:01:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -36,11 +36,8 @@
                 href="https://dernasherbrezon.com/"
                 />
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/hugo/</loc>
-    <lastmod>2024-09-08T13:56:18+01:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/tags/</loc>
-    <lastmod>2024-09-08T13:56:18+01:00</lastmod>
+    <lastmod>2024-09-18T20:01:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -52,14 +49,20 @@
                 href="https://dernasherbrezon.com/tags/"
                 />
   </url><url>
-    <loc>https://dernasherbrezon.com/posts/products-section/</loc>
-    <lastmod>2024-09-08T13:56:18+01:00</lastmod>
-  </url><url>
     <loc>https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/</loc>
-    <lastmod>2024-08-30T23:12:18+01:00</lastmod>
+    <lastmod>2024-09-18T20:01:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/</loc>
-    <lastmod>2024-08-30T23:12:18+01:00</lastmod>
+    <lastmod>2024-09-18T20:01:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/skywatcher-smooth-tracking/</loc>
+    <lastmod>2024-09-18T20:01:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/hugo/</loc>
+    <lastmod>2024-09-08T13:56:18+01:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/products-section/</loc>
+    <lastmod>2024-09-08T13:56:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/skywatcher-direct/</loc>
     <lastmod>2024-08-30T23:12:18+01:00</lastmod>

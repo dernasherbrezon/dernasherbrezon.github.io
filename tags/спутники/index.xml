@@ -6,8 +6,15 @@
     <description>Recent content in спутники on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Fri, 30 Aug 2024 23:12:18 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 18 Sep 2024 20:01:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Точное управление антенной с помощью SkyWatcher Allview</title>
+      <link>https://dernasherbrezon.com/posts/skywatcher-smooth-tracking/</link>
+      <pubDate>Wed, 18 Sep 2024 20:01:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/skywatcher-smooth-tracking/</guid>
+      <description>Немного повозившись с протоколом SkyWatcher Allview, я понял, что алгоритм управления поворотным устройством можно улучшить. В текущем виде он выглядит следующим образом:&#xA;Каждую секунду Рассчитывается положение спутника относительно текущей позиции Если оно отличается от предыдущего на заданную дельту (по-умолчанию 5°), то Отправляется команда на поворотное устройство с новыми координатами Этот алгоритм достаточно простой и надёжный, но непонятно 5° - это минимальная ошибка или максимальная? А можно ли придумать такой алгоритм, который наводил бы антенну с точностью меньше одного градуса?</description>
+    </item>
     <item>
       <title>Управление моторами SkyWatcher</title>
       <link>https://dernasherbrezon.com/posts/skywatcher-direct/</link>
