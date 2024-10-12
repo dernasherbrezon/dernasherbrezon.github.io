@@ -6,8 +6,15 @@
     <description>Recent content in Sx127x on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 25 Jul 2024 21:08:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 12 Oct 2024 20:50:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/sx127x/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FHSS</title>
+      <link>https://dernasherbrezon.com/posts/fhss/</link>
+      <pubDate>Sat, 12 Oct 2024 20:50:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/fhss/</guid>
+      <description>Недавно появилась новость о том, что спутники компании EchoStar будут использовать метод LR-FHSS для передачи данных. Меня это сразу же заинтересовало. Во-первых, я разработал библиотку sx127x для работы с чипами LoRa. Во-вторых, эта библиотка используется для получения данных со спутников в r2cloud.&#xA;LR-FHSS - это метод передачи сигнала, при котором приёмник и передатчик одновременно перепрыгивают на разные частоты с определённым интервалом. Это позволяет большему количеству устройств использовать один и тот же спектр частот.</description>
+    </item>
     <item>
       <title>RSSI в sx127x</title>
       <link>https://dernasherbrezon.com/posts/sx127x-rssi/</link>

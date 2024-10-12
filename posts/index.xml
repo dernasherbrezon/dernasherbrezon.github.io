@@ -7,10 +7,46 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Wed, 18 Sep 2024 20:01:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 12 Oct 2024 20:50:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>FHSS</title>
+      <link>https://dernasherbrezon.com/posts/fhss/</link>
+      <pubDate>Sat, 12 Oct 2024 20:50:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fhss/</guid>
+      <description>Недавно появилась новость о том, что спутники компании EchoStar будут использовать метод LR-FHSS для передачи данных. Меня это сразу же заинтересовало. Во-первых, я разработал библиотку sx127x для работы с чипами LoRa. Во-вторых, эта библиотка используется для получения данных со спутников в r2cloud.
+LR-FHSS - это метод передачи сигнала, при котором приёмник и передатчик одновременно перепрыгивают на разные частоты с определённым интервалом. Это позволяет большему количеству устройств использовать один и тот же спектр частот.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>FHSS</h1></header>
+      		<div class='container entry-content'>
+  <p>Недавно <a href="https://echostarmobile.com/news/dryad-networks-selects-echostar-mobile-satellite-iot-solution-for-fire-prevention-service/">появилась новость</a> о том, что спутники компании EchoStar будут использовать метод LR-FHSS для передачи данных. Меня это сразу же заинтересовало. Во-первых, я разработал библиотку <a href="https://github.com/dernasherbrezon/sx127x">sx127x</a> для работы с чипами LoRa. Во-вторых, эта библиотка используется для получения данных со спутников в <a href="https://github.com/dernasherbrezon/r2cloud">r2cloud</a>.</p>
+<p><a href="https://blog.semtech.com/lorawan-protocol-expands-network-capacity-with-new-long-range-frequency-hopping-spread-spectrum-technology">LR-FHSS</a> - это <a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%81%D0%B5%D0%B2%D0%B4%D0%BE%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D0%B0%D1%8F_%D0%BF%D0%B5%D1%80%D0%B5%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0_%D1%80%D0%B0%D0%B1%D0%BE%D1%87%D0%B5%D0%B9_%D1%87%D0%B0%D1%81%D1%82%D0%BE%D1%82%D1%8B">метод передачи сигнала</a>, при котором приёмник и передатчик одновременно перепрыгивают на разные частоты с определённым интервалом. Это позволяет большему количеству устройств использовать один и тот же спектр частот.</p>
+<p>Как оказалось, <a href="https://semtech.my.salesforce.com/sfc/p/E0000000JelG/a/2R0000001Rbr/6EfVZUorrpoKFfvaF_Fkpgp5kzjiNyiAbqcpqh9qSjE">FHSS в sx127x</a> совсем не то же самое, что <a href="https://arxiv.org/html/2312.13981v1">LR-FHSS в sx126x</a>. Это совершенно другой протокол, который, в принципе, <a href="https://github.com/Lora-net/SWDM001/blob/master/lib/sx126x_driver/src/lr_fhss_mac.c">может эмулироваться</a>, но в общем случае несовместим с FHSS.</p>
+<p>Тем не менее я решил добавить <a href="https://github.com/dernasherbrezon/sx127x/commit/138570279f996f2bced7aa9e945264cf4c5a6446">поддержку FHSS</a> в sx127x.</p>
+<p>Принцип работы следующий:</p>
+<ul>
+<li>Передатчик через фиксированный период времени меняет частоту, на которой передаёт сообщение</li>
+<li>Список частот можно либо сгенерировать заранее (не так эффективно), либо сгенерировать на основе первых байт входящего кусочка сообщения</li>
+<li>Приёмник и передатчик используют один и тот же алгоритм</li>
+</ul>
+<p>Библиотка по прерыванию <code>SX127x_IRQ_FLAG_FHSSCHANGECHANNEL</code> выбирает и устанавливает новую частоту. Конфигурация выглядит следующим образом:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">uint64_t</span> frequencies[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">437700000</span>, <span style="color:#ae81ff">438200000</span>, <span style="color:#ae81ff">437200012</span>};
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">sx127x_lora_set_frequency_hopping</span>(<span style="color:#ae81ff">5</span>, frequencies, <span style="color:#66d9ef">sizeof</span>(frequencies) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">uint64_t</span>), <span style="color:#f92672">&amp;</span>device)
+</span></span></code></pre></div><p>В результате передатчик будет по очереди переключаться между тремя частотами и на спектограмме это будет выглядеть вот так:</p>
+<p><img alt="FHSS" src="/posts/fhss/img/1.png"></p>
+<p>Сигнал очень сильный, поэтому помимо основного сигнала видны его 2 и 3 гармоники.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Точное управление антенной с помощью SkyWatcher Allview</title>
