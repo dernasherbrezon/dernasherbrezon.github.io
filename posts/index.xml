@@ -7,10 +7,192 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 12 Oct 2024 20:50:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 04 Mar 2025 15:40:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Централизованное хранение логов с помощью Loki и Fluent-bit</title>
+      <link>https://dernasherbrezon.com/posts/logging-with-loki-fluent-bit/</link>
+      <pubDate>Tue, 04 Mar 2025 15:40:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/logging-with-loki-fluent-bit/</guid>
+      <description>Введение Во всех моих проектах действует принцип &amp;ldquo;логи не должны содержать ошибок&amp;rdquo;. Это значит, что как только появляется ошибка в логах, я должен с ней разобраться. Это может показаться занудством, но на практике, разбирая даже самые очевидные и небольшие проблемы, я открывал для себя много нового. По мере увеличения количества устройств в сети, их становится всё сложнее и дольше проверять на наличие ошибок. Чтобы решить эту проблему, нужно скидывать логи в какое-то центральное место и посылать оповещения если появилась ошибка.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Централизованное хранение логов с помощью Loki и Fluent-bit</h1></header>
+      		<div class='container entry-content'>
+  <h2 id="введение">Введение</h2>
+<p>Во всех моих проектах действует принцип &ldquo;логи не должны содержать ошибок&rdquo;. Это значит, что как только появляется ошибка в логах, я должен с ней разобраться. Это может показаться занудством, но на практике, разбирая даже самые очевидные и небольшие проблемы, я открывал для себя много нового. По мере увеличения количества устройств в сети, их становится всё сложнее и дольше проверять на наличие ошибок. Чтобы решить эту проблему, нужно скидывать логи в какое-то центральное место и посылать оповещения если появилась ошибка.</p>
+<h2 id="выбор-технологий">Выбор технологий</h2>
+<p>Централизация - это логично, но на практике всё не так просто. До последнего времени самым распространённым способом собрать логи в одном месте был стек технологий: Elasticsearch - Logstash - Kibana (ELK). И качество его кода было прямо таки сомнительным. Для начала, Elasticsearch не подходит для хранения логов. Эта распределённая система для полнотекстового поиска. Она разбивает предложения на лексемы, делает морфологический анализ и пр. Всё это занимает место на диске и требует дополнительной обработки на сервер. Для логов это просто не нужно. Для них достаточен поиск по уровню, например &ldquo;ERROR&rdquo;, и/или ключевому слову, например id=123234. <a href="https://github.com/elastic/kibana">Kibana</a> - UI для поиска данных в Elasticsearch. Тяжеловесное приложение на javascript с <a href="https://github.com/elastic/kibana/blob/main/package.json">1207 (!) прямых зависимостей</a>. <a href="https://github.com/elastic/logstash">Logstash</a> -  агент для отправки логов. Ещё один монстр бесконтрольного добавления количества фич. В архиве занимает 400+ Мб и при запуске съедает 700+ Мб памяти. Как будто плохого качества кода было недостаточно и Elasticsearch B.V. поменяло лицензию. Это породило довольно популярный форк Opensearch и Opensearch dashboards. После чего компания решила сделать агенты несовместимые с Opensearch, что привело теперь к ещё и путанице с различными версиями.</p>
+<p>В результате я стал более пристальнее смотреть на альтернативы и открыл для себя следующий стек: fluent-bit - Loki - Grafana. Такое ощущение, что каждое из этих приложений - это ответ на безумство ELK.</p>
+<ul>
+<li><a href="https://github.com/fluent/fluent-bit">fluent-bit</a>. Написан на Си и занимает в памяти 35Мб. Не является частью других приложений, поэтому имеет хорошую интеграцию с Elasticsearch, Opensearch, Loki, Influx, Prometheus и пр.</li>
+<li><a href="https://github.com/grafana/loki">Loki</a> - база для хранения логов. Построена по тем же принципам, что и Prometheus, но для логов. Каждая строчка имет некоторое количество аттрибутов по которым можно фильтровать.</li>
+<li><a href="https://github.com/grafana/grafana">Grafana</a> - универсальный UI для отображения метрик. С недавнего времени есть поддержка отображения логов. В отличие от Kibana может отображать не только логи, но и метрики. В отличие от Kibana может отображать логи из Elasticsearch, Opensearch и Loki. &ldquo;Всего&rdquo; <a href="https://github.com/grafana/grafana/blob/main/package.json">167 зависимостей</a>.</li>
+</ul>
+<h2 id="fluent-bit">fluent-bit</h2>
+<p>fluent-bit определяет три фазы обработки данных:</p>
+<ul>
+<li>input. Источники данных</li>
+<li>filter. Обработка каждой записи</li>
+<li>output. Отправка данных</li>
+</ul>
+<p>Источниками данных может быть как файл, так и различные системы. В частности, systemd. В systemd есть специальный процесс journald, который собирает логи со всей системы и сохраняет в бинарные файлы. Он пришёл на замену syslog и основное отличие в том, что логи стали структурированными и бинарными. Это позвоялет делать более быстрый поиск, поиск по тэгам и пр. Ещё одной особенностью systemd является то, что все запущенные сервисы отправляют свои логи в stdout/stderr, которые автоматически отправляются в journald. Так вот fluent-bit может подключаться к journald по API и получать логи. Это невероятно мощная комбинация:</p>
+<ul>
+<li>Во-первых, не нужно парсить файлы. fluent-bit получает уже структурированные логи.</li>
+<li>Во-вторых, fluent-bit получает вообще все логи в системе. Это невероятно круто, поскольку позволяет коррелировать события в приложении с общесистемными. Например, приложение не смогло отправить данные на сервер. В логах будет сначала потеря сигнала с WiFi (бывший dmesg), а потом уже логи приложения.</li>
+</ul>
+<p>Конфигурируется input следующим образом:</p>
+<pre tabindex="0"><code>[INPUT]
+    Name            systemd
+    Tag             host.*
+    Lowercase On
+    Strip_Underscores On
+    Read_From_Tail On
+</code></pre><p>По-умолчанию, плагин добавляет атрибуты сообщения в том же формате, что и journald, например _SYSLOG_IDENTIFIER. Это выглядит немного кричаще и подчёркивание первым символом обычно используется для каких-то зарезервированных переменных. Хорошо, что по-умолчанию плагин может преобразовать такие атрибуты в syslog_identifier.</p>
+<p>journald добавляет множество атрибутов разной полезности. Например, _STREAM_ID=498daf9630ae40cebb79c5c1f475617e или _PID=39877. Хранить их в базе достаточно бессмысленно, поэтому можно отфильтровать:</p>
+<pre tabindex="0"><code>[FILTER]
+    Name record_modifier
+    Match *
+    Allowlist_key hostname
+    Allowlist_key syslog_identifier
+    Allowlist_key systemd_unit
+    Allowlist_key message
+    Allowlist_key priority
+</code></pre><p>Далее необходимо преобразовать priority в более человеко-читабельный формат. priority - это число, которое соответствует уровню лога. Уровни бывают семи видов от 0 - fatal до 7 - trace. На практике важны только 4: ERROR, INFO, WARN, DEBUG. На каждое изменение атрибута нужна своя секция filter:</p>
+<pre tabindex="0"><code>[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 6
+    Remove priority
+    Add level info
+
+[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 3
+    Remove priority
+    Add level error
+
+[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 2
+    Remove priority
+    Add level error
+
+[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 1
+    Remove priority
+    Add level error
+
+[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 0
+    Remove priority
+    Add level error
+
+[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 4
+    Remove priority
+    Add level warn
+
+[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 7
+    Remove priority
+    Add level debug
+
+[FILTER]
+    Name modify
+    Match host.*
+    Condition Key_Value_Equals priority 5
+    Remove priority
+    Add level debug
+</code></pre><p>В результате в Loki будет хранится атрибут level с возможными значениями error, warn, debug, info. Текстовые значения особенно удобны в Grafana при конфигурации дашбордов.</p>
+<p>Завершающим шагом нужно сконфигурировать output секцию:</p>
+<pre tabindex="0"><code>[OUTPUT]
+    name   loki
+    host   &lt;somehost&gt;
+    match  host.*
+    labels    $hostname, $syslog_identifier, $level
+    remove_keys $hostname, $syslog_identifier, $level
+    drop_single_key        On
+</code></pre><p>Комбинация labels, remove_keys и drop_single_key позволяет преобразовать атрибуты сообщения в labels для отправки в Loki. Если этого не сделать, то в качестве сообщения будет отправлен json с множеством полей. Это удобно, если хочется передать чуть больше контекста, но в моём простом случае не нужно.</p>
+<h2 id="influxdb">Influxdb</h2>
+<p>Иногда приложения плохо интегрированы с journald. И тогда в локах можно увидеть:</p>
+<pre tabindex="0"><code>priority=6 message=&#34;ts=2025-02-27T15:33:23.222758Z lvl=error msg=\&#34;some error goes here\&#34; log_id=0uJYAO6l000 engine=tsm1 trace_id=0uz0VbaW000 op_name=tsm1_cache_snapshot op_event=st&#34;
+</code></pre><p>Во-первых, время дублируется внутри сообщения. Во-вторых, сообщение с priority=6 (INFO), но при этом внутри него <code>lvl=error</code>. В-третьих, сообщение содержит какие-то дополнительные бесполезные атрибуты. В таких случаях fluent-bit может распарсить текст.</p>
+<pre tabindex="0"><code>[FILTER]
+    Name parser
+    Match host.influxdb.service
+    Parser logfmt
+    Key_Name message
+    Reserve_Data On
+
+[FILTER]
+    Name modify
+    Match host.influxdb.service
+    Rename msg message
+    Rename lvl level
+</code></pre><p>В этой конфигурации есть два интересных момента: во-первых, фильтр можно настроить только на конкретное приложение. Это позволяет ускорить парсинг данных. Во-вторых, fluent-bit поддерживает множество стандартных парсеров, в том числе logfmt.</p>
+<h2 id="java">Java</h2>
+<p>Иногда приложения печатают в лог несколько строчек на одно событие. Самое распространённое - это java stacktrace в случае ошибки. При анализе таких событий неплохо было бы собрать все строчки вместе. Для этого есть поддержка multiline фильтра:</p>
+<pre tabindex="0"><code>[FILTER]
+    name                  multiline
+    match                 host.r2cloud.service
+    multiline.key_content message
+    multiline.parser      custom-java
+</code></pre><p>fluent-bit поддерживает несколько стандартных парсеров: go, java, python, docker. Однако, для java он ожидает следующий формат:</p>
+<pre tabindex="0"><code>&lt;some message&gt; &lt;exception&gt;
+	at
+	at
+	at
+</code></pre><p>В то время как большинство библиотек логирования выводят в другом формате:</p>
+<pre tabindex="0"><code>&lt;some message&gt;
+&lt;exception&gt;
+	at
+	at
+Caused by:
+	at
+	at
+</code></pre><p>Но это не беда, потому что fluent-bit позволяет задавать собственный формат. Я сконфигурировал <code>custom-java</code> следующим образом:</p>
+<pre tabindex="0"><code>[MULTILINE_PARSER]
+    name          custom-java
+    type          regex
+    flush_timeout 1000
+    # rules |   state name  | regex pattern                  | next state
+    # ------|---------------|--------------------------------------------
+    rule      &#34;start_state&#34;   &#34;/(.+)/&#34;                         &#34;exception&#34;
+    rule      &#34;exception&#34;     &#34;/(.+Exception.*)/&#34;              &#34;cont&#34; 
+    rule      &#34;cont&#34;          &#34;/^(Caused by:.*)|(\s+at.*)/&#34;    &#34;cont&#34;
+</code></pre><h2 id="grafana">Grafana</h2>
+<p>Grafana по-умолчанию поставляется с плагином для доступа к Loki, поэтому можно сразу переходить к конфигурации datasource:</p>
+<p><img src="/posts/logging-with-loki-fluent-bit/img/datasource.png"></p>
+<p>Далее сделать дашборд. Самое простое - это список логов во всю ширину экрана с бесконечной прокруткой.</p>
+<p><img src="/posts/logging-with-loki-fluent-bit/img/dashboard.png"></p>
+<p>Я использовал визуализацию &ldquo;Logs&rdquo;, но можно и обычную таблицу. Разница лишь в том, что ошибки слева подсвечиваются красным и это удобно. Помимо этого сверху есть быстрые фильтры, которые можно сделать через параметры дашборда.</p>
+<p>Единственный недостаток в том, что многострочные логи выводятся в одну строчку и это выглядит не очень:</p>
+<p><img src="/posts/logging-with-loki-fluent-bit/img/multiline.png"></p>
+<h2 id="заключение">Заключение</h2>
+<p>fluent-bit - это как глоток свежего воздуха. Он делает именно то, что нужно. Занимает памяти ровно столько, сколько не жалко выдать агенту для сбора метрик. Доступен для любых платформ и архитектур. Наверное, единственный его недостаток в том, что его собственные логи в странном формате, который нельзя поменять, поэтому для разбора его логов нужно писать отдельный парсер.</p>
+<p>Следующим шагом будет настройка оповещений об ошибках.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>FHSS</title>

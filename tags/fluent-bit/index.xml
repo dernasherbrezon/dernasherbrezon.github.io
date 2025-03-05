@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fluent-Bit on dernasherbrezon</title>
+    <link>https://dernasherbrezon.com/tags/fluent-bit/</link>
+    <description>Recent content in Fluent-Bit on dernasherbrezon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ru</language>
+    <lastBuildDate>Tue, 04 Mar 2025 15:40:18 +0100</lastBuildDate>
+    <atom:link href="https://dernasherbrezon.com/tags/fluent-bit/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Централизованное хранение логов с помощью Loki и Fluent-bit</title>
+      <link>https://dernasherbrezon.com/posts/logging-with-loki-fluent-bit/</link>
+      <pubDate>Tue, 04 Mar 2025 15:40:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/logging-with-loki-fluent-bit/</guid>
+      <description>Введение Во всех моих проектах действует принцип &amp;ldquo;логи не должны содержать ошибок&amp;rdquo;. Это значит, что как только появляется ошибка в логах, я должен с ней разобраться. Это может показаться занудством, но на практике, разбирая даже самые очевидные и небольшие проблемы, я открывал для себя много нового. По мере увеличения количества устройств в сети, их становится всё сложнее и дольше проверять на наличие ошибок. Чтобы решить эту проблему, нужно скидывать логи в какое-то центральное место и посылать оповещения если появилась ошибка.</description>
+    </item>
+  </channel>
+</rss>
