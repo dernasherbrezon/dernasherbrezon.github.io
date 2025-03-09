@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2025-03-04T15:40:18+01:00</lastmod>
+    <lastmod>2025-03-08T15:20:18+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -24,7 +24,7 @@
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2025-03-04T15:40:18+01:00</lastmod>
+    <lastmod>2025-03-08T15:20:18+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -36,11 +36,21 @@
                 href="https://dernasherbrezon.com/"
                 />
   </url><url>
-    <loc>https://dernasherbrezon.com/tags/fluent-bit/</loc>
-    <lastmod>2025-03-04T15:40:18+01:00</lastmod>
+    <loc>https://dernasherbrezon.com/tags/grafana/</loc>
+    <lastmod>2025-03-08T15:20:18+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/grafana/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/grafana/"
+                />
   </url><url>
     <loc>https://dernasherbrezon.com/tags/</loc>
-    <lastmod>2025-03-04T15:40:18+01:00</lastmod>
+    <lastmod>2025-03-08T15:20:18+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -51,6 +61,12 @@
                 hreflang="ru"
                 href="https://dernasherbrezon.com/tags/"
                 />
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/alert-grafana-telegram/</loc>
+    <lastmod>2025-03-08T15:20:18+00:00</lastmod>
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/fluent-bit/</loc>
+    <lastmod>2025-03-04T15:40:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/posts/logging-with-loki-fluent-bit/</loc>
     <lastmod>2025-03-04T15:40:18+01:00</lastmod>

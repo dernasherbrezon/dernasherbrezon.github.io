@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang='ru' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='В прошлой статье я настроил отправку логов в Loki и отображение в Grafana. Интеграция работает отлично, и следующим логичным шагом будет отправка ошибок на телефон. Из-за того, что все мои сервисы отправляют ошибки только в случае реальных ошибок, таких нотификаций не должно быть много и можно попробовать отправлять напрямую без дополнительных фильтров.
+Настройка Grafana Оповещения в Grafana работают по следующему принципу: необходимо сконфигурировать запрос к datasource, который должен вернуть число. В противном случае будет ошибка:'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Оповещения из Grafana в Telegram • dernasherbrezon'>
+<meta property='og:description' content='В прошлой статье я настроил отправку логов в Loki и отображение в Grafana. Интеграция работает отлично, и следующим логичным шагом будет отправка ошибок на телефон. Из-за того, что все мои сервисы отправляют ошибки только в случае реальных ошибок, таких нотификаций не должно быть много и можно попробовать отправлять напрямую без дополнительных фильтров.
+Настройка Grafana Оповещения в Grafana работают по следующему принципу: необходимо сконфигурировать запрос к datasource, который должен вернуть число. В противном случае будет ошибка:'>
+<meta property='og:url' content='https://dernasherbrezon.com/posts/alert-grafana-telegram/'>
+<meta property='og:site_name' content='dernasherbrezon'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:tag' content='grafana'><meta property='article:published_time' content='2025-03-08T15:20:18Z'/><meta property='article:modified_time' content='2025-03-08T15:20:18Z'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@dernasherbrezon'>
+
+<meta name="generator" content="Hugo 0.124.0">
+
+  <title>Оповещения из Grafana в Telegram • dernasherbrezon</title>
+  <link rel='canonical' href='https://dernasherbrezon.com/posts/alert-grafana-telegram/'>
+  
+    <link href="https://dernasherbrezon.com/posts/alert-grafana-telegram/index.xml" rel="alternate" type="application/rss+xml" title="dernasherbrezon" />
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.1.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  <meta name="telegram:channel" content="@dernasherbrezonChannel">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body class='page type-posts has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'></a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/img/logo.jpeg'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      dernasherbrezon
+      </a>
+    </h2>
+    <div class='desc'>
+    Блог о программировании на Java
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label=''>
+    <div class='container'>
+      <ul><li class='item has-current'>
+  <a href='/posts/'>Все записи</a></li><li class='item'>
+  <a href='/products/'>Гаджеты</a></li><li class='item'>
+  <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a></li><li class='item'>
+  <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Тэги</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/abbreviated-jpeg/' style='font-size:1.0204081632653061em'>abbreviated jpeg</a>
+      </li><li>
+        <a href='/tags/acme/' style='font-size:1em'>Acme</a>
+      </li><li>
+        <a href='/tags/api/' style='font-size:1.0612244897959184em'>api</a>
+      </li><li>
+        <a href='/tags/apt/' style='font-size:1.0612244897959184em'>Apt</a>
+      </li><li>
+        <a href='/tags/awgn/' style='font-size:1em'>Awgn</a>
+      </li><li>
+        <a href='/tags/bash/' style='font-size:1.0204081632653061em'>bash</a>
+      </li><li>
+        <a href='/tags/ber/' style='font-size:1.1020408163265305em'>ber</a>
+      </li><li>
+        <a href='/tags/bluetooth/' style='font-size:1.0204081632653061em'>Bluetooth</a>
+      </li><li>
+        <a href='/tags/bpsk/' style='font-size:1.0204081632653061em'>bpsk</a>
+      </li><li>
+        <a href='/tags/c/' style='font-size:1.4489795918367347em'>C</a>
+      </li><li>
+        <a href='/tags/deb/' style='font-size:1.0816326530612246em'>Deb</a>
+      </li><li>
+        <a href='/tags/docker/' style='font-size:1em'>Docker</a>
+      </li><li>
+        <a href='/tags/dsp/' style='font-size:1.1224489795918366em'>dsp</a>
+      </li><li>
+        <a href='/tags/eclipse/' style='font-size:1em'>Eclipse</a>
+      </li><li>
+        <a href='/tags/embedded/' style='font-size:1.163265306122449em'>embedded</a>
+      </li><li>
+        <a href='/tags/esp-idf/' style='font-size:1.0408163265306123em'>Esp-Idf</a>
+      </li><li>
+        <a href='/tags/esp32/' style='font-size:1.2040816326530612em'>Esp32</a>
+      </li><li>
+        <a href='/tags/flot/' style='font-size:1em'>Flot</a>
+      </li><li>
+        <a href='/tags/fluent-bit/' style='font-size:1em'>Fluent-Bit</a>
+      </li><li>
+        <a href='/tags/fsk/' style='font-size:1.0816326530612246em'>fsk</a>
+      </li><li>
+        <a href='/tags/gc/' style='font-size:1em'>Gc</a>
+      </li><li>
+        <a href='/tags/gdal/' style='font-size:1.0408163265306123em'>gdal</a>
+      </li><li>
+        <a href='/tags/georeferencing/' style='font-size:1.0612244897959184em'>georeferencing</a>
+      </li><li>
+        <a href='/tags/geotiff/' style='font-size:1.0612244897959184em'>geotiff</a>
+      </li><li>
+        <a href='/tags/gnuradio/' style='font-size:1.0612244897959184em'>gnuradio</a>
+      </li><li>
+        <a href='/tags/grafana/' style='font-size:1.0204081632653061em'>Grafana</a>
+      </li><li>
+        <a href='/tags/hibernate/' style='font-size:1em'>Hibernate</a>
+      </li><li>
+        <a href='/tags/hugo/' style='font-size:1.0204081632653061em'>Hugo</a>
+      </li><li>
+        <a href='/tags/j2ee/' style='font-size:1.0204081632653061em'>j2ee</a>
+      </li><li>
+        <a href='/tags/java/' style='font-size:2em'>Java</a>
+      </li><li>
+        <a href='/tags/javafx/' style='font-size:1em'>javafx</a>
+      </li><li>
+        <a href='/tags/javascript/' style='font-size:1.0816326530612246em'>javascript</a>
+      </li><li>
+        <a href='/tags/jetty/' style='font-size:1.0408163265306123em'>jetty</a>
+      </li><li>
+        <a href='/tags/jmeter/' style='font-size:1em'>Jmeter</a>
+      </li><li>
+        <a href='/tags/jpeg/' style='font-size:1.1020408163265305em'>jpeg</a>
+      </li><li>
+        <a href='/tags/jpoint/' style='font-size:1em'>jpoint</a>
+      </li><li>
+        <a href='/tags/jquery/' style='font-size:1em'>Jquery</a>
+      </li><li>
+        <a href='/tags/jsp/' style='font-size:1.0612244897959184em'>jsp</a>
+      </li><li>
+        <a href='/tags/jstl/' style='font-size:1.0408163265306123em'>jstl</a>
+      </li><li>
+        <a href='/tags/junit/' style='font-size:1.0408163265306123em'>Junit</a>
+      </li><li>
+        <a href='/tags/letsencrypt/' style='font-size:1em'>Letsencrypt</a>
+      </li><li>
+        <a href='/tags/log4j/' style='font-size:1em'>log4j</a>
+      </li><li>
+        <a href='/tags/lora/' style='font-size:1.163265306122449em'>Lora</a>
+      </li><li>
+        <a href='/tags/lora-at/' style='font-size:1.0816326530612246em'>Lora-At</a>
+      </li><li>
+        <a href='/tags/lrpt/' style='font-size:1.0408163265306123em'>lrpt</a>
+      </li><li>
+        <a href='/tags/matlab/' style='font-size:1.0204081632653061em'>Matlab</a>
+      </li><li>
+        <a href='/tags/maven/' style='font-size:1.1020408163265305em'>maven</a>
+      </li><li>
+        <a href='/tags/memory/' style='font-size:1.0204081632653061em'>memory</a>
+      </li><li>
+        <a href='/tags/meteor-m/' style='font-size:1.0816326530612246em'>meteor-m</a>
+      </li><li>
+        <a href='/tags/mobitex/' style='font-size:1em'>mobitex</a>
+      </li><li>
+        <a href='/tags/monitoring/' style='font-size:1.1020408163265305em'>monitoring</a>
+      </li><li>
+        <a href='/tags/open-source/' style='font-size:1.0408163265306123em'>Open Source</a>
+      </li><li>
+        <a href='/tags/openapi/' style='font-size:1.0204081632653061em'>openapi</a>
+      </li><li>
+        <a href='/tags/opencl/' style='font-size:1.0408163265306123em'>Opencl</a>
+      </li><li>
+        <a href='/tags/openstack/' style='font-size:1em'>Openstack</a>
+      </li><li>
+        <a href='/tags/openstack-swift/' style='font-size:1em'>Openstack Swift</a>
+      </li><li>
+        <a href='/tags/orekit/' style='font-size:1.0204081632653061em'>orekit</a>
+      </li><li>
+        <a href='/tags/pipe/' style='font-size:1em'>Pipe</a>
+      </li><li>
+        <a href='/tags/plutosdr/' style='font-size:1.0204081632653061em'>Plutosdr</a>
+      </li><li>
+        <a href='/tags/prometheus/' style='font-size:1.0204081632653061em'>prometheus</a>
+      </li><li>
+        <a href='/tags/r2cloud/' style='font-size:1.0816326530612246em'>r2cloud</a>
+      </li><li>
+        <a href='/tags/r2lora/' style='font-size:1.0612244897959184em'>R2lora</a>
+      </li><li>
+        <a href='/tags/r2weather/' style='font-size:1.0408163265306123em'>R2weather</a>
+      </li><li>
+        <a href='/tags/radio/' style='font-size:1.2448979591836735em'>Радио</a>
+      </li><li>
+        <a href='/tags/raspberrypi/' style='font-size:1.4489795918367347em'>raspberrypi</a>
+      </li><li>
+        <a href='/tags/refactoring/' style='font-size:1em'>Refactoring</a>
+      </li><li>
+        <a href='/tags/rest/' style='font-size:1.0204081632653061em'>Rest</a>
+      </li><li>
+        <a href='/tags/rrd/' style='font-size:1.0204081632653061em'>rrd</a>
+      </li><li>
+        <a href='/tags/rtl_power/' style='font-size:1.0204081632653061em'>rtl_power</a>
+      </li><li>
+        <a href='/tags/rtlsdr/' style='font-size:1.2448979591836735em'>rtlsdr</a>
+      </li><li>
+        <a href='/tags/rtlspectrum/' style='font-size:1.0408163265306123em'>rtlSpectrum</a>
+      </li><li>
+        <a href='/tags/s3/' style='font-size:1em'>S3</a>
+      </li><li>
+        <a href='/tags/satnogs/' style='font-size:1.0408163265306123em'>Satnogs</a>
+      </li><li>
+        <a href='/tags/sdr-modem/' style='font-size:1.0612244897959184em'>Sdr-Modem</a>
+      </li><li>
+        <a href='/tags/sdr-server/' style='font-size:1em'>Sdr-Server</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1.0204081632653061em'>Security</a>
+      </li><li>
+        <a href='/tags/selectel/' style='font-size:1em'>Selectel</a>
+      </li><li>
+        <a href='/tags/simd/' style='font-size:1.1020408163265305em'>SIMD</a>
+      </li><li>
+        <a href='/tags/sonarcube/' style='font-size:1.0408163265306123em'>Sonarcube</a>
+      </li><li>
+        <a href='/tags/spring/' style='font-size:1.0408163265306123em'>Spring</a>
+      </li><li>
+        <a href='/tags/sqnr/' style='font-size:1em'>Sqnr</a>
+      </li><li>
+        <a href='/tags/ssdv/' style='font-size:1.0204081632653061em'>Ssdv</a>
+      </li><li>
+        <a href='/tags/string/' style='font-size:1.0204081632653061em'>String</a>
+      </li><li>
+        <a href='/tags/sx127x/' style='font-size:1.163265306122449em'>Sx127x</a>
+      </li><li>
+        <a href='/tags/systemd/' style='font-size:1em'>Systemd</a>
+      </li><li>
+        <a href='/tags/testing/' style='font-size:1.0408163265306123em'>Testing</a>
+      </li><li>
+        <a href='/tags/travis-ci/' style='font-size:1.0204081632653061em'>Travis-Ci</a>
+      </li><li>
+        <a href='/tags/ubuntu/' style='font-size:1.0816326530612246em'>ubuntu</a>
+      </li><li>
+        <a href='/tags/valgrind/' style='font-size:1.0408163265306123em'>Valgrind</a>
+      </li><li>
+        <a href='/tags/validator/' style='font-size:1em'>Validator</a>
+      </li><li>
+        <a href='/tags/vuejs/' style='font-size:1.0408163265306123em'>vuejs</a>
+      </li><li>
+        <a href='/tags/yourkit/' style='font-size:1em'>Yourkit</a>
+      </li><li>
+        <a href='/tags/%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.3265306122448979em'>администрирование</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B7%D0%B7/' style='font-size:1.0816326530612246em'>ДЗЗ</a>
+      </li><li>
+        <a href='/tags/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD/' style='font-size:1.0816326530612246em'>дизайн</a>
+      </li><li>
+        <a href='/tags/%D0%B8%D0%B4%D0%B5%D0%B8/' style='font-size:1em'>Идеи</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D0%BE%D1%81%D0%BC%D0%BE%D0%BD%D0%B0%D0%B2%D1%82%D0%B8%D0%BA%D0%B0/' style='font-size:1.0408163265306123em'>космонавтика</a>
+      </li><li>
+        <a href='/tags/%D0%BA%D1%83%D0%B1%D1%81%D0%B0%D1%82/' style='font-size:1.0408163265306123em'>кубсат</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4/' style='font-size:1.0204081632653061em'>перевод</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/' style='font-size:1.1020408163265305em'>поворотное устройство</a>
+      </li><li>
+        <a href='/tags/%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C/' style='font-size:1.346938775510204em'>производительность</a>
+      </li><li>
+        <a href='/tags/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0/' style='font-size:1.0612244897959184em'>Разработка</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F/' style='font-size:1em'>Спецификация</a>
+      </li><li>
+        <a href='/tags/%D1%81%D0%BF%D1%83%D1%82%D0%BD%D0%B8%D0%BA%D0%B8/' style='font-size:1.4285714285714286em'>спутники</a>
+      </li><li>
+        <a href='/tags/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/' style='font-size:1.2653061224489797em'>Тестирование</a>
+      </li><li>
+        <a href='/tags/%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D1%8B/' style='font-size:1.0408163265306123em'>фильтры</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><nav id='main-menu' class='menu main-menu' aria-label=''>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'></a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'></span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button>
+    <ul><li class='item current'>
+        <a aria-current='page' href='/posts/'>Все записи</a>
+      </li><li class='item'>
+        <a href='/products/'>Гаджеты</a>
+      </li><li class='item'>
+        <a href='/%D0%BE%D0%B1-%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B5/'>Об авторе</a>
+      </li><li class='item'>
+        <a href='/%D0%BF%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C/'>Поддержать</a>
+      </li></ul>
+  </div>
+</nav><div class='header-widgets'>
+        <div class='container'></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>dernasherbrezon</p><p class='desc site-desc'>Блог о программировании на Java</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='ru' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Оповещения из Grafana в Telegram</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'> </span>
+  <time class='entry-date' datetime='2025-03-08T15:20:18Z'>08 Mar 2025</time>
+</span>
+
+  
+  
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>В <a href="/">прошлой статье</a> я настроил отправку логов в Loki и отображение в Grafana. Интеграция работает отлично, и следующим логичным шагом будет отправка ошибок на телефон. Из-за того, что все мои сервисы отправляют ошибки только в случае реальных ошибок, таких нотификаций не должно быть много и можно попробовать отправлять напрямую без дополнительных фильтров.</p>
+<h2 id="настройка-grafana">Настройка Grafana</h2>
+<p>Оповещения в Grafana работают по следующему принципу: необходимо сконфигурировать запрос к datasource, который должен вернуть число. В противном случае будет ошибка:</p>
+<pre tabindex="0"><code>[sse.readDataError] [A] got error: input data must be a wide series but got type long (input refid)
+</code></pre><p>Если для метрик такое поведение вполне логичное, то вот для того, чтобы вернуть лог придётся постараться:</p>
+<pre tabindex="0"><code>sum by(syslog_identifier, hostname, message) (count_over_time({level=&#34;error&#34;} | pattern `&lt;message&gt;` [$__auto]))
+</code></pre><p>Это птичий язык запросов, который используется в Loki. В нём выбираются все записи, у которых level=error. После этого всё сообщение целиком матчится паттерном и записывается в capturing group - message. В результате эта capturing группа попадает в атрибуты. А далее идёт подсчёт таких сообщений за единицу времени и группировка по нужным полям. Это сделано для того, чтобы не отправлять несколько одинаковых ошибок.</p>
+<p><img src="/posts/alert-grafana-telegram/img/alert.png"></p>
+<p>Помимо запроса, нужно задать:</p>
+<ul>
+<li>Папку, в которой это правило будет лежать. Это обязательное поле. Наверное, полезно при большом количестве правил</li>
+<li>Как часто запрос нужно выполнять. В моём простом случае достаточно пяти минут.</li>
+<li>Что делать, если данных нет или datasource недоступен.</li>
+</ul>
+<p>Последний пункт достаточно важный, потому что Grafana будет генерировать событие DatasourceNoData, когда нет данных. В моём случае данные есть всегда, но почему-то я получал это событие несколько раз в день.</p>
+<p><img src="/posts/alert-grafana-telegram/img/nodata.png"></p>
+<p>Далее нужно сконфигурировать &ldquo;Contact point&rdquo;. Это канал, в который будут отправляться сообщения по определённому фильтру. Для больших организаций имеет смысл настроить разные контакты для разных приложений. Для простых случаев достаточно сконфигурировать один.</p>
+<h2 id="telegram">Telegram</h2>
+<p>На момент написания статьи Grafana могла отправлять сообщения в 20 различных систем, включая email. Но email - это уже прошлый век. Да и надёжность доставки у него так себе. Из всего этого списка у меня есть только Telegram, поэтому я использую его.</p>
+<p>В документации есть <a href="https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/configure-telegram/">отличная статья</a> как настроить Telegram. Инструкция достаточно длинная, но рабочая. Я бы хотел немного остановится на шаблоне сообщения.</p>
+<p><img src="/posts/alert-grafana-telegram/img/defaultalert.png"></p>
+<p>По-умолчанию, сообщение содержит много бесполезной информации: какие-то ссылки, ненужные атрибуты и очевидные вещи вроде &ldquo;<strong>Firing</strong>&rdquo;. Для того, чтобы поменять шаблон нужно его сначала создать в разделе &ldquo;Contact points&rdquo;:</p>
+<p><img src="/posts/alert-grafana-telegram/img/customtemplate.png"></p>
+<p>Шаблон пишется на языке <a href="https://pkg.go.dev/text/template">text/template</a> с небольшим <a href="https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/reference/">расширением команд</a>, специфичных для Grafana. Это достаточно популярный язык шаблонов go, который используется, например, в hugo.</p>
+<p>В Grafana есть удобный редактор, который позволяет посмотреть результат после применения шаблона к тестовому сообщению.</p>
+<p><img src="/posts/alert-grafana-telegram/img/notification.png"></p>
+<p>Я создал минималистичную версию сообщения, в которой есть информация о том, на каком сервере произошла ошибка, в каком приложении и, собственно, текст ошибки:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>{{ <span style="color:#a6e22e">define</span> <span style="color:#e6db74">&#34;custom.telegram&#34;</span> }}
+</span></span><span style="display:flex;"><span>{{ <span style="color:#66d9ef">range</span> .<span style="color:#a6e22e">Alerts</span> }}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#a6e22e">strong</span>&gt;{{ .<span style="color:#a6e22e">Labels</span>.<span style="color:#a6e22e">syslog_identifier</span> }}&lt;<span style="color:#f92672">/</span><span style="color:#a6e22e">strong</span>&gt; <span style="color:#a6e22e">on</span> &lt;<span style="color:#a6e22e">strong</span>&gt;{{ .<span style="color:#a6e22e">Labels</span>.<span style="color:#a6e22e">hostname</span> }}&lt;<span style="color:#f92672">/</span><span style="color:#a6e22e">strong</span>&gt;: {{ .<span style="color:#a6e22e">Labels</span>.<span style="color:#a6e22e">message</span> | <span style="color:#a6e22e">reReplaceAll</span> <span style="color:#e6db74">&#34;\\\\n&#34;</span> <span style="color:#e6db74">&#34;\n&#34;</span> | <span style="color:#a6e22e">reReplaceAll</span> <span style="color:#e6db74">&#34;\\\\t&#34;</span> <span style="color:#e6db74">&#34;    &#34;</span> }}
+</span></span><span style="display:flex;"><span>{{ <span style="color:#a6e22e">end</span> }}
+</span></span><span style="display:flex;"><span>{{ <span style="color:#a6e22e">end</span> }}
+</span></span></code></pre></div><p>Из интересного:</p>
+<ul>
+<li>Grafana группирует несколько ошибок в одно сообщение, поэтому шаблон получает на вход список Alerts.</li>
+<li>Поддержка многострочных ошибок</li>
+</ul>
+<p>После того, как шаблон готов, его можно использовать в настройках Telegram:</p>
+<p><img src="/posts/alert-grafana-telegram/img/telegram.png"></p>
+<h2 id="тонкая-настройка">Тонкая настройка</h2>
+<p>Чем больше всего происходит на серверах, тем больше вероятность того, что потребуется более тонкая настройка. В какой-то момент мне стало приходить по 12 сообщений за ночь. Это примерно на 12 сообщений больше, чем я получал в обычные дни. Надо быть готовым к тому, что потребуется несколько дней, чтобы почистить ложные срабатывания. Например, мне часто приходили ошибки следующего вида:</p>
+<pre tabindex="0"><code>error: kex_exchange_identification: client sent invalid protocol identifier &#34;MGLNDD_xx.xx.xx.xx_22&#34;
+</code></pre><p>Или</p>
+<pre tabindex="0"><code>error: kex_exchange_identification: Connection closed by remote host
+</code></pre><p>Если к серверу нет доступа извне, то это явные ошибки, которые нужно исследовать. В моём же случае - это, скорей всего, сканер портов и попытки взломать сервер по ssh. Поскольку это обычное дело, то уровень логирования должен быть INFO, а не ERROR. Это можно поправить в настройках fluent-bit:</p>
+<pre tabindex="0"><code>[FILTER]
+    Name modify
+    Match host.ssh.service
+    Condition Key_value_matches message kex_exchange_identification
+    Set level info
+</code></pre><h2 id="результаты">Результаты</h2>
+<p>В результате мне начали приходить вот такие симпатичные сообщения:</p>
+<p><img src="/posts/alert-grafana-telegram/img/result.png"></p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='last-updated'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34" />
+<polygon points="18 2 22 6 12 16 8 16 8 12 18 2" />
+</svg>
+<span class='screen-reader-text'>: </span>
+      <time class='entry-date' datetime='2025-03-08T15:20:18Z'>08 Mar 2025</time>
+    </div><div class='tags'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z" />
+<line x1="7" y1="7" x2="7" y2="7" />
+</svg>
+<span class='screen-reader-text'>tags: </span><a class='tag' href='/tags/grafana/'>Grafana</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/logging-with-loki-fluent-bit/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ </span>
+        <span class='screen-reader-text'>: </span>Централизованное хранение логов с помощью Loki и Fluent-bit</a>
+    </div></div>
+</nav>
+
+
+<section id='comments' class='comments'>
+  <div class='container sep-before'>
+    <div class='comments-area'><script>
+  var remark_config = {
+    host: "https://remark42.dernasherbrezon.com", 
+    site_id: '9134',
+    locale: 'ru',
+    components: ['embed'] 
+                          
+                          
+                          
+                          
+                          
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+</script>
+<div id="remark42"></div>
+</div>
+  </div>
+</section>
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label=''>
+    <ul><li>
+        <a href='https://github.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dernasherbrezon' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:dernasherbrezon@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://t.me/dernasherbrezonChannel' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'></span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p><a href="https://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a> &copy; 2017-2025 dernasherbrezon </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script>
+</body>
+
+</html>
+

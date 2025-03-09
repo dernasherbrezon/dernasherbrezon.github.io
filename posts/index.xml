@@ -7,10 +7,83 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Tue, 04 Mar 2025 15:40:18 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 08 Mar 2025 15:20:18 +0000</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Оповещения из Grafana в Telegram</title>
+      <link>https://dernasherbrezon.com/posts/alert-grafana-telegram/</link>
+      <pubDate>Sat, 08 Mar 2025 15:20:18 +0000</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/alert-grafana-telegram/</guid>
+      <description>В прошлой статье я настроил отправку логов в Loki и отображение в Grafana. Интеграция работает отлично, и следующим логичным шагом будет отправка ошибок на телефон. Из-за того, что все мои сервисы отправляют ошибки только в случае реальных ошибок, таких нотификаций не должно быть много и можно попробовать отправлять напрямую без дополнительных фильтров.
+Настройка Grafana Оповещения в Grafana работают по следующему принципу: необходимо сконфигурировать запрос к datasource, который должен вернуть число. В противном случае будет ошибка:</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Оповещения из Grafana в Telegram</h1></header>
+      		<div class='container entry-content'>
+  <p>В <a href="/">прошлой статье</a> я настроил отправку логов в Loki и отображение в Grafana. Интеграция работает отлично, и следующим логичным шагом будет отправка ошибок на телефон. Из-за того, что все мои сервисы отправляют ошибки только в случае реальных ошибок, таких нотификаций не должно быть много и можно попробовать отправлять напрямую без дополнительных фильтров.</p>
+<h2 id="настройка-grafana">Настройка Grafana</h2>
+<p>Оповещения в Grafana работают по следующему принципу: необходимо сконфигурировать запрос к datasource, который должен вернуть число. В противном случае будет ошибка:</p>
+<pre tabindex="0"><code>[sse.readDataError] [A] got error: input data must be a wide series but got type long (input refid)
+</code></pre><p>Если для метрик такое поведение вполне логичное, то вот для того, чтобы вернуть лог придётся постараться:</p>
+<pre tabindex="0"><code>sum by(syslog_identifier, hostname, message) (count_over_time({level=&#34;error&#34;} | pattern `&lt;message&gt;` [$__auto]))
+</code></pre><p>Это птичий язык запросов, который используется в Loki. В нём выбираются все записи, у которых level=error. После этого всё сообщение целиком матчится паттерном и записывается в capturing group - message. В результате эта capturing группа попадает в атрибуты. А далее идёт подсчёт таких сообщений за единицу времени и группировка по нужным полям. Это сделано для того, чтобы не отправлять несколько одинаковых ошибок.</p>
+<p><img src="/posts/alert-grafana-telegram/img/alert.png"></p>
+<p>Помимо запроса, нужно задать:</p>
+<ul>
+<li>Папку, в которой это правило будет лежать. Это обязательное поле. Наверное, полезно при большом количестве правил</li>
+<li>Как часто запрос нужно выполнять. В моём простом случае достаточно пяти минут.</li>
+<li>Что делать, если данных нет или datasource недоступен.</li>
+</ul>
+<p>Последний пункт достаточно важный, потому что Grafana будет генерировать событие DatasourceNoData, когда нет данных. В моём случае данные есть всегда, но почему-то я получал это событие несколько раз в день.</p>
+<p><img src="/posts/alert-grafana-telegram/img/nodata.png"></p>
+<p>Далее нужно сконфигурировать &ldquo;Contact point&rdquo;. Это канал, в который будут отправляться сообщения по определённому фильтру. Для больших организаций имеет смысл настроить разные контакты для разных приложений. Для простых случаев достаточно сконфигурировать один.</p>
+<h2 id="telegram">Telegram</h2>
+<p>На момент написания статьи Grafana могла отправлять сообщения в 20 различных систем, включая email. Но email - это уже прошлый век. Да и надёжность доставки у него так себе. Из всего этого списка у меня есть только Telegram, поэтому я использую его.</p>
+<p>В документации есть <a href="https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/configure-telegram/">отличная статья</a> как настроить Telegram. Инструкция достаточно длинная, но рабочая. Я бы хотел немного остановится на шаблоне сообщения.</p>
+<p><img src="/posts/alert-grafana-telegram/img/defaultalert.png"></p>
+<p>По-умолчанию, сообщение содержит много бесполезной информации: какие-то ссылки, ненужные атрибуты и очевидные вещи вроде &ldquo;<strong>Firing</strong>&rdquo;. Для того, чтобы поменять шаблон нужно его сначала создать в разделе &ldquo;Contact points&rdquo;:</p>
+<p><img src="/posts/alert-grafana-telegram/img/customtemplate.png"></p>
+<p>Шаблон пишется на языке <a href="https://pkg.go.dev/text/template">text/template</a> с небольшим <a href="https://grafana.com/docs/grafana/latest/alerting/configure-notifications/template-notifications/reference/">расширением команд</a>, специфичных для Grafana. Это достаточно популярный язык шаблонов go, который используется, например, в hugo.</p>
+<p>В Grafana есть удобный редактор, который позволяет посмотреть результат после применения шаблона к тестовому сообщению.</p>
+<p><img src="/posts/alert-grafana-telegram/img/notification.png"></p>
+<p>Я создал минималистичную версию сообщения, в которой есть информация о том, на каком сервере произошла ошибка, в каком приложении и, собственно, текст ошибки:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>{{ <span style="color:#a6e22e">define</span> <span style="color:#e6db74">&#34;custom.telegram&#34;</span> }}
+</span></span><span style="display:flex;"><span>{{ <span style="color:#66d9ef">range</span> .<span style="color:#a6e22e">Alerts</span> }}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#a6e22e">strong</span>&gt;{{ .<span style="color:#a6e22e">Labels</span>.<span style="color:#a6e22e">syslog_identifier</span> }}&lt;<span style="color:#f92672">/</span><span style="color:#a6e22e">strong</span>&gt; <span style="color:#a6e22e">on</span> &lt;<span style="color:#a6e22e">strong</span>&gt;{{ .<span style="color:#a6e22e">Labels</span>.<span style="color:#a6e22e">hostname</span> }}&lt;<span style="color:#f92672">/</span><span style="color:#a6e22e">strong</span>&gt;: {{ .<span style="color:#a6e22e">Labels</span>.<span style="color:#a6e22e">message</span> | <span style="color:#a6e22e">reReplaceAll</span> <span style="color:#e6db74">&#34;\\\\n&#34;</span> <span style="color:#e6db74">&#34;\n&#34;</span> | <span style="color:#a6e22e">reReplaceAll</span> <span style="color:#e6db74">&#34;\\\\t&#34;</span> <span style="color:#e6db74">&#34;    &#34;</span> }}
+</span></span><span style="display:flex;"><span>{{ <span style="color:#a6e22e">end</span> }}
+</span></span><span style="display:flex;"><span>{{ <span style="color:#a6e22e">end</span> }}
+</span></span></code></pre></div><p>Из интересного:</p>
+<ul>
+<li>Grafana группирует несколько ошибок в одно сообщение, поэтому шаблон получает на вход список Alerts.</li>
+<li>Поддержка многострочных ошибок</li>
+</ul>
+<p>После того, как шаблон готов, его можно использовать в настройках Telegram:</p>
+<p><img src="/posts/alert-grafana-telegram/img/telegram.png"></p>
+<h2 id="тонкая-настройка">Тонкая настройка</h2>
+<p>Чем больше всего происходит на серверах, тем больше вероятность того, что потребуется более тонкая настройка. В какой-то момент мне стало приходить по 12 сообщений за ночь. Это примерно на 12 сообщений больше, чем я получал в обычные дни. Надо быть готовым к тому, что потребуется несколько дней, чтобы почистить ложные срабатывания. Например, мне часто приходили ошибки следующего вида:</p>
+<pre tabindex="0"><code>error: kex_exchange_identification: client sent invalid protocol identifier &#34;MGLNDD_xx.xx.xx.xx_22&#34;
+</code></pre><p>Или</p>
+<pre tabindex="0"><code>error: kex_exchange_identification: Connection closed by remote host
+</code></pre><p>Если к серверу нет доступа извне, то это явные ошибки, которые нужно исследовать. В моём же случае - это, скорей всего, сканер портов и попытки взломать сервер по ssh. Поскольку это обычное дело, то уровень логирования должен быть INFO, а не ERROR. Это можно поправить в настройках fluent-bit:</p>
+<pre tabindex="0"><code>[FILTER]
+    Name modify
+    Match host.ssh.service
+    Condition Key_value_matches message kex_exchange_identification
+    Set level info
+</code></pre><h2 id="результаты">Результаты</h2>
+<p>В результате мне начали приходить вот такие симпатичные сообщения:</p>
+<p><img src="/posts/alert-grafana-telegram/img/result.png"></p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Централизованное хранение логов с помощью Loki и Fluent-bit</title>
@@ -127,7 +200,7 @@
     match  host.*
     labels    $hostname, $syslog_identifier, $level
     remove_keys $hostname, $syslog_identifier, $level
-    drop_single_key        On
+    drop_single_key        raw
 </code></pre><p>Комбинация labels, remove_keys и drop_single_key позволяет преобразовать атрибуты сообщения в labels для отправки в Loki. Если этого не сделать, то в качестве сообщения будет отправлен json с множеством полей. Это удобно, если хочется передать чуть больше контекста, но в моём простом случае не нужно.</p>
 <h2 id="influxdb">Influxdb</h2>
 <p>Иногда приложения плохо интегрированы с journald. И тогда в локах можно увидеть:</p>

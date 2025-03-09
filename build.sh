@@ -24,6 +24,6 @@ function optimize
 #hugo --source hugo/ --destination ../
 
 # brew install optipng
- find ./hugo/content/posts/logging-with-loki-fluent-bit -name "*.png" -exec optipng -o7 {} \;
+ find ./hugo/content/posts/alert-grafana-telegram -name "*.png" -exec optipng -o7 {} \;
 # find ./hugo/content/posts/skywatcher-direct -name '*.jpg' -type f -print0 |while read -d $'\0' i; do optimize "$i"; done
 
