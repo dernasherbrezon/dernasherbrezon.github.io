@@ -6,8 +6,15 @@
     <description>Recent content in Grafana on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 08 Mar 2025 15:20:18 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Mar 2025 20:19:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/grafana/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Сбор метрик с помощью Fluent-bit</title>
+      <link>https://dernasherbrezon.com/posts/fluent-bit-metrics/</link>
+      <pubDate>Mon, 17 Mar 2025 20:19:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/fluent-bit-metrics/</guid>
+      <description>При обсуждении систем мониторинга всё чаще упоминается связка Prometheus и Grafana как стандартное решение. Она, вероятно, приобрела популярность за счёт простоты сбора метрик. Prometheus придумали простой HTTP проткол, который позволяет получать метрики с различных систем. Но мне Prometheus не совсем подходит, и вот почему:&#xA;Счётчики в нём работают не так, как хотелось бы. Есть даже известная проблема, которую закрыли с пометкой &amp;ldquo;won&amp;rsquo;t fix&amp;rdquo;. Использование pull-модели для получения данных. Несмотря на преимущества такого подхода, он менее удобен для отправки метрик с краткосрочных процессов.</description>
+    </item>
     <item>
       <title>Оповещения из Grafana в Telegram</title>
       <link>https://dernasherbrezon.com/posts/alert-grafana-telegram/</link>

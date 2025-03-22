@@ -7,10 +7,129 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sat, 08 Mar 2025 15:20:18 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Mar 2025 20:19:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Сбор метрик с помощью Fluent-bit</title>
+      <link>https://dernasherbrezon.com/posts/fluent-bit-metrics/</link>
+      <pubDate>Mon, 17 Mar 2025 20:19:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fluent-bit-metrics/</guid>
+      <description>При обсуждении систем мониторинга всё чаще упоминается связка Prometheus и Grafana как стандартное решение. Она, вероятно, приобрела популярность за счёт простоты сбора метрик. Prometheus придумали простой HTTP проткол, который позволяет получать метрики с различных систем. Но мне Prometheus не совсем подходит, и вот почему:
+Счётчики в нём работают не так, как хотелось бы. Есть даже известная проблема, которую закрыли с пометкой &amp;ldquo;won&amp;rsquo;t fix&amp;rdquo;. Использование pull-модели для получения данных. Несмотря на преимущества такого подхода, он менее удобен для отправки метрик с краткосрочных процессов.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Сбор метрик с помощью Fluent-bit</h1></header>
+      		<div class='container entry-content'>
+  <p>При обсуждении систем мониторинга всё чаще упоминается связка Prometheus и Grafana как стандартное решение. Она, вероятно, приобрела популярность за счёт простоты сбора метрик. Prometheus придумали простой <a href="https://prometheus.io/docs/instrumenting/writing_exporters/">HTTP проткол</a>, который позволяет получать метрики с различных систем. Но мне Prometheus не совсем подходит, и вот почему:</p>
+<ul>
+<li><a href="https://dernasherbrezon.com/posts/gauge-and-counter-explained/">Счётчики</a> в нём работают не так, как хотелось бы. Есть даже <a href="https://github.com/prometheus/prometheus/issues/3746">известная проблема</a>, которую закрыли с пометкой &ldquo;won&rsquo;t fix&rdquo;.</li>
+<li>Использование pull-модели для получения данных. Несмотря на преимущества такого подхода, он менее удобен для отправки метрик с краткосрочных процессов.</li>
+<li>Нужно запускать отдельный процесс для сбора метрик.</li>
+</ul>
+<h2 id="influxdb">InfluxDB</h2>
+<p>Чтобы обойти эти проблемы, я решил использовать InfluxDB. Она не так популярна, как Prometheus, но у неё есть бесплатная <a href="https://github.com/influxdata/influxdb">OSS-версия</a>, которую легко поставить. Вот как это делается на Debian:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add the InfluxData key to verify downloads and add the repository</span>
+</span></span><span style="display:flex;"><span>curl --silent --location -O <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>https://repos.influxdata.com/influxdata-archive.key
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;943666881a1b8d9b849b74caebf02d3465d6beb716510d86a39f6c8e8dac7515  influxdata-archive.key&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>| sha256sum --check - <span style="color:#f92672">&amp;&amp;</span> cat influxdata-archive.key <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>| gpg --dearmor <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>| sudo tee /etc/apt/trusted.gpg.d/influxdata-archive.gpg &gt; /dev/null <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#39;deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive.gpg] https://repos.influxdata.com/debian stable main&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>| sudo tee /etc/apt/sources.list.d/influxdata.list
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Install influxdb</span>
+</span></span><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install influxdb2
+</span></span></code></pre></div><p>InfluxDB можно запускать как в распределённом режиме, так и одиночном. Для домашней сети одной ноды вполне достаточно. База данных совместима с push- и pull-моделями, причём pull-модель поддерживает протокол <a href="https://prometheus.io/docs/instrumenting/writing_exporters/">экспортера Prometheus</a>, что позволяет использовать существующие агенты.</p>
+<h2 id="сбор-метрик">Сбор метрик</h2>
+<p>Для отправки данных в InfluxDB часто используется отдельный процесс - <a href="https://github.com/influxdata/telegraf">Telegraf</a>. Он периодически собирает системные метрики и передаёт их в базу. Есть даже <a href="https://grafana.com/grafana/dashboards/928-telegraf-system-dashboard/">готовый дашборд</a> в Grafana, который может красиво визуализировать эти метрики. Всю эту цепочку можно достаточно легко настроить в несколько кликов, но у неё есть один недостаток - нужено устанавливать ещё один агент. В моей сети есть несколько Raspberry PI, где оперативной памяти не так много, поэтому хотелось бы переиспользовать уже запущенный fluent-bit.</p>
+<p>Как оказалось, он может собирать метрики в своём собственном формате, в формате Prometheus, в формате OpenTelemetry, работать как proxy других экспортёров и многое другое. Я решил получше исследовать возможности, чтобы съэкономить память. Вот, например, сравнение потребления памяти между основными конкурентами:</p>
+<table>
+<thead>
+<tr>
+<th>Агент</th>
+<th>Версия</th>
+<th>Память</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fluent-bit</td>
+<td>3.2.8</td>
+<td>32 Мб</td>
+</tr>
+<tr>
+<td>node_exporter</td>
+<td>1.9.0</td>
+<td>15 Мб</td>
+</tr>
+<tr>
+<td>telegraf</td>
+<td>1.34.0</td>
+<td>123 Мб</td>
+</tr>
+</tbody>
+</table>
+<p>Пример конфигурации сбора метрик аналогичных <a href="https://github.com/prometheus/node_exporter">node_exporter</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">inputs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">node_exporter_metrics</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tag</span>: <span style="color:#ae81ff">metrics.node_metrics</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">scrape_interval</span>: <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metrics</span>: <span style="color:#ae81ff">meminfo,filesystem,netdev</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">processors</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">metrics</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">labels</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">insert</span>: <span style="color:#ae81ff">hostname ${HOSTNAME}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">outputs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">influxdb</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">match</span>: <span style="color:#ae81ff">metrics.*</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">host</span>: <span style="color:#ae81ff">host</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">database</span>: <span style="color:#ae81ff">fluentbit</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">org</span>: <span style="color:#ae81ff">dernasherbrezon</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">http_user</span>: <span style="color:#ae81ff">user</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">http_passwd</span>: <span style="color:#ae81ff">password</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tag_keys</span>: <span style="color:#ae81ff">hostname</span>
+</span></span></code></pre></div><p>В этой конфигурации fluent-bit собирает метрики каждые 10 секунд и отправляет их в InfluxDB. Тут стоит обратить внимание на несколько вещей:</p>
+<ul>
+<li>Переменная <code>${HOSTNAME}</code> автоматически заменяется именем хоста (поддерживаются <a href="https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/variables">переменные среды</a>).</li>
+<li>Для добавления метаданных (например, имени хоста) используется секция <code>processors</code>, так как стандартные фильтры не применяются к метрикам.</li>
+<li>Cекция <code>processors</code> поддерживается только в yaml конфигурации, которая была добавлена в версии 3.2.</li>
+</ul>
+<p>Согласно формату node_exporter метрика node_cpu_seconds_total измеряется не в процентах, а в секундах, которые процессор провёл в том или ином режиме. Это крайне плохое решение, так как из-за задержек сети она будет плавать. Вот, например, как это будет выглядеть на графике:</p>
+<p><img src="/posts/fluent-bit-metrics/img/cpu.png"></p>
+<p>Для решения этой проблемы я использовал модуль <a href="https://docs.fluentbit.io/manual/pipeline/inputs/cpu-metrics">cpu</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">inputs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cpu</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tag</span>: <span style="color:#ae81ff">metrics.cpu</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Interval_Sec</span>: <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">filters</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">record_modifier</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">match</span>: <span style="color:#ae81ff">metrics.*</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">record</span>: <span style="color:#ae81ff">hostname ${HOSTNAME}</span>
+</span></span></code></pre></div><h2 id="grafana">Grafana</h2>
+<p>Когда дело доходит до создания дашбордов, то начинается вкусовщина. Для меня важна простота и понятность, поэтому я создал дашборд только с основными показателями системы:</p>
+<p><img src="/posts/fluent-bit-metrics/img/grafana.png"></p>
+<p>Вот примеры запросов, которые использовались для создания графиков:</p>
+<pre tabindex="0"><code>// CPU
+SELECT last(&#34;cpu_p&#34;) FROM &#34;metrics.cpu&#34; WHERE (&#34;hostname&#34;::tag =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), &#34;hostname&#34;::tag
+// Memory
+SELECT 100 - 100 * last(&#34;MemAvailable_bytes&#34;)/last(&#34;MemTotal_bytes&#34;) FROM &#34;node_memory&#34; WHERE (&#34;hostname&#34;::tag =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), &#34;hostname&#34;::tag fill(null)
+// Network RX
+SELECT non_negative_derivative(last(&#34;receive_bytes_total&#34;), 1s) FROM &#34;node_network&#34; WHERE (&#34;hostname&#34;::tag =~ /^$host$/ AND &#34;device&#34;::tag != &#39;lo&#39;) AND $timeFilter GROUP BY time($__interval), &#34;hostname&#34;::tag, &#34;device&#34;::tag
+// Network TX
+SELECT -non_negative_derivative(last(&#34;transmit_bytes_total&#34;), 1s) FROM &#34;node_network&#34; WHERE (&#34;hostname&#34;::tag =~ /^$host$/) and (&#34;device&#34;::tag != &#39;lo&#39;) AND $timeFilter GROUP BY time($__interval), &#34;hostname&#34;::tag, &#34;device&#34;::tag
+// Filesystem
+SELECT 100 - 100 * last(avail_bytes) / last(size_bytes) FROM &#34;node_filesystem&#34; WHERE (&#34;hostname&#34;::tag =~ /^$host$/) and (&#34;device&#34;::tag =~ /^$disk$/) and  (&#34;device&#34;::tag != &#39;tmpfs&#39;) and  (&#34;device&#34;::tag != &#39;lxcfs&#39;) AND $timeFilter GROUP BY time($__interval), &#34;hostname&#34;::tag, &#34;device&#34;::tag
+</code></pre>
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Оповещения из Grafana в Telegram</title>
