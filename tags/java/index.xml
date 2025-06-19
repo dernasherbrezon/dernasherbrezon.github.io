@@ -6,8 +6,15 @@
     <description>Recent content in Java on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 15 Oct 2023 13:50:17 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 19 Jun 2025 19:46:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Оптимизация использования SD-карты в Raspberry PI</title>
+      <link>https://dernasherbrezon.com/posts/sdcard-raspberry-optimization/</link>
+      <pubDate>Thu, 19 Jun 2025 19:46:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/sdcard-raspberry-optimization/</guid>
+      <description>Использование SD-карт в Raspberry PI - достаточно противоречивое решение. С одной стороны, это невероятно удобно: можно легко заменить одну карту на другую, чтобы обновить операционную систему или использовать разные карты для различных приложений. С другой стороны, современные SD-карты имеют ограниченное количество циклов чтения и записи, что уменьшает их срок службы.&#xA;В интернете предложено множество способов решения этой проблемы:&#xA;Использование read-only overlay для файловой системы. Идея заключается в том, что SD-карты гораздо лучше переносят операции чтения, чем записи.</description>
+    </item>
     <item>
       <title>Практическое применение фильтра Байера</title>
       <link>https://dernasherbrezon.com/posts/bayer-filter/</link>

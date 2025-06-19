@@ -7,10 +7,51 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 17 Mar 2025 20:19:18 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 19 Jun 2025 19:46:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Оптимизация использования SD-карты в Raspberry PI</title>
+      <link>https://dernasherbrezon.com/posts/sdcard-raspberry-optimization/</link>
+      <pubDate>Thu, 19 Jun 2025 19:46:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/sdcard-raspberry-optimization/</guid>
+      <description>Использование SD-карт в Raspberry PI - достаточно противоречивое решение. С одной стороны, это невероятно удобно: можно легко заменить одну карту на другую, чтобы обновить операционную систему или использовать разные карты для различных приложений. С другой стороны, современные SD-карты имеют ограниченное количество циклов чтения и записи, что уменьшает их срок службы.
+В интернете предложено множество способов решения этой проблемы:
+Использование read-only overlay для файловой системы. Идея заключается в том, что SD-карты гораздо лучше переносят операции чтения, чем записи.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Оптимизация использования SD-карты в Raspberry PI</h1></header>
+      		<div class='container entry-content'>
+  <p>Использование SD-карт в Raspberry PI - достаточно противоречивое решение. С одной стороны, это невероятно удобно: можно легко заменить одну карту на другую, чтобы обновить операционную систему или использовать разные карты для различных приложений. С другой стороны, современные SD-карты имеют ограниченное количество циклов чтения и записи, что уменьшает их срок службы.</p>
+<p>В интернете предложено множество способов решения этой проблемы:</p>
+<ul>
+<li><strong>Использование <a href="https://www.dzombak.com/blog/2024/03/running-a-raspberry-pi-with-a-read-only-root-filesystem/">read-only overlay</a> для файловой системы</strong>. Идея заключается в том, что SD-карты гораздо лучше переносят операции чтения, чем записи. Сокращение операций записи может значительно продлить срок службы карты. Однако на практике большинство системных приложений периодически записывают данные на диск, поэтому настройка режима read-only оказывается <a href="https://hallard.me/raspberry-pi-read-only/">трудоёмкой и не всегда надёжной</a>.</li>
+<li><strong>Загрузка с внешних носителей или по сети.</strong> Альтернативой SD-карте может быть загрузка с <a href="https://www.raspberrypi.com/documentation/accessories/m2-hat-plus.html#boot-from-nvme">SSD/NVMe</a>, <a href="https://pimylifeup.com/raspberry-pi-boot-from-usb/">USB-накопителя</a> или даже <a href="https://blog.hardill.me.uk/2023/08/05/network-booting-rapberry-pi/#:~:text=Options,protocol%2C%20it%20runs%20over%20UDP.">по сети</a>. Эти методы снижают нагрузку на SD-карту или полностью исключают её использование.</li>
+</ul>
+<p>Однако самый простой способ продлить срок службы SD-карты — минимизировать операции записи или их количество. Чтобы определить, какие процессы активно записывают данные на карту, можно использовать утилиту <code>iotop</code>. Установить её можно с помощью команды:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install iotop
+</span></span></code></pre></div><p>И запустить:</p>
+<pre tabindex="0"><code>sudo iotop -a
+</code></pre><p>Эта команда отображает объём данных, записанных и прочитанных каждым процессом или потоком.</p>
+<p><img src="/posts/sdcard-raspberry-optimization/img/1.png"></p>
+<p>На скриншоте выше видно, что процесс <code>r2cloud</code> (java) периодически записывает данные на диск, а поток ядра <code>jbd2</code>, отвечающий за журнал файловой системы ext4, регулярно обновляет этот журнал.
+Это привлекло моё внимание, поскольку моё приложение в этот момент не должно было выполнять никаких операций. Построив график активности, я заметил, что какая-то периодическая задача постоянно записывает данные на диск:</p>
+<p><img src="/posts/sdcard-raspberry-optimization/img/2.png"></p>
+<p><code>iotop</code> не показывает, в какие именно файлы производится запись, поэтому я решил разобраться, за что отвечает поток <code>VM Periodic Task</code>. Оказалось, что это нативный поток JVM, который занимается профилированием работы процесса. Этот профилировщик <a href="https://openjdk.org/groups/hotspot/docs/Serviceability.html#bjvmstat">включён по умолчанию</a>. Для отключения профилировщика можно использовать опцию:</p>
+<pre tabindex="0"><code>-XX:-UsePerfData
+</code></pre><p>В результате любая запись на диск моментально пропадёт:</p>
+<p><img src="/posts/sdcard-raspberry-optimization/img/3.png"></p>
+<p>Ещё один эффективный способ уменьшить нагрузку на SD-карту — выделить директорию <code>/tmp</code> в отдельную файловую систему <code>tmpfs</code>. Эта файловая система хранит данные в оперативной памяти, что исключает запись на SD-карту.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Сбор метрик с помощью Fluent-bit</title>
