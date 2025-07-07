@@ -6,8 +6,15 @@
     <description>Recent content in Fluent-Bit on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 17 Mar 2025 20:19:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 06 Jul 2025 23:53:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/fluent-bit/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Буферизация в Fluent-bit</title>
+      <link>https://dernasherbrezon.com/posts/fluent-bit-persistence/</link>
+      <pubDate>Sun, 06 Jul 2025 23:53:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/fluent-bit-persistence/</guid>
+      <description>Постановка задачи После того, как я настроил метрики и попробовал их использовать в течении несколько месяцев, обнаружился один существенный недостаток - данные легко потерять. У меня мониторятся Raspberry PI в удалённых местах. И каждый раз, когда пропадает сеть, или заканчиваются деньги на сим карте, или что-то ломается, сеть пропадает и совершенно невозможно понять, в чём проблема. А как раз метрики и логи нужны для того, чтобы такие проблемы исследовать!&#xA;В итоге я сформулировал следующие требования:</description>
+    </item>
     <item>
       <title>Сбор метрик с помощью Fluent-bit</title>
       <link>https://dernasherbrezon.com/posts/fluent-bit-metrics/</link>

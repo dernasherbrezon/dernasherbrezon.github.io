@@ -7,10 +7,94 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 19 Jun 2025 19:46:18 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 06 Jul 2025 23:53:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Буферизация в Fluent-bit</title>
+      <link>https://dernasherbrezon.com/posts/fluent-bit-persistence/</link>
+      <pubDate>Sun, 06 Jul 2025 23:53:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/fluent-bit-persistence/</guid>
+      <description>Постановка задачи После того, как я настроил метрики и попробовал их использовать в течении несколько месяцев, обнаружился один существенный недостаток - данные легко потерять. У меня мониторятся Raspberry PI в удалённых местах. И каждый раз, когда пропадает сеть, или заканчиваются деньги на сим карте, или что-то ломается, сеть пропадает и совершенно невозможно понять, в чём проблема. А как раз метрики и логи нужны для того, чтобы такие проблемы исследовать!
+В итоге я сформулировал следующие требования:</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Буферизация в Fluent-bit</h1></header>
+      		<div class='container entry-content'>
+  <h2 id="постановка-задачи">Постановка задачи</h2>
+<p>После того, как я <a href="https://dernasherbrezon.com/posts/fluent-bit-metrics/">настроил</a> метрики и попробовал их использовать в течении несколько месяцев, обнаружился один существенный недостаток - данные легко потерять. У меня мониторятся Raspberry PI в удалённых местах. И каждый раз, когда пропадает сеть, или заканчиваются деньги на сим карте, или что-то ломается, сеть пропадает и совершенно невозможно понять, в чём проблема. А как раз метрики и логи нужны для того, чтобы такие проблемы исследовать!</p>
+<p>В итоге я сформулировал следующие требования:</p>
+<ul>
+<li>Сохранять данные локально и при подключении к сети отправлять на центральный сервер.</li>
+<li>Возможность работать до нескольких месяцев в оффлайн режиме. Устройства могут работать удалённо и доступ к ним может быть ограничен.</li>
+<li>Минимизировать использование диска, когда к сети есть доступ. Особенно актуально для Raspberry PI, в котором SD карта часто выходит из строя.</li>
+</ul>
+<p>Ещё один случай, когда нужно сохранять метрики - это полевые испытания. Они выглядят следующим образом:</p>
+<ul>
+<li>Raspberry PI с новой версией <a href="https://dernasherbrezon.com/tags/r2cloud/">r2cloud</a> и <a href="https://dernasherbrezon.com/tags/%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%BD%D0%BE%D0%B5-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%BE/">поворотным устройством</a> устанавливается в поле</li>
+<li>После тестирования, я подключаю Raspberry PI к домашней сети и сливаю данные наблюдений на сервер. В этот момент неплохо было бы сливать логи и накопленные метрики на центральный сервер</li>
+</ul>
+<h2 id="поиск-решения">Поиск решения</h2>
+<p>После продолжительных поисков в Интернет, мне удалось найти несколько решений.</p>
+<h3 id="буферизация-данных-на-диске-с-помощью-fluent-bit">Буферизация данных на диске с помощью Fluent-bit</h3>
+<p>Идея заключается в том, чтобы использовать <a href="https://docs.fluentbit.io/manual/administration/buffering-and-storage">стандартный способ</a> буферизации данных на диске, который есть во fluent-bit. Согласно документации, он будет сохранять данные в памяти и на диске. Как только закончится выделенная для этого память, он будет скидывать данные только на диск. Выглядит разумно. К сожалению, у этого подхода есть один существенный недостаток: данные пишутся на диск даже если есть доступ к сети. В итоге весь процесс выглядит так:</p>
+<ul>
+<li>fluent-bit пишет данные в память и на диск, создавая файл</li>
+<li>сразу же отправляет данные в сеть</li>
+<li>удаляет файл</li>
+</ul>
+<p>Эти файлы не очень большого объёма - 4кб, но для SD карты постоянная запись крайне вредна.</p>
+<h3 id="использование-репликации-данных-influxdb">Использование репликации данных influxdb</h3>
+<p>influxdb <a href="https://docs.influxdata.com/influxdb/cloud/write-data/replication/replicate-data/">поддерживает удалённую репликацию</a> данных. Fluent-bit будет писать всегда в локальную базу, которая будет сохранять данные локально и одновременно отправлять на центральный сервер. Преимущества данного подхода:</p>
+<ul>
+<li>стандартное решение, которое было разработано как раз для того, чтобы решить мою проблему</li>
+<li>данные хранятся локально в оптимизированном формате. Если сеть недоступна длительное время, то influxdb может начать применять правила прорежевания данных (downsampling). Вместо удаления данных, он может хранить не минутные, а часовые сэмплы. Это <a href="https://docs.influxdata.com/influxdb3/core/reference/glossary/#downsample">можно настроить стандартным образом</a>.</li>
+<li>данные можно визуализировать даже если центральный сервер недоступен. В моём случае это не актуально, так как Raspberry PI слишком слабый и недоступен по сети!</li>
+</ul>
+<p>Недостатки всё те же: если центральный сервер доступен, то данные всё равно будут писаться на локальный диск. Плюс к этому добавляется поддержка ещё одной базы: увеличивается потребление памяти и настройка всего этого. К тому же этот способ сработает только для метрик. Для логов придётся поднимать локальный Loki или придумывать что-то ещё.</p>
+<h3 id="написать-самому">Написать самому</h3>
+<p>Очень заманчивая опция. Можно было бы написать легковесный HTTP прокси, который бы:</p>
+<ul>
+<li>при получении данных отправлял их дальше</li>
+<li>если центральный сервер недоступен, то сохранял бы на диск</li>
+<li>при проявлении сети, читал бы предыдущие запросы с диска и отправлял как обычно</li>
+<li>работал как для метрик, так и для логов</li>
+</ul>
+<p>Из недостатков: downsampling придётся реализовывать самому, а для этого нужно понимать какие запросы проксируются, нужен ещё один процесс, нужно много времени, чтобы написать и отладить.</p>
+<h2 id="решение">Решение</h2>
+<p>В итоге из всех трёх решений я выбрал fluent-bit. А проблему с записью файла я решил с помощью дополнительного SSD. Тем более SSD всё равно нужен, чтобы повысить надёжность всей системы.</p>
+<p>Для настройки буферизации достаточно следовать <a href="https://docs.fluentbit.io/manual/administration/buffering-and-storage">официальной документации</a>. Правда тут есть небольшой нюанс: ничего не сработает. Не знаю почему, но по-умолчанию fluent-bit будет перепосылать chunk данных всего один раз. В итоге вся буферизация оказывается бессмысленной. Данные будут удаляться примерно через 7-15 секунд. Для того, чтобы всё сработало надо дополнительно указать <code>Retry_Limit: False</code>. В результате конфигурация выглядит следующим образом:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storage.path</span>: <span style="color:#ae81ff">/var/log/fluent-bit/</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storage.backlog.mem_limit</span>: <span style="color:#ae81ff">5MB</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">pipeline</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">inputs</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cpu</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">tag</span>: <span style="color:#ae81ff">metrics.cpu</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">interval_sec</span>: <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">storage.type</span>: <span style="color:#ae81ff">filesystem</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">outputs</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">influxdb</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">match</span>: <span style="color:#ae81ff">metrics.*</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">host</span>: <span style="color:#ae81ff">somehost</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">database</span>: <span style="color:#ae81ff">fluentbit</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">tag_keys</span>: <span style="color:#ae81ff">hostname</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Retry_Limit</span>: <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">storage.total_limit_size</span>: <span style="color:#ae81ff">10G</span>
+</span></span></code></pre></div><p>Но это ещё не всё. По-умолчанию Loki отбрасывает логи старше одной недели. Хорошо, что это можно отключить следующим образом:</p>
+<pre tabindex="0"><code>limits_config:
+  reject_old_samples: false
+</code></pre>
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Оптимизация использования SD-карты в Raspberry PI</title>
