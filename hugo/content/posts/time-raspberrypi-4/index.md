@@ -85,6 +85,12 @@ DEVICES="/dev/serial0 /dev/pps0"
 GPSD_OPTIONS="--nowait --passive --speed 9600"
 ```
 
+UPD: Для 64-bit Raspberry PI serial устройство может называться по-другому. Например:
+
+```
+DEVICES="/dev/ttyS0 /dev/pps0"
+```
+
 Чип, кстати, поддерживает [скорость до 57600 бод](https://github.com/tiagofreire-pt/rpi_adafruit_stratum1_chrony), что позволяет ещё быстрее получать данные по UART.
 
 Чтобы проверить работу, нужно перезагрузить RaspberryPI и запустить утилиту ```gpsmon```. Она может в реальном времени показывать координаты, время, количество спутников на небе и многое другое.
