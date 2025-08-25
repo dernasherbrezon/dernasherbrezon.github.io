@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15" version="28.1.1">
+  <diagram name="Page-1" id="E_LTuK-CbuhAcFpw6ct1">
+    <mxGraphModel dx="1773" dy="607" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-10" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="180" width="260" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-6" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-70" y="180" width="490" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xb-p5rZSHg6O5IsGgkHm-1" target="xb-p5rZSHg6O5IsGgkHm-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-1" value="script" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="250" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="xb-p5rZSHg6O5IsGgkHm-4" target="xb-p5rZSHg6O5IsGgkHm-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-4" value="mosquitto" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="250" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-7" value="Raspberry PI" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="324" y="380" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-9" value="influxdb" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="200" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-12" value="Central Host" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="610" y="380" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-13" value="Service" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-60" y="190" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-14" value="Service" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-47" y="200" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="xb-p5rZSHg6O5IsGgkHm-15" target="xb-p5rZSHg6O5IsGgkHm-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-15" value="CPU" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-37" y="210" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-17" value="persist.db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="300" y="310" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="xb-p5rZSHg6O5IsGgkHm-19" target="xb-p5rZSHg6O5IsGgkHm-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-19" value="journald" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-37" y="280" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xb-p5rZSHg6O5IsGgkHm-21" target="xb-p5rZSHg6O5IsGgkHm-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xb-p5rZSHg6O5IsGgkHm-21" target="xb-p5rZSHg6O5IsGgkHm-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xb-p5rZSHg6O5IsGgkHm-21" target="xb-p5rZSHg6O5IsGgkHm-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-21" value="telegraf" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="460" y="250" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xb-p5rZSHg6O5IsGgkHm-23" value="Loki" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="300" width="90" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

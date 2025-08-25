@@ -6,8 +6,15 @@
     <description>Recent content in Java on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Thu, 19 Jun 2025 19:46:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 25 Aug 2025 18:18:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Надёжный сбор метрик</title>
+      <link>https://dernasherbrezon.com/posts/offline-metrics/</link>
+      <pubDate>Mon, 25 Aug 2025 18:18:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/offline-metrics/</guid>
+      <description>После нескольких месяцев эксплуатации fluent-bit для сборка метрик, я понял, что эта конфигурация совсем не работает. Я честно следовал инструкциям и читал исходный код, но оказалось, что буферизация во fluent-bit полностью сломана. Нет, она работает согласно документации, но вот на практике абсолютно бесполезна.&#xA;Во-первых, согласно документации fluent-bit (версия 4.0) сохраняет данные на диск небольшими кусочками. Эти кусочки (chunks) имеют максимальный размер - 2мб. На практике у меня всегда был размер 4кб.</description>
+    </item>
     <item>
       <title>Оптимизация использования SD-карты в Raspberry PI</title>
       <link>https://dernasherbrezon.com/posts/sdcard-raspberry-optimization/</link>

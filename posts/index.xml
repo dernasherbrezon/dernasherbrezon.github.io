@@ -7,10 +7,90 @@
     <description>Блог о программировании на Java</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Sun, 06 Jul 2025 23:53:18 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 25 Aug 2025 18:18:18 +0100</lastBuildDate>
     
         <atom:link href="https://dernasherbrezon.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item turbo="true">
+      <title>Надёжный сбор метрик</title>
+      <link>https://dernasherbrezon.com/posts/offline-metrics/</link>
+      <pubDate>Mon, 25 Aug 2025 18:18:18 +0100</pubDate>
+      
+      <guid>https://dernasherbrezon.com/posts/offline-metrics/</guid>
+      <description>После нескольких месяцев эксплуатации fluent-bit для сборка метрик, я понял, что эта конфигурация совсем не работает. Я честно следовал инструкциям и читал исходный код, но оказалось, что буферизация во fluent-bit полностью сломана. Нет, она работает согласно документации, но вот на практике абсолютно бесполезна.
+Во-первых, согласно документации fluent-bit (версия 4.0) сохраняет данные на диск небольшими кусочками. Эти кусочки (chunks) имеют максимальный размер - 2мб. На практике у меня всегда был размер 4кб.</description>
+      <turbo:content>
+      	<![CDATA[
+      		<header>
+      			<h1>Надёжный сбор метрик</h1></header>
+      		<div class='container entry-content'>
+  <p>После нескольких месяцев эксплуатации fluent-bit для сборка метрик, я понял, что <a href="https://dernasherbrezon.com/posts/fluent-bit-persistence/">эта конфигурация</a> совсем не работает. Я честно следовал инструкциям и читал исходный код, но оказалось, что буферизация во fluent-bit полностью сломана. Нет, она работает согласно документации, но вот на практике абсолютно бесполезна.</p>
+<p>Во-первых, <a href="https://docs.fluentbit.io/manual/administration/buffering-and-storage">согласно документации</a> fluent-bit (версия 4.0) сохраняет данные на диск небольшими кусочками. Эти кусочки (chunks) имеют максимальный размер - 2мб. На практике у меня всегда был размер 4кб. При отключении сети, fluent-bit создавал сотни файлов размером 4кб на каждую метрику. У меня есть теория, согласно которой, fluent-bit создаёт один файл на каждый сэмпл. За один месяц он может создать 259200 файлов для одной метрики и с лёгкостью израсходовать все свободные inode. Браво.</p>
+<p>Во-вторых, как только пропадает сеть, fluent-bit начинает перепосылать все эти кусочки данных. Звучит разумно, но дьявол в деталях. Он начинает их перепосылать параллельно и независимо друг от друга! Такое ощущение, что авторы сами не поняли зачем они написали этот код. Весь смысл любого мониторинга и отправки логов в том, чтобы сохранять порядок отправки! Какой смысл перепосылать все кусочки данных, если удалённый сервис недоступен? Ну и как только удалённый сервис становится доступен, то loki, например, говорит, что данные идут непоследовательно и сразу же отбрасывает их. Это невероятно плохо, потому что логи нельзя терять! Одна пропущенная ошибка в логах и непонятно, почему всё сломалось.</p>
+<p>В-третьих, вся эта перепосылка логируется несколько раз для каждого кусочка данных. Всё бы ничего, но fluent-bit пытается отправить логи на центральный сервер, и такое логирование как снежный ком генерирует всё больше и больше логов.</p>
+<p>fluent-bit был самым <a href="https://dernasherbrezon.com/posts/logging-with-loki-fluent-bit/">лучшим решением</a>, которое мне удалось найти. Но не настолько лучшим, как написанное своими руками!</p>
+<h2 id="поиск-дизайна">Поиск дизайна</h2>
+<p>На самом деле самописное решение в данном случае может быть не настолько дикой идеей. Всё, что требовалось от fluent-bit - это прочитать journald и отправить по HTTP. С этим может справиться даже скрипт на bash. Для логов можно написать небольшой скрипт, который читает из journald и, если нет соединения с Loki, просто пытается переподключится. Persistence может быть сконфигурирован на стороне journald:</p>
+<p><img src="/posts/offline-metrics/img/script.png"></p>
+<p>Скрипт или небольшая программа читает данные из journald и отправляет в Loki. Каждые Х записей, скрипт берёт текущую позицию в journald и сохраняет как чекпоинт в файл. В случае краха системы или процесса в худшем случае он переотправит Х записей. Стандартная at-least-once гарантия, которая вполне себе подходит для обработки логов.</p>
+<p>К сожалению, этот дизайн не подходит для обработки метрик. Их нужно где-то локально хранить в случае потери соединения с сервером.</p>
+<p>Я использую influxdb для хранения метрик, и авторы как раз для моего случая <a href="https://docs.influxdata.com/influxdb/v2/write-data/replication/replicate-data/">рекомендуют</a> поднимать реплику, которая будет автоматически синхронизироваться с мастер-копией.</p>
+<p><img src="/posts/offline-metrics/img/metrics.png"></p>
+<p>Но тут есть несколько подводных камней:</p>
+<ul>
+<li>нужно поднимать реплику. Каждые год-два influx будет выпускать новую версию базы и непонятно будет ли эта реплика работать в новой версии.</li>
+<li>для сбора логов всё равно придётся делать самописный скрипт и не хочется добавлять ещё один способ доставки данных офлайн</li>
+<li>непонятно сколько ресурсов будет потреблять реплика influxdb</li>
+</ul>
+<p>В результате я стал думать: &ldquo;А как объединить передачу метрик и логов с помощью одного скрипта или минимального набора технологий? Как гарантировать порядок получения сообщений при отправке на центральный сервер?&rdquo; Это навело меня на ещё одну идею:</p>
+<p><img src="/posts/offline-metrics/img/telegraf.png"></p>
+<p>Суть заключается в том, чтобы отправлять сообщения в локальный MQTT сервер (mosquitto). Он достаточно легковесный (в памяти занимает около 7мб) и позволяет создавать персистентные топики. Telegraf будет подключаться к этому серверу и забирать оттуда сообщения. Если соединения нет, то ничего страшного - данные будут накапливаться на устройстве и рано или поздно выкачаются сервером. Причём MQTT будет гарантировать порядок сообщений!</p>
+<p>У этого подхода есть пара недостатков:</p>
+<ul>
+<li>в mosquitto нет механизма очистки старых сообщений. Можно указать время, через которое ВСЕ сообщения для данного клиента удаляться. Я рассчитал, что 250Гб SSD мне должно хватить надолго и этот недостаток не так важен</li>
+<li>вместо fluent-bit используется Telegraf. К сожалению, fluent-bit может работать только как сервер MQTT и  не может подписываться на другой сервер MQTT. Потребление памяти не так критично, так как сервис будет запущен на центральном сервере</li>
+<li>Telegraf пишет ошибку в логи каждый раз, когда пытается переподключиться к MQTT серверу. Достаточно досадная вещь, которую я рассчитывал каким-то образом поправить в настройках нотификаций.</li>
+</ul>
+<p>Я радостно начал конфигурировать Telegraf и у меня успешно получилось настроить отправку метрик. Однако, в тот момент, когда надо было добавить получение логов, что-то пошло не так. Надо либо входящий json притягивать в формат метрик influx, либо писать логи в формате influx, а потом конвертировать в json для Loki. Но это ещё не всё: надо настроить роутинг в зависимости от тегов либо в influx либо в Loki и заполнять эти теги из названия топика. В итоге я не справился с птичим языком конфигов Telegraf и решил написать свой сервис на Java. Он максимально простой, легко отлаживаемый и понятный.</p>
+<p><img src="/posts/offline-metrics/img/mqttCollector.png"></p>
+<h2 id="реализация">Реализация</h2>
+<p>На самом деле mqtt-collector можно было реализовать двумя скриптами. На bash для отправки логов:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>journalctl --all --output<span style="color:#f92672">=</span>json --follow | jq -c <span style="color:#e6db74">&#34;{ streams: [{     stream: {       hostname: ._HOSTNAME,       syslog_identifier: .SYSLOG_IDENTIFIER, priority: .PRIORITY,           },     values: [[       ((.__REALTIME_TIMESTAMP + \&#34;000\&#34;) | tostring),       .MESSAGE     ]]   }] }&#34;</span> | mosquitto_pub -h localhost -p <span style="color:#ae81ff">1883</span> -t logs -l -u <span style="color:#e6db74">${</span>MQTT_USERNAME<span style="color:#e6db74">}</span> -P <span style="color:#e6db74">${</span>MQTT_PASSWORD<span style="color:#e6db74">}</span> -q <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>И на python для отправки метрик:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>client <span style="color:#f92672">=</span> mqtt<span style="color:#f92672">.</span>Client(client_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;system_metrics_publisher&#34;</span>)
+</span></span><span style="display:flex;"><span>client<span style="color:#f92672">.</span>on_connect <span style="color:#f92672">=</span> on_connect
+</span></span><span style="display:flex;"><span>client<span style="color:#f92672">.</span>on_disconnect <span style="color:#f92672">=</span> on_disconnect
+</span></span><span style="display:flex;"><span>client<span style="color:#f92672">.</span>username_pw_set(username<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>getenv(<span style="color:#e6db74">&#39;MQTT_USERNAME&#39;</span>), password<span style="color:#f92672">=</span>os<span style="color:#f92672">.</span>getenv(<span style="color:#e6db74">&#39;MQTT_PASSWORD&#39;</span>))
+</span></span><span style="display:flex;"><span>client<span style="color:#f92672">.</span>connect(BROKER, PORT, keepalive<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
+</span></span><span style="display:flex;"><span>client<span style="color:#f92672">.</span>loop_start()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_system_metrics</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    metrics_set <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;metrics.cpu,</span><span style="color:#e6db74">{</span>tag_set<span style="color:#e6db74">}</span><span style="color:#e6db74"> cpu_p=</span><span style="color:#e6db74">{</span>cpu_percent<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>timestamp_ns<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;node_memory,</span><span style="color:#e6db74">{</span>tag_set<span style="color:#e6db74">}</span><span style="color:#e6db74"> MemAvailable_bytes=</span><span style="color:#e6db74">{</span>mem_available<span style="color:#e6db74">}</span><span style="color:#e6db74">,MemTotal_bytes=</span><span style="color:#e6db74">{</span>memory<span style="color:#f92672">.</span>total<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>timestamp_ns<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;node_network,</span><span style="color:#e6db74">{</span>tag_set<span style="color:#e6db74">}</span><span style="color:#e6db74"> receive_bytes_total=</span><span style="color:#e6db74">{</span>net_bytes_recv<span style="color:#e6db74">}</span><span style="color:#e6db74">,transmit_bytes_total=</span><span style="color:#e6db74">{</span>net_bytes_sent<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>timestamp_ns<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>metrics_set<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>    line_protocol <span style="color:#f92672">=</span> get_system_metrics()
+</span></span><span style="display:flex;"><span>    client<span style="color:#f92672">.</span>publish(TOPIC, line_protocol, qos<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(INTERVAL)
+</span></span></code></pre></div><p>Однако на практике я выбрал С. Во-первых, у меня много кода написано на С и я знаю как написать многопоточное приложение, в отличие от Python. Во-вторых, мне действительно не хочется привносить ещё одну технологию, которую я не понимаю как поддерживать. Какие пакеты ей нужны? Как их обновлять? Какая версия Python нужна? В-третьих, приложение достаточно простое и код на С получился примерно похожим на Python.</p>
+<p>data-collector я написал на Java с закрытыми глазами и не помню хоть что-то достойного упоминания.</p>
+<h2 id="послесловие">Послесловие</h2>
+<p>После того, как я выбрал сбор метрик через MQTT, я нашёл множество программ похожих на mqtt-collector: <a href="https://github.com/solectrus/mqtt-collector">mqtt-collector</a>, <a href="https://github.com/miaucl/linux2mqtt">linux2mqtt</a>, <a href="https://github.com/bkbilly/lnxlink">lnxlink</a>, <a href="https://github.com/ironsheep/RPi-Reporter-MQTT2HA-Daemon">RPi-Reporter-MQTT2HA-Daemon</a>. У них у всех один недостаток: они написаны на Python или Ruby и не поддерживают отправку логов. Тем не менее мне хотелось бы их упомянуть, возможно, они будут кому-то полезны.</p>
+
+</div>
+
+      	]]>
+      </turbo:content>
+    </item>
     
     <item turbo="true">
       <title>Буферизация в Fluent-bit</title>
@@ -2626,6 +2706,8 @@ DEVICES=&#34;/dev/serial0 /dev/pps0&#34;
 
 # Other options you want to pass to gpsd
 GPSD_OPTIONS=&#34;--nowait --passive --speed 9600&#34;
+</code></pre><p>UPD: Для 64-bit Raspberry PI serial устройство может называться по-другому. Например:</p>
+<pre tabindex="0"><code>DEVICES=&#34;/dev/ttyS0 /dev/pps0&#34;
 </code></pre><p>Чип, кстати, поддерживает <a href="https://github.com/tiagofreire-pt/rpi_adafruit_stratum1_chrony">скорость до 57600 бод</a>, что позволяет ещё быстрее получать данные по UART.</p>
 <p>Чтобы проверить работу, нужно перезагрузить RaspberryPI и запустить утилиту <code>gpsmon</code>. Она может в реальном времени показывать координаты, время, количество спутников на небе и многое другое.</p>
 <p><img src="/posts/time-raspberrypi-4/img/6.png"></p>
