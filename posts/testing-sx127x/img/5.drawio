@@ -1,0 +1,65 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15" version="28.2.5">
+  <diagram name="Page-1" id="E_LTuK-CbuhAcFpw6ct1">
+    <mxGraphModel dx="1010" dy="573" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-1" value="test_app&lt;div&gt;(java)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="80" width="50" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" target="L_UYWHRqGuQvnqEYVP99-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="120" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-5" value="AT" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="L_UYWHRqGuQvnqEYVP99-4">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="L_UYWHRqGuQvnqEYVP99-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="210" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-8" value="AT" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="L_UYWHRqGuQvnqEYVP99-7">
+          <mxGeometry x="0.125" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-2" value="&lt;div&gt;Junit&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="110" y="80" width="40" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-3" value="at_app" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-6" value="at_app" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="190" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-10" value="sx127x" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="100" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-11" value="sx127x" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="190" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-12" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.radio.aerial_-_antenna_1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="70" width="20" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" source="L_UYWHRqGuQvnqEYVP99-10" target="L_UYWHRqGuQvnqEYVP99-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-14" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.radio.aerial_-_antenna_1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="160" width="20" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" edge="1" parent="1" target="L_UYWHRqGuQvnqEYVP99-14">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="210" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L_UYWHRqGuQvnqEYVP99-23" value="&lt;div&gt;maven&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="70" y="80" width="40" height="160" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
