@@ -6,8 +6,15 @@
     <description>Recent content in raspberrypi on dernasherbrezon</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ru</language>
-    <lastBuildDate>Mon, 25 Aug 2025 18:18:18 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 16 Dec 2025 20:24:18 +0100</lastBuildDate>
     <atom:link href="https://dernasherbrezon.com/tags/raspberrypi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Самый надёжный сбор метрик</title>
+      <link>https://dernasherbrezon.com/posts/offline-metrics-real/</link>
+      <pubDate>Tue, 16 Dec 2025 20:24:18 +0100</pubDate>
+      <guid>https://dernasherbrezon.com/posts/offline-metrics-real/</guid>
+      <description>После нескольких месяцев использования MQTT для сборка метрик, я понял, что и эта конфигурация тоже не работает.&#xA;&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt; &lt;!DOCTYPE svg PUBLIC &#34;-//W3C//DTD SVG 1.1//EN&#34; &#34;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&#34;&gt; mqtt-collectormqtt-collectormosquittomosquittoRaspberry PIRaspberry PIinfluxdbinfluxdbCentral HostCentral HostServiceServiceServiceServiceCPUCPUpersist.dbpersist.dbjournaldjournalddata-collectordata-collectorLokiLokicheckpointcheckpoint Во-первых, хранение на диске реализовано очень плохо. Оно происходит периодически раз в autosave_interval, но при этом данные не удаляются из памяти! А при рестарте mosquitto полностью читает файл с диска в память. Такой дизайн подходит только для коротких проблемах с сетью.</description>
+    </item>
     <item>
       <title>Надёжный сбор метрик</title>
       <link>https://dernasherbrezon.com/posts/offline-metrics/</link>

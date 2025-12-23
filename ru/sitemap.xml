@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://dernasherbrezon.com/posts/</loc>
-    <lastmod>2025-08-25T18:18:18+01:00</lastmod>
+    <lastmod>2025-12-16T20:24:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -24,7 +24,7 @@
     <lastmod>2013-09-24T13:14:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/</loc>
-    <lastmod>2025-08-25T18:18:18+01:00</lastmod>
+    <lastmod>2025-12-16T20:24:18+01:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -35,6 +35,48 @@
                 hreflang="ru"
                 href="https://dernasherbrezon.com/"
                 />
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/monitoring/</loc>
+    <lastmod>2025-12-16T20:24:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/monitoring/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/monitoring/"
+                />
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/raspberrypi/</loc>
+    <lastmod>2025-12-16T20:24:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/raspberrypi/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/raspberrypi/"
+                />
+  </url><url>
+    <loc>https://dernasherbrezon.com/tags/</loc>
+    <lastmod>2025-12-16T20:24:18+01:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://dernasherbrezon.com/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://dernasherbrezon.com/tags/"
+                />
+  </url><url>
+    <loc>https://dernasherbrezon.com/posts/offline-metrics-real/</loc>
+    <lastmod>2025-12-16T20:24:18+01:00</lastmod>
   </url><url>
     <loc>https://dernasherbrezon.com/tags/fluent-bit/</loc>
     <lastmod>2025-08-25T18:18:18+01:00</lastmod>
@@ -50,45 +92,6 @@
                 rel="alternate"
                 hreflang="ru"
                 href="https://dernasherbrezon.com/tags/java/"
-                />
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/monitoring/</loc>
-    <lastmod>2025-08-25T18:18:18+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://dernasherbrezon.com/en/tags/monitoring/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://dernasherbrezon.com/tags/monitoring/"
-                />
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/raspberrypi/</loc>
-    <lastmod>2025-08-25T18:18:18+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://dernasherbrezon.com/en/tags/raspberrypi/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://dernasherbrezon.com/tags/raspberrypi/"
-                />
-  </url><url>
-    <loc>https://dernasherbrezon.com/tags/</loc>
-    <lastmod>2025-08-25T18:18:18+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://dernasherbrezon.com/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="ru"
-                href="https://dernasherbrezon.com/tags/"
                 />
   </url><url>
     <loc>https://dernasherbrezon.com/tags/telegraf/</loc>
